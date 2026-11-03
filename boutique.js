@@ -84,17 +84,27 @@
       return;
     }
     const rect = card.getBoundingClientRect();
+    const isCompact = window.innerWidth <= 500;
+    const target = isCompact
+      ? { left: window.innerWidth * 0.02, top: window.innerHeight * 0.04, width: window.innerWidth * 0.96, height: window.innerHeight * 0.92 }
+      : { left: window.innerWidth * 0.05, top: window.innerHeight * 0.06, width: window.innerWidth * 0.90, height: window.innerHeight * 0.88 };
     const clone = card.cloneNode(true);
     clone.classList.add('product-zoom-clone');
     clone.setAttribute('aria-hidden', 'true');
     clone.removeAttribute('tabindex');
-    clone.style.setProperty('--zoom-left', `${rect.left}px`);
-    clone.style.setProperty('--zoom-top', `${rect.top}px`);
-    clone.style.setProperty('--zoom-width', `${rect.width}px`);
-    clone.style.setProperty('--zoom-height', `${rect.height}px`);
+    clone.style.setProperty('--zoom-to-left', `${target.left}px`);
+    clone.style.setProperty('--zoom-to-top', `${target.top}px`);
+    clone.style.setProperty('--zoom-to-width', `${target.width}px`);
+    clone.style.setProperty('--zoom-to-height', `${target.height}px`);
+    clone.style.setProperty('--zoom-from-x', `${rect.left - target.left}px`);
+    clone.style.setProperty('--zoom-from-y', `${rect.top - target.top}px`);
+    clone.style.setProperty('--zoom-from-scale-x', `${rect.width / target.width}`);
+    clone.style.setProperty('--zoom-from-scale-y', `${rect.height / target.height}`);
     document.body.appendChild(clone);
+    // Commit the first frame at the exact card position before starting the transition.
+    void clone.offsetWidth;
     requestAnimationFrame(() => clone.classList.add('is-active'));
-    window.setTimeout(() => { window.location.href = href; }, 460);
+    window.setTimeout(() => { window.location.href = href; }, 360);
   }
 
   function wireFlowerCard(card) {
