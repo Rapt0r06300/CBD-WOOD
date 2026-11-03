@@ -225,7 +225,7 @@
     const mode = getOrderMode(id);
     document.querySelectorAll('[data-order-mode-card]').forEach(card => card.classList.toggle('is-selected', card.dataset.orderModeCard === id));
     const summary = document.getElementById('orderModeSummary');
-    if (summary) summary.textContent = mode ? `Mode choisi : ${mode.label}${mode.address ? ` · ${mode.address}` : ''}` : 'Choisissez un mode de réception avant le paiement.';
+    if (summary) summary.textContent = mode ? `Mode choisi : ${mode.label}${mode.address ? ` · ${mode.address}` : ''}` : 'Livraison à domicile.';
     const payment = document.getElementById('prepareViva');
     const createOrderButton = document.getElementById('createOrderButton') || payment;
     if (createOrderButton) createOrderButton.disabled = !mode || cart.length === 0;
@@ -239,7 +239,9 @@
     const container = document.getElementById('orderModes');
     const modes = window.WoodOrderOptions?.getOrderModes?.();
     if (!container || !modes) return;
-    const selected = readOrderMode();
+    const savedMode = readOrderMode();
+    const selected = getOrderMode(savedMode) ? savedMode : modes[0]?.id;
+    if (selected && selected !== savedMode) writeOrderMode(selected);
     container.innerHTML = modes.map(mode => `<div class="order-mode-card" data-order-mode-card="${mode.id}"><label class="order-mode-select"><input type="radio" name="orderMode" value="${mode.id}"${selected === mode.id ? ' checked' : ''}><span><strong>${mode.label}</strong><span>${mode.description}</span></span></label>${mode.address ? `<div class="order-mode-details"><span>${mode.address}<br>${mode.phone}</span><span class="order-mode-actions"><a href="${mode.routeHref}" target="_blank" rel="noopener noreferrer">Itinéraire ↗</a><a href="${mode.phoneHref}">Appeler ↗</a></span></div>` : ''}</div>`).join('');
     container.querySelectorAll('input[name="orderMode"]').forEach(input => input.addEventListener('change', () => {
       if (!input.checked) return;
@@ -324,7 +326,7 @@
       if (!message) return;
       const mode = getOrderMode(readOrderMode());
       if (!mode) {
-        message.textContent = 'Choisis d’abord la livraison ou le retrait en boutique.';
+        message.textContent = 'La livraison est nécessaire pour enregistrer la commande.';
         message.classList.remove('hidden');
         return;
       }

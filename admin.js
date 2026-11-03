@@ -109,13 +109,13 @@ function renderOrders(orders) {
     renderSummary(0);
     return;
   }
-  const modeLabels = { delivery: 'Livraison', barla: 'Retrait · Barla', borriglione: 'Retrait · Borriglione' };
+  const modeLabels = { delivery: 'Livraison à domicile' };
   const statusLabels = { pending: 'En attente', confirmed: 'Confirmée', ready: 'Prête', completed: 'Remise', cancelled: 'Annulée' };
   body.innerHTML = orders.map((order) => `
     <tr>
       <td data-label="Date">${formatDate(order.created_at)}</td>
       <td data-label="Commande / client"><div class="table-product"><strong>${escapeHtml(order.order_number || 'Commande sans numéro')}</strong><span>${escapeHtml(order.customer_name || order.customer_email)}${order.customer_phone ? ` · ${escapeHtml(order.customer_phone)}` : ''}</span></div></td>
-      <td data-label="Retrait ou livraison"><strong>${escapeHtml(modeLabels[order.fulfillment_mode] || 'À préciser')}</strong>${order.pickup_code ? `<br><span class="table-code">Code : ${escapeHtml(order.pickup_code)}</span>` : ''}${order.delivery_address ? `<br><span class="table-address">${escapeHtml(order.delivery_address)}</span>` : ''}</td>
+      <td data-label="Livraison"><strong>${escapeHtml(modeLabels[order.fulfillment_mode] || 'À préciser')}</strong>${order.delivery_address ? `<br><span class="table-address">${escapeHtml(order.delivery_address)}</span>` : ''}</td>
       <td data-label="Total">${formatMoney(order.total_cents)}</td>
       <td data-label="Paiement"><span class="table-status table-status--${order.payment_status}">${escapeHtml(order.payment_status)}</span></td>
       <td data-label="État"><select class="admin-order-status" data-order-status="${escapeHtml(order.id)}" aria-label="État de ${escapeHtml(order.order_number || 'la commande')}">${orderStatuses.map((status) => `<option value="${status}"${status === order.status ? ' selected' : ''}>${statusLabels[status]}</option>`).join('')}</select></td>
@@ -142,7 +142,7 @@ async function loadProducts() {
 }
 
 async function loadOrders() {
-  const { data, error } = await supabase.from('orders').select('id, order_number, customer_email, customer_name, customer_phone, delivery_address, fulfillment_mode, pickup_code, total_cents, status, payment_status, created_at').order('created_at', { ascending: false }).limit(100);
+  const { data, error } = await supabase.from('orders').select('id, order_number, customer_email, customer_name, customer_phone, delivery_address, fulfillment_mode, total_cents, status, payment_status, created_at').order('created_at', { ascending: false }).limit(100);
   if (error) throw error;
   renderOrders(data || []);
 }

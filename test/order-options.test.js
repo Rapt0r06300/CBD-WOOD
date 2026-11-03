@@ -3,19 +3,18 @@ const test = require('node:test');
 
 const { getOrderModes, getOrderMode, getPurchaseNotice } = require('../order-options.js');
 
-test('offers delivery and both WOOD pickup locations', () => {
-  assert.deepEqual(getOrderModes().map(mode => mode.id), ['delivery', 'barla', 'borriglione']);
+test('offers delivery only', () => {
+  assert.deepEqual(getOrderModes().map(mode => mode.id), ['delivery']);
   assert.equal(getOrderMode('delivery').label, 'Livraison');
-  assert.equal(getOrderMode('barla').address, '7 rue Barla, 06300 Nice');
-  assert.equal(getOrderMode('borriglione').address, '16 avenue Alfred Borriglione, 06100 Nice');
+  assert.equal(getOrderMode('barla'), null);
+  assert.equal(getOrderMode('borriglione'), null);
 });
 
 test('returns no order mode for an unknown choice', () => {
   assert.equal(getOrderMode('unknown'), null);
 });
 
-test('explains the available delivery and pickup options before purchase', () => {
+test('explains that home delivery is available before purchase', () => {
   assert.match(getPurchaseNotice(), /Livraison/);
-  assert.match(getPurchaseNotice(), /Barla/);
-  assert.match(getPurchaseNotice(), /Borriglione/);
+  assert.doesNotMatch(getPurchaseNotice(), /Barla|Borriglione/);
 });

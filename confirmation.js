@@ -8,9 +8,9 @@
   }
   try {
     const order = JSON.parse(raw);
-    const labels = { delivery: 'Livraison', barla: 'Retrait à Barla · 7 rue Barla, 06300 Nice', borriglione: 'Retrait à Borriglione · 16 avenue Alfred Borriglione, 06100 Nice' };
+    const labels = { delivery: 'Livraison à domicile' };
     const money = `${(Number(order.total_cents || 0) / 100).toFixed(2).replace('.', ',')} €`;
-    content.innerHTML = `<div class="confirmation-summary"><div><span>Numéro de commande</span><strong>${escapeHtml(order.order_number || 'WOOD')}</strong></div><div><span>Mode choisi</span><strong>${escapeHtml(labels[order.fulfillment_mode] || order.fulfillment_mode || 'À confirmer')}</strong></div><div><span>Total provisoire</span><strong>${money}</strong></div>${order.pickup_code ? `<div class="confirmation-code"><span>Code de retrait à présenter en boutique</span><strong>${escapeHtml(order.pickup_code)}</strong></div>` : ''}</div><p class="confirmation-muted">Commande enregistrée avec le statut « paiement en attente ». Garde ce numéro et présente-le à l’équipe WOOD lors du retrait.</p>`;
+    content.innerHTML = `<div class="confirmation-summary"><div><span>Numéro de commande</span><strong>${escapeHtml(order.order_number || 'WOOD')}</strong></div><div><span>Mode choisi</span><strong>${escapeHtml(labels[order.fulfillment_mode] || order.fulfillment_mode || 'Livraison à domicile')}</strong></div><div><span>Total provisoire</span><strong>${money}</strong></div></div><p class="confirmation-muted">Commande enregistrée avec le statut « paiement en attente ». Garde ce numéro pour suivre ta commande.</p>`;
   } catch {
     content.innerHTML = '<p class="confirmation-muted">La confirmation est momentanément indisponible.</p>';
   }

@@ -11,7 +11,7 @@ let mode = 'login';
 
 const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, character => ({ '&': '&#38;', '<': '&#60;', '>': '&#62;', "'": '&#39;', '"': '&#34;' }[character]));
 const formatMoney = cents => `${(Number(cents || 0) / 100).toFixed(2).replace('.', ',')} €`;
-const modeLabels = { delivery: 'Livraison', barla: 'Retrait à Barla', borriglione: 'Retrait à Borriglione' };
+const modeLabels = { delivery: 'Livraison à domicile' };
 const statusLabels = { pending: 'En attente', paid: 'Payée', preparing: 'En préparation', ready: 'Prête', completed: 'Terminée', cancelled: 'Annulée' };
 
 function showMessage(text, isError = false) {
@@ -52,7 +52,6 @@ function renderOrders(orders) {
     <article class="account-order">
       <div class="account-order__head"><strong>${escapeHtml(order.order_number || 'Commande WOOD')}</strong><span>${escapeHtml(statusLabels[order.status] || order.status)}</span></div>
       <p>${escapeHtml(modeLabels[order.fulfillment_mode] || order.fulfillment_mode)} · ${escapeHtml(formatMoney(order.total_cents))}</p>
-      ${order.pickup_code ? `<p>Code de retrait : <strong>${escapeHtml(order.pickup_code)}</strong></p>` : ''}
     </article>`).join('');
 }
 
@@ -64,7 +63,7 @@ async function saveCustomerProfile(user, values = {}) {
 async function showAccount(user) {
   const [{ data: profile }, { data: orders, error: ordersError }] = await Promise.all([
     supabase.from('customer_profiles').select('full_name, phone').eq('id', user.id).maybeSingle(),
-    supabase.from('orders').select('order_number, pickup_code, fulfillment_mode, status, total_cents, created_at').eq('customer_id', user.id).order('created_at', { ascending: false }).limit(50)
+    supabase.from('orders').select('order_number, fulfillment_mode, status, total_cents, created_at').eq('customer_id', user.id).order('created_at', { ascending: false }).limit(50)
   ]);
   if (ordersError) throw ordersError;
   accountCard?.classList.add('hidden');
