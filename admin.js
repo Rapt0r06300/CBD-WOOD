@@ -39,6 +39,33 @@ function showAuth() {
   $('#logoutButton')?.classList.add('hidden');
 }
 
+function showLoginView() {
+  $('#loginForm')?.classList.remove('hidden');
+  $('#resetRequestForm')?.classList.add('hidden');
+  $('#newPasswordForm')?.classList.add('hidden');
+}
+
+function showResetRequestView() {
+  $('#loginForm')?.classList.add('hidden');
+  $('#resetRequestForm')?.classList.remove('hidden');
+  $('#newPasswordForm')?.classList.add('hidden');
+}
+
+function showNewPasswordView() {
+  $('#loginForm')?.classList.add('hidden');
+  $('#resetRequestForm')?.classList.add('hidden');
+  $('#newPasswordForm')?.classList.remove('hidden');
+}
+
+function authErrorMessage(error) {
+  if (error?.code === 'invalid_credentials' || error?.message?.toLowerCase().includes('invalid login credentials')) {
+    return 'Adresse e-mail ou mot de passe incorrect. Vérifie les majuscules, le symbole final et les espaces.';
+  }
+  if (error?.code === 'email_not_confirmed') return 'Confirme d’abord l’adresse e-mail du compte propriétaire.';
+  if (error?.code === 'over_email_send_rate_limit') return 'Trop de demandes d’e-mail. Attends quelques minutes avant de réessayer.';
+  return error?.message || 'Une erreur est survenue. Réessaie dans un instant.';
+}
+
 function showDashboard() {
   $('#authView')?.classList.add('hidden');
   $('#dashboardView')?.classList.remove('hidden');
@@ -184,18 +211,83 @@ async function boot() {
     setMessage('#authMessage', 'La configuration Supabase est absente.', true);
     return;
   }
+  $('#togglePasswordButton').addEventListener('click', () => {
+    const input = $('#loginPassword');
+    const visible = input.type === 'text';
+    input.type = visible ? 'password' : 'text';
+    $('#togglePasswordButton').textContent = visible ? 'Afficher' : 'Masquer';
+  });
+  $('#forgotPasswordButton').addEventListener('click', () => {
+    $('#resetEmail').value = $('#loginEmail').value.trim();
+    setMessage('#resetMessage', '');
+    showResetRequestView();
+  });
+  $('#cancelResetButton').addEventListener('click', () => {
+    showLoginView();
+    setMessage('#authMessage', '');
+  });
   $('#loginForm').addEventListener('submit', async (event) => {
     event.preventDefault();
+    const button = $('#loginButton');
+    button.disabled = true;
+    button.textContent = 'Connexion…';
     setMessage('#authMessage', 'Connexion…');
     const { data, error } = await supabase.auth.signInWithPassword({
       email: $('#loginEmail').value.trim(),
       password: $('#loginPassword').value
     });
     if (error) {
-      setMessage('#authMessage', error.message, true);
+      setMessage('#authMessage', authErrorMessage(error), true);
+      button.disabled = false;
+      button.textContent = 'Ouvrir l’espace';
       return;
     }
     await enterDashboard(data.user);
+    button.disabled = false;
+    button.textContent = 'Ouvrir l’espace';
+  });
+  $('#resetRequestForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const button = $('#sendResetButton');
+    const email = $('#resetEmail').value.trim();
+    button.disabled = true;
+    button.textContent = 'Envoi…';
+    setMessage('#resetMessage', 'Envoi du lien…');
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}${window.location.pathname}`
+    });
+    if (error) setMessage('#resetMessage', authErrorMessage(error), true);
+    else setMessage('#resetMessage', 'Si ce compte existe, un lien sécurisé vient d’être envoyé.');
+    button.disabled = false;
+    button.textContent = 'Envoyer le lien';
+  });
+  $('#newPasswordForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const password = $('#newPassword').value;
+    if (password !== $('#confirmPassword').value) {
+      setMessage('#newPasswordMessage', 'Les deux mots de passe sont différents.', true);
+      return;
+    }
+    const button = $('#savePasswordButton');
+    button.disabled = true;
+    button.textContent = 'Enregistrement…';
+    const { error } = await supabase.auth.updateUser({ password });
+    if (error) {
+      setMessage('#newPasswordMessage', authErrorMessage(error), true);
+      button.disabled = false;
+      button.textContent = 'Enregistrer le mot de passe';
+      return;
+    }
+    await supabase.auth.signOut();
+    window.history.replaceState({}, document.title, window.location.pathname);
+    showLoginView();
+    $('#loginEmail').value = $('#resetEmail').value.trim();
+    setMessage('#authMessage', 'Mot de passe modifié. Tu peux maintenant te connecter.');
+    button.disabled = false;
+    button.textContent = 'Enregistrer le mot de passe';
+  });
+  supabase.auth.onAuthStateChange((event) => {
+    if (event === 'PASSWORD_RECOVERY') showNewPasswordView();
   });
   $('#logoutButton').addEventListener('click', async () => {
     await supabase.auth.signOut();
@@ -213,8 +305,10 @@ async function boot() {
     const button = event.target.closest('[data-edit-product]');
     if (button) editProduct(button.dataset.editProduct);
   });
+  const recoveryInUrl = window.location.hash.includes('type=recovery') || new URLSearchParams(window.location.search).get('type') === 'recovery';
   const { data: { session } } = await supabase.auth.getSession();
-  if (session?.user) await enterDashboard(session.user);
+  if (recoveryInUrl) showNewPasswordView();
+  else if (session?.user) await enterDashboard(session.user);
 }
 
 boot();

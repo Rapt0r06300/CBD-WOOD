@@ -28,10 +28,28 @@
         <h2>Connexion</h2>
         <label for="loginEmail">Adresse e-mail</label>
         <input id="loginEmail" name="email" type="email" autocomplete="email" required>
-        <label for="loginPassword">Mot de passe</label>
+        <div class="admin-field-heading"><label for="loginPassword">Mot de passe</label><button class="admin-inline-button" id="togglePasswordButton" type="button">Afficher</button></div>
         <input id="loginPassword" name="password" type="password" autocomplete="current-password" required>
-        <button class="admin-button admin-button--primary" type="submit">Ouvrir l’espace</button>
+        <div class="admin-login-actions"><button class="admin-button admin-button--primary" id="loginButton" type="submit">Ouvrir l’espace</button><button class="admin-button admin-button--ghost admin-button--small" id="forgotPasswordButton" type="button">Mot de passe oublié ?</button></div>
         <p class="admin-message" id="authMessage" role="status" aria-live="polite"></p>
+      </form>
+      <form class="admin-card admin-form hidden" id="resetRequestForm">
+        <h2>Réinitialiser l’accès</h2>
+        <p class="admin-form-copy">Saisis l’adresse du compte propriétaire. Un lien sécurisé sera envoyé par e-mail.</p>
+        <label for="resetEmail">Adresse e-mail</label>
+        <input id="resetEmail" name="resetEmail" type="email" autocomplete="email" required>
+        <div class="admin-login-actions"><button class="admin-button admin-button--primary" id="sendResetButton" type="submit">Envoyer le lien</button><button class="admin-button admin-button--ghost admin-button--small" id="cancelResetButton" type="button">Retour</button></div>
+        <p class="admin-message" id="resetMessage" role="status" aria-live="polite"></p>
+      </form>
+      <form class="admin-card admin-form hidden" id="newPasswordForm">
+        <h2>Nouveau mot de passe</h2>
+        <p class="admin-form-copy">Choisis un mot de passe d’au moins 6 caractères pour sécuriser l’espace propriétaire.</p>
+        <label for="newPassword">Nouveau mot de passe</label>
+        <input id="newPassword" type="password" autocomplete="new-password" minlength="6" required>
+        <label for="confirmPassword">Confirmer le mot de passe</label>
+        <input id="confirmPassword" type="password" autocomplete="new-password" minlength="6" required>
+        <button class="admin-button admin-button--primary" id="savePasswordButton" type="submit">Enregistrer le mot de passe</button>
+        <p class="admin-message" id="newPasswordMessage" role="status" aria-live="polite"></p>
       </form>
       <p class="admin-footnote">Le compte propriétaire sera activé séparément. Les identifiants Viva ne sont pas nécessaires pour cette étape.</p>
     </section>
