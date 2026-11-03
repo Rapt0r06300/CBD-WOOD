@@ -43,7 +43,7 @@
         <div class="cart-panel__header"><h2 id="cartTitle">Votre sélection</h2><button class="cart-close" type="button" data-cart-close aria-label="Fermer le panier">×</button></div>
         <div class="cart-items" id="cartItems"></div>
         <div class="cart-summary"><span>Total</span><strong id="cartTotal">À confirmer</strong></div>
-        <p class="cart-caption">Les prix et la connexion Viva.com seront activés après validation des produits et du backend.</p>
+        <p class="cart-caption">Les prix sont vérifiés côté serveur. Le paiement Viva.com sera activé séparément.</p>
         <a class="cart-checkout" id="cartCheckout" href="checkout.html">Voir le récapitulatif</a>
       </aside>`);
   }
@@ -317,7 +317,7 @@
     const message = document.getElementById('checkoutMessage');
     document.querySelectorAll('[data-checkout-mode]').forEach(choice => choice.addEventListener('click', () => {
       if (!message) return;
-      message.textContent = choice.dataset.checkoutMode === 'guest' ? 'Le parcours invité est prêt. La validation de commande sera reliée au backend.' : 'La page compte client est prête visuellement. La création réelle du compte sera reliée au backend.';
+      message.textContent = choice.dataset.checkoutMode === 'guest' ? 'Tu peux enregistrer ta commande en invité avec ton e-mail.' : 'Le compte client est sécurisé par Supabase et permet de retrouver tes commandes.';
       message.classList.remove('hidden');
     }));
     document.getElementById('createOrderButton')?.addEventListener('click', async () => {
@@ -368,7 +368,7 @@
     const message = document.getElementById('accountMessage');
     form.addEventListener('submit', event => {
       event.preventDefault();
-      if (message) { message.textContent = 'La connexion sera activée avec le backend. Aucune donnée n’est enregistrée dans cette maquette.'; message.classList.remove('hidden'); }
+      if (message) { message.textContent = 'La connexion Supabase est indisponible sur cette page.'; message.classList.remove('hidden'); }
     });
     document.querySelectorAll('[data-account-tab]').forEach(tab => tab.addEventListener('click', () => {
       document.querySelectorAll('[data-account-tab]').forEach(item => item.classList.remove('is-active'));
