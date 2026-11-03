@@ -92,6 +92,8 @@
     clone.classList.add('product-zoom-clone');
     clone.setAttribute('aria-hidden', 'true');
     clone.removeAttribute('tabindex');
+    clone.querySelectorAll('[id]').forEach(element => element.removeAttribute('id'));
+    clone.querySelectorAll('[for]').forEach(element => element.removeAttribute('for'));
     clone.style.setProperty('--zoom-to-left', `${target.left}px`);
     clone.style.setProperty('--zoom-to-top', `${target.top}px`);
     clone.style.setProperty('--zoom-to-width', `${target.width}px`);
