@@ -117,7 +117,7 @@
 
   function initAccount() {
     const form = document.querySelector('[data-account-form]');
-    if (!form) return;
+    if (!form || form.dataset.backend === 'supabase') return;
     const message = document.getElementById('accountMessage');
     form.addEventListener('submit', event => {
       event.preventDefault();
