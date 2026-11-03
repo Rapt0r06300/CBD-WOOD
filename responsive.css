@@ -1,0 +1,168 @@
+/* WOOD responsive layer: adapts to available space and input precision, not a guessed device name. */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+}
+
+@media (any-pointer: coarse) {
+  .btn,
+  .nav-cta,
+  .cart-trigger,
+  .hamb,
+  .add-to-cart,
+  .account-tab,
+  .choice-card,
+  .cart-checkout {
+    min-height: 48px;
+  }
+
+  .cart-qty {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (max-width: 900px) {
+  .container {
+    width: 100%;
+  }
+
+  .hero,
+  .page-hero,
+  .story,
+  .visit-grid,
+  .faq-layout,
+  .checkout-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-copy,
+  .page-hero__copy {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .announcement {
+    padding-inline: 10px;
+    letter-spacing: 1.4px;
+    font-size: 9px;
+  }
+
+  .nav {
+    min-height: 68px;
+    height: auto;
+    padding-inline: 14px;
+    gap: 8px;
+  }
+
+  .brand {
+    flex: 0 1 auto;
+    font-size: 27px;
+    letter-spacing: -2.5px;
+  }
+
+  .brand em {
+    font-size: 8px;
+    letter-spacing: 1.3px;
+  }
+
+  .cart-trigger {
+    min-width: 88px;
+    margin-left: auto;
+    margin-right: 2px;
+    padding-inline: 10px;
+    font-size: 9px;
+  }
+
+  .hamb {
+    flex: 0 0 48px;
+    width: 48px;
+    height: 48px;
+  }
+
+  .nav-links {
+    top: 68px;
+    max-height: calc(100vh - 68px);
+    max-height: calc(100svh - 68px);
+    overflow-y: auto;
+  }
+
+  .nav-links a {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+  }
+
+  .hero-copy,
+  .page-hero__copy {
+    padding-top: 56px;
+    padding-bottom: 54px;
+  }
+
+  .hero h1,
+  .page-hero h1,
+  .big-title,
+  .section-title,
+  .story-text h2,
+  .visit h2 {
+    overflow-wrap: anywhere;
+  }
+
+  .buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .buttons .btn {
+    width: 100%;
+  }
+
+  .account-card,
+  .checkout-card,
+  .notice {
+    width: 100%;
+  }
+
+  .account-card,
+  .checkout-card {
+    padding: 24px 18px;
+  }
+
+  .account-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .account-tab {
+    min-height: 48px;
+    padding-inline: 8px;
+  }
+
+  .account-form input {
+    font-size: 16px;
+  }
+
+  .choice-card {
+    padding: 18px;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 600px) {
+  .hero-art,
+  .page-hero__art {
+    min-height: 260px;
+  }
+
+  .nav-links {
+    max-height: calc(100vh - 68px);
+  }
+}
