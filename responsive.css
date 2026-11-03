@@ -11,6 +11,17 @@ video {
   max-width: 100%;
 }
 
+.brand {
+  gap: 9px;
+}
+
+.brand-mark {
+  width: 30px;
+  height: 38px;
+  flex: 0 0 auto;
+  color: currentColor;
+}
+
 @media (any-pointer: coarse) {
   .btn,
   .nav-cta,
@@ -68,6 +79,12 @@ video {
     flex: 0 1 auto;
     font-size: 27px;
     letter-spacing: -2.5px;
+    gap: 6px;
+  }
+
+  .brand-mark {
+    width: 25px;
+    height: 32px;
   }
 
   .brand em {
