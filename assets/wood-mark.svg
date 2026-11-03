@@ -5,7 +5,7 @@
     <rect x="45" y="4" width="10" height="68" rx="1" transform="rotate(45 50 50)"/>
     <rect x="45" y="4" width="10" height="68" rx="1" transform="rotate(90 50 50)"/>
     <rect x="45" y="4" width="10" height="68" rx="1" transform="rotate(135 50 50)"/>
-    <rect x="45" y="4" width="10" height="68" rx="1" transform="rotate(180 50 50)"/>
+    <rect x="45" y="4" width="10" height="68" rx="1" transform="rotate(270 50 50)"/>
     <rect x="45" y="4" width="10" height="68" rx="1" transform="rotate(225 50 50)"/>
     <rect x="45" y="4" width="10" height="68" rx="1" transform="rotate(315 50 50)"/>
     <circle cx="50" cy="114" r="7"/>
