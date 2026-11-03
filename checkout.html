@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#101610">
+  <title>Récapitulatif — WOOD CBD Shop Nice</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="boutique.css">
+</head>
+<body>
+  <a class="skip" href="#contenu">Aller au contenu</a>
+  <div class="announcement">WOOD Shop · Parcours de commande</div>
+  <header class="nav">
+    <a class="brand" href="index.html" aria-label="WOOD CBD Nice, accueil">WOOD<em>CBD / NICE</em></a>
+    <nav class="nav-links" id="navigation" aria-label="Navigation boutique"><a href="index.html">Accueil</a><a href="fleurs.html">Fleurs</a><a href="resines.html">Résines</a><a href="bien-etre.html">Bien-être</a><a href="wood-shop.html">WOOD Shop</a></nav>
+    <a class="nav-cta" href="index.html">Retour à WOOD <span aria-hidden="true">↗</span></a><button class="cart-trigger" id="cartTrigger" type="button" aria-controls="cartPanel" aria-expanded="false">Panier <span class="cart-count" id="cartCount">0</span></button>
+    <button class="hamb" id="hamb" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navigation">☰</button>
+  </header>
+  <main id="contenu">
+    <div class="crumbs"><a href="index.html">Accueil</a><span aria-hidden="true"> &nbsp;/&nbsp; </span>Récapitulatif</div>
+    <section class="checkout-section container" aria-labelledby="checkout-title">
+      <div class="section-heading"><div><div class="kicker">05 / Checkout</div><h1 id="checkout-title" class="section-title">PRÊT À <span>COMMANDER ?</span></h1></div><p class="section-aside">Le parcours est préparé visuellement. La commande réelle et le paiement Viva.com seront branchés avec le backend.</p></div>
+      <div class="checkout-layout">
+        <section class="checkout-card" aria-labelledby="summary-title"><h2 id="summary-title">Votre sélection</h2><div id="checkoutItems" class="checkout-list"></div><div class="checkout-total"><span>Total provisoire</span><strong id="checkoutTotal">À confirmer</strong></div></section>
+        <section class="checkout-card" aria-labelledby="identity-title"><h2 id="identity-title">Comment continuer ?</h2><p>Le compte client sera pratique pour retrouver les commandes, mais il ne sera pas obligatoire.</p><div class="choice-grid"><a class="choice-card" href="#guest" data-checkout-mode="guest"><strong>Acheter en invité ↗</strong><span>Continuer sans créer de compte. Le backend demandera ensuite les informations nécessaires à la commande.</span></a><a class="choice-card" href="compte.html?return=checkout.html"><strong>Créer un compte ↗</strong><span>Retrouver ses commandes et ses informations lors des prochaines visites.</span></a></div><div class="payment-prep"><h3>Viva Smart Checkout</h3><p>Le paiement sera effectué sur la page sécurisée de Viva.com après connexion du backend.</p><button class="btn" id="prepareViva" type="button">Préparer le paiement Viva</button><p id="checkoutMessage" class="inline-message hidden" role="status"></p></div></section>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><div class="container"><div class="footer-top"><div class="footer-brand"><div class="footer-logo">WOOD.</div><div class="footer-slogan">Si c'est WOOD, c'est GOOD.</div></div><div><h3>La boutique</h3><div class="footer-links"><a href="fleurs.html">Fleurs CBD</a><a href="resines.html">Résines</a><a href="bien-etre.html">Bien-être</a><a href="wood-shop.html">WOOD Shop</a></div></div><div><h3>Rester en contact</h3><div class="footer-links"><a href="tel:+33422163570">04 22 16 35 70</a><a href="mailto:woodcbdshop@gmail.com">woodcbdshop@gmail.com</a><a href="index.html#boutique">7 rue Barla, 06300 Nice</a></div></div></div><div class="footer-bottom"><span>© <span id="year">2026</span> WOOD — <strong>Maquette de démonstration non officielle.</strong></span><span>Aucun paiement réel n'est lancé ici.</span></div></div></footer>
+  <script src="boutique.js"></script>
+</body>
+</html>
