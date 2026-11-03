@@ -91,12 +91,12 @@ function renderProducts() {
   }
   body.innerHTML = products.map((product) => `
     <tr>
-      <td><div class="table-product"><strong>${escapeHtml(product.name)}</strong><span>${escapeHtml(product.slug)}</span></div></td>
-      <td>${escapeHtml(categoryLabels[product.category] || product.category)}</td>
-      <td>${formatMoney(product.price_cents)}</td>
-      <td>${product.stock_quantity}</td>
-      <td><span class="table-status table-status--${product.status}">${product.status === 'published' ? 'Publié' : product.status === 'archived' ? 'Archivé' : 'Brouillon'}</span></td>
-      <td><button class="table-edit" type="button" data-edit-product="${product.id}">Modifier</button></td>
+      <td data-label="Produit"><div class="table-product"><strong>${escapeHtml(product.name)}</strong><span>${escapeHtml(product.slug)}</span></div></td>
+      <td data-label="Catégorie">${escapeHtml(categoryLabels[product.category] || product.category)}</td>
+      <td data-label="Prix">${formatMoney(product.price_cents)}</td>
+      <td data-label="Stock">${product.stock_quantity}</td>
+      <td data-label="Statut"><span class="table-status table-status--${product.status}">${product.status === 'published' ? 'Publié' : product.status === 'archived' ? 'Archivé' : 'Brouillon'}</span></td>
+      <td data-label="Action"><button class="table-edit" type="button" data-edit-product="${product.id}">Modifier</button></td>
     </tr>`).join('');
 }
 
@@ -109,11 +109,11 @@ function renderOrders(orders) {
   }
   body.innerHTML = orders.map((order) => `
     <tr>
-      <td>${formatDate(order.created_at)}</td>
-      <td>${escapeHtml(order.customer_email)}</td>
-      <td>${formatMoney(order.total_cents)}</td>
-      <td><span class="table-status table-status--${order.payment_status}">${escapeHtml(order.payment_status)}</span></td>
-      <td><span class="table-status">${escapeHtml(order.status)}</span></td>
+      <td data-label="Date">${formatDate(order.created_at)}</td>
+      <td data-label="Client">${escapeHtml(order.customer_email)}</td>
+      <td data-label="Total">${formatMoney(order.total_cents)}</td>
+      <td data-label="Paiement"><span class="table-status table-status--${order.payment_status}">${escapeHtml(order.payment_status)}</span></td>
+      <td data-label="Commande"><span class="table-status">${escapeHtml(order.status)}</span></td>
     </tr>`).join('');
   renderSummary(orders.length);
 }
