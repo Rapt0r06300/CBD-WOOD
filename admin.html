@@ -120,6 +120,17 @@
               <label for="productDescription">Description</label>
               <textarea id="productDescription" rows="4" placeholder="Profil, format, informations utiles…"></textarea>
             </div>
+            <fieldset class="admin-form-full admin-pricing-fieldset" id="flowerPricingFields">
+              <legend>Tarifs fleurs par grammage</legend>
+              <p class="admin-form-copy">Ces cinq tarifs servent aussi à calculer automatiquement 2 g, 6 g ou 50 g. Les prix affichés sur la carte restent la référence.</p>
+              <div class="admin-tier-grid">
+                <div><label for="productPrice1">1 g</label><input id="productPrice1" type="number" min="0" step="0.01" placeholder="15,00"></div>
+                <div><label for="productPrice3">3 g</label><input id="productPrice3" type="number" min="0" step="0.01" placeholder="42,00"></div>
+                <div><label for="productPrice5">5 g</label><input id="productPrice5" type="number" min="0" step="0.01" placeholder="70,00"></div>
+                <div><label for="productPrice10">10 g</label><input id="productPrice10" type="number" min="0" step="0.01" placeholder="130,00"></div>
+                <div><label for="productPrice25">25 g</label><input id="productPrice25" type="number" min="0" step="0.01" placeholder="260,00"></div>
+              </div>
+            </fieldset>
           </div>
           <div class="admin-form-actions">
             <button class="admin-button admin-button--primary" type="submit">Enregistrer le produit</button>
@@ -148,10 +159,11 @@
         <div class="admin-card admin-table-card">
           <div class="admin-table-wrap">
             <table>
-              <thead><tr><th>Date</th><th>Client</th><th>Total</th><th>Paiement</th><th>Commande</th></tr></thead>
-              <tbody id="ordersBody"><tr><td colspan="5" class="admin-empty">Chargement des commandes…</td></tr></tbody>
+              <thead><tr><th>Date</th><th>Commande / client</th><th>Retrait ou livraison</th><th>Total</th><th>Paiement</th><th>État</th></tr></thead>
+              <tbody id="ordersBody"><tr><td colspan="6" class="admin-empty">Chargement des commandes…</td></tr></tbody>
             </table>
           </div>
+          <p class="admin-message admin-table-message" id="orderMessage" role="status" aria-live="polite"></p>
         </div>
       </section>
     </section>

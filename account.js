@@ -3,30 +3,79 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 const config = window.WOOD_SUPABASE_CONFIG;
 const supabase = config ? createClient(config.url, config.publishableKey) : null;
 const form = document.querySelector('[data-account-form]');
+const accountCard = document.querySelector('.account-card');
+const dashboard = document.getElementById('accountDashboard');
 const message = document.getElementById('accountMessage');
 const action = document.getElementById('accountAction');
 let mode = 'login';
 
+const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, character => ({ '&': '&#38;', '<': '&#60;', '>': '&#62;', "'": '&#39;', '"': '&#34;' }[character]));
+const formatMoney = cents => `${(Number(cents || 0) / 100).toFixed(2).replace('.', ',')} €`;
+const modeLabels = { delivery: 'Livraison', barla: 'Retrait à Barla', borriglione: 'Retrait à Borriglione' };
+const statusLabels = { pending: 'En attente', paid: 'Payée', preparing: 'En préparation', ready: 'Prête', completed: 'Terminée', cancelled: 'Annulée' };
+
 function showMessage(text, isError = false) {
   if (!message) return;
   message.textContent = text;
-  message.classList.remove('hidden');
+  message.classList.toggle('hidden', !text);
   message.classList.toggle('is-error', isError);
+}
+
+function setProfileMessage(text, isError = false) {
+  const node = document.getElementById('profileMessage');
+  if (!node) return;
+  node.textContent = text;
+  node.classList.toggle('hidden', !text);
+  node.classList.toggle('is-error', isError);
 }
 
 function setMode(nextMode) {
   mode = nextMode;
-  document.querySelectorAll('[data-account-tab]').forEach((tab) => {
-    tab.classList.toggle('is-active', tab.dataset.accountTab === mode);
-  });
+  document.querySelectorAll('[data-account-tab]').forEach(tab => tab.classList.toggle('is-active', tab.dataset.accountTab === mode));
   if (action) action.textContent = mode === 'login' ? 'Se connecter' : 'Créer mon compte';
   showMessage('');
-  message?.classList.add('hidden');
 }
 
-async function saveCustomerProfile(user) {
-  const { error } = await supabase.from('customer_profiles').upsert({ id: user.id }, { onConflict: 'id' });
+function showLogin() {
+  accountCard?.classList.remove('hidden');
+  dashboard?.classList.add('hidden');
+}
+
+function renderOrders(orders) {
+  const container = document.getElementById('accountOrders');
+  if (!container) return;
+  if (!orders.length) {
+    container.innerHTML = '<p class="account-dashboard__muted">Aucune commande enregistrée pour le moment.</p>';
+    return;
+  }
+  container.innerHTML = orders.map(order => `
+    <article class="account-order">
+      <div class="account-order__head"><strong>${escapeHtml(order.order_number || 'Commande WOOD')}</strong><span>${escapeHtml(statusLabels[order.status] || order.status)}</span></div>
+      <p>${escapeHtml(modeLabels[order.fulfillment_mode] || order.fulfillment_mode)} · ${escapeHtml(formatMoney(order.total_cents))}</p>
+      ${order.pickup_code ? `<p>Code de retrait : <strong>${escapeHtml(order.pickup_code)}</strong></p>` : ''}
+    </article>`).join('');
+}
+
+async function saveCustomerProfile(user, values = {}) {
+  const { error } = await supabase.from('customer_profiles').upsert({ id: user.id, full_name: values.full_name ?? null, phone: values.phone ?? null }, { onConflict: 'id' });
   if (error) throw error;
+}
+
+async function showAccount(user) {
+  const [{ data: profile }, { data: orders, error: ordersError }] = await Promise.all([
+    supabase.from('customer_profiles').select('full_name, phone').eq('id', user.id).maybeSingle(),
+    supabase.from('orders').select('order_number, pickup_code, fulfillment_mode, status, total_cents, created_at').eq('customer_id', user.id).order('created_at', { ascending: false }).limit(50)
+  ]);
+  if (ordersError) throw ordersError;
+  accountCard?.classList.add('hidden');
+  dashboard?.classList.remove('hidden');
+  const welcome = document.getElementById('accountWelcome');
+  if (welcome) welcome.textContent = user.email || 'Votre espace client sécurisé';
+  const name = document.getElementById('profileName');
+  const phone = document.getElementById('profilePhone');
+  if (name) name.value = profile?.full_name || '';
+  if (phone) phone.value = profile?.phone || '';
+  renderOrders(orders || []);
 }
 
 async function handleSubmit(event) {
@@ -44,19 +93,15 @@ async function handleSubmit(event) {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
       await saveCustomerProfile(data.user);
-      showMessage('Connexion réussie. Votre espace client est ouvert.');
+      await showAccount(data.user);
     } else {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: { emailRedirectTo: `${window.location.origin}${window.location.pathname}` }
-      });
+      const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: `${window.location.origin}${window.location.pathname}` } });
       if (error) throw error;
       if (data.session && data.user) {
         await saveCustomerProfile(data.user);
-        showMessage('Compte créé. Vous êtes connecté.');
+        await showAccount(data.user);
       } else {
-        showMessage('Compte créé. Vérifiez votre boîte e-mail pour confirmer l’adresse avant de vous connecter.');
+        showMessage('Compte créé. Vérifie ta boîte e-mail pour confirmer ton adresse avant de te connecter.');
       }
     }
   } catch (error) {
@@ -67,5 +112,44 @@ async function handleSubmit(event) {
   }
 }
 
-document.querySelectorAll('[data-account-tab]').forEach((tab) => tab.addEventListener('click', () => setMode(tab.dataset.accountTab)));
-form?.addEventListener('submit', handleSubmit);
+async function saveProfile(event) {
+  event.preventDefault();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return showLogin();
+  const button = event.currentTarget.querySelector('button[type="submit"]');
+  button.disabled = true;
+  setProfileMessage('Enregistrement…');
+  try {
+    await saveCustomerProfile(user, { full_name: document.getElementById('profileName').value.trim(), phone: document.getElementById('profilePhone').value.trim() });
+    setProfileMessage('Informations enregistrées.');
+  } catch (error) {
+    setProfileMessage(error.message || 'Impossible d’enregistrer les informations.', true);
+  } finally {
+    button.disabled = false;
+  }
+}
+
+async function boot() {
+  if (!supabase) {
+    showMessage('La configuration Supabase est absente.', true);
+    return;
+  }
+  document.querySelectorAll('[data-account-tab]').forEach(tab => tab.addEventListener('click', () => setMode(tab.dataset.accountTab)));
+  form?.addEventListener('submit', handleSubmit);
+  document.getElementById('profileForm')?.addEventListener('submit', saveProfile);
+  document.getElementById('accountLogout')?.addEventListener('click', async () => {
+    await supabase.auth.signOut();
+    showLogin();
+    showMessage('Vous êtes déconnecté.');
+  });
+  const { data: { session } } = await supabase.auth.getSession();
+  if (session?.user) {
+    try { await showAccount(session.user); } catch (error) { showMessage(error.message || 'Impossible de charger votre espace.', true); }
+  }
+  supabase.auth.onAuthStateChange((event, nextSession) => {
+    if (event === 'SIGNED_OUT') showLogin();
+    if (event === 'SIGNED_IN' && nextSession?.user && dashboard?.classList.contains('hidden')) void showAccount(nextSession.user);
+  });
+}
+
+boot();

@@ -20,6 +20,7 @@
   };
   const cartCount = () => cart.reduce((sum, item) => sum + item.quantity, 0);
   const calculateFlowerPrice = (grams, tiers) => window.WoodFlowerPricing?.calculateFlowerPrice?.(grams, tiers) || { price: '', breakdown: [] };
+  const maxFlowerGrams = 50;
   const getOrderMode = id => window.WoodOrderOptions?.getOrderMode?.(id) || null;
   const readOrderMode = () => {
     try {
@@ -113,7 +114,8 @@
     if (card.dataset.detailWired === 'true') return;
     const productId = card.dataset.productId;
     if (!productId) return;
-    card.dataset.detailHref = `fleur.html?produit=${encodeURIComponent(productId)}`;
+    const productSlug = card.dataset.productSlug || productId;
+    card.dataset.detailHref = `fleur.html?produit=${encodeURIComponent(productSlug)}`;
     card.dataset.detailWired = 'true';
     card.classList.add('product-card--navigable');
     card.setAttribute('role', 'link');
@@ -196,6 +198,8 @@
       if (label) label.textContent = `${grams} g · ${priceLabel({ price: pricing.price })}`;
       const minus = select.querySelector('[data-gram-step="-1"]');
       if (minus) minus.disabled = grams <= 1;
+        const plus = select.querySelector('[data-gram-step="1"]');
+        if (plus) plus.disabled = grams >= maxFlowerGrams;
       const output = select.querySelector('[data-gram-value]');
       if (output) output.textContent = `${grams} g`;
       return;
@@ -223,7 +227,12 @@
     const summary = document.getElementById('orderModeSummary');
     if (summary) summary.textContent = mode ? `Mode choisi : ${mode.label}${mode.address ? ` · ${mode.address}` : ''}` : 'Choisissez un mode de réception avant le paiement.';
     const payment = document.getElementById('prepareViva');
-    if (payment) payment.disabled = !mode;
+    const createOrderButton = document.getElementById('createOrderButton') || payment;
+    if (createOrderButton) createOrderButton.disabled = !mode || cart.length === 0;
+    const addressField = document.getElementById('deliveryAddressField');
+    const address = document.getElementById('orderAddress');
+    if (addressField) addressField.classList.toggle('hidden', id !== 'delivery');
+    if (address) address.required = id === 'delivery';
   }
 
   function renderOrderModes() {
@@ -245,9 +254,14 @@
     if (!trigger) return;
     const purchaseNotice = window.WoodOrderOptions?.getPurchaseNotice?.();
     if (purchaseNotice) document.querySelectorAll('[data-purchase-notice]').forEach(node => { node.textContent = purchaseNotice; });
-    enhanceFlowerCards();
+    const refreshCatalogEnhancements = () => {
+      enhanceFlowerCards();
+      document.querySelectorAll('[data-product-weight], [data-product-gram-control]').forEach(updateProductPrice);
+    };
+    window.WoodShopRefreshCatalog = refreshCatalogEnhancements;
+    document.addEventListener('wood:catalog-rendered', refreshCatalogEnhancements);
+    refreshCatalogEnhancements();
     ensureCartPanel(); renderCart();
-    document.querySelectorAll('[data-product-weight], [data-product-gram-control]').forEach(updateProductPrice);
     trigger.addEventListener('click', () => setCartOpen(!document.getElementById('cartPanel').classList.contains('is-open')));
     document.addEventListener('click', event => {
       const step = event.target.closest('[data-gram-step]');
@@ -255,7 +269,7 @@
         const control = step.closest('[data-product-gram-control]');
         if (!control) return;
         const current = Number.parseInt(control.dataset.grams, 10) || 1;
-        const next = Math.max(1, current + (Number.parseInt(step.dataset.gramStep, 10) || 0));
+          const next = Math.min(maxFlowerGrams, Math.max(1, current + (Number.parseInt(step.dataset.gramStep, 10) || 0)));
         if (next !== current) {
           control.dataset.grams = String(next);
           updateProductPrice(control);
@@ -306,16 +320,45 @@
       message.textContent = choice.dataset.checkoutMode === 'guest' ? 'Le parcours invité est prêt. La validation de commande sera reliée au backend.' : 'La page compte client est prête visuellement. La création réelle du compte sera reliée au backend.';
       message.classList.remove('hidden');
     }));
-    document.getElementById('prepareViva')?.addEventListener('click', () => {
+    document.getElementById('createOrderButton')?.addEventListener('click', async () => {
       if (!message) return;
       const mode = getOrderMode(readOrderMode());
       if (!mode) {
-        message.textContent = 'Choisissez d’abord la livraison ou le retrait en boutique.';
+        message.textContent = 'Choisis d’abord la livraison ou le retrait en boutique.';
         message.classList.remove('hidden');
         return;
       }
-      message.textContent = `Viva Smart Checkout sera appelé ici pour le mode « ${mode.label} » après la connexion sécurisée du backend. Aucun paiement réel n’est lancé dans cette maquette.`;
+      const contactForm = document.getElementById('orderContactForm');
+      if (contactForm && !contactForm.reportValidity()) return;
+      if (!cart.length) {
+        message.textContent = 'Ajoute au moins un produit avant d’enregistrer la commande.';
+        message.classList.remove('hidden');
+        return;
+      }
+      const button = document.getElementById('createOrderButton');
+      button.disabled = true;
+      button.textContent = 'Enregistrement…';
+      message.textContent = 'Vérification des produits et enregistrement sécurisé…';
       message.classList.remove('hidden');
+      try {
+        const order = await window.WoodOrderApi?.createPendingOrder({
+          customer_email: document.getElementById('orderEmail')?.value.trim(),
+          customer_name: document.getElementById('orderName')?.value.trim(),
+          customer_phone: document.getElementById('orderPhone')?.value.trim(),
+          delivery_address: document.getElementById('orderAddress')?.value.trim(),
+          fulfillment_mode: mode.id,
+          items: cart.map(item => ({ product_id: item.productId, grams: Number.parseInt(item.weight, 10) || 1, quantity: item.quantity }))
+        });
+        if (!order) throw new Error('Le service de commande est indisponible.');
+        localStorage.setItem('wood-last-order-v1', JSON.stringify({ ...order, customer_email: document.getElementById('orderEmail')?.value.trim(), customer_name: document.getElementById('orderName')?.value.trim(), items: cart }));
+        localStorage.removeItem(STORAGE_KEY);
+        window.location.href = 'confirmation.html';
+      } catch (error) {
+        message.textContent = error.message || 'Impossible d’enregistrer la commande.';
+        message.classList.add('is-error');
+        button.disabled = false;
+        button.textContent = 'Enregistrer la commande';
+      }
     });
   }
 

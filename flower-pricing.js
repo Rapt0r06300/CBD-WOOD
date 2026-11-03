@@ -11,6 +11,7 @@
 
   function calculateFlowerPrice(grams, tiers) {
     const target = Math.max(1, Math.round(Number(grams) || 1));
+    if (target > 50) return { price: '', breakdown: [] };
     const availableTiers = normalizeTiers(tiers);
     if (!availableTiers.length) return { price: '', breakdown: [] };
 

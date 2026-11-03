@@ -11,6 +11,8 @@ const categoryLabels = {
 };
 
 let products = [];
+const flowerTierGrams = [1, 3, 5, 10, 25];
+const orderStatuses = ['pending', 'confirmed', 'ready', 'completed', 'cancelled'];
 
 function setMessage(selector, message, isError = false) {
   const element = $(selector);
@@ -93,7 +95,7 @@ function renderProducts() {
     <tr>
       <td data-label="Produit"><div class="table-product"><strong>${escapeHtml(product.name)}</strong><span>${escapeHtml(product.slug)}</span></div></td>
       <td data-label="Catégorie">${escapeHtml(categoryLabels[product.category] || product.category)}</td>
-      <td data-label="Prix">${formatMoney(product.price_cents)}</td>
+      <td data-label="Prix">${product.category === 'fleurs' && product.pricing_tiers?.length ? product.pricing_tiers.map((tier) => `${tier.grams} g · ${formatMoney(tier.price_cents)}`).join('<br>') : formatMoney(product.price_cents)}</td>
       <td data-label="Stock">${product.stock_quantity}</td>
       <td data-label="Statut"><span class="table-status table-status--${product.status}">${product.status === 'published' ? 'Publié' : product.status === 'archived' ? 'Archivé' : 'Brouillon'}</span></td>
       <td data-label="Action"><button class="table-edit" type="button" data-edit-product="${product.id}">Modifier</button></td>
@@ -103,17 +105,20 @@ function renderProducts() {
 function renderOrders(orders) {
   const body = $('#ordersBody');
   if (!orders.length) {
-    body.innerHTML = '<tr><td colspan="5" class="admin-empty">Aucune commande pour le moment.</td></tr>';
+    body.innerHTML = '<tr><td colspan="6" class="admin-empty">Aucune commande pour le moment.</td></tr>';
     renderSummary(0);
     return;
   }
+  const modeLabels = { delivery: 'Livraison', barla: 'Retrait · Barla', borriglione: 'Retrait · Borriglione' };
+  const statusLabels = { pending: 'En attente', confirmed: 'Confirmée', ready: 'Prête', completed: 'Remise', cancelled: 'Annulée' };
   body.innerHTML = orders.map((order) => `
     <tr>
       <td data-label="Date">${formatDate(order.created_at)}</td>
-      <td data-label="Client">${escapeHtml(order.customer_email)}</td>
+      <td data-label="Commande / client"><div class="table-product"><strong>${escapeHtml(order.order_number || 'Commande sans numéro')}</strong><span>${escapeHtml(order.customer_name || order.customer_email)}${order.customer_phone ? ` · ${escapeHtml(order.customer_phone)}` : ''}</span></div></td>
+      <td data-label="Retrait ou livraison"><strong>${escapeHtml(modeLabels[order.fulfillment_mode] || 'À préciser')}</strong>${order.pickup_code ? `<br><span class="table-code">Code : ${escapeHtml(order.pickup_code)}</span>` : ''}${order.delivery_address ? `<br><span class="table-address">${escapeHtml(order.delivery_address)}</span>` : ''}</td>
       <td data-label="Total">${formatMoney(order.total_cents)}</td>
       <td data-label="Paiement"><span class="table-status table-status--${order.payment_status}">${escapeHtml(order.payment_status)}</span></td>
-      <td data-label="Commande"><span class="table-status">${escapeHtml(order.status)}</span></td>
+      <td data-label="État"><select class="admin-order-status" data-order-status="${escapeHtml(order.id)}" aria-label="État de ${escapeHtml(order.order_number || 'la commande')}">${orderStatuses.map((status) => `<option value="${status}"${status === order.status ? ' selected' : ''}>${statusLabels[status]}</option>`).join('')}</select></td>
     </tr>`).join('');
   renderSummary(orders.length);
 }
@@ -125,14 +130,33 @@ function escapeHtml(value) {
 async function loadProducts() {
   const { data, error } = await supabase.from('products').select('*').order('created_at', { ascending: false });
   if (error) throw error;
-  products = data || [];
+  const ids = (data || []).map((product) => product.id);
+  let priceRows = [];
+  if (ids.length) {
+    const { data: prices, error: priceError } = await supabase.from('product_prices').select('id, product_id, grams, price_cents').in('product_id', ids).order('grams');
+    if (priceError) throw priceError;
+    priceRows = prices || [];
+  }
+  products = (data || []).map((product) => ({ ...product, pricing_tiers: priceRows.filter((tier) => tier.product_id === product.id) }));
   renderProducts();
 }
 
 async function loadOrders() {
-  const { data, error } = await supabase.from('orders').select('id, customer_email, total_cents, status, payment_status, created_at').order('created_at', { ascending: false }).limit(100);
+  const { data, error } = await supabase.from('orders').select('id, order_number, customer_email, customer_name, customer_phone, delivery_address, fulfillment_mode, pickup_code, total_cents, status, payment_status, created_at').order('created_at', { ascending: false }).limit(100);
   if (error) throw error;
   renderOrders(data || []);
+}
+
+async function updateOrderStatus(id, status, select) {
+  select.disabled = true;
+  const { error } = await supabase.from('orders').update({ status }).eq('id', id);
+  select.disabled = false;
+  if (error) {
+    setMessage('#orderMessage', `Impossible de mettre à jour la commande : ${error.message}`, true);
+    await loadOrders();
+    return;
+  }
+  setMessage('#orderMessage', 'État de la commande mis à jour.');
 }
 
 async function enterDashboard(user) {
@@ -161,6 +185,8 @@ function resetProductForm() {
   $('#productId').value = '';
   $('#productStock').value = '0';
   $('#productFormTitle').textContent = 'Nouveau produit';
+  flowerTierGrams.forEach((grams) => { $(`#productPrice${grams}`).value = ''; });
+  syncPricingFields();
   setMessage('#productMessage', '');
   $('#productForm').classList.add('hidden');
 }
@@ -175,9 +201,30 @@ function editProduct(id) {
   $('#productStock').value = product.stock_quantity;
   $('#productStatus').value = product.status;
   $('#productDescription').value = product.description || '';
+  flowerTierGrams.forEach((grams) => {
+    const tier = product.pricing_tiers?.find((item) => item.grams === grams);
+    $(`#productPrice${grams}`).value = tier ? (tier.price_cents / 100).toFixed(2) : '';
+  });
+  syncPricingFields();
   $('#productFormTitle').textContent = 'Modifier le produit';
   $('#productForm').classList.remove('hidden');
   $('#productForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function syncPricingFields() {
+  const isFlower = $('#productCategory')?.value === 'fleurs';
+  $('#flowerPricingFields')?.classList.toggle('hidden', !isFlower);
+  flowerTierGrams.forEach((grams) => {
+    const field = $(`#productPrice${grams}`);
+    if (field) field.disabled = !isFlower;
+  });
+}
+
+function readFlowerTiers() {
+  return flowerTierGrams.map((grams) => {
+    const value = $(`#productPrice${grams}`).value.trim();
+    return { grams, value, price_cents: value === '' ? null : Math.round(Number(value) * 100) };
+  });
 }
 
 async function saveProduct(event) {
@@ -186,20 +233,40 @@ async function saveProduct(event) {
   const id = $('#productId').value;
   const name = $('#productName').value.trim();
   const priceValue = $('#productPrice').value.trim();
+  const category = $('#productCategory').value;
+  const tiers = readFlowerTiers();
+  if (category === 'fleurs' && tiers.some((tier) => tier.value === '' || !Number.isFinite(tier.price_cents) || tier.price_cents < 0)) {
+    setMessage('#productMessage', 'Renseigne les cinq tarifs fleurs : 1 g, 3 g, 5 g, 10 g et 25 g.', true);
+    return;
+  }
   const payload = {
     name,
-    category: $('#productCategory').value,
+    category,
     description: $('#productDescription').value.trim(),
     price_cents: priceValue === '' ? null : Math.round(Number(priceValue) * 100),
     stock_quantity: Number($('#productStock').value),
     status: $('#productStatus').value
   };
   if (!id) payload.slug = `${slugify(name)}-${Date.now().toString(36).slice(-5)}`;
-  const request = id ? supabase.from('products').update(payload).eq('id', id) : supabase.from('products').insert(payload);
-  const { error } = await request;
+  const request = id ? supabase.from('products').update(payload).eq('id', id) : supabase.from('products').insert(payload).select('id').single();
+  const { data: saved, error } = await request;
   if (error) {
     setMessage('#productMessage', error.message, true);
     return;
+  }
+  const productId = id || saved?.id;
+  if (category === 'fleurs') {
+    const { error: tierError } = await supabase.from('product_prices').upsert(tiers.map((tier) => ({ product_id: productId, grams: tier.grams, price_cents: tier.price_cents })), { onConflict: 'product_id,grams' });
+    if (tierError) {
+      setMessage('#productMessage', `Produit enregistré, mais les tarifs fleurs n’ont pas pu être enregistrés : ${tierError.message}`, true);
+      return;
+    }
+  } else if (productId) {
+    const { error: tierError } = await supabase.from('product_prices').delete().eq('product_id', productId);
+    if (tierError) {
+      setMessage('#productMessage', `Produit enregistré, mais les anciens tarifs fleurs n’ont pas pu être retirés : ${tierError.message}`, true);
+      return;
+    }
   }
   resetProductForm();
   await loadProducts();
@@ -301,10 +368,16 @@ async function boot() {
   $('#cancelProductButton').addEventListener('click', resetProductForm);
   $('#cancelProductButtonBottom').addEventListener('click', resetProductForm);
   $('#productForm').addEventListener('submit', saveProduct);
+  $('#productCategory').addEventListener('change', syncPricingFields);
   $('#productsBody').addEventListener('click', (event) => {
     const button = event.target.closest('[data-edit-product]');
     if (button) editProduct(button.dataset.editProduct);
   });
+  $('#ordersBody').addEventListener('change', (event) => {
+    const select = event.target.closest('[data-order-status]');
+    if (select) updateOrderStatus(select.dataset.orderStatus, select.value, select);
+  });
+  syncPricingFields();
   const recoveryInUrl = window.location.hash.includes('type=recovery') || new URLSearchParams(window.location.search).get('type') === 'recovery';
   const { data: { session } } = await supabase.auth.getSession();
   if (recoveryInUrl) showNewPasswordView();
