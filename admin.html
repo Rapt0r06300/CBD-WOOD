@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Espace propriétaire — WOOD CBD Shop</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="admin.css">
+  <script src="supabase-config.js"></script>
+  <script type="module" src="admin.js"></script>
+</head>
+<body class="admin-page">
+  <header class="admin-header">
+    <a class="admin-logo" href="index.html">WOOD<span> / ESPACE PROPRIÉTAIRE</span></a>
+    <div class="admin-header-actions">
+      <a class="admin-back" href="index.html">Voir le site ↗</a>
+      <button class="admin-button admin-button--ghost hidden" id="logoutButton" type="button">Se déconnecter</button>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    <section class="admin-login" id="authView">
+      <div class="admin-kicker">ESPACE PROPRIÉTAIRE</div>
+      <h1>Gérer WOOD<span>.</span></h1>
+      <p class="admin-lead">Un espace simple pour gérer les produits, les stocks et les commandes de la boutique.</p>
+      <form class="admin-card admin-form" id="loginForm">
+        <h2>Connexion</h2>
+        <label for="loginEmail">Adresse e-mail</label>
+        <input id="loginEmail" name="email" type="email" autocomplete="email" required>
+        <label for="loginPassword">Mot de passe</label>
+        <input id="loginPassword" name="password" type="password" autocomplete="current-password" required>
+        <button class="admin-button admin-button--primary" type="submit">Ouvrir l’espace</button>
+        <p class="admin-message" id="authMessage" role="status" aria-live="polite"></p>
+      </form>
+      <p class="admin-footnote">Le compte propriétaire sera activé séparément. Les identifiants Viva ne sont pas nécessaires pour cette étape.</p>
+    </section>
+
+    <section class="hidden" id="dashboardView">
+      <div class="admin-kicker">TABLEAU DE BORD</div>
+      <div class="admin-title-row">
+        <div>
+          <h1>Bonjour, WOOD<span>.</span></h1>
+          <p class="admin-lead">Tout ce qui est important pour la boutique, au même endroit.</p>
+        </div>
+        <span class="admin-status"><i></i> Paiement Viva en attente de connexion</span>
+      </div>
+
+      <div class="admin-notice">
+        <strong>Configuration progressive</strong>
+        <span>Les produits et commandes peuvent être préparés maintenant. Le paiement Viva sera activé lorsque la propriétaire fournira ses accès professionnels.</span>
+      </div>
+
+      <div class="admin-summary" id="summaryGrid"></div>
+
+      <section class="admin-section">
+        <div class="admin-section-head">
+          <div>
+            <div class="admin-kicker">CATALOGUE</div>
+            <h2>Produits</h2>
+          </div>
+          <button class="admin-button admin-button--primary" id="newProductButton" type="button">Ajouter un produit</button>
+        </div>
+
+        <form class="admin-card admin-product-form hidden" id="productForm">
+          <input id="productId" type="hidden">
+          <div class="admin-form-title">
+            <h3 id="productFormTitle">Nouveau produit</h3>
+            <button class="admin-close" id="cancelProductButton" type="button" aria-label="Fermer">×</button>
+          </div>
+          <div class="admin-form-grid">
+            <div>
+              <label for="productName">Nom du produit</label>
+              <input id="productName" type="text" required>
+            </div>
+            <div>
+              <label for="productCategory">Catégorie</label>
+              <select id="productCategory" required>
+                <option value="fleurs">Fleurs CBD</option>
+                <option value="resines">Résines</option>
+                <option value="bien-etre">Bien-être, huiles & cosmétiques</option>
+                <option value="wood-shop">WOOD Shop & vêtements</option>
+              </select>
+            </div>
+            <div>
+              <label for="productPrice">Prix en euros</label>
+              <input id="productPrice" type="number" min="0" step="0.01" placeholder="Ex. 12,90">
+            </div>
+            <div>
+              <label for="productStock">Stock</label>
+              <input id="productStock" type="number" min="0" step="1" value="0" required>
+            </div>
+            <div>
+              <label for="productStatus">Visibilité</label>
+              <select id="productStatus">
+                <option value="draft">Brouillon</option>
+                <option value="published">Publié</option>
+                <option value="archived">Archivé</option>
+              </select>
+            </div>
+            <div class="admin-form-full">
+              <label for="productDescription">Description</label>
+              <textarea id="productDescription" rows="4" placeholder="Profil, format, informations utiles…"></textarea>
+            </div>
+          </div>
+          <div class="admin-form-actions">
+            <button class="admin-button admin-button--primary" type="submit">Enregistrer le produit</button>
+            <button class="admin-button admin-button--ghost" id="cancelProductButtonBottom" type="button">Annuler</button>
+          </div>
+          <p class="admin-message" id="productMessage" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="admin-card admin-table-card">
+          <div class="admin-table-wrap">
+            <table>
+              <thead><tr><th>Produit</th><th>Catégorie</th><th>Prix</th><th>Stock</th><th>Statut</th><th></th></tr></thead>
+              <tbody id="productsBody"><tr><td colspan="6" class="admin-empty">Chargement du catalogue…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="admin-section">
+        <div class="admin-section-head">
+          <div>
+            <div class="admin-kicker">VENTES</div>
+            <h2>Commandes</h2>
+          </div>
+        </div>
+        <div class="admin-card admin-table-card">
+          <div class="admin-table-wrap">
+            <table>
+              <thead><tr><th>Date</th><th>Client</th><th>Total</th><th>Paiement</th><th>Commande</th></tr></thead>
+              <tbody id="ordersBody"><tr><td colspan="5" class="admin-empty">Chargement des commandes…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
