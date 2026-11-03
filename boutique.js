@@ -61,6 +61,42 @@
     if (trigger) trigger.setAttribute('aria-expanded', String(open));
   }
 
+  function enhanceFlowerCards() {
+    if (document.querySelector('main[data-catalog-category="fleurs"]')) {
+      document.querySelectorAll('main[data-catalog-category="fleurs"] .product-card').forEach(card => {
+        const index = card.querySelector('.product-index');
+        const description = card.querySelector('.product-body > p');
+        const category = index?.textContent || '';
+        if (index && description) {
+          if (category.includes('STRONG')) {
+            index.textContent = category.replace('STRONG', 'CBD BOOSTÉ (STRONG)');
+            description.textContent = 'CBD Boosté (strong). Choisissez le grammage souhaité.';
+          } else if (category.includes('MEDIUM')) {
+            index.textContent = category.replace('MEDIUM', 'CBD SOFT (MEDIUM)');
+            description.textContent = 'CBD Soft (medium). Choisissez le grammage souhaité.';
+          } else if (category.includes('FLEURS CBD')) {
+            index.textContent = category.replace('FLEURS CBD', 'CBD CLASSIQUE');
+            description.textContent = 'CBD classique. Choisissez le grammage souhaité.';
+          }
+        }
+
+        const choice = card.querySelector('.product-choice');
+        const meta = card.querySelector('.product-meta');
+        const select = choice?.querySelector('[data-product-weight]');
+        const price = meta?.querySelector('[data-product-price-label]');
+        const button = meta?.querySelector('.add-to-cart');
+        if (!choice || !meta || !select || !price || !button || choice.dataset.enhanced === 'true') return;
+        Array.from(select.options).forEach(option => { option.textContent = option.dataset.label || option.textContent; });
+        const row = document.createElement('div');
+        row.className = 'product-buy-row';
+        row.append(select, price, button);
+        choice.replaceChildren(row);
+        choice.dataset.enhanced = 'true';
+        meta.remove();
+      });
+    }
+  }
+
   function selectedVariant(card) {
     const select = card.querySelector('[data-product-weight]');
     if (!select) return { id: card.dataset.productId, name: card.dataset.productName, price: card.dataset.productPrice || '', label: '' };
@@ -73,7 +109,7 @@
     const card = select.closest('.product-card');
     const label = card?.querySelector('[data-product-price-label]');
     const option = select.options[select.selectedIndex];
-    if (label && option) label.textContent = priceLabel({ price: option.dataset.price || '' });
+    if (label && option) label.textContent = `${option.dataset.label || option.textContent} · ${priceLabel({ price: option.dataset.price || '' })}`;
   }
 
   function addProduct(card) {
@@ -92,7 +128,9 @@
   function initCart() {
     const trigger = document.getElementById('cartTrigger');
     if (!trigger) return;
+    enhanceFlowerCards();
     ensureCartPanel(); renderCart();
+    document.querySelectorAll('[data-product-weight]').forEach(updateProductPrice);
     trigger.addEventListener('click', () => setCartOpen(!document.getElementById('cartPanel').classList.contains('is-open')));
     document.addEventListener('click', event => {
       const close = event.target.closest('[data-cart-close]');
