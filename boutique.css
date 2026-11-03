@@ -70,4 +70,4 @@ a{color:inherit;text-decoration:none}button{font:inherit}img{max-width:100%;disp
 
 /* Medium desktop/laptop widths keep the three-card rhythm without squeezing the purchase controls. */
 @media (min-width:501px) and (max-width:1100px){.product-buy-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}.product-buy-row .product-gram-control{grid-column:1/-1;width:100%;justify-content:center}.product-buy-row .product-price-label{text-align:left}.product-buy-row .add-to-cart{width:100%}}
-@media (max-width:500px){.section-title{font-size:clamp(38px,14vw,55px);line-height:.9}.shop-section{scroll-margin-top:118px}}
+@media (max-width:500px){.section-title{font-size:clamp(38px,14vw,55px);line-height:.9}.shop-section,#selection-title{scroll-margin-top:118px}.product-grid .product-card h3{min-height:2.1em}}
