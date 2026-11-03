@@ -61,11 +61,26 @@
     if (trigger) trigger.setAttribute('aria-expanded', String(open));
   }
 
+  function selectedVariant(card) {
+    const select = card.querySelector('[data-product-weight]');
+    if (!select) return { id: card.dataset.productId, name: card.dataset.productName, price: card.dataset.productPrice || '', label: '' };
+    const option = select.options[select.selectedIndex];
+    const label = option.dataset.label || option.textContent.split('·')[0].trim();
+    return { id: `${card.dataset.productId}:${option.value}`, name: `${card.dataset.productName} · ${label}`, price: option.dataset.price || '', label };
+  }
+
+  function updateProductPrice(select) {
+    const card = select.closest('.product-card');
+    const label = card?.querySelector('[data-product-price-label]');
+    const option = select.options[select.selectedIndex];
+    if (label && option) label.textContent = priceLabel({ price: option.dataset.price || '' });
+  }
+
   function addProduct(card) {
-    const id = card.dataset.productId;
-    const existing = cart.find(item => item.id === id);
-    const item = { id, name: card.dataset.productName, category: card.dataset.productCategory, price: card.dataset.productPrice || '', quantity: existing ? existing.quantity + 1 : 1 };
-    cart = existing ? cart.map(entry => entry.id === id ? item : entry) : [...cart, item];
+    const variant = selectedVariant(card);
+    const existing = cart.find(item => item.id === variant.id);
+    const item = { id: variant.id, productId: card.dataset.productId, name: variant.name, category: card.dataset.productCategory, price: variant.price, weight: variant.label, quantity: existing ? existing.quantity + 1 : 1 };
+    cart = existing ? cart.map(entry => entry.id === variant.id ? item : entry) : [...cart, item];
     writeCart(cart); renderCart(); setCartOpen(true);
   }
 
@@ -89,6 +104,10 @@
         const item = qty.closest('.cart-item');
         if (item?.dataset.itemId) updateQuantity(item.dataset.itemId, qty.dataset.remove !== undefined ? -999 : (qty.dataset.qty === 'plus' ? 1 : -1));
       }
+    });
+    document.addEventListener('change', event => {
+      const weight = event.target.closest('[data-product-weight]');
+      if (weight) updateProductPrice(weight);
     });
     document.addEventListener('keydown', event => { if (event.key === 'Escape') setCartOpen(false); });
   }
