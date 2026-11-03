@@ -1,5 +1,6 @@
 (() => {
   const STORAGE_KEY = 'wood-cart-v1';
+  const ORDER_MODE_KEY = 'wood-order-mode-v1';
   const readCart = () => {
     try {
       const value = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
@@ -19,6 +20,16 @@
   };
   const cartCount = () => cart.reduce((sum, item) => sum + item.quantity, 0);
   const calculateFlowerPrice = (grams, tiers) => window.WoodFlowerPricing?.calculateFlowerPrice?.(grams, tiers) || { price: '', breakdown: [] };
+  const getOrderMode = id => window.WoodOrderOptions?.getOrderMode?.(id) || null;
+  const readOrderMode = () => {
+    try {
+      const id = localStorage.getItem(ORDER_MODE_KEY) || '';
+      return getOrderMode(id) ? id : '';
+    } catch { return ''; }
+  };
+  const writeOrderMode = id => {
+    try { localStorage.setItem(ORDER_MODE_KEY, id); } catch {}
+  };
   const readFlowerTiers = control => {
     try { return JSON.parse(control?.dataset.tiers || '[]'); } catch { return []; }
   };
@@ -158,9 +169,34 @@
     writeCart(cart); renderCart();
   }
 
+  function updateOrderModeUI(id) {
+    const mode = getOrderMode(id);
+    document.querySelectorAll('[data-order-mode-card]').forEach(card => card.classList.toggle('is-selected', card.dataset.orderModeCard === id));
+    const summary = document.getElementById('orderModeSummary');
+    if (summary) summary.textContent = mode ? `Mode choisi : ${mode.label}${mode.address ? ` · ${mode.address}` : ''}` : 'Choisissez un mode de réception avant le paiement.';
+    const payment = document.getElementById('prepareViva');
+    if (payment) payment.disabled = !mode;
+  }
+
+  function renderOrderModes() {
+    const container = document.getElementById('orderModes');
+    const modes = window.WoodOrderOptions?.getOrderModes?.();
+    if (!container || !modes) return;
+    const selected = readOrderMode();
+    container.innerHTML = modes.map(mode => `<div class="order-mode-card" data-order-mode-card="${mode.id}"><label class="order-mode-select"><input type="radio" name="orderMode" value="${mode.id}"${selected === mode.id ? ' checked' : ''}><span><strong>${mode.label}</strong><span>${mode.description}</span></span></label>${mode.address ? `<div class="order-mode-details"><span>${mode.address}<br>${mode.phone}</span><span class="order-mode-actions"><a href="${mode.routeHref}" target="_blank" rel="noopener noreferrer">Itinéraire ↗</a><a href="${mode.phoneHref}">Appeler ↗</a></span></div>` : ''}</div>`).join('');
+    container.querySelectorAll('input[name="orderMode"]').forEach(input => input.addEventListener('change', () => {
+      if (!input.checked) return;
+      writeOrderMode(input.value);
+      updateOrderModeUI(input.value);
+    }));
+    updateOrderModeUI(selected);
+  }
+
   function initCart() {
     const trigger = document.getElementById('cartTrigger');
     if (!trigger) return;
+    const purchaseNotice = window.WoodOrderOptions?.getPurchaseNotice?.();
+    if (purchaseNotice) document.querySelectorAll('[data-purchase-notice]').forEach(node => { node.textContent = purchaseNotice; });
     enhanceFlowerCards();
     ensureCartPanel(); renderCart();
     document.querySelectorAll('[data-product-weight], [data-product-gram-control]').forEach(updateProductPrice);
@@ -204,6 +240,7 @@
       list.innerHTML = cart.map(item => `<div class="checkout-line"><div><h3>${item.name}</h3><span>${item.category || 'WOOD Shop'} · quantité ${item.quantity}</span></div><strong>${priceLabel(item)}</strong></div>`).join('');
     }
     const total = document.getElementById('checkoutTotal'); if (total) total.textContent = totalLabel();
+    renderOrderModes();
     const message = document.getElementById('checkoutMessage');
     document.querySelectorAll('[data-checkout-mode]').forEach(choice => choice.addEventListener('click', () => {
       if (!message) return;
@@ -212,7 +249,13 @@
     }));
     document.getElementById('prepareViva')?.addEventListener('click', () => {
       if (!message) return;
-      message.textContent = 'Viva Smart Checkout sera appelé ici après la connexion sécurisée du backend. Aucun paiement réel n’est lancé dans cette maquette.';
+      const mode = getOrderMode(readOrderMode());
+      if (!mode) {
+        message.textContent = 'Choisissez d’abord la livraison ou le retrait en boutique.';
+        message.classList.remove('hidden');
+        return;
+      }
+      message.textContent = `Viva Smart Checkout sera appelé ici pour le mode « ${mode.label} » après la connexion sécurisée du backend. Aucun paiement réel n’est lancé dans cette maquette.`;
       message.classList.remove('hidden');
     });
   }
