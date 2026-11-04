@@ -9,11 +9,11 @@ test('le panier gère son dialogue et rend le focus au déclencheur', () => {
   assert.match(boutique, /role="dialog"/);
   assert.match(boutique, /aria-modal="true"/);
   assert.match(boutique, /lastCartTrigger/);
-    assert.match(boutique, /\.focus\(/);
+  assert.match(boutique, /\.focus\(/);
 });
 
 test('le menu mobile conserve le focus et son état accessible', () => {
   assert.match(boutique, /lastMenuTrigger/);
-    assert.match(boutique, /nav\.focus\(/);
+  assert.match(boutique, /nav\.focus\(/);
   assert.match(shell, /aria-label/);
 });
