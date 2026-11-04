@@ -506,9 +506,9 @@ L’audit complet ordinateur/mobile est documenté dans `docs/audits/2026-11-04-
 ### Tâche 44 — Refuser les pop-ups et animations bloquants
 
 - [ ] Ne pas recouvrir le premier affichage avec une collecte d’e-mail ou une promotion.
-- [ ] Ne jamais masquer le prix, le grammage, le stock ou le bouton d’achat.
-- [ ] Respecter `prefers-reduced-motion` et garder une interaction fonctionnelle sans animation.
-- [ ] Tester le focus, la fermeture par `Échap`, le retour du focus au bouton déclencheur et l’absence de piège clavier dans le menu et les panneaux.
+- [x] Ne jamais masquer le prix, le grammage, le stock ou le bouton d’achat.
+- [x] Respecter `prefers-reduced-motion` et garder une interaction fonctionnelle sans animation.
+- [x] Tester le focus, la fermeture par `Échap`, le retour du focus au bouton déclencheur et l’absence de piège clavier dans le menu et les panneaux.
 - [ ] Réserver les animations aux propriétés composées (`transform`, `opacity`) et réserver les dimensions des médias avant chargement.
 
 **Validation :** l’utilisateur peut comprendre et acheter sans fermer une fenêtre avant chaque action.
@@ -942,8 +942,8 @@ Ce bloc ajoute les enseignements de l’audit visuel et fonctionnel de [TealerLa
 
 ### Tâche 62 — Rendre menu et cartes accessibles
 
-- [ ] Utiliser de vrais boutons et liens avec des noms accessibles.
-- [ ] Gérer `aria-expanded`, le focus à l’ouverture, le retour du focus à la fermeture et `Échap`.
+- [x] Utiliser de vrais boutons et liens avec des noms accessibles.
+- [x] Gérer `aria-expanded`, le focus à l’ouverture, le retour du focus à la fermeture et `Échap`.
 - [ ] Garantir un ordre de tabulation logique et une zone tactile confortable.
 - [ ] Vérifier que les animations ne sont jamais indispensables pour comprendre ou acheter.
 
