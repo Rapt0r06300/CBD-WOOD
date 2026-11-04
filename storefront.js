@@ -37,18 +37,30 @@ function renderProducts(grid, products, category) {
   const isFlower = category === 'fleurs';
   grid.innerHTML = products.map((product, index) => {
     const price = formatMoney(product.price_cents);
-    const stockLabel = product.stock_quantity > 0 ? `${product.stock_quantity} en stock` : 'Disponibilité boutique';
     const tiers = Array.isArray(product.pricing_tiers) ? product.pricing_tiers : [];
+    const stock = Number(product.stock_quantity);
+    const hasStock = Number.isFinite(stock) && stock > 0;
+    const hasPrice = isFlower
+      ? tiers.length > 0 && tiers.every((tier) => Number.isFinite(Number(tier.price_cents)) && Number(tier.price_cents) > 0)
+      : Number.isFinite(Number(product.price_cents)) && Number(product.price_cents) > 0;
+    const purchasable = hasStock && hasPrice;
+    const availabilityLabel = !hasStock
+      ? (product.stock_quantity === 0 ? 'Rupture de stock' : 'Disponibilité à confirmer')
+      : !hasPrice ? 'Prix à confirmer' : `${product.stock_quantity} en stock`;
+    const buttonMarkup = purchasable
+      ? '<button class="add-to-cart" type="button">Ajouter <span aria-hidden="true">+</span></button>'
+      : '<button class="add-to-cart" type="button" disabled aria-disabled="true" data-product-unavailable>Indisponible</button>';
     const weightMarkup = isFlower && tiers.length ? `<div class="product-choice"><label for="weight-${escapeHtml(product.id)}">Choisir le grammage</label><select id="weight-${escapeHtml(product.id)}" class="product-weight" data-product-weight aria-label="Choisir le grammage de ${escapeHtml(product.name)}">${tiers.map(tier => `<option value="${tier.grams}g" data-label="${tier.grams} g" data-price="${tier.price_cents / 100}">${tier.grams} g · ${(tier.price_cents / 100).toFixed(2).replace('.', ',')} €</option>`).join('')}</select></div>` : '';
-    const priceMarkup = weightMarkup ? '' : `<div class="product-meta"><span class="product-status">${price ? `${price.replace('.', ',')} €` : stockLabel}</span><button class="add-to-cart" type="button">Ajouter <span aria-hidden="true">+</span></button></div>`;
-    return `<article class="product-card" data-product-id="${escapeHtml(product.id)}" data-product-slug="${escapeHtml(product.slug || product.id)}" data-product-name="${escapeHtml(product.name)}" data-product-category="${escapeHtml(labels[category] || category)}" data-product-price="${price}">
+    const priceMarkup = weightMarkup ? '' : `<div class="product-meta"><span class="product-status">${price && purchasable ? `${price.replace('.', ',')} €` : availabilityLabel}</span>${buttonMarkup}</div>`;
+    const flowerMetaMarkup = weightMarkup ? `<div class="product-meta">${purchasable ? '<strong class="product-price-label" data-product-price-label></strong>' : `<span class="product-status">${availabilityLabel}</span>`}${buttonMarkup}</div>` : '';
+    return `<article class="product-card" data-product-id="${escapeHtml(product.id)}" data-product-slug="${escapeHtml(product.slug || product.id)}" data-product-name="${escapeHtml(product.name)}" data-product-category="${escapeHtml(labels[category] || category)}" data-product-price="${price}"${purchasable ? '' : ' data-product-unavailable="true"'}>
       <div class="product-art">${productVisual(product, category)}</div>
       <div class="product-body">
         <span class="product-index">${String(index + 1).padStart(2, '0')} / WOOD CATALOGUE</span>
         <h3>${escapeHtml(product.name)}</h3>
         <p>${escapeHtml(product.description || 'Une référence sélectionnée par la boutique WOOD.')}</p>
         ${weightMarkup}${priceMarkup}
-        ${weightMarkup ? '<div class="product-meta"><strong class="product-price-label" data-product-price-label></strong><button class="add-to-cart" type="button">Ajouter <span aria-hidden="true">+</span></button></div>' : ''}
+        ${flowerMetaMarkup}
       </div>
     </article>`;
   }).join('');

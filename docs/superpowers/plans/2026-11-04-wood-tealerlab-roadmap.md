@@ -978,10 +978,10 @@ Cette extension reprend des mécanismes utiles observés sur les pages produit, 
 ### Tâche 66 — Préparer les états de stock et de disponibilité
 
 - [ ] Définir une carte claire pour `disponible`, `bientôt disponible`, `rupture` et `information à compléter`.
-- [ ] Désactiver l’ajout au panier en rupture au lieu de laisser un bouton ambigu.
-- [ ] Désactiver aussi l’ajout au panier pour toute carte sans prix validé, sans stock exploitable ou marquée `bientôt disponible` ; ne jamais créer une commande « à confirmer » par un simple clic.
+- [x] Désactiver l’ajout au panier en rupture au lieu de laisser un bouton ambigu.
+- [x] Désactiver aussi l’ajout au panier pour toute carte sans prix validé, sans stock exploitable ou marquée `bientôt disponible` ; ne jamais créer une commande « à confirmer » par un simple clic.
 - [ ] Éviter tout espace vide ou changement de hauteur quand l’état d’un produit arrive depuis Supabase.
-- [ ] Ne jamais afficher un stock inventé avant que la propriétaire ait renseigné les stocks réels.
+- [x] Ne jamais afficher un stock inventé avant que la propriétaire ait renseigné les stocks réels.
 
 **Validation :** le client sait immédiatement s’il peut commander et aucune commande impossible ne peut être créée.
 

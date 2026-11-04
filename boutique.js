@@ -21,6 +21,7 @@
   const cartCount = () => cart.reduce((sum, item) => sum + item.quantity, 0);
   const calculateFlowerPrice = (grams, tiers) => window.WoodFlowerPricing?.calculateFlowerPrice?.(grams, tiers) || { price: '', breakdown: [] };
   const maxFlowerGrams = 50;
+  const hasBackendCatalog = Boolean(window.WOOD_SUPABASE_CONFIG?.url && window.WOOD_SUPABASE_CONFIG?.publishableKey);
   const getOrderMode = id => window.WoodOrderOptions?.getOrderMode?.(id) || null;
   const readOrderMode = () => {
     try {
@@ -208,7 +209,22 @@
     if (label && option) label.textContent = `${option.dataset.label || option.textContent} · ${priceLabel({ price: option.dataset.price || '' })}`;
   }
 
-  function addProduct(card) {
+  function markFallbackCatalogUnavailable() {
+    if (!hasBackendCatalog) return;
+    document.querySelectorAll('main[data-catalog-category] .product-card').forEach(card => {
+      const button = card.querySelector('.add-to-cart');
+      if (!button || card.dataset.productUnavailable === 'true') return;
+      card.dataset.productUnavailable = 'true';
+      button.disabled = true;
+      button.setAttribute('aria-disabled', 'true');
+      button.setAttribute('data-product-unavailable', 'true');
+      button.dataset.productUnavailable = 'true';
+      button.textContent = 'Indisponible';
+    });
+  }
+
+  function addProduct(card, button) {
+    if (!card || button?.disabled || card.dataset.productUnavailable === 'true' || button?.dataset.productUnavailable !== undefined) return;
     const variant = selectedVariant(card);
     const existing = cart.find(item => item.id === variant.id);
     const item = { id: variant.id, productId: card.dataset.productId, name: variant.name, category: card.dataset.productCategory, price: variant.price, weight: variant.label, quantity: existing ? existing.quantity + 1 : 1 };
@@ -262,6 +278,7 @@
     };
     window.WoodShopRefreshCatalog = refreshCatalogEnhancements;
     document.addEventListener('wood:catalog-rendered', refreshCatalogEnhancements);
+    markFallbackCatalogUnavailable();
     refreshCatalogEnhancements();
     ensureCartPanel(); renderCart();
     trigger.addEventListener('click', () => setCartOpen(!document.getElementById('cartPanel').classList.contains('is-open')));
@@ -286,7 +303,7 @@
       const close = event.target.closest('[data-cart-close]');
       if (close) setCartOpen(false);
       const button = event.target.closest('.add-to-cart');
-      if (button) addProduct(button.closest('.product-card'));
+      if (button) addProduct(button.closest('.product-card'), button);
       const qty = event.target.closest('.cart-qty');
       if (qty) {
         const item = qty.closest('.cart-item');
