@@ -1,3 +1,4 @@
 supabase/.temp/
 test-results/
 .superpowers/
+.playwright-cli/

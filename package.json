@@ -1,0 +1,11 @@
+{
+  "name": "cbd-wood-static-site",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "test": "node --test",
+    "audit": "node scripts/static-audit.mjs",
+    "check:js": "node scripts/check-js.mjs",
+    "check": "npm run test && npm run check:js && npm run audit"
+  }
+}
