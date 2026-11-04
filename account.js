@@ -82,6 +82,12 @@ async function saveCustomerProfile(user, values = {}) {
   if (error) throw error;
 }
 
+async function getValidatedUser() {
+  const { data: { user }, error } = await supabase.auth.getUser();
+  if (error) throw error;
+  return user;
+}
+
 async function showAccount(user) {
   const [{ data: profile }, { data: orders, error: ordersError }, { data: owner, error: ownerError }] = await Promise.all([
     supabase.from('customer_profiles').select('full_name, phone').eq('id', user.id).maybeSingle(),
@@ -170,11 +176,17 @@ async function boot() {
   });
   const { data: { session } } = await supabase.auth.getSession();
   if (session?.user) {
-    try { await showAccount(session.user); } catch (error) { showMessage(error.message || 'Impossible de charger votre espace.', true); }
+    try {
+      const user = await getValidatedUser();
+      if (user) await showAccount(user);
+      else showLogin();
+    } catch (error) { showMessage(error.message || 'Impossible de charger votre espace.', true); }
   }
   supabase.auth.onAuthStateChange((event, nextSession) => {
     if (event === 'SIGNED_OUT') showLogin();
-    if (event === 'SIGNED_IN' && nextSession?.user && dashboard?.classList.contains('hidden')) void showAccount(nextSession.user);
+    if (event === 'SIGNED_IN' && nextSession?.user && dashboard?.classList.contains('hidden')) {
+      void getValidatedUser().then(user => user && showAccount(user)).catch(error => showMessage(error.message || 'Impossible de valider votre session.', true));
+    }
   });
 }
 

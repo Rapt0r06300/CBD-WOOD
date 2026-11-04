@@ -22,6 +22,11 @@ video {
   color: currentColor;
 }
 
+.nav-menu-label,
+.nav-menu-mobile-only {
+  display: none;
+}
+
 @media (any-pointer: coarse) {
   .btn,
   .nav-cta,
@@ -62,6 +67,20 @@ video {
 }
 
 @media (max-width: 640px) {
+  .nav-menu-label {
+    display: block;
+    padding: 15px 10px 7px;
+    color: var(--lime, #cbf096);
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .nav-menu-mobile-only {
+    display: flex;
+  }
+
   .announcement {
     padding-inline: 10px;
     letter-spacing: 1.4px;

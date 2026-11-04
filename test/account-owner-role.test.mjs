@@ -18,6 +18,9 @@ test('owner dashboard is present inside the account and hidden before role confi
   assert.match(accountPage, /class="[^"]*owner-dashboard[^\"]*hidden[^"]*"[^>]*id="ownerDashboard"/);
   assert.match(accountPage, /id="ownerDashboard"[\s\S]*id="ownerProductsBody"/);
   assert.match(accountPage, /id="ownerDashboard"[\s\S]*id="ownerOrdersBody"/);
+  assert.match(accountPage, /id="ownerDashboard"[\s\S]*id="owner-settings-title"/);
+  assert.match(accountPage, /frais et délais à confirmer/);
+  assert.match(accountPage, /Promotions<\/strong><span>Désactivées pour le moment/);
   assert.match(accountSource, /owner-dashboard\.js/);
 });
 
@@ -26,6 +29,8 @@ test('owner access is determined by the owner_users record, never a hardcoded em
   assert.match(accountSource, /ownerDashboardLink/);
   assert.match(accountSource, /ownerDashboard/);
   assert.match(accountSource, /mountOwnerDashboard/);
+  assert.match(accountSource, /async function getValidatedUser\(\)/);
+  assert.match(accountSource, /supabase\.auth\.getUser\(\)/);
   assert.doesNotMatch(accountSource, /bermond\.florent06@gmail\.com/i);
 });
 

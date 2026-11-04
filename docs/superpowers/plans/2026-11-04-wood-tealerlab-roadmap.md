@@ -64,17 +64,19 @@
 
 ## État de vérification locale — 4 novembre 2026
 
-- `npm run check` passe avec **66 tests**, la syntaxe JavaScript contrôlée sur 24 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **68 tests**, la syntaxe JavaScript contrôlée sur 24 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **33 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - Le contrôle responsive Playwright confirme l’absence de débordement horizontal sur les **70 combinaisons** (10 routes publiques × `320`, `375`, `390`, `430`, `768`, `1024`, `1440`), avec des titres non vides et la navigation mobile chargée sur les vues étroites.
 - La disponibilité est maintenant une donnée Supabase explicite (`available`, `soon`, `rupture`, `incomplete`) et le serveur refuse de traiter un produit qui n’est pas `available`.
 - Le projet Supabase connecté possède maintenant la colonne `availability_state` ; la fonction de commande vérifie cet état et le calcul serveur refuse les grammages intermédiaires tout en facturant 50 g comme deux lots de 25 g.
 - Le contrôle navigateur confirme que l’ouverture du panier donne le focus à son dialogue (`role="dialog"`, `aria-modal="true"`) et que `Échap` le ferme en rendant le focus au bouton déclencheur ; le menu applique le même retour de focus dans le code testé.
-- Le dernier contrôle distant Supabase signale une seule alerte sécurité active : la protection contre les mots de passe compromis est désactivée ; la tâche 46 reste donc ouverte et doit être activée dans Auth avant production. Les sept avis de performance sont informatifs (index encore inutilisés sur une base sans trafic, dont le nouvel index d’historique) et ne justifient pas une suppression prématurée.
+- Le dernier contrôle distant Supabase signale une seule alerte sécurité active : la protection contre les mots de passe compromis est désactivée ; la tâche 46 reste donc ouverte et doit être activée dans Auth avant production. Les huit avis de performance sont informatifs (index encore inutilisés sur une base sans trafic, dont les index d’historique et d’outbox) et ne justifient pas une suppression prématurée.
 - Ces preuves ne remplacent pas la recette finale des orientations, du clavier virtuel, des navigateurs réels, des réglages Auth/Turnstile/e-mail et des sauvegardes Supabase : ces points restent volontairement ouverts dans les tâches concernées.
 - Une copie `dist-hostinger` servie depuis sa racine a également été parcourue : les 10 routes principales répondent, `/admin.html` répond 404 et la largeur reste contenue à 390 px.
 - Le panier nettoie les données locales avant réutilisation, échappe les valeurs affichées, plafonne une quantité locale à 99, se resynchronise entre onglets et garde le focus dans son dialogue au clavier ; ces garde-fous sont couverts par `test/cart-resilience.test.mjs`.
 - La tentative d’enregistrement de commande possède aussi un délai maximum, annule une requête bloquée et laisse le panier intact avec un message de reprise ; `test/order-client-resilience.test.mjs` le vérifie.
+- Le menu public mobile regroupe maintenant les quatre univers WOOD et les accès rapides `Nous trouver`, `FAQ`, `Compte` et `Panier`, sans exposer l’administration ; `test/navigation-accessibility.test.mjs` le vérifie.
+- La FAQ d’accueil couvre maintenant la livraison disponible, le compte invité et l’état séparé de Viva sans inventer de frais, délais ou promotions ; `test/location-contact.test.mjs` le vérifie.
 - La migration locale `20261104150000_order_status_history.sql` a été appliquée au projet Supabase sous `20261104215031_order_status_history` ; la table est protégée par RLS, le trigger est présent et aucune commande n’existait au moment du contrôle.
 - La migration locale `20261104160000_order_notification_outbox.sql` a été appliquée au projet Supabase sous `20261104220305_order_notification_outbox` ; la file est idempotente, protégée par RLS, vide au contrôle et ne lance aucun e-mail tant qu’aucun fournisseur n’est configuré.
 
@@ -286,7 +288,7 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 - [x] Créer un rôle client par défaut pour chaque nouvelle inscription.
 - [x] Définir l’admin dans `app_metadata` ou une table de rôles protégée, jamais dans `user_metadata` modifiable par le client.
-- [ ] Vérifier les autorisations côté serveur avec l’utilisateur réel et ne pas considérer un JWT ancien comme une preuve définitive après changement de rôle.
+- [x] Vérifier les autorisations côté serveur avec l’utilisateur réel et ne pas considérer un JWT ancien comme une preuve définitive après changement de rôle ; `compte.html` valide désormais l’utilisateur via `auth.getUser()` avant de monter le tableau de bord propriétaire.
 - [x] Afficher le bouton de gestion dès la connexion uniquement si le rôle admin est confirmé.
 - [x] Ne jamais exposer les produits, stocks ou commandes d’administration aux comptes clients.
 - [x] Ne pas conserver de route `admin.html` : un visiteur ou un client ne reçoit aucune interface administrative et aucune donnée admin.
@@ -320,7 +322,7 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 ### Tâche 24 — Simplifier l’espace propriétaire
 
 - [x] Première vue après connexion admin : commandes à traiter et alertes importantes.
-- [ ] Sections simples : commandes, produits, stocks, paramètres ; afficher la rubrique promotions uniquement lorsqu’elle sera activée et validée.
+- [x] Sections simples : commandes, produits, stocks, paramètres ; afficher la rubrique promotions uniquement lorsqu’elle sera activée et validée. La section paramètres expose seulement la livraison disponible, Viva en attente et les promotions désactivées, sans inventer de frais ou de délais.
 - [x] Actions limitées et explicites : ajouter, modifier, désactiver via l’état de disponibilité, et mettre à jour l’état de traitement.
 - [x] Éviter toute déconnexion automatique pendant une session active raisonnable ; la session Supabase est persistante et auto-rafraîchie, avec message clair si son chargement échoue.
 - [x] Rendre cette vue dans l’espace compte après vérification du rôle ; la propriétaire voit les commandes et alertes en premier, tandis qu’un client voit uniquement son compte.
@@ -489,7 +491,7 @@ L’audit complet ordinateur/mobile est documenté dans `docs/audits/2026-11-04-
 - [x] Vérifier que les quatre labels de la barre basse ne se chevauchent pas.
 - [x] Conserver les mêmes icônes, couleurs et destinations.
 
-**Validation :** aucun libellé n’est tronqué dans les captures mobile. Vérifié à 390 × 844 avec cache CSS invalidé, puis `npm run check` : 66 tests passés, syntaxe JavaScript validée et audit statique OK.
+**Validation :** aucun libellé n’est tronqué dans les captures mobile. Vérifié à 390 × 844 avec cache CSS invalidé, puis `npm run check` : 68 tests passés, syntaxe JavaScript validée et audit statique OK.
 
 ### Tâche 42 — Étendre l’audit responsive à toutes les pages
 
@@ -873,10 +875,10 @@ Ce bloc ajoute les enseignements de l’audit visuel et fonctionnel de [TealerLa
 
 ### Tâche 54 — Construire le menu éditorial WOOD
 
-- [ ] Créer un panneau compact structuré par `Fleurs`, `Résines`, `Cosmétiques & huiles` et `Textile & produits dérivés`.
-- [ ] Ajouter `Panier`, `Compte`, `Nous trouver` et `FAQ` comme accès rapides.
+- [x] Créer un panneau compact structuré par `Fleurs`, `Résines`, `Cosmétiques & huiles` et `Textile & produits dérivés` dans le menu mobile, sans modifier l’en-tête desktop.
+- [x] Ajouter `Panier`, `Compte`, `Nous trouver` et `FAQ` comme accès rapides.
 - [ ] Ajouter des sous-menus avec `Retour au menu`, sans énorme mega-menu.
-- [ ] Ne jamais afficher l’administration, les stocks ou les commandes dans le menu public.
+- [x] Ne jamais afficher l’administration, les stocks ou les commandes dans le menu public ; un test parcourt toutes les pages publiques.
 
 **Validation :** le menu est lisible, accessible et cohérent sur PC, tablette et mobile.
 
@@ -986,10 +988,10 @@ Cette extension reprend des mécanismes utiles observés sur les pages produit, 
 
 ### Tâche 65 — Ajouter un guide de choix WOOD sans recherche ni filtre
 
-- [ ] Ajouter en haut de chaque univers une courte introduction expliquant ce que l’on trouve dans la catégorie.
+- [x] Ajouter en haut de chaque univers une courte introduction expliquant ce que l’on trouve dans la catégorie.
 - [ ] Ajouter, si la propriétaire le valide, un mini-guide très simple : `CBD boosté (strong)`, `CBD soft (medium)` et `CBD classique`.
-- [ ] Ne pas ajouter de recherche par nom ni de filtre, conformément à la demande de la propriétaire.
-- [ ] Ne pas transformer le guide en promesse d’effet, conseil médical ou classement non vérifié.
+- [x] Ne pas ajouter de recherche par nom ni de filtre, conformément à la demande de la propriétaire.
+- [x] Ne pas transformer le guide en promesse d’effet, conseil médical ou classement non vérifié.
 
 **Validation :** le client comprend la catégorie en quelques secondes sans complexifier la boutique.
 
@@ -1032,9 +1034,9 @@ Cette extension reprend des mécanismes utiles observés sur les pages produit, 
 
 ### Tâche 70 — Construire une FAQ courte et sûre
 
-- [ ] Répondre seulement aux questions confirmées : produits, grammage, paiement, livraison, compte et données personnelles.
-- [ ] Prévoir un format accordéon accessible, utilisable au clavier et au toucher.
-- [ ] Ne pas copier les réponses de TealerLab et ne pas faire de promesse juridique ou médicale.
+- [x] Répondre seulement aux questions confirmées : produits, paiement, livraison et compte ; les données personnelles restent hors réponse tant que la politique n’est pas validée.
+- [x] Prévoir un format accordéon accessible, utilisable au clavier et au toucher.
+- [x] Ne pas copier les réponses de TealerLab et ne pas faire de promesse juridique ou médicale.
 - [ ] Vérifier que les réponses restent cohérentes avec les règles de livraison que la propriétaire doit encore préciser.
 
 **Validation :** la FAQ réduit les hésitations sans créer d’engagement commercial non validé.
