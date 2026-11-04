@@ -10,7 +10,7 @@
 
 **Référence :** audit de [TealerLab](https://tealerlab.com/), site actuel WOOD, échanges avec la propriétaire et exigences de Florent.
 
-**Contrôle de cohérence :** cette feuille contient 76 tâches uniques, numérotées de 1 à 76. Les tâches 75 et 76 ajoutent les deux garde-fous indispensables à une ouverture commerciale : conformité éditoriale/légale et continuité des données. Les décisions commerciales inconnues restent bloquées ; elles ne peuvent pas être déduites par le code.
+**Contrôle de cohérence :** cette feuille contient 76 tâches principales uniques, numérotées de 1 à 76. Elle contient aussi un addendum de sous-tâches visuelles `A01–A40` : ces sous-tâches détaillent la refonte de l’accueil et des cartes sans modifier le contrat de numérotation testé par le dépôt. Les tâches 75 et 76 ajoutent les deux garde-fous indispensables à une ouverture commerciale : conformité éditoriale/légale et continuité des données. Les décisions commerciales inconnues restent bloquées ; elles ne peuvent pas être déduites par le code.
 
 **Architecture d’administration retenue :** après connexion, le compte dont le rôle propriétaire est confirmé affiche directement le tableau de bord dans `compte.html`. Les nouveaux comptes restent clients. Aucun fichier ou route `admin.*` n’est publié ; RLS et les fonctions serveur restent obligatoires.
 
@@ -80,6 +80,8 @@
 - Le tableau de bord propriétaire affiche maintenant l’état de la file `order_notification_outbox` (`à envoyer`, `en cours`, `envoyé`, `échec`) sans présenter l’envoi comme actif ; `test/order-notification-outbox.test.mjs` le vérifie.
 - La migration locale `20261104150000_order_status_history.sql` a été appliquée au projet Supabase sous `20261104215031_order_status_history` ; la table est protégée par RLS, le trigger est présent et aucune commande n’existait au moment du contrôle.
 - La migration locale `20261104160000_order_notification_outbox.sql` a été appliquée au projet Supabase sous `20261104220305_order_notification_outbox` ; la file est idempotente, protégée par RLS, vide au contrôle et ne lance aucun e-mail tant qu’aucun fournisseur n’est configuré.
+- Le 5 novembre 2026, l’accueil officiel [TealerLab](https://tealerlab.com/) a été revu avec Exa, Parallel Search et un navigateur réel en desktop et en viewport mobile `390 × 844`. L’audit confirme une architecture de sections réutilisables, des rails de cartes produits, une hiérarchie de fiche dense et une version mobile réellement recomposée ; ces constats sont traduits dans les sous-tâches `A01–A40` ci-dessous.
+- Cette observation ne valide aucun changement graphique WOOD : elle sert uniquement de référence d’inspiration. Les couleurs, le logo, la typographie, la carte, les prix et les contraintes de la propriétaire restent prioritaires.
 
 ## Phase 0 — Sécuriser l’existant avant toute évolution
 
@@ -975,13 +977,108 @@ Ce bloc ajoute les enseignements de l’audit visuel et fonctionnel de [TealerLa
 
 **Validation :** aucune mise en ligne ou transfert tant qu’une régression, un décalage ou une décision graphique non validée subsiste.
 
+## Addendum — audit approfondi de l’architecture d’accueil TealerLab et traduction WOOD
+
+Audit effectué le 5 novembre 2026 sur [l’accueil](https://tealerlab.com/), [le catalogue](https://tealerlab.com/collections/all), [la collection fleurs](https://tealerlab.com/collections/nos-fleurs) et [une fiche produit](https://tealerlab.com/products/echantillons-resines). TealerLab est une **référence d’expérience et de placement**, pas une autorité graphique : WOOD garde intégralement son identité.
+
+### Ce qui a été observé sur ordinateur
+
+- La page commence par un bandeau d’annonce, puis un en-tête global qui sépare clairement marque, menu, recherche, compte/fidélité et panier.
+- Le hero occupe la première scène : visuel très grand, promesse courte, action principale et preuve immédiatement visible.
+- Chaque grande section réutilise le même patron : petit libellé éditorial, titre fort, éventuellement `Voir tout`, puis un rail ou une grille.
+- Les produits ne sont pas présentés dans un seul catalogue monotone : ils sont regroupés en séquences éditoriales distinctes (`sélection`, fleurs, résines, nouveautés, etc.).
+- Une carte produit réutilise un composant stable : média, badge, titre, preuve éventuelle, variantes, prix hiérarchisé, prix au gramme, état de stock et action d’ajout.
+- La page termine par des blocs de réassurance, FAQ, contenu éditorial, communauté et footer repliable. Cette longue narration explique pourquoi l’accueil paraît travaillé, mais tout n’est pas nécessaire pour WOOD.
+
+### Ce qui a été observé sur mobile
+
+- Le bandeau et l’en-tête deviennent compacts ; menu, logo, recherche et panier restent les repères principaux.
+- Les rails deviennent des groupes horizontaux à faire défiler dans leur propre zone, sans faire défiler le document entier horizontalement.
+- Les cartes passent en deux colonnes ; leurs contrôles restent dans la carte et l’action d’achat reste visible.
+- Les sections conservent leur ordre mais changent de densité : hero vertical, blocs pleine largeur, carrousels tactiles et footer en accordéons.
+- Le site réel affiche aussi une fenêtre de consentement et des widgets promotionnels dès l’arrivée. WOOD ne doit pas reproduire ce recouvrement : la propriétaire veut une interface simple et aucune promotion pour l’instant.
+
+### Architecture à retenir pour WOOD
+
+1. **Un shell de section partagé** : kicker WOOD, titre, texte court, lien facultatif, contenu.
+2. **Un composant de rail partagé** : grille desktop, grille mobile ou carrousel local selon la section ; jamais de largeur forcée sur `body`.
+3. **Une carte produit unique et paramétrable** : même structure dans l’accueil et les pages boutique, avec des données différentes selon l’univers.
+4. **Un modèle de fiche produit** : média principal, identité du produit, grammage, prix, état de disponibilité, action d’achat et informations complémentaires.
+5. **Un modèle d’état** : photo à venir, disponible, bientôt disponible, rupture, incomplet ; aucun espace vide ou bouton trompeur.
+6. **Un modèle d’animation** : apparition, déplacement léger, zoom de fiche et feedback d’ajout ; les animations ne sont jamais la source de vérité.
+7. **Un modèle de navigation** : desktop aéré, mobile app-like, accès constant au panier, compte et quatre univers ; aucun accès admin public.
+
+### Traduction visuelle WOOD — direction retenue
+
+- Reprendre la **force du placement** TealerLab, mais dans la palette verte/crème/lime WOOD et avec le logo officiel exact.
+- Donner au hero WOOD une mise en scène plus éditoriale : repère `01 / WOOD`, grand message, visuel botanique ou future photo sous cloche, CTA principal et CTA secondaire.
+- Présenter les quatre univers comme quatre entrées éditoriales fortes, pas comme quatre boutons ordinaires.
+- Introduire plus tard une section `Sélection WOOD` de produits réels, avec la même cohérence de cartes sur l’accueil et la boutique.
+- Utiliser la présentation sous cloche comme signature visuelle de qualité ; ne pas la remplacer par des photos génériques du web.
+- Ajouter des stickers, annotations et touches graffiti uniquement dans les zones éditoriales, après réception et validation des références de la propriétaire.
+- Garder les prix calmes et lisibles : pas de faux prix barré, pas de badge promo, pas de faux avis, pas de taux inventé.
+- Conserver la carte actuelle dans `Nous trouver` et ne pas ajouter le retrait en magasin au parcours d’achat.
+
+### Sous-tâches ajoutées — `A01–A40`
+
+Ces sous-tâches détaillent la refonte à exécuter plus tard. Elles ne valent pas validation graphique et ne remplacent aucune décision de la propriétaire.
+
+- [ ] **A01 — Cartographier le shell d’accueil :** bandeau, en-tête, hero, sections, footer et ordre de lecture.
+- [ ] **A02 — Définir les patrons de section :** kicker, titre, texte, lien et contenu avec les espacements WOOD existants.
+- [ ] **A03 — Définir les variantes de section :** pleine largeur, grille, rail tactile, bloc éditorial et FAQ.
+- [ ] **A04 — Figer la hiérarchie desktop :** marque, navigation, découverte, panier et compte sans concurrence visuelle.
+- [ ] **A05 — Figer la hiérarchie mobile :** menu, logo, panier et navigation basse sans doublon ni chevauchement.
+- [ ] **A06 — Placer un bandeau livraison non promotionnel :** visible avant les produits, modifiable à un seul endroit.
+- [ ] **A07 — Recomposer le hero WOOD :** message, visuel, CTA et preuve de marque sans reprendre la campagne TealerLab.
+- [ ] **A08 — Créer la séquence des quatre univers :** fleurs, résines, cosmétiques/huiles et textile/goods.
+- [ ] **A09 — Prévoir un bloc d’introduction par univers :** une phrase utile, aucune promesse d’effet ou de qualité non vérifiée.
+- [ ] **A10 — Créer la future sélection WOOD :** uniquement avec produits, photos, stocks et prix validés.
+- [ ] **A11 — Stabiliser la zone média des cartes :** ratio, hauteur, fond et état photo à venir.
+- [ ] **A12 — Stabiliser la zone d’identification :** univers puis `CBD boosté (strong)`, `CBD soft (medium)` ou `CBD classique`.
+- [ ] **A13 — Stabiliser les titres :** deux lignes maximum avec hauteur réservée et nom complet accessible.
+- [ ] **A14 — Stabiliser le sélecteur de grammes :** départ à 1 g, `−`, valeur, `+`, clavier et toucher.
+- [ ] **A15 — Stabiliser le bloc de prix :** grammage choisi, total et prix au gramme près de l’action.
+- [ ] **A16 — Stabiliser le stock :** disponible, à venir, rupture et incomplet avec actions cohérentes.
+- [ ] **A17 — Interdire les données décoratives inventées :** avis, taux, réductions, économies, badges et chiffres non fournis.
+- [ ] **A18 — Créer la fiche produit WOOD :** grande image, présentation, achat et informations dans cet ordre.
+- [ ] **A19 — Ajouter le zoom de fiche sans saut :** transition courte, centrée, annulable et compatible avec le bouton retour.
+- [ ] **A20 — Prévoir les recommandations :** produits du même univers uniquement, sans détourner l’action d’achat.
+- [ ] **A21 — Mettre en scène la cloche :** emplacement réservé aux vraies photos de la propriétaire et à leurs ratios.
+- [ ] **A22 — Préparer le bloc de réassurance :** conseil, Nice, boutiques et livraison seulement lorsque chaque formulation est validée.
+- [ ] **A23 — Préparer la FAQ WOOD :** accordéon simple, recherche non nécessaire, réponses confirmées uniquement.
+- [ ] **A24 — Préparer le footer :** quatre liens utiles, contacts séparés par boutique, carte conservée et aucun point final ajouté aux noms Barla/Borriglione.
+- [ ] **A25 — Adapter la grille ordinateur :** trois produits par ligne, hauteur de carte alignée et marge régulière.
+- [ ] **A26 — Adapter la grille mobile :** deux colonnes formant quatre cases visibles dans un bloc `2 × 2` quand la largeur le permet.
+- [ ] **A27 — Adapter la tablette :** deux ou trois colonnes selon la largeur réelle, sans dépendre du nom du modèle.
+- [ ] **A28 — Isoler les carrousels :** overflow local contrôlé, boutons précédent/suivant accessibles et aucun débordement de page.
+- [ ] **A29 — Vérifier les zones sûres :** encoche, barre d’outils Safari, orientation et navigation basse.
+- [ ] **A30 — Vérifier les contenus extrêmes :** nom long, prix élevé, absence d’image, état incomplet et texte de FAQ long.
+- [ ] **A31 — Ajouter les apparitions au scroll :** une fois les dimensions réservées, sans déplacer les contrôles.
+- [ ] **A32 — Ajouter le bandeau animé WOOD :** message de service ou de marque, jamais promotion inventée.
+- [ ] **A33 — Ajouter les micro-interactions :** hover desktop, feedback tactile mobile, ajout panier et focus clavier.
+- [ ] **A34 — Respecter `prefers-reduced-motion` :** aucune information ne dépend d’un mouvement.
+- [ ] **A35 — Mesurer la performance :** images, CLS, temps d’interaction et comportement sur réseau lent.
+- [ ] **A36 — Garder les scripts sobres :** pas de dépendance lourde ou de widget tiers nécessaire à l’achat.
+- [ ] **A37 — Tester l’accessibilité :** clavier, lecteur d’écran, contraste, focus, noms accessibles et tailles tactiles.
+- [ ] **A38 — Tester les parcours :** accueil → univers → fiche → panier → compte/checkout, sur desktop et mobile.
+- [ ] **A39 — Comparer avant/après :** captures aux largeurs cibles, aucun changement non expliqué de l’identité WOOD.
+- [ ] **A40 — Faire valider en deux temps :** d’abord `c’est toujours WOOD` par la propriétaire, puis `la présentation est aussi forte que TealerLab` par son conjoint.
+
+### Interdits explicites issus de l’audit
+
+- Ne pas copier la palette noir/blanc/lime, la police, le wordmark, les slogans, les photos, les badges exacts ou les textes de TealerLab.
+- Ne pas importer ses promotions, compteurs, fidélité, parrainage, jeu, newsletter, avis ou preuve sociale sans demande et données WOOD validées.
+- Ne pas reprendre ses pop-ups qui recouvrent l’accueil mobile, ni ses widgets tiers comme conditions de navigation.
+- Ne pas utiliser `overflow: hidden` pour masquer un débordement ; la largeur doit être corrigée à la source.
+- Ne pas transformer WOOD en copie de boutique généraliste : quatre univers, carte WOOD et parcours de grammage restent la structure de référence.
+
 ### Ordre d’exécution de ce nouveau bloc
 
-1. Tâches 49–52 : référence et verrouillage de l’identité WOOD.
-2. Tâches 53–57 : en-tête, menu, cartes et fiches produits.
-3. Tâches 58–59 : visuels et animations après validation des références.
-4. Tâches 60–62 : responsive, performance et accessibilité.
-5. Tâches 63–64 : contenu commercial, recette et validation propriétaire.
+1. Tâches 49–52 puis `A01–A10` : référence, architecture et verrouillage de l’identité WOOD.
+2. Tâches 53–57 puis `A11–A24` : en-tête, menu, cartes, fiche et contenu vérifiable.
+3. Tâches 58–59 puis `A31–A36` : visuels et animations après validation des références.
+4. Tâches 60–62 puis `A25–A30` et `A37` : responsive, performance et accessibilité.
+5. `A38–A40` puis tâches 63–64 : recette, validation propriétaire et validation du conjoint.
 
 ## Bloc de tâches 65 à 74 — éléments supplémentaires récupérés de l’audit TealerLab
 

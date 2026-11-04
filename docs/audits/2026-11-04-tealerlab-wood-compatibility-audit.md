@@ -254,3 +254,76 @@ Contrôle en lecture seule du projet connecté après les migrations additives :
 - Les migrations de disponibilité, de sécurisation des commandes et de garde tarifaire sont enregistrées côté Supabase ; les tarifs intermédiaires restent refusés par le serveur.
 - La migration `order_status_history` est maintenant enregistrée côté Supabase ; la table est protégée par RLS, le trigger `orders_record_status_history` est présent et l’historique est vide car aucune commande n’existe actuellement.
 - L’avis sécurité Supabase restant est `Leaked Password Protection Disabled`. Il doit être activé dans Auth avant l’ouverture commerciale. Les huit avis de performance concernent uniquement des index encore inutilisés sur une base sans trafic et ne justifient pas de suppression préventive.
+
+## 13. Audit approfondi de l’architecture d’accueil — 5 novembre 2026
+
+Une seconde passe a été réalisée sur les pages officielles [Accueil](https://tealerlab.com/), [Produits](https://tealerlab.com/collections/all), [Nos Fleurs](https://tealerlab.com/collections/nos-fleurs) et [Échantillons Résines](https://tealerlab.com/products/echantillons-resines), avec Exa, Parallel Search, l’arbre d’accessibilité du navigateur et un viewport mobile `390 × 844`. Cette section décrit les mécanismes observés et leur adaptation possible ; elle ne transforme pas TealerLab en spécification de WOOD.
+
+### 13.1 Architecture de contenu observée
+
+L’accueil TealerLab est construit comme une suite de modules éditoriaux indépendants, plutôt que comme une seule page hero suivie d’un catalogue :
+
+1. annonce de service ;
+2. en-tête global ;
+3. hero de campagne ;
+4. bandeau défilant ;
+5. cartes de découverte ;
+6. preuve média ;
+7. rail de produits principal ;
+8. guide ou quiz ;
+9. second rail de produits ;
+10. pack ou composition ;
+11. fidélité/parrainage ;
+12. autre rail de produits ;
+13. contenu communautaire vidéo ;
+14. jeu ou animation de marque ;
+15. blog ;
+16. FAQ filtrable ;
+17. statistiques et manifeste de marque ;
+18. newsletter ;
+19. réseaux sociaux ;
+20. footer accordéon.
+
+La leçon utile n’est pas de copier ces vingt modules. C’est de comprendre que chaque module possède un rôle et un rythme : découverte, choix, preuve, transaction, relation. Pour WOOD, le même principe devient une version plus courte : `identité → livraison → univers → sélection → cloche → réassurance → FAQ → boutiques`.
+
+### 13.2 Architecture d’interface observée
+
+- **En-tête :** les actions sont séparées par rôle ; le panier reste une action de premier niveau, la recherche et le compte sont identifiables, et le menu ouvre un espace de navigation distinct.
+- **Sections :** un kicker court précède un titre fort ; un lien `voir tout` reste près du titre ; le contenu vient ensuite. Cette répétition donne un rythme reconnaissable.
+- **Rails :** les sections de découverte et de communauté utilisent des carrousels locaux avec contrôles et pagination ; elles ne devraient pas élargir la page entière.
+- **Carte produit :** le média est la première zone, puis viennent les métadonnées, la variante, le prix et l’action. Les états épuisés désactivent explicitement l’achat.
+- **Fiche produit :** la page commence par le produit et l’achat, puis ajoute les explications, recommandations et FAQ ; l’information commerciale n’est pas enfouie en bas.
+- **FAQ/footer :** la densité est repoussée dans des accordéons, ce qui conserve une page riche sans afficher tout le détail en permanence.
+
+### 13.3 Adaptation exacte à WOOD
+
+| Élément observé | Adaptation WOOD | Garde-fou |
+|---|---|---|
+| Hero de campagne | Hero WOOD botanique/éditorial, future photo sous cloche, message court et deux CTA | Ne pas copier campagne, texte ou visuel TealerLab |
+| Cartes de découverte | Quatre univers WOOD avec une promesse descriptive par carte | Pas de filtre, pas de recherche par nom |
+| Rail produit | `Sélection WOOD` avec cartes riches et achat rapide | Prix, stock et photos doivent être réels |
+| Badges et métadonnées | Univers + niveau `strong/medium/classique` | Aucun taux, avis ou label inventé |
+| Formats | Contrôle `− / grammage / +` à partir de 1 g | Prix par variété issus de l’affiche |
+| Prix | Total choisi + prix au gramme à côté de l’action | Pas de remise générique ni prix barré sans validation |
+| Pack/composition | Hors périmètre pour l’instant | Pas de promotion actuellement |
+| Vidéos/UGC | Emplacement futur pour contenus WOOD validés | Pas de contenu fabriqué ni de widget tiers bloquant |
+| FAQ | Accordéon WOOD court et factuel | Livraison/frais/délais seulement après validation |
+| Footer accordéon | Liens utiles, contacts des deux boutiques et carte actuelle | Noms `BARLA` et `BORRIGLIONE` sans point final |
+
+### 13.4 Responsive : ce qui change réellement
+
+Sur desktop, TealerLab privilégie la densité et la comparaison côte à côte. Sur mobile, il ne se contente pas de réduire les tailles : il recompose l’expérience avec un en-tête compact, des cartes en deux colonnes, des rails tactiles, des blocs pleine largeur et des accordéons. WOOD doit reprendre cette logique de recomposition, mais avec sa grille demandée (`3` cartes desktop, `2 × 2` mobile quand possible) et sa navigation basse app-like.
+
+Les tests WOOD doivent donc vérifier non seulement le nombre de colonnes, mais aussi : largeur interne des carrousels, zone de clic, hauteur réservée, titres longs, prix, encoche, orientation, clavier virtuel, zoom 200 %, `prefers-reduced-motion` et absence de débordement horizontal.
+
+### 13.5 Animations à retenir et animations à refuser
+
+À retenir plus tard : apparition douce des sections, bandeau de marque non promotionnel, déplacement léger du média, transition de fiche, feedback d’ajout au panier et accordéons. À refuser : scroll-jacking, carrousels qui déplacent le document, pop-ups au premier écran, compteurs artificiels, rotations permanentes et animation qui masque un prix ou un bouton.
+
+### 13.6 Décision d’architecture WOOD
+
+La refonte doit créer quelques primitives visuelles partagées — `section-shell`, `product-card`, `product-rail`, `product-detail`, `mobile-nav`, `faq-accordion` — plutôt que des corrections page par page. Les données WOOD alimentent ces primitives : quatre univers, niveaux strong/medium/classique, paliers par fleur, disponibilité, livraison uniquement et compte client/admin séparé par rôle. Cette architecture rend possible une ressemblance forte dans la présentation tout en gardant WOOD propriétaire de ses couleurs, de ses contenus, de ses prix et de son identité.
+
+### 13.7 Source de décision
+
+TealerLab est traité comme **inspiration vérifiée** pour l’architecture de présentation et les interactions. Les messages de la propriétaire, les couleurs, le logo officiel, la carte, les prix de l’affiche, l’absence de promotion, l’absence de retrait et la simplicité pour tous les âges restent les **contraintes d’autorité**. En cas de conflit, WOOD gagne systématiquement.
