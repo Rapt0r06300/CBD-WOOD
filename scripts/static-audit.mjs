@@ -55,7 +55,14 @@ for (const file of publicFiles) {
   if (file !== 'supabase-config.js' && /SUPABASE_SERVICE_ROLE_KEY|VIVA_(?:SECRET|API_KEY|TOKEN)|service_role/i.test(source)) {
     fail(`Secret serveur détecté dans un fichier public : ${file}`);
   }
-  if (file !== 'admin.html' && /admin\.html/i.test(source)) fail(`Accès admin exposé dans la navigation publique : ${file}`);
+  if (file !== 'admin.html' && /admin\.html/i.test(source)) {
+    const ownerOnlyLink = file === 'compte.html'
+      && /<a\b[^>]*class="[^"]*account-owner-link[^"]*hidden[^"]*"[^>]*id="ownerDashboardLink"[^>]*href="admin\.html"/i.test(source);
+    const sourceWithoutOwnerLink = ownerOnlyLink
+      ? source.replace(/<a\b[^>]*id="ownerDashboardLink"[^>]*>[^<]*<\/a>/i, '')
+      : source;
+    if (/admin\.html/i.test(sourceWithoutOwnerLink)) fail(`Accès admin exposé dans la navigation publique : ${file}`);
+  }
   if (file.endsWith('.html')) {
     for (const match of source.matchAll(localReferencePattern)) {
       const raw = match[1].split('#')[0].split('?')[0];

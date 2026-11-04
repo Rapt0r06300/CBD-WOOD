@@ -10,7 +10,7 @@ test('checkout section keeps the shared container gutters', async () => {
     const html = await readFile(new URL(`../${page}`, import.meta.url), 'utf8');
     assert.match(
       html,
-      /boutique\.css\?v=wood-responsive-v4-20261104/,
+      /boutique\.css\?v=wood-responsive-v6-20261104/,
       `${page} doit charger la feuille responsive publiée sans cache obsolète`,
     );
   }

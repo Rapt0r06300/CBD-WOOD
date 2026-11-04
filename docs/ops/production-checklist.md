@@ -17,6 +17,8 @@
 - [ ] Turnstile est configuré côté serveur avant ouverture publique.
 - [ ] La protection contre les mots de passe compromis est activée.
 - [ ] L’utilisateur propriétaire est le seul présent dans `owner_users`.
+- [ ] La migration `customer_account_roles` crée automatiquement le rôle `customer` pour chaque nouveau compte et interdit toute auto-promotion.
+- [ ] Le bouton propriétaire reste masqué pour un client, y compris au clavier ; l’accès réel reste contrôlé par `owner_users` et les RLS.
 - [ ] Les stocks et prix réels sont vérifiés dans le tableau de bord.
 - [ ] `npm run check` passe après chaque changement.
 

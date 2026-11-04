@@ -1,18 +1,32 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/+esm';
 
 const config = window.WOOD_SUPABASE_CONFIG;
-const supabase = config ? createClient(config.url, config.publishableKey) : null;
+const supabase = config ? createClient(config.url, config.publishableKey, {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true
+  }
+}) : null;
 const form = document.querySelector('[data-account-form]');
 const accountCard = document.querySelector('.account-card');
 const dashboard = document.getElementById('accountDashboard');
 const message = document.getElementById('accountMessage');
 const action = document.getElementById('accountAction');
+const ownerDashboardLink = document.getElementById('ownerDashboardLink');
 let mode = 'login';
 
 const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, character => ({ '&': '&#38;', '<': '&#60;', '>': '&#62;', "'": '&#39;', '"': '&#34;' }[character]));
 const formatMoney = cents => `${(Number(cents || 0) / 100).toFixed(2).replace('.', ',')} €`;
 const modeLabels = { delivery: 'Livraison à domicile' };
 const statusLabels = { pending: 'En attente', paid: 'Payée', preparing: 'En préparation', ready: 'Prête', completed: 'Terminée', cancelled: 'Annulée' };
+
+function setOwnerDashboardVisibility(isOwner) {
+  if (!ownerDashboardLink) return;
+  ownerDashboardLink.classList.toggle('hidden', !isOwner);
+  ownerDashboardLink.setAttribute('aria-hidden', String(!isOwner));
+  ownerDashboardLink.tabIndex = isOwner ? 0 : -1;
+}
 
 function showMessage(text, isError = false) {
   if (!message) return;
@@ -39,6 +53,7 @@ function setMode(nextMode) {
 function showLogin() {
   accountCard?.classList.remove('hidden');
   dashboard?.classList.add('hidden');
+  setOwnerDashboardVisibility(false);
 }
 
 function renderOrders(orders) {
@@ -61,11 +76,13 @@ async function saveCustomerProfile(user, values = {}) {
 }
 
 async function showAccount(user) {
-  const [{ data: profile }, { data: orders, error: ordersError }] = await Promise.all([
+  const [{ data: profile }, { data: orders, error: ordersError }, { data: owner, error: ownerError }] = await Promise.all([
     supabase.from('customer_profiles').select('full_name, phone').eq('id', user.id).maybeSingle(),
-    supabase.from('orders').select('order_number, fulfillment_mode, status, total_cents, created_at').eq('customer_id', user.id).order('created_at', { ascending: false }).limit(50)
+    supabase.from('orders').select('order_number, fulfillment_mode, status, total_cents, created_at').eq('customer_id', user.id).order('created_at', { ascending: false }).limit(50),
+    supabase.from('owner_users').select('user_id').eq('user_id', user.id).maybeSingle()
   ]);
   if (ordersError) throw ordersError;
+  setOwnerDashboardVisibility(!ownerError && Boolean(owner));
   accountCard?.classList.add('hidden');
   dashboard?.classList.remove('hidden');
   const welcome = document.getElementById('accountWelcome');

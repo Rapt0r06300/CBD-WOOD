@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#101610">
   <title>Compte client — WOOD CBD Shop Nice</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="boutique.css?v=wood-responsive-v4-20261104">
+  <link rel="stylesheet" href="boutique.css?v=wood-responsive-v6-20261104">
   <link rel="stylesheet" href="responsive.css?v=wood-logo-20261103">
 </head>
 <body>
@@ -25,7 +25,7 @@
       <div class="section-heading"><div><div class="kicker">06 / Mon espace</div><h1 id="account-title" class="section-title">VOTRE <span>COMPTE.</span></h1></div><p class="section-aside">Un espace simple pour retrouver ses commandes et ses informations, sans modifier l'univers WOOD.</p></div>
       <div class="account-card"><div class="account-tabs"><button class="account-tab is-active" type="button" data-account-tab="login">Se connecter</button><button class="account-tab" type="button" data-account-tab="register">Créer un compte</button></div><form class="account-form" data-account-form="" data-backend="supabase"><label for="account-email">E-mail<input id="account-email" name="email" type="email" autocomplete="email" placeholder="votre@email.fr" required></label><label for="account-password">Mot de passe<input id="account-password" name="password" type="password" autocomplete="current-password" placeholder="••••••••" minlength="6" required></label><button class="btn" id="accountAction" type="submit">Se connecter</button></form><p id="accountMessage" class="inline-message hidden" role="status" aria-live="polite"></p><p class="account-note">La connexion est sécurisée par Supabase. Un e-mail de confirmation peut être demandé lors de la création du compte.</p></div>
       <section class="account-dashboard hidden" id="accountDashboard" aria-live="polite">
-        <div class="account-dashboard__head"><div><div class="kicker">ESPACE CLIENT</div><h2>BIENVENUE <span>CHEZ WOOD.</span></h2><p id="accountWelcome" class="account-dashboard__muted"></p></div><button class="btn account-logout" id="accountLogout" type="button">Se déconnecter</button></div>
+        <div class="account-dashboard__head"><div><div class="kicker">ESPACE CLIENT</div><h2>BIENVENUE <span>CHEZ WOOD.</span></h2><p id="accountWelcome" class="account-dashboard__muted"></p></div><div class="account-dashboard__actions"><a class="btn account-owner-link hidden" id="ownerDashboardLink" href="admin.html" aria-hidden="true" tabindex="-1">Ouvrir l’espace propriétaire ↗</a><button class="btn account-logout" id="accountLogout" type="button">Se déconnecter</button></div></div>
         <div class="account-dashboard__grid">
           <form class="account-panel account-form" id="profileForm">
             <div><div class="kicker">MES INFORMATIONS</div><h3>Mon profil</h3></div>
@@ -41,7 +41,7 @@
   </main>
   <footer class="footer"><div class="container"><div class="footer-top"><div class="footer-brand"><div class="footer-logo">WOOD.</div><div class="footer-slogan">Si c'est WOOD, c'est GOOD.</div></div><div><h3>La boutique</h3><div class="footer-links"><a href="fleurs.html">Fleurs CBD</a><a href="resines.html">Résines</a><a href="bien-etre.html">Bien-être</a><a href="wood-shop.html">WOOD Shop</a></div></div><div><h3>Rester en contact</h3><div class="footer-links"><a href="tel:+33422163570">04 22 16 35 70</a><a href="mailto:woodcbdshop@gmail.com">woodcbdshop@gmail.com</a><a href="index.html#boutique">7 rue Barla, 06300 Nice</a></div></div></div><div class="footer-bottom"><span>© <span id="year">2026</span> WOOD — <strong>Maquette de démonstration non officielle.</strong></span><span>Les données du compte sont sécurisées par Supabase.</span></div></div></footer>
   <script src="supabase-config.js"></script>
-  <script type="module" src="account.js?v=wood-account-v2-20261103"></script>
+  <script type="module" src="account.js?v=wood-account-v3-20261104"></script>
   <script src="boutique.js?v=wood-zoom-v3-20261103"></script>
 </body>
 </html>
