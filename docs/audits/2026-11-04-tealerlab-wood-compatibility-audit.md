@@ -342,3 +342,60 @@ La feuille de route couvrait correctement l’interface et le socle de commande,
 - passation propriétaire, guide simple, matrice navigateurs/appareils et transfert Hostinger reproductible.
 
 Ces tags restent des exigences de préparation et ne signifient pas que ces éléments sont déjà activés. Aucune ouverture commerciale ne doit être déclarée tant que les preuves de validation correspondantes ne sont pas réunies.
+
+## 15. Audit visuel et textuel des manques WOOD — 5 novembre 2026
+
+Une comparaison supplémentaire a été faite entre l’accueil WOOD actuellement visible et les versions desktop/mobile de [TealerLab](https://tealerlab.com/), avec contrôle des pages [catalogue](https://tealerlab.com/collections/all), [fleurs](https://tealerlab.com/collections/nos-fleurs) et d’une [fiche produit](https://tealerlab.com/products/tangerine-dream). Le but est de récupérer les mécanismes de présentation que le conjoint de la propriétaire apprécie, pas leurs assets, leur texte, leur palette ou leur identité.
+
+### 15.1 Diagnostic concret de WOOD actuel
+
+La base WOOD est cohérente et reconnaissable : hero éditorial, univers, histoire, expérience, deux boutiques, FAQ et footer. Visuellement, elle reste toutefois plus proche d’une vitrine institutionnelle que d’une boutique éditoriale vivante. Les manques principaux sont :
+
+- un premier écran moins scénarisé qu’une page de campagne : il manque un enchaînement clair `message → découverte → sélection` ;
+- peu de modules intermédiaires qui donnent envie de continuer à parcourir la page ;
+- une sélection de produits et des cartes riches absentes de l’accueil tant que les vrais produits/photos ne sont pas injectés ;
+- une hiérarchie de carte à formaliser : média, niveau `strong/medium/classique`, nom, disponibilité, grammage, prix et action ;
+- une mise en scène des fleurs et résines sous cloche à préparer lorsque les photos de la propriétaire seront disponibles ;
+- des rails locaux, liens `Voir tout`, progressions et états vides à définir pour éviter une page trop statique ;
+- un menu et un footer qui doivent reprendre une organisation plus éditoriale, avec des groupes simples et une version accordéon mobile ;
+- des textes à harmoniser : kickers courts, titres forts, descriptions brèves, microcopies de boutons, états de stock et messages d’erreur ;
+- des accents graffiti, stickers, emojis et humour à intégrer avec mesure, uniquement après réception des références de la propriétaire ;
+- une chorégraphie d’animations à prévoir : révélation au scroll, bandeau de marque, feedback panier et zoom produit, avec version sans mouvement ;
+- une validation visuelle systématique des cartes et sections sur les petits mobiles, tablettes, grands écrans et orientations paysage.
+
+### 15.2 Ce qui est récupérable de TealerLab
+
+| Mécanisme observé | Traduction WOOD | Ce qui reste interdit |
+|---|---|---|
+| Enchaînement de modules indépendants | `hero WOOD → livraison → univers → sélection → cloche → réassurance → FAQ → boutiques` | Copier leur ordre au pixel près ou importer leurs blocs promotionnels |
+| Header d’e-commerce très lisible | Logo, menu, panier, compte et CTA WOOD avec hiérarchie équivalente | Copier leur wordmark, police, icônes ou palette |
+| Cartes produits denses | Média, badges WOOD, nom, grammage, prix total, prix au gramme, stock et ajout | Faux avis, faux taux, prix barrés, promotions ou badges TealerLab |
+| Choix de formats dans la carte | `− / g / +` à partir de 1 g, avec prix spécifique à chaque fleur | Appliquer la grille d’une variété à toutes les autres |
+| Rails/carrousels locaux | Sélection WOOD et produits liés avec overflow limité | Carrousel qui élargit le document ou empêche le clic |
+| Fiche produit approfondie | Photo sous cloche, identité, achat, livraison, qualité et FAQ | Copier leurs descriptions, claims ou visuels |
+| Footer et FAQ repliables | Footer structuré, FAQ courte et accessible, boutiques bien identifiées | Cacher les informations essentielles ou ajouter un retrait non validé |
+| Stickers, emojis, avis visuels et humour | Accents WOOD dosés dans les zones éditoriales après validation | Remplir chaque carte d’emojis ou dégrader la lisibilité premium |
+| Animations de découverte | Révélations douces, zoom stable et feedback d’ajout | Scroll-jacking, popups recouvrants, mouvements permanents |
+
+### 15.3 Règle éditoriale WOOD
+
+Les textes doivent être visuellement plus directs et plus rythmés, sans devenir agressifs :
+
+1. un kicker court (`01 / BOTANICAL`, `02 / TEXTURES`, etc.) ;
+2. un titre WOOD fort et lisible ;
+3. une phrase de contexte qui explique l’univers sans promesse médicale ;
+4. une action claire (`Découvrir`, `Voir la sélection`, `Ajouter au panier`) ;
+5. un état explicite si la photo, le stock, le prix ou la livraison ne sont pas encore confirmés.
+
+Les emojis ne sont pas utilisés comme décoration automatique : ils sont réservés aux annotations, stickers ou repères validés par la propriétaire. Les mêmes règles s’appliquent aux mots humoristiques et aux références graffiti. Les prix, quantités, erreurs, paiements et informations légales restent sobres.
+
+### 15.4 Règle responsive
+
+La ressemblance recherchée doit venir de la recomposition, pas d’un simple zoom du desktop :
+
+- **desktop :** hero en composition forte, navigation complète, trois produits par ligne et sections capables d’alterner pleine largeur, grille et rail ;
+- **mobile :** header compact, navigation basse app-like, grille `2 × 2` lorsque possible, CTA accessibles au pouce, accordéons et rails tactiles locaux ;
+- **tablette :** composition intermédiaire sans forcer trois colonnes si les titres ou contrôles deviennent trop serrés ;
+- **tous supports :** aucun texte coupé, aucun prix déplacé, aucun bouton masqué, aucun défilement horizontal global et aucun saut au chargement.
+
+Ces décisions sont maintenant détaillées dans les tags `A81–A140` de la feuille de route. Les tags ne valident pas encore une nouvelle direction graphique : la propriétaire doit d’abord confirmer que la proposition reste WOOD, puis son conjoint peut confirmer que la puissance de présentation lui rappelle bien TealerLab.
