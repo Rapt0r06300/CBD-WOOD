@@ -327,3 +327,18 @@ La refonte doit créer quelques primitives visuelles partagées — `section-she
 ### 13.7 Source de décision
 
 TealerLab est traité comme **inspiration vérifiée** pour l’architecture de présentation et les interactions. Les messages de la propriétaire, les couleurs, le logo officiel, la carte, les prix de l’affiche, l’absence de promotion, l’absence de retrait et la simplicité pour tous les âges restent les **contraintes d’autorité**. En cas de conflit, WOOD gagne systématiquement.
+
+## 14. Audit des angles morts opérationnels — 5 novembre 2026
+
+La feuille de route couvrait correctement l’interface et le socle de commande, mais elle ne détaillait pas encore toute la chaîne nécessaire à une vente réelle fiable. Les manques identifiés sont maintenant suivis par les tags `A41–A80` de la roadmap :
+
+- identité légale, âge/public autorisé, RGPD, conservation, cookies et droits du compte client ;
+- règles de livraison finales, adresse robuste, préparation, expédition, suivi, annulation et remboursement ;
+- réservation/libération atomique du stock et instantané immuable des informations facturées ;
+- états Viva, webhook signé, réconciliation, doublons, paiements incomplets et remboursements ;
+- modèles e-mail, PDF, SPF/DKIM/DMARC, rebonds, worker d’outbox, reprise et absence de SMS non configuré ;
+- séparation des environnements, rotation des secrets, matrice RLS négative, anti-abus réel, CSP/CORS et dépendances ;
+- surveillance, corrélation des journaux, procédure d’incident, sauvegarde/restauration et retrait des accès de construction ;
+- passation propriétaire, guide simple, matrice navigateurs/appareils et transfert Hostinger reproductible.
+
+Ces tags restent des exigences de préparation et ne signifient pas que ces éléments sont déjà activés. Aucune ouverture commerciale ne doit être déclarée tant que les preuves de validation correspondantes ne sont pas réunies.

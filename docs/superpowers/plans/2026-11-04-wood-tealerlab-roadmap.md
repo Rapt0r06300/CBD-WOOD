@@ -10,7 +10,7 @@
 
 **Référence :** audit de [TealerLab](https://tealerlab.com/), site actuel WOOD, échanges avec la propriétaire et exigences de Florent.
 
-**Contrôle de cohérence :** cette feuille contient 76 tâches principales uniques, numérotées de 1 à 76. Elle contient aussi un addendum de 40 tags d’exécution `A01–A40` : chaque tag possède maintenant un périmètre de fichiers et un contrôle de validation, sans modifier le contrat de numérotation testé par le dépôt. Les tâches 75 et 76 ajoutent les deux garde-fous indispensables à une ouverture commerciale : conformité éditoriale/légale et continuité des données. Les décisions commerciales inconnues restent bloquées ; elles ne peuvent pas être déduites par le code.
+**Contrôle de cohérence :** cette feuille contient 76 tâches principales uniques, numérotées de 1 à 76. Elle contient aussi 80 tags d’exécution `A01–A80` : chaque tag possède un périmètre et un contrôle de validation, sans modifier le contrat de numérotation testé par le dépôt. Les tâches 75 et 76 ajoutent les deux garde-fous indispensables à une ouverture commerciale : conformité éditoriale/légale et continuité des données. Les décisions commerciales inconnues restent bloquées ; elles ne peuvent pas être déduites par le code.
 
 **Architecture d’administration retenue :** après connexion, le compte dont le rôle propriétaire est confirmé affiche directement le tableau de bord dans `compte.html`. Les nouveaux comptes restent clients. Aucun fichier ou route `admin.*` n’est publié ; RLS et les fonctions serveur restent obligatoires.
 
@@ -82,6 +82,7 @@
 - La migration locale `20261104160000_order_notification_outbox.sql` a été appliquée au projet Supabase sous `20261104220305_order_notification_outbox` ; la file est idempotente, protégée par RLS, vide au contrôle et ne lance aucun e-mail tant qu’aucun fournisseur n’est configuré.
 - Le 5 novembre 2026, l’accueil officiel [TealerLab](https://tealerlab.com/) a été revu avec Exa, Parallel Search et un navigateur réel en desktop et en viewport mobile `390 × 844`. L’audit confirme une architecture de sections réutilisables, des rails de cartes produits, une hiérarchie de fiche dense et une version mobile réellement recomposée ; ces constats sont traduits dans les tags d’exécution `A01–A40` ci-dessous.
 - Cette observation ne valide aucun changement graphique WOOD : elle sert uniquement de référence d’inspiration. Les couleurs, le logo, la typographie, la carte, les prix et les contraintes de la propriétaire restent prioritaires.
+- L’audit de cohérence du 5 novembre 2026 a identifié 40 angles morts opérationnels supplémentaires, ajoutés comme tags `A41–A80` : conformité et données personnelles, parcours d’expédition, états de paiement, e-mails/PDF, sécurité, observabilité, transfert propriétaire et recette de mise en service.
 
 ## Phase 0 — Sécuriser l’existant avant toute évolution
 
@@ -1108,6 +1109,71 @@ Chaque tag ci-dessous précise les fichiers à examiner ou modifier et la preuve
 - **A38** — Fichiers : `test/links.test.mjs`, `test/product-detail.test.mjs`, `test/cart-resilience.test.mjs`, `test/owner-dashboard-session-and-status.test.mjs`. Validation : accueil → univers → fiche → panier → compte/checkout est cohérent.
 - **A39** — Fichiers : captures de référence de la tâche 49, `docs/audits/2026-11-04-tealerlab-wood-compatibility-audit.md`. Validation : comparaison avant/après sur toutes les largeurs sans dérive WOOD.
 - **A40** — Fichiers : compte-rendu de validation propriétaire, roadmap et captures finales. Validation : deux validations distinctes sont recueillies avant toute publication.
+
+## Audit des oublis — tags supplémentaires `A41–A80`
+
+Les 76 tâches principales et les tags `A01–A40` ne couvraient pas encore toute la chaîne d’une vente réelle. Les tags suivants complètent la feuille de route sans modifier le site maintenant. Ils restent ouverts tant que la preuve indiquée n’existe pas.
+
+### Conformité, données personnelles et comptes clients
+
+- [ ] **A41 — Identité légale de la boutique :** recueillir raison sociale, adresse légale, SIRET, contact et informations nécessaires aux pages légales ; validation : propriétaire et conseil compétent valident les données publiées.
+- [ ] **A42 — Âge et public autorisé :** confirmer avec la propriétaire et le conseil si un contrôle d’âge ou un message majeur est requis pour les produits exacts ; validation : règle écrite, parcours non bloquant pour les visiteurs autorisés.
+- [ ] **A43 — Cartographie RGPD :** inventorier compte, commande, adresse, e-mail, journaux, notifications et sauvegardes ; validation : chaque donnée possède une finalité, une base et une durée.
+- [ ] **A44 — Droits du compte client :** prévoir changement de mot de passe, réinitialisation, confirmation d’e-mail, export et demande de suppression ; validation : le client ne voit ni données d’un autre client ni données propriétaire.
+- [ ] **A45 — Cookies et consentements :** inventorier les scripts non essentiels et n’ajouter une bannière que si un consentement est réellement nécessaire ; validation : aucun traceur tiers n’est chargé en silence.
+- [ ] **A46 — Conservation et effacement :** documenter la durée des comptes, paniers, commandes, e-mails, logs et sauvegardes ; validation : une suppression demandée ne détruit jamais une obligation légale de conservation sans décision documentée.
+
+### Livraison et traitement de commande
+
+- [ ] **A47 — Règles de livraison finales :** confirmer zones, transporteur, frais, délais, minimum éventuel, suivi, emballage et retours ; validation : un document propriétaire alimente les textes et le calcul réel.
+- [ ] **A48 — Adresse robuste :** gérer champs obligatoires, caractères accentués, longueur maximale, code postal, ville, pays et correction avant validation ; validation : les adresses invalides sont expliquées sans perdre le panier.
+- [ ] **A49 — États de traitement :** distinguer reçue, à préparer, expédiée, livrée, annulée, remboursée et bloquée ; validation : chaque état est visible selon le rôle et enregistré dans l’historique.
+- [ ] **A50 — Travail de la propriétaire :** afficher les informations nécessaires pour préparer, expédier et suivre une commande sans ouvrir Supabase ; validation : une commande réelle est traitable depuis le tableau de bord.
+- [ ] **A51 — Instantané de commande :** conserver nom, prix, grammage, quantité, adresse et frais tels qu’acceptés au moment de la commande ; validation : une modification future du catalogue ne réécrit jamais une ancienne commande.
+- [ ] **A52 — Réservation et libération du stock :** réserver atomiquement, libérer sur échec/expiration/annulation et empêcher la vente concurrente ; validation : deux clients ne peuvent pas consommer le même dernier stock.
+- [ ] **A53 — Corrections administratives :** prévoir correction contrôlée d’une adresse ou d’un état avec motif et journal ; validation : aucune modification sensible n’est silencieuse.
+- [ ] **A54 — Annulation et remboursement :** définir qui peut annuler, à quel état, avec quel justificatif et comment l’e-mail client est déclenché ; validation : aucun remboursement fictif n’est confirmé avant Viva.
+
+### Viva Wallet et paiements
+
+- [ ] **A55 — Machine d’états Viva :** définir en attente, autorisé, payé, refusé, expiré, annulé, remboursé et contesté ; validation : les états inconnus restent non payés.
+- [ ] **A56 — Vérification du paiement :** vérifier signature/webhook, montant, devise, commande, idempotence et origine côté serveur ; validation : le navigateur ne peut jamais marquer une commande payée.
+- [ ] **A57 — Parcours de test Viva :** documenter sandbox, retour réussi, retour refusé, abandon, webhook en retard et doublon avant production ; validation : chaque scénario possède un résultat attendu et une preuve.
+- [ ] **A58 — Réconciliation paiements-commandes :** comparer périodiquement les événements Viva aux commandes et faire remonter les écarts ; validation : un paiement sans commande et une commande sans paiement sont détectés.
+
+### E-mails, PDF et notifications
+
+- [ ] **A59 — Modèles transactionnels :** rédiger e-mail client et propriétaire pour commande reçue, paiement confirmé, échec, annulation, expédition et remboursement ; validation : aucun texte ne promet un envoi avant l’événement correspondant.
+- [ ] **A60 — PDF de commande :** définir contenu, identité, numéro, date, articles, grammage, total et adresse ; validation : PDF lisible, non vide, attaché uniquement après persistance.
+- [ ] **A61 — Domaine d’envoi :** configurer fournisseur, expéditeur, SPF, DKIM, DMARC, rebonds et adresse de réponse hors dépôt ; validation : test reçu côté client et propriétaire avec en-têtes contrôlés.
+- [ ] **A62 — Worker d’outbox :** définir verrouillage, tentatives, délai progressif, limite, statut bloqué et reprise manuelle ; validation : un doublon n’envoie pas deux confirmations.
+- [ ] **A63 — Contrôle des notifications :** tester panne fournisseur, pièce jointe refusée, adresse invalide, timeout, reprise et affichage propriétaire ; validation : la commande reste traitable même si le mail échoue.
+- [ ] **A64 — SMS explicitement hors périmètre :** ne rien activer tant qu’aucun fournisseur et consentement ne sont validés ; validation : aucune promesse SMS ne figure dans l’interface.
+
+### Supabase, sécurité et secrets
+
+- [ ] **A65 — Environnements séparés :** distinguer local, démonstration et production avec URL, redirect Auth, clés et données propres ; validation : aucune URL localhost ne subsiste dans le paquet de production.
+- [ ] **A66 — Inventaire et rotation des secrets :** documenter secrets Edge Functions, e-mail, Turnstile et Viva, leur propriétaire et leur rotation ; validation : aucune clé privilégiée n’est dans GitHub, l’HTML ou les logs.
+- [ ] **A67 — Matrice RLS complète :** tester lecture/écriture client, propriétaire, invité et rôle inconnu sur chaque table ; validation : les tests négatifs refusent toute donnée étrangère.
+- [ ] **A68 — Anti-abus en production :** vérifier Turnstile, limitation de débit, origine, taille de requête, payload malformé et répétition rapide ; validation : l’abus est bloqué sans bloquer une commande normale.
+- [ ] **A69 — Entrées et fichiers :** tester XSS, HTML injecté, Unicode, valeurs numériques, images trop lourdes et noms de fichiers dangereux ; validation : aucune donnée utilisateur n’est interprétée comme code.
+- [ ] **A70 — En-têtes et politique navigateur :** finaliser HTTPS, CSP progressive, CORS allow-list, `nosniff`, anti-iframe, referrer et permissions ; validation : la recette couvre Supabase, paiement et e-mail sans exception large.
+- [ ] **A71 — Dépendances et intégrité :** verrouiller versions, vérifier vulnérabilités connues et limiter les CDN ; validation : le contrôle est reproductible avant chaque transfert.
+
+### Supervision, continuité et passation
+
+- [ ] **A72 — Surveillance minimale :** définir contrôle de disponibilité, erreurs Edge Function, commandes bloquées, outbox en échec et seuils d’alerte ; validation : la propriétaire sait qu’une commande nécessite une action.
+- [ ] **A73 — Journal exploitable :** corréler commande, paiement, stock et notification sans exposer d’adresse ou de secret ; validation : une commande peut être retrouvée sans lire des logs dispersés.
+- [ ] **A74 — Procédure incident :** écrire quoi faire en cas de paiement douteux, stock incohérent, mail bloqué, panne Supabase ou fuite de secret ; validation : responsable, escalade et action de reprise sont identifiés.
+- [ ] **A75 — Sauvegarde et restauration réelle :** exécuter un export, restaurer dans un environnement de test et vérifier commandes, prix, rôles et historiques ; validation : preuve datée et durée de reprise documentées.
+- [ ] **A76 — Passation propriétaire :** transférer dépôt, Supabase, domaine, hébergeur, e-mail, paiement et sauvegardes avec accès séparés ; validation : la propriétaire peut gérer sans Florent.
+- [ ] **A77 — Retrait des accès de construction :** prévoir suppression ou rétrogradation de l’accès de Florent après validation écrite ; validation : les comptes clients et l’administration restent fonctionnels.
+- [ ] **A78 — Guide opérationnel simple :** documenter ajouter produit, modifier prix/stock, traiter commande, reprendre erreur et contacter le support ; validation : test réalisé par une personne non technique.
+
+### Qualité, navigateurs et mise en service
+
+- [ ] **A79 — Matrice navigateurs/appareils :** tester Safari iOS, Chrome Android, Safari macOS, Chrome/Edge/Firefox Windows et Firefox/Linux ; validation : aucune route, grille, panier ou compte ne change de comportement critique.
+- [ ] **A80 — Préproduction et transfert :** produire le paquet final, vérifier `public_html`, HTTPS, DNS, domaine `.fr`, 404, redirections, cache, retour arrière et smoke test ; validation : transfert reproductible en peu d’étapes, sans publier `admin.*`, secrets ou données de test.
 
 ### Interdits explicites issus de l’audit
 
