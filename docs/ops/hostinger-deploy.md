@@ -19,12 +19,16 @@ Quand la propriétaire aura validé l’hébergement :
 1. choisir le site **Custom PHP/HTML** dans Hostinger ;
 2. connecter le domaine définitif ;
 3. utiliser les serveurs de noms fournis par le hPanel, ou les enregistrements A fournis par Hostinger si la gestion DNS reste chez le registrar ;
-4. vérifier qu’aucun ancien enregistrement A ou AAAA ne pointe vers un autre serveur ;
-5. attendre la propagation DNS, qui peut prendre jusqu’à 24–48 heures ;
-6. vérifier que le SSL est actif puis forcer HTTPS ;
-7. envoyer le **contenu** de `dist-hostinger/` dans `public_html/` — pas le dossier parent ;
-8. ouvrir la page d’accueil, une page de catégorie, le compte et la page 404 ;
-9. tester sur mobile et ordinateur avant toute ouverture commerciale.
+4. vérifier que le domaine est actif, que tu as accès à sa zone DNS et que DNSSEC est désactivé ou correctement compatible ;
+5. vérifier qu’aucun ancien enregistrement A ou AAAA ne pointe vers un autre serveur ;
+6. tester le paquet sur le domaine temporaire Hostinger avant de modifier le domaine définitif ;
+7. attendre la propagation DNS, qui peut prendre jusqu’à 24–48 heures ;
+8. vérifier que le SSL est actif puis forcer HTTPS ;
+9. envoyer le **contenu** de `dist-hostinger/` dans `public_html/` — pas le dossier parent ;
+10. ouvrir la page d’accueil, une page de catégorie, le compte et la page 404 ;
+11. tester sur mobile et ordinateur avant toute ouverture commerciale.
+
+Si une adresse e-mail liée au domaine est utilisée, vérifier les enregistrements MX, SPF, DKIM et DMARC après le changement de DNS. Le site actuel utilise Supabase pour les données : aucune base MySQL Hostinger ne doit être créée ou importée.
 
 Ne pas envoyer dans `public_html/` : `.git/`, `docs/`, `test/`, `supabase/`, `scripts/`, `package.json`, `netlify.toml` ou des secrets.
 

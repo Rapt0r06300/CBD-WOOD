@@ -18,6 +18,8 @@
 - [ ] Seul le contenu de `dist-hostinger` sera placé dans `public_html`.
 - [ ] `.htaccess` est présent et le SSL Hostinger est actif avant de tester les formulaires.
 - [ ] Les enregistrements A/AAAA précédents ne créent pas de conflit avec Hostinger.
+- [ ] DNSSEC est désactivé ou validé avant le pointage.
+- [ ] Le paquet est testé sur le domaine temporaire avant le changement DNS définitif.
 - [ ] Le domaine canonique et la variante éventuelle `www` sont décidés avant de modifier Supabase.
 - [ ] Aucun dossier `.git`, `docs`, `test`, `scripts` ou `supabase` n’est envoyé dans `public_html`.
 - [ ] Rien n’est déployé depuis ce dépôt sans validation explicite de la propriétaire.
