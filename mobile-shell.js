@@ -13,7 +13,7 @@
 
   const items = [
     { href: 'index.html', icon: '⌂', label: 'Accueil', active: isHome },
-    { href: 'wood-shop.html', icon: '▦', label: 'Boutique', active: isShop },
+    { href: 'index.html#univers', icon: '▦', label: 'Boutique', active: isShop },
     isHome
       ? { href: 'index.html#boutique', icon: '⌖', label: 'Nous trouver', active: false }
       : { href: 'checkout.html', icon: '◫', label: 'Panier', active: isCart, cart: true },

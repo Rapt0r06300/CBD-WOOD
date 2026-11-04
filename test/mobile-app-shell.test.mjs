@@ -17,8 +17,8 @@ const publicPages = [
 test('toutes les pages publiques chargent la couche app-like mobile', async () => {
   for (const page of publicPages) {
     const html = await readFile(new URL(`../${page}`, import.meta.url), 'utf8');
-    assert.match(html, /mobile\.css\?v=wood-mobile-app-v2-20261104/, `${page} doit charger mobile.css`);
-    assert.match(html, /mobile-shell\.js\?v=wood-mobile-app-v2-20261104/, `${page} doit charger mobile-shell.js`);
+    assert.match(html, /mobile\.css\?v=wood-mobile-app-v5-20261104/, `${page} doit charger mobile.css`);
+    assert.match(html, /mobile-shell\.js\?v=wood-mobile-app-v3-20261104/, `${page} doit charger mobile-shell.js`);
     assert.match(html, /name="viewport" content="width=device-width, initial-scale=1"/, `${page} doit conserver le viewport responsive`);
   }
 });
@@ -44,4 +44,16 @@ test('la navigation mobile ne se charge pas dans l’espace propriétaire', asyn
   const admin = await readFile(new URL('../admin.html', import.meta.url), 'utf8');
   assert.match(shell, /classList\.contains\('admin-page'\)/);
   assert.doesNotMatch(admin, /mobile-shell\.js/);
+});
+
+test('les cartes WOOD Shop gardent leur action dans la colonne mobile', async () => {
+  const stylesheet = await readFile(new URL('../mobile.css', import.meta.url), 'utf8');
+  const shell = await readFile(new URL('../mobile-shell.js', import.meta.url), 'utf8');
+  const shop = await readFile(new URL('../wood-shop.html', import.meta.url), 'utf8');
+
+  assert.match(shop, /class="product-meta"[\s\S]*class="add-to-cart"/);
+  assert.match(stylesheet, /\.product-grid\s+\.product-meta\s*\{\s*display:\s*grid/);
+  assert.match(stylesheet, /\.product-grid\s+\.product-meta\s+\.add-to-cart\s*\{[\s\S]*?width:\s*100%/);
+  assert.match(stylesheet, /\.product-grid\s*\{[\s\S]*?grid-template-columns:\s*repeat\(2/);
+  assert.match(shell, /href: 'index\.html#univers'/);
 });
