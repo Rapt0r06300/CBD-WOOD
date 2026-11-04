@@ -15,6 +15,7 @@ on public.order_idempotency_keys(created_at desc);
 alter table public.order_idempotency_keys enable row level security;
 revoke all on table public.order_idempotency_keys from public, anon, authenticated;
 grant select, insert, update on table public.order_idempotency_keys to service_role;
+drop policy if exists order_idempotency_no_public_access on public.order_idempotency_keys;
 create policy order_idempotency_no_public_access
 on public.order_idempotency_keys for all
 to public

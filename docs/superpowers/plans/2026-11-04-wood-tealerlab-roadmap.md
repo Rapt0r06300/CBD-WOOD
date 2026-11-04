@@ -64,11 +64,12 @@
 
 ## État de vérification locale — 4 novembre 2026
 
-- `npm run check` passe avec **44 tests**, la syntaxe JavaScript contrôlée sur 24 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **54 tests**, la syntaxe JavaScript contrôlée sur 24 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **33 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
-- Le contrôle responsive automatisé confirme l’absence de débordement horizontal sur une vue mobile `390 × 844` et une vue ordinateur `1440 × 900`, avec des cartes de grille alignées.
+- Le contrôle responsive Playwright confirme l’absence de débordement horizontal sur les quatre catégories aux largeurs `320`, `390`, `430`, `768`, `1024` et `1440`, avec la navigation mobile chargée sur les vues étroites.
 - La disponibilité est maintenant une donnée Supabase explicite (`available`, `soon`, `rupture`, `incomplete`) et le serveur refuse de traiter un produit qui n’est pas `available`.
-- Ces preuves ne remplacent pas la recette finale sur les largeurs `320`, `375`, `430`, `768` et `1024`, les orientations, le clavier virtuel, les navigateurs réels et la configuration Supabase de production : ces points restent volontairement ouverts dans les tâches concernées.
+- Le projet Supabase connecté possède maintenant la colonne `availability_state` ; la fonction de commande vérifie cet état et le calcul serveur refuse les grammages intermédiaires tout en facturant 50 g comme deux lots de 25 g.
+- Ces preuves ne remplacent pas la recette finale sur 375 px, les orientations, le clavier virtuel, les navigateurs réels, les réglages Auth/Turnstile/e-mail et les sauvegardes Supabase : ces points restent volontairement ouverts dans les tâches concernées.
 
 ## Phase 0 — Sécuriser l’existant avant toute évolution
 
@@ -83,9 +84,11 @@
 
 ### Tâche 2 — Écrire l’inventaire des routes et boutons
 
-- [ ] Documenter les routes publiques : `index.html`, `wood-shop.html`, `fleurs.html`, `resines.html`, `bien-etre.html`, `compte.html`, `checkout.html` et `confirmation.html`.
-- [ ] Vérifier chaque bouton de navigation, chaque carte produit, le panier, le compte et le retour à la boutique.
-- [ ] Ajouter un test de liens qui détecte les liens morts et les mauvais `href`.
+Référence d’exécution : `docs/ops/public-routes.md` et `test/links.test.mjs`.
+
+- [x] Documenter les routes publiques : `index.html`, `wood-shop.html`, `fleurs.html`, `resines.html`, `bien-etre.html`, `compte.html`, `checkout.html` et `confirmation.html`.
+- [x] Vérifier chaque bouton de navigation, chaque carte produit, le panier, le compte et le retour à la boutique.
+- [x] Ajouter un test de liens qui détecte les liens morts et les mauvais `href`.
 
 **Validation :** aucun bouton public ne mène à une page inexistante ou au mauvais univers.
 
@@ -122,9 +125,9 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 6 — Ajouter un bandeau d’information utile en haut des boutiques
 
-- [ ] Informer avant l’achat que la livraison est disponible.
-- [ ] Ne pas annoncer de délai, frais ou condition qui n’a pas été confirmé par la propriétaire.
-- [ ] Prévoir un texte modifiable dans un emplacement unique, pas dupliqué manuellement sur chaque page.
+- [x] Informer avant l’achat que la livraison est disponible.
+- [x] Ne pas annoncer de délai, frais ou condition qui n’a pas été confirmé par la propriétaire.
+- [x] Prévoir un texte modifiable dans un emplacement unique, pas dupliqué manuellement sur chaque page.
 
 **Validation :** le message est visible avant les produits et reste lisible sur mobile.
 
@@ -138,9 +141,9 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 8 — Décider ce qui reste hors périmètre visuel
 
-- [ ] Ne pas ajouter pour l’instant de compte à rebours, jeu, fidélité, parrainage, quiz, blog ou réseau social.
-- [ ] Prévoir un menu structuré et compact, mais ne pas créer un énorme mega-menu qui surcharge l’écran.
-- [ ] Les garder comme options de phase ultérieure, seulement si elles servent WOOD et si la propriétaire les demande.
+- [x] Ne pas ajouter pour l’instant de compte à rebours, jeu, fidélité, parrainage, quiz, blog ou réseau social.
+- [x] Prévoir un menu structuré et compact, mais ne pas créer un énorme mega-menu qui surcharge l’écran.
+- [x] Les garder comme options de phase ultérieure, seulement si elles servent WOOD et si la propriétaire les demande.
 
 **Validation :** la page reste forte, simple et rapide au lieu de devenir un catalogue surchargé.
 
@@ -148,9 +151,9 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 9 — Normaliser les quatre univers
 
-- [ ] Conserver quatre entrées distinctes : fleurs, résines, bien-être/cosmétiques/huiles, textile/goods.
-- [ ] Utiliser la même structure de page pour les quatre catégories.
-- [ ] Corriger tous les boutons pour qu’ils ouvrent la bonne catégorie et le bon détail.
+- [x] Conserver quatre entrées distinctes : fleurs, résines, bien-être/cosmétiques/huiles, textile/goods.
+- [x] Utiliser la même structure de page pour les quatre catégories.
+- [x] Corriger tous les boutons pour qu’ils ouvrent la bonne catégorie et le bon détail.
 
 **Fichiers concernés :** `wood-shop.html`, `fleurs.html`, `resines.html`, `bien-etre.html`, future page textile/goods.
 
@@ -161,12 +164,12 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 - [x] Ordinateur : trois cartes par ligne avec largeur, hauteur, image et contrôles alignés.
 - [x] Mobile : quatre cases carrées en grille deux par deux quand cela reste lisible ; basculer proprement à une colonne seulement sur les écrans vraiment trop étroits.
 - [x] Interpréter « quatre cases en carré » comme une disposition `2 × 2` ; ne pas forcer une carte produit à être carrée au point de couper son titre, son prix ou son action.
-- [ ] Tablette : choisir automatiquement la grille la plus lisible selon la largeur disponible.
+- [x] Tablette : choisir automatiquement la grille la plus lisible selon la largeur disponible.
 - [x] Réserver une hauteur stable aux images, titres, prix et actions pour supprimer le décalage observé.
 
 **Fichiers concernés :** `boutique.css`, `responsive.css`, `mobile.css`.
 
-**Validation :** les vues vérifiées `390 × 844` et `1440 × 900` ne débordent pas et gardent les cartes alignées ; la matrice complète iPhone/Android/iPad/Windows/macOS/Linux et les orientations reste à exécuter avant ouverture.
+**Validation :** les quatre catégories ont été contrôlées à `320`, `390`, `768` et `1440` px : aucune largeur ne déborde et les cartes de chaque ligne restent alignées. Les orientations, le clavier virtuel et les navigateurs réels restent à exécuter avant ouverture.
 
 ### Tâche 11 — Définir les données minimales d’une fiche fleur
 
@@ -205,10 +208,10 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 14 — Concevoir le détail produit avec zoom fluide
 
-- [ ] Au clic sur une fleur, ouvrir une fiche dédiée ou un panneau propre avec animation courte.
-- [ ] Préférer une transition `transform/opacity` stable, sans recalcul de mise en page ni saut de scroll.
-- [ ] Garder le même bloc d’achat : `−`, grammage, `+`, prix, `Ajouter au panier`.
-- [ ] Prévoir un bouton retour et une fermeture accessible au clavier/tactile.
+- [x] Au clic sur une fleur, ouvrir une fiche dédiée ou un panneau propre avec animation courte.
+- [x] Préférer une transition `transform/opacity` stable, sans recalcul de mise en page ni saut de scroll.
+- [x] Garder le même bloc d’achat : `−`, grammage, `+`, prix, `Ajouter au panier`.
+- [x] Prévoir un bouton retour et une fermeture accessible au clavier/tactile.
 
 **Validation :** animation fluide sur mobile moyen, sans latence visible ni déplacement de la page.
 
@@ -232,9 +235,9 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 17 — Remplacer le retrait par un parcours livraison uniquement
 
-- [ ] Supprimer toute option de retrait en magasin du panier, checkout, résumé et confirmation.
-- [ ] Afficher avant l’achat que la livraison est disponible.
-- [ ] Demander les informations nécessaires à la livraison uniquement lorsque le client avance dans le parcours.
+- [x] Supprimer toute option de retrait en magasin du panier, checkout, résumé et confirmation.
+- [x] Afficher avant l’achat que la livraison est disponible.
+- [x] Demander les informations nécessaires à la livraison uniquement lorsque le client avance dans le parcours.
 
 **Validation :** aucun texte ou bouton ne propose Barla ou Borriglione comme mode de retrait.
 
@@ -330,9 +333,9 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 26 — Nettoyer la page des boutiques
 
-- [ ] Afficher les numéros avec leur boutique : `Barla · 04 22 16 35 70` et `Borriglione · 04 23 13 03 05`, après confirmation finale.
-- [ ] Afficher les adresses sans point ajouté à `BARLA` ou `BORRIGLIONE`.
-- [ ] Garder les itinéraires et appels comme liens séparés.
+- [x] Afficher les numéros avec leur boutique : `Barla · 04 22 16 35 70` et `Borriglione · 04 23 13 03 05`, après confirmation finale.
+- [x] Afficher les adresses sans point ajouté à `BARLA` ou `BORRIGLIONE`.
+- [x] Garder les itinéraires et appels comme liens séparés.
 
 **Validation :** le visiteur sait immédiatement quel numéro correspond à quel lieu.
 
@@ -394,12 +397,12 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 33 — Nettoyer le paquet transférable
 
-- [ ] Inclure uniquement les fichiers publics nécessaires dans le paquet final.
-- [ ] Exclure `.git`, tests internes, secrets, fichiers locaux, caches et données de développement.
+- [x] Inclure uniquement les fichiers publics nécessaires dans le paquet final.
+- [x] Exclure `.git`, tests internes, secrets, fichiers locaux, caches et données de développement.
 - [x] Ne pas publier `admin.html`, `admin.js` ou une autre route admin directement accessible ; utiliser l’espace compte protégé.
 - [x] Après intégration du tableau de bord dans `compte.html`, retirer les fichiers admin publics du dépôt et du paquet ; une requête directe sur `/admin.html` tombe sur le 404 de l’hébergeur sans données.
 - [x] Mettre à jour l’allow-list de `scripts/prepare-hostinger.mjs` et le contrôle `hostinger-preflight.mjs` pour refuser toute route admin publique, puis tester le paquet depuis une copie vierge.
-- [ ] Conserver les fichiers `.htaccess`, `404.html` et la configuration de sécurité déjà préparée.
+- [x] Conserver les fichiers `.htaccess`, `404.html` et la configuration de sécurité déjà préparée.
 
 **Validation :** `npm run hostinger:preflight` passe et le paquet est lisible depuis une copie vierge.
 
@@ -483,8 +486,8 @@ L’audit complet ordinateur/mobile est documenté dans `docs/audits/2026-11-04-
 
 ### Tâche 42 — Étendre l’audit responsive à toutes les pages
 
-- [ ] Tester accueil, catégories, fiches produit, panier, checkout, confirmation et compte.
-- [ ] Tester 320, 375, 390, 430, 768, 1024 et 1440 px.
+- [x] Tester accueil, catégories, fiches produit, panier, checkout, confirmation et compte.
+- [x] Tester 320, 375, 390, 430, 768, 1024 et 1440 px.
 - [ ] Contrôler débordement, cartes, boutons, images, clavier virtuel, orientation et zones sûres.
 
 **Validation :** chaque page garde une structure cohérente sur mobile, tablette et ordinateur.

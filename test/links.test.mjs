@@ -55,3 +55,9 @@ test('l’inventaire public des routes reste explicite', async () => {
   for (const page of publicPages.filter(page => page !== '404.html')) assert.match(inventory, new RegExp(`\\b${page.replace('.', '\\.')}(?:\\?|\\b)`));
   assert.match(inventory, /admin\.html.*supprimée/i);
 });
+
+test('la page 404 reste lisible sur un téléphone étroit', async () => {
+  const notFound = await readFile(join(root, '404.html'), 'utf8');
+  assert.match(notFound, /@media\s*\(max-width:\s*400px\)/);
+  assert.match(notFound, /overflow-wrap:\s*anywhere/);
+});
