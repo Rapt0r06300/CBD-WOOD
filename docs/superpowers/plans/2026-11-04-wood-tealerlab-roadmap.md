@@ -64,7 +64,7 @@
 
 ## État de vérification locale — 4 novembre 2026
 
-- `npm run check` passe avec **64 tests**, la syntaxe JavaScript contrôlée sur 24 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **66 tests**, la syntaxe JavaScript contrôlée sur 24 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **33 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - Le contrôle responsive Playwright confirme l’absence de débordement horizontal sur les **70 combinaisons** (10 routes publiques × `320`, `375`, `390`, `430`, `768`, `1024`, `1440`), avec des titres non vides et la navigation mobile chargée sur les vues étroites.
 - La disponibilité est maintenant une donnée Supabase explicite (`available`, `soon`, `rupture`, `incomplete`) et le serveur refuse de traiter un produit qui n’est pas `available`.
@@ -76,6 +76,7 @@
 - Le panier nettoie les données locales avant réutilisation, échappe les valeurs affichées, plafonne une quantité locale à 99, se resynchronise entre onglets et garde le focus dans son dialogue au clavier ; ces garde-fous sont couverts par `test/cart-resilience.test.mjs`.
 - La tentative d’enregistrement de commande possède aussi un délai maximum, annule une requête bloquée et laisse le panier intact avec un message de reprise ; `test/order-client-resilience.test.mjs` le vérifie.
 - La migration locale `20261104150000_order_status_history.sql` a été appliquée au projet Supabase sous `20261104215031_order_status_history` ; la table est protégée par RLS, le trigger est présent et aucune commande n’existait au moment du contrôle.
+- La migration locale `20261104160000_order_notification_outbox.sql` a été appliquée au projet Supabase sous `20261104220305_order_notification_outbox` ; la file est idempotente, protégée par RLS, vide au contrôle et ne lance aucun e-mail tant qu’aucun fournisseur n’est configuré.
 
 ## Phase 0 — Sécuriser l’existant avant toute évolution
 
@@ -259,10 +260,10 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 19 — Préparer les e-mails de commande
 
-- [ ] Générer un récapitulatif de commande à partir des données serveur.
+- [x] Préparer la persistance d’un récapitulatif de commande dans la file `order_notification_outbox` à partir d’une commande créée côté serveur.
 - [ ] Préparer un e-mail client et un e-mail propriétaire ; la première version utilise l’e-mail transactionnel, sans SMS.
 - [ ] Ajouter la pièce jointe PDF uniquement après validation du format et après persistance réussie de la commande.
-- [ ] Prévoir une file/outbox, des tentatives contrôlées et un statut `à envoyer / envoyé / échec` ; ne jamais prétendre qu’un e-mail a été reçu uniquement parce qu’il a été demandé au fournisseur.
+- [x] Prévoir une file/outbox, des tentatives contrôlées et un statut `à envoyer / envoyé / échec` ; ne jamais prétendre qu’un e-mail a été reçu uniquement parce qu’il a été demandé au fournisseur.
 - [ ] Utiliser un relais SMTP/API transactionnel configuré hors du dépôt ; garder les secrets dans Supabase et documenter SPF, DKIM, DMARC et les rebonds.
 - [ ] N’envoyer la confirmation qu’après création fiable de la commande.
 - [ ] Prévoir une trace d’envoi et un statut d’erreur visible côté propriétaire.
@@ -488,7 +489,7 @@ L’audit complet ordinateur/mobile est documenté dans `docs/audits/2026-11-04-
 - [x] Vérifier que les quatre labels de la barre basse ne se chevauchent pas.
 - [x] Conserver les mêmes icônes, couleurs et destinations.
 
-**Validation :** aucun libellé n’est tronqué dans les captures mobile. Vérifié à 390 × 844 avec cache CSS invalidé, puis `npm run check` : 64 tests passés, syntaxe JavaScript validée et audit statique OK.
+**Validation :** aucun libellé n’est tronqué dans les captures mobile. Vérifié à 390 × 844 avec cache CSS invalidé, puis `npm run check` : 66 tests passés, syntaxe JavaScript validée et audit statique OK.
 
 ### Tâche 42 — Étendre l’audit responsive à toutes les pages
 

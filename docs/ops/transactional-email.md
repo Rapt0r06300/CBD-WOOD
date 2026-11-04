@@ -5,10 +5,11 @@ Le site enregistre aujourd’hui une commande avec le statut `pending` et ne pr�
 ## Architecture retenue
 
 1. La commande est créée et recalculée par l’Edge Function Supabase.
-2. Le paiement, lorsqu’il sera activé, confirme la commande par webhook signé.
-3. Une fonction serveur envoie ensuite un e-mail transactionnel au client et à la boutique.
-4. Le message contient le numéro de commande, le récapitulatif, l’adresse de livraison et le statut réel.
-5. La pièce jointe PDF ne doit être générée qu’après la persistance réussie de la commande ; elle ne doit jamais servir de preuve de paiement avant le webhook.
+2. Une ligne est ajoutée dans `order_notification_outbox` après la persistance, avec un identifiant unique par commande et type de notification.
+3. Le paiement, lorsqu’il sera activé, confirme la commande par webhook signé et ajoute la notification de paiement correspondante.
+4. Un worker ou une Edge Function envoie ensuite l’e-mail transactionnel au client et à la boutique, puis met à jour `pending / processing / sent / failed`.
+5. Le message contient le numéro de commande, le récapitulatif, l’adresse de livraison et le statut réel.
+6. La pièce jointe PDF ne doit être générée qu’après la persistance réussie de la commande ; elle ne doit jamais servir de preuve de paiement avant le webhook.
 
 ## Fournisseur nécessaire
 
@@ -21,3 +22,5 @@ Construire le protocole SMTP complet soi-même ne rend pas l’envoi fiable. Il 
 - adresse de réponse contrôlée.
 
 Le fournisseur et les identifiants restent à choisir par la propriétaire. Aucun faux e-mail n’est envoyé par le site tant que cette étape n’est pas réalisée.
+
+La file d’attente est donc prête côté données, mais elle reste volontairement inactive tant que la propriétaire n’a pas choisi le fournisseur et renseigné ses secrets. Une panne d’envoi ne supprime pas la commande : la ligne reste disponible pour une nouvelle tentative ou une intervention propriétaire.
