@@ -1,16 +1,40 @@
 (() => {
   const STORAGE_KEY = 'wood-cart-v1';
   const ORDER_MODE_KEY = 'wood-order-mode-v1';
+  const MAX_CART_QUANTITY = 99;
+  const escapeHtml = value => String(value ?? '').replace(/[&<>\"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
+  const normalizeCartItem = item => {
+    if (!item || typeof item !== 'object' || Array.isArray(item)) return null;
+    const id = typeof item.id === 'string' ? item.id.trim() : '';
+    const productId = typeof item.productId === 'string' ? item.productId.trim() : '';
+    const name = typeof item.name === 'string' ? item.name.trim() : '';
+    const quantity = Number.isInteger(item.quantity) ? item.quantity : Number.parseInt(item.quantity, 10);
+    if (!id || !productId || !name || !Number.isInteger(quantity) || quantity < 1) return null;
+    const rawPrice = item.price === '' || item.price === null || item.price === undefined ? '' : Number(item.price);
+    if (rawPrice !== '' && (!Number.isFinite(rawPrice) || rawPrice < 0)) return null;
+    return {
+      id,
+      productId,
+      name,
+      category: typeof item.category === 'string' ? item.category.trim() : 'WOOD Shop',
+      price: rawPrice === '' ? '' : String(rawPrice),
+      weight: typeof item.weight === 'string' ? item.weight.trim() : '',
+      quantity: Math.min(MAX_CART_QUANTITY, quantity),
+    };
+  };
+  const normalizeCart = value => Array.isArray(value) ? value.map(normalizeCartItem).filter(Boolean) : [];
   const readCart = () => {
     try {
       const value = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-      return Array.isArray(value) ? value : [];
+      const normalized = normalizeCart(value);
+      if (JSON.stringify(value) !== JSON.stringify(normalized)) localStorage.setItem(STORAGE_KEY, JSON.stringify(normalized));
+      return normalized;
     } catch {
       return [];
     }
   };
   const writeCart = (cart) => {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(cart)); } catch {}
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(normalizeCart(cart))); } catch {}
   };
   let cart = readCart();
   const priceLabel = (item) => item.price ? `${Number(item.price).toFixed(2).replace('.', ',')} €` : 'Prix à confirmer';
@@ -18,7 +42,7 @@
     if (!cart.length || cart.some(item => !item.price)) return 'À confirmer';
     return `${cart.reduce((sum, item) => sum + (Number(item.price) * item.quantity), 0).toFixed(2).replace('.', ',')} €`;
   };
-  const cartCount = () => cart.reduce((sum, item) => sum + item.quantity, 0);
+  const cartCount = () => cart.reduce((sum, item) => sum + (Number.isInteger(item.quantity) ? item.quantity : 0), 0);
   const calculateFlowerPrice = (grams, tiers) => window.WoodFlowerPricing?.calculateFlowerPrice?.(grams, tiers) || { price: '', breakdown: [] };
   const getFlowerPriceForOrder = (grams, tiers) => window.WoodFlowerPricing?.getFlowerPriceForOrder?.(grams, tiers) || { price: '', breakdown: [] };
   const maxFlowerGrams = 50;
@@ -59,7 +83,12 @@
     const checkout = document.getElementById('cartCheckout');
     if (count) count.textContent = String(cartCount());
     if (total) total.textContent = totalLabel();
-    if (checkout) checkout.classList.toggle('is-disabled', cart.length === 0);
+    if (checkout) {
+      const empty = cart.length === 0;
+      checkout.classList.toggle('is-disabled', empty);
+      checkout.setAttribute('aria-disabled', String(empty));
+      checkout.tabIndex = empty ? -1 : 0;
+    }
     if (!items) return;
     if (!cart.length) {
       items.innerHTML = '<p class="cart-empty">Votre sélection est vide. Ajoutez une référence depuis une page de la boutique pour préparer votre commande.</p>';
@@ -67,8 +96,8 @@
     }
     items.innerHTML = cart.map(item => `
       <div class="cart-item" data-item-id="${item.id}">
-        <div><h3>${item.name}</h3><p>${item.category || 'WOOD Shop'} · ${priceLabel(item)}</p><div class="cart-item__actions"><button class="cart-qty" type="button" data-qty="minus" aria-label="Retirer une unité">−</button><span class="cart-item__count">${item.quantity}</span><button class="cart-qty" type="button" data-qty="plus" aria-label="Ajouter une unité">+</button><button class="cart-qty" type="button" data-remove aria-label="Supprimer la référence">×</button></div></div>
-        <div class="cart-item__price">${priceLabel(item)}</div>
+        <div><h3>${escapeHtml(item.name)}</h3><p>${escapeHtml(item.category || 'WOOD Shop')} · ${escapeHtml(priceLabel(item))}</p><div class="cart-item__actions"><button class="cart-qty" type="button" data-qty="minus" aria-label="Retirer une unité">−</button><span class="cart-item__count">${item.quantity}</span><button class="cart-qty" type="button" data-qty="plus" aria-label="Ajouter une unité">+</button><button class="cart-qty" type="button" data-remove aria-label="Supprimer la référence">×</button></div></div>
+        <div class="cart-item__price">${escapeHtml(priceLabel(item))}</div>
       </div>`).join('');
   }
 
@@ -251,13 +280,13 @@
     const variant = selectedVariant(card);
     if (!variant.price) return;
     const existing = cart.find(item => item.id === variant.id);
-    const item = { id: variant.id, productId: card.dataset.productId, name: variant.name, category: card.dataset.productCategory, price: variant.price, weight: variant.label, quantity: existing ? existing.quantity + 1 : 1 };
+    const item = { id: variant.id, productId: card.dataset.productId, name: variant.name, category: card.dataset.productCategory, price: variant.price, weight: variant.label, quantity: Math.min(MAX_CART_QUANTITY, existing ? existing.quantity + 1 : 1) };
     cart = existing ? cart.map(entry => entry.id === variant.id ? item : entry) : [...cart, item];
     writeCart(cart); renderCart(); setCartOpen(true);
   }
 
   function updateQuantity(id, delta) {
-    cart = cart.map(item => item.id === id ? {...item, quantity: item.quantity + delta} : item).filter(item => item.quantity > 0);
+    cart = normalizeCart(cart.map(item => item.id === id ? {...item, quantity: item.quantity + delta} : item));
     writeCart(cart); renderCart();
   }
 
@@ -305,6 +334,11 @@
     markFallbackCatalogUnavailable();
     refreshCatalogEnhancements();
     ensureCartPanel(); renderCart();
+    window.addEventListener('storage', event => {
+      if (event.key !== STORAGE_KEY) return;
+      cart = readCart();
+      renderCart();
+    });
     trigger.addEventListener('click', () => setCartOpen(!document.getElementById('cartPanel').classList.contains('is-open')));
     document.addEventListener('click', event => {
       const step = event.target.closest('[data-gram-step]');
@@ -338,7 +372,29 @@
       const weight = event.target.closest('[data-product-weight]');
       if (weight) updateProductPrice(weight);
     });
-    document.addEventListener('keydown', event => { if (event.key === 'Escape') setCartOpen(false); });
+    document.addEventListener('keydown', event => {
+      const panel = document.getElementById('cartPanel');
+      if (event.key === 'Escape') {
+        setCartOpen(false);
+        return;
+      }
+      if (event.key !== 'Tab' || !panel?.classList.contains('is-open')) return;
+      const focusable = [...panel.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])')];
+      if (!focusable.length) {
+        event.preventDefault();
+        panel.focus({ preventScroll: true });
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus({ preventScroll: true });
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus({ preventScroll: true });
+      }
+    });
     document.addEventListener('keydown', event => {
       const detailCard = event.target.closest('.product-card[data-detail-href]');
       if (!detailCard || event.target !== detailCard || !['Enter', ' '].includes(event.key)) return;
@@ -353,7 +409,7 @@
     if (!cart.length) {
       list.innerHTML = '<p class="cart-empty">Aucune référence n’a encore été ajoutée.</p>';
     } else {
-      list.innerHTML = cart.map(item => `<div class="checkout-line"><div><h3>${item.name}</h3><span>${item.category || 'WOOD Shop'} · quantité ${item.quantity}</span></div><strong>${priceLabel(item)}</strong></div>`).join('');
+      list.innerHTML = cart.map(item => `<div class="checkout-line"><div><h3>${escapeHtml(item.name)}</h3><span>${escapeHtml(item.category || 'WOOD Shop')} · quantité ${item.quantity}</span></div><strong>${escapeHtml(priceLabel(item))}</strong></div>`).join('');
     }
     const total = document.getElementById('checkoutTotal'); if (total) total.textContent = totalLabel();
     renderOrderModes();

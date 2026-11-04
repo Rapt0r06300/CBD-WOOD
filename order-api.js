@@ -1,4 +1,5 @@
 const ORDER_IDEMPOTENCY_KEY = 'wood-order-idempotency-v1';
+const ORDER_REQUEST_TIMEOUT_MS = 20000;
 
 const createIdempotencyKey = () => {
   if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID();
@@ -47,7 +48,22 @@ window.WoodOrderApi = Object.freeze({
     const supabase = createClient(config.url, config.publishableKey, { auth: { persistSession: true, autoRefreshToken: true } });
     const { data: { session } } = await supabase.auth.getSession();
     if (session?.access_token) headers.Authorization = `Bearer ${session.access_token}`;
-    const response = await fetch(`${config.url}/functions/v1/create-pending-order`, { method: 'POST', headers, body: JSON.stringify(requestPayload) });
+    const controller = typeof AbortController === 'function' ? new AbortController() : null;
+    const timeout = globalThis.setTimeout(() => controller?.abort(), ORDER_REQUEST_TIMEOUT_MS);
+    let response;
+    try {
+      response = await fetch(`${config.url}/functions/v1/create-pending-order`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(requestPayload),
+        ...(controller ? { signal: controller.signal } : {}),
+      });
+    } catch (error) {
+      if (error?.name === 'AbortError') throw new Error('Le service met trop de temps à répondre. Réessaie : ta sélection est conservée.');
+      throw new Error('Connexion impossible. Vérifie le réseau puis réessaie : ta sélection est conservée.');
+    } finally {
+      globalThis.clearTimeout(timeout);
+    }
     const result = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(result.error || 'Impossible d’enregistrer la commande.');
     try { sessionStorage.removeItem(ORDER_IDEMPOTENCY_KEY); } catch { /* private browsing can block storage */ }

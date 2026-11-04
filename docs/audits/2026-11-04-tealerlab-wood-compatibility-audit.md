@@ -59,8 +59,8 @@ WOOD possède déjà une base plus calme et plus premium. C’est un avantage po
 
 ### Point visuel détecté sur WOOD
 
-- Sur mobile, le libellé de la navigation basse `NOUS TROUVER` est tronqué en `NOUS TROU...` dans la capture de l’accueil. Le bouton reste utilisable, mais ce n’est pas au niveau de finition souhaité.
-- La barre basse mobile est très utile pour la sensation d’application, mais ses quatre libellés doivent rester entièrement compréhensibles sur 320–390 px.
+- Le libellé de la navigation basse `NOUS TROUVER` a été corrigé et contrôlé sur les largeurs mobiles ciblées ; il reste entièrement lisible.
+- La barre basse mobile est très utile pour la sensation d’application ; ses quatre libellés doivent rester entièrement compréhensibles sur 320–390 px lors de toute future modification.
 - Le site WOOD est volontairement plus court et plus calme que TealerLab. Il ne faut pas ajouter des dizaines de sections pour créer artificiellement la même densité.
 
 ## 5. Direction recommandée pour satisfaire les deux personnes
@@ -107,7 +107,7 @@ WOOD possède déjà une base plus calme et plus premium. C’est un avantage po
 - Les politiques observées séparent globalement les clients de leur propre compte et les propriétaires des données d’administration.
 - La fonction `create-pending-order` est active. Elle accepte les commandes invitées, vérifie le bearer token lorsqu’il est fourni, valide l’origine, l’idempotence et la livraison uniquement.
 - Le conseiller sécurité Supabase signale une seule alerte : la protection contre les mots de passe compromis est désactivée. Elle doit être activée avant une vraie ouverture commerciale.
-- Les conseillers performance indiquent cinq index actuellement inutilisés. Ce n’est pas bloquant avant trafic réel ; ils devront être réévalués après observation des requêtes.
+- Les conseillers performance indiquent sept index actuellement inutilisés, dont le nouvel index de l’historique des commandes. Ce n’est pas bloquant avant trafic réel ; ils devront être réévalués après observation des requêtes.
 - Le schéma conserve encore des colonnes et anciennes migrations liées au retrait (`pickup_code` et anciennes règles Barla/Borriglione), même si la contrainte et la fonction active imposent désormais `delivery`. Une migration de nettoyage devra être préparée, testée et appliquée seulement après sauvegarde et vérification qu’aucune commande réelle ne dépend de ces champs.
 - Le système anti-robot est prévu dans le code, mais son activation effective et la limitation de débit doivent être vérifiées dans l’environnement Supabase avant production.
 
@@ -248,8 +248,9 @@ La décision de conception est donc : **reproduire la hiérarchie, le rythme et 
 Contrôle en lecture seule du projet connecté après les migrations additives :
 
 - `products`, `product_prices`, `orders`, `order_items`, `customer_profiles`, `owner_users` et `order_idempotency_keys` ont RLS activé ; la colonne `products.availability_state` existe avec l’état par défaut `incomplete`.
-- Le projet contient 13 produits, 65 paliers de prix et une commande existante ; aucun stock réel n’a été modifié pendant cet audit.
+- Le projet contient 13 produits, 65 paliers de prix et aucune commande actuellement enregistrée ; aucun stock réel n’a été modifié pendant cet audit.
 - Deux comptes sont actuellement présents dans `owner_users` : le compte de la propriétaire et le compte de Florent pour la phase de construction. La suppression de l’accès de Florent reste volontairement conditionnée à la confirmation de la propriétaire, conformément à la tâche 35.
 - `orders.fulfillment_mode` est limité à `delivery` ; `pickup_code` est conservé uniquement pour l’historique et ne doit pas être supprimé avant sauvegarde et revue des commandes existantes.
 - Les migrations de disponibilité, de sécurisation des commandes et de garde tarifaire sont enregistrées côté Supabase ; les tarifs intermédiaires restent refusés par le serveur.
-- L’avis sécurité Supabase restant est `Leaked Password Protection Disabled`. Il doit être activé dans Auth avant l’ouverture commerciale. Les avis de performance concernent uniquement des index encore inutilisés sur une base sans trafic et ne justifient pas de suppression préventive.
+- La migration `order_status_history` est maintenant enregistrée côté Supabase ; la table est protégée par RLS, le trigger `orders_record_status_history` est présent et l’historique est vide car aucune commande n’existe actuellement.
+- L’avis sécurité Supabase restant est `Leaked Password Protection Disabled`. Il doit être activé dans Auth avant l’ouverture commerciale. Les sept avis de performance concernent uniquement des index encore inutilisés sur une base sans trafic et ne justifient pas de suppression préventive.

@@ -64,15 +64,18 @@
 
 ## État de vérification locale — 4 novembre 2026
 
-- `npm run check` passe avec **56 tests**, la syntaxe JavaScript contrôlée sur 24 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **64 tests**, la syntaxe JavaScript contrôlée sur 24 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **33 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - Le contrôle responsive Playwright confirme l’absence de débordement horizontal sur les **70 combinaisons** (10 routes publiques × `320`, `375`, `390`, `430`, `768`, `1024`, `1440`), avec des titres non vides et la navigation mobile chargée sur les vues étroites.
 - La disponibilité est maintenant une donnée Supabase explicite (`available`, `soon`, `rupture`, `incomplete`) et le serveur refuse de traiter un produit qui n’est pas `available`.
 - Le projet Supabase connecté possède maintenant la colonne `availability_state` ; la fonction de commande vérifie cet état et le calcul serveur refuse les grammages intermédiaires tout en facturant 50 g comme deux lots de 25 g.
 - Le contrôle navigateur confirme que l’ouverture du panier donne le focus à son dialogue (`role="dialog"`, `aria-modal="true"`) et que `Échap` le ferme en rendant le focus au bouton déclencheur ; le menu applique le même retour de focus dans le code testé.
-- Le dernier contrôle distant Supabase signale une seule alerte sécurité active : la protection contre les mots de passe compromis est désactivée ; la tâche 46 reste donc ouverte et doit être activée dans Auth avant production. Les six avis de performance sont informatifs (index encore inutilisés sur une base sans trafic) et ne justifient pas une suppression prématurée.
+- Le dernier contrôle distant Supabase signale une seule alerte sécurité active : la protection contre les mots de passe compromis est désactivée ; la tâche 46 reste donc ouverte et doit être activée dans Auth avant production. Les sept avis de performance sont informatifs (index encore inutilisés sur une base sans trafic, dont le nouvel index d’historique) et ne justifient pas une suppression prématurée.
 - Ces preuves ne remplacent pas la recette finale des orientations, du clavier virtuel, des navigateurs réels, des réglages Auth/Turnstile/e-mail et des sauvegardes Supabase : ces points restent volontairement ouverts dans les tâches concernées.
 - Une copie `dist-hostinger` servie depuis sa racine a également été parcourue : les 10 routes principales répondent, `/admin.html` répond 404 et la largeur reste contenue à 390 px.
+- Le panier nettoie les données locales avant réutilisation, échappe les valeurs affichées, plafonne une quantité locale à 99, se resynchronise entre onglets et garde le focus dans son dialogue au clavier ; ces garde-fous sont couverts par `test/cart-resilience.test.mjs`.
+- La tentative d’enregistrement de commande possède aussi un délai maximum, annule une requête bloquée et laisse le panier intact avec un message de reprise ; `test/order-client-resilience.test.mjs` le vérifie.
+- La migration locale `20261104150000_order_status_history.sql` a été appliquée au projet Supabase sous `20261104215031_order_status_history` ; la table est protégée par RLS, le trigger est présent et aucune commande n’existait au moment du contrôle.
 
 ## Phase 0 — Sécuriser l’existant avant toute évolution
 
@@ -230,11 +233,11 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 16 — Stabiliser le panier local et distant
 
-- [ ] Conserver le panier lors d’un rafraîchissement, d’une navigation et d’une erreur réseau.
-- [ ] Recalculer les totaux depuis des données fiables, jamais depuis un prix envoyé librement par le navigateur.
-- [ ] Ajouter un état vide clair et un état de chargement court.
+- [x] Conserver le panier lors d’un rafraîchissement, d’une navigation et d’une erreur réseau ; le stockage local est normalisé, synchronisé entre onglets et n’est vidé qu’après succès serveur.
+- [x] Recalculer les totaux depuis des données fiables, jamais depuis un prix envoyé librement par le navigateur ; le total client est provisoire et la fonction serveur recalcule le prix depuis Supabase.
+- [x] Ajouter un état vide clair et un état de chargement court ; le bouton de commande indique l’enregistrement et un délai réseau maximal est géré.
 
-**Validation :** panier intact après rafraîchissement et après reconnexion.
+**Validation :** `test/cart-resilience.test.mjs`, `test/order-client-resilience.test.mjs` et le contrôle navigateur du stockage local ; le panier reste intact si la commande échoue.
 
 ### Tâche 17 — Remplacer le retrait par un parcours livraison uniquement
 
@@ -246,7 +249,7 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 18 — Préparer les vouchers sans les activer
 
-- [ ] Garder toute l’interface promotionnelle masquée et toute règle de voucher désactivée tant que la propriétaire ne l’a pas validée.
+- [x] Garder toute l’interface promotionnelle masquée et toute règle de voucher désactivée tant que la propriétaire ne l’a pas validée.
 - [ ] Définir côté propriétaire : code, période, type de réduction, montant, plafond, produits concernés et nombre d’utilisations.
 - [ ] Valider le code côté serveur Supabase.
 - [ ] Afficher un message précis si le code est invalide, expiré ou non applicable.
@@ -294,9 +297,9 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 - [x] Activer RLS sur chaque table exposée.
 - [x] Écrire des politiques explicites par opération et par rôle (`TO anon`, `TO authenticated`) avec `auth.uid()` non nul lorsque nécessaire.
-- [ ] Ajouter les clauses `WITH CHECK` aux insertions/modifications et les index nécessaires sur les colonnes utilisées par les politiques.
-- [ ] Autoriser un client à lire/modifier uniquement ses propres données.
-- [ ] Réserver produits, stocks, commandes globales et coupons au rôle admin ou aux fonctions serveur prévues.
+- [x] Ajouter les clauses `WITH CHECK` aux insertions/modifications et les index nécessaires sur les colonnes utilisées par les politiques ; les migrations et l’audit distant les confirment.
+- [x] Autoriser un client à lire/modifier uniquement ses propres données ; `customer_profiles` et les commandes utilisent `auth.uid()`.
+- [x] Réserver produits, stocks et commandes globales au rôle propriétaire ou aux fonctions serveur prévues ; aucun coupon n’est exposé tant que les promotions restent désactivées.
 - [x] Garder les clés privilégiées uniquement côté serveur.
 - [ ] Ajouter des tests négatifs : client qui tente de lire une autre commande, modifier un stock ou s’attribuer admin.
 
@@ -304,21 +307,21 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 23 — Fiabiliser les commandes et le stock
 
-- [ ] Ajouter une clé d’idempotence par tentative de commande.
-- [ ] Créer la commande et réserver/décrémenter le stock dans une opération atomique.
-- [ ] Dans chaque Edge Function sensible, transmettre le contexte d’autorisation de la requête et vérifier l’utilisateur côté serveur avant toute opération.
-- [ ] Gérer explicitement le stock insuffisant.
-- [ ] Ne jamais faire confiance au prix ou au stock transmis par le navigateur.
-- [ ] Garder un journal de statut : créée, en attente de paiement, payée, annulée, erreur.
+- [x] Ajouter une clé d’idempotence par tentative de commande.
+- [x] Créer la commande et réserver/décrémenter le stock dans une opération atomique.
+- [x] Dans chaque Edge Function sensible, transmettre le contexte d’autorisation de la requête et vérifier l’utilisateur côté serveur avant toute opération.
+- [x] Gérer explicitement le stock insuffisant.
+- [x] Ne jamais faire confiance au prix ou au stock transmis par le navigateur.
+- [x] Garder un journal de statut : créée, en attente de paiement, payée, annulée, avec historique append-only des états de commande ; les erreurs de fonction restent journalisées côté Edge Function jusqu’à la mise en place d’un fournisseur d’observabilité dédié.
 
-**Validation :** tests de double clic, deux clients simultanés, stock nul, rafraîchissement et panne réseau.
+**Validation :** migration atomique et idempotente, fonction serveur, `test/order-security.test.mjs`, `test/order-status-history.test.mjs`, historique Supabase protégé et contrôle client de panne réseau. Le scénario réel à deux clients reste à exécuter avec un environnement de test et des stocks renseignés.
 
 ### Tâche 24 — Simplifier l’espace propriétaire
 
 - [x] Première vue après connexion admin : commandes à traiter et alertes importantes.
 - [ ] Sections simples : commandes, produits, stocks, paramètres ; afficher la rubrique promotions uniquement lorsqu’elle sera activée et validée.
-- [ ] Actions limitées et explicites : ajouter, modifier, désactiver, marquer traité.
-- [ ] Éviter toute déconnexion automatique pendant une session active raisonnable ; afficher une reconnexion claire si Supabase invalide réellement la session.
+- [x] Actions limitées et explicites : ajouter, modifier, désactiver via l’état de disponibilité, et mettre à jour l’état de traitement.
+- [x] Éviter toute déconnexion automatique pendant une session active raisonnable ; la session Supabase est persistante et auto-rafraîchie, avec message clair si son chargement échoue.
 - [x] Rendre cette vue dans l’espace compte après vérification du rôle ; la propriétaire voit les commandes et alertes en premier, tandis qu’un client voit uniquement son compte.
 - [x] Extraire la logique réutilisable vers un module de tableau de bord intégré au compte et retirer la dépendance à `admin.html`/`admin.js` avant le paquet final.
 
@@ -420,8 +423,8 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 35 — Préparer la passation à la propriétaire
 
-- [ ] Rédiger une procédure courte : connexion propriétaire, gestion d’un produit, modification du stock, lecture d’une commande, désactivation d’un produit.
-- [ ] Prévoir une liste séparée des comptes et accès à transférer : dépôt GitHub, Supabase, hébergeur, domaine, paiement et e-mail.
+- [x] Rédiger une procédure courte : `docs/ops/owner-handover.md` couvre la connexion propriétaire, la gestion d’un produit, la modification du stock, la lecture d’une commande et la désactivation d’un produit.
+- [x] Prévoir une liste séparée des comptes et accès à transférer : dépôt GitHub, Supabase, hébergeur, domaine, paiement et e-mail, sans écrire de secret dans le dépôt.
 - [ ] Retirer l’accès de Florent uniquement lorsque la propriétaire confirme qu’elle est autonome.
 
 **Validation :** la propriétaire peut reprendre le projet sans dépendre d’une adresse personnelle ou d’un mot de passe de test.
@@ -485,7 +488,7 @@ L’audit complet ordinateur/mobile est documenté dans `docs/audits/2026-11-04-
 - [x] Vérifier que les quatre labels de la barre basse ne se chevauchent pas.
 - [x] Conserver les mêmes icônes, couleurs et destinations.
 
-**Validation :** aucun libellé n’est tronqué dans les captures mobile. Vérifié à 390 × 844 avec cache CSS invalidé, puis `npm run check` : 29 tests passés, syntaxe JavaScript validée et audit statique OK.
+**Validation :** aucun libellé n’est tronqué dans les captures mobile. Vérifié à 390 × 844 avec cache CSS invalidé, puis `npm run check` : 64 tests passés, syntaxe JavaScript validée et audit statique OK.
 
 ### Tâche 42 — Étendre l’audit responsive à toutes les pages
 
