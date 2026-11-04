@@ -1,7 +1,13 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/+esm';
 
 const config = window.WOOD_SUPABASE_CONFIG;
-const supabase = config ? createClient(config.url, config.publishableKey) : null;
+const supabase = config ? createClient(config.url, config.publishableKey, {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true
+  }
+}) : null;
 const $ = (selector) => document.querySelector(selector);
 const categoryLabels = {
   fleurs: 'Fleurs CBD',
@@ -12,7 +18,7 @@ const categoryLabels = {
 
 let products = [];
 const flowerTierGrams = [1, 3, 5, 10, 25];
-const orderStatuses = ['pending', 'confirmed', 'ready', 'completed', 'cancelled'];
+const orderStatuses = ['pending', 'paid', 'preparing', 'ready', 'completed', 'cancelled'];
 
 function setMessage(selector, message, isError = false) {
   const element = $(selector);
@@ -110,7 +116,7 @@ function renderOrders(orders) {
     return;
   }
   const modeLabels = { delivery: 'Livraison à domicile' };
-  const statusLabels = { pending: 'En attente', confirmed: 'Confirmée', ready: 'Prête', completed: 'Remise', cancelled: 'Annulée' };
+  const statusLabels = { pending: 'En attente', paid: 'Payée', preparing: 'En préparation', ready: 'Prête', completed: 'Terminée', cancelled: 'Annulée' };
   body.innerHTML = orders.map((order) => `
     <tr>
       <td data-label="Date">${formatDate(order.created_at)}</td>
@@ -355,6 +361,11 @@ async function boot() {
   });
   supabase.auth.onAuthStateChange((event) => {
     if (event === 'PASSWORD_RECOVERY') showNewPasswordView();
+    if (event === 'SIGNED_OUT') {
+      showAuth();
+      showLoginView();
+      setMessage('#authMessage', 'La session propriétaire a été fermée. Reconnecte-toi pour continuer.', true);
+    }
   });
   $('#logoutButton').addEventListener('click', async () => {
     await supabase.auth.signOut();
