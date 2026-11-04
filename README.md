@@ -34,10 +34,10 @@ Le dépôt peut être privé après vérification de la connexion Cloudflare au 
 Le site n’a pas besoin d’être converti en Python, PHP ou WordPress pour Hostinger. Pour préparer un paquet sans rien publier :
 
 ```bash
-npm run prepare:hostinger
+npm run hostinger:preflight
 ```
 
-La commande crée `dist-hostinger/`. Seul son contenu devra être envoyé plus tard dans `public_html/`. Le paquet contient `.htaccess`, les pages publiques, les styles, les scripts, les assets et `404.html`, mais exclut les tests, la documentation, les migrations Supabase et les fichiers de dépôt. Voir `docs/ops/hostinger-deploy.md`.
+La commande vérifie le projet puis crée et contrôle `dist-hostinger/`. Seul son contenu devra être envoyé plus tard dans `public_html/`. Le paquet contient `.htaccess`, les pages publiques, les styles, les scripts, les assets et `404.html`, mais exclut les tests, la documentation, les migrations Supabase et les fichiers de dépôt. Voir `docs/ops/hostinger-deploy.md`.
 
 Le fichier `.htaccess` est spécifique à un hébergement Apache comme Hostinger. Les fichiers `_headers`, `_redirects` et `netlify.toml` restent utiles pour d’autres plateformes mais ne remplacent pas `.htaccess` sur Hostinger.
 

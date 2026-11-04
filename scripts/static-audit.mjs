@@ -12,6 +12,7 @@ const requiredFiles = [
   'supabase/functions/create-pending-order/index.ts',
   'supabase/functions/create-pending-order/validation.mjs',
   'supabase/migrations/20261104120000_order_security_and_stock.sql',
+  'scripts/hostinger-preflight.mjs',
 ];
 
 const localReferencePattern = /(?:href|src)=["']([^"']+)["']/gi;
