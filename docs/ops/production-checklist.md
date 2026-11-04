@@ -33,7 +33,7 @@
 - [ ] L’utilisateur propriétaire est le seul présent dans `owner_users`.
 - [ ] La migration `customer_account_roles` crée automatiquement le rôle `customer` pour chaque nouveau compte et interdit toute auto-promotion.
 - [ ] Le bouton propriétaire reste masqué pour un client, y compris au clavier ; l’accès réel reste contrôlé par `owner_users` et les RLS.
-- [ ] Un visiteur sans session qui ouvre directement `admin.html` est renvoyé vers `compte.html` avant affichage ; l’accès propriétaire conserve sa session.
+- [ ] Un visiteur ou client ne trouve aucune route `admin.html` publique ; l’espace propriétaire n’existe que dans `compte.html` après vérification `owner_users`.
 - [ ] Les stocks et prix réels sont vérifiés dans le tableau de bord.
 - [ ] `npm run check` passe après chaque changement.
 

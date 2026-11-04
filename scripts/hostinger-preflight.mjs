@@ -3,7 +3,7 @@ import { join, relative, resolve } from 'node:path';
 
 const root = resolve(process.cwd(), 'dist-hostinger');
 const requiredFiles = ['index.html', '404.html', '.htaccess', 'assets/favicon.svg'];
-const forbiddenPathPattern = /^(?:supabase|test|docs|scripts|\.git)(?:[\\/]|$)|(?:^|[\\/])(?:package\.json|netlify\.toml|README\.md)$/i;
+const forbiddenPathPattern = /^(?:supabase|test|docs|scripts|\.git)(?:[\\/]|$)|(?:^|[\\/])(?:package\.json|netlify\.toml|README\.md|admin(?:\.html|\.js|\.css)?)$/i;
 const forbiddenTextPattern = /(?:localhost|127\.0\.0\.1|github\.io|netlify\.app|hostingersite\.com|SUPABASE_SERVICE_ROLE_KEY|TURNSTILE_SECRET_KEY|VIVA_(?:SECRET|API_KEY|TOKEN)|service_role)/i;
 const textExtensions = new Set(['.html', '.js', '.css', '.htaccess']);
 
@@ -30,6 +30,7 @@ try {
   }
   for (const file of files) {
     if (forbiddenPathPattern.test(file)) fail(`Chemin interdit dans le paquet : ${file}`);
+    if (/(?:^|[\\/])admin(?:\.html|\.js|\.css)?$/i.test(file)) fail(`Route admin publique interdite dans le paquet : ${file}`);
     const extension = file === '.htaccess' ? '.htaccess' : file.slice(file.lastIndexOf('.')).toLowerCase();
     if (textExtensions.has(extension)) {
       const source = await readFile(join(root, file), 'utf8');

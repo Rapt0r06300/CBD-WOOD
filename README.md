@@ -84,7 +84,7 @@ Le paiement Viva reste volontairement non activé tant que les identifiants prof
 
 ## Espace propriétaire
 
-`admin.html` n’est lié dans aucune navigation publique. L’accès est refusé tant que l’utilisateur connecté n’existe pas dans `owner_users`, et les protections RLS restent obligatoires. Pour une séparation maximale, l’étape suivante sera de publier l’espace propriétaire sur un projet ou sous-domaine Cloudflare distinct, sans changer le site public.
+Le tableau de bord propriétaire est intégré à `compte.html` et reste masqué tant que l’utilisateur connecté n’est pas confirmé dans `owner_users`. L’ancienne route `admin.html` n’existe plus dans le dépôt ni dans le paquet public ; les protections RLS restent obligatoires.
 
 ## Limites connues et contrôle avant mise en ligne
 

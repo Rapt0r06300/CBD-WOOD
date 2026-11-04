@@ -20,6 +20,7 @@
   };
   const cartCount = () => cart.reduce((sum, item) => sum + item.quantity, 0);
   const calculateFlowerPrice = (grams, tiers) => window.WoodFlowerPricing?.calculateFlowerPrice?.(grams, tiers) || { price: '', breakdown: [] };
+  const getFlowerPriceForOrder = (grams, tiers) => window.WoodFlowerPricing?.getFlowerPriceForOrder?.(grams, tiers) || { price: '', breakdown: [] };
   const maxFlowerGrams = 50;
   const hasBackendCatalog = Boolean(window.WOOD_SUPABASE_CONFIG?.url && window.WOOD_SUPABASE_CONFIG?.publishableKey);
   const getOrderMode = id => window.WoodOrderOptions?.getOrderMode?.(id) || null;
@@ -179,7 +180,7 @@
     const control = card.querySelector('[data-product-gram-control]');
     if (control) {
       const grams = Math.max(1, Number.parseInt(control.dataset.grams, 10) || 1);
-      const pricing = calculateFlowerPrice(grams, readFlowerTiers(control));
+      const pricing = getFlowerPriceForOrder(grams, readFlowerTiers(control));
       const label = `${grams} g`;
       return { id: `${card.dataset.productId}:${grams}g`, name: `${card.dataset.productName} · ${label}`, price: pricing.price === '' ? '' : String(pricing.price), label };
     }
@@ -195,8 +196,17 @@
     const label = card?.querySelector('[data-product-price-label]');
     if (select.matches('[data-product-gram-control]')) {
       const grams = Math.max(1, Number.parseInt(select.dataset.grams, 10) || 1);
-      const pricing = calculateFlowerPrice(grams, readFlowerTiers(select));
-      if (label) label.textContent = `${grams} g · ${priceLabel({ price: pricing.price })}`;
+      const pricing = getFlowerPriceForOrder(grams, readFlowerTiers(select));
+      const card = select.closest('.product-card');
+      const button = card?.querySelector('.add-to-cart');
+      const orderable = pricing.price !== '';
+      if (label) label.textContent = `${grams} g · ${orderable ? priceLabel({ price: pricing.price }) : 'Tarif à confirmer'}`;
+      if (button && card?.dataset.productUnavailable !== 'true') {
+        button.disabled = !orderable;
+        button.setAttribute('aria-disabled', String(!orderable));
+        if (orderable) button.removeAttribute('data-gram-unavailable');
+        else button.setAttribute('data-gram-unavailable', 'true');
+      }
       const minus = select.querySelector('[data-gram-step="-1"]');
       if (minus) minus.disabled = grams <= 1;
         const plus = select.querySelector('[data-gram-step="1"]');
@@ -225,7 +235,12 @@
 
   function addProduct(card, button) {
     if (!card || button?.disabled || card.dataset.productUnavailable === 'true' || button?.dataset.productUnavailable !== undefined) return;
+    const now = globalThis.performance?.now?.() || Date.now();
+    const lastAddAt = Number(button?.dataset.lastAddAt || 0);
+    if (button && lastAddAt > 0 && now - lastAddAt < 450) return;
+    if (button) button.dataset.lastAddAt = String(now);
     const variant = selectedVariant(card);
+    if (!variant.price) return;
     const existing = cart.find(item => item.id === variant.id);
     const item = { id: variant.id, productId: card.dataset.productId, name: variant.name, category: card.dataset.productCategory, price: variant.price, weight: variant.label, quantity: existing ? existing.quantity + 1 : 1 };
     cart = existing ? cart.map(entry => entry.id === variant.id ? item : entry) : [...cart, item];

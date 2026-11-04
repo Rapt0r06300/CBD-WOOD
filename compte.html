@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="boutique.css?v=wood-responsive-v6-20261104">
   <link rel="stylesheet" href="responsive.css?v=wood-logo-20261103">
   <link rel="stylesheet" href="mobile.css?v=wood-mobile-app-v6-20261104">
+  <link rel="stylesheet" href="owner-dashboard.css?v=wood-owner-dashboard-v1-20261104">
 </head>
 <body>
   <a class="skip" href="#contenu">Aller au contenu</a>
@@ -26,7 +27,36 @@
       <div class="section-heading"><div><div class="kicker">06 / Mon espace</div><h1 id="account-title" class="section-title">VOTRE <span>COMPTE.</span></h1></div><p class="section-aside">Un espace simple pour retrouver ses commandes et ses informations, sans modifier l'univers WOOD.</p></div>
       <div class="account-card"><div class="account-tabs"><button class="account-tab is-active" type="button" data-account-tab="login">Se connecter</button><button class="account-tab" type="button" data-account-tab="register">Créer un compte</button></div><form class="account-form" data-account-form="" data-backend="supabase"><label for="account-email">E-mail<input id="account-email" name="email" type="email" autocomplete="email" placeholder="votre@email.fr" required></label><label for="account-password">Mot de passe<input id="account-password" name="password" type="password" autocomplete="current-password" placeholder="••••••••" minlength="6" required></label><button class="btn" id="accountAction" type="submit">Se connecter</button></form><p id="accountMessage" class="inline-message hidden" role="status" aria-live="polite"></p><p class="account-note">La connexion est sécurisée par Supabase. Un e-mail de confirmation peut être demandé lors de la création du compte.</p></div>
       <section class="account-dashboard hidden" id="accountDashboard" aria-live="polite">
-        <div class="account-dashboard__head"><div><div class="kicker">ESPACE CLIENT</div><h2>BIENVENUE <span>CHEZ WOOD.</span></h2><p id="accountWelcome" class="account-dashboard__muted"></p></div><div class="account-dashboard__actions"><a class="btn account-owner-link hidden" id="ownerDashboardLink" href="admin.html" aria-hidden="true" tabindex="-1">Ouvrir l’espace propriétaire ↗</a><button class="btn account-logout" id="accountLogout" type="button">Se déconnecter</button></div></div>
+        <div class="account-dashboard__head"><div><div class="kicker">ESPACE CLIENT</div><h2>BIENVENUE <span>CHEZ WOOD.</span></h2><p id="accountWelcome" class="account-dashboard__muted"></p></div><div class="account-dashboard__actions"><button class="btn account-owner-link hidden" id="ownerDashboardLink" type="button" aria-hidden="true" tabindex="-1">Gérer la boutique ↗</button><button class="btn account-logout" id="accountLogout" type="button">Se déconnecter</button></div></div>
+        <section class="owner-dashboard hidden" id="ownerDashboard" aria-labelledby="owner-dashboard-title" aria-hidden="true">
+          <div class="owner-dashboard__kicker">ESPACE PROPRIÉTAIRE</div>
+          <div class="owner-dashboard__title-row">
+            <div><h2 id="owner-dashboard-title">GÉRER WOOD<span>.</span></h2><p class="owner-dashboard__lead">Commandes d’abord, puis catalogue et stocks, au même endroit.</p></div>
+            <span class="owner-dashboard__status"><i aria-hidden="true"></i>Paiement Viva en attente de connexion</span>
+          </div>
+          <div class="owner-dashboard__notice"><strong>Configuration progressive</strong><span>Les commandes et le catalogue sont gérables maintenant. Le paiement Viva sera activé lorsque la propriétaire fournira ses accès professionnels.</span></div>
+          <div class="owner-dashboard__summary" id="ownerSummaryGrid"></div>
+          <section class="owner-dashboard__section" aria-labelledby="owner-products-title">
+            <div class="owner-dashboard__section-head"><div><div class="owner-dashboard__kicker">CATALOGUE</div><h3 id="owner-products-title">Produits</h3></div><button class="owner-dashboard__button owner-dashboard__button--primary" id="ownerNewProductButton" type="button">Ajouter un produit</button></div>
+            <form class="owner-dashboard__card owner-dashboard__product-form hidden" id="ownerProductForm">
+              <input id="ownerProductId" type="hidden">
+              <div class="owner-dashboard__form-title"><h4 id="ownerProductFormTitle">Nouveau produit</h4><button class="owner-dashboard__close" id="ownerCancelProductButton" type="button" aria-label="Fermer">×</button></div>
+              <div class="owner-dashboard__form-grid">
+                <div><label for="ownerProductName">Nom du produit</label><input id="ownerProductName" type="text" required></div>
+                <div><label for="ownerProductCategory">Catégorie</label><select id="ownerProductCategory" required><option value="fleurs">Fleurs CBD</option><option value="resines">Résines</option><option value="bien-etre">Bien-être, huiles &amp; cosmétiques</option><option value="wood-shop">WOOD Shop &amp; vêtements</option></select></div>
+                <div><label for="ownerProductPrice">Prix en euros</label><input id="ownerProductPrice" type="number" min="0" step="0.01" placeholder="Ex. 12,90"></div>
+                <div><label for="ownerProductStock">Stock</label><input id="ownerProductStock" type="number" min="0" step="1" value="0" required></div>
+                <div><label for="ownerProductStatus">Visibilité</label><select id="ownerProductStatus"><option value="draft">Brouillon</option><option value="published">Publié</option><option value="archived">Archivé</option></select></div>
+                <div><label for="ownerProductAvailability">Disponibilité</label><select id="ownerProductAvailability"><option value="incomplete">Information à compléter</option><option value="available">Disponible</option><option value="soon">Bientôt disponible</option><option value="rupture">Rupture de stock</option></select></div>
+                <div class="owner-dashboard__form-full"><label for="ownerProductDescription">Description</label><textarea id="ownerProductDescription" rows="4" placeholder="Profil, format, informations utiles…"></textarea></div>
+                <fieldset class="owner-dashboard__form-full owner-dashboard__pricing" id="ownerFlowerPricingFields"><legend>Tarifs fleurs par grammage</legend><p>Renseigne les cinq tarifs de la carte WOOD : 1 g, 3 g, 5 g, 10 g et 25 g. Aucun tarif intermédiaire n’est inventé.</p><div class="owner-dashboard__tier-grid"><div><label for="ownerProductPrice1">1 g</label><input id="ownerProductPrice1" type="number" min="0" step="0.01" placeholder="15,00"></div><div><label for="ownerProductPrice3">3 g</label><input id="ownerProductPrice3" type="number" min="0" step="0.01" placeholder="42,00"></div><div><label for="ownerProductPrice5">5 g</label><input id="ownerProductPrice5" type="number" min="0" step="0.01" placeholder="70,00"></div><div><label for="ownerProductPrice10">10 g</label><input id="ownerProductPrice10" type="number" min="0" step="0.01" placeholder="130,00"></div><div><label for="ownerProductPrice25">25 g</label><input id="ownerProductPrice25" type="number" min="0" step="0.01" placeholder="260,00"></div></div></fieldset>
+              </div>
+              <div class="owner-dashboard__form-actions"><button class="owner-dashboard__button owner-dashboard__button--primary" type="submit">Enregistrer le produit</button><button class="owner-dashboard__button" id="ownerCancelProductButtonBottom" type="button">Annuler</button></div><p class="owner-dashboard__message" id="ownerProductMessage" role="status" aria-live="polite"></p>
+            </form>
+            <div class="owner-dashboard__card owner-dashboard__table-card"><div class="owner-dashboard__table-wrap"><table><thead><tr><th scope="col">Produit</th><th scope="col">Catégorie</th><th scope="col">Prix</th><th scope="col">Stock</th><th scope="col">Statut</th><th scope="col" aria-label="Actions"></th></tr></thead><tbody id="ownerProductsBody"><tr><td colspan="6" class="owner-dashboard__empty">Chargement du catalogue…</td></tr></tbody></table></div></div>
+          </section>
+          <section class="owner-dashboard__section" aria-labelledby="owner-orders-title"><div class="owner-dashboard__section-head"><div><div class="owner-dashboard__kicker">VENTES</div><h3 id="owner-orders-title">Commandes</h3></div></div><div class="owner-dashboard__card owner-dashboard__table-card"><div class="owner-dashboard__table-wrap"><table><thead><tr><th scope="col">Date</th><th scope="col">Commande / client</th><th scope="col">Livraison</th><th scope="col">Total</th><th scope="col">Paiement</th><th scope="col">État</th></tr></thead><tbody id="ownerOrdersBody"><tr><td colspan="6" class="owner-dashboard__empty">Chargement des commandes…</td></tr></tbody></table></div><p class="owner-dashboard__message" id="ownerOrderMessage" role="status" aria-live="polite"></p></div></section>
+        </section>
         <div class="account-dashboard__grid">
           <form class="account-panel account-form" id="profileForm">
             <div><div class="kicker">MES INFORMATIONS</div><h3>Mon profil</h3></div>

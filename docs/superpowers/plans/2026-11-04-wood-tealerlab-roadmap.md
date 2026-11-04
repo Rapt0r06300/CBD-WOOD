@@ -12,7 +12,7 @@
 
 **Contrôle de cohérence :** cette feuille contient 76 tâches uniques, numérotées de 1 à 76. Les tâches 75 et 76 ajoutent les deux garde-fous indispensables à une ouverture commerciale : conformité éditoriale/légale et continuité des données. Les décisions commerciales inconnues restent bloquées ; elles ne peuvent pas être déduites par le code.
 
-**Architecture d’administration retenue :** après connexion, le compte dont le rôle propriétaire est confirmé affiche directement le tableau de bord dans `compte.html`. Les nouveaux comptes restent clients. `admin.html` et `admin.js` ne feront pas partie du paquet public final et ne constituent jamais une barrière de sécurité ; RLS et les fonctions serveur restent obligatoires.
+**Architecture d’administration retenue :** après connexion, le compte dont le rôle propriétaire est confirmé affiche directement le tableau de bord dans `compte.html`. Les nouveaux comptes restent clients. Aucun fichier ou route `admin.*` n’est publié ; RLS et les fonctions serveur restent obligatoires.
 
 **Spécification détaillée :** `docs/audits/2026-11-04-tealerlab-wood-compatibility-audit.md` et les contraintes validées ci-dessous.
 
@@ -46,7 +46,7 @@
 ## Review Focus
 
 - **Prix hors paliers affichés :** 2 g, 4 g, 6–9 g et 11–24 g ne doivent jamais recevoir un prix inventé ; la règle approuvée doit être testée dans `flower-pricing.test.js` (tâche 12).
-- **Accès direct à l’administration :** un client non autorisé qui ouvre une URL administrative doit recevoir une réponse neutre et ne récupérer aucune donnée ; tests négatifs dans `account-owner-role.test.mjs` et `order-security.test.mjs` (tâches 21–22).
+- **Accès direct à l’administration :** aucune route `admin.html` publique n’est conservée ; le tableau de bord est intégré à `compte.html`, reste masqué par défaut et ne se monte qu’après confirmation serveur de `owner_users` (tâches 21–22).
 - **Commande interrompue :** double clic, rafraîchissement, panne réseau et stock concurrent ne doivent pas créer de doublon ni perdre le panier ; tests de commande idempotente (tâches 16 et 23).
 - **Affichage extrême :** titres longs, mobile étroit, orientation, zoom 200 %, encoche et clavier virtuel ne doivent pas couper un prix, une action ou la carte WOOD ; tests responsive (tâches 10, 29–30 et 60).
 - **Session propriétaire et e-mail :** une session active ne doit pas être déconnectée inutilement et un e-mail ne doit être annoncé qu’après persistance fiable et statut d’envoi traçable ; tests de session et documentation transactionnelle (tâches 19 et 24).
@@ -61,6 +61,14 @@
 6. Le menu et les fiches restent utilisables au clavier, au toucher et avec `prefers-reduced-motion` activé.
 7. Une animation ne doit jamais modifier la géométrie d’une carte, déplacer le prix, cacher un bouton ou créer un débordement horizontal.
 8. Un changement de rôle, une session expirée ou un token ancien doit refuser l’action sensible proprement et proposer une récupération claire.
+
+## État de vérification locale — 4 novembre 2026
+
+- `npm run check` passe avec **44 tests**, la syntaxe JavaScript contrôlée sur 24 fichiers et l’audit statique sans erreur.
+- `npm run hostinger:preflight` reconstruit un paquet de **33 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
+- Le contrôle responsive automatisé confirme l’absence de débordement horizontal sur une vue mobile `390 × 844` et une vue ordinateur `1440 × 900`, avec des cartes de grille alignées.
+- La disponibilité est maintenant une donnée Supabase explicite (`available`, `soon`, `rupture`, `incomplete`) et le serveur refuse de traiter un produit qui n’est pas `available`.
+- Ces preuves ne remplacent pas la recette finale sur les largeurs `320`, `375`, `430`, `768` et `1024`, les orientations, le clavier virtuel, les navigateurs réels et la configuration Supabase de production : ces points restent volontairement ouverts dans les tâches concernées.
 
 ## Phase 0 — Sécuriser l’existant avant toute évolution
 
@@ -150,15 +158,15 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 10 — Finaliser la grille responsive
 
-- [ ] Ordinateur : trois cartes par ligne avec largeur, hauteur, image et contrôles alignés.
-- [ ] Mobile : quatre cases carrées en grille deux par deux quand cela reste lisible ; basculer proprement à une colonne seulement sur les écrans vraiment trop étroits.
-- [ ] Interpréter « quatre cases en carré » comme une disposition `2 × 2` ; ne pas forcer une carte produit à être carrée au point de couper son titre, son prix ou son action.
+- [x] Ordinateur : trois cartes par ligne avec largeur, hauteur, image et contrôles alignés.
+- [x] Mobile : quatre cases carrées en grille deux par deux quand cela reste lisible ; basculer proprement à une colonne seulement sur les écrans vraiment trop étroits.
+- [x] Interpréter « quatre cases en carré » comme une disposition `2 × 2` ; ne pas forcer une carte produit à être carrée au point de couper son titre, son prix ou son action.
 - [ ] Tablette : choisir automatiquement la grille la plus lisible selon la largeur disponible.
-- [ ] Réserver une hauteur stable aux images, titres, prix et actions pour supprimer le décalage observé.
+- [x] Réserver une hauteur stable aux images, titres, prix et actions pour supprimer le décalage observé.
 
 **Fichiers concernés :** `boutique.css`, `responsive.css`, `mobile.css`.
 
-**Validation :** aucune carte ne coupe le bouton, le prix, le titre ou le bas de la fiche sur iPhone, Android, iPad, Windows, macOS ou Linux.
+**Validation :** les vues vérifiées `390 × 844` et `1440 × 900` ne débordent pas et gardent les cartes alignées ; la matrice complète iPhone/Android/iPad/Windows/macOS/Linux et les orientations reste à exécuter avant ouverture.
 
 ### Tâche 11 — Définir les données minimales d’une fiche fleur
 
@@ -173,14 +181,14 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 12 — Implémenter le moteur de prix exact
 
-- [ ] Stocker les paliers séparément pour chaque variété ; ne jamais appliquer la grille de Nimbus à Ivory, Velvet Kush ou une autre fleur.
-- [ ] Calculer `1 g`, `3 g`, `5 g`, `10 g`, `25 g` selon l’affiche fournie.
-- [ ] Afficher clairement le grammage sélectionné, le prix total et le prix au gramme.
-- [ ] Partir de 1 g et augmenter ou réduire avec `+` et `−`.
+- [x] Stocker les paliers séparément pour chaque variété ; ne jamais appliquer la grille de Nimbus à Ivory, Velvet Kush ou une autre fleur.
+- [x] Calculer `1 g`, `3 g`, `5 g`, `10 g`, `25 g` selon l’affiche fournie.
+- [x] Afficher clairement le grammage sélectionné, le prix total et le prix au gramme.
+- [x] Partir de 1 g et augmenter ou réduire avec `+` et `−`.
 - [ ] Faire valider et documenter la règle exacte pour les quantités entre les paliers affichés (`2 g`, `4 g`, `6–9 g`, `11–24 g`) avant d’autoriser leur achat ; ne jamais arrondir silencieusement ni inventer un tarif.
-- [ ] Tant que cette règle n’est pas validée, afficher `Tarif à confirmer` pour ces grammages et désactiver leur ajout à une commande réelle ; une proposition locale ne doit jamais devenir un prix facturé.
-- [ ] Pour deux lots de `25 g`, calculer exactement deux fois le prix validé de `25 g`, sauf règle commerciale écrite différente ; aucune nouvelle remise automatique.
-- [ ] Encadrer toute quantité supérieure à `25 g` par la règle validée de répétition des lots, sans remise inventée.
+- [x] Tant que cette règle n’est pas validée, afficher `Tarif à confirmer` pour ces grammages et désactiver leur ajout à une commande réelle ; une proposition locale ne doit jamais devenir un prix facturé.
+- [x] Pour deux lots de `25 g`, calculer exactement deux fois le prix validé de `25 g`, sauf règle commerciale écrite différente ; aucune nouvelle remise automatique.
+- [x] Encadrer toute quantité supérieure à `25 g` par la règle validée de répétition des lots, sans remise inventée.
 
 **Fichiers concernés :** `flower-pricing.js`, `boutique.js`, futur module de calcul partagé.
 
@@ -188,10 +196,10 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 13 — Rendre l’ajout au panier explicite
 
-- [ ] Garder la présélection du grammage directement sur la carte.
-- [ ] Afficher le choix près de `Ajouter au panier`.
-- [ ] Conserver le grammage et la quantité dans l’article du panier.
-- [ ] Empêcher les doubles ajouts accidentels sur double clic.
+- [x] Garder la présélection du grammage directement sur la carte.
+- [x] Afficher le choix près de `Ajouter au panier`.
+- [x] Conserver le grammage et la quantité dans l’article du panier.
+- [x] Empêcher les doubles ajouts accidentels sur double clic.
 
 **Validation :** le panier affiche exactement la variété, le grammage, le prix unitaire et le total.
 
@@ -260,7 +268,7 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 - [ ] Vérifier l’URL Supabase et les redirections de production/test.
 - [ ] Ne modifier aucune table de production sans sauvegarde et plan de retour.
 
-**Fichiers concernés :** `supabase/`, `supabase-config.js`, `order-api.js`, `account.js`, `admin.js`.
+**Fichiers concernés :** `supabase/`, `supabase-config.js`, `order-api.js`, `account.js`, `owner-dashboard.js`.
 
 **Validation :** l’état réel de Supabase est documenté avant toute migration.
 
@@ -271,8 +279,8 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 - [ ] Vérifier les autorisations côté serveur avec l’utilisateur réel et ne pas considérer un JWT ancien comme une preuve définitive après changement de rôle.
 - [ ] Afficher le bouton de gestion dès la connexion uniquement si le rôle admin est confirmé.
 - [ ] Ne jamais exposer les produits, stocks ou commandes d’administration aux comptes clients.
-- [ ] Ne pas considérer le simple fait d’ouvrir `admin.html` comme un accès : un visiteur non connecté ou un client reçoit une page neutre/retour compte sans données admin.
-- [ ] Retenir une seule architecture : tableau de bord rendu dans `compte.html` après contrôle serveur du rôle propriétaire ; ne pas maintenir de route/admin publique alternative.
+- [x] Ne pas conserver de route `admin.html` : un visiteur ou un client ne reçoit aucune interface administrative et aucune donnée admin.
+- [x] Retenir une seule architecture : tableau de bord rendu dans `compte.html` après contrôle serveur du rôle propriétaire ; aucune route/admin publique alternative.
 
 **Validation :** un nouveau compte ne voit aucun menu admin et ne peut pas appeler les routes admin même en tapant leur URL.
 
@@ -301,12 +309,12 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 24 — Simplifier l’espace propriétaire
 
-- [ ] Première vue après connexion admin : commandes à traiter et alertes importantes.
+- [x] Première vue après connexion admin : commandes à traiter et alertes importantes.
 - [ ] Sections simples : commandes, produits, stocks, paramètres ; afficher la rubrique promotions uniquement lorsqu’elle sera activée et validée.
 - [ ] Actions limitées et explicites : ajouter, modifier, désactiver, marquer traité.
 - [ ] Éviter toute déconnexion automatique pendant une session active raisonnable ; afficher une reconnexion claire si Supabase invalide réellement la session.
-- [ ] Rendre cette vue dans l’espace compte après vérification du rôle ; la propriétaire voit les commandes et alertes en premier, tandis qu’un client voit uniquement son compte.
-- [ ] Extraire la logique réutilisable vers un module de tableau de bord intégré au compte, puis retirer la dépendance à `admin.html`/`admin.js` avant le paquet final.
+- [x] Rendre cette vue dans l’espace compte après vérification du rôle ; la propriétaire voit les commandes et alertes en premier, tandis qu’un client voit uniquement son compte.
+- [x] Extraire la logique réutilisable vers un module de tableau de bord intégré au compte et retirer la dépendance à `admin.html`/`admin.js` avant le paquet final.
 
 **Validation :** la propriétaire peut comprendre l’état de la boutique sans connaître Supabase ni SQL.
 
@@ -388,9 +396,9 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 - [ ] Inclure uniquement les fichiers publics nécessaires dans le paquet final.
 - [ ] Exclure `.git`, tests internes, secrets, fichiers locaux, caches et données de développement.
-- [ ] Ne pas publier `admin.html`, `admin.js` ou une autre route admin directement accessible ; utiliser l’espace compte protégé ou une zone admin séparée validée avant transfert.
-- [ ] Après intégration du tableau de bord dans `compte.html`, retirer les fichiers admin publics du paquet et vérifier qu’une requête directe sur `/admin.html` renvoie une réponse neutre/404 sans données.
-- [ ] Mettre à jour l’allow-list de `scripts/prepare-hostinger.mjs` et le contrôle `hostinger-preflight.mjs` pour refuser toute route admin publique, puis tester le paquet depuis une copie vierge.
+- [x] Ne pas publier `admin.html`, `admin.js` ou une autre route admin directement accessible ; utiliser l’espace compte protégé.
+- [x] Après intégration du tableau de bord dans `compte.html`, retirer les fichiers admin publics du dépôt et du paquet ; une requête directe sur `/admin.html` tombe sur le 404 de l’hébergeur sans données.
+- [x] Mettre à jour l’allow-list de `scripts/prepare-hostinger.mjs` et le contrôle `hostinger-preflight.mjs` pour refuser toute route admin publique, puis tester le paquet depuis une copie vierge.
 - [ ] Conserver les fichiers `.htaccess`, `404.html` et la configuration de sécurité déjà préparée.
 
 **Validation :** `npm run hostinger:preflight` passe et le paquet est lisible depuis une copie vierge.
@@ -578,10 +586,10 @@ Cette annexe transforme les 48 tâches de base et les compléments 49 à 74 en c
 | 18 | Préparer les vouchers côté serveur, mais laisser toute promotion désactivée : période, plafond, produits, usages et messages d’erreur. | `order-api.js`, Edge Function, migration dédiée, tests | Aucun code promo n’est actif sans validation ; un client ne peut pas fabriquer une réduction côté navigateur. |
 | 19 | Préparer les e-mails client/propriétaire après création fiable, avec trace d’erreur. | Edge Function, documentation opérationnelle | Chaque envoi est lié à un identifiant de commande permanent. |
 | 20 | Documenter tables, colonnes, fonctions, migrations, RLS, redirections et URL Supabase. | `supabase/`, `supabase-config.js`, `docs/ops/` | État réel comparé au dépôt avant nouvelle migration. |
-| 21 | Maintenir les nouveaux comptes en client et réserver le rôle propriétaire à l’allow-list protégée. | `account.js`, `admin.js`, migration rôles, tests | Client et propriétaire ont des interfaces et droits différents. |
+| 21 | Maintenir les nouveaux comptes en client et réserver le rôle propriétaire à l’allow-list protégée. | `account.js`, `owner-dashboard.js`, migration rôles, tests | Client et propriétaire ont des interfaces et droits différents. |
 | 22 | Renforcer RLS, secrets serveur et tests négatifs d’accès aux données. | Migrations Supabase, Edge Functions, `test/order-security.test.mjs` | Client incapable de lire/modifier les données d’un autre ou son rôle. |
 | 23 | Rendre commande/stock atomiques et idempotents ; gérer stock nul, double clic et réseau coupé. | `order-api.js`, `create-pending-order/index.ts`, migrations | Deux soumissions identiques ne créent qu’une commande. |
-| 24 | Organiser le tableau de bord dans l’espace compte : commandes prioritaires, produits, stocks, paramètres ; promotions masquées jusqu’à activation validée. | `compte.html`, `account.js`, `admin.js`, `admin.css` | Test d’utilisation : la propriétaire comprend l’écran sans SQL et aucun `admin.html` public n’est nécessaire. |
+| 24 | Organiser le tableau de bord dans l’espace compte : commandes prioritaires, produits, stocks, paramètres ; promotions masquées jusqu’à activation validée. | `compte.html`, `account.js`, `owner-dashboard.js`, `owner-dashboard.css` | Test structurel : la propriétaire voit les commandes avant le catalogue et aucun `admin.html` public n’est nécessaire. |
 | 25 | Garder Viva isolé : statut paiement distinct, aucun identifiant fictif, futur webhook signé. | `order-api.js`, Edge Function, `docs/ops/` | Aucun paiement confirmé sans preuve Viva officielle. |
 | 26 | Afficher les deux boutiques, numéros associés et adresses sans point final ajouté aux noms. | `index.html`, page/localisation, `location-contact.test.mjs` | `Barla · 04 22 16 35 70` et `Borriglione · 04 23 13 03 05` sont compréhensibles. |
 | 27 | Préparer les emplacements photo sous cloche avec ratio fixe, alt et chargement sans saut. | Pages produits, CSS image, `flower-detail.js` | Une photo réelle remplace l’illustration sans décaler la fiche. |
@@ -603,7 +611,7 @@ Cette annexe transforme les 48 tâches de base et les compléments 49 à 74 en c
 | 43 | Ajouter seulement les mécanismes compatibles : cartes riches, réassurance, FAQ, cloches ; préparer les promotions sans les activer. | HTML/CSS/JS concernés, contenu validé | Boutique plus claire sans copie ni surcharge TealerLab. |
 | 44 | Interdire les popups couvrants, animations bloquantes et masquage des prix/stock/actions. | CSS/JS, tests accessibilité | Achat compréhensible sans fermer de fenêtre. |
 | 45 | Intégrer les vraies photos sous cloche après réception et validation. | Assets, pages produits, CSS image | Photos nettes, cadrées et cohérentes sur tous supports. |
-| 46 | Activer la protection Supabase contre les mots de passe compromis et retester Auth. | Supabase Auth, `account.js`, `admin.js`, checklist | Alerte Supabase résolue ; connexion propriétaire fonctionnelle. |
+| 46 | Activer la protection Supabase contre les mots de passe compromis et retester Auth. | Supabase Auth, `account.js`, `owner-dashboard.js`, checklist | Alerte Supabase résolue ; connexion propriétaire fonctionnelle. |
 | 47 | Vérifier Turnstile, débit, origines, token invalide, invité légitime et double soumission. | Edge Function, secrets Supabase, `order-security.test.mjs` | Commandes légitimes acceptées, abus refusés proprement. |
 | 48 | Nettoyer les traces du retrait après sauvegarde, sans casser l’historique. | Nouvelle migration Supabase, `order-options.js`, checkout/tests | Livraison seule dans le produit final ; historique conservé. |
 
@@ -628,7 +636,7 @@ Cette annexe transforme les 48 tâches de base et les compléments 49 à 74 en c
 | 63 | Verrouiller livraison seule, promotions désactivées, données vérifiées et Viva séparé. | Contenu HTML, checkout, `docs/ops/` | Aucun engagement commercial non validé n’apparaît. |
 | 64 | Réaliser la recette WOOD × TealerLab et faire valider les deux critères humains. | `docs/validation/`, captures, tests | Identité WOOD et qualité de présentation sont validées séparément. |
 | 65 | Ajouter un guide de catégorie sans recherche par nom ni filtre. | Pages catégories, `storefront.js`, contenu validé | Le client comprend l’univers sans parcours complexe. |
-| 66 | Gérer disponible, bientôt disponible, rupture et information incomplète sans commande impossible. | `boutique.js`, `admin.js`, Supabase produits/stocks, tests | Chaque état conserve une hauteur et une action cohérentes. |
+| 66 | Gérer disponible, bientôt disponible, rupture et information incomplète sans commande impossible. | `boutique.js`, `storefront.js`, Supabase produits/stocks, tests | Chaque état conserve une hauteur et une action cohérentes. |
 | 67 | Préparer avis et preuves de qualité uniquement avec des données réelles et validées. | Pages produits, Supabase futur, `docs/content/` | Aucun avis, score ou test de laboratoire inventé. |
 | 68 | Ajouter les produits liés sans promotion ni vente forcée. | `boutique.js`, cartes produit, tests navigation | Les produits liés ne masquent pas l’achat principal. |
 | 69 | Clarifier l’aide et le contact par type de demande sans promettre de délai. | Page aide/FAQ, formulaire, `docs/content/` | Une demande produit ou commande est orientée clairement. |
@@ -977,10 +985,10 @@ Cette extension reprend des mécanismes utiles observés sur les pages produit, 
 
 ### Tâche 66 — Préparer les états de stock et de disponibilité
 
-- [ ] Définir une carte claire pour `disponible`, `bientôt disponible`, `rupture` et `information à compléter`.
+- [x] Définir une carte claire pour `disponible`, `bientôt disponible`, `rupture` et `information à compléter`.
 - [x] Désactiver l’ajout au panier en rupture au lieu de laisser un bouton ambigu.
 - [x] Désactiver aussi l’ajout au panier pour toute carte sans prix validé, sans stock exploitable ou marquée `bientôt disponible` ; ne jamais créer une commande « à confirmer » par un simple clic.
-- [ ] Éviter tout espace vide ou changement de hauteur quand l’état d’un produit arrive depuis Supabase.
+- [x] Éviter tout espace vide ou changement de hauteur quand l’état d’un produit arrive depuis Supabase.
 - [x] Ne jamais afficher un stock inventé avant que la propriétaire ait renseigné les stocks réels.
 
 **Validation :** le client sait immédiatement s’il peut commander et aucune commande impossible ne peut être créée.

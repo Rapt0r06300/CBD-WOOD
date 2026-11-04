@@ -36,5 +36,22 @@
     return { ...best[target], breakdown: [...best[target].breakdown].sort((a, b) => b - a) };
   }
 
-  return { calculateFlowerPrice };
+  function canOrderFlowerGrams(grams, tiers) {
+    const target = Math.max(1, Math.round(Number(grams) || 1));
+    const normalized = normalizeTiers(tiers);
+    if ([1, 3, 5, 10, 25].includes(target)) return normalized.some(tier => tier.grams === target && tier.price > 0);
+    return target === 50 && normalized.some(tier => tier.grams === 25 && tier.price > 0);
+  }
+
+  function getFlowerPriceForOrder(grams, tiers) {
+    if (!canOrderFlowerGrams(grams, tiers)) return { price: '', breakdown: [] };
+    const target = Math.max(1, Math.round(Number(grams) || 1));
+    if (target === 50) {
+      const tier25 = normalizeTiers(tiers).find(tier => tier.grams === 25 && tier.price > 0);
+      return { price: tier25.price * 2, packCount: 2, breakdown: [25, 25] };
+    }
+    return calculateFlowerPrice(grams, tiers);
+  }
+
+  return { calculateFlowerPrice, canOrderFlowerGrams, getFlowerPriceForOrder };
 }));

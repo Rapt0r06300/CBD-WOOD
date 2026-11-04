@@ -41,9 +41,9 @@ test('la couche mobile utilise les capacités réelles du navigateur et protège
 
 test('la navigation mobile ne se charge pas dans l’espace propriétaire', async () => {
   const shell = await readFile(new URL('../mobile-shell.js', import.meta.url), 'utf8');
-  const admin = await readFile(new URL('../admin.html', import.meta.url), 'utf8');
+  const account = await readFile(new URL('../compte.html', import.meta.url), 'utf8');
   assert.match(shell, /classList\.contains\('admin-page'\)/);
-  assert.doesNotMatch(admin, /mobile-shell\.js/);
+  assert.match(account, /ownerDashboard/);
 });
 
 test('les cartes WOOD Shop gardent leur action dans la colonne mobile', async () => {

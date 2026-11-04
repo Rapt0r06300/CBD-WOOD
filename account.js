@@ -1,4 +1,5 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/+esm';
+import { mountOwnerDashboard } from './owner-dashboard.js?v=wood-owner-dashboard-v1-20261104';
 
 const config = window.WOOD_SUPABASE_CONFIG;
 const supabase = config ? createClient(config.url, config.publishableKey, {
@@ -14,6 +15,8 @@ const dashboard = document.getElementById('accountDashboard');
 const message = document.getElementById('accountMessage');
 const action = document.getElementById('accountAction');
 const ownerDashboardLink = document.getElementById('ownerDashboardLink');
+const ownerDashboard = document.getElementById('ownerDashboard');
+let ownerDashboardApi = null;
 let mode = 'login';
 
 const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, character => ({ '&': '&#38;', '<': '&#60;', '>': '&#62;', "'": '&#39;', '"': '&#34;' }[character]));
@@ -26,6 +29,8 @@ function setOwnerDashboardVisibility(isOwner) {
   ownerDashboardLink.classList.toggle('hidden', !isOwner);
   ownerDashboardLink.setAttribute('aria-hidden', String(!isOwner));
   ownerDashboardLink.tabIndex = isOwner ? 0 : -1;
+  ownerDashboard?.classList.toggle('hidden', !isOwner);
+  ownerDashboard?.setAttribute('aria-hidden', String(!isOwner));
 }
 
 function showMessage(text, isError = false) {
@@ -53,6 +58,8 @@ function setMode(nextMode) {
 function showLogin() {
   accountCard?.classList.remove('hidden');
   dashboard?.classList.add('hidden');
+  ownerDashboardApi?.hide();
+  ownerDashboardApi = null;
   setOwnerDashboardVisibility(false);
 }
 
@@ -82,7 +89,9 @@ async function showAccount(user) {
     supabase.from('owner_users').select('user_id').eq('user_id', user.id).maybeSingle()
   ]);
   if (ordersError) throw ordersError;
-  setOwnerDashboardVisibility(!ownerError && Boolean(owner));
+  const isOwner = !ownerError && Boolean(owner);
+  setOwnerDashboardVisibility(isOwner);
+  if (isOwner && !ownerDashboardApi) ownerDashboardApi = await mountOwnerDashboard({ supabase });
   accountCard?.classList.add('hidden');
   dashboard?.classList.remove('hidden');
   const welcome = document.getElementById('accountWelcome');
@@ -153,6 +162,7 @@ async function boot() {
   document.querySelectorAll('[data-account-tab]').forEach(tab => tab.addEventListener('click', () => setMode(tab.dataset.accountTab)));
   form?.addEventListener('submit', handleSubmit);
   document.getElementById('profileForm')?.addEventListener('submit', saveProfile);
+  ownerDashboardLink?.addEventListener('click', () => ownerDashboard?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
   document.getElementById('accountLogout')?.addEventListener('click', async () => {
     await supabase.auth.signOut();
     showLogin();

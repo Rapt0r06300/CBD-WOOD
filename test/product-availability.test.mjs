@@ -32,6 +32,7 @@ test('le catalogue de secours reste bloqué tant que Supabase ne l’a pas confi
 
 test('les produits Supabase sans prix ou stock reçoivent un CTA désactivé', async () => {
   const source = await readFile(new URL('storefront.js', root), 'utf8');
+  assert.match(source, /availability_state/);
   assert.match(source, /stock\s*>\s*0/);
   assert.match(source, /price_cents/);
   assert.match(source, /Rupture de stock/);
@@ -40,8 +41,34 @@ test('les produits Supabase sans prix ou stock reçoivent un CTA désactivé', a
   assert.match(source, /data-product-unavailable/);
 });
 
+test('un double-clic très rapide ne duplique pas un ajout au panier', async () => {
+  const source = await readFile(new URL('boutique.js', root), 'utf8');
+  assert.match(source, /lastAddAt/);
+  assert.match(source, /<\s*450/);
+});
+
 test('le style rend l’état indisponible visible sans animation de bouton', async () => {
   const stylesheet = await readFile(new URL('boutique.css', root), 'utf8');
   assert.match(stylesheet, /\.add-to-cart:disabled[^{]*\{[\s\S]*?cursor:\s*not-allowed/);
   assert.match(stylesheet, /\.add-to-cart:disabled:hover/);
+});
+
+test('les cartes exposent des états de disponibilité et des zones de hauteur stable', async () => {
+  const storefront = await readFile(new URL('storefront.js', root), 'utf8');
+  const stylesheet = await readFile(new URL('boutique.css', root), 'utf8');
+  assert.match(storefront, /data-availability-state/);
+  assert.match(storefront, /availabilityState/);
+  assert.match(stylesheet, /\.product-card h3[^\{]*\{[^}]*min-height/);
+  assert.match(stylesheet, /\.product-choice[^\{]*\{[^}]*min-height/);
+});
+
+test('le tableau de bord permet de renseigner un état de disponibilité explicite', async () => {
+  const accountPage = await readFile(new URL('../compte.html', import.meta.url), 'utf8');
+  const dashboard = await readFile(new URL('../owner-dashboard.js', import.meta.url), 'utf8');
+  const migration = await readFile(new URL('../supabase/migrations/20261104110000_product_availability_state.sql', import.meta.url), 'utf8');
+  assert.match(accountPage, /id="ownerProductAvailability"/);
+  assert.match(dashboard, /availability_state/);
+  assert.match(migration, /available.*soon.*rupture.*incomplete/s);
+  const orderSecurity = await readFile(new URL('../supabase/migrations/20261104120000_order_security_and_stock.sql', import.meta.url), 'utf8');
+  assert.match(orderSecurity, /availability_state\s*=\s*'available'/);
 });

@@ -135,7 +135,7 @@ begin
     select p.name, p.category, p.price_cents
       into v_product_name, v_category, v_base_price
       from public.products as p
-      where p.id = v_product_id and p.status = 'published' and p.stock_quantity >= v_quantity
+      where p.id = v_product_id and p.status = 'published' and p.availability_state = 'available' and p.stock_quantity >= v_quantity
       for update;
     if not found then
       raise exception using message = 'Un article n’est plus disponible en quantité suffisante.', errcode = 'P0001';
@@ -174,7 +174,7 @@ begin
     select p.name, p.category, p.price_cents
       into v_product_name, v_category, v_base_price
       from public.products as p
-      where p.id = v_product_id and p.status = 'published';
+      where p.id = v_product_id and p.status = 'published' and p.availability_state = 'available';
     v_unit_price := case
       when v_category = 'fleurs' then public.calculate_flower_price(v_product_id, v_grams)
       when v_grams = 1 then v_base_price

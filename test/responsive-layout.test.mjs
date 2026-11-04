@@ -5,7 +5,7 @@ import test from 'node:test';
 test('checkout section keeps the shared container gutters', async () => {
   const stylesheet = await readFile(new URL('../boutique.css', import.meta.url), 'utf8');
   const homepage = await readFile(new URL('../index.html', import.meta.url), 'utf8');
-  const adminStylesheet = await readFile(new URL('../admin.css', import.meta.url), 'utf8');
+  const ownerStylesheet = await readFile(new URL('../owner-dashboard.css', import.meta.url), 'utf8');
   for (const page of ['bien-etre.html', 'compte.html', 'confirmation.html', 'fleur.html', 'fleurs.html', 'resines.html', 'wood-shop.html', 'checkout.html']) {
     const html = await readFile(new URL(`../${page}`, import.meta.url), 'utf8');
     assert.match(
@@ -48,9 +48,5 @@ test('checkout section keeps the shared container gutters', async () => {
     /html\{scroll-behavior:smooth;scroll-padding-top:86px;-webkit-text-size-adjust:100%;text-size-adjust:100%\}/,
     'la page d’accueil doit conserver une taille de texte stable sur Safari mobile',
   );
-  assert.match(
-    adminStylesheet,
-    /html\{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%\}/,
-    'l’espace propriétaire doit conserver une taille de texte stable sur Safari mobile',
-  );
+  assert.match(ownerStylesheet, /@media\(max-width:760px\)/, 'le tableau de bord propriétaire doit rester adapté sur mobile');
 });

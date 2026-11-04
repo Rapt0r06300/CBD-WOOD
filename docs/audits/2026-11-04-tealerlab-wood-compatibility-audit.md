@@ -54,7 +54,7 @@ WOOD possède déjà une base plus calme et plus premium. C’est un avantage po
 - Achat : `+` passe Nimbus de 1 g à 2 g, le prix passe à 30,00 €, puis l’ajout met le panier à 1 article.
 - Panier : le contenu est conservé dans `wood-cart-v1` et le récapitulatif mène au checkout.
 - Checkout : le mode affiché est uniquement la livraison, l’adresse est demandée et le paiement Viva reste désactivé comme prévu.
-- Admin : sans session autorisée, l’accès direct à `admin.html` renvoie vers le compte client ; le lien admin reste masqué pour un visiteur.
+- Administration : l’ancienne route `admin.html` a été retirée ; le tableau de bord propriétaire est intégré à `compte.html` et reste masqué sans rôle confirmé.
 - Images : aucune image cassée dans les pages testées.
 
 ### Point visuel détecté sur WOOD

@@ -43,17 +43,26 @@ function renderProducts(grid, products, category) {
     const hasPrice = isFlower
       ? tiers.length > 0 && tiers.every((tier) => Number.isFinite(Number(tier.price_cents)) && Number(tier.price_cents) > 0)
       : Number.isFinite(Number(product.price_cents)) && Number(product.price_cents) > 0;
-    const purchasable = hasStock && hasPrice;
-    const availabilityLabel = !hasStock
-      ? (product.stock_quantity === 0 ? 'Rupture de stock' : 'Disponibilité à confirmer')
-      : !hasPrice ? 'Prix à confirmer' : `${product.stock_quantity} en stock`;
+    const requestedState = String(product.availability_state || '').toLowerCase();
+    const availabilityState = ['available', 'soon', 'rupture', 'incomplete'].includes(requestedState)
+      ? requestedState
+      : !hasStock ? (product.stock_quantity === 0 ? 'rupture' : 'incomplete')
+        : !hasPrice ? 'incomplete' : 'available';
+    const purchasable = availabilityState === 'available' && hasStock && hasPrice;
+    const availabilityLabel = availabilityState === 'rupture'
+      ? 'Rupture de stock'
+      : availabilityState === 'soon'
+        ? 'Bientôt disponible'
+        : availabilityState === 'incomplete'
+          ? (!hasStock ? 'Disponibilité à confirmer' : 'Prix à confirmer')
+          : `${product.stock_quantity} en stock`;
     const buttonMarkup = purchasable
       ? '<button class="add-to-cart" type="button">Ajouter <span aria-hidden="true">+</span></button>'
       : '<button class="add-to-cart" type="button" disabled aria-disabled="true" data-product-unavailable>Indisponible</button>';
     const weightMarkup = isFlower && tiers.length ? `<div class="product-choice"><label for="weight-${escapeHtml(product.id)}">Choisir le grammage</label><select id="weight-${escapeHtml(product.id)}" class="product-weight" data-product-weight aria-label="Choisir le grammage de ${escapeHtml(product.name)}">${tiers.map(tier => `<option value="${tier.grams}g" data-label="${tier.grams} g" data-price="${tier.price_cents / 100}">${tier.grams} g · ${(tier.price_cents / 100).toFixed(2).replace('.', ',')} €</option>`).join('')}</select></div>` : '';
     const priceMarkup = weightMarkup ? '' : `<div class="product-meta"><span class="product-status">${price && purchasable ? `${price.replace('.', ',')} €` : availabilityLabel}</span>${buttonMarkup}</div>`;
     const flowerMetaMarkup = weightMarkup ? `<div class="product-meta">${purchasable ? '<strong class="product-price-label" data-product-price-label></strong>' : `<span class="product-status">${availabilityLabel}</span>`}${buttonMarkup}</div>` : '';
-    return `<article class="product-card" data-product-id="${escapeHtml(product.id)}" data-product-slug="${escapeHtml(product.slug || product.id)}" data-product-name="${escapeHtml(product.name)}" data-product-category="${escapeHtml(labels[category] || category)}" data-product-price="${price}"${purchasable ? '' : ' data-product-unavailable="true"'}>
+    return `<article class="product-card" data-product-id="${escapeHtml(product.id)}" data-product-slug="${escapeHtml(product.slug || product.id)}" data-product-name="${escapeHtml(product.name)}" data-product-category="${escapeHtml(labels[category] || category)}" data-product-price="${price}" data-availability-state="${availabilityState}"${purchasable ? '' : ' data-product-unavailable="true"'}>
       <div class="product-art">${productVisual(product, category)}</div>
       <div class="product-body">
         <span class="product-index">${String(index + 1).padStart(2, '0')} / WOOD CATALOGUE</span>
@@ -72,7 +81,7 @@ async function loadCatalog() {
   const category = main?.dataset.catalogCategory;
   if (!grid || !category || !config) return;
   const supabase = createClient(config.url, config.publishableKey);
-  const { data, error } = await supabase.from('products').select('id, slug, name, description, price_cents, image_path, stock_quantity, created_at').eq('category', category).eq('status', 'published').order('created_at', { ascending: false });
+  const { data, error } = await supabase.from('products').select('id, slug, name, description, price_cents, image_path, stock_quantity, availability_state, created_at').eq('category', category).eq('status', 'published').order('created_at', { ascending: false });
   if (error || !data?.length) return;
   let products = data;
   if (category === 'fleurs') {

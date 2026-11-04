@@ -133,7 +133,7 @@
 
 ### Task 14: Admin isolation
 
-**Files:** Review `admin.html`/`admin.js`; document separate admin deployment option.
+**Files:** Review the integrated owner dashboard in `compte.html`/`owner-dashboard.js`; do not publish a separate admin route.
 
 - [x] Keep owner authorization server-enforced.
 - [x] Do not add an admin link to the public navigation.

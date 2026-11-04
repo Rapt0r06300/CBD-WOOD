@@ -2,12 +2,12 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-test('owner login identifies the e-mail field as the username', async () => {
-  const adminPage = await readFile(new URL('../admin.html', import.meta.url), 'utf8');
+test('customer login identifies the e-mail field for password managers', async () => {
+  const accountPage = await readFile(new URL('../compte.html', import.meta.url), 'utf8');
 
   assert.match(
-    adminPage,
-    /id="loginEmail" name="username" type="email" autocomplete="username"/,
-    'le champ e-mail de connexion propriétaire doit être identifiable par les gestionnaires de mots de passe',
+    accountPage,
+    /id="account-email" name="email" type="email" autocomplete="email"/,
+    'le champ e-mail du compte doit être identifiable par les gestionnaires de mots de passe',
   );
 });

@@ -7,15 +7,25 @@ const accountSource = await readFile(new URL('../account.js', import.meta.url), 
 const boutiqueCss = await readFile(new URL('../boutique.css', import.meta.url), 'utf8');
 const roleMigration = await readFile(new URL('../supabase/migrations/20261104130000_customer_account_roles.sql', import.meta.url), 'utf8').catch(() => '');
 
-test('account dashboard reserves a hidden owner-only management link', () => {
+test('account dashboard reserves a hidden owner-only management control without a public admin route', () => {
   assert.match(accountPage, /class="[^"]*account-owner-link[^\"]*hidden[^\"]*"[^>]*id="ownerDashboardLink"/);
-  assert.match(accountPage, /href="admin\.html"/);
+  assert.doesNotMatch(accountPage, /href="admin\.html"/);
+  assert.match(accountPage, /type="button"/);
   assert.match(accountPage, /id="ownerDashboardLink"[^>]*aria-hidden="true"[^>]*tabindex="-1"/);
+});
+
+test('owner dashboard is present inside the account and hidden before role confirmation', () => {
+  assert.match(accountPage, /class="[^"]*owner-dashboard[^\"]*hidden[^"]*"[^>]*id="ownerDashboard"/);
+  assert.match(accountPage, /id="ownerDashboard"[\s\S]*id="ownerProductsBody"/);
+  assert.match(accountPage, /id="ownerDashboard"[\s\S]*id="ownerOrdersBody"/);
+  assert.match(accountSource, /owner-dashboard\.js/);
 });
 
 test('owner access is determined by the owner_users record, never a hardcoded email', () => {
   assert.match(accountSource, /from\(['"]owner_users['"]\)/);
   assert.match(accountSource, /ownerDashboardLink/);
+  assert.match(accountSource, /ownerDashboard/);
+  assert.match(accountSource, /mountOwnerDashboard/);
   assert.doesNotMatch(accountSource, /bermond\.florent06@gmail\.com/i);
 });
 

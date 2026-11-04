@@ -1,7 +1,7 @@
 const assert = require('node:assert/strict');
 const test = require('node:test');
 
-const { calculateFlowerPrice } = require('../flower-pricing.js');
+const { calculateFlowerPrice, getFlowerPriceForOrder, canOrderFlowerGrams } = require('../flower-pricing.js');
 
 const nimbusTiers = [
   { grams: 1, price: 15 },
@@ -30,6 +30,24 @@ test('does not extend the 25 gram discount to a larger single tier', () => {
     breakdown: [25, 1],
   });
   assert.deepEqual(calculateFlowerPrice(50, nimbusTiers), {
+    price: 520,
+    packCount: 2,
+    breakdown: [25, 25],
+  });
+});
+
+test('keeps unvalidated intermediate grams visible but not billable', () => {
+  assert.equal(canOrderFlowerGrams(1, nimbusTiers), true);
+  assert.equal(canOrderFlowerGrams(25, nimbusTiers), true);
+  assert.equal(canOrderFlowerGrams(50, nimbusTiers), true);
+  assert.equal(canOrderFlowerGrams(2, nimbusTiers), false);
+  assert.deepEqual(getFlowerPriceForOrder(2, nimbusTiers), { price: '', breakdown: [] });
+  assert.equal(getFlowerPriceForOrder(50, nimbusTiers).price, 520);
+});
+
+test('always bills 50 g as two validated 25 g lots', () => {
+  const tiersWithUnsafeFiftyGramPrice = [...nimbusTiers, { grams: 50, price: 400 }];
+  assert.deepEqual(getFlowerPriceForOrder(50, tiersWithUnsafeFiftyGramPrice), {
     price: 520,
     packCount: 2,
     breakdown: [25, 25],
