@@ -43,9 +43,11 @@
 - Modify: `.gitignore`
 
 - [x] Add `npm run prepare:hostinger`.
+- [x] Add `npm run hostinger:preflight` to run the full local gate in one command.
 - [x] Copy root HTML/CSS/JS, `.htaccess`, and `assets/` into `dist-hostinger/`.
 - [x] Exclude repository and backend development files by construction.
 - [x] Ignore generated output.
+- [x] Refuse unexpected files and validate the final package before replacement.
 - [x] Run the script and inspect the resulting file list.
 
 ### Task 3: Deployment handoff documentation

@@ -4,13 +4,13 @@ Cette procédure prépare un dossier local. Elle n’envoie rien sur Hostinger.
 
 ## Préparer le paquet
 
-Depuis la racine du dépôt :
+Depuis la racine du dépôt, une seule commande prépare et contrôle le paquet :
 
 ```bash
-npm run prepare:hostinger
+npm run hostinger:preflight
 ```
 
-Le script crée `dist-hostinger/` avec uniquement les fichiers publics nécessaires : pages HTML, CSS, JavaScript, `assets/`, `.htaccess` et `404.html`.
+La commande lance les tests, l’audit statique, puis crée et contrôle `dist-hostinger/` avec uniquement les fichiers publics nécessaires : pages HTML, CSS, JavaScript, `assets/`, `.htaccess` et `404.html`.
 
 ## Mise en ligne future
 
@@ -18,11 +18,13 @@ Quand la propriétaire aura validé l’hébergement :
 
 1. choisir le site **Custom PHP/HTML** dans Hostinger ;
 2. connecter le domaine définitif ;
-3. attendre la propagation DNS ;
-4. vérifier que le SSL est actif ;
-5. envoyer le **contenu** de `dist-hostinger/` dans `public_html/` — pas le dossier parent ;
-6. ouvrir la page d’accueil, une page de catégorie, le compte et la page 404 ;
-7. tester sur mobile et ordinateur avant toute ouverture commerciale.
+3. utiliser les serveurs de noms fournis par le hPanel, ou les enregistrements A fournis par Hostinger si la gestion DNS reste chez le registrar ;
+4. vérifier qu’aucun ancien enregistrement A ou AAAA ne pointe vers un autre serveur ;
+5. attendre la propagation DNS, qui peut prendre jusqu’à 24–48 heures ;
+6. vérifier que le SSL est actif puis forcer HTTPS ;
+7. envoyer le **contenu** de `dist-hostinger/` dans `public_html/` — pas le dossier parent ;
+8. ouvrir la page d’accueil, une page de catégorie, le compte et la page 404 ;
+9. tester sur mobile et ordinateur avant toute ouverture commerciale.
 
 Ne pas envoyer dans `public_html/` : `.git/`, `docs/`, `test/`, `supabase/`, `scripts/`, `package.json`, `netlify.toml` ou des secrets.
 
@@ -41,8 +43,7 @@ Pour Viva, ne rien activer avant d’avoir les identifiants professionnels, le w
 ## Contrôle local
 
 ```bash
-npm run check
-npm run prepare:hostinger
+npm run hostinger:preflight
 ```
 
 Le dossier généré est ignoré par Git et peut être supprimé ou recréé sans modifier les sources.

@@ -7,6 +7,7 @@
     "audit": "node scripts/static-audit.mjs",
     "check:js": "node scripts/check-js.mjs",
     "check": "npm run test && npm run check:js && npm run audit",
-    "prepare:hostinger": "node scripts/prepare-hostinger.mjs"
+    "prepare:hostinger": "node scripts/prepare-hostinger.mjs",
+    "hostinger:preflight": "npm run check && npm run prepare:hostinger && node scripts/hostinger-preflight.mjs"
   }
 }
