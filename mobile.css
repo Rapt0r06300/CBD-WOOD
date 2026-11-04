@@ -1,0 +1,239 @@
+/* WOOD mobile app layer.
+   Loaded after the existing public styles: it changes presentation only. */
+
+:root {
+  --wood-mobile-bar-height: 76px;
+  --wood-safe-top: env(safe-area-inset-top, 0px);
+  --wood-safe-right: env(safe-area-inset-right, 0px);
+  --wood-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --wood-safe-left: env(safe-area-inset-left, 0px);
+}
+
+.mobile-app-nav {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  html {
+    scroll-padding-top: calc(86px + var(--wood-safe-top));
+  }
+
+  .container {
+    width: min(100%, 1440px);
+    padding-left: max(20px, var(--wood-safe-left));
+    padding-right: max(20px, var(--wood-safe-right));
+  }
+
+  .nav {
+    padding-left: max(14px, var(--wood-safe-left));
+    padding-right: max(14px, var(--wood-safe-right));
+  }
+
+  .page-hero__copy,
+  .hero-copy {
+    padding-left: max(20px, var(--wood-safe-left));
+    padding-right: max(20px, var(--wood-safe-right));
+  }
+}
+
+@media (max-width: 800px) {
+  body.has-mobile-app-nav {
+    padding-bottom: calc(var(--wood-mobile-bar-height) + var(--wood-safe-bottom));
+  }
+
+  .nav {
+    min-height: calc(68px + var(--wood-safe-top));
+    padding-top: var(--wood-safe-top);
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    background: rgba(16, 22, 16, .96);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+  }
+
+  .nav-links {
+    top: calc(68px + var(--wood-safe-top));
+    max-height: calc(100svh - 68px - var(--wood-safe-top));
+    padding-bottom: max(25px, var(--wood-safe-bottom));
+  }
+
+  .mobile-app-nav {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 65;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 4px;
+    min-height: var(--wood-mobile-bar-height);
+    padding: 7px max(8px, var(--wood-safe-left)) max(7px, var(--wood-safe-bottom));
+    border-top: 1px solid rgba(221, 235, 204, .22);
+    background: rgba(16, 22, 16, .95);
+    -webkit-backdrop-filter: blur(20px) saturate(125%);
+    backdrop-filter: blur(20px) saturate(125%);
+  }
+
+  .mobile-app-nav a {
+    display: flex;
+    min-width: 0;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    flex-direction: column;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    color: #9ead9b;
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: .7px;
+    line-height: 1.1;
+    text-align: center;
+    text-transform: uppercase;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  .mobile-app-nav a:hover,
+  .mobile-app-nav a:focus-visible,
+  .mobile-app-nav a[aria-current="page"] {
+    border-color: rgba(203, 240, 150, .42);
+    color: #d4f5a0;
+    background: rgba(203, 240, 150, .09);
+  }
+
+  .mobile-app-nav__icon {
+    display: block;
+    color: currentColor;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .mobile-app-nav__label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .btn,
+  .nav-cta,
+  .cart-trigger,
+  .hamb,
+  .add-to-cart,
+  .account-tab,
+  .choice-card,
+  .cart-checkout,
+  .account-owner-link,
+  .account-logout,
+  .order-mode-card,
+  .order-submit {
+    min-height: 48px;
+    touch-action: manipulation;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .product-grid,
+  .cards,
+  .value-grid,
+  .visit-grid,
+  .checkout-layout,
+  .account-dashboard__grid {
+    min-width: 0;
+  }
+
+  .product-card,
+  .category,
+  .location-card,
+  .account-card,
+  .checkout-card,
+  .confirmation-card {
+    min-width: 0;
+  }
+
+  .product-card h3,
+  .product-card p,
+  .category h3,
+  .category p,
+  .location-card h3,
+  .location-card p {
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (any-pointer: coarse) {
+  .mobile-app-nav a,
+  .mobile-app-nav button,
+  .add-to-cart,
+  .cart-qty,
+  .cart-close {
+    min-width: 44px;
+    min-height: 48px;
+  }
+}
+
+@media (hover: none) {
+  .product-card:hover,
+  .category:hover {
+    transform: none;
+  }
+
+  .product-card:hover .product-art img {
+    transform: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .mobile-app-nav {
+    gap: 1px;
+    padding-left: max(4px, var(--wood-safe-left));
+    padding-right: max(4px, var(--wood-safe-right));
+  }
+
+  .mobile-app-nav a {
+    font-size: 8px;
+    letter-spacing: .4px;
+  }
+
+  .mobile-app-nav__icon {
+    font-size: 18px;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 600px) and (max-width: 900px) {
+  .mobile-app-nav {
+    min-height: 62px;
+    padding-top: 4px;
+    padding-bottom: max(4px, var(--wood-safe-bottom));
+  }
+
+  body.has-mobile-app-nav {
+    padding-bottom: calc(62px + var(--wood-safe-bottom));
+  }
+
+  .mobile-app-nav a {
+    flex-direction: row;
+    gap: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-app-nav,
+  .mobile-app-nav a {
+    scroll-behavior: auto;
+    transition: none !important;
+  }
+}

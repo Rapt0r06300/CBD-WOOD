@@ -26,6 +26,8 @@ const PUBLIC_FILES = [
   'flower-detail.js',
   'flower-pricing.js',
   'index.html',
+  'mobile.css',
+  'mobile-shell.js',
   'order-api.js',
   'order-options.js',
   'resines.html',
