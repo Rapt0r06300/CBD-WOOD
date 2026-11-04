@@ -66,12 +66,13 @@
 
 - `npm run check` passe avec **56 tests**, la syntaxe JavaScript contrôlée sur 24 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **33 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
-- Le contrôle responsive Playwright confirme l’absence de débordement horizontal sur les quatre catégories aux largeurs `320`, `390`, `430`, `768`, `1024` et `1440`, avec la navigation mobile chargée sur les vues étroites.
+- Le contrôle responsive Playwright confirme l’absence de débordement horizontal sur les **70 combinaisons** (10 routes publiques × `320`, `375`, `390`, `430`, `768`, `1024`, `1440`), avec des titres non vides et la navigation mobile chargée sur les vues étroites.
 - La disponibilité est maintenant une donnée Supabase explicite (`available`, `soon`, `rupture`, `incomplete`) et le serveur refuse de traiter un produit qui n’est pas `available`.
 - Le projet Supabase connecté possède maintenant la colonne `availability_state` ; la fonction de commande vérifie cet état et le calcul serveur refuse les grammages intermédiaires tout en facturant 50 g comme deux lots de 25 g.
 - Le contrôle navigateur confirme que l’ouverture du panier donne le focus à son dialogue (`role="dialog"`, `aria-modal="true"`) et que `Échap` le ferme en rendant le focus au bouton déclencheur ; le menu applique le même retour de focus dans le code testé.
 - Le dernier contrôle distant Supabase signale une seule alerte sécurité active : la protection contre les mots de passe compromis est désactivée ; la tâche 46 reste donc ouverte et doit être activée dans Auth avant production. Les six avis de performance sont informatifs (index encore inutilisés sur une base sans trafic) et ne justifient pas une suppression prématurée.
-- Ces preuves ne remplacent pas la recette finale sur 375 px, les orientations, le clavier virtuel, les navigateurs réels, les réglages Auth/Turnstile/e-mail et les sauvegardes Supabase : ces points restent volontairement ouverts dans les tâches concernées.
+- Ces preuves ne remplacent pas la recette finale des orientations, du clavier virtuel, des navigateurs réels, des réglages Auth/Turnstile/e-mail et des sauvegardes Supabase : ces points restent volontairement ouverts dans les tâches concernées.
+- Une copie `dist-hostinger` servie depuis sa racine a également été parcourue : les 10 routes principales répondent, `/admin.html` répond 404 et la largeur reste contenue à 390 px.
 
 ## Phase 0 — Sécuriser l’existant avant toute évolution
 
@@ -269,7 +270,7 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 20 — Auditer le schéma actuel avant modification
 
-- [ ] Inventorier tables, colonnes, fonctions, Edge Functions, politiques RLS et migrations.
+- [x] Inventorier tables, colonnes, fonctions, Edge Functions, politiques RLS et migrations.
 - [ ] Vérifier l’URL Supabase et les redirections de production/test.
 - [ ] Ne modifier aucune table de production sans sauvegarde et plan de retour.
 
@@ -279,11 +280,11 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 21 — Séparer les rôles client et propriétaire
 
-- [ ] Créer un rôle client par défaut pour chaque nouvelle inscription.
-- [ ] Définir l’admin dans `app_metadata` ou une table de rôles protégée, jamais dans `user_metadata` modifiable par le client.
+- [x] Créer un rôle client par défaut pour chaque nouvelle inscription.
+- [x] Définir l’admin dans `app_metadata` ou une table de rôles protégée, jamais dans `user_metadata` modifiable par le client.
 - [ ] Vérifier les autorisations côté serveur avec l’utilisateur réel et ne pas considérer un JWT ancien comme une preuve définitive après changement de rôle.
-- [ ] Afficher le bouton de gestion dès la connexion uniquement si le rôle admin est confirmé.
-- [ ] Ne jamais exposer les produits, stocks ou commandes d’administration aux comptes clients.
+- [x] Afficher le bouton de gestion dès la connexion uniquement si le rôle admin est confirmé.
+- [x] Ne jamais exposer les produits, stocks ou commandes d’administration aux comptes clients.
 - [x] Ne pas conserver de route `admin.html` : un visiteur ou un client ne reçoit aucune interface administrative et aucune donnée admin.
 - [x] Retenir une seule architecture : tableau de bord rendu dans `compte.html` après contrôle serveur du rôle propriétaire ; aucune route/admin publique alternative.
 
@@ -291,12 +292,12 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 22 — Renforcer RLS et les autorisations
 
-- [ ] Activer RLS sur chaque table exposée.
-- [ ] Écrire des politiques explicites par opération et par rôle (`TO anon`, `TO authenticated`) avec `auth.uid()` non nul lorsque nécessaire.
+- [x] Activer RLS sur chaque table exposée.
+- [x] Écrire des politiques explicites par opération et par rôle (`TO anon`, `TO authenticated`) avec `auth.uid()` non nul lorsque nécessaire.
 - [ ] Ajouter les clauses `WITH CHECK` aux insertions/modifications et les index nécessaires sur les colonnes utilisées par les politiques.
 - [ ] Autoriser un client à lire/modifier uniquement ses propres données.
 - [ ] Réserver produits, stocks, commandes globales et coupons au rôle admin ou aux fonctions serveur prévues.
-- [ ] Garder les clés privilégiées uniquement côté serveur.
+- [x] Garder les clés privilégiées uniquement côté serveur.
 - [ ] Ajouter des tests négatifs : client qui tente de lire une autre commande, modifier un stock ou s’attribuer admin.
 
 **Validation :** les tests d’accès refusé passent aussi bien depuis l’interface que depuis des appels directs.
@@ -325,9 +326,9 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 25 — Laisser Viva Wallet isolé mais prêt
 
-- [ ] Garder le statut de paiement séparé du statut de commande.
+- [x] Garder le statut de paiement séparé du statut de commande.
 - [ ] Préparer l’emplacement d’un futur webhook signé et idempotent.
-- [ ] Ne stocker aucun identifiant Viva fictif dans le dépôt.
+- [x] Ne stocker aucun identifiant Viva fictif dans le dépôt.
 
 **Validation :** la boutique peut être testée sans appeler Viva Wallet et aucune fausse confirmation de paiement n’est possible.
 
@@ -410,9 +411,9 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 34 — Vérifier les chemins d’hébergement
 
-- [ ] Tester les chemins relatifs depuis la racine publique.
+- [x] Tester les chemins relatifs depuis la racine publique.
 - [ ] Tester les URLs avec et sans slash final selon la configuration.
-- [ ] Vérifier la casse des fichiers, les accents et les extensions.
+- [x] Vérifier la casse des fichiers, les accents et les extensions.
 - [ ] Vérifier HTTPS, 404, redirections et chargement des assets.
 
 **Validation :** le paquet fonctionne depuis une racine web propre sans dépendre du chemin local GitHub.

@@ -242,3 +242,14 @@ Les mesures et décisions de cet audit précisent les tâches existantes sans en
 - tâches 36–39 : recette complète avec la propriétaire et contrôle anti-régression.
 
 La décision de conception est donc : **reproduire la hiérarchie, le rythme et la puissance commerciale appréciés dans TealerLab, mais conserver intégralement la signature WOOD**.
+
+## 12. Vérification Supabase en direct — 4 novembre 2026
+
+Contrôle en lecture seule du projet connecté après les migrations additives :
+
+- `products`, `product_prices`, `orders`, `order_items`, `customer_profiles`, `owner_users` et `order_idempotency_keys` ont RLS activé ; la colonne `products.availability_state` existe avec l’état par défaut `incomplete`.
+- Le projet contient 13 produits, 65 paliers de prix et une commande existante ; aucun stock réel n’a été modifié pendant cet audit.
+- Deux comptes sont actuellement présents dans `owner_users` : le compte de la propriétaire et le compte de Florent pour la phase de construction. La suppression de l’accès de Florent reste volontairement conditionnée à la confirmation de la propriétaire, conformément à la tâche 35.
+- `orders.fulfillment_mode` est limité à `delivery` ; `pickup_code` est conservé uniquement pour l’historique et ne doit pas être supprimé avant sauvegarde et revue des commandes existantes.
+- Les migrations de disponibilité, de sécurisation des commandes et de garde tarifaire sont enregistrées côté Supabase ; les tarifs intermédiaires restent refusés par le serveur.
+- L’avis sécurité Supabase restant est `Leaked Password Protection Disabled`. Il doit être activé dans Auth avant l’ouverture commerciale. Les avis de performance concernent uniquement des index encore inutilisés sur une base sans trafic et ne justifient pas de suppression préventive.
