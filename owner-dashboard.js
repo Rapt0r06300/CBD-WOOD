@@ -2,6 +2,8 @@ const categoryLabels = { fleurs: 'Fleurs CBD', resines: 'Résines', 'bien-etre':
 const flowerTierGrams = [1, 3, 5, 10, 25];
 const orderStatuses = ['pending', 'paid', 'preparing', 'ready', 'completed', 'cancelled'];
 const statusLabels = { pending: 'En attente', paid: 'Payée', preparing: 'En préparation', ready: 'Prête', completed: 'Terminée', cancelled: 'Annulée' };
+const notificationKindLabels = { order_created: 'Commande créée', payment_confirmed: 'Paiement confirmé' };
+const notificationStatusLabels = { pending: 'À envoyer', processing: 'En cours', sent: 'Envoyé', failed: 'Échec' };
 
 const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[character]));
 const formatMoney = cents => cents === null || cents === undefined || cents === '' ? 'À renseigner' : new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(Number(cents) / 100);
@@ -14,6 +16,7 @@ export async function mountOwnerDashboard({ supabase }) {
   const $ = selector => root.querySelector(selector);
   const productsBody = $('#ownerProductsBody');
   const ordersBody = $('#ownerOrdersBody');
+  const notificationsBody = $('#ownerNotificationsBody');
   let products = [];
 
   const productsSection = root.querySelector('[aria-labelledby="owner-products-title"]');
@@ -55,6 +58,20 @@ export async function mountOwnerDashboard({ supabase }) {
     renderSummary(orders.length);
   };
 
+  const renderNotifications = notifications => {
+    if (!notificationsBody) return;
+    if (!notifications.length) {
+      notificationsBody.innerHTML = '<tr><td colspan="6" class="owner-dashboard__empty">Aucune notification à traiter pour le moment.</td></tr>';
+      return;
+    }
+    notificationsBody.innerHTML = notifications.map(notification => {
+      const status = notificationStatusLabels[notification.status] || notification.status || 'Inconnu';
+      const statusClass = ['pending', 'processing', 'sent', 'failed'].includes(notification.status) ? notification.status : 'pending';
+      const orderId = String(notification.order_id || '—');
+      return `<tr><td data-label="Date">${formatDate(notification.created_at)}</td><td data-label="Commande"><span class="owner-dashboard__address">…${escapeHtml(orderId.slice(-8))}</span></td><td data-label="Type">${escapeHtml(notificationKindLabels[notification.notification_kind] || notification.notification_kind)}</td><td data-label="État"><span class="owner-dashboard__status-badge owner-dashboard__status-badge--${statusClass}">${escapeHtml(status)}</span></td><td data-label="Tentatives">${escapeHtml(notification.attempts)}</td><td data-label="Erreur">${escapeHtml(notification.last_error || '—')}</td></tr>`;
+    }).join('');
+  };
+
   const loadProducts = async () => {
     const { data, error } = await supabase.from('products').select('*').order('created_at', { ascending: false });
     if (error) throw error;
@@ -73,6 +90,16 @@ export async function mountOwnerDashboard({ supabase }) {
     const { data, error } = await supabase.from('orders').select('id, order_number, customer_email, customer_name, customer_phone, delivery_address, fulfillment_mode, total_cents, status, payment_status, created_at').order('created_at', { ascending: false }).limit(100);
     if (error) throw error;
     renderOrders(data || []);
+  };
+
+  const loadNotifications = async () => {
+    if (!notificationsBody) return;
+    const { data, error } = await supabase.from('order_notification_outbox').select('order_id, notification_kind, status, attempts, last_error, created_at').order('created_at', { ascending: false }).limit(100);
+    if (error) {
+      notificationsBody.innerHTML = '<tr><td colspan="6" class="owner-dashboard__empty">Le suivi des notifications est indisponible.</td></tr>';
+      return;
+    }
+    renderNotifications(data || []);
   };
 
   const syncPricingFields = () => {
@@ -157,6 +184,6 @@ export async function mountOwnerDashboard({ supabase }) {
   syncPricingFields();
   root.classList.remove('hidden');
   root.setAttribute('aria-hidden', 'false');
-  try { await Promise.all([loadProducts(), loadOrders()]); } catch (error) { setMessage('#ownerProductMessage', `Impossible de charger les données : ${error.message}`, true); }
+  try { await Promise.all([loadProducts(), loadOrders(), loadNotifications()]); } catch (error) { setMessage('#ownerProductMessage', `Impossible de charger les données : ${error.message}`, true); }
   return { hide() { root.classList.add('hidden'); root.setAttribute('aria-hidden', 'true'); } };
 }

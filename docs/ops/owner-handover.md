@@ -49,6 +49,6 @@ La suppression de l’accès de Florent n’est pas automatique : elle nécessit
 - les pages légales sont fournies et validées ;
 - l’e-mail transactionnel est testé avec un statut d’envoi traçable ;
 - le paiement Viva.com et son webhook signé sont testés séparément ;
-- la sauvegarde et la restauration ont été testées ;
+- la procédure [sauvegarde et restauration Supabase](supabase-backup-restore.md) a été exécutée et la restauration a été testée ;
 - `npm run hostinger:preflight` passe et le paquet ne contient aucune route admin publique.
 

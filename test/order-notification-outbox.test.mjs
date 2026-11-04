@@ -21,3 +21,13 @@ test('les notifications sont créées une seule fois après persistance de la co
   assert.match(migration, /on conflict \(order_id, notification_kind\) do nothing/);
   assert.match(migration, /create trigger orders_enqueue_notifications/);
 });
+
+test('le tableau de bord rend visibles les états de la file sans prétendre envoyer le mail', async () => {
+  const dashboard = await readFile(new URL('../owner-dashboard.js', import.meta.url), 'utf8');
+  const account = await readFile(new URL('../compte.html', import.meta.url), 'utf8');
+  assert.match(account, /id="ownerNotificationsBody"/);
+  assert.match(account, /L’envoi réel reste désactivé/);
+  assert.match(dashboard, /order_notification_outbox/);
+  assert.match(dashboard, /notificationStatusLabels/);
+  assert.match(dashboard, /notificationsBody/);
+});

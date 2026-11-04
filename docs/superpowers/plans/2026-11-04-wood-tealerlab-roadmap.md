@@ -64,7 +64,7 @@
 
 ## État de vérification locale — 4 novembre 2026
 
-- `npm run check` passe avec **68 tests**, la syntaxe JavaScript contrôlée sur 24 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **69 tests**, la syntaxe JavaScript contrôlée sur 24 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **33 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - Le contrôle responsive Playwright confirme l’absence de débordement horizontal sur les **70 combinaisons** (10 routes publiques × `320`, `375`, `390`, `430`, `768`, `1024`, `1440`), avec des titres non vides et la navigation mobile chargée sur les vues étroites.
 - La disponibilité est maintenant une donnée Supabase explicite (`available`, `soon`, `rupture`, `incomplete`) et le serveur refuse de traiter un produit qui n’est pas `available`.
@@ -77,6 +77,7 @@
 - La tentative d’enregistrement de commande possède aussi un délai maximum, annule une requête bloquée et laisse le panier intact avec un message de reprise ; `test/order-client-resilience.test.mjs` le vérifie.
 - Le menu public mobile regroupe maintenant les quatre univers WOOD et les accès rapides `Nous trouver`, `FAQ`, `Compte` et `Panier`, sans exposer l’administration ; `test/navigation-accessibility.test.mjs` le vérifie.
 - La FAQ d’accueil couvre maintenant la livraison disponible, le compte invité et l’état séparé de Viva sans inventer de frais, délais ou promotions ; `test/location-contact.test.mjs` le vérifie.
+- Le tableau de bord propriétaire affiche maintenant l’état de la file `order_notification_outbox` (`à envoyer`, `en cours`, `envoyé`, `échec`) sans présenter l’envoi comme actif ; `test/order-notification-outbox.test.mjs` le vérifie.
 - La migration locale `20261104150000_order_status_history.sql` a été appliquée au projet Supabase sous `20261104215031_order_status_history` ; la table est protégée par RLS, le trigger est présent et aucune commande n’existait au moment du contrôle.
 - La migration locale `20261104160000_order_notification_outbox.sql` a été appliquée au projet Supabase sous `20261104220305_order_notification_outbox` ; la file est idempotente, protégée par RLS, vide au contrôle et ne lance aucun e-mail tant qu’aucun fournisseur n’est configuré.
 
@@ -491,7 +492,7 @@ L’audit complet ordinateur/mobile est documenté dans `docs/audits/2026-11-04-
 - [x] Vérifier que les quatre labels de la barre basse ne se chevauchent pas.
 - [x] Conserver les mêmes icônes, couleurs et destinations.
 
-**Validation :** aucun libellé n’est tronqué dans les captures mobile. Vérifié à 390 × 844 avec cache CSS invalidé, puis `npm run check` : 68 tests passés, syntaxe JavaScript validée et audit statique OK.
+**Validation :** aucun libellé n’est tronqué dans les captures mobile. Vérifié à 390 × 844 avec cache CSS invalidé, puis `npm run check` : 69 tests passés, syntaxe JavaScript validée et audit statique OK.
 
 ### Tâche 42 — Étendre l’audit responsive à toutes les pages
 
@@ -1107,9 +1108,9 @@ Cette extension reprend des mécanismes utiles observés sur les pages produit, 
 
 ### Tâche 76 — Garantir la continuité des commandes et des notifications
 
-- [ ] Documenter les sauvegardes Supabase, la conservation des commandes et une procédure de restauration testée avant l’ouverture.
+- [x] Documenter les sauvegardes Supabase, la conservation des commandes et la procédure de restauration dans `docs/ops/supabase-backup-restore.md` ; l’exécution et le test réel de restauration restent à faire par la propriétaire avant l’ouverture.
 - [ ] Conserver un journal exploitable des commandes, erreurs de stock, paiements et e-mails ; une panne d’e-mail ne doit jamais supprimer une commande.
-- [ ] Prévoir une vue propriétaire des commandes en échec ou nécessitant une action, sans déconnexion automatique inutile.
+- [x] Prévoir une vue propriétaire des commandes en échec ou nécessitant une action, sans déconnexion automatique inutile ; le tableau de bord affiche l’état de la file de notifications et ses erreurs éventuelles.
 - [ ] Tester la reprise après rafraîchissement, panne réseau, erreur fournisseur et restauration, avec preuve de non-duplication.
 
 **Validation :** une commande persistée reste retrouvable et traitable même si le réseau, l’e-mail ou le paiement échoue.
