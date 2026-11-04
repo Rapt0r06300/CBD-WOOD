@@ -47,6 +47,10 @@ function showAuth() {
   $('#logoutButton')?.classList.add('hidden');
 }
 
+function redirectToAccount() {
+  window.location.replace(new URL('compte.html', window.location.href).href);
+}
+
 function showLoginView() {
   $('#loginForm')?.classList.remove('hidden');
   $('#resetRequestForm')?.classList.add('hidden');
@@ -60,6 +64,7 @@ function showResetRequestView() {
 }
 
 function showNewPasswordView() {
+  $('#authView')?.classList.remove('hidden');
   $('#loginForm')?.classList.add('hidden');
   $('#resetRequestForm')?.classList.add('hidden');
   $('#newPasswordForm')?.classList.remove('hidden');
@@ -168,14 +173,11 @@ async function updateOrderStatus(id, status, select) {
 async function enterDashboard(user) {
   const { data: owner, error: ownerError } = await supabase.from('owner_users').select('user_id').eq('user_id', user.id).maybeSingle();
   if (ownerError) {
-    showAuth();
-    setMessage('#authMessage', `La base n'est pas encore disponible : ${ownerError.message}`, true);
+    redirectToAccount();
     return;
   }
   if (!owner) {
-    await supabase.auth.signOut();
-    showAuth();
-    setMessage('#authMessage', 'Ce compte n’a pas encore été autorisé pour l’espace propriétaire.', true);
+    redirectToAccount();
     return;
   }
   showDashboard();
@@ -281,7 +283,7 @@ async function saveProduct(event) {
 
 async function boot() {
   if (!supabase) {
-    setMessage('#authMessage', 'La configuration Supabase est absente.', true);
+    redirectToAccount();
     return;
   }
   $('#togglePasswordButton').addEventListener('click', () => {
@@ -361,15 +363,11 @@ async function boot() {
   });
   supabase.auth.onAuthStateChange((event) => {
     if (event === 'PASSWORD_RECOVERY') showNewPasswordView();
-    if (event === 'SIGNED_OUT') {
-      showAuth();
-      showLoginView();
-      setMessage('#authMessage', 'La session propriétaire a été fermée. Reconnecte-toi pour continuer.', true);
-    }
+    if (event === 'SIGNED_OUT') redirectToAccount();
   });
   $('#logoutButton').addEventListener('click', async () => {
     await supabase.auth.signOut();
-    showAuth();
+    redirectToAccount();
   });
   $('#newProductButton').addEventListener('click', () => {
     resetProductForm();
@@ -392,7 +390,11 @@ async function boot() {
   const recoveryInUrl = window.location.hash.includes('type=recovery') || new URLSearchParams(window.location.search).get('type') === 'recovery';
   const { data: { session } } = await supabase.auth.getSession();
   if (recoveryInUrl) showNewPasswordView();
-  else if (session?.user) await enterDashboard(session.user);
+  else if (!session?.user) {
+    redirectToAccount();
+    return;
+  }
+  else await enterDashboard(session.user);
 }
 
 boot();
