@@ -64,11 +64,12 @@
 
 ## État de vérification locale — 4 novembre 2026
 
-- `npm run check` passe avec **54 tests**, la syntaxe JavaScript contrôlée sur 24 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **56 tests**, la syntaxe JavaScript contrôlée sur 24 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **33 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - Le contrôle responsive Playwright confirme l’absence de débordement horizontal sur les quatre catégories aux largeurs `320`, `390`, `430`, `768`, `1024` et `1440`, avec la navigation mobile chargée sur les vues étroites.
 - La disponibilité est maintenant une donnée Supabase explicite (`available`, `soon`, `rupture`, `incomplete`) et le serveur refuse de traiter un produit qui n’est pas `available`.
 - Le projet Supabase connecté possède maintenant la colonne `availability_state` ; la fonction de commande vérifie cet état et le calcul serveur refuse les grammages intermédiaires tout en facturant 50 g comme deux lots de 25 g.
+- Le contrôle navigateur confirme que l’ouverture du panier donne le focus à son dialogue (`role="dialog"`, `aria-modal="true"`) et que `Échap` le ferme en rendant le focus au bouton déclencheur ; le menu applique le même retour de focus dans le code testé.
 - Ces preuves ne remplacent pas la recette finale sur 375 px, les orientations, le clavier virtuel, les navigateurs réels, les réglages Auth/Turnstile/e-mail et les sauvegardes Supabase : ces points restent volontairement ouverts dans les tâches concernées.
 
 ## Phase 0 — Sécuriser l’existant avant toute évolution

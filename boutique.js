@@ -36,12 +36,14 @@
   const readFlowerTiers = control => {
     try { return JSON.parse(control?.dataset.tiers || '[]'); } catch { return []; }
   };
+  let lastCartTrigger = null;
+  let lastMenuTrigger = null;
 
   function ensureCartPanel() {
     if (document.getElementById('cartPanel')) return;
     document.body.insertAdjacentHTML('beforeend', `
       <div class="cart-backdrop" data-cart-close></div>
-      <aside class="cart-panel" id="cartPanel" aria-labelledby="cartTitle" aria-hidden="true">
+      <aside class="cart-panel" id="cartPanel" role="dialog" aria-modal="true" aria-labelledby="cartTitle" aria-hidden="true" tabindex="-1">
         <div class="cart-panel__header"><h2 id="cartTitle">Votre sélection</h2><button class="cart-close" type="button" data-cart-close aria-label="Fermer le panier">×</button></div>
         <div class="cart-items" id="cartItems"></div>
         <div class="cart-summary"><span>Total</span><strong id="cartTotal">À confirmer</strong></div>
@@ -75,8 +77,15 @@
     const backdrop = document.querySelector('.cart-backdrop');
     const trigger = document.getElementById('cartTrigger');
     if (!panel || !backdrop) return;
+    const wasOpen = panel.classList.contains('is-open');
     panel.classList.toggle('is-open', open); backdrop.classList.toggle('is-open', open); panel.setAttribute('aria-hidden', String(!open));
     if (trigger) trigger.setAttribute('aria-expanded', String(open));
+    if (open) {
+      lastCartTrigger = trigger;
+      queueMicrotask(() => panel.focus({ preventScroll: true }));
+    } else if (wasOpen) {
+      queueMicrotask(() => lastCartTrigger?.focus({ preventScroll: true }));
+    }
   }
 
   function openFlowerDetail(card) {
@@ -413,7 +422,31 @@
 
   const year = document.getElementById('year'); if (year) year.textContent = new Date().getFullYear();
   const toggle = document.getElementById('hamb'); const nav = document.getElementById('navigation');
-  function closeMenu(){if(!toggle||!nav)return;nav.classList.remove('open');toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Ouvrir le menu');toggle.textContent='☰';}
-  if(toggle&&nav){toggle.addEventListener('click',()=>{const open=nav.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',open?'Fermer le menu':'Ouvrir le menu');toggle.textContent=open?'×':'☰';});nav.querySelectorAll('a').forEach(link=>link.addEventListener('click',closeMenu));document.addEventListener('keydown',event=>{if(event.key==='Escape')closeMenu();});}
+  function closeMenu({ restoreFocus = true } = {}) {
+    if (!toggle || !nav) return;
+    const wasOpen = nav.classList.contains('open');
+    nav.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Ouvrir le menu');
+    toggle.textContent = '☰';
+    if (wasOpen && restoreFocus) queueMicrotask(() => lastMenuTrigger?.focus({ preventScroll: true }));
+  }
+  if (toggle && nav) {
+    toggle.addEventListener('click', () => {
+      if (nav.classList.contains('open')) {
+        closeMenu();
+        return;
+      }
+      lastMenuTrigger = toggle;
+      nav.classList.add('open');
+      nav.setAttribute('tabindex', '-1');
+      toggle.setAttribute('aria-expanded', 'true');
+      toggle.setAttribute('aria-label', 'Fermer le menu');
+      toggle.textContent = '×';
+      queueMicrotask(() => nav.focus({ preventScroll: true }));
+    });
+    nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => closeMenu({ restoreFocus: false })));
+    document.addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
+  }
   initCart(); initCheckout(); initAccount();
 })();

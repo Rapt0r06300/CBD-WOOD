@@ -11,8 +11,8 @@ test('la feuille de route conserve ses 76 tâches uniques et dans l’ordre', ()
 });
 
 test('l’état de vérification ne contient pas de compteur obsolète', () => {
-  assert.match(roadmap, /npm run check` passe avec \*\*54 tests\*\*/);
-  assert.doesNotMatch(roadmap, /\*\*(44|47|51|53) tests\*\*/);
+  assert.match(roadmap, /npm run check` passe avec \*\*56 tests\*\*/);
+  assert.doesNotMatch(roadmap, /\*\*(44|47|51|53|54) tests\*\*/);
   assert.match(roadmap, /paquet de \*\*33 fichiers\*\*/);
   assert.match(roadmap, /availability_state/);
 });
