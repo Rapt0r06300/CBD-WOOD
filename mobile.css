@@ -86,7 +86,7 @@
     border: 1px solid transparent;
     border-radius: 12px;
     color: #9ead9b;
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 900;
     letter-spacing: .7px;
     line-height: 1.1;
@@ -204,7 +204,7 @@
   }
 
   .mobile-app-nav a {
-    font-size: 8px;
+    font-size: 9px;
     letter-spacing: .4px;
   }
 
