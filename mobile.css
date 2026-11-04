@@ -229,6 +229,16 @@
   }
 }
 
+@media (max-width: 430px) {
+  .mobile-app-nav__label {
+    max-width: none;
+    font-size: clamp(7px, 2.1vw, 9px);
+    letter-spacing: .3px;
+    overflow: visible;
+    text-overflow: clip;
+  }
+}
+
 @media (any-pointer: coarse) {
   .mobile-app-nav a,
   .mobile-app-nav button,
