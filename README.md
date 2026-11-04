@@ -29,6 +29,18 @@ La branche `main` reste la seule branche de travail conformément au choix du pr
 
 Le dépôt peut être privé après vérification de la connexion Cloudflare au dépôt. En revanche, GitHub Pages gratuit ne publie pas un dépôt privé : il faut donc confirmer que la version Cloudflare fonctionne avant de rendre le dépôt privé.
 
+## Préparation locale pour Hostinger
+
+Le site n’a pas besoin d’être converti en Python, PHP ou WordPress pour Hostinger. Pour préparer un paquet sans rien publier :
+
+```bash
+npm run prepare:hostinger
+```
+
+La commande crée `dist-hostinger/`. Seul son contenu devra être envoyé plus tard dans `public_html/`. Le paquet contient `.htaccess`, les pages publiques, les styles, les scripts, les assets et `404.html`, mais exclut les tests, la documentation, les migrations Supabase et les fichiers de dépôt. Voir `docs/ops/hostinger-deploy.md`.
+
+Le fichier `.htaccess` est spécifique à un hébergement Apache comme Hostinger. Les fichiers `_headers`, `_redirects` et `netlify.toml` restent utiles pour d’autres plateformes mais ne remplacent pas `.htaccess` sur Hostinger.
+
 ## Sécurité des secrets
 
 `supabase-config.js` ne contient qu’une URL et une clé publishable destinée au navigateur. Elle ne donne pas de droits administrateur par elle-même : les règles RLS Supabase et les contrôles serveur font foi.

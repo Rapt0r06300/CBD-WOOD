@@ -10,6 +10,16 @@
 - [ ] Un rollback Pages est connu et testé sur une version de démonstration.
 - [ ] L’accord écrit de l’hébergeur pour les produits exacts est conservé.
 
+## Préparation Hostinger
+
+- [ ] `npm run check` passe avant la préparation.
+- [ ] `npm run prepare:hostinger` crée `dist-hostinger`.
+- [ ] Le contenu de `dist-hostinger` est vérifié avant tout envoi.
+- [ ] Seul le contenu de `dist-hostinger` sera placé dans `public_html`.
+- [ ] `.htaccess` est présent et le SSL Hostinger est actif avant de tester les formulaires.
+- [ ] Aucun dossier `.git`, `docs`, `test`, `scripts` ou `supabase` n’est envoyé dans `public_html`.
+- [ ] Rien n’est déployé depuis ce dépôt sans validation explicite de la propriétaire.
+
 ## Supabase
 
 - [ ] Site URL et Redirect URLs contiennent le domaine réel, sans remplacer les URL locales par erreur.

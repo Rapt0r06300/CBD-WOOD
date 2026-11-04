@@ -6,6 +6,7 @@ const root = process.cwd();
 const requiredFiles = [
   '_headers',
   '_redirects',
+  '.htaccess',
   '404.html',
   'supabase-config.js',
   'supabase/functions/create-pending-order/index.ts',
@@ -27,6 +28,18 @@ for (const file of requiredFiles) {
 const headers = await readFile(join(root, '_headers'), 'utf8');
 for (const requiredHeader of ['X-Content-Type-Options: nosniff', 'Referrer-Policy:', 'Permissions-Policy:', 'Content-Security-Policy-Report-Only:']) {
   if (!headers.includes(requiredHeader)) fail(`En-tête Cloudflare manquant : ${requiredHeader}`);
+}
+
+const htaccess = await readFile(join(root, '.htaccess'), 'utf8');
+for (const requiredRule of [
+  'Options -Indexes',
+  'DirectoryIndex index.html',
+  'ErrorDocument 404 /404.html',
+  'RewriteCond %{HTTPS} !=on',
+  'X-Content-Type-Options',
+  'Content-Security-Policy-Report-Only "',
+]) {
+  if (!htaccess.includes(requiredRule)) fail(`Configuration Hostinger manquante : ${requiredRule}`);
 }
 
 const config = await readFile(join(root, 'supabase-config.js'), 'utf8');

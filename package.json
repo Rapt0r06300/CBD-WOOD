@@ -6,6 +6,7 @@
     "test": "node --test",
     "audit": "node scripts/static-audit.mjs",
     "check:js": "node scripts/check-js.mjs",
-    "check": "npm run test && npm run check:js && npm run audit"
+    "check": "npm run test && npm run check:js && npm run audit",
+    "prepare:hostinger": "node scripts/prepare-hostinger.mjs"
   }
 }
