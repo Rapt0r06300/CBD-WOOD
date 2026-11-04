@@ -6,6 +6,14 @@ test('checkout section keeps the shared container gutters', async () => {
   const stylesheet = await readFile(new URL('../boutique.css', import.meta.url), 'utf8');
   const homepage = await readFile(new URL('../index.html', import.meta.url), 'utf8');
   const adminStylesheet = await readFile(new URL('../admin.css', import.meta.url), 'utf8');
+  for (const page of ['bien-etre.html', 'compte.html', 'confirmation.html', 'fleur.html', 'fleurs.html', 'resines.html', 'wood-shop.html', 'checkout.html']) {
+    const html = await readFile(new URL(`../${page}`, import.meta.url), 'utf8');
+    assert.match(
+      html,
+      /boutique\.css\?v=wood-responsive-v4-20261104/,
+      `${page} doit charger la feuille responsive publiée sans cache obsolète`,
+    );
+  }
 
   assert.match(
     stylesheet,
