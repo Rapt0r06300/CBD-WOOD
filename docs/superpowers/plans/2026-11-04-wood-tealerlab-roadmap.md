@@ -10,7 +10,7 @@
 
 **Référence :** audit de [TealerLab](https://tealerlab.com/), site actuel WOOD, échanges avec la propriétaire et exigences de Florent.
 
-**Contrôle de cohérence :** cette feuille contient 76 tâches principales uniques, numérotées de 1 à 76. Elle contient aussi un addendum de sous-tâches visuelles `A01–A40` : ces sous-tâches détaillent la refonte de l’accueil et des cartes sans modifier le contrat de numérotation testé par le dépôt. Les tâches 75 et 76 ajoutent les deux garde-fous indispensables à une ouverture commerciale : conformité éditoriale/légale et continuité des données. Les décisions commerciales inconnues restent bloquées ; elles ne peuvent pas être déduites par le code.
+**Contrôle de cohérence :** cette feuille contient 76 tâches principales uniques, numérotées de 1 à 76. Elle contient aussi un addendum de 40 tags d’exécution `A01–A40` : chaque tag possède maintenant un périmètre de fichiers et un contrôle de validation, sans modifier le contrat de numérotation testé par le dépôt. Les tâches 75 et 76 ajoutent les deux garde-fous indispensables à une ouverture commerciale : conformité éditoriale/légale et continuité des données. Les décisions commerciales inconnues restent bloquées ; elles ne peuvent pas être déduites par le code.
 
 **Architecture d’administration retenue :** après connexion, le compte dont le rôle propriétaire est confirmé affiche directement le tableau de bord dans `compte.html`. Les nouveaux comptes restent clients. Aucun fichier ou route `admin.*` n’est publié ; RLS et les fonctions serveur restent obligatoires.
 
@@ -80,7 +80,7 @@
 - Le tableau de bord propriétaire affiche maintenant l’état de la file `order_notification_outbox` (`à envoyer`, `en cours`, `envoyé`, `échec`) sans présenter l’envoi comme actif ; `test/order-notification-outbox.test.mjs` le vérifie.
 - La migration locale `20261104150000_order_status_history.sql` a été appliquée au projet Supabase sous `20261104215031_order_status_history` ; la table est protégée par RLS, le trigger est présent et aucune commande n’existait au moment du contrôle.
 - La migration locale `20261104160000_order_notification_outbox.sql` a été appliquée au projet Supabase sous `20261104220305_order_notification_outbox` ; la file est idempotente, protégée par RLS, vide au contrôle et ne lance aucun e-mail tant qu’aucun fournisseur n’est configuré.
-- Le 5 novembre 2026, l’accueil officiel [TealerLab](https://tealerlab.com/) a été revu avec Exa, Parallel Search et un navigateur réel en desktop et en viewport mobile `390 × 844`. L’audit confirme une architecture de sections réutilisables, des rails de cartes produits, une hiérarchie de fiche dense et une version mobile réellement recomposée ; ces constats sont traduits dans les sous-tâches `A01–A40` ci-dessous.
+- Le 5 novembre 2026, l’accueil officiel [TealerLab](https://tealerlab.com/) a été revu avec Exa, Parallel Search et un navigateur réel en desktop et en viewport mobile `390 × 844`. L’audit confirme une architecture de sections réutilisables, des rails de cartes produits, une hiérarchie de fiche dense et une version mobile réellement recomposée ; ces constats sont traduits dans les tags d’exécution `A01–A40` ci-dessous.
 - Cette observation ne valide aucun changement graphique WOOD : elle sert uniquement de référence d’inspiration. Les couleurs, le logo, la typographie, la carte, les prix et les contraintes de la propriétaire restent prioritaires.
 
 ## Phase 0 — Sécuriser l’existant avant toute évolution
@@ -1063,6 +1063,51 @@ Ces sous-tâches détaillent la refonte à exécuter plus tard. Elles ne valent 
 - [ ] **A38 — Tester les parcours :** accueil → univers → fiche → panier → compte/checkout, sur desktop et mobile.
 - [ ] **A39 — Comparer avant/après :** captures aux largeurs cibles, aucun changement non expliqué de l’identité WOOD.
 - [ ] **A40 — Faire valider en deux temps :** d’abord `c’est toujours WOOD` par la propriétaire, puis `la présentation est aussi forte que TealerLab` par son conjoint.
+
+### Fiche d’exécution mise à jour des tags `A01–A40`
+
+Chaque tag ci-dessous précise les fichiers à examiner ou modifier et la preuve attendue. Cette fiche sert à travailler proprement plus tard ; elle ne signifie pas que la refonte graphique est déjà réalisée.
+
+- **A01** — Fichiers : `index.html`, `wood-shop.html`, `compte.html`, `checkout.html`, `docs/ops/public-routes.md`. Validation : carte de l’accueil et des routes sans route oubliée.
+- **A02** — Fichiers : `boutique.css`, `responsive.css`, `mobile.css`. Validation : mêmes espacements et mêmes patrons sur les quatre univers.
+- **A03** — Fichiers : `index.html`, `boutique.js`, `boutique.css`. Validation : chaque section choisit explicitement grille, rail, bloc ou accordéon.
+- **A04** — Fichiers : `index.html`, `mobile.css`, `responsive.css`. Validation : desktop affiche marque, navigation, panier et compte sans concurrence.
+- **A05** — Fichiers : `mobile-shell.js`, `mobile.css`, `index.html`, `compte.html`. Validation : mobile affiche menu, logo, panier et navigation basse sans chevauchement.
+- **A06** — Fichiers : `index.html`, `wood-shop.html`, `boutique.js`. Validation : le message livraison est unique, visible avant les produits et facilement modifiable.
+- **A07** — Fichiers : `index.html`, `boutique.css`, `assets/`. Validation : le hero WOOD conserve couleurs, logo et message validés avec deux actions lisibles.
+- **A08** — Fichiers : `wood-shop.html`, `fleurs.html`, `resines.html`, `bien-etre.html`, future page goods. Validation : les quatre univers sont distincts et leurs liens sont corrects.
+- **A09** — Fichiers : les quatre pages boutique, `boutique.css`. Validation : chaque introduction reste descriptive, courte et sans promesse non confirmée.
+- **A10** — Fichiers : `index.html`, `storefront.js`, `boutique.js`, Supabase `products`. Validation : aucun produit fictif n’entre dans la sélection WOOD.
+- **A11** — Fichiers : `boutique.css`, `responsive.css`, `assets/`. Validation : image réelle, photo à venir et absence d’image conservent la même hauteur utile.
+- **A12** — Fichiers : `storefront.js`, `boutique.js`, `fleurs.html`, `resines.html`. Validation : les niveaux strong/medium/classique sont affichés sans filtre supplémentaire.
+- **A13** — Fichiers : `boutique.css`, `responsive.css`, `test/catalog-grid.test.mjs`. Validation : deux lignes maximum visuellement, nom complet accessible et aucune carte décalée.
+- **A14** — Fichiers : `boutique.js`, `flower-pricing.js`, `test/flower-pricing.test.js`. Validation : `− / valeur / +` part de 1 g, reste clavier-compatible et ne descend jamais sous 1 g.
+- **A15** — Fichiers : `boutique.js`, `flower-pricing.js`, `test/flower-pricing-guard.test.mjs`. Validation : grammage, total et prix au gramme correspondent au palier de la variété.
+- **A16** — Fichiers : `storefront.js`, `boutique.js`, `supabase/functions/create-pending-order/`. Validation : chaque état de stock désactive ou adapte l’action sans faux achat.
+- **A17** — Fichiers : `storefront.js`, `boutique.js`, `scripts/static-audit.mjs`. Validation : audit négatif sur faux avis, faux taux, fausse réduction et chiffre inventé.
+- **A18** — Fichiers : `fleur.html`, `flower-detail.js`, `boutique.css`. Validation : média, identité, achat et informations apparaissent dans cet ordre.
+- **A19** — Fichiers : `flower-detail.js`, `responsive.css`, `test/product-detail.test.mjs`. Validation : zoom limité à `transform/opacity`, retour fluide et absence de saut de scroll.
+- **A20** — Fichiers : `flower-detail.js`, `boutique.js`, `storefront.js`. Validation : recommandations du même univers, sans remplacer ni masquer l’achat.
+- **A21** — Fichiers : `assets/`, `fleur.html`, `resines.html`, documentation des médias. Validation : seules les photos transmises et validées par la propriétaire sont utilisées.
+- **A22** — Fichiers : `index.html`, `docs/ops/public-routes.md`, contenu validé propriétaire. Validation : chaque preuve affichée possède une source ou une validation explicite.
+- **A23** — Fichiers : `index.html`, `location-contact.test.mjs`, FAQ partagée. Validation : accordéons utilisables au clavier et réponses limitées aux faits confirmés.
+- **A24** — Fichiers : `index.html`, `mobile.css`, `assets/` carte, `location-contact.test.mjs`. Validation : contacts Barla/Borriglione sont identifiés et sans point final après les noms.
+- **A25** — Fichiers : `boutique.css`, `responsive.css`, `test/catalog-grid.test.mjs`. Validation : trois cartes par ligne sur ordinateur avec actions alignées.
+- **A26** — Fichiers : `boutique.css`, `mobile.css`, `test/responsive-layout.test.mjs`. Validation : deux colonnes mobiles forment le bloc `2 × 2` sans couper prix ni bouton.
+- **A27** — Fichiers : `responsive.css`, `mobile.css`, `test/responsive-layout.test.mjs`. Validation : la tablette choisit deux ou trois colonnes selon la largeur réelle.
+- **A28** — Fichiers : `boutique.js`, `responsive.css`, `mobile-shell.js`. Validation : tout overflow horizontal est local au rail et aucun `body` ne déborde.
+- **A29** — Fichiers : `mobile.css`, `responsive.css`, `test/mobile-app-shell.test.mjs`. Validation : encoche, orientation, barre Safari et navigation basse ne masquent rien.
+- **A30** — Fichiers : `boutique.css`, `mobile.css`, `test/responsive-layout.test.mjs`. Validation : titres longs, prix élevés, photo absente et FAQ longue restent lisibles.
+- **A31** — Fichiers : `mobile-shell.js`, `boutique.js`, `responsive.css`. Validation : les dimensions sont réservées avant l’apparition et aucun bouton ne bouge.
+- **A32** — Fichiers : `index.html`, `boutique.css`, `mobile.css`. Validation : le bandeau animé ne contient ni promotion ni promesse non validée.
+- **A33** — Fichiers : `boutique.js`, `mobile-shell.js`, `accessibility.test.mjs`. Validation : hover, toucher, ajout panier et focus donnent un retour sans déplacement de layout.
+- **A34** — Fichiers : `mobile.css`, `responsive.css`, `test/accessibility.test.mjs`. Validation : `prefers-reduced-motion` supprime le mouvement non essentiel sans supprimer l’information.
+- **A35** — Fichiers : `scripts/static-audit.mjs`, `package.json`, captures Playwright. Validation : images, CLS, interaction et réseau lent sont mesurés avant validation.
+- **A36** — Fichiers : toutes les pages publiques, `package.json`, `README.md`. Validation : aucune librairie ou widget tiers n’est requis pour consulter ou acheter.
+- **A37** — Fichiers : `test/accessibility.test.mjs`, `test/navigation-accessibility.test.mjs`, CSS responsive. Validation : clavier, lecteur d’écran, contraste, focus et toucher passent.
+- **A38** — Fichiers : `test/links.test.mjs`, `test/product-detail.test.mjs`, `test/cart-resilience.test.mjs`, `test/owner-dashboard-session-and-status.test.mjs`. Validation : accueil → univers → fiche → panier → compte/checkout est cohérent.
+- **A39** — Fichiers : captures de référence de la tâche 49, `docs/audits/2026-11-04-tealerlab-wood-compatibility-audit.md`. Validation : comparaison avant/après sur toutes les largeurs sans dérive WOOD.
+- **A40** — Fichiers : compte-rendu de validation propriétaire, roadmap et captures finales. Validation : deux validations distinctes sont recueillies avant toute publication.
 
 ### Interdits explicites issus de l’audit
 
