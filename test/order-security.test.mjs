@@ -45,6 +45,8 @@ test('validates a delivery order before it reaches the database', () => {
 test('normalise une adresse structurée sans perdre le snapshot texte', () => {
   const valid = validateOrderPayload({
     customer_email: 'client@example.com',
+    customer_name: 'Client WOOD',
+    customer_phone: '0600000000',
     delivery_address_details: {
       line1: '7 rue Barla',
       line2: 'Bâtiment B, étage 2',

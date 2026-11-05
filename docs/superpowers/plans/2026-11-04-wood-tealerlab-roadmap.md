@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **236 tests**, la syntaxe JavaScript contrôlée sur 29 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **237 tests**, la syntaxe JavaScript contrôlée sur 30 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit `34eac62` ont été vérifiés avec succès ; les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -2046,9 +2046,9 @@ Ce bloc décrit tout ce qu’il faut pour obtenir une chaîne fiable `commande �
 ### 88 — Livraison et suivi de la commande
 
 - [x] **A475 — Conserver la livraison comme seul mode actif :** validation : aucun retrait Barla/Borriglione ne réapparaît dans le panier.
-- [ ] **A476 — Définir les champs d’adresse obligatoires :** validation : nom, téléphone et adresse minimale sont vérifiés avant soumission.
-- [ ] **A477 — Ajouter une validation de format d’adresse :** validation : erreurs visibles et corrigeables sans perdre le panier.
-- [ ] **A478 — Enregistrer un snapshot d’adresse :** validation : la commande conserve l’adresse utilisée, même si le profil change.
+- [x] **A476 — Définir les champs d’adresse obligatoires :** le checkout impose nom, téléphone, ligne d’adresse, code postal, ville et pays côté navigateur, et la fonction serveur refuse nom/téléphone absents avant la persistance.
+- [x] **A477 — Ajouter une validation de format d’adresse :** `normalizeDeliveryAddress` normalise et refuse les valeurs invalides ; `reportValidity()` laisse l’utilisateur corriger le formulaire sans vider le panier, et `test/checkout-address-contract.test.mjs` verrouille le branchement.
+- [x] **A478 — Enregistrer un snapshot d’adresse :** les champs structurés et le texte canonique sont envoyés et persistés avec la commande ; les tests d’adresse et de snapshot empêchent une relecture ultérieure du profil.
 - [ ] **A479 — Décider les zones livrées :** validation : le système refuse proprement une zone non desservie.
 - [ ] **A480 — Décider les frais de livraison :** validation : le total affiché avant paiement correspond à la règle validée.
 - [ ] **A481 — Décider les délais annoncés :** validation : aucun délai public n’est affiché avant confirmation de la propriétaire.

@@ -107,6 +107,8 @@ export const validateOrderPayload = (input) => {
   if (!customerEmail || !EMAIL_PATTERN.test(customerEmail)) {
     return { ok: false, error: 'Adresse e-mail invalide.' };
   }
+  if (!customerName) return { ok: false, error: 'Nom complet nécessaire pour la livraison.' };
+  if (!customerPhone) return { ok: false, error: 'Téléphone nécessaire pour la livraison.' };
   if (!address.ok) return { ok: false, error: address.error };
   if (fulfillmentMode !== 'delivery') {
     return { ok: false, error: 'Les commandes doivent être livrées.' };
