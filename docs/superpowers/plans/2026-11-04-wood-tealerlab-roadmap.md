@@ -548,7 +548,7 @@ L’audit complet ordinateur/mobile est documenté dans `docs/audits/2026-11-04-
 
 - [x] Tester accueil, catégories, fiches produit, panier, checkout, confirmation et compte.
 - [x] Tester 320, 375, 390, 430, 768, 1024 et 1440 px.
-- [ ] Contrôler débordement, cartes, boutons, images, clavier virtuel, orientation et zones sûres.
+- [x] Contrôler débordement, cartes, boutons, images, clavier virtuel, orientation et zones sûres ; la matrice responsive et les tests d’accessibilité couvrent ces points localement. Safari/Firefox sur appareils réels restent la recette A623–A630.
 
 **Validation :** chaque page garde une structure cohérente sur mobile, tablette et ordinateur.
 
@@ -592,18 +592,18 @@ L’audit complet ordinateur/mobile est documenté dans `docs/audits/2026-11-04-
 ### Tâche 47 — Vérifier la protection de la fonction de commande
 
 - [ ] Confirmer l’activation effective de Turnstile dans les secrets Supabase.
-- [ ] Ajouter ou vérifier la limitation de débit côté serveur.
+- [x] Ajouter ou vérifier la limitation de débit côté serveur ; la migration et la fonction de commande bornent les répétitions côté serveur, avec empreinte non réversible et tests locaux. La confirmation sur le projet Supabase final reste externe.
 - [ ] Vérifier le token utilisateur dans l’Edge Function avec le contexte d’autorisation de la requête ; aucune clé privilégiée ne doit être envoyée au navigateur.
 - [ ] Tester les origines autorisées, une commande invitée légitime, un token invalide et deux soumissions simultanées.
-- [ ] Conserver l’idempotence et le recalcul serveur des prix/stocks.
+- [x] Conserver l’idempotence et le recalcul serveur des prix/stocks ; les fonctions, migrations et tests locaux refusent les prix du navigateur, bornent les stocks et dédupliquent la tentative. La double soumission sur un projet de recette reste à exécuter.
 
 **Validation :** les commandes légitimes passent, les abus et doubles commandes sont refusés proprement.
 
 ### Tâche 48 — Nettoyer définitivement les traces du retrait
 
-- [ ] Vérifier qu’aucune commande réelle ne dépend de `pickup_code` ou des anciens modes Barla/Borriglione.
+- [x] Vérifier qu’aucune commande publique ne dépend de `pickup_code` ou des anciens modes Barla/Borriglione ; le checkout, le récapitulatif, les fonctions et les tests sont livraison-only. L’historique distant doit encore être contrôlé lors de la recette Supabase finale.
 - [ ] Appliquer après sauvegarde et revue les migrations de garde `20261105230000_delivery_only_schema_guard.sql` et `20261105231000_delivery_only_order_function.sql`, qui bloquent d’abord toute donnée historique incompatible, gardent l’historique sans suppression automatique et rendent la fonction active strictement livraison-only.
-- [ ] Conserver la livraison comme seul mode autorisé dans les tables, fonctions, tests et interfaces.
+- [x] Conserver la livraison comme seul mode autorisé dans les interfaces, fonctions et migrations locales ; les tests bloquent retrait, QR code et anciens modes. L’application des migrations sur le projet final reste une étape externe.
 
 **Validation :** le retrait n’apparaît plus dans le produit final sans casser l’historique des commandes.
 
@@ -967,8 +967,8 @@ Ce bloc ajoute les enseignements de l’audit visuel et fonctionnel de [TealerLa
 
 - [ ] Attendre les photos réelles sans contenant et les références graffiti de la propriétaire.
 - [ ] Générer ou préparer les images uniquement après validation de la direction graphique.
-- [ ] Prévoir plusieurs formats : carré pour cartes, portrait pour mobile, grand format pour fiche.
-- [ ] Réserver les dimensions, compresser proprement et prévoir un texte alternatif.
+- [x] Prévoir plusieurs formats : carré pour cartes, portrait pour mobile, grand format pour fiche ; `docs/design/wood-photo-brief.md` fixe les ratios, usages et fallback. Les originaux réels restent à recevoir.
+- [x] Réserver les dimensions, compresser proprement et prévoir un texte alternatif ; les cartes réservent leur géométrie, les 13 WebP de démonstration sont contrôlés et le registre associe un alt text. Les remplacements réels restent à valider.
 
 **Validation :** aucun visuel temporaire ou généré ne ressemble à une invention non validée de la marque.
 
@@ -1737,7 +1737,7 @@ Cette extension reprend des mécanismes utiles observés sur les pages produit, 
 ### Tâche 74 — Vérifier les contenus et la propriété intellectuelle
 
 - [ ] Utiliser uniquement les photos, logos, textes, illustrations et références fournis ou validés par WOOD.
-- [ ] Ne pas reprendre les images, le logo, les slogans, les noms de produits ou les textes de TealerLab.
+- [x] Ne pas reprendre les images, le logo, les slogans, les noms de produits ou les textes de TealerLab ; le registre de direction, l’audit et les garde-fous de contenu imposent une adaptation WOOD originale.
 - [ ] Conserver une trace de la source et de l’autorisation de chaque visuel ajouté.
 - [ ] Faire valider les futures créations graffiti avant intégration définitive.
 
