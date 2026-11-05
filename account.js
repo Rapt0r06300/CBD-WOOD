@@ -105,7 +105,7 @@ async function showAccount(user) {
   if (documentsError) throw documentsError;
   const isOwner = !ownerError && Boolean(owner);
   setOwnerDashboardVisibility(isOwner);
-  if (isOwner && !ownerDashboardApi) ownerDashboardApi = await mountOwnerDashboard({ supabase });
+  if (isOwner && !ownerDashboardApi) ownerDashboardApi = await mountOwnerDashboard({ supabase, config });
   accountCard?.classList.add('hidden');
   dashboard?.classList.remove('hidden');
   const welcome = document.getElementById('accountWelcome');

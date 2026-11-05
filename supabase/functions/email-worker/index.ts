@@ -31,7 +31,7 @@ const configuredBatchSize = () => Math.max(
 
 const orderMessage = async (client: ReturnType<typeof createClient>, job: Record<string, unknown>) => {
   const notificationKind = String(job.notification_kind);
-  if (!["order_created", "payment_confirmed", "invoice_ready", "delivery_update", "order_cancelled", "refund_confirmed"].includes(notificationKind)) {
+  if (!["order_created", "owner_order_alert", "payment_confirmed", "invoice_ready", "delivery_update", "order_cancelled", "refund_confirmed"].includes(notificationKind)) {
     throw new Error("Notification kind is not implemented");
   }
 

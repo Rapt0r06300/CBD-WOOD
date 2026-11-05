@@ -25,3 +25,11 @@ test('a normal account keeps the owner section hidden until owner_users confirms
 test('the old public admin page is gone', async () => {
   await assert.rejects(() => readFile(new URL('../admin.html', import.meta.url)), { code: 'ENOENT' });
 });
+
+test('owner orders expose private document downloads without exposing storage paths', () => {
+  assert.match(ownerSource, /invoice_documents/);
+  assert.match(ownerSource, /data-owner-document-id/);
+  assert.match(ownerSource, /functions\/v1\/document-download/);
+  assert.doesNotMatch(ownerSource, /storage_path/);
+  assert.match(accountPage, /Documents/);
+});

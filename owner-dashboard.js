@@ -2,15 +2,16 @@ const categoryLabels = { fleurs: 'Fleurs CBD', resines: 'Résines', 'bien-etre':
 const flowerTierGrams = [1, 3, 5, 10, 25];
 const orderStatuses = ['pending', 'paid', 'preparing', 'ready', 'completed', 'cancelled'];
 const statusLabels = { pending: 'En attente', paid: 'Payée', preparing: 'En préparation', ready: 'Prête', completed: 'Terminée', cancelled: 'Annulée' };
-const notificationKindLabels = { order_created: 'Commande créée', payment_confirmed: 'Paiement confirmé' };
-const notificationStatusLabels = { pending: 'À envoyer', processing: 'En cours', sent: 'Envoyé', failed: 'Échec' };
+const notificationKindLabels = { order_created: 'Commande créée', owner_order_alert: 'Alerte propriétaire', payment_confirmed: 'Paiement confirmé', invoice_ready: 'Document prêt', delivery_update: 'Livraison mise à jour', order_cancelled: 'Commande annulée', refund_confirmed: 'Remboursement confirmé' };
+const notificationStatusLabels = { pending: 'À envoyer', processing: 'En cours', sent: 'Envoyé', failed: 'Échec', dead_letter: 'À reprendre', cancelled: 'Annulé' };
+const documentLabels = { order_confirmation: 'Confirmation', payment_receipt: 'Reçu de paiement', invoice: 'Facture' };
 
 const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[character]));
 const formatMoney = cents => cents === null || cents === undefined || cents === '' ? 'À renseigner' : new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(Number(cents) / 100);
 const formatDate = value => value ? new Intl.DateTimeFormat('fr-FR', { dateStyle: 'medium' }).format(new Date(value)) : '—';
 const slugify = value => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
-export async function mountOwnerDashboard({ supabase }) {
+export async function mountOwnerDashboard({ supabase, config = window.WOOD_SUPABASE_CONFIG }) {
   const root = document.getElementById('ownerDashboard');
   if (!root || !supabase) return null;
   const $ = selector => root.querySelector(selector);
@@ -18,6 +19,8 @@ export async function mountOwnerDashboard({ supabase }) {
   const ordersBody = $('#ownerOrdersBody');
   const notificationsBody = $('#ownerNotificationsBody');
   let products = [];
+  let orders = [];
+  let documents = [];
 
   const productsSection = root.querySelector('[aria-labelledby="owner-products-title"]');
   const ordersSection = root.querySelector('[aria-labelledby="owner-orders-title"]');
@@ -47,15 +50,19 @@ export async function mountOwnerDashboard({ supabase }) {
     productsBody.innerHTML = products.map(product => `<tr><td data-label="Produit"><div class="owner-dashboard__product"><strong>${escapeHtml(product.name)}</strong><span>${escapeHtml(product.slug)}</span></div></td><td data-label="Catégorie">${escapeHtml(categoryLabels[product.category] || product.category)}</td><td data-label="Prix">${product.category === 'fleurs' && product.pricing_tiers?.length ? product.pricing_tiers.map(tier => `${tier.grams} g · ${formatMoney(tier.price_cents)}`).join('<br>') : formatMoney(product.price_cents)}</td><td data-label="Stock">${escapeHtml(product.stock_quantity)}</td><td data-label="Statut"><span class="owner-dashboard__status-badge owner-dashboard__status-badge--${escapeHtml(product.status)}">${product.status === 'published' ? 'Publié' : product.status === 'archived' ? 'Archivé' : 'Brouillon'}</span></td><td data-label="Action"><button class="owner-dashboard__edit" type="button" data-owner-edit-product="${escapeHtml(product.id)}">Modifier</button></td></tr>`).join('');
   };
 
-  const renderOrders = orders => {
+  const renderOrders = (orderRows = orders) => {
     if (!ordersBody) return;
-    if (!orders.length) {
-      ordersBody.innerHTML = '<tr><td colspan="6" class="owner-dashboard__empty">Aucune commande pour le moment.</td></tr>';
+    if (!orderRows.length) {
+      ordersBody.innerHTML = '<tr><td colspan="7" class="owner-dashboard__empty">Aucune commande pour le moment.</td></tr>';
       renderSummary(0);
       return;
     }
-    ordersBody.innerHTML = orders.map(order => `<tr><td data-label="Date">${formatDate(order.created_at)}</td><td data-label="Commande / client"><div class="owner-dashboard__product"><strong>${escapeHtml(order.order_number || 'Commande sans numéro')}</strong><span>${escapeHtml(order.customer_name || order.customer_email)}${order.customer_phone ? ` · ${escapeHtml(order.customer_phone)}` : ''}</span></div></td><td data-label="Livraison"><strong>Livraison à domicile</strong>${order.delivery_address ? `<br><span class="owner-dashboard__address">${escapeHtml(order.delivery_address)}</span>` : ''}</td><td data-label="Total">${formatMoney(order.total_cents)}</td><td data-label="Paiement"><span class="owner-dashboard__status-badge owner-dashboard__status-badge--${escapeHtml(order.payment_status)}">${escapeHtml(order.payment_status)}</span></td><td data-label="État"><select class="owner-dashboard__order-status" data-owner-order-status="${escapeHtml(order.id)}" aria-label="État de ${escapeHtml(order.order_number || 'la commande')}">${orderStatuses.map(status => `<option value="${status}"${status === order.status ? ' selected' : ''}>${statusLabels[status]}</option>`).join('')}</select></td></tr>`).join('');
-    renderSummary(orders.length);
+    ordersBody.innerHTML = orderRows.map(order => {
+      const orderDocuments = documents.filter(document => document.order_id === order.id && document.status === 'ready');
+      const documentButtons = orderDocuments.map(document => `<button class="owner-dashboard__document" type="button" data-owner-document-id="${escapeHtml(document.id)}">${escapeHtml(documentLabels[document.document_kind] || 'Document')} ↗</button>`).join('');
+      return `<tr><td data-label="Date">${formatDate(order.created_at)}</td><td data-label="Commande / client"><div class="owner-dashboard__product"><strong>${escapeHtml(order.order_number || 'Commande sans numéro')}</strong><span>${escapeHtml(order.customer_name || order.customer_email)}${order.customer_phone ? ` · ${escapeHtml(order.customer_phone)}` : ''}</span></div></td><td data-label="Livraison"><strong>Livraison à domicile</strong>${order.delivery_address ? `<br><span class="owner-dashboard__address">${escapeHtml(order.delivery_address)}</span>` : ''}</td><td data-label="Total">${formatMoney(order.total_cents)}</td><td data-label="Paiement"><span class="owner-dashboard__status-badge owner-dashboard__status-badge--${escapeHtml(order.payment_status)}">${escapeHtml(order.payment_status)}</span></td><td data-label="État"><select class="owner-dashboard__order-status" data-owner-order-status="${escapeHtml(order.id)}" aria-label="État de ${escapeHtml(order.order_number || 'la commande')}">${orderStatuses.map(status => `<option value="${status}"${status === order.status ? ' selected' : ''}>${statusLabels[status]}</option>`).join('')}</select></td><td data-label="Documents"><div class="owner-dashboard__documents">${documentButtons || '<span class="owner-dashboard__product">Pas encore disponible</span>'}</div></td></tr>`;
+    }).join('');
+    renderSummary(orderRows.length);
   };
 
   const renderNotifications = notifications => {
@@ -66,7 +73,7 @@ export async function mountOwnerDashboard({ supabase }) {
     }
     notificationsBody.innerHTML = notifications.map(notification => {
       const status = notificationStatusLabels[notification.status] || notification.status || 'Inconnu';
-      const statusClass = ['pending', 'processing', 'sent', 'failed'].includes(notification.status) ? notification.status : 'pending';
+      const statusClass = ['pending', 'processing', 'sent', 'failed', 'dead_letter', 'cancelled'].includes(notification.status) ? notification.status : 'pending';
       const orderId = String(notification.order_id || '—');
       return `<tr><td data-label="Date">${formatDate(notification.created_at)}</td><td data-label="Commande"><span class="owner-dashboard__address">…${escapeHtml(orderId.slice(-8))}</span></td><td data-label="Type">${escapeHtml(notificationKindLabels[notification.notification_kind] || notification.notification_kind)}</td><td data-label="État"><span class="owner-dashboard__status-badge owner-dashboard__status-badge--${statusClass}">${escapeHtml(status)}</span></td><td data-label="Tentatives">${escapeHtml(notification.attempts)}</td><td data-label="Erreur">${escapeHtml(notification.last_error || '—')}</td></tr>`;
     }).join('');
@@ -89,7 +96,19 @@ export async function mountOwnerDashboard({ supabase }) {
   const loadOrders = async () => {
     const { data, error } = await supabase.from('orders').select('id, order_number, customer_email, customer_name, customer_phone, delivery_address, fulfillment_mode, total_cents, status, payment_status, created_at').order('created_at', { ascending: false }).limit(100);
     if (error) throw error;
-    renderOrders(data || []);
+    orders = data || [];
+    renderOrders();
+  };
+
+  const loadDocuments = async () => {
+    const { data, error } = await supabase.from('invoice_documents').select('id, order_id, document_kind, document_number, status, created_at').order('created_at', { ascending: false }).limit(300);
+    if (error) {
+      documents = [];
+      renderOrders();
+      return;
+    }
+    documents = data || [];
+    renderOrders();
   };
 
   const loadNotifications = async () => {
@@ -174,6 +193,17 @@ export async function mountOwnerDashboard({ supabase }) {
     setMessage('#ownerOrderMessage', 'État de la commande mis à jour.');
   };
 
+  const downloadDocument = async documentId => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.access_token || !config?.url) throw new Error('Session invalide.');
+    const response = await fetch(`${config.url}/functions/v1/document-download?document_id=${encodeURIComponent(documentId)}`, {
+      headers: { Authorization: `Bearer ${session.access_token}` },
+    });
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok || !payload.url) throw new Error(payload.error || 'Document indisponible.');
+    window.open(payload.url, '_blank', 'noopener,noreferrer');
+  };
+
   $('#ownerNewProductButton')?.addEventListener('click', () => { resetProductForm(); $('#ownerProductForm')?.classList.remove('hidden'); $('#ownerProductForm')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
   $('#ownerCancelProductButton')?.addEventListener('click', resetProductForm);
   $('#ownerCancelProductButtonBottom')?.addEventListener('click', resetProductForm);
@@ -181,9 +211,17 @@ export async function mountOwnerDashboard({ supabase }) {
   $('#ownerProductCategory')?.addEventListener('change', syncPricingFields);
   productsBody?.addEventListener('click', event => { const button = event.target.closest('[data-owner-edit-product]'); if (button) editProduct(button.dataset.ownerEditProduct); });
   ordersBody?.addEventListener('change', event => { const select = event.target.closest('[data-owner-order-status]'); if (select) void updateOrderStatus(select.dataset.ownerOrderStatus, select.value, select); });
+  ordersBody?.addEventListener('click', event => {
+    const button = event.target.closest('[data-owner-document-id]');
+    if (!button) return;
+    button.disabled = true;
+    void downloadDocument(button.dataset.ownerDocumentId)
+      .catch(error => setMessage('#ownerOrderMessage', error.message || 'Document indisponible.', true))
+      .finally(() => { button.disabled = false; });
+  });
   syncPricingFields();
   root.classList.remove('hidden');
   root.setAttribute('aria-hidden', 'false');
-  try { await Promise.all([loadProducts(), loadOrders(), loadNotifications()]); } catch (error) { setMessage('#ownerProductMessage', `Impossible de charger les données : ${error.message}`, true); }
+  try { await Promise.all([loadProducts(), loadOrders(), loadDocuments(), loadNotifications()]); } catch (error) { setMessage('#ownerProductMessage', `Impossible de charger les données : ${error.message}`, true); }
   return { hide() { root.classList.add('hidden'); root.setAttribute('aria-hidden', 'true'); } };
 }

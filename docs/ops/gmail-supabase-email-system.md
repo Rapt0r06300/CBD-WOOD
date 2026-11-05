@@ -8,7 +8,7 @@ Le site ne connecte pas un mot de passe Gmail à la base de données. Supabase c
 
 ```text
 commande persistée
-  → order_notification_outbox
+  → order_notification_outbox (client + owner_order_alert)
   → email-worker (bail anti-doublon)
   → Gmail API OAuth
   → email_delivery_attempts
@@ -22,6 +22,7 @@ Les documents PDF restent dans le bucket privé `order-documents`. Le navigateur
 ## Fichiers
 
 - `supabase/migrations/20261105100000_email_automation_foundation.sql` : tables, RLS, nouvelles catégories et fonction de réservation atomique.
+- `supabase/migrations/20261105120000_owner_order_alerts.sql` : alerte propriétaire créée après persistance d’une nouvelle commande.
 - `supabase/functions/email-worker/core.mjs` : normalisation, retries, MIME et encodage Gmail.
 - `supabase/functions/email-worker/gmail.mjs` : échange du refresh token et appel Gmail `messages.send`.
 - `supabase/functions/email-worker/message.mjs` : messages de commande sans affirmation de paiement prématurée.
@@ -29,6 +30,7 @@ Les documents PDF restent dans le bucket privé `order-documents`. Le navigateur
 - `supabase/functions/email-worker/index.ts` : fonction Edge privée qui loue les jobs puis les envoie.
 - `supabase/functions/document-worker/index.ts` : génération et stockage privé des PDF.
 - `supabase/functions/document-download/index.ts` : URL signée courte pour le client authentifié ou la propriétaire.
+- `owner-dashboard.js` : suivi des notifications et ouverture des documents prêts via URL signée courte.
 - `supabase/functions/delivery-events/index.ts` : transitions de livraison propriétaire, idempotence et notification.
 - `supabase/functions/newsletter-subscribe/index.ts` et `newsletter-unsubscribe/index.ts` : consentement et retrait.
 - `supabase/functions/newsletter-campaign/index.ts` : campagnes séparées, lots, désinscription et reprise.
