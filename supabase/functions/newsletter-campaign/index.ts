@@ -84,10 +84,10 @@ Deno.serve(async (request) => {
     let errorMessage: string | null = null;
     try {
       const { data: subscriber } = await client.from("newsletter_subscribers")
-        .select("id, normalized_email, consent_status")
+        .select("id, normalized_email, consent_status, is_test")
         .eq("id", delivery.subscriber_id)
         .maybeSingle();
-      if (!subscriber || subscriber.consent_status !== "subscribed") {
+      if (!subscriber || subscriber.consent_status !== "subscribed" || subscriber.is_test === true) {
         outcome = { status: "unsubscribed", availableAt: null };
       } else {
         const { data: template, error: templateError } = await client.from("email_templates")

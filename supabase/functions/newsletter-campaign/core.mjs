@@ -3,7 +3,7 @@ import { createSignedUnsubscribeToken } from '../newsletter/core.mjs';
 export const MAX_NEWSLETTER_ATTEMPTS = 5;
 
 export const eligibleSubscribers = (subscribers) => (Array.isArray(subscribers) ? subscribers : [])
-  .filter((subscriber) => subscriber?.consent_status === 'subscribed' && typeof subscriber.normalized_email === 'string')
+  .filter((subscriber) => subscriber?.consent_status === 'subscribed' && subscriber?.is_test !== true && typeof subscriber.normalized_email === 'string')
   .map((subscriber) => ({ ...subscriber, normalized_email: subscriber.normalized_email.trim().toLowerCase() }))
   .filter((subscriber) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/u.test(subscriber.normalized_email));
 
@@ -20,7 +20,7 @@ export const buildNewsletterMessage = async ({ campaign, subscriber, textBody, h
   const token = await createSignedUnsubscribeToken({ subscriberId: subscriber.id, secret: unsubscribeSecret });
   const link = `${String(unsubscribeUrl).replace(/\/$/u, '')}?token=${encodeURIComponent(token)}`;
   const footerText = `\n\nWOOD — CBD / Nice\nSe désinscrire : ${link}`;
-  const footerHtml = `<hr><p>WOOD — CBD / Nice<br><a href="${link}">Se désinscrire de la newsletter</a></p>`;
+  const footerHtml = `<footer role="contentinfo" style="box-sizing:border-box;width:100%;max-width:640px;margin:0 auto;padding:16px;color:#18291d;background:#f1f0e6;font-family:Arial,sans-serif;font-size:14px;line-height:1.5;overflow-wrap:anywhere"><hr style="border:0;border-top:1px solid #a6b5a5"><p style="margin:0">WOOD — CBD / Nice<br><a href="${link}" aria-label="Se désinscrire de la newsletter" style="color:#214d2d;text-decoration:underline;font-weight:700;display:inline-block;padding:10px 0">Se désinscrire de la newsletter</a></p></footer>`;
   return {
     from,
     to: subscriber.normalized_email,

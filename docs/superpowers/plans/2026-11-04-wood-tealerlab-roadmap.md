@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **143 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **144 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit courant ont été vérifiés avec succès ; la page publique, `produit.html` et une image WebP répondent en HTTP 200. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -2097,17 +2097,17 @@ Ce bloc décrit tout ce qu’il faut pour obtenir une chaîne fiable `commande �
 - [x] **A529 — Permettre la pause propriétaire :** validation : l’action owner-only passe la campagne en `paused`, état que le worker ne consomme pas.
 - [x] **A530 — Permettre la reprise contrôlée :** validation : la reprise passe par `newsletter-control`, exige `owner_users` et est journalisée.
 - [x] **A531 — Permettre l’annulation avant envoi :** validation : l’action owner-only passe un brouillon, une planification ou une pause en `cancelled`, état jamais consommé par le worker.
-- [ ] **A532 — Interdire les doublons de campagne :** validation : même clé métier et version ne créent pas deux campagnes actives.
-- [ ] **A533 — Isoler les adresses de test :** validation : elles sont marquées test et jamais comptées dans les statistiques commerciales.
+- [x] **A532 — Interdire les doublons de campagne :** validation : l’index unique partiel et la gestion du conflit empêchent deux campagnes `scheduled` ou `sending` d’utiliser la même clé et version.
+- [x] **A533 — Isoler les adresses de test :** validation : `is_test` est conservé côté base et exclu de la simulation, du remplissage des lots et de la réservation des workers.
 - [x] **A534 — Restreindre la gestion aux owners :** validation : les clients ne peuvent pas créer, modifier ou envoyer une campagne.
-- [x] **A535 — Journaliser les actions marketing :** validation : création, aperçu, pause, reprise, annulation et démarrage sont conservés dans `newsletter_campaign_actions`.
+- [x] **A535 — Journaliser les actions marketing :** validation : création, aperçu, simulation, pause, reprise, annulation et démarrage sont conservés dans `newsletter_campaign_actions`.
 - [ ] **A536 — Préparer l’export d’un abonné :** validation : l’export ne contient que ses données et son historique pertinent.
 - [ ] **A537 — Préparer la suppression d’un abonné :** validation : suppression et suppression marketing ne sont pas confondues.
 - [ ] **A538 — Définir la conservation :** validation : campagnes, destinataires, erreurs et consentements ont une durée documentée.
 - [x] **A539 — Ajouter un pied de page newsletter WOOD :** validation : identité, raison de réception et désinscription sont lisibles.
 - [x] **A540 — Tester le texte brut des newsletters :** validation : liens et désinscription fonctionnent sans HTML.
-- [ ] **A541 — Tester les écrans mobiles :** validation : newsletter lisible sur petits écrans sans bouton coupé.
-- [ ] **A542 — Rendre la désinscription accessible :** validation : lien clavier, contraste et libellé explicite.
+- [x] **A541 — Tester les écrans mobiles :** validation : le HTML généré est fluide, borné à 640 px, retourne les mots longs et garde les zones de lien utilisables sur petits écrans.
+- [x] **A542 — Rendre la désinscription accessible :** validation : le lien possède un libellé explicite, un contraste WOOD contrôlé, une zone de clic verticale et reste utilisable au clavier.
 - [x] **A543 — Expirer les tokens de désinscription :** validation : token usé ou expiré donne une page sûre sans divulgation.
 - [x] **A544 — Nettoyer les adresses invalides :** validation : format invalide refusé avant ajout et erreur compréhensible.
 - [ ] **A545 — Vérifier l’authentification du domaine d’expédition :** validation : SPF, DKIM et DMARC sont documentés avant campagne réelle.

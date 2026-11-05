@@ -54,10 +54,11 @@ Deno.serve(async (request) => {
       if (error) throw new Error("Campagnes indisponibles.");
       const ids = (campaigns || []).map((campaign) => campaign.id);
       const { data: deliveries } = ids.length
-        ? await client.from("newsletter_deliveries").select("campaign_id, status").in("campaign_id", ids)
+        ? await client.from("newsletter_deliveries").select("campaign_id, status, subscriber:newsletter_subscribers!inner(is_test)").in("campaign_id", ids)
         : { data: [] };
       const counts = new Map<string, Record<string, number>>();
       for (const delivery of deliveries || []) {
+        if (delivery.subscriber?.is_test === true) continue;
         const row = counts.get(delivery.campaign_id) || {};
         row[delivery.status] = (row[delivery.status] || 0) + 1;
         counts.set(delivery.campaign_id, row);
@@ -117,7 +118,8 @@ Deno.serve(async (request) => {
     if (action === "simulate") {
       const { count, error } = await client.from("newsletter_subscribers")
         .select("id", { count: "exact", head: true })
-        .eq("consent_status", "subscribed");
+        .eq("consent_status", "subscribed")
+        .eq("is_test", false);
       if (error) throw new Error("Audience newsletter indisponible.");
       await recordAction(client, { campaign_id: campaign.id, actor_id: userData.user.id, action: "simulate", from_status: campaign.status, to_status: campaign.status });
       return json({ campaign, simulation: { subscribed: count || 0 } });
@@ -136,6 +138,7 @@ Deno.serve(async (request) => {
       started_at: transition.next === "sending" ? new Date().toISOString() : campaign.started_at,
       updated_at: new Date().toISOString(),
     }).eq("id", campaign.id).eq("status", campaign.status);
+    if (updateError?.code === "23505") return json({ error: "Une campagne active utilise déjà cette version du modèle." }, 409);
     if (updateError) throw new Error("État de campagne non mis à jour.");
     await recordAction(client, { campaign_id: campaign.id, actor_id: userData.user.id, action, from_status: campaign.status, to_status: transition.next });
     return json({ campaign: { ...campaign, status: transition.next } });

@@ -22,6 +22,7 @@ Les documents PDF restent dans le bucket privé `order-documents`. Le navigateur
 ## Fichiers
 
 - `supabase/migrations/20261105100000_email_automation_foundation.sql` : tables, RLS, nouvelles catégories et fonction de réservation atomique.
+- `supabase/migrations/20261105180000_newsletter_safety_gates.sql` : adresses de test exclues des campagnes commerciales et une seule campagne active par version de modèle.
 - `supabase/migrations/20261105120000_owner_order_alerts.sql` : alerte propriétaire créée après persistance d’une nouvelle commande.
 - `supabase/functions/email-worker/core.mjs` : normalisation, retries, MIME et encodage Gmail.
 - `supabase/functions/email-worker/gmail.mjs` : échange du refresh token et appel Gmail `messages.send`.
@@ -93,7 +94,9 @@ Depuis l’espace propriétaire, une notification `failed` ou `dead_letter` peut
 
 La newsletter ne doit pas réutiliser aveuglément la file des commandes. Elle exige : consentement prouvable, confirmation éventuelle, désinscription, suppression, lots bornés, quotas, gestion des rebonds et journal par destinataire. Un achat ne vaut pas consentement marketing automatique.
 
-Le tableau de bord propriétaire peut maintenant créer un brouillon texte et le prévisualiser. Les actions `start`, `pause`, `resume` et `cancel` passent par `newsletter-control`, sont contrôlées par `owner_users` et écrites dans `newsletter_campaign_actions`. `start` reste refusé tant que `NEWSLETTER_CAN_SEND=true` n’est pas configuré après validation Gmail ; aucun envoi n’est donc activé par défaut.
+Le tableau de bord propriétaire peut maintenant créer un brouillon texte, le prévisualiser et simuler uniquement l’audience consentante. Les actions `start`, `pause`, `resume` et `cancel` passent par `newsletter-control`, sont contrôlées par `owner_users` et écrites dans `newsletter_campaign_actions`. `start` reste refusé tant que `NEWSLETTER_CAN_SEND=true` n’est pas configuré après validation Gmail ; aucun envoi n’est donc activé par défaut.
+
+Les abonnés marqués `is_test` sont conservés séparément et exclus des lots, des workers et de la simulation commerciale. Une contrainte unique partielle empêche aussi deux campagnes `scheduled` ou `sending` de réutiliser simultanément la même version de modèle. Les aperçus HTML utilisent une largeur fluide, une largeur maximale, un retour de ligne sûr et un lien de désinscription explicitement libellé et suffisamment contrasté.
 
 Chaque événement de livraison possède aussi sa propre notification (`delivery_event_id`). Une commande ne peut donc plus écraser silencieusement la notification précédente : `in_progress`, `delivered` et `failed` restent visibles séparément. Un événement `failed` ajoute une alerte propriétaire distincte afin que l’adresse ou l’instruction soit vérifiée sans perdre la commande.
 

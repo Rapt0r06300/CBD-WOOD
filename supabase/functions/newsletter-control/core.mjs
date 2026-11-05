@@ -30,4 +30,4 @@ export const campaignTransition = (current, action) => {
 
 const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#039;', '"': '&quot;' }[character]));
 
-export const renderPlainTextHtml = (text) => escapeHtml(text).split(/\n{2,}/u).map((paragraph) => `<p>${paragraph.replaceAll('\n', '<br>')}</p>`).join('');
+export const renderPlainTextHtml = (text) => `<div role="article" style="box-sizing:border-box;width:100%;max-width:640px;margin:0 auto;padding:24px 16px;overflow-wrap:anywhere;word-break:break-word;font-family:Arial,sans-serif;font-size:16px;line-height:1.6;color:#18291d;background:#f1f0e6">${escapeHtml(text).split(/\n{2,}/u).map((paragraph) => `<p style="margin:0 0 16px">${paragraph.replaceAll('\n', '<br>')}</p>`).join('')}</div>`;

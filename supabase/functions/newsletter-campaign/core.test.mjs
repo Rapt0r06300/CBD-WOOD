@@ -5,9 +5,10 @@ import { buildNewsletterMessage, deliveryOutcome, eligibleSubscribers } from './
 
 test('newsletter audience contains only explicit active subscribers', () => {
   assert.deepEqual(eligibleSubscribers([
-    { id: '1', normalized_email: ' A@EXAMPLE.FR ', consent_status: 'subscribed' },
+    { id: '1', normalized_email: ' A@EXAMPLE.FR ', consent_status: 'subscribed', is_test: false },
     { id: '2', normalized_email: 'off@example.fr', consent_status: 'unsubscribed' },
     { id: '3', normalized_email: 'invalid', consent_status: 'subscribed' },
+    { id: '4', normalized_email: 'test@example.fr', consent_status: 'subscribed', is_test: true },
   ]).map((subscriber) => subscriber.normalized_email), ['a@example.fr']);
 });
 
@@ -24,6 +25,8 @@ test('newsletter message includes a signed unsubscribe link in text and html', a
   assert.equal(message.to, 'client@example.fr');
   assert.match(message.text, /Se désinscrire/);
   assert.match(message.html, /newsletter-unsubscribe\?token=/);
+  assert.match(message.html, /aria-label="Se désinscrire de la newsletter"/);
+  assert.match(message.html, /overflow-wrap:anywhere/);
 });
 
 test('newsletter failures defer temporary errors and stop after the attempt limit', () => {

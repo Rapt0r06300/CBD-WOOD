@@ -12,6 +12,7 @@ test('newsletter subscribe writes through the service role and requires consent'
   assert.match(subscribe, /consent_status.*subscribed/s);
   assert.match(subscribe, /normalized_email/);
   assert.doesNotMatch(subscribe, /GMAIL_REFRESH_TOKEN/);
+  assert.doesNotMatch(subscribe, /is_test/);
 });
 
 test('newsletter unsubscribe uses a hashed token and a generic response', () => {
