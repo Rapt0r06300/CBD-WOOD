@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **175 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **177 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit `34eac62` ont été vérifiés avec succès ; les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -2251,48 +2251,48 @@ Ce bloc complète la construction du site de démonstration WOOD jusqu’à la m
 
 ### 94 — Responsive réel mobile, tablette et ordinateur
 
-- [ ] **A621 — Définir la matrice de largeurs :** validation : `320`, `360`, `375`, `390`, `414`, `430`, `768`, `834`, `1024`, `1280`, `1440`, `1920` sont couverts.
-- [ ] **A622 — Définir la matrice d’orientations :** validation : mobile portrait/paysage et tablette portrait/paysage sont testés.
+- [x] **A621 — Définir la matrice de largeurs :** validation : `320`, `360`, `375`, `390`, `414`, `430`, `768`, `834`, `1024`, `1280`, `1440`, `1920` ont été rejoués sur `fleurs.html` avec 13 cartes, grille attendue et largeur du document égale à la fenêtre.
+- [x] **A622 — Définir la matrice d’orientations :** validation : les passes navigateur ont couvert mobile paysage (`844 × 390`), tablette (`900 × 768`) et desktop (`1366 × 768`) sans débordement global.
 - [ ] **A623 — Tester les navigateurs Chromium :** validation : Chrome desktop, Chrome Android et navigateurs intégrés restent utilisables.
 - [ ] **A624 — Tester les navigateurs WebKit :** validation : Safari iPhone/iPad et Safari macOS ne coupent aucun élément critique.
 - [ ] **A625 — Tester Firefox :** validation : navigation, grille, menu, panier et formulaires restent cohérents.
 - [ ] **A626 — Vérifier les zones sûres :** validation : encoche, barre d’état et barre de navigation ne recouvrent pas le contenu.
-- [ ] **A627 — Vérifier les unités dynamiques :** validation : `svh`, `lvh` ou fallback évitent les héros trop hauts sur mobile.
+- [x] **A627 — Vérifier les unités dynamiques :** validation : `100svh` et les repliements mobiles sont présents dans `mobile.css` et protégés par `test/mobile-app-shell.test.mjs`.
 - [ ] **A628 — Vérifier le zoom navigateur :** validation : 200 % et 400 % gardent les actions accessibles sans chevauchement.
 - [ ] **A629 — Vérifier la taille de texte système :** validation : texte agrandi ne coupe pas prix, titres ou boutons.
 - [ ] **A630 — Vérifier le clavier virtuel :** validation : l’adresse et le paiement fictif ne sont pas masqués par le clavier.
-- [ ] **A631 — Vérifier la grille mobile :** validation : les quatre cases `2 × 2` restent entières, alignées et cliquables.
-- [ ] **A632 — Vérifier la grille desktop :** validation : trois produits par ligne restent alignés avec une quatrième carte à la ligne suivante.
-- [ ] **A633 — Vérifier les fiches produit :** validation : le zoom, la description, le grammage et le panier restent dans le viewport.
-- [ ] **A634 — Vérifier le panier long :** validation : plusieurs articles, adresses longues et prix longs ne créent pas de débordement.
-- [ ] **A635 — Vérifier les titres extrêmes :** validation : les noms longs sont coupés ou renvoyés proprement sans masquer l’action.
-- [ ] **A636 — Vérifier les écrans très larges :** validation : le contenu reste contenu et ne devient pas illisible au centre d’un écran géant.
+- [x] **A631 — Vérifier la grille mobile :** validation : les largeurs `360–430` conservent deux colonnes entières et `320` bascule proprement à une colonne ; les cartes restent dans le viewport et les actions sont testées par `test/catalog-grid.test.mjs`.
+- [x] **A632 — Vérifier la grille desktop :** validation : les largeurs `768–1920` conservent trois colonnes et 13 cartes ; la quatrième carte commence bien la ligne suivante, sans décalage global.
+- [x] **A633 — Vérifier les fiches produit :** validation : la fiche fleur conserve zoom, description, grammage et panier dans la grille responsive ; `test/product-detail.test.mjs` protège le fallback sans animation et le lien de fiche.
+- [x] **A634 — Vérifier le panier long :** validation : la passe de contenu extrême a injecté adresses et prix longs dans le parcours panier/checkout à `320`, `390` et `768` px sans débordement.
+- [x] **A635 — Vérifier les titres extrêmes :** validation : noms longs, prix à six chiffres et FAQ longue restent contenus à `320`, `390` et `768` px ; `test/product-availability.test.mjs` garde ce comportement.
+- [x] **A636 — Vérifier les écrans très larges :** validation : `1280`, `1440` et `1920` px conservent un contenu borné, trois colonnes lisibles et une largeur de document égale à la fenêtre.
 - [ ] **A637 — Vérifier les écrans très courts :** validation : le premier CTA reste atteignable sans chevauchement du header.
 - [ ] **A638 — Vérifier le bas de page mobile :** validation : la navigation basse ne recouvre jamais le dernier bouton ou la dernière ligne.
 - [ ] **A639 — Vérifier les captures multi-appareils :** validation : aucune correction n’est faite sur un seul téléphone au détriment des autres.
-- [ ] **A640 — Archiver la matrice responsive :** validation : captures, mesures et anomalies sont conservées avant et après chaque refonte.
+- [x] **A640 — Archiver la matrice responsive :** validation : les mesures, largeurs, orientations, anomalies corrigées et limites restantes sont archivées dans `docs/validation/2026-11-05-responsive-reference.md`.
 
 ### 95 — Animations, interaction et performance
 
-- [ ] **A641 — Définir un budget de mouvement :** validation : aucune animation ne retarde l’action principale ni ne change la géométrie.
+- [x] **A641 — Définir un budget de mouvement :** validation : les animations WOOD restent limitées à `transform`, `opacity`, ombres et bordures, avec des durées courtes ; `test/motion-guardrails.test.mjs` protège la composition.
 - [ ] **A642 — Définir les animations de chargement :** validation : elles indiquent l’attente sans animation infinie trompeuse.
-- [ ] **A643 — Définir l’arrivée du hero :** validation : texte et image apparaissent doucement sans décaler le contenu.
-- [ ] **A644 — Définir l’apparition au scroll :** validation : une section n’est animée qu’une fois et reste complète sans JavaScript.
-- [ ] **A645 — Définir le hover desktop :** validation : élévation et zoom restent légers et ne modifient pas la grille.
+- [x] **A643 — Définir l’arrivée du hero :** validation : les éléments révélés utilisent une transition bornée, et les dimensions des blocs restent réservées avant l’arrivée du média.
+- [x] **A644 — Définir l’apparition au scroll :** validation : `IntersectionObserver` ajoute seulement une classe, avec contenu complet sans JavaScript et sans interception du scroll.
+- [x] **A645 — Définir le hover desktop :** validation : l’élévation et le zoom restent limités à `transform`/bordure et sont protégés par le test de mouvement.
 - [ ] **A646 — Définir le tap mobile :** validation : le retour tactile ne reste pas bloqué après le doigt.
-- [ ] **A647 — Définir la transition fiche produit :** validation : le zoom est fluide, annulable et possède un fallback instantané.
-- [ ] **A648 — Interdire le scroll-jacking :** validation : la molette, le doigt et le clavier gardent le contrôle normal du document.
-- [ ] **A649 — Respecter `prefers-reduced-motion` :** validation : toutes les informations et actions restent disponibles sans mouvement.
-- [ ] **A650 — Prévoir le chargement sans JavaScript :** validation : le contenu essentiel et les liens restent compréhensibles.
-- [ ] **A651 — Réserver les dimensions des images :** validation : aucune image ne provoque de décalage de mise en page.
-- [ ] **A652 — Prioriser le média du hero :** validation : le premier écran ne dépend pas d’un chargement tardif non maîtrisé.
-- [ ] **A653 — Différer les médias secondaires :** validation : les images hors écran ne bloquent pas le premier affichage.
-- [ ] **A654 — Limiter les dépendances :** validation : aucune librairie d’animation lourde n’est ajoutée sans mesure et justification.
+- [x] **A647 — Définir la transition fiche produit :** validation : le zoom est une transformation composée, possède un fallback réduit et est protégé par `test/product-detail.test.mjs`.
+- [x] **A648 — Interdire le scroll-jacking :** validation : aucun gestionnaire public ne bloque molette, toucher ou clavier ; le garde-fou est permanent dans `test/motion-guardrails.test.mjs`.
+- [x] **A649 — Respecter `prefers-reduced-motion` :** validation : les transitions, animations, ticker et scroll fluide sont neutralisés sans retirer le contenu ni les actions.
+- [x] **A650 — Prévoir le chargement sans JavaScript :** validation : les liens publics et les contenus essentiels restent présents dans le HTML ; l’enhancement mobile est progressif.
+- [x] **A651 — Réserver les dimensions des images :** validation : les blocs média possèdent des hauteurs/rations CSS stables et les passes responsive n’observent aucun CLS géométrique visible.
+- [x] **A652 — Prioriser le média du hero :** validation : le titre et les CTA du premier écran restent disponibles avec le fallback visuel, même si le média échoue ou tarde.
+- [x] **A653 — Différer les médias secondaires :** validation : les médias hors écran ne bloquent pas le HTML, le titre ou les cartes ; les tests de chargement retardé conservent les actions.
+- [x] **A654 — Limiter les dépendances :** validation : aucune librairie d’animation lourde n’est ajoutée ; la motion repose sur CSS et les APIs natives du navigateur.
 - [ ] **A655 — Contrôler les erreurs console :** validation : les parcours public, boutique, fiche, panier et compte restent sans erreur non traitée.
 - [ ] **A656 — Contrôler le chargement lent :** validation : le site conserve navigation et panier sur réseau mobile dégradé.
 - [ ] **A657 — Contrôler la reprise réseau :** validation : un échec média ou Supabase permet de réessayer sans perdre le panier.
 - [ ] **A658 — Contrôler la mémoire :** validation : ouverture/fermeture répétée du menu et panier ne crée pas de fuite visible.
-- [ ] **A659 — Mesurer les budgets locaux :** validation : DCL, FCP, CLS, poids média et erreurs sont archivés par version.
+- [x] **A659 — Mesurer les budgets locaux :** validation : DCL, FCP, CLS, navigation accueil → fleurs et limites de chargement sont archivés dans `docs/validation/2026-11-05-responsive-reference.md` ; la mesure production reste externe.
 - [ ] **A660 — Valider la performance finale :** validation : aucun effet graphique n’est conservé s’il dégrade une action commerciale.
 
 ### 96 — Commandes, comptes, Supabase et continuité
