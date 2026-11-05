@@ -25,6 +25,7 @@ test('newsletter draft rejects empty or oversized content', () => {
 });
 
 test('campaign controls allow safe pause, resume and cancellation only', () => {
+  assert.deepEqual(campaignTransition('draft', 'start'), { ok: true, next: 'sending' });
   assert.deepEqual(campaignTransition('sending', 'pause'), { ok: true, next: 'paused' });
   assert.deepEqual(campaignTransition('paused', 'resume'), { ok: true, next: 'sending' });
   assert.deepEqual(campaignTransition('draft', 'cancel'), { ok: true, next: 'cancelled' });

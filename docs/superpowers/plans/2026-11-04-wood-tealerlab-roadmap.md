@@ -96,6 +96,7 @@
 - Le 5 novembre 2026, `newsletter-campaign` prépare les lots, réserve les destinataires avec un bail anti-doublon, journalise chaque tentative et refuse toute campagne qui n’est pas explicitement en `sending`.
 - Le 5 novembre 2026, `newsletter-control` a été ajouté et déployé avec JWT obligatoire : la propriétaire crée un brouillon, prévisualise son contenu, met une campagne en pause, la reprend ou l’annule. L’envoi reste bloqué sans `NEWSLETTER_CAN_SEND=true` et les actions sont journalisées dans `newsletter_campaign_actions`.
 - La migration `20261105160000_newsletter_campaign_actions.sql` est appliquée à Supabase sous la version distante `20261105042036`; la préproduction Hostinger reste valide avec 49 fichiers publics et aucun code serveur privé.
+- La migration `20261105170000_newsletter_simulation_action.sql` est appliquée sous la version distante `20261105042446`; la propriétaire peut simuler l’audience et voir les compteurs sans aucun envoi.
 - Le 5 novembre 2026, `delivery-events` impose des transitions de livraison autorisées, une clé d’idempotence et une notification cohérente ; aucune livraison n’est auto-marquée sans événement propriétaire.
 - Le 5 novembre 2026, `20261105150000_delivery_notification_events.sql` a été appliquée (version distante `20261105040825`) : chaque événement de livraison possède son `delivery_event_id`, les étapes successives ne s’écrasent plus dans l’outbox et un échec crée une alerte propriétaire distincte. `delivery-events` et `email-worker` ont été redéployées avec cette règle ; aucun e-mail réel ne part sans Gmail configuré.
 - Le 5 novembre 2026, `document-download` délivre uniquement des URL signées de cinq minutes après contrôle du compte client ou du rôle propriétaire ; le bucket PDF reste privé.
@@ -2112,9 +2113,9 @@ Ce bloc décrit tout ce qu’il faut pour obtenir une chaîne fiable `commande �
 - [ ] **A545 — Vérifier l’authentification du domaine d’expédition :** validation : SPF, DKIM et DMARC sont documentés avant campagne réelle.
 - [x] **A546 — Documenter les limites Gmail pour le marketing :** validation : le lancement est bloqué si le volume dépasse la capacité acceptable.
 - [x] **A547 — Documenter le basculement fournisseur :** validation : un fournisseur de secours est seulement activé après décision et configuration vérifiées.
-- [ ] **A548 — Ajouter le mode simulation :** validation : le worker calcule les destinataires sans envoyer de message.
-- [ ] **A549 — Ajouter les métriques d’envoi :** validation : total prévu, envoyé, refusé, différé et échoué sont cohérents.
-- [ ] **A550 — Ajouter le rapport de campagne :** validation : la propriétaire voit un résumé simple, sans jargon technique.
+- [x] **A548 — Ajouter le mode simulation :** validation : l’espace propriétaire compte uniquement les abonnements consentants sans créer de lot ni envoyer de message.
+- [x] **A549 — Ajouter les métriques d’envoi :** validation : le tableau de bord agrège les états prévus, acceptés, différés et échoués par campagne.
+- [x] **A550 — Ajouter le rapport de campagne :** validation : la propriétaire voit un résumé lisible du volume et des états, sans jargon technique.
 - [ ] **A551 — Décider si les ouvertures sont mesurées :** validation : aucun pixel de suivi n’est activé sans décision de confidentialité.
 - [x] **A552 — Désactiver le tracking par défaut :** validation : aucune donnée comportementale n’est collectée sans option validée.
 - [x] **A553 — Vérifier la séparation commande/marketing :** validation : reçus et confirmations restent envoyés même après désinscription newsletter.

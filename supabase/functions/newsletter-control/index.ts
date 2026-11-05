@@ -114,6 +114,15 @@ Deno.serve(async (request) => {
       return json({ campaign, template });
     }
 
+    if (action === "simulate") {
+      const { count, error } = await client.from("newsletter_subscribers")
+        .select("id", { count: "exact", head: true })
+        .eq("consent_status", "subscribed");
+      if (error) throw new Error("Audience newsletter indisponible.");
+      await recordAction(client, { campaign_id: campaign.id, actor_id: userData.user.id, action: "simulate", from_status: campaign.status, to_status: campaign.status });
+      return json({ campaign, simulation: { subscribed: count || 0 } });
+    }
+
     if (!(action === "start" || action === "pause" || action === "resume" || action === "cancel")) return json({ error: "Action de campagne inconnue." }, 400);
     if (action === "start" && Deno.env.get("NEWSLETTER_CAN_SEND") !== "true") {
       return json({ error: "L’envoi newsletter reste désactivé tant que Gmail n’est pas configuré et validé." }, 409);

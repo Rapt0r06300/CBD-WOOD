@@ -5,7 +5,7 @@ create table if not exists public.newsletter_campaign_actions (
   id bigint generated always as identity primary key,
   campaign_id uuid not null references public.newsletter_campaigns(id) on delete cascade,
   actor_id uuid not null references auth.users(id) on delete restrict,
-  action text not null check (action in ('create_draft', 'preview', 'start', 'pause', 'resume', 'cancel')),
+  action text not null check (action in ('create_draft', 'preview', 'simulate', 'start', 'pause', 'resume', 'cancel')),
   from_status text,
   to_status text,
   created_at timestamptz not null default now()

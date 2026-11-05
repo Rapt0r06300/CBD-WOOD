@@ -13,7 +13,7 @@ test('newsletter control is server-side and owner-only', () => {
 });
 
 test('newsletter control exposes only safe campaign actions', () => {
-  for (const action of ['create_draft', 'preview', 'pause', 'resume', 'cancel']) {
+  for (const action of ['create_draft', 'preview', 'simulate', 'pause', 'resume', 'cancel']) {
     assert.match(source, new RegExp(action));
   }
   assert.doesNotMatch(source, /recipient_email.*request|request.*recipient_email/i);

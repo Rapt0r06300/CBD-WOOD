@@ -93,15 +93,19 @@ export async function mountOwnerDashboard({ supabase, config = window.WOOD_SUPAB
     newsletterBody.innerHTML = campaigns.map(campaign => {
       const counts = campaign.counts || {};
       const total = Object.values(counts).reduce((sum, value) => sum + Number(value || 0), 0);
+      const accepted = Number(counts.accepted || 0);
+      const failed = Number(counts.failed || 0);
+      const deferred = Number(counts.deferred || 0);
       const status = newsletterStatusLabels[campaign.status] || campaign.status;
       const actions = [
         `<button class="owner-dashboard__button" type="button" data-owner-newsletter-action="preview" data-owner-newsletter-id="${escapeHtml(campaign.id)}">Prévisualiser</button>`,
+        `<button class="owner-dashboard__button" type="button" data-owner-newsletter-action="simulate" data-owner-newsletter-id="${escapeHtml(campaign.id)}">Simuler l’audience</button>`,
         campaign.status === 'draft' || campaign.status === 'paused' || campaign.status === 'scheduled' ? `<button class="owner-dashboard__button" type="button" data-owner-newsletter-action="start" data-owner-newsletter-id="${escapeHtml(campaign.id)}">Démarrer</button>` : '',
         campaign.status === 'sending' || campaign.status === 'scheduled' ? `<button class="owner-dashboard__button" type="button" data-owner-newsletter-action="pause" data-owner-newsletter-id="${escapeHtml(campaign.id)}">Pause</button>` : '',
         campaign.status === 'paused' ? `<button class="owner-dashboard__button" type="button" data-owner-newsletter-action="resume" data-owner-newsletter-id="${escapeHtml(campaign.id)}">Reprendre</button>` : '',
         ['draft', 'scheduled', 'paused'].includes(campaign.status) ? `<button class="owner-dashboard__button" type="button" data-owner-newsletter-action="cancel" data-owner-newsletter-id="${escapeHtml(campaign.id)}">Annuler</button>` : '',
       ].join('');
-      return `<tr><td data-label="Campagne"><div class="owner-dashboard__product"><strong>${escapeHtml(campaign.name)}</strong><span>v${escapeHtml(campaign.template_version)}</span></div></td><td data-label="Sujet">${escapeHtml(campaign.subject)}</td><td data-label="État"><span class="owner-dashboard__status-badge owner-dashboard__status-badge--${escapeHtml(campaign.status)}">${escapeHtml(status)}</span></td><td data-label="Destinataires">${escapeHtml(total)}</td><td data-label="Actions"><div class="owner-dashboard__newsletter-actions">${actions}</div></td></tr>`;
+      return `<tr><td data-label="Campagne"><div class="owner-dashboard__product"><strong>${escapeHtml(campaign.name)}</strong><span>v${escapeHtml(campaign.template_version)}</span></div></td><td data-label="Sujet">${escapeHtml(campaign.subject)}</td><td data-label="État"><span class="owner-dashboard__status-badge owner-dashboard__status-badge--${escapeHtml(campaign.status)}">${escapeHtml(status)}</span></td><td data-label="Destinataires"><div class="owner-dashboard__campaign-report"><strong>${escapeHtml(total)} prévu(s)</strong><span>${escapeHtml(accepted)} envoyé(s) · ${escapeHtml(deferred)} différé(s) · ${escapeHtml(failed)} échec(s)</span></div></td><td data-label="Actions"><div class="owner-dashboard__newsletter-actions">${actions}</div></td></tr>`;
     }).join('');
   };
 
@@ -197,6 +201,8 @@ export async function mountOwnerDashboard({ supabase, config = window.WOOD_SUPAB
       if (action === 'preview' && newsletterPreview) {
         newsletterPreview.textContent = `Sujet : ${result.template?.subject || result.campaign?.subject || ''}\n\n${result.template?.text_body || ''}`;
         newsletterPreview.classList.remove('hidden');
+      } else if (action === 'simulate') {
+        setMessage('#ownerNewsletterMessage', `Simulation terminée : ${Number(result.simulation?.subscribed || 0)} abonné(s) consentant(s), aucun e-mail envoyé.`);
       } else {
         setMessage('#ownerNewsletterMessage', 'Campagne mise à jour.');
         await loadNewsletter();
