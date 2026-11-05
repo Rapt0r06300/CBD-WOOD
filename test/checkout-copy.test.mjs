@@ -8,7 +8,7 @@ test('le récapitulatif de commande expose les informations essentielles avant V
   const html = await readFile(new URL('checkout.html', root), 'utf8');
   const boutique = await readFile(new URL('boutique.js', root), 'utf8');
 
-  for (const id of ['checkoutItems', 'checkoutTotal', 'orderModeSummary', 'orderEmail', 'orderAddress', 'createOrderButton']) {
+  for (const id of ['checkoutItems', 'checkoutTotal', 'orderModeSummary', 'orderEmail', 'orderAddressLine1', 'orderAddressLine2', 'orderPostalCode', 'orderCity', 'orderCountry', 'orderAddress', 'createOrderButton']) {
     assert.match(html, new RegExp(`id="${id}"`), `checkout.html doit conserver #${id}`);
   }
   assert.match(html, /Votre sélection/);
@@ -20,6 +20,9 @@ test('le récapitulatif de commande expose les informations essentielles avant V
   assert.match(boutique, /item\.quantity/);
   assert.match(boutique, /item\.price/);
   assert.match(boutique, /cartTotal/);
+  assert.match(boutique, /delivery_address_details/);
+  assert.match(boutique, /orderAddressLine1/);
+  assert.match(boutique, /orderPostalCode/);
 });
 
 test('le récapitulatif ne promet ni retrait ni paiement Viva actif', async () => {

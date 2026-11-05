@@ -348,6 +348,21 @@
     writeCart(cart); renderCart();
   }
 
+  function readDeliveryAddress() {
+    const line1 = document.getElementById('orderAddressLine1')?.value.trim() || '';
+    const line2 = document.getElementById('orderAddressLine2')?.value.trim() || '';
+    const postalCode = document.getElementById('orderPostalCode')?.value.trim().toUpperCase() || '';
+    const city = document.getElementById('orderCity')?.value.trim() || '';
+    const countryCode = document.getElementById('orderCountry')?.value.trim().toUpperCase() || 'FR';
+    const address = [line1, line2, [postalCode, city].filter(Boolean).join(' '), countryCode !== 'FR' ? countryCode : ''].filter(Boolean).join(', ');
+    const legacyField = document.getElementById('orderAddress');
+    if (legacyField) legacyField.value = address;
+    return {
+      address,
+      details: { line1, line2: line2 || null, postal_code: postalCode, city, country_code: countryCode },
+    };
+  }
+
   function updateOrderModeUI(id) {
     const mode = getOrderMode(id);
     document.querySelectorAll('[data-order-mode-card]').forEach(card => card.classList.toggle('is-selected', card.dataset.orderModeCard === id));
@@ -357,9 +372,10 @@
     const createOrderButton = document.getElementById('createOrderButton') || payment;
     if (createOrderButton) createOrderButton.disabled = !mode || cart.length === 0;
     const addressField = document.getElementById('deliveryAddressField');
-    const address = document.getElementById('orderAddress');
     if (addressField) addressField.classList.toggle('hidden', id !== 'delivery');
-    if (address) address.required = id === 'delivery';
+    document.querySelectorAll('#deliveryAddressField [data-address-required], #deliveryAddressField input[required], #deliveryAddressField select[required]').forEach(field => {
+      field.required = id === 'delivery';
+    });
   }
 
   function renderOrderModes() {
@@ -502,11 +518,13 @@
       message.textContent = 'Vérification des produits et enregistrement sécurisé…';
       message.classList.remove('hidden');
       try {
+        const deliveryAddress = readDeliveryAddress();
         const order = await window.WoodOrderApi?.createPendingOrder({
           customer_email: document.getElementById('orderEmail')?.value.trim(),
           customer_name: document.getElementById('orderName')?.value.trim(),
           customer_phone: document.getElementById('orderPhone')?.value.trim(),
-          delivery_address: document.getElementById('orderAddress')?.value.trim(),
+          delivery_address: deliveryAddress.address,
+          delivery_address_details: deliveryAddress.details,
           fulfillment_mode: mode.id,
           items: cart.map(item => ({ product_id: item.productId, grams: Number.parseInt(item.weight, 10) || 1, quantity: item.quantity }))
         });

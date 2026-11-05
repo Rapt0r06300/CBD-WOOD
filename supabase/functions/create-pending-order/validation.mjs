@@ -17,6 +17,63 @@ const isPlainObject = (value) => (
   && !Array.isArray(value)
 );
 
+const normalizeCountryCode = (value) => {
+  const normalized = asTrimmedString(value, 2)?.toUpperCase();
+  return normalized && /^[A-Z]{2}$/.test(normalized) ? normalized : null;
+};
+
+const normalizePostalCode = (value) => {
+  const normalized = asTrimmedString(value, 10)?.toUpperCase();
+  return normalized && /^[A-Z0-9][A-Z0-9 -]{2,9}$/.test(normalized) ? normalized : null;
+};
+
+export const normalizeDeliveryAddress = (input) => {
+  if (!isPlainObject(input)) return { ok: false, error: 'Adresse de livraison invalide.' };
+
+  const legacy = asTrimmedString(input.delivery_address, 500);
+  const details = isPlainObject(input.delivery_address_details) ? input.delivery_address_details : null;
+  const hasStructuredField = details && [
+    'line1', 'line2', 'postal_code', 'city', 'country_code',
+  ].some((key) => details[key] !== undefined && details[key] !== null && String(details[key]).trim() !== '');
+
+  if (!hasStructuredField) {
+    return legacy
+      ? { ok: true, address: legacy, details: null }
+      : { ok: false, error: 'Une adresse de livraison est nécessaire.' };
+  }
+
+  const line1 = asTrimmedString(details.line1, 160);
+  const line2 = details.line2 === undefined || details.line2 === null || String(details.line2).trim() === ''
+    ? null
+    : asTrimmedString(details.line2, 160);
+  const postalCode = normalizePostalCode(details.postal_code);
+  const city = asTrimmedString(details.city, 100);
+  const countryCode = normalizeCountryCode(details.country_code);
+
+  if (!line1 || (details.line2 !== undefined && details.line2 !== null && String(details.line2).trim() !== '' && !line2) || !postalCode || !city || !countryCode) {
+    return { ok: false, error: 'Complète l’adresse, le code postal, la ville et le pays.' };
+  }
+
+  const address = [
+    line1,
+    line2,
+    `${postalCode} ${city}`,
+    countryCode === 'FR' ? null : countryCode,
+  ].filter(Boolean).join(', ');
+
+  return {
+    ok: true,
+    address,
+    details: {
+      line1,
+      line2,
+      postal_code: postalCode,
+      city,
+      country_code: countryCode,
+    },
+  };
+};
+
 export const isAllowedOrigin = (origin, allowedOrigins) => {
   if (!origin) return true;
   if (!Array.isArray(allowedOrigins)) return false;
@@ -43,14 +100,15 @@ export const validateOrderPayload = (input) => {
   const customerEmail = asTrimmedString(input.customer_email, 254)?.toLowerCase();
   const customerName = asTrimmedString(input.customer_name, 120);
   const customerPhone = asTrimmedString(input.customer_phone, 40);
-  const deliveryAddress = asTrimmedString(input.delivery_address, 500);
   const fulfillmentMode = asTrimmedString(input.fulfillment_mode, 20);
   const idempotencyKey = normalizeIdempotencyKey(input.idempotency_key);
+  const address = normalizeDeliveryAddress(input);
 
   if (!customerEmail || !EMAIL_PATTERN.test(customerEmail)) {
     return { ok: false, error: 'Adresse e-mail invalide.' };
   }
-  if (!deliveryAddress || fulfillmentMode !== 'delivery') {
+  if (!address.ok) return { ok: false, error: address.error };
+  if (fulfillmentMode !== 'delivery') {
     return { ok: false, error: 'Les commandes doivent être livrées.' };
   }
   if (!idempotencyKey) return { ok: false, error: 'Référence de commande invalide.' };
@@ -82,7 +140,8 @@ export const validateOrderPayload = (input) => {
       customer_email: customerEmail,
       customer_name: customerName,
       customer_phone: customerPhone,
-      delivery_address: deliveryAddress,
+      delivery_address: address.address,
+      delivery_address_details: address.details,
       fulfillment_mode: fulfillmentMode,
       idempotency_key: idempotencyKey,
       items,
