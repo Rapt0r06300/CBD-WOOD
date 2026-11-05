@@ -30,7 +30,25 @@
     }
   }
 
+  function initScrollReveal() {
+    const targets = document.querySelectorAll('.page-hero__copy, .page-hero__art, .hero-copy, .hero-art, .section-heading, .notice, .story, .visit-grid, .faq-layout, .checkout-layout, .account-dashboard, .flower-detail__copy, .flower-detail-card, .product-detail__copy, .product-detail-card, .footer');
+    if (!targets.length || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    targets.forEach((target, index) => {
+      target.classList.add('wood-reveal');
+      target.style.setProperty('--wood-reveal-delay', `${Math.min(index * 35, 210)}ms`);
+      observer.observe(target);
+    });
+  }
+
   ensureFooterLocations();
+  initScrollReveal();
 
   const items = [
     { href: 'index.html', icon: '⌂', label: 'Accueil', active: isHome },

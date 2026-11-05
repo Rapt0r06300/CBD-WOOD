@@ -296,6 +296,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .wood-reveal,
+  .wood-reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
   .mobile-app-nav,
   .mobile-app-nav a {
     scroll-behavior: auto;
