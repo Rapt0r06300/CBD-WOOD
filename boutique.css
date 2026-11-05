@@ -102,3 +102,6 @@ a{color:inherit;text-decoration:none}button{font:inherit}img{max-width:100%;disp
 @keyframes wood-photo-focus{from{opacity:.9;transform:scale(1)}to{opacity:1;transform:scale(1.025)}}
 .product-art img.wood-photo-visible,.product-related__media img.wood-photo-visible{animation:wood-photo-focus .6s cubic-bezier(.22,.75,.2,1) both}
 @media (prefers-reduced-motion:reduce){.product-art img.wood-photo-motion,.product-related__media img.wood-photo-motion{animation:none!important;transform:none!important;transition:none!important}}
+html.wood-low-data .wood-reveal{opacity:1!important;transform:none!important;transition:none!important}
+html.wood-low-data .product-art img.wood-photo-motion,html.wood-low-data .product-related__media img.wood-photo-motion{animation:none!important;transform:none!important;transition:none!important}
+html.wood-low-data .product-card:hover,html.wood-low-data .product-card:hover .product-art img{transform:none}

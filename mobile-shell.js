@@ -77,6 +77,12 @@
     document.querySelectorAll('.hero-art img, .category .visual img, .story-image img').forEach(wireLandingImageFallback);
   }
 
+  function initLowDataMode() {
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const lowData = Boolean(connection?.saveData || ['slow-2g', '2g'].includes(connection?.effectiveType));
+    if (lowData) document.documentElement.classList.add('wood-low-data');
+  }
+
   function initScrollReveal() {
     const targets = document.querySelectorAll('.page-hero__copy, .page-hero__art, .hero-copy, .hero-art, .section-heading, .notice, .story, .visit-grid, .faq-layout, .checkout-layout, .account-dashboard, .flower-detail__copy, .flower-detail-card, .product-detail__copy, .product-detail-card, .footer');
     if (!targets.length || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
@@ -96,7 +102,7 @@
 
   function initPhotoMotion() {
     const targets = document.querySelectorAll('.product-art img, .product-related__media img');
-    if (!targets.length || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+    if (!targets.length || document.documentElement.classList.contains('wood-low-data') || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
@@ -205,6 +211,7 @@
   ensureFooterLocations();
   initFooterSections();
   initLandingImageFallbacks();
+  initLowDataMode();
   initScrollReveal();
   initPhotoMotion();
   initStructuredMenu();
