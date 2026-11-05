@@ -30,6 +30,34 @@
     }
   }
 
+  function initFooterSections() {
+    const top = document.querySelector('.footer .footer-top');
+    if (!top || top.dataset.woodFooterSections === 'true') return;
+    const groups = [...top.children].filter(group => !group.classList.contains('footer-brand'));
+    const sections = groups.map((group, index) => {
+      const heading = group.querySelector(':scope > h3');
+      const links = group.querySelector(':scope > .footer-links');
+      if (!heading || !links) return null;
+      const details = document.createElement('details');
+      details.className = 'footer-section';
+      details.dataset.footerSection = String(index);
+      const summary = document.createElement('summary');
+      summary.textContent = heading.textContent.trim();
+      details.append(summary, links);
+      group.replaceWith(details);
+      return details;
+    }).filter(Boolean);
+    if (!sections.length) return;
+    top.dataset.woodFooterSections = 'true';
+    const applyViewportState = () => {
+      const compact = window.matchMedia?.('(max-width: 500px)').matches;
+      sections.forEach(section => { section.open = !compact; });
+    };
+    applyViewportState();
+    const media = window.matchMedia?.('(max-width: 500px)');
+    media?.addEventListener?.('change', applyViewportState);
+  }
+
   function wireLandingImageFallback(image) {
     if (!image || image.dataset.landingFallbackWired === 'true') return;
     const frame = image.closest('.hero-art, .category .visual, .story-image');
@@ -159,6 +187,7 @@
   }
 
   ensureFooterLocations();
+  initFooterSections();
   initLandingImageFallbacks();
   initScrollReveal();
   initStructuredMenu();

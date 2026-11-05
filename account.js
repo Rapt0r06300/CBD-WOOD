@@ -18,6 +18,7 @@ const ownerDashboardLink = document.getElementById('ownerDashboardLink');
 const ownerDashboard = document.getElementById('ownerDashboard');
 let ownerDashboardApi = null;
 let mode = 'login';
+let authenticatedViewVisible = false;
 
 const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, character => ({ '&': '&#38;', '<': '&#60;', '>': '&#62;', "'": '&#39;', '"': '&#34;' }[character]));
 const formatMoney = cents => `${(Number(cents || 0) / 100).toFixed(2).replace('.', ',')} €`;
@@ -57,6 +58,7 @@ function setMode(nextMode) {
 }
 
 function showLogin() {
+  authenticatedViewVisible = false;
   accountCard?.classList.remove('hidden');
   dashboard?.classList.add('hidden');
   ownerDashboardApi?.hide();
@@ -115,6 +117,7 @@ async function showAccount(user) {
   if (name) name.value = profile?.full_name || '';
   if (phone) phone.value = profile?.phone || '';
   renderOrders(orders || [], documents || []);
+  authenticatedViewVisible = true;
 }
 
 async function downloadDocument(documentId) {
@@ -197,6 +200,7 @@ async function boot() {
   });
   ownerDashboardLink?.addEventListener('click', () => ownerDashboard?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
   document.getElementById('accountLogout')?.addEventListener('click', async () => {
+    authenticatedViewVisible = false;
     await supabase.auth.signOut();
     showLogin();
     showMessage('Vous êtes déconnecté.');
@@ -210,7 +214,11 @@ async function boot() {
     } catch (error) { showMessage(error.message || 'Impossible de charger votre espace.', true); }
   }
   supabase.auth.onAuthStateChange((event, nextSession) => {
-    if (event === 'SIGNED_OUT') showLogin();
+    if (event === 'SIGNED_OUT') {
+      const sessionExpired = authenticatedViewVisible;
+      showLogin();
+      if (sessionExpired) showMessage('Votre session a expiré. Vos informations déjà saisies sont conservées : reconnectez-vous pour continuer.', true);
+    }
     if (event === 'SIGNED_IN' && nextSession?.user && dashboard?.classList.contains('hidden')) {
       void getValidatedUser().then(user => user && showAccount(user)).catch(error => showMessage(error.message || 'Impossible de valider votre session.', true));
     }

@@ -10,6 +10,12 @@ test('owner dashboard uses the same persistent auto-refreshing Supabase session 
   assert.match(accountSource, /createClient\(config\.url, config\.publishableKey, \{\s*auth:\s*\{[\s\S]*persistSession:\s*true,[\s\S]*autoRefreshToken:\s*true/);
 });
 
+test('an expired session returns clearly to login without clearing entered data', () => {
+  assert.match(accountSource, /authenticatedViewVisible/);
+  assert.match(accountSource, /Votre session a expiré\.[\s\S]*informations déjà saisies sont conservées/);
+  assert.match(accountSource, /event === 'SIGNED_OUT'/);
+});
+
 test('owner order status choices stay aligned with the database constraint', () => {
   assert.match(ownerSource, /const orderStatuses = \['pending', 'paid', 'preparing', 'ready', 'completed', 'cancelled'\];/);
   assert.doesNotMatch(ownerSource, /const orderStatuses = \[[^\]]*'confirmed'/);

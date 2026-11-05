@@ -1703,12 +1703,12 @@ Cette extension reprend des mécanismes utiles observés sur les pages produit, 
 
 ### Tâche 71 — Repenser le footer et le menu mobile
 
-- [ ] Organiser le footer mobile en sections repliables : `Explorer`, `Aide`, `WOOD`, `Légal`.
-- [ ] Garder les deux boutiques et les numéros clairement associés à `Barla` et `Borriglione`.
-- [ ] Conserver la carte actuelle de WOOD dans `Nous trouver` ; ne pas la remplacer par une carte ou une présentation TealerLab.
-- [ ] Adapter uniquement sa taille, son cadrage et ses contrôles aux écrans mobile, tablette et ordinateur, sans changer son identité visuelle.
-- [ ] Enlever les points finaux indésirables dans les noms `BARLA` et `BORRIGLIONE`.
-- [ ] Ne jamais afficher l’administration, les stocks ou les commandes propriétaires dans le footer public.
+- [x] Organiser le footer mobile en sections repliables : les groupes présents (`Explorer` et `Rester en contact`) deviennent des sections natives `details`, repliées à `500px` et ouvertes sur desktop ; les groupes `Aide`, `WOOD` et `Légal` restent réservés aux contenus validés.
+- [x] Garder les deux boutiques et les numéros clairement associés à `Barla` et `Borriglione`.
+- [x] Conserver la carte actuelle de WOOD dans `Nous trouver` ; ne pas la remplacer par une carte ou une présentation TealerLab.
+- [x] Adapter uniquement sa taille, son cadrage et ses contrôles aux écrans mobile, tablette et ordinateur, sans changer son identité visuelle.
+- [x] Enlever les points finaux indésirables dans les noms `BARLA` et `BORRIGLIONE`.
+- [x] Ne jamais afficher l’administration, les stocks ou les commandes propriétaires dans le footer public.
 
 **Validation :** le bas de page reste lisible sur petit écran, sans texte coupé ni colonne décalée.
 
@@ -2291,7 +2291,7 @@ Ce bloc complète la construction du site de démonstration WOOD jusqu’à la m
 - [x] **A655 — Contrôler les erreurs console :** validation : Chromium local a parcouru les 10 routes publiques (accueil, univers, fiches, compte, checkout et confirmation) avec zéro `console.error` et zéro `pageerror`.
 - [x] **A656 — Contrôler le chargement lent :** validation : le site conserve navigation et panier sur réseau mobile dégradé ; la simulation d’images retardées et `test/order-client-resilience.test.mjs` le vérifient.
 - [x] **A657 — Contrôler la reprise réseau :** validation : un échec média ou Supabase permet de réessayer sans perdre le panier ; les fallbacks médias et le test de panne réseau le vérifient.
-- [ ] **A658 — Contrôler la mémoire :** validation : ouverture/fermeture répétée du menu et panier ne crée pas de fuite visible.
+- [x] **A658 — Contrôler la mémoire :** validation : Playwright a répété 25 ouvertures/fermetures du menu et du panier à `390 × 844` ; un seul panneau et un seul backdrop restent dans le DOM, aucun menu ne reste ouvert et `scrollWidth` reste égal à `390`.
 - [x] **A659 — Mesurer les budgets locaux :** validation : DCL, FCP, CLS, navigation accueil → fleurs et limites de chargement sont archivés dans `docs/validation/2026-11-05-responsive-reference.md` ; la mesure production reste externe.
 - [ ] **A660 — Valider la performance finale :** validation : aucun effet graphique n’est conservé s’il dégrade une action commerciale.
 
@@ -2311,7 +2311,7 @@ Ce bloc complète la construction du site de démonstration WOOD jusqu’à la m
 - [x] **A672 — Tester le compte propriétaire :** validation : `owner_users`, session persistante et priorité commandes sont protégés par `test/owner-dashboard-session-and-status.test.mjs` sans route admin publique.
 - [x] **A673 — Tester la tentative d’élévation :** validation : `test/rls-negative.test.mjs` et les contrôles de rôle refusent l’auto-promotion client par politique et fonction.
 - [x] **A674 — Tester la session longue :** validation : la session Supabase propriétaire est persistante et auto-rafraîchie dans le compte ; le tableau de bord n’ajoute pas de déconnexion automatique.
-- [ ] **A675 — Tester l’expiration :** validation : une session expirée affiche une récupération claire sans perdre les données déjà saisies.
+- [x] **A675 — Tester l’expiration :** validation : `account.js` distingue la déconnexion volontaire d’une session expirée, revient à la connexion et précise que les informations saisies sont conservées ; le test de session le protège.
 - [x] **A676 — Tester les accès directs :** validation : les tests de paquet public, documents privés, RLS négative et absence de route `admin.html` refusent URLs, fichiers, Storage et fonctions sensibles aux comptes non autorisés.
 - [ ] **A677 — Tester les sauvegardes :** validation : sauvegarde, restauration et vérification de cohérence sont prouvées sur un environnement de test.
 - [ ] **A678 — Tester les migrations :** validation : l’historique local et distant est synchronisé avant chaque changement de schéma.

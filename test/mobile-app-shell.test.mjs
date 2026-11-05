@@ -26,6 +26,7 @@ test('toutes les pages publiques chargent la couche app-like mobile', async () =
 
 test('la couche mobile utilise les capacités réelles du navigateur et protège les zones sûres', async () => {
   const stylesheet = await readFile(new URL('../mobile.css', import.meta.url), 'utf8');
+  const boutiqueStylesheet = await readFile(new URL('../boutique.css', import.meta.url), 'utf8');
   const shell = await readFile(new URL('../mobile-shell.js', import.meta.url), 'utf8');
 
   assert.match(stylesheet, /@media \(max-width: 800px\)/);
@@ -41,7 +42,10 @@ test('la couche mobile utilise les capacités réelles du navigateur et protège
   assert.match(shell, /'produit\.html'/);
   assert.match(shell, /IntersectionObserver/);
   assert.match(shell, /prefers-reduced-motion/);
+  assert.match(shell, /initFooterSections/);
+  assert.match(shell, /woodFooterSections/);
   assert.match(stylesheet, /\.wood-reveal\.is-visible/);
+  assert.match(boutiqueStylesheet, /\.footer-section>summary/);
 });
 
 test('la navigation mobile ne se charge pas dans l’espace propriétaire', async () => {
