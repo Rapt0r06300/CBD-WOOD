@@ -5,11 +5,13 @@ import test from 'node:test';
 const baseMigration = await readFile(new URL('../supabase/migrations/20261103164147_woodshop_backend.sql', import.meta.url), 'utf8');
 const hardeningMigration = await readFile(new URL('../supabase/migrations/20261104120000_order_security_and_stock.sql', import.meta.url), 'utf8');
 const roleMigration = await readFile(new URL('../supabase/migrations/20261104130000_customer_account_roles.sql', import.meta.url), 'utf8');
+const statusRpcMigration = await readFile(new URL('../supabase/migrations/20261105250000_owner_order_status_rpc.sql', import.meta.url), 'utf8');
 
 test('les politiques RLS refusent à un client la lecture d’une autre commande', () => {
   assert.match(baseMigration, /create policy orders_customer_read_own[\s\S]*?to authenticated[\s\S]*?customer_id = \(select auth\.uid\(\)\)/);
   assert.match(baseMigration, /create policy order_items_customer_read[\s\S]*?orders\.customer_id = \(select auth\.uid\(\)\)/);
-  assert.match(baseMigration, /create policy orders_owner_update[\s\S]*?owner_users\.user_id = \(select auth\.uid\(\)\)/);
+  assert.match(statusRpcMigration, /drop policy if exists orders_owner_update on public\.orders/);
+  assert.match(statusRpcMigration, /revoke update on table public\.orders from authenticated/);
 });
 
 test('les écritures de stock et d’idempotence ne sont pas ouvertes aux clients', () => {

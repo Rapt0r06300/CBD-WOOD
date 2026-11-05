@@ -2,6 +2,14 @@ const categoryLabels = { fleurs: 'Fleurs CBD', resines: 'Résines', 'bien-etre':
 const flowerTierGrams = [1, 3, 5, 10, 25];
 const orderStatuses = ['pending', 'paid', 'preparing', 'ready', 'completed', 'cancelled'];
 const statusLabels = { pending: 'En attente', paid: 'Payée', preparing: 'En préparation', ready: 'Prête', completed: 'Terminée', cancelled: 'Annulée' };
+const orderTransitions = {
+  pending: ['pending', 'cancelled'],
+  paid: ['paid', 'preparing', 'cancelled'],
+  preparing: ['preparing', 'ready', 'cancelled'],
+  ready: ['ready', 'completed'],
+  completed: ['completed'],
+  cancelled: ['cancelled'],
+};
 const notificationKindLabels = { order_created: 'Commande créée', owner_order_alert: 'Alerte propriétaire', payment_confirmed: 'Paiement confirmé', invoice_ready: 'Document prêt', delivery_update: 'Livraison mise à jour', delivery_issue_alert: 'Problème de livraison', order_cancelled: 'Commande annulée', refund_confirmed: 'Remboursement confirmé' };
 const notificationStatusLabels = { pending: 'À envoyer', processing: 'En cours', sent: 'Envoyé', failed: 'Échec', dead_letter: 'À reprendre', cancelled: 'Annulé' };
 const newsletterStatusLabels = { draft: 'Brouillon', scheduled: 'Planifiée', sending: 'Envoi', paused: 'En pause', sent: 'Terminée', cancelled: 'Annulée', failed: 'Échec' };
@@ -64,7 +72,8 @@ export async function mountOwnerDashboard({ supabase, config = window.WOOD_SUPAB
     ordersBody.innerHTML = orderRows.map(order => {
       const orderDocuments = documents.filter(document => document.order_id === order.id && document.status === 'ready');
       const documentButtons = orderDocuments.map(document => `<button class="owner-dashboard__document" type="button" data-owner-document-id="${escapeHtml(document.id)}">${escapeHtml(documentLabels[document.document_kind] || 'Document')} ↗</button>`).join('');
-      return `<tr><td data-label="Date">${formatDate(order.created_at)}</td><td data-label="Commande / client"><div class="owner-dashboard__product"><strong>${escapeHtml(order.order_number || 'Commande sans numéro')}</strong><span>${escapeHtml(order.customer_name || order.customer_email)}${order.customer_phone ? ` · ${escapeHtml(order.customer_phone)}` : ''}</span></div></td><td data-label="Livraison"><strong>Livraison à domicile</strong>${order.delivery_address ? `<br><span class="owner-dashboard__address">${escapeHtml(order.delivery_address)}</span>` : ''}</td><td data-label="Total">${formatMoney(order.total_cents)}</td><td data-label="Paiement"><span class="owner-dashboard__status-badge owner-dashboard__status-badge--${escapeHtml(order.payment_status)}">${escapeHtml(order.payment_status)}</span></td><td data-label="État"><select class="owner-dashboard__order-status" data-owner-order-status="${escapeHtml(order.id)}" aria-label="État de ${escapeHtml(order.order_number || 'la commande')}">${orderStatuses.map(status => `<option value="${status}"${status === order.status ? ' selected' : ''}>${statusLabels[status]}</option>`).join('')}</select></td><td data-label="Documents"><div class="owner-dashboard__documents">${documentButtons || '<span class="owner-dashboard__product">Pas encore disponible</span>'}</div></td></tr>`;
+      const allowedStatuses = new Set(orderTransitions[order.status] || [order.status]);
+      return `<tr><td data-label="Date">${formatDate(order.created_at)}</td><td data-label="Commande / client"><div class="owner-dashboard__product"><strong>${escapeHtml(order.order_number || 'Commande sans numéro')}</strong><span>${escapeHtml(order.customer_name || order.customer_email)}${order.customer_phone ? ` · ${escapeHtml(order.customer_phone)}` : ''}</span></div></td><td data-label="Livraison"><strong>Livraison à domicile</strong>${order.delivery_address ? `<br><span class="owner-dashboard__address">${escapeHtml(order.delivery_address)}</span>` : ''}</td><td data-label="Total">${formatMoney(order.total_cents)}</td><td data-label="Paiement"><span class="owner-dashboard__status-badge owner-dashboard__status-badge--${escapeHtml(order.payment_status)}">${escapeHtml(order.payment_status)}</span></td><td data-label="État"><select class="owner-dashboard__order-status" data-owner-order-status="${escapeHtml(order.id)}" aria-label="État de ${escapeHtml(order.order_number || 'la commande')}">${orderStatuses.map(status => `<option value="${status}"${status === order.status ? ' selected' : ''}${allowedStatuses.has(status) ? '' : ' disabled'}>${statusLabels[status]}</option>`).join('')}</select></td><td data-label="Documents"><div class="owner-dashboard__documents">${documentButtons || '<span class="owner-dashboard__product">Pas encore disponible</span>'}</div></td></tr>`;
     }).join('');
     renderSummary(orderRows.length);
   };
@@ -300,7 +309,21 @@ export async function mountOwnerDashboard({ supabase, config = window.WOOD_SUPAB
 
   const updateOrderStatus = async (id, status, select) => {
     select.disabled = true;
-    const { error } = await supabase.from('orders').update({ status }).eq('id', id);
+    let reason = 'Mise à jour depuis l’espace propriétaire.';
+    if (status === 'cancelled') {
+      reason = window.prompt('Pourquoi cette commande est-elle annulée ?')?.trim() || '';
+      if (!reason) {
+        select.disabled = false;
+        await loadOrders();
+        setMessage('#ownerOrderMessage', 'Annulation abandonnée : un motif est obligatoire.', true);
+        return;
+      }
+    }
+    const { error } = await supabase.rpc('owner_update_order_status', {
+      p_order_id: id,
+      p_next_status: status,
+      p_reason: reason,
+    });
     select.disabled = false;
     if (error) { setMessage('#ownerOrderMessage', `Impossible de mettre à jour la commande : ${error.message}`, true); await loadOrders(); return; }
     setMessage('#ownerOrderMessage', 'État de la commande mis à jour.');

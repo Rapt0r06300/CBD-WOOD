@@ -36,6 +36,7 @@
 - [ ] Le bouton propriétaire reste masqué pour un client, y compris au clavier ; l’accès réel reste contrôlé par `owner_users` et les RLS.
 - [ ] Un visiteur ou client ne trouve aucune route `admin.html` publique ; l’espace propriétaire n’existe que dans `compte.html` après vérification `owner_users`.
 - [ ] Les stocks et prix réels sont vérifiés dans le tableau de bord.
+- [ ] Les transitions d’état passent par `owner_update_order_status` ; une annulation sans motif et tout saut d’état sont refusés, et le journal `order_status_changes` est lisible par le propriétaire.
 - [ ] `npm run check` passe après chaque changement.
 
 ## Commande

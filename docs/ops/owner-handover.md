@@ -25,7 +25,7 @@ Si le bouton n’apparaît pas, ne pas créer un nouveau rôle dans le navigateu
 
 ## 3. Gestion quotidienne
 
-- **Commandes :** ouvrir une commande, vérifier le client, l’adresse, le total et le statut de paiement, puis changer uniquement l’état de traitement approprié.
+- **Commandes :** ouvrir une commande, vérifier le client, l’adresse, le total et le statut de paiement, puis changer uniquement l’état de traitement approprié. Le tableau de bord ne modifie plus directement `orders` : `owner_update_order_status` vérifie le rôle, verrouille la commande, refuse les sauts d’état et journalise l’acteur ; l’annulation exige un motif.
 - **Produits :** modifier un nom, une description ou une disponibilité validée ; désactiver une fiche incomplète plutôt que publier un prix ou un stock supposé.
 - **Stocks :** renseigner uniquement les quantités réellement disponibles. Une fiche sans stock ou sans prix reste non commandable.
 - **Compte client :** les clients ne doivent accéder qu’à leur propre profil et à leur propre historique.
@@ -47,6 +47,7 @@ La suppression de l’accès de Florent n’est pas automatique : elle nécessit
 - les règles de livraison, frais et délais sont écrites et validées ;
 - les stocks, photos et informations produit réels sont renseignés ;
 - les pages légales sont fournies et validées ;
+- les transitions de commande sont testées avec une commande payée de démonstration ;
 - l’e-mail transactionnel est testé avec un statut d’envoi traçable ;
 - le paiement Viva.com et son webhook signé sont testés séparément ;
 - la procédure [sauvegarde et restauration Supabase](supabase-backup-restore.md) a été exécutée et la restauration a été testée ;

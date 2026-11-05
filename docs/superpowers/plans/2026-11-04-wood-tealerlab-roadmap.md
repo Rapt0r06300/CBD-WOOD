@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **206 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **208 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit `34eac62` ont été vérifiés avec succès ; les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -82,6 +82,7 @@
 - Ces preuves ne remplacent pas la recette finale des orientations, du clavier virtuel, des navigateurs réels, des réglages Auth/Turnstile/e-mail et des sauvegardes Supabase : ces points restent volontairement ouverts dans les tâches concernées.
 - Une copie `dist-hostinger` servie depuis sa racine a également été parcourue : les 10 routes principales répondent, `/admin.html` répond 404 et la largeur reste contenue à 390 px.
 - Le panier nettoie les données locales avant réutilisation, échappe les valeurs affichées, plafonne une quantité locale à 99, se resynchronise entre onglets et garde le focus dans son dialogue au clavier ; ces garde-fous sont couverts par `test/cart-resilience.test.mjs`.
+- Le 5 novembre 2026, les changements de statut opérateur passent par `owner_update_order_status` : transition autorisée, paiement préalable pour la préparation, verrou `FOR UPDATE`, motif d’annulation, journal d’acteur et refus de l’écriture directe client ; `test/owner-order-status-security.test.mjs` et `test/rls-negative.test.mjs` protègent ce contrat. La machine complète des états livraison/remboursement et sa recette distante restent ouvertes.
 - La tentative d’enregistrement de commande possède aussi un délai maximum, annule une requête bloquée et laisse le panier intact avec un message de reprise ; `test/order-client-resilience.test.mjs` le vérifie.
 - Le menu public mobile regroupe maintenant les quatre univers WOOD et les accès rapides `Nous trouver`, `FAQ`, `Compte` et `Panier`, sans exposer l’administration ; `test/navigation-accessibility.test.mjs` le vérifie.
 - Les cartes catalogue affichent maintenant, dans un ordre stable, l’univers puis uniquement le niveau reconnu dans la donnée fleur (`CBD boosté · strong`, `CBD soft · medium` ou `CBD classique`) ; aucune étiquette n’est inventée pour une donnée inconnue. `test/product-availability.test.mjs` le vérifie.
@@ -1171,11 +1172,11 @@ Les 76 tâches principales et les tags `A01–A40` ne couvraient pas encore tout
 
 - [ ] **A47 — Règles de livraison finales :** confirmer zones, transporteur, frais, délais, minimum éventuel, suivi, emballage et retours ; validation : un document propriétaire alimente les textes et le calcul réel.
 - [ ] **A48 — Adresse robuste :** normaliser les accents, espaces et retours à la ligne, refuser les caractères de contrôle et borner l’adresse à 500 caractères côté Edge Function ; les champs structurés code postal, ville, pays, correction avant validation et règles finales restent à confirmer avec la propriétaire.
-- [ ] **A49 — États de traitement :** distinguer reçue, à préparer, expédiée, livrée, annulée, remboursée et bloquée ; validation : chaque état est visible selon le rôle et enregistré dans l’historique.
+- [ ] **A49 — États de traitement :** distinguer reçue, à préparer, expédiée, livrée, annulée, remboursée et bloquée ; validation : chaque état est visible selon le rôle et enregistré dans l’historique. Le socle local protège déjà les transitions propriétaire actuelles via `owner_update_order_status`, mais les états expédition/remboursement et leur recette réelle restent à définir.
 - [ ] **A50 — Travail de la propriétaire :** afficher les informations nécessaires pour préparer, expédier et suivre une commande sans ouvrir Supabase ; validation : une commande réelle est traitable depuis le tableau de bord.
 - [x] **A51 — Instantané de commande :** la fonction livraison-only persiste e-mail, nom, téléphone, adresse, total, nom produit, prix unitaire, quantité, total de ligne et grammage dans `orders`/`order_items` ; le test de migration vérifie que la commande ne dépend pas d’une relecture future du catalogue. Les frais restent à ajouter quand les règles de livraison seront confirmées.
 - [ ] **A52 — Réservation et libération du stock :** réserver atomiquement, libérer sur échec/expiration/annulation et empêcher la vente concurrente ; validation : deux clients ne peuvent pas consommer le même dernier stock.
-- [ ] **A53 — Corrections administratives :** prévoir correction contrôlée d’une adresse ou d’un état avec motif et journal ; validation : aucune modification sensible n’est silencieuse.
+- [ ] **A53 — Corrections administratives :** prévoir correction contrôlée d’une adresse ou d’un état avec motif et journal ; validation : aucune modification sensible n’est silencieuse. Les changements d’état disposent maintenant d’un RPC owner-only et d’un journal acteur/motif ; la correction d’adresse, son interface et la recette restent ouvertes.
 - [ ] **A54 — Annulation et remboursement :** définir qui peut annuler, à quel état, avec quel justificatif et comment l’e-mail client est déclenché ; validation : aucun remboursement fictif n’est confirmé avant Viva.
 
 ### Viva Wallet et paiements
@@ -2055,7 +2056,7 @@ Ce bloc décrit tout ce qu’il faut pour obtenir une chaîne fiable `commande �
 - [x] **A486 — Ajouter le numéro de suivi optionnel :** validation : aucun faux suivi n’est affiché si le transporteur n’est pas défini.
 - [x] **A487 — Ajouter l’e-mail de mise à jour livraison :** validation : le message reflète l’état réel de la commande.
 - [x] **A488 — Ajouter l’alerte d’adresse problématique :** validation : un événement `failed` conserve la commande, avertit la propriétaire et décrit l’action à vérifier.
-- [x] **A489 — Ajouter l’annulation avant traitement :** validation : les transitions interdites sont refusées côté serveur.
+- [x] **A489 — Ajouter l’annulation avant traitement :** validation : les transitions interdites sont refusées côté serveur ; `owner_update_order_status` exige aussi un motif pour l’annulation et journalise l’acteur, tandis que `delivery-events` garde ses propres transitions idempotentes.
 - [x] **A490 — Ajouter la gestion d’un échec de livraison :** validation : la commande passe dans un état explicite et une alerte propriétaire est créée.
 - [x] **A491 — Interdire le marquage automatique “livrée” :** validation : aucun cron ne clôt une commande sans événement autorisé.
 - [x] **A492 — Tester une livraison normale :** validation : commande, document, e-mails et historique sont cohérents.
