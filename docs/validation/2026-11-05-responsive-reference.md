@@ -24,7 +24,7 @@ Des captures de référence ont également été produites à `320` et `1440` px
 
 ## Contrôles complémentaires
 
-- Les tests automatisés du dépôt passent (`239 tests`).
+- Les tests automatisés du dépôt passent (`240 tests`).
 - La feuille de route contient `1 016` items d’exécution : `756` sont vérifiés localement ou sur le projet Supabase connecté et `260` restent ouverts pour validation propriétaire, accès externes ou données réelles ; les `700` tags `Axxx` sont continus. La transition de page locale et la garde livraison-only distante sont désormais incluses dans les vérifications ; les appareils et navigateurs réels restent distincts.
 - Les captures TealerLab desktop/mobile et le storyboard WOOD correspondant sont archivés dans `docs/audits/2026-11-05-tealerlab-capture-log.md` et `docs/design/wood-home-storyboard.md` ; ils servent de référence structurelle et ne sont pas des assets publics.
 - Le brief photo `docs/design/wood-photo-brief.md` fixe les prises de vue réelles sans bocal ni cloche, les ratios carte/fiche, le nommage, les alt texts et la procédure de remplacement sans toucher à l’achat.
