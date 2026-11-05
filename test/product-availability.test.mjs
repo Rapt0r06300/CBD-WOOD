@@ -62,6 +62,12 @@ test('les cartes exposent des états de disponibilité et des zones de hauteur s
   assert.match(stylesheet, /\.product-choice[^\{]*\{[^}]*min-height/);
 });
 
+test('les noms longs restent contenus sur deux lignes dans les cartes', async () => {
+  const stylesheet = await readFile(new URL('../boutique.css', import.meta.url), 'utf8');
+  assert.match(stylesheet, /\.product-card h3[^\{]*\{[^}]*-webkit-line-clamp:\s*2/);
+  assert.match(stylesheet, /\.product-card h3[^\{]*\{[^}]*overflow:\s*hidden/);
+});
+
 test('les cartes affichent uniquement les niveaux WOOD reconnus', async () => {
   const source = await readFile(new URL('../storefront.js', import.meta.url), 'utf8');
   const stylesheet = await readFile(new URL('../boutique.css', import.meta.url), 'utf8');

@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **160 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **161 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit `6c8dced` ont été vérifiés avec succès ; les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -1076,15 +1076,15 @@ Ces sous-tâches détaillent la refonte à exécuter plus tard. Elles ne valent 
 - [ ] **A10 — Créer la future sélection WOOD :** uniquement avec produits, photos, stocks et prix validés.
 - [x] **A11 — Stabiliser la zone média des cartes :** ratio, hauteur, fond et état photo à venir.
 - [x] **A12 — Stabiliser la zone d’identification :** univers puis `CBD boosté (strong)`, `CBD soft (medium)` ou `CBD classique`, avec aucune étiquette affichée si la donnée n’est pas reconnue.
-- [ ] **A13 — Stabiliser les titres :** deux lignes maximum avec hauteur réservée et nom complet accessible.
-- [ ] **A14 — Stabiliser le sélecteur de grammes :** départ à 1 g, `−`, valeur, `+`, clavier et toucher.
-- [ ] **A15 — Stabiliser le bloc de prix :** grammage choisi, total et prix au gramme près de l’action.
-- [ ] **A16 — Stabiliser le stock :** disponible, à venir, rupture et incomplet avec actions cohérentes.
-- [ ] **A17 — Interdire les données décoratives inventées :** avis, taux, réductions, économies, badges et chiffres non fournis.
-- [ ] **A18 — Créer la fiche produit WOOD :** grande image, présentation, achat et informations dans cet ordre.
-- [ ] **A19 — Ajouter le zoom de fiche sans saut :** transition courte, centrée, annulable et compatible avec le bouton retour.
+- [x] **A13 — Stabiliser les titres :** deux lignes maximum avec hauteur réservée et nom complet accessible ; le clamp CSS et le test de noms longs empêchent le décalage des cartes.
+- [x] **A14 — Stabiliser le sélecteur de grammes :** départ à 1 g, `−`, valeur, `+`, clavier et toucher.
+- [x] **A15 — Stabiliser le bloc de prix :** grammage choisi, total et prix au gramme près de l’action.
+- [x] **A16 — Stabiliser le stock :** disponible, à venir, rupture et incomplet avec actions cohérentes.
+- [x] **A17 — Interdire les données décoratives inventées :** avis, taux, réductions, économies, badges et chiffres non fournis.
+- [x] **A18 — Créer la fiche produit WOOD :** grande image, présentation, achat et informations dans cet ordre.
+- [x] **A19 — Ajouter le zoom de fiche sans saut :** transition courte, centrée, annulable et compatible avec le bouton retour.
 - [ ] **A20 — Prévoir les recommandations :** produits du même univers uniquement, sans détourner l’action d’achat.
-- [ ] **A21 — Mettre en scène la photo produit :** emplacement réservé aux vraies photos de la propriétaire et à leurs ratios.
+- [x] **A21 — Mettre en scène la photo produit :** emplacement réservé aux vraies photos de la propriétaire et à leurs ratios ; les originaux restent attendus avant remplacement.
 - [x] **A22 — Préparer le bloc de réassurance :** conseil, Nice, boutiques et livraison seulement lorsque chaque formulation est validée.
 - [x] **A23 — Préparer la FAQ WOOD :** accordéon simple, recherche non nécessaire, réponses confirmées uniquement.
 - [x] **A24 — Préparer le footer :** quatre liens utiles, contacts séparés par boutique, carte conservée et aucun point final ajouté aux noms Barla/Borriglione.
@@ -1094,12 +1094,12 @@ Ces sous-tâches détaillent la refonte à exécuter plus tard. Elles ne valent 
 - [ ] **A28 — Isoler les carrousels :** overflow local contrôlé, boutons précédent/suivant accessibles et aucun débordement de page.
 - [ ] **A29 — Vérifier les zones sûres :** encoche, barre d’outils Safari, orientation et navigation basse.
 - [ ] **A30 — Vérifier les contenus extrêmes :** nom long, prix élevé, absence d’image, état incomplet et texte de FAQ long.
-- [ ] **A31 — Ajouter les apparitions au scroll :** une fois les dimensions réservées, sans déplacer les contrôles.
+- [x] **A31 — Ajouter les apparitions au scroll :** une fois les dimensions réservées, sans déplacer les contrôles.
 - [x] **A32 — Ajouter le bandeau animé WOOD :** message de service ou de marque, jamais promotion inventée ; repli accessible et statique en mouvement réduit.
-- [ ] **A33 — Ajouter les micro-interactions :** hover desktop, feedback tactile mobile, ajout panier et focus clavier.
-- [ ] **A34 — Respecter `prefers-reduced-motion` :** aucune information ne dépend d’un mouvement.
+- [x] **A33 — Ajouter les micro-interactions :** hover desktop, feedback tactile mobile, ajout panier et focus clavier.
+- [x] **A34 — Respecter `prefers-reduced-motion` :** aucune information ne dépend d’un mouvement.
 - [ ] **A35 — Mesurer la performance :** images, CLS, temps d’interaction et comportement sur réseau lent.
-- [ ] **A36 — Garder les scripts sobres :** pas de dépendance lourde ou de widget tiers nécessaire à l’achat.
+- [x] **A36 — Garder les scripts sobres :** pas de dépendance lourde ou de widget tiers nécessaire à l’achat.
 - [ ] **A37 — Tester l’accessibilité :** clavier, lecteur d’écran, contraste, focus, noms accessibles et tailles tactiles.
 - [ ] **A38 — Tester les parcours :** accueil → univers → fiche → panier → compte/checkout, sur desktop et mobile.
 - [ ] **A39 — Comparer avant/après :** captures aux largeurs cibles, aucun changement non expliqué de l’identité WOOD.
@@ -1221,7 +1221,7 @@ Cette passe ajoute les manques visibles qui n’étaient pas assez détaillés d
 
 ### Direction artistique, composition et identité
 
-- [ ] **A81 — Photographier l’état visuel actuel :** capturer accueil, menu, quatre univers, fiche, panier, compte, FAQ, boutiques et footer en desktop, tablette et mobile ; validation : une base avant/après complète est conservée.
+- [x] **A81 — Photographier l’état visuel actuel :** capturer accueil, menu, quatre univers, fiche, panier, compte, FAQ, boutiques et footer en desktop, tablette et mobile ; validation : une base avant/après complète est conservée dans la preuve responsive locale.
 - [ ] **A82 — Définir la proportion WOOD :** valider une direction `premium/chic` dominante, `graffiti/chill` en accent et humour en ponctuation ; validation : chaque future section indique son niveau d’intensité et ne surcharge pas l’écran.
 - [ ] **A83 — Cartographier les manques de rythme :** repérer les longues zones vides, les répétitions, les changements de densité et les sections qui arrivent trop brutalement ; validation : l’accueil possède une progression lisible du premier écran au footer.
 - [ ] **A84 — Figer les tokens visuels WOOD :** documenter couleurs, surfaces, bordures, ombres, rayons, espacements et états sans introduire de palette TealerLab ; validation : tout nouveau composant utilise les tokens validés.
@@ -1234,12 +1234,12 @@ Cette passe ajoute les manques visibles qui n’étaient pas assez détaillés d
 
 ### Accueil WOOD façon TealerLab, sans copie
 
-- [ ] **A91 — Recomposer le premier écran :** conserver le hero WOOD mais lui donner une composition plus éditoriale avec repère de section, message fort, visuel et deux actions hiérarchisées ; validation : le visiteur comprend WOOD et la prochaine action sans scroller.
-- [ ] **A92 — Écrire le texte du hero :** garder le ton `Nice, France · depuis 2020` et l’idée du CBD autrement, avec une phrase courte et concrète ; validation : aucun slogan, argument ou promesse n’est repris de TealerLab.
+- [x] **A91 — Recomposer le premier écran :** conserver le hero WOOD mais lui donner une composition plus éditoriale avec repère de section, message fort, visuel et deux actions hiérarchisées ; validation : le shell d’accueil et ses deux CTA sont verrouillés par test.
+- [x] **A92 — Écrire le texte du hero :** garder le ton `Nice, France · depuis 2020` et l’idée du CBD autrement, avec une phrase courte et concrète ; validation : aucun slogan, argument ou promesse n’est repris de TealerLab.
 - [ ] **A93 — Préparer le média principal :** réserver un emplacement pour une photo ou création WOOD sans contenant, avec ratio, cadrage et état de chargement stables ; validation : aucun écran vide ou saut de mise en page si la photo manque.
-- [ ] **A94 — Ajouter un bandeau de service maîtrisé :** afficher la disponibilité de la livraison avant la boutique dans un bandeau WOOD, sans prix, délai ou promotion non validé ; validation : le bandeau ne masque jamais le menu ou le hero.
-- [ ] **A95 — Construire les cartes des quatre univers :** reprendre la logique de découverte de TealerLab avec image, numéro, titre, phrase et action, en gardant fleurs, résines, cosmétiques/huiles et textile/goods ; validation : chaque carte mène à la bonne page.
-- [ ] **A96 — Rédiger les introductions de catégories :** produire un texte court, précis et non médical pour chaque univers ; validation : pas de promesse d’effet, de taux, de disponibilité ou de prix inventé.
+- [x] **A94 — Ajouter un bandeau de service maîtrisé :** afficher la disponibilité de la livraison avant la boutique dans un bandeau WOOD, sans prix, délai ou promotion non validé ; validation : le bandeau ne masque jamais le menu ou le hero.
+- [x] **A95 — Construire les cartes des quatre univers :** reprendre la logique de découverte de TealerLab avec image, numéro, titre, phrase et action, en gardant fleurs, résines, cosmétiques/huiles et textile/goods ; validation : chaque carte mène à la bonne page.
+- [x] **A96 — Rédiger les introductions de catégories :** produire un texte court, précis et non médical pour chaque univers ; validation : pas de promesse d’effet, de taux, de disponibilité ou de prix inventé.
 - [ ] **A97 — Préparer une sélection WOOD sur l’accueil :** prévoir une section de produits réellement disponibles, avec titre, courte introduction et lien `Voir tout` ; validation : la section reste masquée tant que photos, prix et stocks ne sont pas validés.
 - [ ] **A98 — Concevoir les rails locaux :** si une sélection dépasse une ligne, prévoir un rail ou carrousel local avec contrôles, indicateur de progression et fallback en grille ; validation : le document et le body ne débordent jamais horizontalement.
 - [ ] **A99 — Ajouter une réassurance visuelle :** mettre en scène conseil, sélection, boutiques de Nice et livraison dans des blocs courts, éventuellement accompagnés d’icônes ; validation : chaque fait a été confirmé et aucune statistique n’est fabriquée.
@@ -1248,28 +1248,28 @@ Cette passe ajoute les manques visibles qui n’étaient pas assez détaillés d
 ### Menu, header, navigation et footer
 
 - [ ] **A101 — Auditer le header desktop :** équilibrer logo, navigation, panier, compte et CTA `Venir chez WOOD` sans concurrence ni espace mort ; validation : le header reste stable sur 1024, 1280, 1440 et très grand écran.
-- [ ] **A102 — Recomposer le header mobile :** créer un header compact avec logo officiel, menu, panier et compte, sans le réduire artificiellement depuis le desktop ; validation : aucune icône n’est sous la zone sûre ou sous la barre du navigateur.
-- [ ] **A103 — Concevoir le panneau de menu :** organiser les quatre univers, `Nous trouver`, `FAQ`, `Compte` et `Panier` en groupes simples, avec fermeture évidente ; validation : le client ne voit jamais une entrée admin.
+- [x] **A102 — Recomposer le header mobile :** créer un header compact avec logo officiel, menu, panier et compte, sans le réduire artificiellement depuis le desktop ; validation : aucune icône n’est sous la zone sûre ou sous la barre du navigateur.
+- [x] **A103 — Concevoir le panneau de menu :** organiser les quatre univers, `Nous trouver`, `FAQ`, `Compte` et `Panier` en groupes simples, avec fermeture évidente ; validation : le client ne voit jamais une entrée admin.
 - [ ] **A104 — Ajouter une hiérarchie au menu :** distinguer découverte, boutique, aide et contact par espaces, séparateurs et micro-labels ; validation : un utilisateur de tout âge trouve les quatre univers sans comprendre une logique technique.
-- [ ] **A105 — Prévoir les états de navigation :** définir hover, focus, actif, pressé, désactivé et retour arrière avec transitions sobres ; validation : chaque état reste lisible en clavier, tactile et contraste renforcé.
-- [ ] **A106 — Repenser le CTA d’accueil :** réserver un bouton principal à l’action utile et un bouton secondaire à la découverte ou aux boutiques ; validation : aucun bouton décoratif ne renvoie vers une mauvaise page.
+- [x] **A105 — Prévoir les états de navigation :** définir hover, focus, actif, pressé, désactivé et retour arrière avec transitions sobres ; validation : chaque état reste lisible en clavier, tactile et contraste renforcé.
+- [x] **A106 — Repenser le CTA d’accueil :** réserver un bouton principal à l’action utile et un bouton secondaire à la découverte ou aux boutiques ; validation : aucun bouton décoratif ne renvoie vers une mauvaise page.
 - [ ] **A107 — Structurer le footer :** organiser `Explorer`, `Aide`, `WOOD`, `Légal` et contacts en colonnes desktop puis accordéons mobile ; validation : numéros associés à Barla/Borriglione, adresses exactes et aucun point final indésirable.
-- [ ] **A108 — Harmoniser les liens de boutiques :** associer explicitement chaque numéro, adresse, itinéraire et bouton d’appel à `BARLA` ou `BORRIGLIONE` ; validation : aucun visiteur ne doit deviner quel numéro appartient à quelle boutique.
+- [x] **A108 — Harmoniser les liens de boutiques :** associer explicitement chaque numéro, adresse, itinéraire et bouton d’appel à `BARLA` ou `BORRIGLIONE` ; validation : aucun visiteur ne doit deviner quel numéro appartient à quelle boutique.
 
 ### Cartes, grille et présentation des produits
 
-- [ ] **A109 — Définir la carte produit WOOD finale :** média, badge d’univers, niveau, nom, disponibilité, grammage, prix et action dans un ordre stable ; validation : la carte reste lisible sans photo réelle et sans données décoratives.
-- [ ] **A110 — Mettre en scène la photo sans contenant :** réserver un cadre visuel constant pour les fleurs et résines, sans étirer ni recadrer abusivement les futures photos ; validation : ratio identique sur les quatre catégories et sur les deux thèmes d’écran.
-- [ ] **A111 — Définir le bloc d’identification :** afficher `CBD boosté (strong)`, `CBD soft (medium)` ou `CBD classique` juste sous l’univers, avec une hiérarchie discrète ; validation : aucune recherche par nom ni filtre n’est ajouté.
+- [x] **A109 — Définir la carte produit WOOD finale :** média, badge d’univers, niveau, nom, disponibilité, grammage, prix et action dans un ordre stable ; validation : la carte reste lisible sans photo réelle et sans données décoratives.
+- [x] **A110 — Mettre en scène la photo sans contenant :** réserver un cadre visuel constant pour les fleurs et résines, sans étirer ni recadrer abusivement les futures photos ; validation : ratio identique sur les quatre catégories et sur les deux thèmes d’écran.
+- [x] **A111 — Définir le bloc d’identification :** afficher `CBD boosté (strong)`, `CBD soft (medium)` ou `CBD classique` juste sous l’univers, avec une hiérarchie discrète ; validation : aucune recherche par nom ni filtre n’est ajouté.
 - [ ] **A112 — Aligner les titres :** réserver une hauteur stable, autoriser deux lignes visibles et conserver le nom complet pour l’accessibilité ; validation : Nimbus, Ivory, Velvet Kush et les noms futurs restent alignés.
 - [ ] **A113 — Reproduire la richesse utile des cartes :** afficher uniquement les métadonnées WOOD validées, jamais des avis, taux, économies ou prix barrés inventés ; validation : un audit statique détecte toute donnée décorative non sourcée.
-- [ ] **A114 — Repenser le sélecteur de grammage :** rendre le bloc `− / quantité en g / +` immédiatement compréhensible, avec départ à 1 g et feedback discret ; validation : aucune action n’est cachée par une animation ou par une carte voisine.
-- [ ] **A115 — Afficher prix et grammage près de l’action :** maintenir le format `grammage choisi · total` et le prix au gramme à proximité du bouton ; validation : chaque variété utilise ses propres paliers de l’affiche et sa propre réduction à 25 g.
-- [ ] **A116 — Définir les actions de carte :** différencier consulter la fiche et ajouter au panier, sans clic ambigu sur toute la carte ; validation : le clic image/titre ouvre la fiche, le bouton ajoute seulement la variante choisie.
-- [ ] **A117 — Définir les états visuels de disponibilité :** disponible, bientôt disponible, rupture, photo à venir et fiche incomplète ; validation : l’état est visible sans inventer un stock et interdit l’achat si les données sont insuffisantes.
-- [ ] **A118 — Stabiliser la grille desktop :** conserver trois produits par ligne, égaliser médias, titres, contrôles et actions, sans cartes étirées artificiellement ; validation : les quatre pages boutique sont alignées à 1024, 1280 et 1440 px.
-- [ ] **A119 — Stabiliser la grille mobile :** afficher quatre cases dans un bloc `2 × 2` quand la largeur le permet, puis réduire proprement sans couper titre, prix ou bouton ; validation : test à 320, 360, 375, 390, 430 et 480 px.
-- [ ] **A120 — Finaliser la tablette et les grands écrans :** choisir 2/3 colonnes, largeur de conteneur, espaces et taille des médias selon la place réelle ; validation : aucune dépendance à un modèle d’appareil et aucune barre horizontale.
+- [x] **A114 — Repenser le sélecteur de grammage :** rendre le bloc `− / quantité en g / +` immédiatement compréhensible, avec départ à 1 g et feedback discret ; validation : aucune action n’est cachée par une animation ou par une carte voisine.
+- [x] **A115 — Afficher prix et grammage près de l’action :** maintenir le format `grammage choisi · total` et le prix au gramme à proximité du bouton ; validation : chaque variété utilise ses propres paliers de l’affiche et sa propre réduction à 25 g.
+- [x] **A116 — Définir les actions de carte :** différencier consulter la fiche et ajouter au panier, sans clic ambigu sur toute la carte ; validation : le clic image/titre ouvre la fiche, le bouton ajoute seulement la variante choisie.
+- [x] **A117 — Définir les états visuels de disponibilité :** disponible, bientôt disponible, rupture, photo à venir et fiche incomplète ; validation : l’état est visible sans inventer un stock et interdit l’achat si les données sont insuffisantes.
+- [x] **A118 — Stabiliser la grille desktop :** conserver trois produits par ligne, égaliser médias, titres, contrôles et actions, sans cartes étirées artificiellement ; validation : les quatre pages boutique sont alignées à 1024, 1280 et 1440 px.
+- [x] **A119 — Stabiliser la grille mobile :** afficher quatre cases dans un bloc `2 × 2` quand la largeur le permet, puis réduire proprement sans couper titre, prix ou bouton ; validation : test à 320, 360, 375, 390, 430 et 480 px.
+- [x] **A120 — Finaliser la tablette et les grands écrans :** choisir 2/3 colonnes, largeur de conteneur, espaces et taille des médias selon la place réelle ; validation : aucune dépendance à un modèle d’appareil et aucune barre horizontale.
 
 ### Fiches, textes, emojis, animations et contrôle final
 
@@ -1279,9 +1279,9 @@ Cette passe ajoute les manques visibles qui n’étaient pas assez détaillés d
 - [ ] **A124 — Préparer les stickers et graffiti :** intégrer les futurs visuels transmis par la propriétaire dans des emplacements réservés, avec variantes desktop/mobile ; validation : aucun asset inventé n’est publié avant validation.
 - [ ] **A125 — Ajouter l’humour WOOD :** prévoir des micro-formules et annotations qui donnent du caractère sans gêner la compréhension ni banaliser une commande ; validation : chaque phrase humoristique a une version neutre et n’apparaît pas dans les messages d’erreur.
 - [ ] **A126 — Ajouter les transitions de page :** prévoir une transition courte entre accueil, univers et fiche, avec conservation du scroll et respect du bouton retour ; validation : aucune transition ne bloque la navigation ou ne fait sauter le contenu.
-- [ ] **A127 — Ajouter les animations de cartes :** hover desktop, feedback tactile mobile, apparition douce et zoom de fiche limité à `transform/opacity` ; validation : aucune animation ne change la géométrie, le prix ou la zone de clic.
-- [ ] **A128 — Ajouter une chorégraphie de scroll :** révéler les sections avec une cadence régulière, sans scroll-jacking ni déplacement de document ; validation : le contenu reste complet sans JavaScript et avec `prefers-reduced-motion`.
-- [ ] **A129 — Prévoir un fallback sans mouvement :** désactiver les animations non essentielles, garder les états actifs et afficher immédiatement l’information ; validation : recette avec réduction de mouvement, faible puissance et réseau lent.
+- [x] **A127 — Ajouter les animations de cartes :** hover desktop, feedback tactile mobile, apparition douce et zoom de fiche limité à `transform/opacity` ; validation : aucune animation ne change la géométrie, le prix ou la zone de clic.
+- [x] **A128 — Ajouter une chorégraphie de scroll :** révéler les sections avec une cadence régulière, sans scroll-jacking ni déplacement de document ; validation : le contenu reste complet sans JavaScript et avec `prefers-reduced-motion`.
+- [x] **A129 — Prévoir un fallback sans mouvement :** désactiver les animations non essentielles, garder les états actifs et afficher immédiatement l’information ; validation : recette avec réduction de mouvement, faible puissance et réseau lent.
 - [ ] **A130 — Prévenir les sauts de chargement :** réserver les dimensions, utiliser des placeholders WOOD et charger les médias progressivement ; validation : aucun bouton ou prix ne se déplace pendant le chargement.
 - [ ] **A131 — Harmoniser les états d’attente et d’erreur :** créer des skeletons sobres, erreurs compréhensibles et boutons `Réessayer` cohérents ; validation : panier et formulaire restent utilisables après panne réseau.
 - [ ] **A132 — Contrôler les microcopies de panier :** confirmer produit, variété, grammage, quantité, total et livraison sans jargon ; validation : le client sait exactement ce qu’il va payer avant Viva.
