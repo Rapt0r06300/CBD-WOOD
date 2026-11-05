@@ -67,10 +67,10 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **159 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **160 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
-- Les workflows GitHub Pages et de qualité du commit `512afd8` ont été vérifiés avec succès ; les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
+- Les workflows GitHub Pages et de qualité du commit `df3047e` ont été vérifiés avec succès ; les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
 - Le contrôle responsive Playwright confirme l’absence de débordement horizontal sur les **70 combinaisons** (10 routes publiques × `320`, `375`, `390`, `430`, `768`, `1024`, `1440`), avec des titres non vides et la navigation mobile chargée sur les vues étroites.
 - Une seconde passe locale, documentée dans `docs/validation/2026-11-05-responsive-reference.md`, a capturé les parcours accueil, quatre univers, fiche, checkout et compte à `320` et `1440` px, puis contrôlé ces huit routes aux sept largeurs : les **56 combinaisons** conservent exactement la largeur de la fenêtre.
 - La disponibilité est maintenant une donnée Supabase explicite (`available`, `soon`, `rupture`, `incomplete`) et le serveur refuse de traiter un produit qui n’est pas `available`.
@@ -126,7 +126,7 @@
 
 ### Tâche 1 — Figer la base de référence
 
-- [x] Conserver l’état initial de `main` comme point de comparaison ; la référence de départ est le commit `4e994d3`, puis les contrôles post-modification sont suivis jusqu’au commit courant `512afd8`.
+- [x] Conserver l’état initial de `main` comme point de comparaison ; la référence de départ est le commit `4e994d3`, puis les contrôles post-modification sont suivis jusqu’au commit courant `df3047e`.
 - [x] Générer une capture de référence des pages publiques, des pages boutique, du panier et du compte ; les captures et le contrôle de largeur sont documentés dans `docs/validation/2026-11-05-responsive-reference.md`.
 - [x] Vérifier que `npm run hostinger:preflight` passe avant toute modification.
 - [x] Vérifier que le dépôt est propre après le point de sauvegarde ; les artefacts locaux `output/` sont conservés hors Git par `.gitignore`.
@@ -1064,17 +1064,17 @@ Audit effectué le 5 novembre 2026 sur [l’accueil](https://tealerlab.com/), [l
 
 Ces sous-tâches détaillent la refonte à exécuter plus tard. Elles ne valent pas validation graphique et ne remplacent aucune décision de la propriétaire.
 
-- [ ] **A01 — Cartographier le shell d’accueil :** bandeau, en-tête, hero, sections, footer et ordre de lecture.
-- [ ] **A02 — Définir les patrons de section :** kicker, titre, texte, lien et contenu avec les espacements WOOD existants.
-- [ ] **A03 — Définir les variantes de section :** pleine largeur, grille, rail tactile, bloc éditorial et FAQ.
-- [ ] **A04 — Figer la hiérarchie desktop :** marque, navigation, découverte, panier et compte sans concurrence visuelle.
-- [ ] **A05 — Figer la hiérarchie mobile :** menu, logo, panier et navigation basse sans doublon ni chevauchement.
+- [x] **A01 — Cartographier le shell d’accueil :** bandeau, en-tête, hero, sections, footer et ordre de lecture.
+- [x] **A02 — Définir les patrons de section :** kicker, titre, texte, lien et contenu avec les espacements WOOD existants.
+- [x] **A03 — Définir les variantes de section :** pleine largeur, grille, rail tactile, bloc éditorial et FAQ.
+- [x] **A04 — Figer la hiérarchie desktop :** marque, navigation, découverte, panier et compte sans concurrence visuelle.
+- [x] **A05 — Figer la hiérarchie mobile :** menu, logo, panier et navigation basse sans doublon ni chevauchement.
 - [x] **A06 — Placer un bandeau livraison non promotionnel :** visible avant les produits, modifiable à un seul endroit.
-- [ ] **A07 — Recomposer le hero WOOD :** message, visuel, CTA et preuve de marque sans reprendre la campagne TealerLab.
-- [ ] **A08 — Créer la séquence des quatre univers :** fleurs, résines, cosmétiques/huiles et textile/goods.
-- [ ] **A09 — Prévoir un bloc d’introduction par univers :** une phrase utile, aucune promesse d’effet ou de qualité non vérifiée.
+- [x] **A07 — Recomposer le hero WOOD :** message, visuel, CTA et preuve de marque sans reprendre la campagne TealerLab.
+- [x] **A08 — Créer la séquence des quatre univers :** fleurs, résines, cosmétiques/huiles et textile/goods.
+- [x] **A09 — Prévoir un bloc d’introduction par univers :** une phrase utile, aucune promesse d’effet ou de qualité non vérifiée.
 - [ ] **A10 — Créer la future sélection WOOD :** uniquement avec produits, photos, stocks et prix validés.
-- [ ] **A11 — Stabiliser la zone média des cartes :** ratio, hauteur, fond et état photo à venir.
+- [x] **A11 — Stabiliser la zone média des cartes :** ratio, hauteur, fond et état photo à venir.
 - [x] **A12 — Stabiliser la zone d’identification :** univers puis `CBD boosté (strong)`, `CBD soft (medium)` ou `CBD classique`, avec aucune étiquette affichée si la donnée n’est pas reconnue.
 - [ ] **A13 — Stabiliser les titres :** deux lignes maximum avec hauteur réservée et nom complet accessible.
 - [ ] **A14 — Stabiliser le sélecteur de grammes :** départ à 1 g, `−`, valeur, `+`, clavier et toucher.
@@ -1085,9 +1085,9 @@ Ces sous-tâches détaillent la refonte à exécuter plus tard. Elles ne valent 
 - [ ] **A19 — Ajouter le zoom de fiche sans saut :** transition courte, centrée, annulable et compatible avec le bouton retour.
 - [ ] **A20 — Prévoir les recommandations :** produits du même univers uniquement, sans détourner l’action d’achat.
 - [ ] **A21 — Mettre en scène la photo produit :** emplacement réservé aux vraies photos de la propriétaire et à leurs ratios.
-- [ ] **A22 — Préparer le bloc de réassurance :** conseil, Nice, boutiques et livraison seulement lorsque chaque formulation est validée.
-- [ ] **A23 — Préparer la FAQ WOOD :** accordéon simple, recherche non nécessaire, réponses confirmées uniquement.
-- [ ] **A24 — Préparer le footer :** quatre liens utiles, contacts séparés par boutique, carte conservée et aucun point final ajouté aux noms Barla/Borriglione.
+- [x] **A22 — Préparer le bloc de réassurance :** conseil, Nice, boutiques et livraison seulement lorsque chaque formulation est validée.
+- [x] **A23 — Préparer la FAQ WOOD :** accordéon simple, recherche non nécessaire, réponses confirmées uniquement.
+- [x] **A24 — Préparer le footer :** quatre liens utiles, contacts séparés par boutique, carte conservée et aucun point final ajouté aux noms Barla/Borriglione.
 - [x] **A25 — Adapter la grille ordinateur :** trois produits par ligne, hauteur de carte alignée et marge régulière.
 - [x] **A26 — Adapter la grille mobile :** deux colonnes formant quatre cases visibles dans un bloc `2 × 2` quand la largeur le permet.
 - [x] **A27 — Adapter la tablette :** deux ou trois colonnes selon la largeur réelle, sans dépendre du nom du modèle.
