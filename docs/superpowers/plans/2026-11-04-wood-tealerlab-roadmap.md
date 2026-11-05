@@ -70,7 +70,7 @@
 - `npm run check` passe avec **160 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
-- Les workflows GitHub Pages et de qualité du commit `df3047e` ont été vérifiés avec succès ; les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
+- Les workflows GitHub Pages et de qualité du commit `960ab96` ont été vérifiés avec succès ; les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
 - Le contrôle responsive Playwright confirme l’absence de débordement horizontal sur les **70 combinaisons** (10 routes publiques × `320`, `375`, `390`, `430`, `768`, `1024`, `1440`), avec des titres non vides et la navigation mobile chargée sur les vues étroites.
 - Une seconde passe locale, documentée dans `docs/validation/2026-11-05-responsive-reference.md`, a capturé les parcours accueil, quatre univers, fiche, checkout et compte à `320` et `1440` px, puis contrôlé ces huit routes aux sept largeurs : les **56 combinaisons** conservent exactement la largeur de la fenêtre.
 - La disponibilité est maintenant une donnée Supabase explicite (`available`, `soon`, `rupture`, `incomplete`) et le serveur refuse de traiter un produit qui n’est pas `available`.
@@ -126,7 +126,7 @@
 
 ### Tâche 1 — Figer la base de référence
 
-- [x] Conserver l’état initial de `main` comme point de comparaison ; la référence de départ est le commit `4e994d3`, puis les contrôles post-modification sont suivis jusqu’au commit courant `df3047e`.
+- [x] Conserver l’état initial de `main` comme point de comparaison ; la référence de départ est le commit `4e994d3`, puis les contrôles post-modification sont suivis jusqu’au commit courant `960ab96`.
 - [x] Générer une capture de référence des pages publiques, des pages boutique, du panier et du compte ; les captures et le contrôle de largeur sont documentés dans `docs/validation/2026-11-05-responsive-reference.md`.
 - [x] Vérifier que `npm run hostinger:preflight` passe avant toute modification.
 - [x] Vérifier que le dépôt est propre après le point de sauvegarde ; les artefacts locaux `output/` sont conservés hors Git par `.gitignore`.
