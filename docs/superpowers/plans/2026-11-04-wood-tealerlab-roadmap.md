@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **145 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **146 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit courant ont été vérifiés avec succès ; la page publique, `produit.html` et une image WebP répondent en HTTP 200. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -2123,7 +2123,7 @@ Ce bloc décrit tout ce qu’il faut pour obtenir une chaîne fiable `commande �
 - [x] **A555 — Tester une campagne vide :** validation : elle se termine proprement sans worker bloqué ni connexion Gmail inutile.
 - [x] **A556 — Tester un compte Gmail révoqué en campagne :** validation : l’échec OAuth met la campagne en pause avant toute réservation et renvoie l’action de reconnexion.
 - [x] **A557 — Tester un quota dépassé :** validation : une réponse `429` différée suit le bail et les tentatives existants, sans doublon.
-- [ ] **A558 — Tester la reprise après panne :** validation : worker relancé sans perte ni duplication.
+- [x] **A558 — Tester la reprise après panne :** validation : un bail `processing` expiré est récupérable par le worker suivant, tandis que l’idempotence campagne/destinataire empêche une livraison déjà acceptée d’être répétée.
 - [ ] **A559 — Tester une campagne en staging :** validation : aucune adresse ou donnée de production ne fuit vers le test.
 - [ ] **A560 — Fermer la porte de mise en ligne newsletter :** validation : consentement, désinscription, quotas, RLS, tests et validation propriétaire sont tous verts.
 

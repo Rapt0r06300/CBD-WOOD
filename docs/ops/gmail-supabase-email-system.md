@@ -111,6 +111,8 @@ Le worker newsletter ne traite qu’une campagne `sending`, réserve les destina
 
 Une campagne sans destinataire éligible est clôturée proprement sans tenter de se connecter à Gmail. Si le renouvellement OAuth Gmail échoue avant la réservation d’un lot, la campagne est automatiquement mise en pause et l’espace propriétaire reçoit une indication de reconnexion. Les réponses temporaires comme `429` sont différées avec le bail et le nombre de tentatives, sans créer de nouveau destinataire ni de doublon.
 
+Si un worker tombe après avoir réservé un destinataire, le bail expire ; le prochain worker peut reprendre uniquement les lignes `processing` expirées grâce à `FOR UPDATE SKIP LOCKED`. L’identifiant campagne/destinataire et les états déjà acceptés empêchent une seconde livraison confirmée.
+
 ## Contrôles avant activation
 
 - Aucun secret dans les fichiers publics ou les logs.

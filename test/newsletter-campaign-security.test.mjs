@@ -31,3 +31,10 @@ test('newsletter worker handles empty audiences and Gmail failures safely', () =
   assert.match(source, /campaign\.scheduled_at/);
   assert.match(source, /eq\("status", "scheduled"\)/);
 });
+
+test('newsletter worker can recover a leased delivery after a worker outage', async () => {
+  assert.match(source, /claim_newsletter_deliveries/);
+  const migration = await readFile(new URL('../supabase/migrations/20261105100000_email_automation_foundation.sql', import.meta.url), 'utf8');
+  assert.match(migration, /delivery\.status = 'processing'/);
+  assert.match(migration, /delivery\.processing_until < now/);
+});
