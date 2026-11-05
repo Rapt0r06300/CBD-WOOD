@@ -19,3 +19,11 @@ test('la FAQ reste courte, sûre et cohérente avec les décisions de commande',
   assert.match(homepage, /Une commande peut être enregistrée en invité/);
   assert.doesNotMatch(homepage, /compte à rebours|fidélité|voucher|promotion/i);
 });
+
+test('le pied de page associe toujours les deux boutiques et leurs numéros', async () => {
+  const shell = await readFile(new URL('../mobile-shell.js', import.meta.url), 'utf8');
+  assert.match(shell, /tel:\+33422163570/);
+  assert.match(shell, /tel:\+33423130305/);
+  assert.match(shell, /Borriglione · 04 23 13 03 05/);
+  assert.match(shell, /16 avenue Alfred Borriglione, 06100 Nice/);
+});

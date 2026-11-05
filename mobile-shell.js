@@ -11,6 +11,27 @@
   const isCart = page === 'checkout.html' || page === 'confirmation.html';
   const cartTrigger = document.getElementById('cartTrigger');
 
+  function ensureFooterLocations() {
+    const footer = document.querySelector('.footer');
+    const barla = footer?.querySelector('a[href="tel:+33422163570"]');
+    const links = barla?.closest('.footer-links');
+    if (!links) return;
+    barla.textContent = 'Barla · 04 22 16 35 70';
+    if (!links.querySelector('a[href="tel:+33423130305"]')) {
+      const borriglione = document.createElement('a');
+      borriglione.href = 'tel:+33423130305';
+      borriglione.textContent = 'Borriglione · 04 23 13 03 05';
+      links.insertBefore(borriglione, barla.nextSibling);
+    }
+    const address = links.querySelector('a[href="index.html#boutique"]');
+    if (address && !address.dataset.woodLocations) {
+      address.dataset.woodLocations = 'true';
+      address.replaceChildren('7 rue Barla, 06300 Nice', document.createElement('br'), '16 avenue Alfred Borriglione, 06100 Nice');
+    }
+  }
+
+  ensureFooterLocations();
+
   const items = [
     { href: 'index.html', icon: '⌂', label: 'Accueil', active: isHome },
     { href: 'index.html#univers', icon: '▦', label: 'Boutique', active: isShop },

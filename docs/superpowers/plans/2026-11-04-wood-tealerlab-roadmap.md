@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **130 tests**, la syntaxe JavaScript contrôlée sur 26 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **131 tests**, la syntaxe JavaScript contrôlée sur 26 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **47 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - Le contrôle responsive Playwright confirme l’absence de débordement horizontal sur les **70 combinaisons** (10 routes publiques × `320`, `375`, `390`, `430`, `768`, `1024`, `1440`), avec des titres non vides et la navigation mobile chargée sur les vues étroites.
 - La disponibilité est maintenant une donnée Supabase explicite (`available`, `soon`, `rupture`, `incomplete`) et le serveur refuse de traiter un produit qui n’est pas `available`.
