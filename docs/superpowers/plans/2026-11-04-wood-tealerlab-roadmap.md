@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **170 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **171 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit `34eac62` ont été vérifiés avec succès ; les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -907,7 +907,7 @@ Ce bloc ajoute les enseignements de l’audit visuel et fonctionnel de [TealerLa
 
 - [x] Extraire les valeurs actuelles des couleurs, bordures, espacements, typographies et états interactifs.
 - [x] Réutiliser ces valeurs pour les nouveaux blocs ; ne créer aucune palette TealerLab parallèle.
-- [ ] Vérifier le contraste des textes, prix, badges, boutons et états désactivés sur le fond WOOD.
+- [x] Vérifier le contraste des textes, prix, badges, boutons et états désactivés sur le fond WOOD ; une passe navigateur sur l’accueil, les catalogues, le checkout et le compte a trouvé un seul kicker à 3,85:1 sur le panneau clair, corrigé à 4,97:1 sans changer la palette WOOD.
 
 **Validation :** une comparaison côte à côte montre une évolution de structure, jamais un changement d’identité.
 

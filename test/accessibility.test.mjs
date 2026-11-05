@@ -24,3 +24,8 @@ test('les états critiques restent compréhensibles sans dépendre de la couleur
   assert.match(mobileStyles, /\.btn,[\s\S]*?min-height: 48px/);
   assert.match(mobileStyles, /@media \(any-pointer: coarse\)[\s\S]*?min-width: 44px/);
 });
+
+test('le kicker de la section histoire reste contrasté sur son fond clair', async () => {
+  const homepage = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+  assert.match(homepage, /\.story-text \.kicker\{color:#3c6c36\}/);
+});
