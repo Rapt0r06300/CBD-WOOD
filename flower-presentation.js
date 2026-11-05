@@ -5,67 +5,67 @@
   const entries = {
     'fleurs-nimbus-3000': {
       name: 'Nimbus 3000',
-      image: 'assets/products/fleurs/nimbus-3000.png',
+      image: 'assets/flowers/fleurs-nimbus-3000.webp',
       demoDescription: 'Une présence aérienne, une silhouette nette et une mise en scène qui ouvre la sélection WOOD. ☁️',
     },
     'fleurs-ivory': {
       name: 'Ivory',
-      image: 'assets/products/fleurs/ivory.png',
+      image: 'assets/flowers/fleurs-ivory.webp',
       demoDescription: 'Une présentation claire et minérale, douce à regarder, pensée pour prendre le temps. 🤍',
     },
     'fleurs-velvet-kush': {
       name: 'Velvet Kush',
-      image: 'assets/products/fleurs/velvet-kush.png',
+      image: 'assets/flowers/fleurs-velvet-kush.webp',
       demoDescription: 'Dense, sombre, texturée : une fiche qui joue la carte du velours sans perdre la précision. 🟣',
     },
     'fleurs-pastraweed': {
       name: 'Pastraweed',
-      image: 'assets/products/fleurs/pastraweed.png',
-      demoDescription: 'Un profil visuel franc, une silhouette expressive et une touche street contrôlée. 🎨',
+      image: 'assets/flowers/fleurs-pastraweed.webp',
+      demoDescription: 'Un profil visuel franc, une silhouette expressive et une touche graphique contrôlée. 🎨',
     },
     'fleurs-euphoria': {
       name: 'Euphoria',
-      image: 'assets/products/fleurs/euphoria.png',
+      image: 'assets/flowers/fleurs-euphoria.webp',
       demoDescription: 'Une lumière plus vive, une mise en scène fraîche et un caractère qui attire l’œil. ✨',
     },
     'fleurs-purple': {
       name: 'Purple',
-      image: 'assets/products/fleurs/purple.png',
+      image: 'assets/flowers/fleurs-purple.webp',
       demoDescription: 'Une profondeur plus sombre, une palette feutrée et un détail à découvrir en gros plan. 💜',
     },
     'fleurs-bloody-mary': {
       name: 'Bloody Mary',
-      image: 'assets/products/fleurs/bloody-mary.png',
+      image: 'assets/flowers/fleurs-bloody-mary.webp',
       demoDescription: 'Une présence marquée, des détails cuivrés et une direction visuelle plus théâtrale. 🍷',
     },
     'fleurs-cosmic-cbg': {
       name: 'Cosmic CBG',
-      image: 'assets/products/fleurs/cosmic-cbg.png',
+      image: 'assets/flowers/fleurs-cosmic-cbg.webp',
       demoDescription: 'Un détail doré, une ambiance nocturne et un visuel qui invite à regarder de plus près. 🌌',
     },
     'fleurs-charlotte': {
       name: 'Charlotte',
-      image: 'assets/products/fleurs/charlotte.png',
+      image: 'assets/flowers/fleurs-charlotte.webp',
       demoDescription: 'Une silhouette fine, un rendu calme et une présentation qui laisse respirer l’image. 🌿',
     },
     'fleurs-rainbow': {
       name: 'Rainbow',
-      image: 'assets/products/fleurs/rainbow.png',
-      demoDescription: 'Un reflet discret dans la cloche, une énergie plus joueuse, toujours dans le cadre WOOD. 🌈',
+      image: 'assets/flowers/fleurs-rainbow.webp',
+      demoDescription: 'Un reflet discret, une énergie plus joueuse, toujours dans le cadre WOOD. 🌈',
     },
     'fleurs-orange-bud': {
       name: 'Orange Bud',
-      image: 'assets/products/fleurs/orange-bud.png',
+      image: 'assets/flowers/fleurs-orange-bud.webp',
       demoDescription: 'Une lumière ambrée et une direction artistique chaleureuse pour cette présentation WOOD. 🍊',
     },
     'fleurs-plutonium': {
       name: 'Plutonium',
-      image: 'assets/products/fleurs/plutonium.png',
+      image: 'assets/flowers/fleurs-plutonium.webp',
       demoDescription: 'Une composition dense, une lumière minérale et une présence presque futuriste. 🛰️',
     },
     'fleurs-fanta-hazy': {
       name: 'Fanta Hazy',
-      image: 'assets/products/fleurs/fanta-hazy.png',
+      image: 'assets/flowers/fleurs-fanta-hazy.webp',
       demoDescription: 'Une brume douce, une lumière solaire et une fiche plus légère pour terminer la sélection. 🍊',
     },
   };

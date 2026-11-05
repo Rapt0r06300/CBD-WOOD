@@ -24,11 +24,12 @@ function formatMoney(cents) {
 }
 
 function productVisual(product, category) {
+  const presentationKey = product.slug || product.id;
   const flowerPresentation = category === 'fleurs'
-    ? window.WoodFlowerPresentation?.get(product.id)
+    ? window.WoodFlowerPresentation?.get(presentationKey)
     : null;
   if (flowerPresentation?.image) {
-    return `<img src="${escapeHtml(flowerPresentation.image)}" alt="Photo de démonstration de ${escapeHtml(flowerPresentation.name)} sous cloche" loading="lazy">`;
+    return `<img src="${escapeHtml(flowerPresentation.image)}" alt="Photo de démonstration de la fleur ${escapeHtml(flowerPresentation.name)}" loading="lazy">`;
   }
   if (product.image_path) {
     return `<img src="${escapeHtml(product.image_path)}" alt="${escapeHtml(product.name)}" loading="lazy">`;
@@ -68,7 +69,7 @@ function renderProducts(grid, products, category) {
     const weightMarkup = isFlower && tiers.length ? `<div class="product-choice"><label for="weight-${escapeHtml(product.id)}">Choisir le grammage</label><select id="weight-${escapeHtml(product.id)}" class="product-weight" data-product-weight aria-label="Choisir le grammage de ${escapeHtml(product.name)}">${tiers.map(tier => `<option value="${tier.grams}g" data-label="${tier.grams} g" data-price="${tier.price_cents / 100}">${tier.grams} g · ${(tier.price_cents / 100).toFixed(2).replace('.', ',')} €</option>`).join('')}</select></div>` : '';
     const priceMarkup = weightMarkup ? '' : `<div class="product-meta"><span class="product-status">${price && purchasable ? `${price.replace('.', ',')} €` : availabilityLabel}</span>${buttonMarkup}</div>`;
     const flowerMetaMarkup = weightMarkup ? `<div class="product-meta">${purchasable ? '<strong class="product-price-label" data-product-price-label></strong>' : `<span class="product-status">${availabilityLabel}</span>`}${buttonMarkup}</div>` : '';
-    const flowerPresentation = isFlower ? window.WoodFlowerPresentation?.get(product.id) : null;
+    const flowerPresentation = isFlower ? window.WoodFlowerPresentation?.get(product.slug || product.id) : null;
     const description = flowerPresentation?.demoDescription || product.description || 'Une référence sélectionnée par la boutique WOOD.';
     return `<article class="product-card" data-product-id="${escapeHtml(product.id)}" data-product-slug="${escapeHtml(product.slug || product.id)}" data-product-name="${escapeHtml(product.name)}" data-product-category="${escapeHtml(labels[category] || category)}" data-product-price="${price}" data-availability-state="${availabilityState}"${purchasable ? '' : ' data-product-unavailable="true"'}>
       <div class="product-art">${productVisual(product, category)}</div>

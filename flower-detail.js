@@ -41,7 +41,7 @@
         <p class="flower-detail__note">La sélection, les disponibilités et les tarifs sont à confirmer avec la boutique avant toute commande.</p>
       </div>
       <article class="product-card flower-detail-card" data-product-id="${productId}" data-product-name="${product.name}" data-product-category="Fleurs CBD">
-        <div class="product-art"><img src="${presentationImage}" alt="Photo de démonstration de ${product.name} sous cloche"></div>
+        <div class="product-art"><img src="${presentationImage}" alt="Photo de démonstration de la fleur ${product.name}"></div>
         <div class="product-body">
           <span class="product-index">${product.index} / ${profileTag}</span>
           <h3>${product.name}</h3>

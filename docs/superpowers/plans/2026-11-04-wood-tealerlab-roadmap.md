@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **129 tests**, la syntaxe JavaScript contrôlée sur 26 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **130 tests**, la syntaxe JavaScript contrôlée sur 26 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **47 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - Le contrôle responsive Playwright confirme l’absence de débordement horizontal sur les **70 combinaisons** (10 routes publiques × `320`, `375`, `390`, `430`, `768`, `1024`, `1440`), avec des titres non vides et la navigation mobile chargée sur les vues étroites.
 - La disponibilité est maintenant une donnée Supabase explicite (`available`, `soon`, `rupture`, `incomplete`) et le serveur refuse de traiter un produit qui n’est pas `available`.
@@ -99,6 +99,7 @@
 - Le 5 novembre 2026, le déclenchement récurrent local a été préparé dans `.github/workflows/supabase-workers.yml` : le worker transactionnel peut être appelé toutes les cinq minutes une fois les secrets configurés, tandis que la newsletter reste manuelle et exige un identifiant de campagne explicite. Aucun secret n’est dans Git.
 - Le 5 novembre 2026, `20261105140000_document_generation_jobs.sql` a ajouté une file privée et idempotente pour générer automatiquement la confirmation PDF à la commande et le reçu après paiement ; le workflow exécute le worker PDF avant le worker e-mail, qui attend le document avant d’envoyer la confirmation client.
 - Le 5 novembre 2026, `20261105141000_document_jobs_policy.sql` a ajouté une politique RLS explicite de refus pour `document_generation_jobs` aux rôles `anon` et `authenticated` ; l’avis Supabase `rls_enabled_no_policy` a disparu. Il reste uniquement le réglage externe de protection contre les mots de passe compromis.
+- Le 5 novembre 2026, 13 visuels de démonstration distincts ont été générés pour les 13 variétés de fleurs, sans bocal ni cloche, puis convertis en WebP légers et branchés via `flower-presentation.js`. Ils restent explicitement provisoires et devront être remplacés par les photos validées de la propriétaire.
 - Le 5 novembre 2026, le compte client affiche les documents prêts de ses commandes et demande une URL signée à la fonction serveur, sans exposer de chemin Storage durable.
 - Le 5 novembre 2026, l’accueil officiel [TealerLab](https://tealerlab.com/) a été revu avec Exa, Parallel Search et un navigateur réel en desktop et en viewport mobile `390 × 844`. L’audit confirme une architecture de sections réutilisables, des rails de cartes produits, une hiérarchie de fiche dense et une version mobile réellement recomposée ; ces constats sont traduits dans les tags d’exécution `A01–A40` et `A81–A240` ci-dessous.
 - Cette observation ne valide aucun changement graphique WOOD : elle sert uniquement de référence d’inspiration. Les couleurs, le logo, la typographie, la carte, les prix et les contraintes de la propriétaire restent prioritaires.
@@ -1353,13 +1354,13 @@ Ce bloc transforme l’audit TealerLab en un système WOOD exploitable sans inve
 
 - [x] **A141 — Marquer clairement les visuels de maquette :** conserver le statut de démonstration non officielle du site et documenter que les images générées ne sont pas les photos réelles des produits ; validation : aucun visiteur ne peut raisonnablement les confondre avec une preuve de stock ou d’origine.
 - [x] **A142 — Verrouiller le registre des variétés :** conserver exactement les 13 noms actuels — Nimbus 3000, Ivory, Velvet Kush, Pastraweed, Euphoria, Purple, Bloody Mary, Cosmic CBG, Charlotte, Rainbow, Orange Bud, Plutonium et Fanta Hazy — sans ajout de nom inventé ; validation : contrôle automatique des IDs, noms et compte total.
-- [x] **A143 — Associer un visuel distinct à chaque variété :** créer un registre local déterministe liant chaque ID à une image différente sous cloche ; validation : aucune variété ne retombe silencieusement sur le visuel générique quand son asset de maquette existe.
+- [x] **A143 — Associer un visuel distinct à chaque variété :** créer un registre local déterministe liant chaque ID à une image de démonstration différente, photographique et sans contenant ; validation : aucune variété ne retombe silencieusement sur le visuel générique quand son asset de maquette existe.
 - [x] **A144 — Préserver les prix et le parcours de grammage :** ne modifier ni la carte 1/3/5/10/25 g, ni les tarifs par variété, ni les contrôles `+/-`, ni l’ajout au panier ; validation : comparaison avant/après des options et calculs de prix.
 - [x] **A145 — Ajouter des descriptions éditoriales de démonstration :** donner à chaque variété une phrase différente, sobre et visuelle, avec quelques emojis cohérents avec l’énergie WOOD ; validation : aucun effet, bénéfice, taux, avis ou argument légal n’est inventé.
 - [x] **A146 — Conserver la hiérarchie produit TealerLab adaptée à WOOD :** visuel d’abord, catégorie WOOD ensuite, nom exact, description courte, choix du grammage, prix calculé et CTA ; validation : le chemin de lecture reste identique sur carte statique, catalogue Supabase et fiche détail.
 - [x] **A147 — Définir le langage des emojis :** utiliser les emojis comme ponctuation éditoriale légère, sans transformer les fiches en publicité criarde ; validation : maximum maîtrisé, aucun emoji ne remplace une information essentielle et chaque carte reste lisible sans emoji.
 - [x] **A148 — Préparer les stickers et touches graffiti WOOD :** réserver les stickers aux emplacements validés par la propriétaire et au système graphique WOOD ; validation : aucun asset TealerLab, logo tiers ou slogan copié n’est intégré.
-- [x] **A149 — Maintenir la présentation sous cloche :** garder une mise en scène qualitative et homogène des fleurs/résines, avec un cadrage produit stable ; validation : pas de coupe de la fleur, du contenant ou de la cloche sur les trois paliers responsive.
+- [x] **A149 — Maintenir une présentation photographique WOOD :** garder une mise en scène qualitative et homogène des fleurs, avec un cadrage produit stable et sans bocal ni cloche ; validation : pas de coupe de la fleur sur les trois paliers responsive.
 - [x] **A150 — Rendre le remplacement des images sans risque :** centraliser les chemins dans `flower-presentation.js` plutôt que disperser les URLs dans les pages ; validation : remplacer une image ne demande pas de toucher aux prix, au panier ou aux données Supabase.
 - [x] **A151 — Définir le contrat des images réelles futures :** prévoir photo nette, fond cohérent, nom de fichier contrôlé, alt text, crédit/source et validation propriétaire ; validation : une photo fournie peut remplacer le visuel de démo sans changement de structure.
 - [x] **A152 — Éviter le conflit avec `image_path` Supabase :** faire primer le registre local de démonstration pour les fleurs pendant la maquette, sans écrire la base de production ; validation : aucune migration ni mise à jour de produit n’est déclenchée par le simple affichage.
@@ -1376,13 +1377,13 @@ Ce bloc transforme l’audit TealerLab en un système WOOD exploitable sans inve
 
 - **A141** — Fichiers : `README.md`, pied de page, audit. Validation : statut de maquette visible et documenté.
 - **A142** — Fichiers : `flower-presentation.js`, `flower-detail.js`, `test/flower-presentation.test.mjs`. Validation : 13 IDs, 13 noms exacts, zéro doublon.
-- **A143** — Fichiers : `assets/products/fleurs/`, `flower-presentation.js`. Validation : 13 chemins distincts accessibles.
+- **A143** — Fichiers : `assets/flowers/`, `flower-presentation.js`. Validation : 13 chemins WebP distincts accessibles.
 - **A144** — Fichiers : `fleurs.html`, `boutique.js`, `flower-pricing.js`. Validation : carte tarifaire et prix intermédiaires inchangés.
 - **A145** — Fichiers : registre éditorial, cartes et fiche. Validation : une description par variété, sans allégation.
 - **A146** — Fichiers : `storefront.js`, `boutique.js`, `flower-detail.js`. Validation : même ordre de lecture sur les trois rendus.
 - **A147** — Fichiers : registre de textes, tests visuels. Validation : les emojis restent décoratifs et non indispensables.
 - **A148** — Fichiers : `assets/`, CSS WOOD, validation propriétaire. Validation : aucune reprise d’asset tiers.
-- **A149** — Fichiers : assets produits, `boutique.css`, matrice responsive. Validation : cadrage stable et cloche lisible.
+- **A149** — Fichiers : assets produits, `boutique.css`, matrice responsive. Validation : cadrage stable, fleur visible et absence de contenant imposé.
 - **A150** — Fichiers : `flower-presentation.js`, script de préparation Hostinger. Validation : remplacement centralisé.
 - **A151** — Fichiers : procédure médias, fiche de validation. Validation : photo réelle traçable et validée.
 - **A152** — Fichiers : `storefront.js`, Supabase, tests réseau. Validation : zéro écriture au chargement.

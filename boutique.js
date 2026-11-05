@@ -169,13 +169,13 @@
     if (flowerPage) {
       flowerPage.querySelectorAll('.product-card').forEach(card => {
         if (flowerListing) wireFlowerCard(card);
-        const presentation = window.WoodFlowerPresentation?.get(card.dataset.productId);
+        const presentation = window.WoodFlowerPresentation?.get(card.dataset.productSlug || card.dataset.productId);
         if (presentation) {
           const image = card.querySelector('.product-art img');
           const cardDescription = card.querySelector('.product-body > p');
           if (image) {
             image.src = presentation.image;
-            image.alt = `Photo de démonstration de ${presentation.name} sous cloche`;
+            image.alt = `Photo de démonstration de la fleur ${presentation.name}`;
           }
           if (cardDescription) cardDescription.textContent = presentation.demoDescription;
         }
