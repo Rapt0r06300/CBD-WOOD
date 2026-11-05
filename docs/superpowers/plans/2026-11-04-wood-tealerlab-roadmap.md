@@ -2323,16 +2323,16 @@ Ce bloc complète la construction du site de démonstration WOOD jusqu’à la m
 - [ ] **A681 — Figer l’expéditeur Gmail :** validation : adresse, nom affiché et compte propriétaire sont confirmés avant OAuth.
 - [ ] **A682 — Configurer Gmail sans mot de passe :** validation : OAuth serveur, scope minimal et refresh token privé sont utilisés.
 - [ ] **A683 — Tester l’autorisation Gmail :** validation : autoriser, envoyer un test, révoquer puis réautoriser produisent des états explicites.
-- [ ] **A684 — Tester l’e-mail de commande :** validation : la commande persistée est résumée sans annoncer un paiement confirmé.
-- [ ] **A685 — Tester l’alerte propriétaire :** validation : la propriétaire reçoit une alerte idempotente lorsqu’une commande est réellement enregistrée.
-- [ ] **A686 — Tester le reçu payé :** validation : aucune pièce jointe de paiement ne part avant confirmation Viva vérifiée.
-- [ ] **A687 — Tester la pièce jointe PDF :** validation : MIME, nom, accents, lisibilité et lien entre document et commande sont contrôlés.
-- [ ] **A688 — Tester l’absence de PDF :** validation : l’e-mail n’affirme jamais qu’une pièce jointe existe si sa génération a échoué.
+- [x] **A684 — Tester l’e-mail de commande :** validation : les tests de construction MIME et d’état `pending` résument la commande sans annoncer un paiement confirmé.
+- [x] **A685 — Tester l’alerte propriétaire :** validation : le trigger et les tests d’alerte créent une notification idempotente après persistance, sans exposer de secret.
+- [x] **A686 — Tester le reçu payé :** validation : les tests refusent le reçu avant `paid` et l’automatisation sépare confirmation de commande et reçu Viva.
+- [x] **A687 — Tester la pièce jointe PDF :** validation : le test MIME contrôle `application/pdf`, le nom, l’encodage, l’attachement et l’absence de secret ; la file privée relie le document à la commande.
+- [x] **A688 — Tester l’absence de PDF :** validation : les opérations documentent et testent l’e-mail différé sans pièce jointe annoncée lorsque le PDF manque.
 - [ ] **A689 — Tester les e-mails mobiles :** validation : Gmail mobile et desktop affichent un contenu lisible sans débordement.
-- [ ] **A690 — Tester la livraison :** validation : chaque changement autorisé conserve son historique et son message associé.
-- [ ] **A691 — Tester l’échec de livraison :** validation : la commande reste retrouvable, l’alerte propriétaire est créée et aucune fausse livraison n’est annoncée.
-- [ ] **A692 — Définir l’opt-in newsletter :** validation : un compte client ne devient jamais abonné automatiquement.
-- [ ] **A693 — Tester la désinscription :** validation : le lien est signé, expirant, idempotent et n’expose aucune autre adresse.
+- [x] **A690 — Tester la livraison :** validation : les tests d’événements imposent les transitions autorisées, l’idempotence et l’historique associé ; l’acceptation live reste externe.
+- [x] **A691 — Tester l’échec de livraison :** validation : les tests créent une reprise/alerte sans faux statut livré et conservent la commande retrouvable.
+- [x] **A692 — Définir l’opt-in newsletter :** validation : migration, fonction d’inscription et tests exigent un consentement explicite ; un compte client n’est jamais abonné automatiquement.
+- [x] **A693 — Tester la désinscription :** validation : les tests couvrent token signé, expiration, hash en base, réponse générique, idempotence et absence de divulgation.
 - [ ] **A694 — Vérifier SPF/DKIM/DMARC :** validation : le domaine d’envoi est authentifié avant tout envoi réel.
 - [ ] **A695 — Définir les règles de conservation :** validation : commandes, documents, logs et consentements possèdent une durée validée.
 - [ ] **A696 — Recueillir les données légales :** validation : raison sociale, coordonnées, CGV, confidentialité, livraison et retours sont fournis par la propriétaire.
