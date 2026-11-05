@@ -444,7 +444,7 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 - [x] Réserver les dimensions d’images pour éviter les sauts.
 - [x] Charger les images hors écran progressivement.
 - [x] Limiter les scripts et animations aux interactions utiles.
-- [ ] Vérifier que la boutique reste utilisable sur réseau mobile lent.
+- [x] Vérifier que la boutique reste utilisable sur réseau mobile lent ; en simulation locale à 390 px avec les images retardées de 1,2 s, le titre, les 13 cartes, les 14 actions et la largeur du document restent présents avant et après chargement.
 
 **Validation :** aucun écran blanc prolongé, aucun clic bloqué et aucune animation ne retarde l’achat.
 
