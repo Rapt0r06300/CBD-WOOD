@@ -25,7 +25,10 @@ Des captures de référence ont également été produites à `320` et `1440` px
 ## Contrôles complémentaires
 
 - Les tests automatisés du dépôt passent (`179 tests`).
-- La feuille de route contient `1 016` items d’exécution : `542` sont vérifiés localement et `474` restent ouverts pour validation propriétaire, accès externes ou données réelles ; les `700` tags `Axxx` sont continus.
+- La feuille de route contient `1 016` items d’exécution : `593` sont vérifiés localement et `423` restent ouverts pour validation propriétaire, accès externes ou données réelles ; les `700` tags `Axxx` sont continus.
+- Les captures TealerLab desktop/mobile et le storyboard WOOD correspondant sont archivés dans `docs/audits/2026-11-05-tealerlab-capture-log.md` et `docs/design/wood-home-storyboard.md` ; ils servent de référence structurelle et ne sont pas des assets publics.
+- Le brief photo `docs/design/wood-photo-brief.md` fixe les prises de vue réelles sans bocal ni cloche, les ratios carte/fiche, le nommage, les alt texts et la procédure de remplacement sans toucher à l’achat.
+- Le runbook `docs/ops/incident-runbook.md` couvre commande introuvable, e-mail échoué, stock incohérent et panne Supabase sans recréer ni confirmer une commande depuis le navigateur.
 - La syntaxe JavaScript et l’audit statique passent.
 - Le paquet Hostinger est généré et contrôlé avant transfert.
 - La version publique répond sur les routes principales ; la route historique `admin.html` répond `404`.

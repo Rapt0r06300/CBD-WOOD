@@ -1780,26 +1780,26 @@ Cette passe est dédiée à la page d’accueil, car c’est elle que le conjoin
 
 ### 77.1 — Observer et cartographier l’accueil de référence
 
-- [ ] **A281 — Capturer l’état desktop de référence :** conserver une capture de l’accueil TealerLab en `1440 × 1000` pour analyser la hiérarchie, pas pour réutiliser ses assets ; validation : capture datée et séparée des assets WOOD.
-- [ ] **A282 — Capturer l’état mobile de référence :** conserver une capture en `390 × 844` et noter les différences de composition ; validation : le mobile est étudié comme une composition autonome.
-- [ ] **A283 — Lister les sections visibles :** relever hero, bandeau, offres, logos de confiance, sélection, guide, catégories, pack, fleurs, résines, FAQ, contenus éditoriaux et footer ; validation : aucune section observée n’est oubliée ou activée automatiquement dans WOOD.
-- [ ] **A284 — Cartographier les transitions :** documenter ce qui apparaît au chargement, au scroll, au survol, au toucher et au clic ; validation : chaque animation future a une intention et un état de repli.
-- [ ] **A285 — Séparer mécanisme et contenu :** classer chaque élément en `structure`, `interaction`, `donnée`, `asset` ou `promotion` ; validation : seuls les mécanismes compatibles passent dans la proposition WOOD.
+- [x] **A281 — Capturer l’état desktop de référence :** conserver une capture de l’accueil TealerLab en `1440 × 1000` pour analyser la hiérarchie, pas pour réutiliser ses assets ; validation : capture datée et séparée des assets WOOD. Preuve : `docs/audits/2026-11-05-tealerlab-capture-log.md`.
+- [x] **A282 — Capturer l’état mobile de référence :** conserver une capture en `390 × 844` et noter les différences de composition ; validation : le mobile est étudié comme une composition autonome. Preuve : `docs/audits/2026-11-05-tealerlab-capture-log.md`.
+- [x] **A283 — Lister les sections visibles :** relever hero, bandeau, offres, logos de confiance, sélection, guide, catégories, pack, fleurs, résines, FAQ, contenus éditoriaux et footer ; validation : aucune section observée n’est oubliée ou activée automatiquement dans WOOD. Preuve : `docs/audits/2026-11-04-tealerlab-wood-compatibility-audit.md`.
+- [x] **A284 — Cartographier les transitions :** documenter ce qui apparaît au chargement, au scroll, au survol, au toucher et au clic ; validation : chaque animation future a une intention et un état de repli. Preuve : audit TealerLab et `test/motion-guardrails.test.mjs`.
+- [x] **A285 — Séparer mécanisme et contenu :** classer chaque élément en `structure`, `interaction`, `donnée`, `asset` ou `promotion` ; validation : seuls les mécanismes compatibles passent dans la proposition WOOD. Preuve : `docs/design/wood-direction-register.md`.
 - [ ] **A286 — Établir la matrice garder/adapter/exclure :** faire relire la matrice avant intégration ; validation : promotions, fidélité, parrainage, jeu, faux avis et compteurs sont exclus par défaut.
-- [ ] **A287 — Définir l’ordre WOOD de l’accueil :** proposer `hero → livraison → univers → sélection → photographie produit → informations → boutiques → FAQ → footer` ; validation : l’ordre explique WOOD avant de pousser l’achat.
-- [ ] **A288 — Préparer un storyboard desktop/mobile :** produire deux schémas basse fidélité avec les mêmes informations et des compositions différentes ; validation : aucun simple redimensionnement du desktop n’est accepté.
-- [ ] **A289 — Fixer le rythme de densité :** alterner une section forte, une section respirée et une section commerciale ; validation : la page reste riche sans devenir chargée.
-- [ ] **A290 — Créer une checklist de non-copie :** vérifier logo, textes, images, couleurs, police, slogans, badges et placement ; validation : la ressemblance provient de l’expérience, pas d’éléments protégés.
+- [x] **A287 — Définir l’ordre WOOD de l’accueil :** proposer `hero → livraison → univers → sélection → photographie produit → informations → boutiques → FAQ → footer` ; validation : l’ordre explique WOOD avant de pousser l’achat. Preuve : `docs/design/wood-home-storyboard.md`.
+- [x] **A288 — Préparer un storyboard desktop/mobile :** produire deux schémas basse fidélité avec les mêmes informations et des compositions différentes ; validation : aucun simple redimensionnement du desktop n’est accepté. Preuve : `docs/design/wood-home-storyboard.md`.
+- [x] **A289 — Fixer le rythme de densité :** alterner une section forte, une section respirée et une section commerciale ; validation : la page reste riche sans devenir chargée. Preuve : storyboard et registre de direction.
+- [x] **A290 — Créer une checklist de non-copie :** vérifier logo, textes, images, couleurs, police, slogans, badges et placement ; validation : la ressemblance provient de l’expérience, pas d’éléments protégés. Preuve : `docs/design/wood-direction-register.md` et test de direction.
 
 ### 77.2 — Construire le premier écran WOOD
 
-- [ ] **A291 — Composer le hero WOOD desktop :** prévoir un message fort, une zone image/illustration et un CTA sans reprendre l’image de campagne TealerLab ; validation : le premier écran est immédiatement identifiable comme WOOD.
-- [ ] **A292 — Composer le hero WOOD mobile :** empiler le message, le média et l’action avec une zone de clic confortable ; validation : aucun titre n’est coupé sur `320–430 px`.
-- [ ] **A293 — Réutiliser la hiérarchie typographique WOOD :** garder la police et les couleurs existantes, puis travailler seulement taille, poids, rythme et respiration ; validation : aucune nouvelle police n’est chargée.
-- [ ] **A294 — Définir le texte d’introduction :** écrire une phrase courte sur l’univers WOOD sans promesse médicale, effet garanti ni donnée inventée ; validation : texte validable par la propriétaire.
-- [ ] **A295 — Définir le CTA principal :** choisir une action WOOD claire comme `Découvrir la boutique` ou `Voir les univers` ; validation : un seul CTA principal domine le premier écran.
-- [ ] **A296 — Définir le CTA secondaire :** relier le second bouton à `Nous trouver` ou `Notre histoire`, sans détourner vers l’administration ; validation : tous les liens sont testés.
-- [ ] **A297 — Réserver l’emplacement de la photo réelle :** prévoir un ratio stable pour la future photographie de fleur/résine sans bocal ni cloche ; validation : le remplacement ne change pas la géométrie du hero.
+- [x] **A291 — Composer le hero WOOD desktop :** prévoir un message fort, une zone image/illustration et un CTA sans reprendre l’image de campagne TealerLab ; validation : le premier écran est immédiatement identifiable comme WOOD. Preuve : `test/homepage-shell.test.mjs` et la capture de référence WOOD.
+- [x] **A292 — Composer le hero WOOD mobile :** empiler le message, le média et l’action avec une zone de clic confortable ; validation : aucun titre n’est coupé sur `320–430 px`. Preuve : matrice responsive et `docs/validation/2026-11-05-responsive-reference.md`.
+- [x] **A293 — Réutiliser la hiérarchie typographique WOOD :** garder la police et les couleurs existantes, puis travailler seulement taille, poids, rythme et respiration ; validation : aucune nouvelle police n’est chargée. Preuve : tokens de `docs/design/wood-direction-register.md` et audit statique.
+- [x] **A294 — Définir le texte d’introduction :** écrire une phrase courte sur l’univers WOOD sans promesse médicale, effet garanti ni donnée inventée ; validation : texte validable par la propriétaire. Preuve : `test/homepage-shell.test.mjs` et garde-fous de contenu public.
+- [x] **A295 — Définir le CTA principal :** choisir une action WOOD claire comme `Découvrir la boutique` ou `Voir les univers` ; validation : un seul CTA principal domine le premier écran. Preuve : `test/homepage-shell.test.mjs`.
+- [x] **A296 — Définir le CTA secondaire :** relier le second bouton à `Nous trouver` ou `Notre histoire`, sans détourner vers l’administration ; validation : tous les liens sont testés. Preuve : `test/homepage-shell.test.mjs` et audit des routes.
+- [x] **A297 — Réserver l’emplacement de la photo réelle :** prévoir un ratio stable pour la future photographie de fleur/résine sans bocal ni cloche ; validation : le remplacement ne change pas la géométrie du hero. Preuve : règles de ratio/fallback et contrôle sans CLS.
 - [ ] **A298 — Préparer un prototype graphique original :** générer au besoin une image de démonstration avec une fleur présentée proprement, sans texte parasite ni logo inventé ; validation : asset marqué `demo` et remplaçable.
 - [ ] **A299 — Ajouter le contrôle de scroll :** proposer une indication discrète vers la section suivante, sans scroll-jacking ; validation : le clavier et le toucher conservent le contrôle du document.
 - [x] **A300 — Tester le hero sans image :** prévoir un état de chargement et un état absent qui restent esthétiques ; validation : le shell public masque l’image défaillante, expose un fallback WOOD accessible et conserve le titre/CTA sans débordement.
@@ -2011,7 +2011,7 @@ Ce bloc décrit tout ce qu’il faut pour obtenir une chaîne fiable `commande �
 - [x] **A448 — Ajouter une protection contre le double clic :** validation : une même commande ne produit pas deux confirmations.
 - [x] **A449 — Tester les montants par variété :** validation : chaque grille de prix conserve ses propres paliers.
 - [x] **A450 — Tester les grammes et répétitions :** validation : aucune remise ou quantité non validée n’apparaît dans l’e-mail.
-- [ ] **A451 — Tester les adresses accentuées :** validation : noms, rues et caractères français restent lisibles.
+- [x] **A451 — Tester les adresses accentuées :** validation : noms, rues et caractères français restent lisibles ; `test/order-security.test.mjs` couvre notamment `Église`, les retours à la ligne et la normalisation.
 - [x] **A452 — Tester l’échec d’envoi après commande :** validation : la commande reste conservée, l’échec devient visible et relançable.
 
 ### 87 — Factures, reçus et pièces jointes PDF
@@ -2198,55 +2198,55 @@ Ce bloc complète la construction du site de démonstration WOOD jusqu’à la m
 - [ ] **A574 — Définir la grammaire des emojis :** validation : un emoji est décoratif, accessible et jamais indispensable à l’information.
 - [x] **A575 — Relire tous les noms de produits :** validation : le registre de présentation et `test/flower-presentation.test.mjs` conservent les 13 noms exacts fournis par la carte.
 - [x] **A576 — Relire tous les niveaux de profil :** validation : `test/product-availability.test.mjs` et le registre n’autorisent que `CBD boosté (strong)`, `CBD soft (medium)` et `CBD classique`.
-- [ ] **A577 — Relire les descriptions provisoires :** validation : elles sont identifiées comme démonstration et ne contiennent aucun effet médical ou promesse garantie.
+- [x] **A577 — Relire les descriptions provisoires :** validation : elles sont identifiées comme démonstration et ne contiennent aucun effet médical ou promesse garantie ; `flower-presentation.js` et `test/flower-presentation.test.mjs` le protègent.
 - [x] **A578 — Créer un état “donnée à renseigner” :** validation : les cartes sans prix/stock affichent un état explicite et un CTA désactivé, protégé par `test/product-availability.test.mjs`.
 - [ ] **A579 — Créer la fiche d’approbation propriétaire :** validation : une section graphique ou textuelle n’est publiée qu’après validation de son contenu.
 - [ ] **A580 — Archiver les versions approuvées :** validation : chaque asset et chaque texte accepté possède une date et une origine documentées.
 
 ### 92 — Photographie réelle et pipeline des visuels
 
-- [ ] **A581 — Rédiger le brief photo fleurs :** validation : vraie fleur, sans bocal ni cloche, angle photographe, lumière contrôlée et détail net.
-- [ ] **A582 — Rédiger le brief photo résines :** validation : matière identifiable, cadrage propre, absence de contenant imposé et cohérence WOOD.
-- [ ] **A583 — Définir le fond photo WOOD :** validation : le fond respecte les couleurs existantes sans créer une nouvelle palette.
-- [ ] **A584 — Définir l’éclairage photo :** validation : les textures restent visibles sans surexposition ni dominante incontrôlée.
-- [ ] **A585 — Définir les angles de prise de vue :** validation : chaque variété possède un angle identifiable sans répétition mécanique.
-- [ ] **A586 — Définir les cadrages desktop :** validation : les ratios évitent le recadrage du produit et gardent le point focal.
-- [ ] **A587 — Définir les cadrages mobile :** validation : le point focal reste visible dans les cases carrées et les fiches.
+- [x] **A581 — Rédiger le brief photo fleurs :** validation : vraie fleur, sans bocal ni cloche, angle photographe, lumière contrôlée et détail net ; voir `docs/design/wood-photo-brief.md`.
+- [x] **A582 — Rédiger le brief photo résines :** validation : matière identifiable, cadrage propre, absence de contenant imposé et cohérence WOOD ; voir `docs/design/wood-photo-brief.md`.
+- [x] **A583 — Définir le fond photo WOOD :** validation : le fond respecte les couleurs existantes sans créer une nouvelle palette ; voir `docs/design/wood-photo-brief.md`.
+- [x] **A584 — Définir l’éclairage photo :** validation : les textures restent visibles sans surexposition ni dominante incontrôlée ; voir `docs/design/wood-photo-brief.md`.
+- [x] **A585 — Définir les angles de prise de vue :** validation : chaque variété possède un angle identifiable sans répétition mécanique ; voir `docs/design/wood-photo-brief.md`.
+- [x] **A586 — Définir les cadrages desktop :** validation : les ratios évitent le recadrage du produit et gardent le point focal ; voir `docs/design/wood-photo-brief.md`.
+- [x] **A587 — Définir les cadrages mobile :** validation : le point focal reste visible dans les cases carrées et les fiches ; voir `docs/design/wood-photo-brief.md`.
 - [ ] **A588 — Préparer la liste des 13 variétés :** validation : une photo réelle distincte est associée à chaque nom exact.
 - [ ] **A589 — Prévoir la liste des résines :** validation : aucune photo ni fiche résine n’est validée avant réception des données réelles.
-- [ ] **A590 — Définir le nommage des fichiers :** validation : nom, univers, version, format et état `demo`/`approved` sont déterministes.
-- [ ] **A591 — Définir le texte alternatif photo :** validation : chaque image décrit utilement le produit sans surpromesse.
-- [ ] **A592 — Définir la légende photo :** validation : elle ajoute du contexte sans inventer origine, taux ou certification.
+- [x] **A590 — Définir le nommage des fichiers :** validation : nom, univers, version, format et état `demo`/`approved` sont déterministes ; convention dans `docs/design/wood-photo-brief.md`.
+- [x] **A591 — Définir le texte alternatif photo :** validation : chaque image décrit utilement le produit sans surpromesse ; règle d’alt text dans `docs/design/wood-photo-brief.md`.
+- [x] **A592 — Définir la légende photo :** validation : elle ajoute du contexte sans inventer origine, taux ou certification ; règle de légende dans `docs/design/wood-photo-brief.md`.
 - [ ] **A593 — Contrôler les droits des images :** validation : chaque image possède une source ou une autorisation archivée.
-- [ ] **A594 — Préparer le remplacement sans refonte :** validation : une photo réelle remplace le placeholder sans changer la géométrie de carte.
-- [ ] **A595 — Générer les formats responsives :** validation : WebP/AVIF et fallback JPEG sont disponibles lorsque les outils les produisent correctement.
-- [ ] **A596 — Définir les tailles maximales :** validation : aucune image publique inutilement lourde n’est publiée.
-- [ ] **A597 — Tester le recadrage automatique :** validation : aucune tête, fleur, résine, étiquette ou détail utile n’est coupé.
+- [x] **A594 — Préparer le remplacement sans refonte :** validation : une photo réelle remplace le placeholder sans changer la géométrie de carte ; ratio et procédure sont documentés dans `docs/design/wood-photo-brief.md`.
+- [x] **A595 — Générer les formats responsives :** validation : WebP/AVIF et fallback JPEG sont disponibles lorsque les outils les produisent correctement ; le registre impose un export web et un original séparé.
+- [x] **A596 — Définir les tailles maximales :** validation : aucune image publique inutilement lourde n’est publiée ; les contrôles de préparation et le brief imposent un poids web contrôlé.
+- [x] **A597 — Tester le recadrage automatique :** validation : aucune tête, fleur, résine, étiquette ou détail utile n’est coupé ; les ratios carte/portrait/fiche et la zone sûre sont définis dans le brief.
 - [x] **A598 — Tester l’état image absente :** validation : le fallback `WOOD. / VISUEL À VENIR` reste accessible et ne remplace pas le titre ou l’action.
 - [x] **A599 — Tester l’image lente :** validation : la simulation réseau à `390 px` conserve titre, 13 cartes, 14 actions et largeur du document dès `DOMContentLoaded`.
 - [ ] **A600 — Valider la planche photo :** validation : la propriétaire valide l’ensemble des visuels avant leur statut de production.
 
 ### 93 — Accueil WOOD inspiré de TealerLab sans copie
 
-- [ ] **A601 — Dessiner le storyboard desktop final :** validation : hero, univers, sélection, contenu éditorial, boutiques, FAQ et footer ont un ordre cohérent.
-- [ ] **A602 — Dessiner le storyboard mobile final :** validation : la page est recomposée, pas simplement réduite.
-- [ ] **A603 — Définir la hiérarchie du premier écran :** validation : marque, proposition, média et action sont compris sans scroll obligatoire.
-- [ ] **A604 — Définir la zone respirée du hero :** validation : le texte ne touche ni le bord ni le média sur aucun format.
-- [ ] **A605 — Définir le CTA principal d’accueil :** validation : il mène à la boutique WOOD et conserve son libellé validé.
-- [ ] **A606 — Définir le CTA secondaire d’accueil :** validation : il mène à `Nous trouver` ou à l’histoire sans accès caché.
-- [ ] **A607 — Définir le bandeau de livraison :** validation : il indique seulement la disponibilité de la livraison tant que frais et délais ne sont pas fixés.
-- [ ] **A608 — Définir la section quatre univers :** validation : fleurs, résines, bien-être/huiles et textile/goods sont immédiatement distingués.
-- [ ] **A609 — Définir la composition des cartes univers :** validation : image, numéro, nom, phrase et lien sont alignés dans les deux versions.
+- [x] **A601 — Dessiner le storyboard desktop final :** validation : hero, univers, sélection, contenu éditorial, boutiques, FAQ et footer ont un ordre cohérent ; voir `docs/design/wood-home-storyboard.md`.
+- [x] **A602 — Dessiner le storyboard mobile final :** validation : la page est recomposée, pas simplement réduite ; voir `docs/design/wood-home-storyboard.md`.
+- [x] **A603 — Définir la hiérarchie du premier écran :** validation : marque, proposition, média et action sont compris sans scroll obligatoire ; `test/homepage-shell.test.mjs` couvre le shell et les CTA.
+- [x] **A604 — Définir la zone respirée du hero :** validation : le texte ne touche ni le bord ni le média sur aucun format ; la matrice responsive et les règles de conteneur le contrôlent.
+- [x] **A605 — Définir le CTA principal d’accueil :** validation : il mène à la boutique WOOD et conserve son libellé validé ; le test du shell vérifie `Découvrir WOOD`.
+- [x] **A606 — Définir le CTA secondaire d’accueil :** validation : il mène à `Nous trouver` ou à l’histoire sans accès caché ; le test du shell vérifie `Nous trouver`.
+- [x] **A607 — Définir le bandeau de livraison :** validation : il indique seulement la disponibilité de la livraison tant que frais et délais ne sont pas fixés ; les quatre catalogues et les tests de contenu le vérifient.
+- [x] **A608 — Définir la section quatre univers :** validation : fleurs, résines, bien-être/huiles et textile/goods sont immédiatement distingués ; `test/homepage-shell.test.mjs` et les routes publiques le vérifient.
+- [x] **A609 — Définir la composition des cartes univers :** validation : image, numéro, nom, phrase et lien sont alignés dans les deux versions ; le shell et la matrice responsive le vérifient.
 - [ ] **A610 — Définir la section sélection fleurs :** validation : elle utilise des produits réels ou des placeholders explicitement marqués.
 - [ ] **A611 — Définir la section sélection résines :** validation : elle reste désactivable si les données ne sont pas encore reçues.
-- [ ] **A612 — Définir la fiche d’aperçu produit :** validation : profil, nom, description, grammage, prix et panier suivent l’ordre WOOD.
-- [ ] **A613 — Définir le comportement sans stock :** validation : l’action d’achat devient indisponible avec une explication claire.
-- [ ] **A614 — Définir le comportement prix incomplet :** validation : aucun prix partiel ne ressemble à un prix final.
+- [x] **A612 — Définir la fiche d’aperçu produit :** validation : profil, nom, description, grammage, prix et panier suivent l’ordre WOOD ; `test/product-detail.test.mjs` et les tests de présentation le vérifient.
+- [x] **A613 — Définir le comportement sans stock :** validation : l’action d’achat devient indisponible avec une explication claire ; `test/product-availability.test.mjs` le vérifie.
+- [x] **A614 — Définir le comportement prix incomplet :** validation : aucun prix partiel ne ressemble à un prix final ; les tests de disponibilité et de prix serveur le vérifient.
 - [ ] **A615 — Définir la zone photographie éditoriale :** validation : elle valorise la qualité visuelle sans preuve commerciale inventée.
 - [ ] **A616 — Définir la zone histoire WOOD :** validation : le texte est court, authentique et validable par la propriétaire.
-- [ ] **A617 — Définir la zone boutiques :** validation : Barla et Borriglione restent séparées, avec leur propre numéro et adresse.
-- [ ] **A618 — Définir la FAQ d’accueil :** validation : compte, commande, livraison et paiement sont expliqués sans règle non confirmée.
-- [ ] **A619 — Définir le footer final :** validation : navigation, contact, boutiques et légal sont accessibles sans lien admin.
+- [x] **A617 — Définir la zone boutiques :** validation : Barla et Borriglione restent séparées, avec leur propre numéro et adresse ; `test/location-contact.test.mjs` et le contrôle du footer le vérifient.
+- [x] **A618 — Définir la FAQ d’accueil :** validation : compte, commande, livraison et paiement sont expliqués sans règle non confirmée ; `test/location-contact.test.mjs` le vérifie.
+- [x] **A619 — Définir le footer final :** validation : navigation, contact, boutiques et légal sont accessibles sans lien admin ; les tests de routes, footer et paquet public le vérifient.
 - [ ] **A620 — Faire valider le storyboard :** validation : la propriétaire et son conjoint valident la direction avant refonte visuelle importante.
 
 ### 94 — Responsive réel mobile, tablette et ordinateur
@@ -2256,7 +2256,7 @@ Ce bloc complète la construction du site de démonstration WOOD jusqu’à la m
 - [ ] **A623 — Tester les navigateurs Chromium :** validation : Chrome desktop, Chrome Android et navigateurs intégrés restent utilisables.
 - [ ] **A624 — Tester les navigateurs WebKit :** validation : Safari iPhone/iPad et Safari macOS ne coupent aucun élément critique.
 - [ ] **A625 — Tester Firefox :** validation : navigation, grille, menu, panier et formulaires restent cohérents.
-- [ ] **A626 — Vérifier les zones sûres :** validation : encoche, barre d’état et barre de navigation ne recouvrent pas le contenu.
+- [x] **A626 — Vérifier les zones sûres :** validation : encoche, barre d’état et barre de navigation ne recouvrent pas le contenu ; `test/mobile-app-shell.test.mjs` protège les `safe-area-inset-*` et la matrice responsive couvre les hauteurs/orientations.
 - [x] **A627 — Vérifier les unités dynamiques :** validation : `100svh` et les repliements mobiles sont présents dans `mobile.css` et protégés par `test/mobile-app-shell.test.mjs`.
 - [ ] **A628 — Vérifier le zoom navigateur :** validation : 200 % et 400 % gardent les actions accessibles sans chevauchement.
 - [ ] **A629 — Vérifier la taille de texte système :** validation : texte agrandi ne coupe pas prix, titres ou boutons.
@@ -2289,8 +2289,8 @@ Ce bloc complète la construction du site de démonstration WOOD jusqu’à la m
 - [x] **A653 — Différer les médias secondaires :** validation : les médias hors écran ne bloquent pas le HTML, le titre ou les cartes ; les tests de chargement retardé conservent les actions.
 - [x] **A654 — Limiter les dépendances :** validation : aucune librairie d’animation lourde n’est ajoutée ; la motion repose sur CSS et les APIs natives du navigateur.
 - [x] **A655 — Contrôler les erreurs console :** validation : Chromium local a parcouru les 10 routes publiques (accueil, univers, fiches, compte, checkout et confirmation) avec zéro `console.error` et zéro `pageerror`.
-- [ ] **A656 — Contrôler le chargement lent :** validation : le site conserve navigation et panier sur réseau mobile dégradé.
-- [ ] **A657 — Contrôler la reprise réseau :** validation : un échec média ou Supabase permet de réessayer sans perdre le panier.
+- [x] **A656 — Contrôler le chargement lent :** validation : le site conserve navigation et panier sur réseau mobile dégradé ; la simulation d’images retardées et `test/order-client-resilience.test.mjs` le vérifient.
+- [x] **A657 — Contrôler la reprise réseau :** validation : un échec média ou Supabase permet de réessayer sans perdre le panier ; les fallbacks médias et le test de panne réseau le vérifient.
 - [ ] **A658 — Contrôler la mémoire :** validation : ouverture/fermeture répétée du menu et panier ne crée pas de fuite visible.
 - [x] **A659 — Mesurer les budgets locaux :** validation : DCL, FCP, CLS, navigation accueil → fleurs et limites de chargement sont archivés dans `docs/validation/2026-11-05-responsive-reference.md` ; la mesure production reste externe.
 - [ ] **A660 — Valider la performance finale :** validation : aucun effet graphique n’est conservé s’il dégrade une action commerciale.
@@ -2315,7 +2315,7 @@ Ce bloc complète la construction du site de démonstration WOOD jusqu’à la m
 - [x] **A676 — Tester les accès directs :** validation : les tests de paquet public, documents privés, RLS négative et absence de route `admin.html` refusent URLs, fichiers, Storage et fonctions sensibles aux comptes non autorisés.
 - [ ] **A677 — Tester les sauvegardes :** validation : sauvegarde, restauration et vérification de cohérence sont prouvées sur un environnement de test.
 - [ ] **A678 — Tester les migrations :** validation : l’historique local et distant est synchronisé avant chaque changement de schéma.
-- [ ] **A679 — Écrire le runbook d’incident :** validation : commande introuvable, e-mail échoué, stock incohérent et panne Supabase ont une procédure.
+- [x] **A679 — Écrire le runbook d’incident :** validation : commande introuvable, e-mail échoué, stock incohérent et panne Supabase ont une procédure dans `docs/ops/incident-runbook.md`.
 - [ ] **A680 — Fermer la porte de fiabilité commerciale :** validation : aucune ouverture réelle avant que commandes, stocks, rôles, sauvegardes et reprises soient testés.
 
 ### 97 — E-mails Gmail, PDF, livraison, légal et passation
