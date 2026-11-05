@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **202 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **204 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit `34eac62` ont été vérifiés avec succès ; les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -2020,7 +2020,7 @@ Ce bloc décrit tout ce qu’il faut pour obtenir une chaîne fiable `commande �
 - [x] **A454 — Bloquer le reçu payé avant Viva :** validation : test d’une commande pending qui ne génère pas de preuve de paiement.
 - [ ] **A455 — Définir la numérotation documentaire :** validation : numéro unique, séquentiel selon la règle retenue et non réutilisé.
 - [ ] **A456 — Définir les données légales de la boutique :** validation : raison sociale, adresse, contact et régime applicable sont confirmés avant production.
-- [ ] **A457 — Capturer l’instantané de commande :** validation : nom produit, grammage, prix, quantité, total et adresse ne changent pas si le produit change plus tard.
+- [x] **A457 — Capturer l’instantané de commande :** validation locale : la fonction de livraison persiste les données client/adresse dans `orders` et le nom, prix unitaire, grammage, quantité et total de ligne dans `order_items`; `test/order-snapshot-contract.test.mjs` vérifie que les documents peuvent relire ces valeurs sans dépendre du catalogue courant. Les frais de livraison et les essais de commande réelle restent liés aux règles propriétaires ouvertes.
 - [ ] **A458 — Capturer les frais de livraison :** validation : aucun frais inventé tant que la règle commerciale n’est pas confirmée.
 - [x] **A459 — Capturer la devise et les totaux :** validation : somme des lignes, livraison et total final concordent.
 - [ ] **A460 — Définir le traitement TVA/taxe :** validation : aucune mention fiscale n’est inventée ; le document reste bloqué si l’information manque.
