@@ -41,7 +41,7 @@
 - Aucun secret Supabase, Viva Wallet ou clé privilégiée dans les fichiers publics.
 - Ne pas toucher à Google, au référencement ou à la Search Console sans demande séparée.
 - Ne pas connecter Viva Wallet avant d’avoir les identifiants officiels et les paramètres de production.
-- Ne pas héberger ni déployer pendant cette feuille de route ; préparer seulement un paquet transférable et une procédure courte.
+- GitHub Pages peut servir de prévisualisation publique de démonstration ; ne pas le considérer comme l’hébergement commercial final ni y placer de secret. Préparer séparément le paquet transférable et la procédure courte pour l’hébergement validé.
 - Notifications de la première version : préparer l’e-mail transactionnel ; aucun SMS ni promesse de réception ne doit être activé sans fournisseur, configuration et test de délivrabilité validés.
 
 **Mise à jour de direction photo — 5 novembre 2026 :** toute ancienne mention de “photo sous cloche” dans les notes historiques doit être lue comme “photo produit réelle, sans bocal ni cloche”. La cloche peut rester un motif graphique optionnel de la carte imprimée, mais elle n’est plus le format demandé pour la photo principale des fleurs et résines.
@@ -70,6 +70,7 @@
 - `npm run check` passe avec **132 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
+- Les workflows GitHub Pages et de qualité du commit courant ont été vérifiés avec succès ; la page publique, `produit.html` et une image WebP répondent en HTTP 200. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
 - Le contrôle responsive Playwright confirme l’absence de débordement horizontal sur les **70 combinaisons** (10 routes publiques × `320`, `375`, `390`, `430`, `768`, `1024`, `1440`), avec des titres non vides et la navigation mobile chargée sur les vues étroites.
 - La disponibilité est maintenant une donnée Supabase explicite (`available`, `soon`, `rupture`, `incomplete`) et le serveur refuse de traiter un produit qui n’est pas `available`.
 - Le projet Supabase connecté possède maintenant la colonne `availability_state` ; la fonction de commande vérifie cet état et le calcul serveur refuse les grammages intermédiaires tout en facturant 50 g comme deux lots de 25 g.
