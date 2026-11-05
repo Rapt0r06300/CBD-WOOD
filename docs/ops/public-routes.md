@@ -10,6 +10,7 @@ Ce document décrit uniquement les routes publiques du site statique. Les rôles
 | `resines.html` | Catalogue résines | `checkout.html`, autres univers |
 | `bien-etre.html` | Cosmétiques, huiles et bien-être | `checkout.html`, autres univers |
 | `fleur.html` | Fiche détaillée d’une fleur | `fleurs.html`, `checkout.html` |
+| `produit.html` | Fiche générique résines, bien-être et WOOD Shop | retour vers l’univers, `checkout.html` |
 | `checkout.html` | Récapitulatif, identité et livraison à domicile | `confirmation.html`, `compte.html?return=checkout.html` |
 | `confirmation.html` | Confirmation d’une commande enregistrée | `index.html`, `fleurs.html`, `compte.html` |
 | `compte.html` | Connexion, création de compte et historique client | espace propriétaire intégré après rôle `owner_users` confirmé |

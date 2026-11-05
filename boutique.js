@@ -117,7 +117,7 @@
     }
   }
 
-  function openFlowerDetail(card) {
+  function openProductDetail(card) {
     const href = card?.dataset.detailHref;
     if (!href) return;
     if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
@@ -163,12 +163,32 @@
     card.setAttribute('aria-label', `Voir la fiche de ${card.dataset.productName || 'la fleur'}`);
   }
 
+  function wireGenericCard(card, category) {
+    if (card.dataset.detailWired === 'true') return;
+    const productId = card.dataset.productId;
+    if (!productId) return;
+    const productSlug = card.dataset.productSlug || productId;
+    const params = new URLSearchParams({
+      produit: productSlug,
+      categorie: category || card.dataset.productCategory || 'wood-shop',
+      nom: card.dataset.productName || 'Référence WOOD',
+    });
+    card.dataset.detailHref = `produit.html?${params.toString()}`;
+    card.dataset.detailWired = 'true';
+    card.classList.add('product-card--navigable');
+    card.setAttribute('role', 'link');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-label', `Voir la fiche de ${card.dataset.productName || 'la référence'}`);
+  }
+
   function enhanceFlowerCards() {
-    const flowerPage = document.querySelector('main[data-catalog-category^="fleurs"]');
+    const catalogPage = document.querySelector('main[data-catalog-category]');
     const flowerListing = document.querySelector('main[data-catalog-category="fleurs"]');
-    if (flowerPage) {
-      flowerPage.querySelectorAll('.product-card').forEach(card => {
+    if (catalogPage) {
+      const catalogCategory = catalogPage.dataset.catalogCategory || '';
+      catalogPage.querySelectorAll('.product-card').forEach(card => {
         if (flowerListing) wireFlowerCard(card);
+        else if (catalogCategory && catalogCategory !== 'fleurs-detail') wireGenericCard(card, catalogCategory);
         const presentation = window.WoodFlowerPresentation?.get(card.dataset.productSlug || card.dataset.productId);
         if (presentation) {
           const image = card.querySelector('.product-art img');
@@ -365,7 +385,7 @@
       }
       const detailCard = event.target.closest('.product-card[data-detail-href]');
       if (detailCard && !event.target.closest('button, select, a, input, textarea, [data-gram-step]')) {
-        openFlowerDetail(detailCard);
+        openProductDetail(detailCard);
         return;
       }
       const close = event.target.closest('[data-cart-close]');
@@ -409,7 +429,7 @@
       const detailCard = event.target.closest('.product-card[data-detail-href]');
       if (!detailCard || event.target !== detailCard || !['Enter', ' '].includes(event.key)) return;
       event.preventDefault();
-      openFlowerDetail(detailCard);
+      openProductDetail(detailCard);
     });
   }
 

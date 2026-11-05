@@ -12,6 +12,7 @@ const publicPages = [
   'resines.html',
   'bien-etre.html',
   'fleur.html',
+  'produit.html',
   'compte.html',
   'checkout.html',
   'confirmation.html',

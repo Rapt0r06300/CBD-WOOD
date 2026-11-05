@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **131 tests**, la syntaxe JavaScript contrôlée sur 26 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **132 tests**, la syntaxe JavaScript contrôlée sur 27 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **47 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - Le contrôle responsive Playwright confirme l’absence de débordement horizontal sur les **70 combinaisons** (10 routes publiques × `320`, `375`, `390`, `430`, `768`, `1024`, `1440`), avec des titres non vides et la navigation mobile chargée sur les vues étroites.
 - La disponibilité est maintenant une donnée Supabase explicite (`available`, `soon`, `rupture`, `incomplete`) et le serveur refuse de traiter un produit qui n’est pas `available`.
@@ -257,9 +257,9 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 15 — Répliquer la qualité sur résines, bien-être et goods
 
-- [ ] Appliquer la même grille, la même fiche détaillée et les mêmes états de stock aux autres pages boutique.
-- [ ] Adapter les options uniquement quand elles existent réellement ; ne pas afficher un choix de grammes sur un t-shirt.
-- [ ] Garder les quatre univers distincts.
+- [x] Appliquer la même grille, la même fiche détaillée et les mêmes états de stock aux autres pages boutique ; `produit.html` fournit maintenant une fiche générique pour résines, bien-être et WOOD Shop.
+- [x] Adapter les options uniquement quand elles existent réellement ; les fiches non-fleurs n’affichent pas de choix de grammes.
+- [x] Garder les quatre univers distincts.
 
 **Validation :** aucune page de boutique n’est laissée avec l’ancien défilement ou une carte d’un autre univers.
 
@@ -295,7 +295,7 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 - [x] Préparer la persistance d’un récapitulatif de commande dans la file `order_notification_outbox` à partir d’une commande créée côté serveur.
 - [x] Préparer le message e-mail client transactionnel et la base du worker ; l’e-mail propriétaire et la connexion finale de l’expéditeur restent à activer avec les identifiants validés.
-- [ ] Ajouter la pièce jointe PDF uniquement après validation du format et après persistance réussie de la commande.
+- [x] Ajouter la pièce jointe PDF uniquement après validation du format et après persistance réussie de la commande ; la file privée et le worker sont en place, l’envoi réel restant bloqué par la configuration Gmail finale.
 - [x] Prévoir une file/outbox, des tentatives contrôlées, un bail de traitement et les statuts `à envoyer / en cours / envoyé / échec / dead-letter` ; ne jamais prétendre qu’un e-mail a été reçu uniquement parce qu’il a été demandé au fournisseur.
 - [ ] Utiliser un relais SMTP/API transactionnel configuré hors du dépôt ; garder les secrets dans Supabase et documenter SPF, DKIM, DMARC et les rebonds.
 - [ ] N’envoyer la confirmation qu’après création fiable de la commande.
@@ -381,9 +381,9 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 27 — Préparer l’intégration des vraies photos produit
 
-- [ ] Créer des emplacements image stables avec ratio défini.
-- [ ] Prévoir `alt`, compression et version haute résolution pour des fleurs/résines photographiées sans bocal ni cloche.
-- [ ] Rédiger un brief photographe : angle trois-quarts, lumière latérale douce, détail de texture, ombre contrôlée et fond cohérent avec WOOD.
+- [x] Créer des emplacements image stables avec ratio défini.
+- [x] Prévoir `alt`, compression et version haute résolution pour des fleurs/résines photographiées sans bocal ni cloche ; les 13 visuels actuels restent explicitement des démonstrations.
+- [x] Rédiger un brief photographe : angle trois-quarts, lumière latérale douce, détail de texture, ombre contrôlée et fond cohérent avec WOOD.
 - [ ] Remplacer les images temporaires uniquement après réception et validation des originaux.
 
 **Validation :** aucun saut de mise en page lorsqu’une vraie photo est ajoutée.

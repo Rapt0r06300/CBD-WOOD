@@ -5,7 +5,9 @@ import test from 'node:test';
 const root = new URL('../', import.meta.url);
 const listing = await readFile(new URL('fleurs.html', root), 'utf8');
 const detail = await readFile(new URL('fleur.html', root), 'utf8');
+const genericDetail = await readFile(new URL('produit.html', root), 'utf8');
 const boutique = await readFile(new URL('boutique.js', root), 'utf8');
+const genericScript = await readFile(new URL('product-detail.js', root), 'utf8');
 const stylesheet = await readFile(new URL('boutique.css', root), 'utf8');
 
 test('une carte fleur mène à la fiche dédiée sans supprimer le bloc d’achat', () => {
@@ -16,6 +18,17 @@ test('une carte fleur mène à la fiche dédiée sans supprimer le bloc d’acha
   assert.match(boutique, /data-detail-href/);
   assert.match(boutique, /data-gram-step/);
   assert.match(boutique, /add-to-cart/);
+});
+
+test('les trois autres univers mènent vers une fiche générique exploitable', () => {
+  assert.match(genericDetail, /id="productDetail"/);
+  assert.match(genericDetail, /src="product-detail\.js"/);
+  assert.match(boutique, /produit\.html\?/);
+  assert.match(boutique, /wireGenericCard/);
+  assert.match(genericScript, /resines/);
+  assert.match(genericScript, /bien-etre/);
+  assert.match(genericScript, /wood-shop/);
+  assert.match(genericScript, /createClient/);
 });
 
 test('le zoom utilise uniquement transform/opacity et garde un accès sans animation', () => {
