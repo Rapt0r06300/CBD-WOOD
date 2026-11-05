@@ -4,15 +4,23 @@ Le dépôt contient maintenant un déclencheur GitHub Actions préparé dans
 `.github/workflows/supabase-workers.yml`. Il ne déploie rien et n’envoie aucun
 message tant que les secrets GitHub ne sont pas renseignés.
 
-## Worker transactionnel
+## Documents puis e-mails transactionnels
 
-Le workflow appelle `email-worker` toutes les cinq minutes. Si les secrets ne
-sont pas présents, le job est volontairement inactif et ne révèle aucune valeur.
+Le workflow appelle d’abord `document-worker`, puis `email-worker`, toutes les
+cinq minutes. Une commande persistée crée une tâche de confirmation PDF ; une
+confirmation de paiement crée un reçu PDF. L’e-mail client attend le document
+correspondant avant d’être envoyé, ce qui évite un message annonçant une pièce
+jointe qui n’existe pas.
+
+Si les secrets ne sont pas présents, les jobs restent volontairement inactifs
+et ne révèlent aucune valeur.
 
 Secrets à créer plus tard dans les secrets du dépôt GitHub :
 
 - `SUPABASE_FUNCTIONS_URL` : uniquement l’URL HTTPS finissant par
   `/functions/v1` du projet Supabase ;
+- `DOCUMENT_WORKER_TOKEN` : la même valeur que le secret configuré sur la
+  fonction `document-worker` ;
 - `EMAIL_WORKER_TOKEN` : la même valeur que le secret configuré sur la fonction
   `email-worker`.
 
@@ -32,8 +40,8 @@ secret supplémentaire `NEWSLETTER_WORKER_TOKEN` doit correspondre à la fonctio
 
 1. Configurer Gmail/OAuth et les secrets Supabase sans les écrire dans Git.
 2. Créer une campagne de test séparée, avec une adresse de test autorisée.
-3. Lancer le workflow manuellement et vérifier l’outbox, le PDF et le journal
-   des tentatives.
+3. Lancer le workflow manuellement et vérifier la file de documents, l’outbox,
+   le PDF et le journal des tentatives.
 4. Vérifier qu’un échec laisse la commande conservée et relançable.
 5. Ne jamais activer une newsletter réelle avant consentement, désinscription,
    SPF/DKIM/DMARC et validation de la propriétaire.

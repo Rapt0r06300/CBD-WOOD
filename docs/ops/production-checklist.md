@@ -46,5 +46,5 @@
 - [ ] Le compte client retrouve uniquement ses propres commandes.
 - [ ] Aucun paiement réel n’est activé avant la validation Viva.
 - [ ] L’e-mail transactionnel est testé après persistance et, pour le paiement, après webhook signé.
-- [ ] Le workflow `.github/workflows/supabase-workers.yml` est configuré avec ses secrets non publics et un appel de test contrôlé est vérifié.
+- [ ] Le workflow `.github/workflows/supabase-workers.yml` est configuré avec ses secrets non publics et vérifie d’abord la file PDF puis l’envoi e-mail sur un appel de test contrôlé.
 - [ ] Le cron ne lance jamais une newsletter sans campagne explicitement validée ; l’envoi manuel est testé avec une audience de test.

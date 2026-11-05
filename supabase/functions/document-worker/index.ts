@@ -4,6 +4,7 @@ import { buildDocumentModel } from "./data.mjs";
 
 const PDF_BUCKET = "order-documents";
 const DOCUMENT_KINDS = new Set(["order_confirmation", "payment_receipt", "invoice"]);
+const MAX_ATTEMPTS = 5;
 
 const json = (body: Record<string, unknown>, status = 200) => new Response(JSON.stringify(body), {
   status,
@@ -59,17 +60,125 @@ const documentNumber = (orderNumber: string, kind: string) => {
   return `${orderNumber}${suffix}`.replace(/[^A-Za-z0-9_-]/g, "-");
 };
 
-const enqueueDocumentNotification = async (client: ReturnType<typeof createClient>, orderId: string, email: string, kind: string) => {
-  if (kind !== "payment_receipt" && kind !== "invoice") return null;
+const enqueueInvoiceNotification = async (
+  client: ReturnType<typeof createClient>,
+  orderId: string,
+  email: string,
+) => {
   const { error } = await client.from("order_notification_outbox").upsert({
     order_id: orderId,
     notification_kind: "invoice_ready",
     recipient_email: email,
-    template_key: kind,
+    template_key: "invoice",
     template_version: 1,
   }, { onConflict: "order_id,notification_kind" });
   if (error) throw new Error("Document notification could not be queued");
-  return true;
+};
+
+const generateDocument = async (
+  client: ReturnType<typeof createClient>,
+  orderId: string,
+  kind: string,
+) => {
+  const { data: order, error: orderError } = await client.from("orders")
+    .select("id, order_number, customer_name, customer_email, payment_status, total_cents, delivery_address")
+    .eq("id", orderId)
+    .single();
+  if (orderError || !order) throw new Error("Commande introuvable.");
+  if (kind === "payment_receipt" && order.payment_status !== "paid") {
+    throw new Error("Le paiement doit être confirmé avant le reçu.");
+  }
+
+  const { data: items, error: itemError } = await client.from("order_items")
+    .select("product_name, quantity, grams, unit_price_cents, line_total_cents")
+    .eq("order_id", orderId)
+    .order("id", { ascending: true });
+  if (itemError || !items?.length) throw new Error("Articles introuvables.");
+
+  const legal = kind === "invoice" ? {
+    name: Deno.env.get("LEGAL_ENTITY_NAME"),
+    address: Deno.env.get("LEGAL_ENTITY_ADDRESS"),
+  } : null;
+  const model = buildDocumentModel({ order, items, kind, legal });
+  const number = documentNumber(order.order_number, kind);
+  const { data: existing } = await client.from("invoice_documents")
+    .select("id, storage_path, sha256, status, document_number")
+    .eq("order_id", orderId)
+    .eq("document_kind", kind)
+    .maybeSingle();
+  if (existing?.status === "ready") {
+    if (kind === "invoice") await enqueueInvoiceNotification(client, orderId, order.customer_email);
+    return existing;
+  }
+
+  const content = await makePdf({ ...model, documentNumber: number });
+  const hash = await sha256(content);
+  const path = `orders/${orderId}/${number}.pdf`;
+  const { error: uploadError } = await client.storage.from(PDF_BUCKET).upload(path, content, {
+    contentType: "application/pdf",
+    cacheControl: "3600",
+    upsert: true,
+  });
+  if (uploadError) throw new Error("Document non enregistré.");
+
+  const now = new Date().toISOString();
+  const { data: document, error: documentError } = await client.from("invoice_documents").upsert({
+    order_id: orderId,
+    document_kind: kind,
+    document_number: number,
+    storage_path: path,
+    sha256: hash,
+    status: "ready",
+    generated_at: now,
+    issued_at: kind === "payment_receipt" || kind === "invoice" ? now : null,
+  }, { onConflict: "order_id,document_kind" }).select("id, storage_path, sha256, status, document_number").single();
+  if (documentError || !document) throw new Error("Document non enregistré.");
+
+  if (kind === "invoice") await enqueueInvoiceNotification(client, orderId, order.customer_email);
+  return document;
+};
+
+const markDocumentJob = async (
+  client: ReturnType<typeof createClient>,
+  jobId: number,
+  workerId: string,
+  update: Record<string, unknown>,
+) => {
+  const { error } = await client.from("document_generation_jobs")
+    .update({ ...update, processing_by: null, processing_until: null, updated_at: new Date().toISOString() })
+    .eq("id", jobId)
+    .eq("processing_by", workerId);
+  if (error) throw new Error("Document job state could not be updated");
+};
+
+const processBatch = async (client: ReturnType<typeof createClient>) => {
+  const workerId = crypto.randomUUID();
+  const { data: jobs, error } = await client.rpc("claim_document_generation_jobs", {
+    p_worker_id: workerId,
+    p_limit: 10,
+    p_lease_seconds: 300,
+  });
+  if (error) throw new Error("Impossible de réserver les documents.");
+
+  const results = [];
+  for (const job of jobs || []) {
+    try {
+      await generateDocument(client, job.order_id, job.document_kind);
+      await markDocumentJob(client, job.id, workerId, { status: "ready", last_error: null });
+      results.push({ id: job.id, status: "ready" });
+    } catch (error) {
+      const attempts = Number(job.attempts || 0);
+      const terminal = attempts >= MAX_ATTEMPTS;
+      const message = error instanceof Error ? error.message.slice(0, 500) : "Document non généré.";
+      await markDocumentJob(client, job.id, workerId, {
+        status: terminal ? "dead_letter" : "pending",
+        available_at: terminal ? new Date().toISOString() : new Date(Date.now() + 60_000).toISOString(),
+        last_error: message,
+      });
+      results.push({ id: job.id, status: terminal ? "dead_letter" : "retry" });
+    }
+  }
+  return { worker_id: workerId, processed: results.length, results };
 };
 
 Deno.serve(async (request) => {
@@ -83,85 +192,30 @@ Deno.serve(async (request) => {
   const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
   if (!supabaseUrl || !serviceRoleKey) return json({ error: "Service indisponible." }, 503);
 
+  const client = createClient(supabaseUrl, serviceRoleKey, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
   const payload = await request.json().catch(() => ({}));
+  if (payload.batch === true) {
+    try {
+      return json(await processBatch(client));
+    } catch (error) {
+      return json({ error: error instanceof Error ? error.message : "Service indisponible." }, 503);
+    }
+  }
+
   const kind = String(payload.document_kind || "order_confirmation");
   const orderId = String(payload.order_id || "");
   if (!DOCUMENT_KINDS.has(kind) || !/^[0-9a-f-]{36}$/i.test(orderId)) {
     return json({ error: "Document invalide." }, 400);
   }
 
-  const client = createClient(supabaseUrl, serviceRoleKey, {
-    auth: { persistSession: false, autoRefreshToken: false },
-  });
-  const { data: order, error: orderError } = await client.from("orders")
-    .select("id, order_number, customer_name, customer_email, payment_status, total_cents, delivery_address")
-    .eq("id", orderId)
-    .single();
-  if (orderError || !order) return json({ error: "Commande introuvable." }, 404);
-  if (kind === "payment_receipt" && order.payment_status !== "paid") return json({ error: "Le paiement doit être confirmé avant le reçu." }, 422);
-  const { data: items, error: itemError } = await client.from("order_items")
-    .select("product_name, quantity, grams, unit_price_cents, line_total_cents")
-    .eq("order_id", orderId)
-    .order("id", { ascending: true });
-  if (itemError || !items?.length) return json({ error: "Articles introuvables." }, 422);
-
-  const legal = kind === "invoice" ? {
-    name: Deno.env.get("LEGAL_ENTITY_NAME"),
-    address: Deno.env.get("LEGAL_ENTITY_ADDRESS"),
-  } : null;
-  let model: ReturnType<typeof buildDocumentModel>;
   try {
-    model = buildDocumentModel({ order, items, kind, legal });
+    const document = await generateDocument(client, orderId, kind);
+    return json({ document });
   } catch (error) {
-    return json({ error: error instanceof Error ? error.message : "Document invalide." }, 422);
+    const message = error instanceof Error ? error.message : "Document non généré.";
+    const status = message.includes("paiement doit") ? 422 : message === "Commande introuvable." ? 404 : 503;
+    return json({ error: message }, status);
   }
-  const number = documentNumber(order.order_number, kind);
-  const { data: existing } = await client.from("invoice_documents")
-    .select("id, storage_path, sha256, status, document_number")
-    .eq("order_id", orderId)
-    .eq("document_kind", kind)
-    .maybeSingle();
-  if (existing?.status === "ready") {
-    try {
-      await enqueueDocumentNotification(client, orderId, order.customer_email, kind);
-    } catch {
-      return json({ error: "Document prêt, mais sa notification doit être relancée." }, 503);
-    }
-    return json({ document: existing });
-  }
-
-  let content: Uint8Array;
-  try {
-    content = await makePdf({ ...model, documentNumber: number });
-  } catch {
-    return json({ error: "Document PDF non généré." }, 503);
-  }
-  const hash = await sha256(content);
-  const path = `orders/${orderId}/${number}.pdf`;
-  const { error: uploadError } = await client.storage.from(PDF_BUCKET).upload(path, content, {
-    contentType: "application/pdf",
-    cacheControl: "3600",
-    upsert: true,
-  });
-  if (uploadError) return json({ error: "Document non enregistré." }, 503);
-
-  const now = new Date().toISOString();
-  const { data: document, error: documentError } = await client.from("invoice_documents").upsert({
-    order_id: orderId,
-    document_kind: kind,
-    document_number: number,
-    storage_path: path,
-    sha256: hash,
-    status: "ready",
-    generated_at: now,
-    issued_at: kind === "payment_receipt" || kind === "invoice" ? now : null,
-  }, { onConflict: "order_id,document_kind" }).select().single();
-  if (documentError) return json({ error: "Document non enregistré." }, 503);
-
-  try {
-    await enqueueDocumentNotification(client, orderId, order.customer_email, kind);
-  } catch {
-    return json({ error: "Document prêt, mais sa notification doit être relancée." }, 503);
-  }
-  return json({ document });
 });

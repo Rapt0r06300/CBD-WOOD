@@ -73,13 +73,20 @@ const orderMessage = async (client: ReturnType<typeof createClient>, job: Record
     from: Deno.env.get("GMAIL_FROM"),
   });
 
-  if (notificationKind !== "invoice_ready") return message;
+  const documentKind = notificationKind === "order_created"
+    ? "order_confirmation"
+    : notificationKind === "payment_confirmed"
+      ? "payment_receipt"
+      : notificationKind === "invoice_ready"
+        ? String(job.template_key || "invoice")
+        : null;
+  if (!documentKind || !["order_confirmation", "payment_receipt", "invoice"].includes(documentKind)) return message;
 
   const { data: document, error: documentError } = await client
     .from("invoice_documents")
     .select("document_number, storage_path, status")
     .eq("order_id", job.order_id)
-    .eq("document_kind", String(job.template_key || ""))
+    .eq("document_kind", documentKind)
     .eq("status", "ready")
     .order("created_at", { ascending: false })
     .limit(1)

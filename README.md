@@ -82,7 +82,7 @@ Ces réglages appartiennent au tableau de bord Supabase et ne doivent pas être 
 
 Les migrations de fondation e-mail et de nettoyage sécurité ont été appliquées au projet Supabase connecté. Les fonctions Edge sont déployées comme socle, mais aucun envoi réel n’est actif tant que les secrets Gmail, les jetons internes, l’URL de désinscription, les informations légales et le planificateur ne sont pas renseignés et testés.
 
-Le déclenchement récurrent est préparé dans `.github/workflows/supabase-workers.yml` et documenté dans `docs/ops/supabase-workers-scheduler.md`. Il reste inactif tant que les secrets GitHub correspondants ne sont pas configurés ; aucune valeur sensible n’est stockée dans le dépôt.
+Le déclenchement récurrent est préparé dans `.github/workflows/supabase-workers.yml` et documenté dans `docs/ops/supabase-workers-scheduler.md`. Il génère d’abord les PDF privés puis traite les e-mails ; il reste inactif tant que les secrets GitHub correspondants ne sont pas configurés. Aucune valeur sensible n’est stockée dans le dépôt.
 
 Le paiement Viva reste volontairement non activé tant que les identifiants professionnels et la validation du prestataire ne sont pas disponibles.
 

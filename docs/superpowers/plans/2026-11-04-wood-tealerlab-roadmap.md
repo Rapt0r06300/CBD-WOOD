@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **125 tests**, la syntaxe JavaScript contrôlée sur 26 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **128 tests**, la syntaxe JavaScript contrôlée sur 26 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **47 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - Le contrôle responsive Playwright confirme l’absence de débordement horizontal sur les **70 combinaisons** (10 routes publiques × `320`, `375`, `390`, `430`, `768`, `1024`, `1440`), avec des titres non vides et la navigation mobile chargée sur les vues étroites.
 - La disponibilité est maintenant une donnée Supabase explicite (`available`, `soon`, `rupture`, `incomplete`) et le serveur refuse de traiter un produit qui n’est pas `available`.
@@ -97,6 +97,7 @@
 - Le 5 novembre 2026, `20261105130000_order_rate_limit.sql` a été appliquée et `create-pending-order` a été déployée en version 4 : les répétitions réseau rapides sont limitées côté serveur avec une empreinte SHA-256, un `Retry-After` explicite et sans stockage d’adresse IP brute.
 - Le 5 novembre 2026, `notification-retry` a été déployée avec JWT obligatoire : un propriétaire peut remettre une notification `failed` ou `dead_letter` dans la file depuis son compte, sans droit d’écriture direct sur l’outbox.
 - Le 5 novembre 2026, le déclenchement récurrent local a été préparé dans `.github/workflows/supabase-workers.yml` : le worker transactionnel peut être appelé toutes les cinq minutes une fois les secrets configurés, tandis que la newsletter reste manuelle et exige un identifiant de campagne explicite. Aucun secret n’est dans Git.
+- Le 5 novembre 2026, `20261105140000_document_generation_jobs.sql` a ajouté une file privée et idempotente pour générer automatiquement la confirmation PDF à la commande et le reçu après paiement ; le workflow exécute le worker PDF avant le worker e-mail, qui attend le document avant d’envoyer la confirmation client.
 - Le 5 novembre 2026, le compte client affiche les documents prêts de ses commandes et demande une URL signée à la fonction serveur, sans exposer de chemin Storage durable.
 - Le 5 novembre 2026, l’accueil officiel [TealerLab](https://tealerlab.com/) a été revu avec Exa, Parallel Search et un navigateur réel en desktop et en viewport mobile `390 × 844`. L’audit confirme une architecture de sections réutilisables, des rails de cartes produits, une hiérarchie de fiche dense et une version mobile réellement recomposée ; ces constats sont traduits dans les tags d’exécution `A01–A40` et `A81–A240` ci-dessous.
 - Cette observation ne valide aucun changement graphique WOOD : elle sert uniquement de référence d’inspiration. Les couleurs, le logo, la typographie, la carte, les prix et les contraintes de la propriétaire restent prioritaires.
@@ -2135,6 +2136,7 @@ Ce bloc décrit tout ce qu’il faut pour obtenir une chaîne fiable `commande �
 - `supabase/functions/gmail-oauth/` : autorisation et renouvellement de token côté serveur.
 - `supabase/functions/email-worker/` : prise de jobs, génération, envoi, retries et mise à jour d’état.
 - `supabase/functions/document-worker/` : génération et stockage privé des documents.
+- `supabase/migrations/20261105140000_document_generation_jobs.sql` : file privée, bail, idempotence et déclenchement confirmation/reçu.
 - `supabase/functions/delivery-events/` : transitions de livraison autorisées et historique.
 - `docs/ops/gmail-supabase-email-system.md` : secrets, OAuth, quotas, exploitation et reprise.
 - `docs/ops/supabase-workers-scheduler.md` : déclenchement récurrent des workers, secrets attendus et garde-fous newsletter.

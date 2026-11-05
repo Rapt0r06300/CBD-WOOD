@@ -17,8 +17,45 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  document-worker:
+    name: Générer les documents de commande
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      SUPABASE_FUNCTIONS_URL: ${{ secrets.SUPABASE_FUNCTIONS_URL }}
+      DOCUMENT_WORKER_TOKEN: ${{ secrets.DOCUMENT_WORKER_TOKEN }}
+    steps:
+      - name: Vérifier la configuration sans afficher les secrets
+        id: configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "${SUPABASE_FUNCTIONS_URL}" || -z "${DOCUMENT_WORKER_TOKEN}" ]]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "Le worker PDF reste inactif : secrets GitHub absents."
+            exit 0
+          fi
+          if [[ "${SUPABASE_FUNCTIONS_URL}" != https://*.supabase.co/functions/v1 ]]; then
+            echo "URL Supabase inattendue : utiliser uniquement l’URL HTTPS /functions/v1." >&2
+            exit 1
+          fi
+          echo "configured=true" >> "$GITHUB_OUTPUT"
+      - name: Appeler le worker PDF
+        if: steps.configuration.outputs.configured == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail-with-body --silent --show-error \
+            --retry 2 --retry-delay 5 --max-time 45 \
+            -X POST "${SUPABASE_FUNCTIONS_URL}/document-worker" \
+            -H "x-document-worker-token: ${DOCUMENT_WORKER_TOKEN}" \
+            -H "content-type: application/json" \
+            --data '{"batch":true}'
+
   email-worker:
     name: Traiter les e-mails transactionnels
+    needs: [document-worker]
+    if: ${{ always() }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     env:

@@ -15,6 +15,9 @@ test('email worker requires a server-only invocation token and service role', ()
 
 test('email worker never falls back to a public client key for queue writes', () => {
   assert.match(source, /claim_order_notification_jobs/);
+  assert.match(source, /document_kind/);
+  assert.match(source, /invoice_documents/);
+  assert.match(source, /storage_path/);
   assert.match(source, /email_delivery_attempts/);
   assert.match(source, /processing_by/);
   assert.doesNotMatch(source, /SUPABASE_ANON_KEY/);
