@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **158 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **159 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit `512afd8` ont été vérifiés avec succès ; les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -1088,9 +1088,9 @@ Ces sous-tâches détaillent la refonte à exécuter plus tard. Elles ne valent 
 - [ ] **A22 — Préparer le bloc de réassurance :** conseil, Nice, boutiques et livraison seulement lorsque chaque formulation est validée.
 - [ ] **A23 — Préparer la FAQ WOOD :** accordéon simple, recherche non nécessaire, réponses confirmées uniquement.
 - [ ] **A24 — Préparer le footer :** quatre liens utiles, contacts séparés par boutique, carte conservée et aucun point final ajouté aux noms Barla/Borriglione.
-- [ ] **A25 — Adapter la grille ordinateur :** trois produits par ligne, hauteur de carte alignée et marge régulière.
+- [x] **A25 — Adapter la grille ordinateur :** trois produits par ligne, hauteur de carte alignée et marge régulière.
 - [x] **A26 — Adapter la grille mobile :** deux colonnes formant quatre cases visibles dans un bloc `2 × 2` quand la largeur le permet.
-- [ ] **A27 — Adapter la tablette :** deux ou trois colonnes selon la largeur réelle, sans dépendre du nom du modèle.
+- [x] **A27 — Adapter la tablette :** deux ou trois colonnes selon la largeur réelle, sans dépendre du nom du modèle.
 - [ ] **A28 — Isoler les carrousels :** overflow local contrôlé, boutons précédent/suivant accessibles et aucun débordement de page.
 - [ ] **A29 — Vérifier les zones sûres :** encoche, barre d’outils Safari, orientation et navigation basse.
 - [ ] **A30 — Vérifier les contenus extrêmes :** nom long, prix élevé, absence d’image, état incomplet et texte de FAQ long.
@@ -1830,9 +1830,9 @@ Cette passe est dédiée à la page d’accueil, car c’est elle que le conjoin
 
 - [ ] **A321 — Ajouter un bloc “Sélection fleurs” :** afficher une sélection courte issue des produits WOOD réels ou de placeholders marqués ; validation : les variétés restent celles fournies par la boutique.
 - [ ] **A322 — Ajouter un bloc “Sélection résines” :** créer la même qualité de présentation après validation des données résines ; validation : aucun prix coupé ou supposé n’est affiché.
-- [ ] **A323 — Fixer la grille desktop à trois produits :** conserver trois cartes par ligne comme demandé par l’utilisateur ; validation : la quatrième carte passe à la ligne suivante sans décalage.
+- [x] **A323 — Fixer la grille desktop à trois produits :** conserver trois cartes par ligne comme demandé par l’utilisateur ; validation : la quatrième carte passe à la ligne suivante sans décalage.
 - [x] **A324 — Fixer la grille mobile à quatre cases :** composer une grille `2 × 2` carrée lorsque la largeur le permet ; validation : chaque carte reste entière et cliquable.
-- [ ] **A325 — Définir le comportement tablette :** passer à deux ou trois cartes selon la largeur réelle, sans forcer un texte minuscule ; validation : aucun titre ou bouton n’est tronqué.
+- [x] **A325 — Définir le comportement tablette :** passer à deux ou trois cartes selon la largeur réelle, sans forcer un texte minuscule ; validation : aucun titre ou bouton n’est tronqué.
 - [ ] **A326 — Prévoir le lien “Voir toute la sélection” :** relier chaque bloc à la bonne page fleurs ou résines ; validation : test de navigation desktop/mobile.
 - [ ] **A327 — Préparer les rails uniquement si nécessaire :** utiliser un rail tactile local pour les contenus secondaires, pas pour cacher la grille principale ; validation : pas de scroll horizontal global.
 - [ ] **A328 — Mettre en place la carte produit WOOD :** ordre fixe `image → profil → nom → description → grammage → prix → panier` ; validation : ordre identique sur toutes les cartes.

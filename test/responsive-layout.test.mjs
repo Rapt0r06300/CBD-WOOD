@@ -67,3 +67,10 @@ test('la grille mobile conserve deux colonnes lisibles et un repli étroit', asy
   assert.match(mobileStylesheet, /\.product-grid\s*\{\s*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/);
   assert.match(mobileStylesheet, /@media \(max-width: 350px\)[\s\S]*?\.product-grid\s*\{\s*grid-template-columns:\s*1fr/);
 });
+
+test('la grille catalogue garde trois colonnes sur desktop et tablette', async () => {
+  const boutiqueStylesheet = await readFile(new URL('../boutique.css', import.meta.url), 'utf8');
+
+  assert.match(boutiqueStylesheet, /\.product-grid\{display:grid;grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/);
+  assert.match(boutiqueStylesheet, /\.product-grid\{grid-auto-rows:1fr\}/);
+});
