@@ -1768,7 +1768,7 @@ Cette extension reprend des mécanismes utiles observés sur les pages produit, 
 ### Tâche 76 — Garantir la continuité des commandes et des notifications
 
 - [x] Documenter les sauvegardes Supabase, la conservation des commandes et la procédure de restauration dans `docs/ops/supabase-backup-restore.md` ; l’exécution et le test réel de restauration restent à faire par la propriétaire avant l’ouverture.
-- [ ] Conserver un journal exploitable des commandes, erreurs de stock, paiements et e-mails ; une panne d’e-mail ne doit jamais supprimer une commande.
+- [x] Conserver un journal exploitable des commandes, erreurs de stock, paiements et e-mails ; `order_status_history`, `order_notification_outbox`, les tentatives d’envoi et les événements de livraison restent persistants et séparés de la commande ; une panne d’e-mail ne supprime jamais une commande.
 - [x] Prévoir une vue propriétaire des commandes en échec ou nécessitant une action, sans déconnexion automatique inutile ; le tableau de bord affiche l’état de la file de notifications et ses erreurs éventuelles.
 - [ ] Tester la reprise après rafraîchissement, panne réseau, erreur fournisseur et restauration, avec preuve de non-duplication.
 
@@ -2293,7 +2293,7 @@ Ce bloc complète la construction du site de démonstration WOOD jusqu’à la m
 - [x] **A657 — Contrôler la reprise réseau :** validation : un échec média ou Supabase permet de réessayer sans perdre le panier ; les fallbacks médias et le test de panne réseau le vérifient.
 - [x] **A658 — Contrôler la mémoire :** validation : Playwright a répété 25 ouvertures/fermetures du menu et du panier à `390 × 844` ; un seul panneau et un seul backdrop restent dans le DOM, aucun menu ne reste ouvert et `scrollWidth` reste égal à `390`.
 - [x] **A659 — Mesurer les budgets locaux :** validation : DCL, FCP, CLS, navigation accueil → fleurs et limites de chargement sont archivés dans `docs/validation/2026-11-05-responsive-reference.md` ; la mesure production reste externe.
-- [ ] **A660 — Valider la performance finale :** validation : aucun effet graphique n’est conservé s’il dégrade une action commerciale.
+- [x] **A660 — Valider la performance finale :** validation locale : la baseline DCL/FCP/CLS reste archivée, les CTA hero/catalogue et le dernier bouton mobile restent atteignables après animation, et `prefers-reduced-motion` supprime les mouvements sans supprimer l’action ; la mesure production reste externe.
 
 ### 96 — Commandes, comptes, Supabase et continuité
 
