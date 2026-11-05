@@ -46,6 +46,7 @@ Des captures de référence ont également été produites à `320` et `1440` px
 - La navigation mobile structurée a été rejouée dans le navigateur à `390 × 844` : le bouton `Les univers` ouvre un sous-menu de quatre liens, `Retour au menu` revient au niveau racine et le focus est restauré. À `1440 × 900`, les déclencheurs de sous-menu restent masqués et les quatre liens desktop historiques restent visibles ; le document et le body restent à `1440` px.
 - Une matrice complémentaire a rejoué `fleurs.html` à `320`, `360`, `375`, `390`, `414`, `430`, `768`, `834`, `1024`, `1280`, `1440` et `1920` px : les 13 cartes sont présentes, la grille passe d’une colonne à deux puis trois, et le document/body restent exactement à la largeur de la fenêtre. Les orientations `844 × 390`, `900 × 768` et `1366 × 768` ont aussi été contrôlées sur l’accueil sans débordement. Cette preuve reste Chromium local et ne remplace pas une recette Safari/Firefox sur appareils réels.
 - Le garde-fou de mouvement vérifie que les animations restent composées (`transform`/`opacity`), que le scroll n’est jamais intercepté et que `prefers-reduced-motion` conserve toutes les actions. Le chargement progressif garde des liens HTML directs si JavaScript ou un média échoue.
+- Une passe console Chromium a parcouru les 10 routes publiques et n’a relevé ni `console.error` ni `pageerror`. Cette preuve concerne le navigateur local contrôlé ; les variantes Safari, Firefox, appareils réels et erreurs réseau restent distinctes.
 
 ## Limite de cette preuve
 

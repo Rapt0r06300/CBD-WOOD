@@ -2288,7 +2288,7 @@ Ce bloc complète la construction du site de démonstration WOOD jusqu’à la m
 - [x] **A652 — Prioriser le média du hero :** validation : le titre et les CTA du premier écran restent disponibles avec le fallback visuel, même si le média échoue ou tarde.
 - [x] **A653 — Différer les médias secondaires :** validation : les médias hors écran ne bloquent pas le HTML, le titre ou les cartes ; les tests de chargement retardé conservent les actions.
 - [x] **A654 — Limiter les dépendances :** validation : aucune librairie d’animation lourde n’est ajoutée ; la motion repose sur CSS et les APIs natives du navigateur.
-- [ ] **A655 — Contrôler les erreurs console :** validation : les parcours public, boutique, fiche, panier et compte restent sans erreur non traitée.
+- [x] **A655 — Contrôler les erreurs console :** validation : Chromium local a parcouru les 10 routes publiques (accueil, univers, fiches, compte, checkout et confirmation) avec zéro `console.error` et zéro `pageerror`.
 - [ ] **A656 — Contrôler le chargement lent :** validation : le site conserve navigation et panier sur réseau mobile dégradé.
 - [ ] **A657 — Contrôler la reprise réseau :** validation : un échec média ou Supabase permet de réessayer sans perdre le panier.
 - [ ] **A658 — Contrôler la mémoire :** validation : ouverture/fermeture répétée du menu et panier ne crée pas de fuite visible.
