@@ -425,3 +425,27 @@ Une nouvelle lecture de l’accueil, du catalogue et d’une fiche produit Teale
 ### 16.3 Décision de feuille de route
 
 Les observations de cette seconde passe sont enregistrées dans les tags `A161–A190` : elles enrichissent la composition, la fiche produit, les rails, le menu, le responsive, la motion, la performance et les validations propriétaire/conjoint. Elles ne changent pas la palette WOOD, le logo officiel, la carte tarifaire, les noms des variétés, la livraison seule, l’absence actuelle de promotion ni la carte des boutiques.
+
+## 17. Direction artistique WOOD — premium, chill, graffiti, stickers et humour
+
+La propriétaire ne demande pas un simple site sombre avec quelques décorations : elle veut une identité capable de tenir ensemble quatre qualités qui peuvent se contredire si elles sont mal dosées. La base doit rester premium et lisible ; l’énergie chill doit rendre la navigation accueillante ; le graffiti et les stickers doivent donner une signature vivante ; l’humour doit apporter de la proximité sans dégrader la confiance nécessaire à une commande.
+
+### 17.1 Règle de dosage
+
+La base visuelle reste majoritaire : espaces, alignements, photos propres, titres forts, prix lisibles et CTA évidents. Les accents street sont ponctuels : un sticker par zone forte, une annotation dans un hero ou une micro-formule dans une section éditoriale. Aucun sticker ne porte seul une information importante et aucun mouvement ne doit attirer l’œil au détriment du prix ou du panier.
+
+### 17.2 Ce qui doit être créé, pas copié
+
+- un vocabulaire de formes WOOD inspiré des références de la propriétaire ;
+- des stickers originaux dans la palette actuelle ;
+- des compositions de cloche, botanique, papier, matière et graffiti ;
+- une voix courte, directe, chic et accessible ;
+- des emojis décoratifs facultatifs ;
+- des micro-interactions qui donnent de la vie sans scroll-jacking ;
+- des variantes mobile et desktop réellement composées, pas simplement réduites.
+
+Les assets générés peuvent servir de prototypes de direction artistique. Ils doivent être contrôlés pour les artefacts, ne pas contenir de texte ou logo parasite et rester identifiés comme maquettes tant que la propriétaire n’a pas fourni ou validé les photos et références finales.
+
+### 17.3 Nouvelles tâches de la roadmap
+
+Les points précédents sont désormais détaillés en `A191–A240` : art direction, grille, densité, graffiti, stickers, humour, emojis, briefs photo, génération d’images, registre d’assets, animations, mode mouvement réduit, performance basse, responsive et validation finale par la propriétaire et son conjoint.

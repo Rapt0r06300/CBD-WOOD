@@ -10,7 +10,7 @@
 
 **Référence :** audit de [TealerLab](https://tealerlab.com/), site actuel WOOD, échanges avec la propriétaire et exigences de Florent.
 
-**Contrôle de cohérence :** cette feuille contient 76 tâches principales uniques, numérotées de 1 à 76. Elle contient aussi 190 tags d’exécution `A01–A190` : chaque tag possède un périmètre et un contrôle de validation, sans modifier le contrat de numérotation testé par le dépôt. Les tâches 75 et 76 ajoutent les deux garde-fous indispensables à une ouverture commerciale : conformité éditoriale/légale et continuité des données. Les décisions commerciales inconnues restent bloquées ; elles ne peuvent pas être déduites par le code.
+**Contrôle de cohérence :** cette feuille contient 76 tâches principales uniques, numérotées de 1 à 76. Elle contient aussi 240 tags d’exécution `A01–A240` : chaque tag possède un périmètre et un contrôle de validation, sans modifier le contrat de numérotation testé par le dépôt. Les tâches 75 et 76 ajoutent les deux garde-fous indispensables à une ouverture commerciale : conformité éditoriale/légale et continuité des données. Les décisions commerciales inconnues restent bloquées ; elles ne peuvent pas être déduites par le code.
 
 **Architecture d’administration retenue :** après connexion, le compte dont le rôle propriétaire est confirmé affiche directement le tableau de bord dans `compte.html`. Les nouveaux comptes restent clients. Aucun fichier ou route `admin.*` n’est publié ; RLS et les fonctions serveur restent obligatoires.
 
@@ -64,8 +64,8 @@
 
 ## État de vérification locale — 4 novembre 2026
 
-- `npm run check` passe avec **69 tests**, la syntaxe JavaScript contrôlée sur 24 fichiers et l’audit statique sans erreur.
-- `npm run hostinger:preflight` reconstruit un paquet de **33 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
+- `npm run check` passe avec **71 tests**, la syntaxe JavaScript contrôlée sur 26 fichiers et l’audit statique sans erreur.
+- `npm run hostinger:preflight` reconstruit un paquet de **47 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - Le contrôle responsive Playwright confirme l’absence de débordement horizontal sur les **70 combinaisons** (10 routes publiques × `320`, `375`, `390`, `430`, `768`, `1024`, `1440`), avec des titres non vides et la navigation mobile chargée sur les vues étroites.
 - La disponibilité est maintenant une donnée Supabase explicite (`available`, `soon`, `rupture`, `incomplete`) et le serveur refuse de traiter un produit qui n’est pas `available`.
 - Le projet Supabase connecté possède maintenant la colonne `availability_state` ; la fonction de commande vérifie cet état et le calcul serveur refuse les grammages intermédiaires tout en facturant 50 g comme deux lots de 25 g.
@@ -80,12 +80,13 @@
 - Le tableau de bord propriétaire affiche maintenant l’état de la file `order_notification_outbox` (`à envoyer`, `en cours`, `envoyé`, `échec`) sans présenter l’envoi comme actif ; `test/order-notification-outbox.test.mjs` le vérifie.
 - La migration locale `20261104150000_order_status_history.sql` a été appliquée au projet Supabase sous `20261104215031_order_status_history` ; la table est protégée par RLS, le trigger est présent et aucune commande n’existait au moment du contrôle.
 - La migration locale `20261104160000_order_notification_outbox.sql` a été appliquée au projet Supabase sous `20261104220305_order_notification_outbox` ; la file est idempotente, protégée par RLS, vide au contrôle et ne lance aucun e-mail tant qu’aucun fournisseur n’est configuré.
-- Le 5 novembre 2026, l’accueil officiel [TealerLab](https://tealerlab.com/) a été revu avec Exa, Parallel Search et un navigateur réel en desktop et en viewport mobile `390 × 844`. L’audit confirme une architecture de sections réutilisables, des rails de cartes produits, une hiérarchie de fiche dense et une version mobile réellement recomposée ; ces constats sont traduits dans les tags d’exécution `A01–A40` et `A81–A140` ci-dessous.
+- Le 5 novembre 2026, l’accueil officiel [TealerLab](https://tealerlab.com/) a été revu avec Exa, Parallel Search et un navigateur réel en desktop et en viewport mobile `390 × 844`. L’audit confirme une architecture de sections réutilisables, des rails de cartes produits, une hiérarchie de fiche dense et une version mobile réellement recomposée ; ces constats sont traduits dans les tags d’exécution `A01–A40` et `A81–A240` ci-dessous.
 - Cette observation ne valide aucun changement graphique WOOD : elle sert uniquement de référence d’inspiration. Les couleurs, le logo, la typographie, la carte, les prix et les contraintes de la propriétaire restent prioritaires.
 - L’audit de cohérence du 5 novembre 2026 a identifié 40 angles morts opérationnels supplémentaires, ajoutés comme tags `A41–A80` : conformité et données personnelles, parcours d’expédition, états de paiement, e-mails/PDF, sécurité, observabilité, transfert propriétaire et recette de mise en service.
 - La passe visuelle et éditoriale du 5 novembre 2026 a identifié 60 manques supplémentaires, ajoutés comme tags `A81–A140` : composition de l’accueil, menu, cartes, textes, emojis, stickers, photos sous cloche, animations, responsive et contrôles visuels.
 - La passe de production de maquette du 5 novembre 2026 ajoute `A141–A160` : registre exact des variétés, visuels de démonstration distincts, descriptions éditoriales, pipeline de remplacement par les photos réelles, performance des images et validation de cohérence entre accueil, boutique, fiche et Supabase.
 - La seconde relecture officielle du 5 novembre 2026 ajoute `A161–A190` : le site TealerLab confirme une page d’accueil scénarisée par rails, blocs éditoriaux, sélections produits, guide, réassurance, livraison, contenus de fiche et produits liés ; WOOD récupère cette architecture d’expérience uniquement, en retirant promotions, fidélité, avis, promesses et claims non validés.
+- La passe direction artistique du 5 novembre 2026 ajoute `A191–A240` : elle détaille le dosage premium/chill/graffiti/stickers/humour, la création d’assets WOOD originaux, les règles de composition, les microcopies, les animations responsables et les contrôles finaux sur tous les supports.
 
 ## Phase 0 — Sécuriser l’existant avant toute évolution
 
@@ -1438,6 +1439,83 @@ La relecture de l’accueil, du catalogue et d’une fiche produit TealerLab con
 - **A189** — Fichiers : captures comparatives, `docs/audits/`, checklist. Validation : comparaison documentée et non copieuse.
 - **A190** — Fichiers : captures signées, branche de sauvegarde, roadmap. Validation : référence propriétaire/conjoint archivée.
 
+## Direction artistique WOOD approfondie — tags `A191–A240`
+
+Ce bloc répond précisément à la demande de la propriétaire : WOOD doit rester chic et premium tout en assumant une énergie chill, graffiti, stickers et humoristique. Le principe est de créer une tension maîtrisée entre une base éditoriale propre — grands espaces, hiérarchie forte, photos de qualité, prix lisibles — et des accents graphiques plus spontanés. Aucun accent ne doit modifier la palette, le logo, la typographie validée ou la simplicité du parcours.
+
+### Premium, rythme et composition
+
+- [ ] **A191 — Définir la proportion premium/chill/graffiti :** établir une règle mesurable par page, avec une base premium dominante et des accents street ponctuels ; validation : aucune page ne ressemble à une affiche saturée.
+- [ ] **A192 — Créer une grille artistique WOOD :** fixer conteneur, marges, colonnes, lignes de base, espaces négatifs et points d’ancrage ; validation : hero, cartes, cloches et blocs texte partagent la même structure.
+- [ ] **A193 — Définir trois niveaux de densité :** `calme`, `sélection`, `impact`, pour éviter que chaque section ait la même intensité ; validation : chaque page possède une respiration entre deux moments forts.
+- [ ] **A194 — Construire un système de contraste interne :** utiliser les couleurs existantes par niveaux de fond, bordure, texte et accent, sans créer de nouvelle palette ; validation : contraste lisible et identité inchangée.
+- [ ] **A195 — Préparer une hiérarchie de titres WOOD :** kicker, titre principal, sous-titre, phrase courte et action ; validation : le regard comprend la section avant de lire tous les détails.
+- [ ] **A196 — Organiser les masses visuelles :** alterner bloc sombre, bloc botanique, carte et zone claire sans mosaïque aléatoire ; validation : la page garde un rythme haut de gamme sur mobile et desktop.
+- [ ] **A197 — Créer des séparateurs propriétaires :** imaginer lignes, points, repères et cadres inspirés de WOOD, sans reprendre les signes TealerLab ; validation : chaque séparateur sert la lecture et peut disparaître sans perte d’information.
+- [ ] **A198 — Définir les proportions d’images :** hero, cloche, carte, détail et galerie doivent avoir des ratios documentés ; validation : aucun recadrage ne coupe un produit réel ou son contenant.
+- [ ] **A199 — Construire une bibliothèque de compositions :** prévoir variantes hero gauche/droite, média plein cadre, carte décalée et bloc éditorial ; validation : la variété vient de la composition, pas d’une modification des couleurs.
+- [ ] **A200 — Faire une revue premium :** supprimer tout élément qui ressemble à un template générique, à un badge forcé ou à une décoration sans rôle ; validation : résultat plus élégant sans perte de personnalité.
+
+### Graffiti et stickers WOOD
+
+- [ ] **A201 — Définir le vocabulaire graffiti WOOD :** formes, épaisseurs, énergie, irrégularités et niveau de contraste à partir des références de la propriétaire ; validation : vocabulaire original et documenté.
+- [ ] **A202 — Préparer des stickers de navigation :** créer des marqueurs pour `Découvrir`, `Nouveau`, `Voir la sélection` ou `WOOD Shop`, sans les utiliser pour une remise ; validation : chaque sticker reste compréhensible sans son illustration.
+- [ ] **A203 — Créer des stickers de catégorie :** imaginer quatre signes distincts pour fleurs, résines, bien-être et textile ; validation : les signes ne remplacent jamais le nom de la catégorie.
+- [ ] **A204 — Prévoir des stickers de matière :** réserver des motifs pour botanique, texture, soin et objet ; validation : aucun motif n’émet une allégation sur le produit.
+- [ ] **A205 — Générer des planches de variations graphiques :** produire plusieurs propositions d’étoiles, flèches, bulles, tampons et formes manuscrites dans l’univers WOOD ; validation : la propriétaire choisit ou refuse chaque famille avant intégration.
+- [ ] **A206 — Prévoir une version sans sticker :** chaque section doit rester belle si les stickers sont masqués, bloqués ou non chargés ; validation : aucune information essentielle dépend d’un asset décoratif.
+- [ ] **A207 — Définir une règle d’ancrage :** attacher chaque sticker à un bloc et non au viewport pour éviter les décalages sur téléphone ; validation : aucun sticker ne recouvre prix, panier, menu ou barre système.
+- [ ] **A208 — Créer des stickers desktop/mobile :** adapter échelle, rotation et placement sans simplement réduire la version desktop ; validation : lisibilité à 320, 375, 390, 430, 768 et 1440 px.
+- [ ] **A209 — Contrôler les bords et débordements :** vérifier rotation, ombre, clipping et `overflow` sans masquer un vrai problème de largeur ; validation : aucune barre horizontale globale.
+- [ ] **A210 — Documenter la propriété des assets :** enregistrer source, auteur, autorisation, date et statut de chaque sticker ou illustration ; validation : aucun asset de recherche web n’est intégré sans droit clair.
+
+### Humour, ton et microcopies
+
+- [ ] **A211 — Définir la voix WOOD :** écrire une mini-charte avec phrases courtes, ton direct, chic, accessible et légèrement décalé ; validation : le texte reste naturel pour une clientèle de tout âge.
+- [ ] **A212 — Séparer humour et transaction :** autoriser une touche humoristique dans l’accueil et les zones éditoriales, jamais dans les erreurs, prix, paiement, livraison ou conformité ; validation : le parcours critique reste neutre.
+- [ ] **A213 — Créer une banque de micro-formules :** préparer des textes pour hover, chargement, panier, fiche, retour et état vide ; validation : aucune formule ne promet un effet ou une disponibilité non confirmée.
+- [ ] **A214 — Préparer les libellés de cartes :** décliner `Découvrir`, `Voir la fiche`, `Choisir le grammage` et `Ajouter au panier` avec variantes courtes ; validation : le bouton reste explicite sans jargon.
+- [ ] **A215 — Écrire des descriptions de fleurs cohérentes :** conserver une phrase visuelle unique par variété, avec emojis facultatifs et aucune allégation ; validation : chaque description est relue et attribuée au bon nom.
+- [ ] **A216 — Écrire les descriptions des résines :** préparer une structure similaire sans inventer les textures, origines ou niveaux tant que la propriétaire ne les fournit pas ; validation : état `fiche à compléter` disponible.
+- [ ] **A217 — Écrire les textes bien-être :** distinguer cosmétiques, huiles et soins avec un vocabulaire prudent ; validation : aucun conseil médical ou promesse thérapeutique.
+- [ ] **A218 — Écrire les textes WOOD Shop :** donner un ton plus objet/marque et moins catalogue CBD ; validation : textiles et produits dérivés restent dans le même système visuel.
+- [ ] **A219 — Définir les emojis autorisés :** créer une liste courte, par famille et par intensité, en évitant les emojis dans les informations sensibles ; validation : suppression des emojis ne casse aucune phrase.
+- [ ] **A220 — Faire une passe de lecture à voix haute :** vérifier que slogans, CTA, descriptions et FAQ sonnent comme WOOD et non comme une traduction ou une copie ; validation : relecture propriétaire consignée.
+
+### Images, illustrations et génération d’assets
+
+- [ ] **A221 — Définir les briefs photo WOOD :** fond, cloche, lumière, angle, distance, matière et niveau de retouche pour fleurs, résines, huiles et textile ; validation : un photographe peut reproduire le brief sans deviner.
+- [ ] **A222 — Générer des concepts de décor :** créer des fonds botanique, béton, papier, bois et graffiti uniquement comme références de direction artistique ; validation : aucun concept n’est présenté comme une photo réelle.
+- [ ] **A223 — Générer des essais de stickers :** produire des variations originales dans les couleurs WOOD, sans texte de marque tiers ; validation : planche de choix envoyée à la propriétaire avant intégration.
+- [ ] **A224 — Générer des essais de cloches :** varier lumière et composition tout en gardant le produit central et lisible ; validation : pas de fleur anatomiquement bizarre, de texte parasite ou de watermark.
+- [ ] **A225 — Générer des essais textile/goods :** créer des placeholders pour t-shirts et objets uniquement avec les noms exacts existants ; validation : aucun faux modèle, prix ou stock n’est affiché comme réel.
+- [ ] **A226 — Contrôler les artefacts d’IA :** vérifier doigts, étiquettes, lettres, logos, bords, transparences, répétitions et proportions ; validation : asset rejeté dès qu’un défaut peut nuire à la marque.
+- [ ] **A227 — Préparer les exports multi-formats :** produire source haute définition, version web, miniature, fallback et alt text ; validation : le pipeline conserve une version source non destructive.
+- [ ] **A228 — Ajouter un registre d’assets :** lister nom, type, usage, dimensions, poids, statut, source et date de validation ; validation : chaque fichier public est traçable.
+- [ ] **A229 — Créer un mode placeholder explicite :** afficher `visuel de démonstration` lorsqu’une image n’est pas réelle ; validation : le client ne confond pas maquette et stock disponible.
+- [ ] **A230 — Organiser la substitution par lots :** remplacer les images par catégorie sans toucher aux prix, noms, panier ou routes ; validation : rollback fichier par fichier possible.
+
+### Animations et expérience premium
+
+- [ ] **A231 — Définir le tempo d’animation WOOD :** documenter durée, easing, délai et distance pour apparitions, hover, zoom et ticker ; validation : aucune animation ne semble lente ou gadget.
+- [ ] **A232 — Animer les stickers avec retenue :** prévoir un léger décalage ou une entrée latérale, jamais une rotation permanente ; validation : l’animation s’arrête après l’introduction.
+- [ ] **A233 — Animer les cloches au scroll :** utiliser un mouvement subtil de lumière ou de profondeur sans déplacer la fiche ; validation : `transform/opacity` seulement et CLS nul.
+- [ ] **A234 — Animer les cartes au survol :** renforcer bordure, média ou détail sur desktop sans agrandir la grille ; validation : aucun voisin ne saute et le CTA reste à sa place.
+- [ ] **A235 — Animer le feedback panier :** confirmer l’ajout par une micro-interaction locale et accessible, sans popup agressif ; validation : l’utilisateur sait que l’ajout est réussi et peut continuer.
+- [ ] **A236 — Animer les transitions de fiche :** conserver le zoom fluide demandé, avec fallback immédiat sur appareil lent ou mouvement réduit ; validation : retour arrière et URL restent fiables.
+- [ ] **A237 — Prévoir un mode mouvement réduit :** désactiver ticker animé, parallax, rotation et zoom non essentiel ; validation : tout le contenu et toutes les actions restent présents.
+- [ ] **A238 — Prévoir un mode performance basse :** réduire les images, désactiver les animations coûteuses et conserver les contrôles ; validation : pas de latence perceptible sur mobile moyen.
+- [ ] **A239 — Tester la motion au tactile :** vérifier appui, interruption, double-tap, scroll rapide et rotation d’écran ; validation : aucun geste ne déclenche une mauvaise page ou un double ajout.
+- [ ] **A240 — Faire signer le langage animé WOOD :** choisir les animations retenues, refusées et optionnelles avec la propriétaire et son conjoint ; validation : document de référence archivé avant déploiement.
+
+### Fiche d’exécution direction artistique `A191–A240`
+
+- **A191–A200** — Fichiers : `docs/design/wood-art-direction.md`, `boutique.css`, `responsive.css`, captures. Validation : ratios premium/chill/graffiti et grille validés.
+- **A201–A210** — Fichiers : `assets/graphics/`, registre d’assets, CSS stickers, tests overflow. Validation : assets originaux, optionnels et traçables.
+- **A211–A220** — Fichiers : dictionnaire éditorial, cartes, fiches, FAQ, tests copy. Validation : ton WOOD cohérent et parcours critique neutre.
+- **A221–A230** — Fichiers : briefs image, `assets/products/`, pipeline d’export, alt text. Validation : placeholders non trompeurs et remplacement réversible.
+- **A231–A240** — Fichiers : CSS/JS motion, `prefers-reduced-motion`, Playwright, matrice mobile. Validation : animation fluide, interrompable et sans régression.
+
 ### Interdits explicites issus de l’audit
 
 - Ne pas copier la palette noir/blanc/lime, la police, le wordmark, les slogans, les photos, les badges exacts ou les textes de TealerLab.
@@ -1460,6 +1538,8 @@ La relecture de l’accueil, du catalogue et d’une fiche produit TealerLab con
 10. `A151–A160` : préparer le remplacement par les photos réelles, optimiser les assets, tester les animations et obtenir les validations finales.
 11. `A161–A175` : recomposer l’accueil WOOD avec la structure TealerLab utile, puis cadrer fiches, livraison et contenus vérifiables.
 12. `A176–A190` : ajouter seulement les blocs prouvables, verrouiller le responsive, la motion, les performances et les validations croisées.
+13. `A191–A220` : définir l’art direction, les stickers, le graffiti, l’humour, les emojis et la voix éditoriale avant de générer les assets.
+14. `A221–A240` : générer, contrôler, animer et faire valider les images et micro-interactions sans toucher au socle WOOD.
 
 ## Bloc de tâches 65 à 74 — éléments supplémentaires récupérés de l’audit TealerLab
 
