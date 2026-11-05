@@ -32,6 +32,7 @@ a{color:inherit;text-decoration:none}button{font:inherit}img{max-width:100%;disp
 @media(max-width:500px){.checkout-section h1{font-size:clamp(34px,calc(17.15vw - 20.86px),46px)}}
 @media (min-width:801px) and (max-width:900px){.nav{height:68px}.nav-cta{display:none}.hamb{display:block}.nav-links{display:none}.nav-links.open{display:flex;position:absolute;left:0;right:0;top:67px;background:#151e17;border-bottom:1px solid #405241;padding:25px 22px;flex-direction:column;align-items:stretch;gap:0}.nav-links a{padding:14px 10px;border-bottom:1px solid #314032}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
+@media(prefers-reduced-motion:reduce){html.wood-page-transitions body.wood-page-enter,html.wood-page-transitions body.wood-page-ready,html.wood-page-transitions body.wood-page-exit{opacity:1;transform:none;transition:none!important}}
 
 /* Product browsing: three balanced cards on wide screens, then deliberate responsive fallbacks. */
 .product-grid{grid-auto-rows:1fr}
@@ -40,6 +41,7 @@ a{color:inherit;text-decoration:none}button{font:inherit}img{max-width:100%;disp
 .product-card--navigable{cursor:zoom-in}
 .product-card--navigable:focus-visible{outline:3px solid var(--lime);outline-offset:5px}
 .wood-reveal{opacity:0;transform:translate3d(0,18px,0);transition:opacity .46s ease var(--wood-reveal-delay,0ms),transform .46s cubic-bezier(.22,.75,.2,1) var(--wood-reveal-delay,0ms)}.wood-reveal.is-visible{opacity:1;transform:none}
+html.wood-page-transitions body.wood-page-enter{opacity:0;transform:translate3d(0,8px,0)}html.wood-page-transitions body.wood-page-ready{opacity:1;transform:none;transition:opacity .18s ease,transform .18s ease}html.wood-page-transitions body.wood-page-exit{opacity:0;transform:translate3d(0,-4px,0);transition:opacity .17s ease,transform .17s ease}
 .product-zoom-clone{position:fixed;z-index:100;left:var(--zoom-to-left);top:var(--zoom-to-top);width:var(--zoom-to-width);height:var(--zoom-to-height);margin:0;pointer-events:none;transform-origin:top left;transform:translate3d(var(--zoom-from-x),var(--zoom-from-y),0) scaleX(var(--zoom-from-scale-x)) scaleY(var(--zoom-from-scale-y));will-change:transform,box-shadow,border-color;backface-visibility:hidden;transition:transform .34s cubic-bezier(.22,.75,.2,1),box-shadow .34s ease,border-color .34s ease}
 .product-zoom-clone.is-active{transform:translate3d(0,0,0) scaleX(1) scaleY(1);border-color:var(--lime);box-shadow:0 24px 100px rgba(0,0,0,.65)}
 .flower-detail{padding-top:38px;padding-bottom:100px}

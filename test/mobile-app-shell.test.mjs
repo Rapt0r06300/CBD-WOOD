@@ -42,10 +42,15 @@ test('la couche mobile utilise les capacités réelles du navigateur et protège
   assert.match(shell, /'produit\.html'/);
   assert.match(shell, /IntersectionObserver/);
   assert.match(shell, /prefers-reduced-motion/);
+  assert.match(shell, /initPageTransitions/);
+  assert.match(shell, /wood-page-exit/);
+  assert.match(shell, /window\.location\.assign/);
   assert.match(shell, /initFooterSections/);
   assert.match(shell, /woodFooterSections/);
   assert.match(stylesheet, /\.wood-reveal\.is-visible/);
   assert.match(boutiqueStylesheet, /\.footer-section>summary/);
+  assert.match(boutiqueStylesheet, /wood-page-transitions body\.wood-page-ready/);
+  assert.match(boutiqueStylesheet, /wood-page-transitions body\.wood-page-exit/);
 });
 
 test('la navigation mobile ne se charge pas dans l’espace propriétaire', async () => {

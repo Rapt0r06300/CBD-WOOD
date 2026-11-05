@@ -83,6 +83,31 @@
     if (lowData) document.documentElement.classList.add('wood-low-data');
   }
 
+  function initPageTransitions() {
+    if (document.documentElement.classList.contains('wood-low-data') || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+
+    const root = document.documentElement;
+    root.classList.add('wood-page-transitions');
+    body.classList.add('wood-page-enter');
+    const reveal = () => window.requestAnimationFrame(() => body.classList.add('wood-page-ready'));
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', reveal, { once: true });
+    else reveal();
+
+    document.addEventListener('click', (event) => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const link = event.target.closest?.('a[href]');
+      if (!link || link.target === '_blank' || link.hasAttribute('download') || link.closest('.cart-panel')) return;
+      const url = new URL(link.href, window.location.href);
+      if (url.origin !== window.location.origin || url.protocol !== window.location.protocol) return;
+      if (url.pathname === window.location.pathname && url.search === window.location.search) return;
+      if (url.pathname.endsWith('.pdf') || url.pathname.endsWith('.zip')) return;
+      event.preventDefault();
+      body.classList.add('wood-page-exit');
+      window.setTimeout(() => { window.location.assign(url.href); }, 170);
+    });
+    window.addEventListener('pageshow', () => body.classList.remove('wood-page-exit'));
+  }
+
   function initScrollReveal() {
     const targets = document.querySelectorAll('.page-hero__copy, .page-hero__art, .hero-copy, .hero-art, .section-heading, .notice, .story, .visit-grid, .faq-layout, .checkout-layout, .account-dashboard, .flower-detail__copy, .flower-detail-card, .product-detail__copy, .product-detail-card, .footer');
     if (!targets.length || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
@@ -212,6 +237,7 @@
   initFooterSections();
   initLandingImageFallbacks();
   initLowDataMode();
+  initPageTransitions();
   initScrollReveal();
   initPhotoMotion();
   initStructuredMenu();

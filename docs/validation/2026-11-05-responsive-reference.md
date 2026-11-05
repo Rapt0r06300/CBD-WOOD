@@ -25,7 +25,7 @@ Des captures de référence ont également été produites à `320` et `1440` px
 ## Contrôles complémentaires
 
 - Les tests automatisés du dépôt passent (`239 tests`).
-- La feuille de route contient `1 016` items d’exécution : `754` sont vérifiés localement et `262` restent ouverts pour validation propriétaire, accès externes ou données réelles ; les `700` tags `Axxx` sont continus.
+- La feuille de route contient `1 016` items d’exécution : `755` sont vérifiés localement et `261` restent ouverts pour validation propriétaire, accès externes ou données réelles ; les `700` tags `Axxx` sont continus. La transition de page locale est désormais incluse dans les vérifications ; les appareils et navigateurs réels restent distincts.
 - Les captures TealerLab desktop/mobile et le storyboard WOOD correspondant sont archivés dans `docs/audits/2026-11-05-tealerlab-capture-log.md` et `docs/design/wood-home-storyboard.md` ; ils servent de référence structurelle et ne sont pas des assets publics.
 - Le brief photo `docs/design/wood-photo-brief.md` fixe les prises de vue réelles sans bocal ni cloche, les ratios carte/fiche, le nommage, les alt texts et la procédure de remplacement sans toucher à l’achat.
 - Le runbook `docs/ops/incident-runbook.md` couvre commande introuvable, e-mail échoué, stock incohérent et panne Supabase sans recréer ni confirmer une commande depuis le navigateur.
@@ -56,6 +56,7 @@ Des captures de référence ont également été produites à `320` et `1440` px
 - Le garde-fou de mouvement vérifie que les animations restent composées (`transform`/`opacity`), que le scroll n’est jamais intercepté et que `prefers-reduced-motion` conserve toutes les actions. Le chargement progressif garde des liens HTML directs si JavaScript ou un média échoue.
 - Le shell public détecte aussi `Save-Data` et les connexions `2g`/`slow-2g` : les révélations et mouvements non essentiels sont neutralisés, tandis que les contrôles d’achat, le panier et la navigation restent disponibles. La mesure sur appareil et réseau réels reste distincte.
 - Le hero conserve désormais un repère `Explorer` sous forme de lien HTML vers les univers : il ne devient jamais fixe, ne bloque pas le défilement et reste utilisable avec le mouvement réduit.
+- Les transitions de page internes WOOD sont courtes, limitées aux navigations de document, ignorent ancres/téléchargements/panier et se désactivent avec `prefers-reduced-motion` ou un réseau lent ; le retour navigateur reste natif.
 - Playwright a vérifié ce repère à `390 × 844` et `1440 × 900` : `href="#univers"`, boîte contenue dans le viewport et document respectivement large de `390` et `1440` px.
 - Une passe console Chromium a parcouru les 10 routes publiques et n’a relevé ni `console.error` ni `pageerror`. Cette preuve concerne le navigateur local contrôlé ; les variantes Safari, Firefox, appareils réels et erreurs réseau restent distinctes.
 - Les contrôles locaux de continuité couvrent aussi le panier conservé en cas de réseau indisponible, la clé d’idempotence, les snapshots de prix/adresse, le grade client par défaut, l’accès propriétaire confirmé par rôle et les refus RLS. La concurrence réelle de stock, la restauration et l’acceptation sur Supabase distant nécessitent encore un environnement de recette.
