@@ -126,7 +126,7 @@
 
 ### Tâche 1 — Figer la base de référence
 
-- [x] Conserver l’état initial de `main` comme point de comparaison ; la référence de départ est le commit `4e994d3`, puis les contrôles post-modification sont suivis jusqu’au commit courant `b531f72`.
+- [x] Conserver l’état initial de `main` comme point de comparaison ; la référence de départ est le commit `4e994d3`, puis les contrôles post-modification sont suivis jusqu’au commit courant `a8d2475`.
 - [x] Générer une capture de référence des pages publiques, des pages boutique, du panier et du compte ; les captures et le contrôle de largeur sont documentés dans `docs/validation/2026-11-05-responsive-reference.md`.
 - [x] Vérifier que `npm run hostinger:preflight` passe avant toute modification.
 - [ ] Vérifier que le dépôt est propre après le point de sauvegarde.
