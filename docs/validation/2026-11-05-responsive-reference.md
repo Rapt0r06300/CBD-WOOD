@@ -37,6 +37,9 @@ Des captures de référence ont également été produites à `320` et `1440` px
 - Les artefacts de capture locaux restent disponibles dans `output/`, mais sont explicitement ignorés par Git et ne font pas partie du paquet public.
 - Le test `test/homepage-shell.test.mjs` vérifie l’ordre du shell d’accueil, les quatre univers, les deux CTA, la FAQ, les deux boutiques, le footer et l’absence de route admin publique.
 - Une simulation réseau a retardé chaque image de `fleurs.html` de `1,2 s` à `390 px` : dès `DOMContentLoaded`, le titre, les 13 cartes, les 14 actions et la largeur de 390 px étaient déjà conservés, puis identiques après chargement des images.
+- Une passe de robustesse a injecté un nom de produit très long, un prix à six chiffres et une question/réponse FAQ très longue à `320`, `390` et `768` px sur l’accueil, les quatre catalogues et la fiche fleur : le document et le body sont restés exactement à la largeur de la fenêtre et aucun titre ne débordait.
+- Une passe accessibilité navigateur à `390 × 844` a parcouru l’accueil, les fleurs, le checkout et le compte : aucun contrôle visible sans nom accessible n’a été trouvé après prise en compte des labels associés, et 18 tabulations par route sont restées sur des éléments visibles. Les tailles des liens de texte et la validation lecteur d’écran restent à vérifier sur appareils réels.
+- Une baseline de performance locale a relevé `DOMContentLoaded = 26 ms`, `FCP = 56 ms`, `CLS = 0` et `891 ms` pour la navigation accueil → fleurs dans le navigateur de contrôle. Ces valeurs sont indicatives et ne valent pas mesure de production.
 
 ## Limite de cette preuve
 

@@ -424,8 +424,8 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 30 — Ajouter les garde-fous d’affichage
 
-- [ ] Prévoir des titres longs, noms en plusieurs mots et prix larges.
-- [ ] Gérer l’image lente, l’image absente, le chargement lent et l’erreur Supabase.
+- [x] Prévoir des titres longs, noms en plusieurs mots et prix larges ; une passe navigateur a injecté un titre, un prix et une FAQ extrêmes à 320, 390 et 768 px sans débordement.
+- [x] Gérer l’image lente, l’image absente, le chargement lent et l’erreur Supabase ; les replis image et la simulation réseau sont vérifiés localement, tandis que l’erreur Supabase reste couverte par les états de repli sans connexion réelle.
 - [x] Désactiver les animations si `prefers-reduced-motion` est activé.
 - [x] Conserver une action fonctionnelle même si l’animation ne se lance pas.
 
@@ -1094,14 +1094,14 @@ Ces sous-tâches détaillent la refonte à exécuter plus tard. Elles ne valent 
 - [x] **A25 — Adapter la grille ordinateur :** trois produits par ligne, hauteur de carte alignée et marge régulière.
 - [x] **A26 — Adapter la grille mobile :** deux colonnes formant quatre cases visibles dans un bloc `2 × 2` quand la largeur le permet.
 - [x] **A27 — Adapter la tablette :** deux ou trois colonnes selon la largeur réelle, sans dépendre du nom du modèle.
-- [ ] **A28 — Isoler les carrousels :** overflow local contrôlé, boutons précédent/suivant accessibles et aucun débordement de page.
+- [x] **A28 — Isoler les carrousels :** aucun carrousel produit actif dans les routes publiques actuelles ; le ticker est le seul rail animé, son overflow reste local, et les passes 320–1440 px confirment que le document et le body ne débordent pas.
 - [x] **A29 — Vérifier les zones sûres :** encoche, barre d’outils Safari, orientation et navigation basse ; les zones `safe-area-inset-*`, `100svh`, la navigation basse et les orientations portrait/paysage ont été contrôlées sur les routes publiques.
-- [ ] **A30 — Vérifier les contenus extrêmes :** nom long, prix élevé, absence d’image, état incomplet et texte de FAQ long.
+- [x] **A30 — Vérifier les contenus extrêmes :** noms et prix très longs, FAQ longue et états d’image absente ont été injectés ou simulés à 320, 390 et 768 px ; aucune largeur de document ne dépasse la fenêtre et les cartes restent lisibles.
 - [x] **A31 — Ajouter les apparitions au scroll :** une fois les dimensions réservées, sans déplacer les contrôles.
 - [x] **A32 — Ajouter le bandeau animé WOOD :** message de service ou de marque, jamais promotion inventée ; repli accessible et statique en mouvement réduit.
 - [x] **A33 — Ajouter les micro-interactions :** hover desktop, feedback tactile mobile, ajout panier et focus clavier.
 - [x] **A34 — Respecter `prefers-reduced-motion` :** aucune information ne dépend d’un mouvement.
-- [ ] **A35 — Mesurer la performance :** images, CLS, temps d’interaction et comportement sur réseau lent.
+- [x] **A35 — Mesurer la performance :** baseline locale en navigateur à 390 px : DOMContentLoaded 26 ms, FCP 56 ms, CLS 0, navigation accueil → fleurs 891 ms ; la simulation d’images retardées reste utilisable avant et après chargement. Ces chiffres ne remplacent pas la mesure d’un appareil réel en production.
 - [x] **A36 — Garder les scripts sobres :** pas de dépendance lourde ou de widget tiers nécessaire à l’achat.
 - [ ] **A37 — Tester l’accessibilité :** clavier, lecteur d’écran, contraste, focus, noms accessibles et tailles tactiles.
 - [x] **A38 — Tester les parcours :** accueil → univers → fiche → panier → compte/checkout, sur desktop et mobile ; Playwright a rejoué l’accueil → fleurs → fiche Nimbus, vérifié la fiche compte/checkout et, avec un panier de test local, le panneau panier → checkout à 390 px. L’ordre réel reste bloqué tant que les stocks et le paiement ne sont pas activés.
