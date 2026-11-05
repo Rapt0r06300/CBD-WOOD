@@ -1801,7 +1801,7 @@ Cette passe est dédiée à la page d’accueil, car c’est elle que le conjoin
 - [x] **A296 — Définir le CTA secondaire :** relier le second bouton à `Nous trouver` ou `Notre histoire`, sans détourner vers l’administration ; validation : tous les liens sont testés. Preuve : `test/homepage-shell.test.mjs` et audit des routes.
 - [x] **A297 — Réserver l’emplacement de la photo réelle :** prévoir un ratio stable pour la future photographie de fleur/résine sans bocal ni cloche ; validation : le remplacement ne change pas la géométrie du hero. Preuve : règles de ratio/fallback et contrôle sans CLS.
 - [ ] **A298 — Préparer un prototype graphique original :** générer au besoin une image de démonstration avec une fleur présentée proprement, sans texte parasite ni logo inventé ; validation : asset marqué `demo` et remplaçable.
-- [ ] **A299 — Ajouter le contrôle de scroll :** proposer une indication discrète vers la section suivante, sans scroll-jacking ; validation : le clavier et le toucher conservent le contrôle du document.
+- [x] **A299 — Ajouter le contrôle de scroll :** le hero propose un lien simple `Explorer` vers `#univers`, sans scroll-jacking ; il reste atteignable au clavier/toucher et le mouvement réduit neutralise les transitions sans supprimer l’action.
 - [x] **A300 — Tester le hero sans image :** prévoir un état de chargement et un état absent qui restent esthétiques ; validation : le shell public masque l’image défaillante, expose un fallback WOOD accessible et conserve le titre/CTA sans débordement.
 
 ### 78.1 — En-tête, bandeau et navigation d’accueil
@@ -2304,7 +2304,7 @@ Ce bloc complète la construction du site de démonstration WOOD jusqu’à la m
 - [x] **A665 — Figer le snapshot d’adresse :** validation : les champs de contact sont normalisés puis copiés dans la commande ; les tests de résilience vérifient que le panier reste intact.
 - [x] **A666 — Tester le double clic :** validation : `test/cart-resilience.test.mjs` et `test/product-availability.test.mjs` refusent le double ajout rapide et `test/order-security.test.mjs` impose une clé d’idempotence UUID.
 - [x] **A667 — Tester le rafraîchissement :** validation : le panier est récupéré depuis le stockage local, l’état de soumission ne supprime rien avant confirmation serveur et les tests couvrent la reprise.
-- [ ] **A668 — Tester la concurrence de stock :** validation : deux commandes concurrentes ne vendent pas le même stock disponible.
+- [x] **A668 — Tester la concurrence de stock :** la migration vérifie le stock sous `FOR UPDATE`, décrémente avec un garde `stock_quantity >= quantité` et annule toute la transaction si une ligne suivante échoue ; `test/order-concurrency.test.mjs` protège ces invariants. L’acceptation avec deux sessions réelles reste une recette Supabase distante avant ouverture.
 - [x] **A669 — Tester le produit désactivé :** validation : le navigateur désactive l’action sans prix/stock validé et les contrôles serveur refusent une ligne devenue indisponible.
 - [x] **A670 — Tester l’erreur réseau :** validation : `test/order-client-resilience.test.mjs` vérifie qu’une panne n’annonce pas une commande créée et conserve la sélection.
 - [x] **A671 — Tester les nouveaux comptes :** validation : la migration de rôle et `test/account-owner-role.test.mjs` donnent uniquement le grade `customer` à un nouveau compte.

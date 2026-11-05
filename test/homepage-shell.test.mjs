@@ -23,6 +23,8 @@ test('la page d’accueil garde le shell éditorial WOOD complet et dans le bon 
   assert.match(homepage, /<h1 id="hero-title">LE CBD<span>AUTRE-<\/span>MENT\.<\/h1>/);
   assert.match(homepage, /Découvrir WOOD/);
   assert.match(homepage, /Nous trouver/);
+  assert.match(homepage, /class="hero-scroll" href="#univers"/);
+  assert.match(homepage, /aria-label="Descendre vers les univers WOOD"/);
   assert.match(homepage, /class="cards"/);
   assert.equal((homepage.match(/aria-label="Voir la page /g) || []).length, 4);
   for (const route of ['fleurs.html', 'resines.html', 'wood-shop.html', 'bien-etre.html']) {
@@ -37,6 +39,13 @@ test('la page d’accueil garde le shell éditorial WOOD complet et dans le bon 
   assert.match(homepage, /<details><summary>/);
   assert.match(homepage, /class="footer-links"/);
   assert.doesNotMatch(homepage, /href="admin\.html"/i);
+});
+
+test('le repère de défilement reste un lien simple et non bloquant', async () => {
+  const responsive = await readFile(new URL('../responsive.css', import.meta.url), 'utf8');
+  assert.match(homepage, /hero-scroll[^>]*href="#univers"/);
+  assert.match(homepage, /@media\(prefers-reduced-motion:reduce\)/);
+  assert.doesNotMatch(responsive, /hero-scroll[^\n]*position:\s*fixed/);
 });
 
 test('les contenus longs de l’accueil ont un repli mobile', async () => {
