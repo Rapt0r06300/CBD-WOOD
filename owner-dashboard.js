@@ -2,7 +2,7 @@ const categoryLabels = { fleurs: 'Fleurs CBD', resines: 'Résines', 'bien-etre':
 const flowerTierGrams = [1, 3, 5, 10, 25];
 const orderStatuses = ['pending', 'paid', 'preparing', 'ready', 'completed', 'cancelled'];
 const statusLabels = { pending: 'En attente', paid: 'Payée', preparing: 'En préparation', ready: 'Prête', completed: 'Terminée', cancelled: 'Annulée' };
-const notificationKindLabels = { order_created: 'Commande créée', owner_order_alert: 'Alerte propriétaire', payment_confirmed: 'Paiement confirmé', invoice_ready: 'Document prêt', delivery_update: 'Livraison mise à jour', order_cancelled: 'Commande annulée', refund_confirmed: 'Remboursement confirmé' };
+const notificationKindLabels = { order_created: 'Commande créée', owner_order_alert: 'Alerte propriétaire', payment_confirmed: 'Paiement confirmé', invoice_ready: 'Document prêt', delivery_update: 'Livraison mise à jour', delivery_issue_alert: 'Problème de livraison', order_cancelled: 'Commande annulée', refund_confirmed: 'Remboursement confirmé' };
 const notificationStatusLabels = { pending: 'À envoyer', processing: 'En cours', sent: 'Envoyé', failed: 'Échec', dead_letter: 'À reprendre', cancelled: 'Annulé' };
 const documentLabels = { order_confirmation: 'Confirmation', payment_receipt: 'Reçu de paiement', invoice: 'Facture' };
 

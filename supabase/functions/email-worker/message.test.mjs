@@ -69,6 +69,20 @@ test('builds a delivery update from the persisted delivery event', () => {
   });
 
   assert.equal(message.subject, 'Suivi de livraison — WOOD-1001');
+  assert.match(message.text, /en cours/);
   assert.match(message.text, /WOOD-42/);
   assert.match(message.html, /En route/);
+});
+
+test('builds a private owner alert for a failed delivery', () => {
+  const message = buildOrderEmailMessage({
+    order,
+    items,
+    kind: 'delivery_issue_alert',
+    deliveryEvent: { status: 'failed', note: 'Adresse à vérifier', trackingReference: '' },
+  });
+
+  assert.equal(message.subject, 'Problème de livraison WOOD — WOOD-1001');
+  assert.match(message.text, /nécessite une vérification/i);
+  assert.match(message.text, /Adresse à vérifier/);
 });

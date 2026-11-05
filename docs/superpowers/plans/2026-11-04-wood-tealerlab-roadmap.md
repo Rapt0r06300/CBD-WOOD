@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **135 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **137 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit courant ont été vérifiés avec succès ; la page publique, `produit.html` et une image WebP répondent en HTTP 200. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -77,7 +77,7 @@
 - Les cartes de résines, bien-être et WOOD Shop ouvrent maintenant `produit.html` avec une fiche générique, un état de disponibilité et le panier partagé ; la fiche fleur dédiée reste inchangée.
 - Les blocs éditoriaux publics utilisent une révélation au défilement limitée à `opacity/transform`, désactivée sans `IntersectionObserver` ou avec `prefers-reduced-motion` ; les contrôles d’achat restent disponibles sans animation.
 - Le contrôle navigateur confirme que l’ouverture du panier donne le focus à son dialogue (`role="dialog"`, `aria-modal="true"`) et que `Échap` le ferme en rendant le focus au bouton déclencheur ; le menu applique le même retour de focus dans le code testé.
-- Le dernier contrôle distant Supabase signale une seule alerte sécurité active : la protection contre les mots de passe compromis est désactivée ; la tâche 46 reste donc ouverte et doit être activée dans Auth avant production. Les huit avis de performance sont informatifs (index encore inutilisés sur une base sans trafic, dont les index d’historique et d’outbox) et ne justifient pas une suppression prématurée.
+- Le dernier contrôle distant Supabase signale une seule alerte sécurité active : la protection contre les mots de passe compromis est désactivée ; la tâche 46 reste donc ouverte et doit être activée dans Auth avant production. Les 24 avis de performance sont informatifs (index encore inutilisés sur une base sans trafic, dont les index d’historique et d’outbox) et ne justifient pas une suppression prématurée.
 - Ces preuves ne remplacent pas la recette finale des orientations, du clavier virtuel, des navigateurs réels, des réglages Auth/Turnstile/e-mail et des sauvegardes Supabase : ces points restent volontairement ouverts dans les tâches concernées.
 - Une copie `dist-hostinger` servie depuis sa racine a également été parcourue : les 10 routes principales répondent, `/admin.html` répond 404 et la largeur reste contenue à 390 px.
 - Le panier nettoie les données locales avant réutilisation, échappe les valeurs affichées, plafonne une quantité locale à 99, se resynchronise entre onglets et garde le focus dans son dialogue au clavier ; ces garde-fous sont couverts par `test/cart-resilience.test.mjs`.
@@ -95,6 +95,7 @@
 - Le 5 novembre 2026, les tokens newsletter sont signés, expirants et vérifiés avec un secret serveur ; la base ne conserve qu’une empreinte et le worker revalide le consentement juste avant l’envoi.
 - Le 5 novembre 2026, `newsletter-campaign` prépare les lots, réserve les destinataires avec un bail anti-doublon, journalise chaque tentative et refuse toute campagne qui n’est pas explicitement en `sending`.
 - Le 5 novembre 2026, `delivery-events` impose des transitions de livraison autorisées, une clé d’idempotence et une notification cohérente ; aucune livraison n’est auto-marquée sans événement propriétaire.
+- Le 5 novembre 2026, `20261105150000_delivery_notification_events.sql` a été appliquée : chaque événement de livraison possède son `delivery_event_id`, les étapes successives ne s’écrasent plus dans l’outbox et un échec crée une alerte propriétaire distincte. `delivery-events` et `email-worker` ont été redéployées avec cette règle ; aucun e-mail réel ne part sans Gmail configuré.
 - Le 5 novembre 2026, `document-download` délivre uniquement des URL signées de cinq minutes après contrôle du compte client ou du rôle propriétaire ; le bucket PDF reste privé.
 - Le 5 novembre 2026, le tableau de bord propriétaire permet aussi d’ouvrir les documents prêts d’une commande via `document-download`, sans exposer de chemin Storage durable. Les états `dead_letter` et `cancelled` sont également lisibles dans le suivi des notifications.
 - Le 5 novembre 2026, `20261105120000_owner_order_alerts.sql` a été appliquée au projet Supabase : chaque nouvelle commande persistée crée, quand un propriétaire est configuré, une alerte propriétaire distincte dans l’outbox. Le worker `email-worker` sait la formater, mais aucun mail réel ne part sans les secrets Gmail et un déclencheur serveur autorisé.
@@ -1945,7 +1946,7 @@ Ce bloc décrit tout ce qu’il faut pour obtenir une chaîne fiable `commande �
 ### 84 — Modèle de données e-mail et outbox
 
 - [x] **A401 — Généraliser `order_notification_outbox` :** validation : le modèle accepte les nouveaux messages sans supprimer les commandes existantes.
-- [x] **A402 — Ajouter les types transactionnels :** `order_created`, `payment_confirmed`, `invoice_ready`, `delivery_update`, `order_cancelled`, `refund_confirmed`, `owner_order_alert` ; validation : enum et code sont identiques.
+- [x] **A402 — Ajouter les types transactionnels :** `order_created`, `payment_confirmed`, `invoice_ready`, `delivery_update`, `delivery_issue_alert`, `order_cancelled`, `refund_confirmed`, `owner_order_alert` ; validation : enum et code sont identiques.
 - [x] **A403 — Ajouter la table `email_templates` :** validation : clé, langue, sujet, HTML, texte, version et état actif sont séparés.
 - [x] **A404 — Ajouter la version des modèles :** validation : une commande ancienne garde le modèle utilisé au moment de l’envoi.
 - [x] **A405 — Ajouter la table `email_delivery_attempts` :** validation : chaque tentative conserve fournisseur, horodatage, résultat, code et erreur réduite.
@@ -1986,9 +1987,9 @@ Ce bloc décrit tout ce qu’il faut pour obtenir une chaîne fiable `commande �
 - [x] **A434 — Indiquer clairement “paiement en attente” si nécessaire :** validation : aucun texte ne laisse croire que Viva a confirmé la transaction.
 - [x] **A435 — Concevoir l’e-mail “paiement confirmé” :** validation : il n’est généré qu’après événement Viva vérifié.
 - [x] **A436 — Concevoir l’alerte propriétaire nouvelle commande :** validation : elle permet de retrouver la commande sans exposer de secret.
-- [ ] **A437 — Concevoir l’e-mail “commande préparée” :** validation : son envoi dépend d’un changement propriétaire traçable.
-- [ ] **A438 — Concevoir l’e-mail “commande expédiée” :** validation : le texte n’invente pas de suivi si aucun numéro n’existe.
-- [ ] **A439 — Concevoir l’e-mail “livrée” :** validation : il n’est envoyé qu’après confirmation définie par le processus de livraison.
+- [x] **A437 — Concevoir l’e-mail “commande préparée” :** validation : le changement de livraison `in_progress` est un événement propriétaire traçable et déclenche un message client distinct.
+- [x] **A438 — Concevoir l’e-mail “commande expédiée” :** validation : le suivi reste optionnel et le texte n’invente jamais de numéro absent.
+- [x] **A439 — Concevoir l’e-mail “livrée” :** validation : le message part uniquement après l’événement de livraison `delivered` persisté.
 - [x] **A440 — Concevoir l’e-mail d’annulation :** validation : raison publique courte et état final sont cohérents.
 - [x] **A441 — Concevoir l’e-mail de remboursement :** validation : il ne part qu’après confirmation du remboursement.
 - [x] **A442 — Ajouter une version texte alternative :** validation : l’e-mail reste compréhensible sans HTML.
@@ -2043,7 +2044,7 @@ Ce bloc décrit tout ce qu’il faut pour obtenir une chaîne fiable `commande �
 - [x] **A485 — Ajouter la table de suivi livraison :** validation : un événement ne peut pas modifier silencieusement l’historique.
 - [x] **A486 — Ajouter le numéro de suivi optionnel :** validation : aucun faux suivi n’est affiché si le transporteur n’est pas défini.
 - [x] **A487 — Ajouter l’e-mail de mise à jour livraison :** validation : le message reflète l’état réel de la commande.
-- [ ] **A488 — Ajouter l’alerte d’adresse problématique :** validation : la commande reste visible et l’action à prendre est claire.
+- [x] **A488 — Ajouter l’alerte d’adresse problématique :** validation : un événement `failed` conserve la commande, avertit la propriétaire et décrit l’action à vérifier.
 - [x] **A489 — Ajouter l’annulation avant traitement :** validation : les transitions interdites sont refusées côté serveur.
 - [x] **A490 — Ajouter la gestion d’un échec de livraison :** validation : la commande passe dans un état explicite et une alerte propriétaire est créée.
 - [x] **A491 — Interdire le marquage automatique “livrée” :** validation : aucun cron ne clôt une commande sans événement autorisé.
@@ -2062,59 +2063,59 @@ Ce bloc décrit tout ce qu’il faut pour obtenir une chaîne fiable `commande �
 
 ### 90 — Campagnes, lots et hygiène de newsletter
 
-- [ ] **A501 — Créer `newsletter_campaigns` :** validation : nom interne, sujet, contenu, statut, version et dates sont séparés des abonnés.
-- [ ] **A502 — Définir les statuts de campagne :** `draft`, `scheduled`, `sending`, `paused`, `sent`, `cancelled`, `failed` ; validation : transitions interdites refusées.
-- [ ] **A503 — Ajouter la sauvegarde brouillon :** validation : un brouillon ne peut jamais partir par erreur.
+- [x] **A501 — Créer `newsletter_campaigns` :** validation : nom interne, sujet, contenu, statut, version et dates sont séparés des abonnés.
+- [x] **A502 — Définir les statuts de campagne :** `draft`, `scheduled`, `sending`, `paused`, `sent`, `cancelled`, `failed` ; validation : transitions interdites refusées.
+- [x] **A503 — Ajouter la sauvegarde brouillon :** validation : un brouillon ne peut jamais partir par erreur.
 - [ ] **A504 — Ajouter la planification facultative :** validation : une campagne future ne peut pas être envoyée avant son heure.
-- [ ] **A505 — Créer l’audience à partir des abonnements actifs :** validation : les clients désinscrits sont exclus au moment de l’envoi, pas seulement à la création.
-- [ ] **A506 — Interdire l’audience issue de commandes sans consentement :** validation : test négatif avec client ayant acheté mais refusé le marketing.
+- [x] **A505 — Créer l’audience à partir des abonnements actifs :** validation : les clients désinscrits sont exclus au moment de l’envoi, pas seulement à la création.
+- [x] **A506 — Interdire l’audience issue de commandes sans consentement :** validation : test négatif avec client ayant acheté mais refusé le marketing.
 - [ ] **A507 — Prévoir des segments minimaux :** validation : seuls les critères validés par la propriétaire sont utilisables.
 - [ ] **A508 — Ajouter l’aperçu propriétaire :** validation : sujet, expéditeur, contenu et pied de page sont visibles avant envoi.
 - [ ] **A509 — Ajouter l’envoi test isolé :** validation : un test ne touche jamais la vraie audience.
-- [ ] **A510 — Versionner le contenu final :** validation : le message envoyé est reconstructible après modification du brouillon.
-- [ ] **A511 — Ajouter le lien de désinscription dans chaque newsletter :** validation : aucune campagne active ne peut être enregistrée sans lien valide.
+- [x] **A510 — Versionner le contenu final :** validation : le message envoyé est reconstructible après modification du brouillon.
+- [x] **A511 — Ajouter le lien de désinscription dans chaque newsletter :** validation : aucune campagne active ne peut être enregistrée sans lien valide.
 - [ ] **A512 — Créer la liste de suppression :** validation : désinscription, rebond définitif et plainte bloquent tout futur marketing.
 - [ ] **A513 — Ajouter le statut `confirmed` :** validation : une adresse non confirmée reste exclue si le double opt-in est activé.
 - [ ] **A514 — Prévoir la réinscription explicite :** validation : une réinscription remplace un retrait uniquement par action claire du client.
 - [ ] **A515 — Classer les rebonds définitifs :** validation : l’adresse est supprimée des lots futurs.
-- [ ] **A516 — Classer les erreurs temporaires :** validation : elles sont réessayées avec une limite, pas ajoutées directement à la suppression.
+- [x] **A516 — Classer les erreurs temporaires :** validation : elles sont réessayées avec une limite, pas ajoutées directement à la suppression.
 - [ ] **A517 — Enregistrer les plaintes :** validation : une plainte retire immédiatement l’adresse des campagnes.
 - [ ] **A518 — Prévoir la réception d’événements fournisseur :** validation : les événements sont authentifiés et idempotents.
-- [ ] **A519 — Créer les lots de destinataires :** validation : une campagne de 1 ou 1 000 destinataires suit le même modèle.
-- [ ] **A520 — Fixer une taille de lot configurable :** validation : la valeur est plafonnée et documentée.
+- [x] **A519 — Créer les lots de destinataires :** validation : une campagne de 1 ou 1 000 destinataires suit le même modèle.
+- [x] **A520 — Fixer une taille de lot configurable :** validation : la valeur est plafonnée et documentée.
 - [ ] **A521 — Ajouter un rythme d’envoi :** validation : le worker respecte les limites choisies au lieu d’envoyer en rafale.
 - [ ] **A522 — Ajouter un plafond journalier :** validation : le système se met en pause avant dépassement.
-- [ ] **A523 — Limiter les workers concurrents :** validation : deux workers ne prennent pas le même destinataire.
-- [ ] **A524 — Ajouter une idempotence campagne/destinataire :** validation : une relance ne renvoie pas un message déjà confirmé.
-- [ ] **A525 — Créer `newsletter_deliveries` :** validation : chaque destinataire possède un état individuel et un lien vers la campagne.
-- [ ] **A526 — Enregistrer l’identifiant d’envoi :** validation : une réponse fournisseur est rattachée au bon destinataire.
-- [ ] **A527 — Réessayer seulement les erreurs réessayables :** validation : rejet définitif et erreur réseau ne suivent pas la même branche.
-- [ ] **A528 — Ajouter la file des échecs définitifs :** validation : les erreurs restent consultables sans bloquer toute la campagne.
+- [x] **A523 — Limiter les workers concurrents :** validation : deux workers ne prennent pas le même destinataire.
+- [x] **A524 — Ajouter une idempotence campagne/destinataire :** validation : une relance ne renvoie pas un message déjà confirmé.
+- [x] **A525 — Créer `newsletter_deliveries` :** validation : chaque destinataire possède un état individuel et un lien vers la campagne.
+- [x] **A526 — Enregistrer l’identifiant d’envoi :** validation : une réponse fournisseur est rattachée au bon destinataire.
+- [x] **A527 — Réessayer seulement les erreurs réessayables :** validation : rejet définitif et erreur réseau ne suivent pas la même branche.
+- [x] **A528 — Ajouter la file des échecs définitifs :** validation : les erreurs restent consultables sans bloquer toute la campagne.
 - [ ] **A529 — Permettre la pause propriétaire :** validation : une campagne en pause n’est plus consommée par le worker.
 - [ ] **A530 — Permettre la reprise contrôlée :** validation : reprise réservée au owner et journalisée.
 - [ ] **A531 — Permettre l’annulation avant envoi :** validation : aucun lot non envoyé ne part après annulation.
 - [ ] **A532 — Interdire les doublons de campagne :** validation : même clé métier et version ne créent pas deux campagnes actives.
 - [ ] **A533 — Isoler les adresses de test :** validation : elles sont marquées test et jamais comptées dans les statistiques commerciales.
-- [ ] **A534 — Restreindre la gestion aux owners :** validation : les clients ne peuvent pas créer, modifier ou envoyer une campagne.
+- [x] **A534 — Restreindre la gestion aux owners :** validation : les clients ne peuvent pas créer, modifier ou envoyer une campagne.
 - [ ] **A535 — Journaliser les actions marketing :** validation : création, aperçu, test, pause, reprise et envoi sont traçables.
 - [ ] **A536 — Préparer l’export d’un abonné :** validation : l’export ne contient que ses données et son historique pertinent.
 - [ ] **A537 — Préparer la suppression d’un abonné :** validation : suppression et suppression marketing ne sont pas confondues.
 - [ ] **A538 — Définir la conservation :** validation : campagnes, destinataires, erreurs et consentements ont une durée documentée.
-- [ ] **A539 — Ajouter un pied de page newsletter WOOD :** validation : identité, raison de réception et désinscription sont lisibles.
-- [ ] **A540 — Tester le texte brut des newsletters :** validation : liens et désinscription fonctionnent sans HTML.
+- [x] **A539 — Ajouter un pied de page newsletter WOOD :** validation : identité, raison de réception et désinscription sont lisibles.
+- [x] **A540 — Tester le texte brut des newsletters :** validation : liens et désinscription fonctionnent sans HTML.
 - [ ] **A541 — Tester les écrans mobiles :** validation : newsletter lisible sur petits écrans sans bouton coupé.
 - [ ] **A542 — Rendre la désinscription accessible :** validation : lien clavier, contraste et libellé explicite.
-- [ ] **A543 — Expirer les tokens de désinscription :** validation : token usé ou expiré donne une page sûre sans divulgation.
-- [ ] **A544 — Nettoyer les adresses invalides :** validation : format invalide refusé avant ajout et erreur compréhensible.
+- [x] **A543 — Expirer les tokens de désinscription :** validation : token usé ou expiré donne une page sûre sans divulgation.
+- [x] **A544 — Nettoyer les adresses invalides :** validation : format invalide refusé avant ajout et erreur compréhensible.
 - [ ] **A545 — Vérifier l’authentification du domaine d’expédition :** validation : SPF, DKIM et DMARC sont documentés avant campagne réelle.
-- [ ] **A546 — Documenter les limites Gmail pour le marketing :** validation : le lancement est bloqué si le volume dépasse la capacité acceptable.
-- [ ] **A547 — Documenter le basculement fournisseur :** validation : un fournisseur de secours est seulement activé après décision et configuration vérifiées.
+- [x] **A546 — Documenter les limites Gmail pour le marketing :** validation : le lancement est bloqué si le volume dépasse la capacité acceptable.
+- [x] **A547 — Documenter le basculement fournisseur :** validation : un fournisseur de secours est seulement activé après décision et configuration vérifiées.
 - [ ] **A548 — Ajouter le mode simulation :** validation : le worker calcule les destinataires sans envoyer de message.
 - [ ] **A549 — Ajouter les métriques d’envoi :** validation : total prévu, envoyé, refusé, différé et échoué sont cohérents.
 - [ ] **A550 — Ajouter le rapport de campagne :** validation : la propriétaire voit un résumé simple, sans jargon technique.
 - [ ] **A551 — Décider si les ouvertures sont mesurées :** validation : aucun pixel de suivi n’est activé sans décision de confidentialité.
-- [ ] **A552 — Désactiver le tracking par défaut :** validation : aucune donnée comportementale n’est collectée sans option validée.
-- [ ] **A553 — Vérifier la séparation commande/marketing :** validation : reçus et confirmations restent envoyés même après désinscription newsletter.
+- [x] **A552 — Désactiver le tracking par défaut :** validation : aucune donnée comportementale n’est collectée sans option validée.
+- [x] **A553 — Vérifier la séparation commande/marketing :** validation : reçus et confirmations restent envoyés même après désinscription newsletter.
 - [ ] **A554 — Valider les textes légaux newsletter :** validation : les textes sont relus avant activation.
 - [ ] **A555 — Tester une campagne vide :** validation : elle se termine proprement sans worker bloqué.
 - [ ] **A556 — Tester un compte Gmail révoqué en campagne :** validation : pause sûre et action de reconnexion affichée.

@@ -14,6 +14,7 @@ volontairement absentes.
 | `payment_confirmed` | webhook Viva vérifié | client | oui | non |
 | `invoice_ready` | document légal prêt | client | selon document | non |
 | `delivery_update` | événement de livraison validé | client | non | non |
+| `delivery_issue_alert` | événement de livraison `failed` | propriétaire | non | non |
 | `order_cancelled` | annulation autorisée | client | non | non |
 | `refund_confirmed` | remboursement confirmé | client | oui | non |
 | newsletter | campagne `sending` + consentement actif | abonné | non | oui |

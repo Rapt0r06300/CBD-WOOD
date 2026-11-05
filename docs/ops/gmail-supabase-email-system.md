@@ -92,6 +92,8 @@ Depuis l’espace propriétaire, une notification `failed` ou `dead_letter` peut
 
 La newsletter ne doit pas réutiliser aveuglément la file des commandes. Elle exige : consentement prouvable, confirmation éventuelle, désinscription, suppression, lots bornés, quotas, gestion des rebonds et journal par destinataire. Un achat ne vaut pas consentement marketing automatique.
 
+Chaque événement de livraison possède aussi sa propre notification (`delivery_event_id`). Une commande ne peut donc plus écraser silencieusement la notification précédente : `in_progress`, `delivered` et `failed` restent visibles séparément. Un événement `failed` ajoute une alerte propriétaire distincte afin que l’adresse ou l’instruction soit vérifiée sans perdre la commande.
+
 Gmail peut convenir à un faible volume après vérification des limites et de la délivrabilité. Pour un volume important, la décision doit être réévaluée avec un fournisseur transactionnel spécialisé ; aucun basculement ne doit être automatique.
 
 Le lien de désinscription est un jeton signé et expirant qui contient l’identifiant de l’abonné, mais aucun secret. La base conserve uniquement son empreinte. Le worker revalide le consentement juste avant chaque envoi, ce qui évite qu’une désinscription concurrente reçoive encore une campagne.

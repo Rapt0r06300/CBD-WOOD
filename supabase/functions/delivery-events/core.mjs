@@ -8,6 +8,14 @@ const transitions = {
 
 export const DELIVERY_STATUSES = Object.freeze(Object.keys(transitions));
 
+export const deliveryStatusLabels = Object.freeze({
+  pending: 'en attente',
+  in_progress: 'en cours',
+  delivered: 'livrée',
+  failed: 'à vérifier',
+  cancelled: 'annulée',
+});
+
 export const validateDeliveryTransition = ({ current = null, next }) => {
   if (!DELIVERY_STATUSES.includes(next)) return { ok: false, error: 'État de livraison invalide.' };
   if (!current) return next === 'pending'

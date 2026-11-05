@@ -12,6 +12,44 @@ const bearerToken = (request: Request) => {
   return header.startsWith("Bearer ") ? header.slice(7).trim() : "";
 };
 
+const enqueueDeliveryNotifications = async (client: ReturnType<typeof createClient>, order: { id: string; customer_email: string | null }, event: { id: string; status: string }) => {
+  const rows: Record<string, unknown>[] = [];
+  if (order.customer_email) {
+    rows.push({
+      order_id: order.id,
+      delivery_event_id: event.id,
+      notification_kind: "delivery_update",
+      recipient_email: order.customer_email,
+      template_key: "delivery_update",
+      template_version: 1,
+    });
+  }
+  if (event.status === "failed") {
+    const { data: ownerUsers } = await client
+      .from("owner_users")
+      .select("user_id, created_at")
+      .order("created_at", { ascending: true })
+      .limit(1);
+    const ownerId = ownerUsers?.[0]?.user_id;
+    if (ownerId) {
+      const { data: ownerUser } = await client.auth.admin.getUserById(ownerId);
+      if (ownerUser?.user?.email) {
+        rows.push({
+          order_id: order.id,
+          delivery_event_id: event.id,
+          notification_kind: "delivery_issue_alert",
+          recipient_email: ownerUser.user.email,
+          template_key: "delivery_issue_alert",
+          template_version: 1,
+        });
+      }
+    }
+  }
+  if (!rows.length) return null;
+  const { error } = await client.from("order_notification_outbox").insert(rows);
+  return error && error.code !== "23505" ? error : null;
+};
+
 Deno.serve(async (request) => {
   if (request.method !== "POST") return json({ error: "Méthode non autorisée." }, 405);
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
@@ -69,6 +107,9 @@ Deno.serve(async (request) => {
       .eq("order_id", orderId)
       .eq("event_key", eventKey)
       .maybeSingle();
+    if (!existing) return json({ error: "Événement déjà traité mais introuvable." }, 503);
+    const notificationError = await enqueueDeliveryNotifications(client, order, existing);
+    if (notificationError) return json({ error: "Événement conservé, mais notification à reprendre." }, 503);
     return json({ event: existing, idempotent: true });
   }
   if (eventError || !event) return json({ error: "Événement non enregistré." }, 503);
@@ -78,14 +119,7 @@ Deno.serve(async (request) => {
     const { error: updateError } = await client.from("orders").update({ status: nextOrderStatus }).eq("id", orderId);
     if (updateError) return json({ error: "Événement enregistré, mais commande à vérifier." }, 503);
   }
-  if (order.customer_email) {
-    await client.from("order_notification_outbox").upsert({
-      order_id: orderId,
-      notification_kind: "delivery_update",
-      recipient_email: order.customer_email,
-      template_key: "delivery_update",
-      template_version: 1,
-    }, { onConflict: "order_id,notification_kind" });
-  }
+  const notificationError = await enqueueDeliveryNotifications(client, order, event);
+  if (notificationError) return json({ error: "Événement enregistré, mais notification à reprendre." }, 503);
   return json({ event, order_status: nextOrderStatus });
 });

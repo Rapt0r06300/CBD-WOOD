@@ -11,6 +11,8 @@ test('delivery events require an authenticated owner and an idempotency key', ()
   assert.match(source, /Idempotency-Key/);
   assert.match(source, /event_key/);
   assert.match(source, /order_notification_outbox/);
+  assert.match(source, /delivery_event_id/);
+  assert.match(source, /delivery_issue_alert/);
   assert.doesNotMatch(source, /SUPABASE_ANON_KEY/);
 });
 
@@ -19,4 +21,9 @@ test('delivery events are delivery-only and use validated transitions', () => {
   assert.match(source, /validateDeliveryTransition/);
   assert.match(source, /orderStatusForDelivery/);
   assert.match(source, /code === "23505"/);
+});
+
+test('delivery event retries rebuild the missing notification without duplicating the event', () => {
+  assert.match(source, /enqueueDeliveryNotifications/);
+  assert.match(source, /Événement conservé, mais notification à reprendre/);
 });
