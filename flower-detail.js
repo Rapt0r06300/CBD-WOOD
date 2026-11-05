@@ -29,6 +29,8 @@
     : product.description;
   const presentationImage = presentation?.image || 'assets/fleurs.svg';
   const profileTag = product.profile.includes('STRONG') ? 'STRONG' : product.profile.includes('MEDIUM') ? 'MEDIUM' : 'FLEURS CBD';
+  const priceHeaders = product.prices.map(tier => `<th scope="col">${tier.grams} g</th>`).join('');
+  const priceCells = product.prices.map(tier => `<td>${tier.price.toFixed(2).replace('.', ',')} €</td>`).join('');
   const root = document.getElementById('flowerDetail');
   if (!root) return;
   document.title = `${product.name} — Fleurs CBD | WOOD CBD Shop Nice`;
@@ -42,6 +44,10 @@
           <div><span>Profil</span><strong>${product.profile}</strong></div>
           <div><span>Grammages</span><strong>1 g à 25 g</strong></div>
         </div>
+        <details class="flower-detail__prices">
+          <summary>Voir les tarifs par grammage</summary>
+          <div class="flower-detail__prices-scroll"><table><caption>Tarifs affichés pour ${product.name}</caption><thead><tr>${priceHeaders}</tr></thead><tbody><tr>${priceCells}</tr></tbody></table></div>
+        </details>
         <p class="flower-detail__note">La sélection, les disponibilités et les tarifs sont à confirmer avec la boutique avant toute commande.</p>
       </div>
       <article class="product-card flower-detail-card" data-product-id="${productId}" data-product-name="${product.name}" data-product-category="Fleurs CBD">

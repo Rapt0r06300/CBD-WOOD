@@ -19,6 +19,9 @@ test('une carte fleur mène à la fiche dédiée sans supprimer le bloc d’acha
   assert.match(boutique, /data-detail-href/);
   assert.match(boutique, /data-gram-step/);
   assert.match(boutique, /add-to-cart/);
+  assert.match(flowerDetailScript, /flower-detail__prices/);
+  assert.match(flowerDetailScript, /Tarifs affichés pour/);
+  assert.match(flowerDetailScript, /scope="col"/);
 });
 
 test('les trois autres univers mènent vers une fiche générique exploitable', () => {

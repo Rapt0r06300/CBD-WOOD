@@ -53,6 +53,15 @@ html.wood-page-transitions body.wood-page-enter{opacity:0;transform:translate3d(
 .flower-detail__facts div{border-top:1px solid #536950;padding-top:13px}
 .flower-detail__facts span{display:block;color:#9fb393;font-size:9px;font-weight:900;letter-spacing:1.8px;text-transform:uppercase;margin-bottom:7px}
 .flower-detail__facts strong{display:block;color:var(--lime);font-size:11px;letter-spacing:1px;text-transform:uppercase}
+.flower-detail__prices{margin-top:26px;border-top:1px solid #536950;border-bottom:1px solid #536950}
+.flower-detail__prices summary{cursor:pointer;padding:14px 0;color:var(--lime);font-size:10px;font-weight:900;letter-spacing:1.8px;text-transform:uppercase;list-style-position:inside}
+.flower-detail__prices summary:focus-visible{outline:2px solid var(--lime);outline-offset:5px}
+.flower-detail__prices-scroll{overflow-x:auto;margin:0 0 14px}
+.flower-detail__prices table{width:100%;min-width:320px;border-collapse:collapse;table-layout:fixed;font-size:12px}
+.flower-detail__prices caption{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.flower-detail__prices th,.flower-detail__prices td{padding:8px 4px;border-top:1px solid rgba(83,105,80,.55);text-align:center}
+.flower-detail__prices th{color:#dce8d2;font-weight:700}
+.flower-detail__prices td{color:var(--lime);font-weight:900}
 .flower-detail__note{color:#9eaf9d;font-size:11px;line-height:1.65;margin:30px 0 0}
 .flower-detail-card{min-height:650px}
 .flower-detail-card .product-art{height:auto;min-height:340px;flex:1}
