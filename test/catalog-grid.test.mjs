@@ -9,6 +9,7 @@ test('all storefront categories use the shared responsive product grid', async (
   const mobileStylesheet = await readFile(new URL('../mobile.css', import.meta.url), 'utf8');
   assert.match(stylesheet, /\.product-grid\{display:grid;grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/);
   assert.match(mobileStylesheet, /\.product-grid\s*\{[\s\S]*?grid-template-columns:\s*repeat\(2/);
+  assert.match(mobileStylesheet, /@media \(max-width: 350px\)[\s\S]*?\.product-grid\s*\{[\s\S]*?grid-template-columns:\s*1fr/);
 
   for (const page of pages) {
     const html = await readFile(new URL(`../${page}`, import.meta.url), 'utf8');

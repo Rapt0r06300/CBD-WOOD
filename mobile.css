@@ -239,6 +239,13 @@
   }
 }
 
+@media (max-width: 350px) {
+  /* At the narrowest phones, keep the complete purchase action readable. */
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (any-pointer: coarse) {
   .mobile-app-nav a,
   .mobile-app-nav button,
