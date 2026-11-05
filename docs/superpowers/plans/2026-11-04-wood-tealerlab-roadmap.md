@@ -107,7 +107,7 @@
 - Le 5 novembre 2026, l’accueil officiel [TealerLab](https://tealerlab.com/) a été revu avec Exa, Parallel Search et un navigateur réel en desktop et en viewport mobile `390 × 844`. L’audit confirme une architecture de sections réutilisables, des rails de cartes produits, une hiérarchie de fiche dense et une version mobile réellement recomposée ; ces constats sont traduits dans les tags d’exécution `A01–A40` et `A81–A240` ci-dessous.
 - Cette observation ne valide aucun changement graphique WOOD : elle sert uniquement de référence d’inspiration. Les couleurs, le logo, la typographie, la carte, les prix et les contraintes de la propriétaire restent prioritaires.
 - L’audit de cohérence du 5 novembre 2026 a identifié 40 angles morts opérationnels supplémentaires, ajoutés comme tags `A41–A80` : conformité et données personnelles, parcours d’expédition, états de paiement, e-mails/PDF, sécurité, observabilité, transfert propriétaire et recette de mise en service.
-- La passe visuelle et éditoriale du 5 novembre 2026 a identifié 60 manques supplémentaires, ajoutés comme tags `A81–A140` : composition de l’accueil, menu, cartes, textes, emojis, stickers, photos sous cloche, animations, responsive et contrôles visuels.
+- La passe visuelle et éditoriale du 5 novembre 2026 a identifié 60 manques supplémentaires, ajoutés comme tags `A81–A140` : composition de l’accueil, menu, cartes, textes, emojis, stickers, photographie produit sans contenant, animations, responsive et contrôles visuels.
 - La passe de production de maquette du 5 novembre 2026 ajoute `A141–A160` : registre exact des variétés, visuels de démonstration distincts, descriptions éditoriales, pipeline de remplacement par les photos réelles, performance des images et validation de cohérence entre accueil, boutique, fiche et Supabase.
 - La seconde relecture officielle du 5 novembre 2026 ajoute `A161–A190` : le site TealerLab confirme une page d’accueil scénarisée par rails, blocs éditoriaux, sélections produits, guide, réassurance, livraison, contenus de fiche et produits liés ; WOOD récupère cette architecture d’expérience uniquement, en retirant promotions, fidélité, avis, promesses et claims non validés.
 - La passe direction artistique du 5 novembre 2026 ajoute `A191–A240` : elle détaille le dosage premium/chill/graffiti/stickers/humour, la création d’assets WOOD originaux, les règles de composition, les microcopies, les animations responsables et les contrôles finaux sur tous les supports.
@@ -177,7 +177,7 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 ### Tâche 7 — Structurer la preuve de confiance
 
 - [ ] Mettre en avant uniquement les faits vérifiés : boutique ouverte depuis 2020, conseil en boutique, présence à Nice si confirmé.
-- [ ] Préparer des emplacements pour avis, photos sous cloche et preuves de qualité lorsque la propriétaire les transmettra.
+- [ ] Préparer des emplacements pour avis, photos produit réelles sans contenant et preuves de qualité lorsque la propriétaire les transmettra.
 - [ ] Ne pas fabriquer de note, de nombre de clients ou de test de laboratoire.
 
 **Validation :** aucune preuve commerciale non vérifiée n’est affichée.
@@ -510,7 +510,7 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ## Phase 9 — Mise à jour après l’audit TealerLab et WOOD
 
-L’audit complet ordinateur/mobile est documenté dans `docs/audits/2026-11-04-tealerlab-wood-compatibility-audit.md`. Il confirme que le conjoint aime surtout la hiérarchie commerciale, l’énergie visuelle et la richesse des cartes de TealerLab, tandis que la propriétaire veut garder WOOD, ses couleurs, son logo, son côté premium et ses présentations sous cloche.
+L’audit complet ordinateur/mobile est documenté dans `docs/audits/2026-11-04-tealerlab-wood-compatibility-audit.md`. Il confirme que le conjoint aime surtout la hiérarchie commerciale, l’énergie visuelle et la richesse des cartes de TealerLab, tandis que la propriétaire veut garder WOOD, ses couleurs, son logo, son côté premium, ses touches chill/graffiti et des photos produit réelles sans contenant.
 
 ### Tâche 40 — Valider la direction WOOD chic, premium, chill et graffiti
 
@@ -540,7 +540,7 @@ L’audit complet ordinateur/mobile est documenté dans `docs/audits/2026-11-04-
 
 - [ ] Préparer une hiérarchie visuelle extensible, mais laisser toute promotion et tout voucher désactivé jusqu’à validation de la propriétaire.
 - [ ] Renforcer les cartes produit avec niveau, grammage, prix total, prix au gramme et disponibilité.
-- [ ] Ajouter une réassurance WOOD authentique, une FAQ lisible et la présentation sous cloche.
+- [ ] Ajouter une réassurance WOOD authentique, une FAQ lisible et une présentation photographique réelle sans contenant.
 - [ ] Ne pas ajouter de contenus, avis, chiffres ou promesses non validés.
 
 **Validation :** la boutique est plus vendeuse sans devenir un clone ni un catalogue surchargé.
@@ -599,7 +599,7 @@ La priorité est donc : **préserver WOOD → reprendre la hiérarchie utile de 
 
 ## Annexe d’exécution technique — ordre, fichiers et validations
 
-Cette annexe transforme les 48 tâches de base et les compléments 49 à 74 en consignes directement exploitables. Elle intègre les demandes de la propriétaire : **contraste suffisant sans perdre les couleurs WOOD, univers chic/premium mais aussi chill/graffiti, stickers et humour dosés, présentation qualitative des fleurs et résines sous cloche, logo officiel inchangé, simplicité pour tous les âges et aucune copie de TealerLab**.
+Cette annexe transforme les 48 tâches de base et les compléments 49 à 74 en consignes directement exploitables. Elle intègre les demandes de la propriétaire : **contraste suffisant sans perdre les couleurs WOOD, univers chic/premium mais aussi chill/graffiti, stickers et humour dosés, photographie qualitative des fleurs et résines sans contenant, logo officiel inchangé, simplicité pour tous les âges et aucune copie de TealerLab**.
 
 ### Règles d’exécution obligatoires
 
@@ -620,7 +620,7 @@ Cette annexe transforme les 48 tâches de base et les compléments 49 à 74 en c
 | 4 | Créer les accents stickers/graffiti/humour sans les placer sur prix, stock ou paiement. | `responsive.css`, `mobile.css`, CSS de composants | Test visuel : accents présents mais lisibilité intacte. |
 | 5 | Renforcer l’accueil sans le refaire : hero WOOD, CTA clair et quatre univers. | `index.html`, `storefront.js`, CSS global | Test visuel mobile/desktop et vérification des quatre CTA. |
 | 6 | Ajouter un message livraison unique, visible en haut de chaque boutique. | `fleurs.html`, `resines.html`, `bien-etre.html`, `wood-shop.html`, module partagé | Test DOM : message présent une fois, avant les produits, sans délai inventé. |
-| 7 | Préparer les preuves réelles : boutique depuis 2020, conseil, Nice, photos sous cloche et avis futurs. | `index.html`, pages boutique, `docs/` | Aucun chiffre, avis ou test de laboratoire non validé. |
+| 7 | Préparer les preuves réelles : boutique depuis 2020, conseil, Nice, photos produit sans contenant et avis futurs. | `index.html`, pages boutique, `docs/` | Aucun chiffre, avis ou test de laboratoire non validé. |
 | 8 | Maintenir hors périmètre les jeux, quiz, fidélité, blog, compte à rebours et énorme mega-menu ; garder seulement un menu WOOD compact et structuré. | `README.md`, tests statiques | Audit statique : aucune fonction bloquante ajoutée. |
 | 9 | Normaliser les quatre univers et corriger chaque bouton vers sa page dédiée. | `wood-shop.html`, `fleurs.html`, `resines.html`, `bien-etre.html`, future page goods | Test de navigation : chaque carte arrive dans le bon univers. |
 | 10 | Stabiliser les grilles : 3 cartes desktop, 4 cases carrées mobiles quand possible, tablette adaptative. | `boutique.css`, `responsive.css`, `mobile.css`, `catalog-grid.test.mjs` | Tests aux largeurs 320/375/390/430/768/1024/1440, sans débordement. |
@@ -640,7 +640,7 @@ Cette annexe transforme les 48 tâches de base et les compléments 49 à 74 en c
 | 24 | Organiser le tableau de bord dans l’espace compte : commandes prioritaires, produits, stocks, paramètres ; promotions masquées jusqu’à activation validée. | `compte.html`, `account.js`, `owner-dashboard.js`, `owner-dashboard.css` | Test structurel : la propriétaire voit les commandes avant le catalogue et aucun `admin.html` public n’est nécessaire. |
 | 25 | Garder Viva isolé : statut paiement distinct, aucun identifiant fictif, futur webhook signé. | `order-api.js`, Edge Function, `docs/ops/` | Aucun paiement confirmé sans preuve Viva officielle. |
 | 26 | Afficher les deux boutiques, numéros associés et adresses sans point final ajouté aux noms. | `index.html`, page/localisation, `location-contact.test.mjs` | `Barla · 04 22 16 35 70` et `Borriglione · 04 23 13 03 05` sont compréhensibles. |
-| 27 | Préparer les emplacements photo sous cloche avec ratio fixe, alt et chargement sans saut. | Pages produits, CSS image, `flower-detail.js` | Une photo réelle remplace l’illustration sans décaler la fiche. |
+| 27 | Préparer les emplacements photo produit sans contenant avec ratio fixe, alt et chargement sans saut. | Pages produits, CSS image, `flower-detail.js` | Une photo réelle remplace l’illustration sans décaler la fiche. |
 | 28 | Rédiger le ton : titres premium, détails graffiti/humour, descriptions simples et vérifiées. | HTML contenu, `docs/content/` | Validation humaine de la propriétaire avant publication. |
 | 29 | Tester petits/grands mobiles, iPad, desktop Windows/macOS/Linux, zoom, clavier et orientation. | Tests Playwright, `responsive.css`, `mobile.css` | Aucun débordement, bouton inaccessible ou texte coupé. |
 | 30 | Ajouter états robustes : titre long, image lente/absente, prix incomplet, réseau en erreur, reduced motion. | CSS, `boutique.js`, `flower-detail.js`, `mobile-shell.js` | Chaque défaut affiche un état propre et une action claire. |
@@ -656,9 +656,9 @@ Cette annexe transforme les 48 tâches de base et les compléments 49 à 74 en c
 | 40 | Faire valider la direction chic/premium/chill/graffiti : WOOD d’abord, TealerLab seulement comme inspiration. | `docs/audits/`, plan visuel | La propriétaire reconnaît WOOD ; le conjoint retrouve une présentation riche et vivante. |
 | 41 | Corriger `Nous trouver` et les quatre labels de navigation mobile. | `mobile.css`, `mobile-shell.js`, tests responsive | Aucun libellé tronqué à 320/375/390 px. |
 | 42 | Étendre l’audit responsive à toutes les pages et toutes les largeurs cibles. | Tests Playwright, `docs/audits/` | Rapport de largeur complet sans débordement. |
-| 43 | Ajouter seulement les mécanismes compatibles : cartes riches, réassurance, FAQ, cloches ; préparer les promotions sans les activer. | HTML/CSS/JS concernés, contenu validé | Boutique plus claire sans copie ni surcharge TealerLab. |
+| 43 | Ajouter seulement les mécanismes compatibles : cartes riches, réassurance, FAQ et photographie produit ; préparer les promotions sans les activer. | HTML/CSS/JS concernés, contenu validé | Boutique plus claire sans copie ni surcharge TealerLab. |
 | 44 | Interdire les popups couvrants, animations bloquantes et masquage des prix/stock/actions. | CSS/JS, tests accessibilité | Achat compréhensible sans fermer de fenêtre. |
-| 45 | Intégrer les vraies photos sous cloche après réception et validation. | Assets, pages produits, CSS image | Photos nettes, cadrées et cohérentes sur tous supports. |
+| 45 | Intégrer les vraies photos sans contenant après réception et validation. | Assets, pages produits, CSS image | Photos nettes, cadrées et cohérentes sur tous supports. |
 | 46 | Activer la protection Supabase contre les mots de passe compromis et retester Auth. | Supabase Auth, `account.js`, `owner-dashboard.js`, checklist | Alerte Supabase résolue ; connexion propriétaire fonctionnelle. |
 | 47 | Vérifier Turnstile, débit, origines, token invalide, invité légitime et double soumission. | Edge Function, secrets Supabase, `order-security.test.mjs` | Commandes légitimes acceptées, abus refusés proprement. |
 | 48 | Nettoyer les traces du retrait après sauvegarde, sans casser l’historique. | Nouvelle migration Supabase, `order-options.js`, checkout/tests | Livraison seule dans le produit final ; historique conservé. |
@@ -669,14 +669,14 @@ Cette annexe transforme les 48 tâches de base et les compléments 49 à 74 en c
 |---:|---|---|---|
 | 49 | Figer les captures WOOD avant adaptation sur toutes les largeurs cibles. | `docs/audits/`, captures Playwright | Une référence avant/après est archivée. |
 | 50 | Cartographier la composition TealerLab et traduire chaque bloc en équivalent WOOD ou hors périmètre. | `docs/audits/`, feuille de route | Chaque inspiration a un objectif et une décision. |
-| 51 | Définir le rythme narratif accueil → livraison → univers → cloche → réassurance → FAQ → boutiques. | `index.html`, `storefront.js`, contenu validé | Le parcours est compréhensible sans page monotone. |
+| 51 | Définir le rythme narratif accueil → livraison → univers → photographie produit → réassurance → FAQ → boutiques. | `index.html`, `storefront.js`, contenu validé | Le parcours est compréhensible sans page monotone. |
 | 52 | Verrouiller couleurs, logo, typographie, bordures, espacements et contraste WOOD. | `README.md`, CSS global, `docs/audits/` | Aucun bloc n’introduit une identité parallèle. |
 | 53 | Recomposer l’en-tête sans déplacer le logo officiel ni exposer l’administration. | Pages HTML, `mobile-shell.js`, CSS | Actions principales alignées sur desktop, tablette et mobile. |
 | 54 | Construire un menu WOOD structuré par univers avec sous-menu et retour. | `mobile-shell.js`, pages HTML, tests accessibilité | Navigation clavier/tactile sans route admin publique. |
 | 55 | Repenser les cartes : média stable, badges, niveau, nom, grammage, prix, stock et CTA. | `boutique.js`, `boutique.css`, `responsive.css` | Toutes les cartes d’une ligne restent alignées. |
 | 56 | Appliquer les prix propres à chaque fleur, les paliers exacts et la répétition validée. | `flower-pricing.js`, `test/flower-pricing.test.js` | Aucun prix d’une variété n’est réutilisé par erreur. |
 | 57 | Mettre en scène la fiche produit avec zoom fluide et bloc d’achat conservé. | `fleur.html`, `flower-detail.js`, tests | Aucun saut de scroll et achat possible sans animation. |
-| 58 | Préparer les photos sous cloche et les futurs assets graffiti après validation. | `assets/`, pages produits, `docs/content/` | Dimensions, alt et poids sont maîtrisés. |
+| 58 | Préparer les photos produit sans contenant et les futurs assets graffiti après validation. | `assets/`, pages produits, `docs/content/` | Dimensions, alt et poids sont maîtrisés. |
 | 59 | Ajouter les animations courtes, interruptibles et compatibles reduced motion. | CSS/JS concernés, tests performance/accessibilité | Aucun mouvement ne masque ou ne déplace une action. |
 | 60 | Stabiliser les grilles desktop 3, mobile 2×2 lorsque lisible, tablette adaptative. | `boutique.css`, `responsive.css`, `mobile.css`, tests responsive | Aucun débordement ou bouton coupé aux largeurs cibles. |
 | 61 | Garantir la performance des médias et animations sur réseau mobile lent. | CSS, HTML, JS, scripts d’audit | Pas d’écran blanc prolongé ni de décalage mesurable. |
@@ -721,15 +721,15 @@ L’audit détaillé est conservé dans `docs/audits/2026-11-04-tealerlab-wood-c
 
 - **WOOD reste la référence visuelle obligatoire :** couleurs, logo officiel, typographie, contraste et ambiance ne changent pas.
 - **TealerLab apporte uniquement la structure :** hero fort, bandeaux d’information, blocs d’offres, cartes riches, réassurance, FAQ et rythme éditorial.
-- **Accueil WOOD proposé :** hero actuel → livraison → quatre univers → sélection WOOD → présentation sous cloche → réassurance → FAQ → boutiques.
+- **Accueil WOOD proposé :** hero actuel → livraison → quatre univers → sélection WOOD → photographie produit réelle sans contenant → réassurance → FAQ → boutiques.
 - **Catalogue WOOD :** trois cartes par ligne sur ordinateur ; deux colonnes carrées sur mobile, donc quatre cartes visibles dans une structure `2 × 2` ; une colonne de secours uniquement lorsque l’écran est trop étroit.
 - **Carte produit :** image ou état « photo à venir », nom, niveau `strong/medium/classique`, stock, grammage si applicable, prix exact et ajout au panier.
-- **Fiche fleur :** grande présentation sous cloche, description courte, `− / grammes / +`, prix total, prix au gramme, ajout au panier et livraison ; pas de copie de la fiche TealerLab.
+- **Fiche fleur :** grande photographie réelle sans contenant, description courte, `− / grammes / +`, prix total, prix au gramme, ajout au panier et livraison ; pas de copie de la fiche TealerLab.
 - **Graffiti/chill :** stickers, annotations et humour en petites touches, jamais sur le prix, le stock, le paiement ou les contrôles essentiels.
 - **Animations :** seulement `transform/opacity`, courtes, interruptibles et désactivées avec `prefers-reduced-motion` ; aucun zoom qui déplace le scroll.
 - **Popups :** interdits sur le premier écran et interdits s’ils masquent le prix, le stock ou l’ajout au panier.
 - **Défilements :** uniquement à l’intérieur d’un composant contrôlé ; le document et les cartes ne doivent jamais dépasser la largeur de l’écran.
-- **Contenus futurs :** photos sous cloche, promotions, avis et éventuelle fidélité sont ajoutés seulement après validation de la propriétaire.
+- **Contenus futurs :** photos réelles sans contenant, promotions, avis et éventuelle fidélité sont ajoutés seulement après validation de la propriétaire.
 
 Ces décisions précisent la manière de réaliser les tâches 4–15, 29–32 et 40–45 sans dénaturer WOOD. Les blocs 49–74 ajoutent ensuite les tâches explicites issues de l’audit approfondi ; les tâches 75–76 ferment la préparation commerciale par la conformité et la continuité. Tous les blocs doivent être suivis dans l’ordre indiqué si la direction TealerLab × WOOD est retenue.
 
@@ -740,9 +740,9 @@ Le copain de la propriétaire aime particulièrement le site lorsqu’il est viv
 ### Sous-tâches motion à intégrer aux tâches existantes
 
 1. **Bandeau défilant WOOD** — ajouter un texte court sur la livraison, la sélection ou l’univers WOOD ; vitesse lente, contenu lisible et arrêt possible au focus.
-2. **Apparition au scroll** — faire apparaître progressivement les sections, cartes et blocs sous cloche avec `opacity` et `transform` uniquement.
+2. **Apparition au scroll** — faire apparaître progressivement les sections, cartes et blocs photographiques avec `opacity` et `transform` uniquement.
 3. **Zoom produit fluide** — au clic sur une fleur, agrandir la fiche avec une transition courte, stable et réversible, sans saut de scroll.
-4. **Mouvement léger des images** — appliquer un déplacement très discret aux visuels botaniques ou photos sous cloche ; aucun mouvement qui déforme le produit.
+4. **Mouvement léger des images** — appliquer un déplacement très discret aux visuels botaniques ou photos produit ; aucun mouvement qui déforme le produit.
 5. **Transitions entre pages** — prévoir une sortie/entrée douce entre boutique, fiche, panier et compte sans écran blanc ni retard de navigation.
 6. **Interactions ordinateur** — ajouter des effets `hover` sobres sur les cartes, boutons et stickers ; l’information ne doit jamais dépendre du hover.
 7. **Interactions tactiles mobile** — remplacer le hover par une réaction courte au toucher, sans double clic obligatoire ni latence.
@@ -772,9 +772,9 @@ Le conjoint apprécie aussi la manière dont TealerLab présente ses contenus, p
 ### Principes de présentation à intégrer
 
 1. **Hiérarchie immédiate** — un hero WOOD clair, un message court, une action principale et une action secondaire ; aucune information importante noyée dans un long texte.
-2. **Rythme éditorial** — alterner hero, bandeau, univers, sélection, présentation sous cloche, réassurance, FAQ et boutiques pour éviter une page plate ou répétitive.
+2. **Rythme éditorial** — alterner hero, bandeau, univers, sélection, photographie produit, réassurance, FAQ et boutiques pour éviter une page plate ou répétitive.
 3. **Cartes produits fortes** — image en premier, niveau CBD visible, nom lisible, prix exact, grammes choisis et bouton d’ajout toujours accessibles.
-4. **Mise en scène qualitative** — conserver la présentation des fleurs et résines sous cloche comme élément premium central ; les futures vraies photos remplaceront les états provisoires sans changer la structure.
+4. **Mise en scène qualitative** — conserver la photographie réelle des fleurs et résines comme élément premium central ; les futures vraies photos remplaceront les états provisoires sans changer la structure.
 5. **Touches graffiti et chill maîtrisées** — stickers, annotations, humour et détails graphiques dans les espaces éditoriaux, jamais au détriment de la lisibilité ou du parcours d’achat.
 6. **Blocs de réassurance** — livraison, compte, paiement et contact présentés avec des phrases courtes et des icônes simples, sans promesse non validée.
 7. **Respiration et densité** — garder des marges régulières, des alignements nets et des sections suffisamment aérées ; éviter l’effet catalogue compressé comme l’effet page vide.
@@ -831,7 +831,7 @@ La feuille de route est considérée comme correcte seulement si elle satisfait 
 - WOOD reste immédiatement identifiable : couleurs, logo officiel, typographie, contraste et ambiance ne changent pas.
 - Le contraste est renforcé sans perdre le côté chic/premium.
 - Les touches chill/graffiti, stickers et humour restent dosées et attendent ses exemples graphiques avant génération.
-- Les fleurs et résines gardent leur présentation qualitative sous cloche.
+- Les fleurs et résines gardent une présentation photographique qualitative, sans bocal ni cloche.
 - Le site gagne en rythme, en animation et en richesse de présentation, avec TealerLab comme inspiration de structure uniquement.
 - La navigation reste simple pour tous les âges ; aucun menu, effet ou texte ne doit compliquer un achat.
 - Les promotions restent absentes jusqu’à validation explicite ; les règles de livraison restent à confirmer par la propriétaire.
@@ -864,7 +864,7 @@ Ce bloc ajoute les enseignements de l’audit visuel et fonctionnel de [TealerLa
 ### Conclusion de l’audit à respecter
 
 - **Ce qui fonctionne chez TealerLab :** un en-tête immédiatement lisible, un menu qui devient une vraie interface, des cartes produits complètes, des badges bien séparés, une sélection du format visible, un prix hiérarchisé, un bouton d’action évident et une succession de sections qui raconte une histoire.
-- **Ce qui doit être adapté à WOOD :** le fond sombre WOOD, les tons existants, le logo officiel, la typographie actuelle, la présentation sous cloche, les quatre univers et le parcours de grammage propre aux fleurs.
+- **Ce qui doit être adapté à WOOD :** le fond sombre WOOD, les tons existants, le logo officiel, la typographie actuelle, la photographie produit sans contenant, les quatre univers et le parcours de grammage propre aux fleurs.
 - **Ce qui ne doit pas être repris :** couleurs blanc/noir/lime de TealerLab, textes, slogans, photos, logos, promotions, pop-ups, fidélité, jeux, promesses, chiffres ou mise en page exacte.
 - **Règle de priorité :** la propriétaire doit reconnaître WOOD immédiatement ; son conjoint doit retrouver une présentation riche, travaillée et vivante.
 
@@ -886,7 +886,7 @@ Ce bloc ajoute les enseignements de l’audit visuel et fonctionnel de [TealerLa
 
 ### Tâche 51 — Définir le nouveau rythme narratif WOOD
 
-- [ ] Organiser l’accueil autour de : identité WOOD → livraison disponible → quatre univers → sélection WOOD → présentation sous cloche → réassurance → FAQ → boutiques.
+- [ ] Organiser l’accueil autour de : identité WOOD → livraison disponible → quatre univers → sélection WOOD → photographie produit réelle → réassurance → FAQ → boutiques.
 - [ ] Utiliser des intertitres courts et une alternance de densité pour éviter une page monotone.
 - [ ] Ne pas ajouter de section promotionnelle, newsletter, jeu ou fidélité sans validation séparée.
 
@@ -941,7 +941,7 @@ Ce bloc ajoute les enseignements de l’audit visuel et fonctionnel de [TealerLa
 ### Tâche 57 — Mettre en scène la fiche produit
 
 - [ ] Ouvrir une fiche fleur avec une transition fluide, sans saut de scroll.
-- [ ] Présenter la photo sous cloche, le nom, le niveau, la description, la sélection de grammes, le prix et l’ajout.
+- [ ] Présenter la photo réelle sans contenant, le nom, le niveau, la description, la sélection de grammes, le prix et l’ajout.
 - [ ] Ajouter plus tard une zone de présentation détaillée, uniquement avec les informations réelles fournies par la propriétaire.
 - [ ] Prévoir une sélection de produits liés sans détourner l’utilisateur de l’achat.
 
@@ -949,7 +949,7 @@ Ce bloc ajoute les enseignements de l’audit visuel et fonctionnel de [TealerLa
 
 ### Tâche 58 — Préparer les visuels WOOD
 
-- [ ] Attendre les photos réelles sous cloche et les références graffiti de la propriétaire.
+- [ ] Attendre les photos réelles sans contenant et les références graffiti de la propriétaire.
 - [ ] Générer ou préparer les images uniquement après validation de la direction graphique.
 - [ ] Prévoir plusieurs formats : carré pour cartes, portrait pour mobile, grand format pour fiche.
 - [ ] Réserver les dimensions, compresser proprement et prévoir un texte alternatif.
@@ -1044,10 +1044,10 @@ Audit effectué le 5 novembre 2026 sur [l’accueil](https://tealerlab.com/), [l
 ### Traduction visuelle WOOD — direction retenue
 
 - Reprendre la **force du placement** TealerLab, mais dans la palette verte/crème/lime WOOD et avec le logo officiel exact.
-- Donner au hero WOOD une mise en scène plus éditoriale : repère `01 / WOOD`, grand message, visuel botanique ou future photo sous cloche, CTA principal et CTA secondaire.
+- Donner au hero WOOD une mise en scène plus éditoriale : repère `01 / WOOD`, grand message, visuel botanique ou future photo produit réelle, CTA principal et CTA secondaire.
 - Présenter les quatre univers comme quatre entrées éditoriales fortes, pas comme quatre boutons ordinaires.
 - Introduire plus tard une section `Sélection WOOD` de produits réels, avec la même cohérence de cartes sur l’accueil et la boutique.
-- Utiliser la présentation sous cloche comme signature visuelle de qualité ; ne pas la remplacer par des photos génériques du web.
+- Utiliser la photographie produit réelle comme signature visuelle de qualité ; ne pas la remplacer par des photos génériques du web.
 - Ajouter des stickers, annotations et touches graffiti uniquement dans les zones éditoriales, après réception et validation des références de la propriétaire.
 - Garder les prix calmes et lisibles : pas de faux prix barré, pas de badge promo, pas de faux avis, pas de taux inventé.
 - Conserver la carte actuelle dans `Nous trouver` et ne pas ajouter le retrait en magasin au parcours d’achat.
@@ -1076,7 +1076,7 @@ Ces sous-tâches détaillent la refonte à exécuter plus tard. Elles ne valent 
 - [ ] **A18 — Créer la fiche produit WOOD :** grande image, présentation, achat et informations dans cet ordre.
 - [ ] **A19 — Ajouter le zoom de fiche sans saut :** transition courte, centrée, annulable et compatible avec le bouton retour.
 - [ ] **A20 — Prévoir les recommandations :** produits du même univers uniquement, sans détourner l’action d’achat.
-- [ ] **A21 — Mettre en scène la cloche :** emplacement réservé aux vraies photos de la propriétaire et à leurs ratios.
+- [ ] **A21 — Mettre en scène la photo produit :** emplacement réservé aux vraies photos de la propriétaire et à leurs ratios.
 - [ ] **A22 — Préparer le bloc de réassurance :** conseil, Nice, boutiques et livraison seulement lorsque chaque formulation est validée.
 - [ ] **A23 — Préparer la FAQ WOOD :** accordéon simple, recherche non nécessaire, réponses confirmées uniquement.
 - [ ] **A24 — Préparer le footer :** quatre liens utiles, contacts séparés par boutique, carte conservée et aucun point final ajouté aux noms Barla/Borriglione.
@@ -1228,14 +1228,14 @@ Cette passe ajoute les manques visibles qui n’étaient pas assez détaillés d
 
 - [ ] **A91 — Recomposer le premier écran :** conserver le hero WOOD mais lui donner une composition plus éditoriale avec repère de section, message fort, visuel et deux actions hiérarchisées ; validation : le visiteur comprend WOOD et la prochaine action sans scroller.
 - [ ] **A92 — Écrire le texte du hero :** garder le ton `Nice, France · depuis 2020` et l’idée du CBD autrement, avec une phrase courte et concrète ; validation : aucun slogan, argument ou promesse n’est repris de TealerLab.
-- [ ] **A93 — Préparer le média principal :** réserver un emplacement pour une photo ou création WOOD sous cloche, avec ratio, cadrage et état de chargement stables ; validation : aucun écran vide ou saut de mise en page si la photo manque.
+- [ ] **A93 — Préparer le média principal :** réserver un emplacement pour une photo ou création WOOD sans contenant, avec ratio, cadrage et état de chargement stables ; validation : aucun écran vide ou saut de mise en page si la photo manque.
 - [ ] **A94 — Ajouter un bandeau de service maîtrisé :** afficher la disponibilité de la livraison avant la boutique dans un bandeau WOOD, sans prix, délai ou promotion non validé ; validation : le bandeau ne masque jamais le menu ou le hero.
 - [ ] **A95 — Construire les cartes des quatre univers :** reprendre la logique de découverte de TealerLab avec image, numéro, titre, phrase et action, en gardant fleurs, résines, cosmétiques/huiles et textile/goods ; validation : chaque carte mène à la bonne page.
 - [ ] **A96 — Rédiger les introductions de catégories :** produire un texte court, précis et non médical pour chaque univers ; validation : pas de promesse d’effet, de taux, de disponibilité ou de prix inventé.
 - [ ] **A97 — Préparer une sélection WOOD sur l’accueil :** prévoir une section de produits réellement disponibles, avec titre, courte introduction et lien `Voir tout` ; validation : la section reste masquée tant que photos, prix et stocks ne sont pas validés.
 - [ ] **A98 — Concevoir les rails locaux :** si une sélection dépasse une ligne, prévoir un rail ou carrousel local avec contrôles, indicateur de progression et fallback en grille ; validation : le document et le body ne débordent jamais horizontalement.
 - [ ] **A99 — Ajouter une réassurance visuelle :** mettre en scène conseil, sélection, boutiques de Nice et livraison dans des blocs courts, éventuellement accompagnés d’icônes ; validation : chaque fait a été confirmé et aucune statistique n’est fabriquée.
-- [ ] **A100 — Organiser le rythme éditorial :** alterner hero, bandeau, univers, sélection, cloche, réassurance, FAQ et boutiques comme une histoire WOOD ; validation : aucune section TealerLab inutile n’est importée par automatisme.
+- [ ] **A100 — Organiser le rythme éditorial :** alterner hero, bandeau, univers, sélection, photographie produit, réassurance, FAQ et boutiques comme une histoire WOOD ; validation : aucune section TealerLab inutile n’est importée par automatisme.
 
 ### Menu, header, navigation et footer
 
@@ -1251,7 +1251,7 @@ Cette passe ajoute les manques visibles qui n’étaient pas assez détaillés d
 ### Cartes, grille et présentation des produits
 
 - [ ] **A109 — Définir la carte produit WOOD finale :** média, badge d’univers, niveau, nom, disponibilité, grammage, prix et action dans un ordre stable ; validation : la carte reste lisible sans photo réelle et sans données décoratives.
-- [ ] **A110 — Mettre en scène la photo sous cloche :** réserver un cadre visuel constant pour les fleurs et résines, sans étirer ni recadrer abusivement les futures photos ; validation : ratio identique sur les quatre catégories et sur les deux thèmes d’écran.
+- [ ] **A110 — Mettre en scène la photo sans contenant :** réserver un cadre visuel constant pour les fleurs et résines, sans étirer ni recadrer abusivement les futures photos ; validation : ratio identique sur les quatre catégories et sur les deux thèmes d’écran.
 - [ ] **A111 — Définir le bloc d’identification :** afficher `CBD boosté (strong)`, `CBD soft (medium)` ou `CBD classique` juste sous l’univers, avec une hiérarchie discrète ; validation : aucune recherche par nom ni filtre n’est ajouté.
 - [ ] **A112 — Aligner les titres :** réserver une hauteur stable, autoriser deux lignes visibles et conserver le nom complet pour l’accessibilité ; validation : Nimbus, Ivory, Velvet Kush et les noms futurs restent alignés.
 - [ ] **A113 — Reproduire la richesse utile des cartes :** afficher uniquement les métadonnées WOOD validées, jamais des avis, taux, économies ou prix barrés inventés ; validation : un audit statique détecte toute donnée décorative non sourcée.
@@ -1283,7 +1283,7 @@ Cette passe ajoute les manques visibles qui n’étaient pas assez détaillés d
 - [ ] **A136 — Vérifier les icônes et zones tactiles :** taille minimale, espacement, focus, contraste et absence de clics superposés ; validation : le menu, le panier, les `+/-` et les CTA sont utilisables au pouce.
 - [ ] **A137 — Constituer la matrice visuelle :** captures de toutes les routes à `320/375/390/430/768/1024/1280/1440/1920` px en portrait et paysage ; validation : chaque capture est comparée à la référence et classée par anomalie.
 - [ ] **A138 — Tester les navigateurs graphiques :** Safari iOS/macOS, Chrome Android/Windows, Edge, Firefox et Linux ; validation : aucun défaut de police, image, animation, grille ou menu ne reste sans décision.
-- [ ] **A139 — Faire une revue “propriétaire” :** contrôler identité WOOD, couleurs, logo, ton premium/chill/graffiti, cloches, simplicité et absence de promotion ; validation : aucune modification graphique majeure n’est retenue sans accord.
+- [ ] **A139 — Faire une revue “propriétaire” :** contrôler identité WOOD, couleurs, logo, ton premium/chill/graffiti, photographie produit, simplicité et absence de promotion ; validation : aucune modification graphique majeure n’est retenue sans accord.
 - [ ] **A140 — Faire une revue “conjoint” :** contrôler énergie de la page d’accueil, présentation des produits, densité, menu, animations et ressemblance de structure avec TealerLab ; validation : la ressemblance porte sur l’expérience, jamais sur les assets ou textes copiés.
 
 ### Fiche d’exécution visuelle mise à jour des tags `A81–A140`
@@ -1319,7 +1319,7 @@ Chaque tag doit être traité avec une capture avant/après et un test de non-r�
 - **A107** — Fichiers : `index.html`, footer partagé, `mobile.css`. Validation : footer desktop/mobile sans colonnes coupées.
 - **A108** — Fichiers : contacts et page boutiques, `location-contact.test.mjs`. Validation : numéro et adresse associés au bon magasin.
 - **A109** — Fichiers : `storefront.js`, `boutique.css`, composants carte. Validation : ordre média → identité → prix → action identique partout.
-- **A110** — Fichiers : assets cloche, CSS média, documentation des photos. Validation : pas d’étirement, de recadrage trompeur ou d’image inventée.
+- **A110** — Fichiers : assets photo produit, CSS média, documentation des photos. Validation : pas d’étirement, de recadrage trompeur ou d’image inventée.
 - **A111** — Fichiers : données produit, `boutique.js`, cartes. Validation : niveau strong/medium/classique visible sans filtre ajouté.
 - **A112** — Fichiers : CSS cartes, test catalog grid. Validation : titres longs alignés et accessibles.
 - **A113** — Fichiers : `storefront.js`, audit statique, fixtures produits. Validation : aucune métadonnée fictive.
@@ -1407,7 +1407,7 @@ La relecture de l’accueil, du catalogue et d’une fiche produit TealerLab con
 - [ ] **A162 — Conserver un accès direct au contenu :** reprendre le lien d’évitement et une hiérarchie sémantique nette avant les animations ; validation : clavier, lecteur d’écran et utilisateur pressé atteignent le contenu sans traverser le hero.
 - [ ] **A163 — Organiser le header par intentions :** distinguer menu, recherche éventuelle non activée, compte, panier et CTA `Venir chez WOOD`, sans ajouter de fonctionnalité non validée ; validation : chaque action est identifiable au premier regard et aucune concurrence visuelle ne détruit le logo.
 - [ ] **A164 — Construire le menu comme un mini-catalogue :** groupes `Nos univers`, `Aide`, `Compte` et `Panier`, avec labels et séparateurs simples inspirés de la profondeur TealerLab ; validation : pas de recherche par nom, pas de filtre et jamais de menu admin côté public.
-- [ ] **A165 — Recomposer le hero WOOD en scène éditoriale :** associer manifeste court, indication `Nice, France · depuis 2020`, bouton principal et visuel botanique sous cloche ; validation : le hero reste WOOD, conserve ses couleurs et n’imite pas une campagne TealerLab.
+- [ ] **A165 — Recomposer le hero WOOD en scène éditoriale :** associer manifeste court, indication `Nice, France · depuis 2020`, bouton principal et visuel botanique ou photo produit réelle ; validation : le hero reste WOOD, conserve ses couleurs et n’imite pas une campagne TealerLab.
 - [ ] **A166 — Ajouter un repère de défilement discret :** reprendre l’idée d’un `Scroll`/repère de progression sans forcer le mouvement ; validation : le clic défile naturellement, le clavier et la réduction de mouvement restent prioritaires.
 - [ ] **A167 — Prévoir un ticker WOOD non promotionnel :** faire défiler une phrase de service, de sélection ou d’identité validée, sans remise, cadeau, compte à rebours ou affirmation non sourcée ; validation : le ticker ne masque jamais un prix, un CTA ou un contenu.
 - [ ] **A168 — Installer un bloc “sélection du moment” :** mettre en avant quelques fleurs réellement publiées avec intro éditoriale, visuels distincts et lien `Voir toutes les fleurs` ; validation : la sélection ne crée pas de faux best-seller ni de préférence inventée.
@@ -1417,7 +1417,7 @@ La relecture de l’accueil, du catalogue et d’une fiche produit TealerLab con
 - [ ] **A172 — Présenter les variantes comme un choix clair :** transformer les contrôles 1/3/5/10/25 g en choix visibles ou `+/-` selon le contexte, avec un seul état actif ; validation : la carte tarifaire de chaque variété reste la source et 25 g reste le plafond de réduction connu.
 - [ ] **A173 — Prévoir une action d’achat mobile persistante avec mesure :** étudier une barre d’ajout au panier en bas de la fiche, seulement si elle ne masque pas les contrôles ; validation : un prototype est testé à 320–430 px, puis retenu uniquement s’il réduit les erreurs.
 - [ ] **A174 — Composer la fiche produit en profondeur progressive :** média, nom, profil WOOD, description, grammage, prix, disponibilité, ajout, livraison à confirmer, puis détails secondaires ; validation : l’action principale est visible sans sacrifier la présentation premium.
-- [ ] **A175 — Ajouter une galerie produit sans surcharge :** prévoir une image principale et quelques vues réelles futures sous cloche, sans carrousel obligatoire pour une seule photo ; validation : chaque image a un alt text, une taille réservée et une fermeture tactile fiable.
+- [ ] **A175 — Ajouter une galerie produit sans surcharge :** prévoir une image principale et quelques vues réelles futures sans contenant, sans carrousel obligatoire pour une seule photo ; validation : chaque image a un alt text, une taille réservée et une fermeture tactile fiable.
 - [ ] **A176 — Ajouter un bloc de garanties seulement avec des preuves WOOD :** réserver l’emplacement à conformité, qualité, préparation et service, mais n’afficher aucune phrase avant validation documentaire ; validation : le bloc peut rester vide ou masqué sans créer de trou visuel.
 - [ ] **A177 — Préparer la section livraison sans la publier trop tôt :** reproduire la clarté d’un bloc livraison/expédition, mais laisser les zones inconnues à confirmer par la propriétaire ; validation : le site ne promet ni délai, ni transporteur, ni tarif non validé.
 - [ ] **A178 — Encadrer les descriptions et claims :** autoriser une voix WOOD imagée, des emojis et un humour léger, mais interdire les effets, bénéfices médicaux, taux et qualités non fournis ; validation : revue éditoriale sur les 13 fiches avant publication.
@@ -1474,13 +1474,13 @@ Ce bloc répond précisément à la demande de la propriétaire : WOOD doit rest
 ### Premium, rythme et composition
 
 - [ ] **A191 — Définir la proportion premium/chill/graffiti :** établir une règle mesurable par page, avec une base premium dominante et des accents graffiti ponctuels ; validation : aucune page ne ressemble à une affiche saturée.
-- [ ] **A192 — Créer une grille artistique WOOD :** fixer conteneur, marges, colonnes, lignes de base, espaces négatifs et points d’ancrage ; validation : hero, cartes, cloches et blocs texte partagent la même structure.
+- [ ] **A192 — Créer une grille artistique WOOD :** fixer conteneur, marges, colonnes, lignes de base, espaces négatifs et points d’ancrage ; validation : hero, cartes, photos et blocs texte partagent la même structure.
 - [ ] **A193 — Définir trois niveaux de densité :** `calme`, `sélection`, `impact`, pour éviter que chaque section ait la même intensité ; validation : chaque page possède une respiration entre deux moments forts.
 - [ ] **A194 — Construire un système de contraste interne :** utiliser les couleurs existantes par niveaux de fond, bordure, texte et accent, sans créer de nouvelle palette ; validation : contraste lisible et identité inchangée.
 - [ ] **A195 — Préparer une hiérarchie de titres WOOD :** kicker, titre principal, sous-titre, phrase courte et action ; validation : le regard comprend la section avant de lire tous les détails.
 - [ ] **A196 — Organiser les masses visuelles :** alterner bloc sombre, bloc botanique, carte et zone claire sans mosaïque aléatoire ; validation : la page garde un rythme haut de gamme sur mobile et desktop.
 - [ ] **A197 — Créer des séparateurs propriétaires :** imaginer lignes, points, repères et cadres inspirés de WOOD, sans reprendre les signes TealerLab ; validation : chaque séparateur sert la lecture et peut disparaître sans perte d’information.
-- [ ] **A198 — Définir les proportions d’images :** hero, cloche, carte, détail et galerie doivent avoir des ratios documentés ; validation : aucun recadrage ne coupe un produit réel ou son contenant.
+- [ ] **A198 — Définir les proportions d’images :** hero, photo produit, carte, détail et galerie doivent avoir des ratios documentés ; validation : aucun recadrage ne coupe un produit réel.
 - [ ] **A199 — Construire une bibliothèque de compositions :** prévoir variantes hero gauche/droite, média plein cadre, carte décalée et bloc éditorial ; validation : la variété vient de la composition, pas d’une modification des couleurs.
 - [ ] **A200 — Faire une revue premium :** supprimer tout élément qui ressemble à un template générique, à un badge forcé ou à une décoration sans rôle ; validation : résultat plus élégant sans perte de personnalité.
 
@@ -1774,7 +1774,7 @@ Cette passe est dédiée à la page d’accueil, car c’est elle que le conjoin
 - [ ] **A284 — Cartographier les transitions :** documenter ce qui apparaît au chargement, au scroll, au survol, au toucher et au clic ; validation : chaque animation future a une intention et un état de repli.
 - [ ] **A285 — Séparer mécanisme et contenu :** classer chaque élément en `structure`, `interaction`, `donnée`, `asset` ou `promotion` ; validation : seuls les mécanismes compatibles passent dans la proposition WOOD.
 - [ ] **A286 — Établir la matrice garder/adapter/exclure :** faire relire la matrice avant intégration ; validation : promotions, fidélité, parrainage, jeu, faux avis et compteurs sont exclus par défaut.
-- [ ] **A287 — Définir l’ordre WOOD de l’accueil :** proposer `hero → livraison → univers → sélection → cloche → informations → boutiques → FAQ → footer` ; validation : l’ordre explique WOOD avant de pousser l’achat.
+- [ ] **A287 — Définir l’ordre WOOD de l’accueil :** proposer `hero → livraison → univers → sélection → photographie produit → informations → boutiques → FAQ → footer` ; validation : l’ordre explique WOOD avant de pousser l’achat.
 - [ ] **A288 — Préparer un storyboard desktop/mobile :** produire deux schémas basse fidélité avec les mêmes informations et des compositions différentes ; validation : aucun simple redimensionnement du desktop n’est accepté.
 - [ ] **A289 — Fixer le rythme de densité :** alterner une section forte, une section respirée et une section commerciale ; validation : la page reste riche sans devenir chargée.
 - [ ] **A290 — Créer une checklist de non-copie :** vérifier logo, textes, images, couleurs, police, slogans, badges et placement ; validation : la ressemblance provient de l’expérience, pas d’éléments protégés.
@@ -1876,7 +1876,7 @@ Cette passe est dédiée à la page d’accueil, car c’est elle que le conjoin
 - **A291–A310** — Fichiers : `index.html`, `boutique.css`, `responsive.css`, navigation et bandeau. Validation : hero, menu et annonce WOOD cohérents sur desktop/mobile.
 - **A311–A330** — Fichiers : blocs univers, registre de contenu, pictogrammes et cartes. Validation : quatre univers, grille et profils exacts.
 - **A331–A340** — Fichiers : `boutique.js`, `flower-pricing.js`, fiche produit, panier et tests de prix. Validation : achat rapide et fiche ne régressent pas.
-- **A341–A350** — Fichiers : sections cloche, boutiques, FAQ, contact et textes validés. Validation : aucun claim ni preuve sociale inventé.
+- **A341–A350** — Fichiers : sections photo produit, boutiques, FAQ, contact et textes validés. Validation : aucun claim ni preuve sociale inventé.
 - **A351–A360** — Fichiers : footer, navigation mobile, CSS/JS motion, Playwright et captures. Validation : app-like mobile, mouvement réduit, liens et validation humaine.
 
 ### Ordre de travail de cette passe d’accueil
@@ -1885,7 +1885,7 @@ Cette passe est dédiée à la page d’accueil, car c’est elle que le conjoin
 2. `A291–A310` : recomposer hero, header, menu et bandeau en gardant les primitives WOOD.
 3. `A311–A330` : construire univers et sélections avec photos réelles ou placeholders explicitement marqués.
 4. `A331–A340` : connecter les cartes à la tarification existante, au panier et aux fiches sans modifier les règles commerciales.
-5. `A341–A350` : ajouter cloche, boutiques, FAQ et contenus vérifiables ; garder les zones inconnues désactivées.
+5. `A341–A350` : ajouter photographie produit, boutiques, FAQ et contenus vérifiables ; garder les zones inconnues désactivées.
 6. `A351–A360` : finaliser mobile/desktop, animations, accessibilité, performance et recette propriétaire/conjoint.
 
 ## Bloc A361–A560 — système e-mail Gmail/Supabase, documents, livraison et newsletter
@@ -2169,7 +2169,7 @@ Ces points ne doivent pas être devinés par l’implémentation : ils doivent �
 1. **Prix intermédiaires des fleurs :** règle pour `2 g`, `4 g`, `6–9 g` et `11–24 g` ; les tarifs visibles de l’affiche restent la référence absolue pour `1/3/5/10/25 g`.
 2. **Quantités supérieures à 25 g :** deux lots de `25 g` et comportement exact pour les autres quantités ; aucune remise automatique.
 3. **Livraison :** zones desservies, frais, délais, minimum éventuel et formulation publique.
-4. **Stocks et photos :** valeurs réelles, visuels sous cloche et références graffiti de la propriétaire.
+4. **Stocks et photos :** valeurs réelles, photos produit sans contenant et références graffiti de la propriétaire.
 5. **E-mails :** fournisseur SMTP/API, expéditeur vérifié, contenu de l’e-mail et validation de la pièce jointe PDF ; aucun SMS en première version.
 6. **Paiement Viva :** identifiants professionnels, webhook signé, états de succès/échec/remboursement et tests de production.
 7. **Hébergement :** validation finale Hostinger, domaine, DNS, SSL et réglages Supabase ; ces étapes restent externes et ne sont pas simulées localement.

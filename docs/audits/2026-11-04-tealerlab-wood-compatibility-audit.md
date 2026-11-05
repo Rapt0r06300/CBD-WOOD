@@ -77,7 +77,7 @@ WOOD possède déjà une base plus calme et plus premium. C’est un avantage po
 2. Ajouter un bandeau simple en haut pour la livraison, sans promesse non confirmée.
 3. Mettre les quatre univers WOOD immédiatement après le hero.
 4. Ajouter une sélection de produits réels lorsque les photos et stocks seront disponibles.
-5. Créer un bloc “présentation sous cloche” avec les photos de la propriétaire.
+5. Créer un bloc “photographie produit WOOD” avec les photos de la propriétaire, sans bocal ni cloche.
 6. Ajouter une réassurance courte : conseil, boutiques de Nice, qualité et disponibilité à confirmer.
 7. Garder la FAQ et les boutiques accessibles sans les enfouir.
 
@@ -89,7 +89,7 @@ WOOD possède déjà une base plus calme et plus premium. C’est un avantage po
 4. Afficher le niveau `CBD boosté (strong)`, `CBD soft (medium)` ou `CBD classique` sans filtre compliqué.
 5. Garder le sélecteur à partir de 1 g, le `+`, le `−`, le prix total et le prix au gramme.
 6. Ne jamais mélanger les grilles de prix entre variétés.
-7. Ajouter un détail produit avec grande photo sous cloche, description, grammage et achat.
+7. Ajouter un détail produit avec grande photo réelle sans contenant, description, grammage et achat.
 
 ### Mobile
 
@@ -120,7 +120,7 @@ Les tâches 40 à 48 ajoutées à la feuille de route reprennent directement cet
 42. Ajouter un audit responsive multi-largeurs sur toutes les pages publiques.
 43. Ajouter les blocs TealerLab compatibles : offres sobres, cartes produit riches, réassurance, FAQ et sélection WOOD.
 44. Refuser les pop-ups bloquants et les animations qui masquent un achat.
-45. Préparer les vraies photos sous cloche avec ratios stables, `alt` et chargement progressif.
+45. Préparer les vraies photos sans contenant avec ratios stables, `alt` et chargement progressif.
 46. Activer la protection Supabase contre les mots de passe compromis avant production.
 47. Vérifier Turnstile, limitation de débit, origines autorisées et scénarios de double soumission.
 48. Nettoyer les traces de retrait dans Supabase après sauvegarde et validation des données.
@@ -152,7 +152,7 @@ Sur ordinateur, la page enchaîne une longue histoire commerciale en blocs indé
 
 Sur mobile, la même logique devient verticale : hero d’environ `540 px`, cartes en deux colonnes et blocs pleine largeur. Les sections ne sont pas simplement réduites ; elles changent de rythme, de densité et parfois de composition.
 
-**Adaptation WOOD :** conserver le hero actuel, puis reprendre seulement la séquence utile : `message livraison → quatre univers → sélection WOOD → présentation sous cloche → réassurance → FAQ → boutiques`. Ne pas ajouter le jeu, le parrainage, la fidélité ou la newsletter tant que la propriétaire ne les demande pas.
+**Adaptation WOOD :** conserver le hero actuel, puis reprendre seulement la séquence utile : `message livraison → quatre univers → sélection WOOD → photographie produit → réassurance → FAQ → boutiques`. Ne pas ajouter le jeu, le parrainage, la fidélité ou la newsletter tant que la propriétaire ne les demande pas.
 
 ### 9.2 Cartes catalogue TealerLab
 
@@ -168,7 +168,7 @@ Sur mobile, la même logique devient verticale : hero d’environ `540 px`, cart
 
 La fiche observée est structurée en profondeur : présentation produit, achat, expédition, informations de qualité, produits complémentaires, choix de variété, description, avis, recommandations et FAQ. Elle mesure environ `1492 px` pour son premier grand bloc sur ordinateur et `1968 px` sur mobile.
 
-**Adaptation WOOD :** créer une fiche plus courte et plus calme : grande photo sous cloche, nom et niveau, description claire, sélecteur `− / grammes / +`, prix total, prix au gramme, bouton d’ajout, livraison, puis informations complémentaires. L’animation de zoom doit être courte et stable ; elle ne doit jamais faire sauter le scroll ni masquer le prix.
+**Adaptation WOOD :** créer une fiche plus courte et plus calme : grande photo réelle sans contenant, nom et niveau, description claire, sélecteur `− / grammes / +`, prix total, prix au gramme, bouton d’ajout, livraison, puis informations complémentaires. L’animation de zoom doit être courte et stable ; elle ne doit jamais faire sauter le scroll ni masquer le prix.
 
 ### 9.4 Graphisme et langage visuel observés
 
@@ -212,7 +212,7 @@ Pour WOOD, les défilements seront limités à des éléments internes explicite
 - ajouter un bandeau livraison discret ;
 - placer les quatre univers dans une grille nette ;
 - introduire une sélection WOOD de trois cartes desktop/deux colonnes mobile ;
-- ajouter une section “qualité sous cloche” avec les photos authentiques ;
+- ajouter une section “qualité produit” avec les photos authentiques sans contenant ;
 - terminer par FAQ et boutiques, sans enfouir les informations.
 
 ### Priorité P2 — cartes et fiches
@@ -225,7 +225,7 @@ Pour WOOD, les défilements seront limités à des éléments internes explicite
 
 ### Priorité P3 — contenus futurs
 
-- intégrer les photos sous cloche ;
+- intégrer les photos produit sans contenant ;
 - ajouter les vraies promotions et vouchers ;
 - ajouter éventuellement avis, newsletter ou fidélité après décision de la propriétaire ;
 - ne connecter Viva Wallet qu’avec les identifiants officiels.
@@ -284,7 +284,7 @@ L’accueil TealerLab est construit comme une suite de modules éditoriaux indé
 19. réseaux sociaux ;
 20. footer accordéon.
 
-La leçon utile n’est pas de copier ces vingt modules. C’est de comprendre que chaque module possède un rôle et un rythme : découverte, choix, preuve, transaction, relation. Pour WOOD, le même principe devient une version plus courte : `identité → livraison → univers → sélection → cloche → réassurance → FAQ → boutiques`.
+La leçon utile n’est pas de copier ces vingt modules. C’est de comprendre que chaque module possède un rôle et un rythme : découverte, choix, preuve, transaction, relation. Pour WOOD, le même principe devient une version plus courte : `identité → livraison → univers → sélection → photographie produit → réassurance → FAQ → boutiques`.
 
 ### 13.2 Architecture d’interface observée
 
@@ -299,7 +299,7 @@ La leçon utile n’est pas de copier ces vingt modules. C’est de comprendre q
 
 | Élément observé | Adaptation WOOD | Garde-fou |
 |---|---|---|
-| Hero de campagne | Hero WOOD botanique/éditorial, future photo sous cloche, message court et deux CTA | Ne pas copier campagne, texte ou visuel TealerLab |
+| Hero de campagne | Hero WOOD botanique/éditorial, future photo produit réelle, message court et deux CTA | Ne pas copier campagne, texte ou visuel TealerLab |
 | Cartes de découverte | Quatre univers WOOD avec une promesse descriptive par carte | Pas de filtre, pas de recherche par nom |
 | Rail produit | `Sélection WOOD` avec cartes riches et achat rapide | Prix, stock et photos doivent être réels |
 | Badges et métadonnées | Univers + niveau `strong/medium/classique` | Aucun taux, avis ou label inventé |
@@ -355,7 +355,7 @@ La base WOOD est cohérente et reconnaissable : hero éditorial, univers, histoi
 - peu de modules intermédiaires qui donnent envie de continuer à parcourir la page ;
 - une sélection de produits et des cartes riches absentes de l’accueil tant que les vrais produits/photos ne sont pas injectés ;
 - une hiérarchie de carte à formaliser : média, niveau `strong/medium/classique`, nom, disponibilité, grammage, prix et action ;
-- une mise en scène des fleurs et résines sous cloche à préparer lorsque les photos de la propriétaire seront disponibles ;
+- une mise en scène photographique des fleurs et résines sans contenant à préparer lorsque les photos de la propriétaire seront disponibles ;
 - des rails locaux, liens `Voir tout`, progressions et états vides à définir pour éviter une page trop statique ;
 - un menu et un footer qui doivent reprendre une organisation plus éditoriale, avec des groupes simples et une version accordéon mobile ;
 - des textes à harmoniser : kickers courts, titres forts, descriptions brèves, microcopies de boutons, états de stock et messages d’erreur ;
@@ -367,12 +367,12 @@ La base WOOD est cohérente et reconnaissable : hero éditorial, univers, histoi
 
 | Mécanisme observé | Traduction WOOD | Ce qui reste interdit |
 |---|---|---|
-| Enchaînement de modules indépendants | `hero WOOD → livraison → univers → sélection → cloche → réassurance → FAQ → boutiques` | Copier leur ordre au pixel près ou importer leurs blocs promotionnels |
+| Enchaînement de modules indépendants | `hero WOOD → livraison → univers → sélection → photographie produit → réassurance → FAQ → boutiques` | Copier leur ordre au pixel près ou importer leurs blocs promotionnels |
 | Header d’e-commerce très lisible | Logo, menu, panier, compte et CTA WOOD avec hiérarchie équivalente | Copier leur wordmark, police, icônes ou palette |
 | Cartes produits denses | Média, badges WOOD, nom, grammage, prix total, prix au gramme, stock et ajout | Faux avis, faux taux, prix barrés, promotions ou badges TealerLab |
 | Choix de formats dans la carte | `− / g / +` à partir de 1 g, avec prix spécifique à chaque fleur | Appliquer la grille d’une variété à toutes les autres |
 | Rails/carrousels locaux | Sélection WOOD et produits liés avec overflow limité | Carrousel qui élargit le document ou empêche le clic |
-| Fiche produit approfondie | Photo sous cloche, identité, achat, livraison, qualité et FAQ | Copier leurs descriptions, claims ou visuels |
+| Fiche produit approfondie | Photo réelle sans contenant, identité, achat, livraison, qualité et FAQ | Copier leurs descriptions, claims ou visuels |
 | Footer et FAQ repliables | Footer structuré, FAQ courte et accessible, boutiques bien identifiées | Cacher les informations essentielles ou ajouter un retrait non validé |
 | Stickers, emojis, avis visuels et humour | Accents WOOD dosés dans les zones éditoriales après validation | Remplir chaque carte d’emojis ou dégrader la lisibilité premium |
 | Animations de découverte | Révélations douces, zoom stable et feedback d’ajout | Scroll-jacking, popups recouvrants, mouvements permanents |
@@ -406,7 +406,7 @@ Une nouvelle lecture de l’accueil, du catalogue et d’une fiche produit Teale
 
 ### 16.1 Ce que WOOD peut reprendre
 
-- **Scénarisation de l’accueil :** faire vivre la page comme un parcours `message WOOD → découverte des quatre univers → sélection fleurs/résines → présentation sous cloche → informations pratiques → boutiques/FAQ`.
+- **Scénarisation de l’accueil :** faire vivre la page comme un parcours `message WOOD → découverte des quatre univers → sélection fleurs/résines → photographie produit réelle → informations pratiques → boutiques/FAQ`.
 - **Densité contrôlée :** alterner un hero fort, une sélection courte, une section pleine largeur, une grille et un bloc d’aide afin que la page paraisse riche sans devenir confuse.
 - **Cartes orientées achat :** maintenir l’ordre média, catégorie, nom exact, description, grammage, prix choisi, disponibilité et bouton ; le client ne doit pas chercher l’action.
 - **Fiche détaillée :** afficher le visuel et l’achat tôt, puis descendre progressivement vers les informations de livraison et les détails validés.
@@ -517,7 +517,7 @@ Les cartes produits observées combinent plusieurs informations dans un ordre co
 
 Pour WOOD, cette grammaire doit devenir :
 
-- visuel sous cloche ou placeholder WOOD clairement marqué ;
+- visuel produit réel sans contenant ou placeholder WOOD clairement marqué ;
 - `CBD BOOSTÉ (STRONG)`, `CBD SOFT (MEDIUM)` ou `CBD CLASSIQUE` ;
 - nom exact de la variété ;
 - description courte validée, sans promesse d’effet ;
