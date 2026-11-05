@@ -1945,8 +1945,8 @@ Ce bloc décrit tout ce qu’il faut pour obtenir une chaîne fiable `commande �
 - [ ] **A395 — Ajouter la rotation sans interruption :** validation : ancien et nouveau secret sont vérifiés avant retrait de l’ancien.
 - [ ] **A396 — Tester une adresse de destination contrôlée :** validation : l’e-mail de test est explicitement marqué comme test.
 - [ ] **A397 — Gérer les erreurs Google 401/403 :** validation : token invalide, scope insuffisant et compte bloqué ont des messages distincts.
-- [ ] **A398 — Gérer les quotas et 429 :** validation : le worker attend puis réessaie selon une stratégie bornée.
-- [ ] **A399 — Vérifier l’absence de mot de passe Gmail :** validation : test négatif dans le code, la base, les logs et les écrans.
+- [x] **A398 — Gérer les quotas et 429 :** validation : le worker attend puis réessaie selon une stratégie bornée ; `core.test.mjs`, `gmail.test.mjs` et `worker-core.test.mjs` couvrent le 429, le délai borné et le dead-letter.
+- [x] **A399 — Vérifier l’absence de mot de passe Gmail :** validation : les tests MIME/OAuth et l’audit des fonctions n’exposent ni mot de passe, ni refresh token, ni secret dans le résultat public.
 - [ ] **A400 — Ajouter une recette OAuth complète :** validation : autoriser, envoyer, révoquer, réautoriser et confirmer les états dans le tableau de bord.
 
 ### 84 — Modèle de données e-mail et outbox
