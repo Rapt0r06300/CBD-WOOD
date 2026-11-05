@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **179 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **198 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit `34eac62` ont été vérifiés avec succès ; les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -1431,7 +1431,7 @@ La relecture de l’accueil, du catalogue et d’une fiche produit TealerLab con
 - [x] **A174 — Composer la fiche produit en profondeur progressive :** média, nom, profil WOOD, description, grammage, prix, disponibilité, ajout, livraison à confirmer, puis détails secondaires ; validation : l’action principale est visible sans sacrifier la présentation premium.
 - [ ] **A175 — Ajouter une galerie produit sans surcharge :** prévoir une image principale et quelques vues réelles futures sans contenant, sans carrousel obligatoire pour une seule photo ; validation : chaque image a un alt text, une taille réservée et une fermeture tactile fiable.
 - [ ] **A176 — Ajouter un bloc de garanties seulement avec des preuves WOOD :** réserver l’emplacement à conformité, qualité, préparation et service, mais n’afficher aucune phrase avant validation documentaire ; validation : le bloc peut rester vide ou masqué sans créer de trou visuel.
-- [ ] **A177 — Préparer la section livraison sans la publier trop tôt :** reproduire la clarté d’un bloc livraison/expédition, mais laisser les zones inconnues à confirmer par la propriétaire ; validation : le site ne promet ni délai, ni transporteur, ni tarif non validé.
+- [x] **A177 — Préparer la section livraison sans la publier trop tôt :** reproduire la clarté d’un bloc livraison/expédition, mais laisser les zones inconnues à confirmer par la propriétaire ; validation locale : le site annonce uniquement la livraison à domicile et réserve frais, zones, délais et transporteur à la confirmation ; preuve : `test/catalog-contract.test.mjs`. Les règles commerciales finales restent ouvertes.
 - [ ] **A178 — Encadrer les descriptions et claims :** autoriser une voix WOOD imagée, des emojis et un humour léger, mais interdire les effets, bénéfices médicaux, taux et qualités non fournis ; validation : revue éditoriale sur les 13 fiches avant publication.
 - [ ] **A179 — Préparer une zone communauté non active :** étudier un futur bloc de photos/stickers/graffiti de la boutique, sans faux témoignage, faux compte social ou contenu récupéré ; validation : aucun contenu communautaire n’est affiché sans autorisation.
 - [ ] **A180 — Préparer les avis sans les simuler :** réserver la hiérarchie visuelle d’une note et de commentaires comme sur TealerLab, mais afficher un état vide tant que la propriétaire ne fournit pas de données vérifiables ; validation : aucun nombre ou étoile inventé.
@@ -1591,8 +1591,8 @@ Les deux photos fournies montrent une carte imprimée qui constitue une référe
 - [ ] **A264 — Documenter les réductions visibles :** conserver les réductions de la carte jusqu’à 25 g, sans généraliser au-delà ; validation : la règle des deux lots de 25 g reste séparée et testée.
 - [ ] **A265 — Préparer le schéma résines :** utiliser la même logique de grille sans inventer les prix masqués ou coupés dans la photo ; validation : aucune résine n’est activée avant lecture/validation complète.
 - [ ] **A266 — Conserver les libellés exacts :** ne pas corriger automatiquement les noms de variétés ou de résines à partir d’une supposition ; validation : toute correction est confirmée par la propriétaire.
-- [ ] **A267 — Prévoir l’état “donnée à confirmer” :** afficher proprement une icône, un prix ou une photo manquante sans inventer ; validation : la carte reste esthétique et l’achat est bloqué si nécessaire.
-- [ ] **A268 — Relier la carte à la boutique sans image plate :** utiliser la carte comme référence puis proposer des cartes produits interactives ; validation : clic, gramme, prix et panier restent des éléments HTML séparés.
+- [x] **A267 — Prévoir l’état “donnée à confirmer” :** afficher proprement une icône, un prix ou une photo manquante sans inventer ; validation locale : `storefront.js` expose les états disponibilité/prix/visuel à confirmer et désactive l’achat tant que les données ne sont pas complètes ; preuve : `test/catalog-contract.test.mjs`.
+- [x] **A268 — Relier la carte à la boutique sans image plate :** utiliser la carte comme référence puis proposer des cartes produits interactives ; validation locale : le clic de carte ouvre la fiche, tandis que grammage, prix et ajout au panier restent des contrôles HTML séparés ; preuve : `test/catalog-contract.test.mjs`.
 - [ ] **A269 — Créer une version “voir la carte” optionnelle :** afficher une vue complète haute qualité dans une visionneuse accessible ; validation : zoom, fermeture, retour clavier et mobile fonctionnent.
 - [ ] **A270 — Ajouter une transcription structurée :** fournir une version texte des catégories, noms, profils et prix ; validation : aucun utilisateur ne dépend de la photo pour comprendre l’offre.
 
