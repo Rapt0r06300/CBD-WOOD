@@ -24,7 +24,7 @@ Des captures de référence ont également été produites à `320` et `1440` px
 
 ## Contrôles complémentaires
 
-- Les tests automatisés du dépôt passent (`171 tests`).
+- Les tests automatisés du dépôt passent (`172 tests`).
 - La syntaxe JavaScript et l’audit statique passent.
 - Le paquet Hostinger est généré et contrôlé avant transfert.
 - La version publique répond sur les routes principales ; la route historique `admin.html` répond `404`.

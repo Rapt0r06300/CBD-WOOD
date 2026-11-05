@@ -10,7 +10,7 @@
 
 **Référence :** audit de [TealerLab](https://tealerlab.com/), site actuel WOOD, échanges avec la propriétaire et exigences de Florent.
 
-**Contrôle de cohérence :** cette feuille contient 76 tâches principales uniques, numérotées de 1 à 76. Elle contient aussi 560 tags d’exécution `A01–A560` : chaque tag possède un périmètre et un contrôle de validation, sans modifier le contrat de numérotation testé par le dépôt. Les tâches 75 et 76 ajoutent les deux garde-fous indispensables à une ouverture commerciale : conformité éditoriale/légale et continuité des données. Les décisions commerciales inconnues restent bloquées ; elles ne peuvent pas être déduites par le code.
+**Contrôle de cohérence :** cette feuille contient 76 tâches principales uniques, numérotées de 1 à 76. Elle contient aussi 700 tags d’exécution `A01–A700` : chaque tag possède un périmètre et un contrôle de validation, sans modifier le contrat de numérotation testé par le dépôt. Les tâches 75 et 76 ajoutent les deux garde-fous indispensables à une ouverture commerciale : conformité éditoriale/légale et continuité des données. Les décisions commerciales inconnues restent bloquées ; elles ne peuvent pas être déduites par le code.
 
 **Architecture d’administration retenue :** après connexion, le compte dont le rôle propriétaire est confirmé affiche directement le tableau de bord dans `compte.html`. Les nouveaux comptes restent clients. Aucun fichier ou route `admin.*` n’est publié ; RLS et les fonctions serveur restent obligatoires.
 
@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **171 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **172 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit `34eac62` ont été vérifiés avec succès ; les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -124,6 +124,7 @@
 - La passe direction artistique du 5 novembre 2026 ajoute `A191–A240` : elle détaille le dosage premium/chill/graffiti/stickers/humour, la création d’assets WOOD originaux, les règles de composition, les microcopies, les animations responsables et les contrôles finaux sur tous les supports.
 - La carte imprimée des fleurs et résines fournie le 5 novembre 2026 ajoute `A241–A280` : elle révèle le langage graphique propriétaire de WOOD — poster illustré, papier texturé, cadres irréguliers, coulures, pictogrammes par variété, badges de profil, hiérarchie tarifaire, éditions saisonnières et composition narrative — à transposer sur le site sans intégrer ses promotions actuelles.
 - La seconde passe live de l’accueil TealerLab, contrôlée le 5 novembre 2026 en viewport desktop `1440 × 1000` et mobile `390 × 844`, ajoute `A281–A360` : elle détaille la chorégraphie de la page d’accueil, la présentation des fleurs/résines, les cartes, les rails, les états, la recomposition mobile, la performance et la validation sans changer l’identité WOOD.
+- La passe d’exhaustivité du 5 novembre 2026 ajoute `A561–A700` : elle couvre le registre de direction artistique, le brief photo réel, la recomposition complète de l’accueil, la compatibilité des appareils, les budgets d’animation et de performance, la fiabilité commerciale, la continuité Supabase, la communication Gmail, la passation et les portes de production. Ces tâches restent ouvertes tant que la preuve correspondante n’existe pas.
 
 ## Phase 0 — Sécuriser l’existant avant toute évolution
 
@@ -2174,6 +2175,187 @@ Ce bloc décrit tout ce qu’il faut pour obtenir une chaîne fiable `commande �
 - Les adresses et données de livraison sont conservées dans la commande, protégées par RLS et absentes des logs publics.
 - Les tests couvrent mobile, desktop, double clic, double webhook, token révoqué, quota, PDF manquant et échec de livraison.
 - Le système est seulement “prêt à connecter” tant que la propriétaire n’a pas autorisé le compte Google et confirmé les règles de livraison/documentation.
+
+## Bloc A561–A700 — exhaustivité visuelle, technique, commerciale et passation
+
+Ce bloc complète la construction du site de démonstration WOOD jusqu’à la mise en service. Il ne change pas les couleurs, le logo, la carte tarifaire, les quatre univers, la livraison seule, ni les règles demandées par la propriétaire. Chaque tâche doit être exécutée avec sauvegarde, test de non-régression et preuve lisible.
+
+### 91 — Registre de direction artistique et contenus WOOD
+
+- [ ] **A561 — Créer le registre des contraintes propriétaire :** validation : identité WOOD, couleurs, logo, premium, chill, graffiti maîtrisé, stickers, humour dosé et simplicité sont listés comme contraintes bloquantes.
+- [ ] **A562 — Créer le registre des interdits :** validation : aucune couleur nouvelle, aucune copie TealerLab, aucun style non demandé, aucune promotion, aucun QR code et aucun retrait en boutique ne passent sans décision explicite.
+- [ ] **A563 — Figer les tokens de couleur :** validation : les accents futurs réutilisent uniquement les variables WOOD existantes ou une teinte validée.
+- [ ] **A564 — Figer les tokens de typographie :** validation : aucune police externe ou substitution imprévue n’est chargée.
+- [ ] **A565 — Figer les tokens d’espacement :** validation : hero, cartes, boutons, sections et footer utilisent une échelle cohérente.
+- [ ] **A566 — Figer les tokens de bordure :** validation : cadres, séparateurs et rayons restent cohérents avec l’existant.
+- [ ] **A567 — Figer les tokens de mouvement :** validation : durée, easing et distance maximale sont documentés avant ajout d’animation.
+- [ ] **A568 — Créer la matrice inspiration/identité :** validation : chaque idée TealerLab possède une adaptation WOOD ou une décision d’exclusion.
+- [ ] **A569 — Documenter la règle de non-copie :** validation : aucun texte, visuel, logo, slogan ou placement exact n’est repris.
+- [ ] **A570 — Préparer la bibliothèque de stickers WOOD :** validation : chaque sticker est original, nommé, versionné et retiré s’il gêne la lecture.
+- [ ] **A571 — Préparer la bibliothèque de pictogrammes :** validation : les pictogrammes restent homogènes et ne remplacent pas les libellés utiles.
+- [ ] **A572 — Définir le dosage des accents :** validation : les zones d’achat, prix, stock et paiement restent visuellement sobres.
+- [ ] **A573 — Définir la grammaire d’humour :** validation : les microcopies restent courtes, compréhensibles et sans promesse produit.
+- [ ] **A574 — Définir la grammaire des emojis :** validation : un emoji est décoratif, accessible et jamais indispensable à l’information.
+- [ ] **A575 — Relire tous les noms de produits :** validation : les noms correspondent exactement à la liste et à la carte de la propriétaire.
+- [ ] **A576 — Relire tous les niveaux de profil :** validation : seuls `CBD boosté (strong)`, `CBD soft (medium)` et `CBD classique` sont employés quand la donnée est connue.
+- [ ] **A577 — Relire les descriptions provisoires :** validation : elles sont identifiées comme démonstration et ne contiennent aucun effet médical ou promesse garantie.
+- [ ] **A578 — Créer un état “donnée à renseigner” :** validation : une donnée manquante est lisible sans inventer de texte, prix ou stock.
+- [ ] **A579 — Créer la fiche d’approbation propriétaire :** validation : une section graphique ou textuelle n’est publiée qu’après validation de son contenu.
+- [ ] **A580 — Archiver les versions approuvées :** validation : chaque asset et chaque texte accepté possède une date et une origine documentées.
+
+### 92 — Photographie réelle et pipeline des visuels
+
+- [ ] **A581 — Rédiger le brief photo fleurs :** validation : vraie fleur, sans bocal ni cloche, angle photographe, lumière contrôlée et détail net.
+- [ ] **A582 — Rédiger le brief photo résines :** validation : matière identifiable, cadrage propre, absence de contenant imposé et cohérence WOOD.
+- [ ] **A583 — Définir le fond photo WOOD :** validation : le fond respecte les couleurs existantes sans créer une nouvelle palette.
+- [ ] **A584 — Définir l’éclairage photo :** validation : les textures restent visibles sans surexposition ni dominante incontrôlée.
+- [ ] **A585 — Définir les angles de prise de vue :** validation : chaque variété possède un angle identifiable sans répétition mécanique.
+- [ ] **A586 — Définir les cadrages desktop :** validation : les ratios évitent le recadrage du produit et gardent le point focal.
+- [ ] **A587 — Définir les cadrages mobile :** validation : le point focal reste visible dans les cases carrées et les fiches.
+- [ ] **A588 — Préparer la liste des 13 variétés :** validation : une photo réelle distincte est associée à chaque nom exact.
+- [ ] **A589 — Prévoir la liste des résines :** validation : aucune photo ni fiche résine n’est validée avant réception des données réelles.
+- [ ] **A590 — Définir le nommage des fichiers :** validation : nom, univers, version, format et état `demo`/`approved` sont déterministes.
+- [ ] **A591 — Définir le texte alternatif photo :** validation : chaque image décrit utilement le produit sans surpromesse.
+- [ ] **A592 — Définir la légende photo :** validation : elle ajoute du contexte sans inventer origine, taux ou certification.
+- [ ] **A593 — Contrôler les droits des images :** validation : chaque image possède une source ou une autorisation archivée.
+- [ ] **A594 — Préparer le remplacement sans refonte :** validation : une photo réelle remplace le placeholder sans changer la géométrie de carte.
+- [ ] **A595 — Générer les formats responsives :** validation : WebP/AVIF et fallback JPEG sont disponibles lorsque les outils les produisent correctement.
+- [ ] **A596 — Définir les tailles maximales :** validation : aucune image publique inutilement lourde n’est publiée.
+- [ ] **A597 — Tester le recadrage automatique :** validation : aucune tête, fleur, résine, étiquette ou détail utile n’est coupé.
+- [ ] **A598 — Tester l’état image absente :** validation : l’état “Visuel à venir” reste beau, accessible et non trompeur.
+- [ ] **A599 — Tester l’image lente :** validation : le texte et les actions restent utilisables avant la fin du chargement.
+- [ ] **A600 — Valider la planche photo :** validation : la propriétaire valide l’ensemble des visuels avant leur statut de production.
+
+### 93 — Accueil WOOD inspiré de TealerLab sans copie
+
+- [ ] **A601 — Dessiner le storyboard desktop final :** validation : hero, univers, sélection, contenu éditorial, boutiques, FAQ et footer ont un ordre cohérent.
+- [ ] **A602 — Dessiner le storyboard mobile final :** validation : la page est recomposée, pas simplement réduite.
+- [ ] **A603 — Définir la hiérarchie du premier écran :** validation : marque, proposition, média et action sont compris sans scroll obligatoire.
+- [ ] **A604 — Définir la zone respirée du hero :** validation : le texte ne touche ni le bord ni le média sur aucun format.
+- [ ] **A605 — Définir le CTA principal d’accueil :** validation : il mène à la boutique WOOD et conserve son libellé validé.
+- [ ] **A606 — Définir le CTA secondaire d’accueil :** validation : il mène à `Nous trouver` ou à l’histoire sans accès caché.
+- [ ] **A607 — Définir le bandeau de livraison :** validation : il indique seulement la disponibilité de la livraison tant que frais et délais ne sont pas fixés.
+- [ ] **A608 — Définir la section quatre univers :** validation : fleurs, résines, bien-être/huiles et textile/goods sont immédiatement distingués.
+- [ ] **A609 — Définir la composition des cartes univers :** validation : image, numéro, nom, phrase et lien sont alignés dans les deux versions.
+- [ ] **A610 — Définir la section sélection fleurs :** validation : elle utilise des produits réels ou des placeholders explicitement marqués.
+- [ ] **A611 — Définir la section sélection résines :** validation : elle reste désactivable si les données ne sont pas encore reçues.
+- [ ] **A612 — Définir la fiche d’aperçu produit :** validation : profil, nom, description, grammage, prix et panier suivent l’ordre WOOD.
+- [ ] **A613 — Définir le comportement sans stock :** validation : l’action d’achat devient indisponible avec une explication claire.
+- [ ] **A614 — Définir le comportement prix incomplet :** validation : aucun prix partiel ne ressemble à un prix final.
+- [ ] **A615 — Définir la zone photographie éditoriale :** validation : elle valorise la qualité visuelle sans preuve commerciale inventée.
+- [ ] **A616 — Définir la zone histoire WOOD :** validation : le texte est court, authentique et validable par la propriétaire.
+- [ ] **A617 — Définir la zone boutiques :** validation : Barla et Borriglione restent séparées, avec leur propre numéro et adresse.
+- [ ] **A618 — Définir la FAQ d’accueil :** validation : compte, commande, livraison et paiement sont expliqués sans règle non confirmée.
+- [ ] **A619 — Définir le footer final :** validation : navigation, contact, boutiques et légal sont accessibles sans lien admin.
+- [ ] **A620 — Faire valider le storyboard :** validation : la propriétaire et son conjoint valident la direction avant refonte visuelle importante.
+
+### 94 — Responsive réel mobile, tablette et ordinateur
+
+- [ ] **A621 — Définir la matrice de largeurs :** validation : `320`, `360`, `375`, `390`, `414`, `430`, `768`, `834`, `1024`, `1280`, `1440`, `1920` sont couverts.
+- [ ] **A622 — Définir la matrice d’orientations :** validation : mobile portrait/paysage et tablette portrait/paysage sont testés.
+- [ ] **A623 — Tester les navigateurs Chromium :** validation : Chrome desktop, Chrome Android et navigateurs intégrés restent utilisables.
+- [ ] **A624 — Tester les navigateurs WebKit :** validation : Safari iPhone/iPad et Safari macOS ne coupent aucun élément critique.
+- [ ] **A625 — Tester Firefox :** validation : navigation, grille, menu, panier et formulaires restent cohérents.
+- [ ] **A626 — Vérifier les zones sûres :** validation : encoche, barre d’état et barre de navigation ne recouvrent pas le contenu.
+- [ ] **A627 — Vérifier les unités dynamiques :** validation : `svh`, `lvh` ou fallback évitent les héros trop hauts sur mobile.
+- [ ] **A628 — Vérifier le zoom navigateur :** validation : 200 % et 400 % gardent les actions accessibles sans chevauchement.
+- [ ] **A629 — Vérifier la taille de texte système :** validation : texte agrandi ne coupe pas prix, titres ou boutons.
+- [ ] **A630 — Vérifier le clavier virtuel :** validation : l’adresse et le paiement fictif ne sont pas masqués par le clavier.
+- [ ] **A631 — Vérifier la grille mobile :** validation : les quatre cases `2 × 2` restent entières, alignées et cliquables.
+- [ ] **A632 — Vérifier la grille desktop :** validation : trois produits par ligne restent alignés avec une quatrième carte à la ligne suivante.
+- [ ] **A633 — Vérifier les fiches produit :** validation : le zoom, la description, le grammage et le panier restent dans le viewport.
+- [ ] **A634 — Vérifier le panier long :** validation : plusieurs articles, adresses longues et prix longs ne créent pas de débordement.
+- [ ] **A635 — Vérifier les titres extrêmes :** validation : les noms longs sont coupés ou renvoyés proprement sans masquer l’action.
+- [ ] **A636 — Vérifier les écrans très larges :** validation : le contenu reste contenu et ne devient pas illisible au centre d’un écran géant.
+- [ ] **A637 — Vérifier les écrans très courts :** validation : le premier CTA reste atteignable sans chevauchement du header.
+- [ ] **A638 — Vérifier le bas de page mobile :** validation : la navigation basse ne recouvre jamais le dernier bouton ou la dernière ligne.
+- [ ] **A639 — Vérifier les captures multi-appareils :** validation : aucune correction n’est faite sur un seul téléphone au détriment des autres.
+- [ ] **A640 — Archiver la matrice responsive :** validation : captures, mesures et anomalies sont conservées avant et après chaque refonte.
+
+### 95 — Animations, interaction et performance
+
+- [ ] **A641 — Définir un budget de mouvement :** validation : aucune animation ne retarde l’action principale ni ne change la géométrie.
+- [ ] **A642 — Définir les animations de chargement :** validation : elles indiquent l’attente sans animation infinie trompeuse.
+- [ ] **A643 — Définir l’arrivée du hero :** validation : texte et image apparaissent doucement sans décaler le contenu.
+- [ ] **A644 — Définir l’apparition au scroll :** validation : une section n’est animée qu’une fois et reste complète sans JavaScript.
+- [ ] **A645 — Définir le hover desktop :** validation : élévation et zoom restent légers et ne modifient pas la grille.
+- [ ] **A646 — Définir le tap mobile :** validation : le retour tactile ne reste pas bloqué après le doigt.
+- [ ] **A647 — Définir la transition fiche produit :** validation : le zoom est fluide, annulable et possède un fallback instantané.
+- [ ] **A648 — Interdire le scroll-jacking :** validation : la molette, le doigt et le clavier gardent le contrôle normal du document.
+- [ ] **A649 — Respecter `prefers-reduced-motion` :** validation : toutes les informations et actions restent disponibles sans mouvement.
+- [ ] **A650 — Prévoir le chargement sans JavaScript :** validation : le contenu essentiel et les liens restent compréhensibles.
+- [ ] **A651 — Réserver les dimensions des images :** validation : aucune image ne provoque de décalage de mise en page.
+- [ ] **A652 — Prioriser le média du hero :** validation : le premier écran ne dépend pas d’un chargement tardif non maîtrisé.
+- [ ] **A653 — Différer les médias secondaires :** validation : les images hors écran ne bloquent pas le premier affichage.
+- [ ] **A654 — Limiter les dépendances :** validation : aucune librairie d’animation lourde n’est ajoutée sans mesure et justification.
+- [ ] **A655 — Contrôler les erreurs console :** validation : les parcours public, boutique, fiche, panier et compte restent sans erreur non traitée.
+- [ ] **A656 — Contrôler le chargement lent :** validation : le site conserve navigation et panier sur réseau mobile dégradé.
+- [ ] **A657 — Contrôler la reprise réseau :** validation : un échec média ou Supabase permet de réessayer sans perdre le panier.
+- [ ] **A658 — Contrôler la mémoire :** validation : ouverture/fermeture répétée du menu et panier ne crée pas de fuite visible.
+- [ ] **A659 — Mesurer les budgets locaux :** validation : DCL, FCP, CLS, poids média et erreurs sont archivés par version.
+- [ ] **A660 — Valider la performance finale :** validation : aucun effet graphique n’est conservé s’il dégrade une action commerciale.
+
+### 96 — Commandes, comptes, Supabase et continuité
+
+- [ ] **A661 — Figer le modèle produit :** validation : nom, univers, profil, disponibilité, prix, stock, image et description ont un contrat unique.
+- [ ] **A662 — Figer le modèle panier :** validation : produit, grammes, quantité, prix snapshot et version sont persistés de façon cohérente.
+- [ ] **A663 — Figer le modèle commande :** validation : état, client, livraison, total, idempotence et dates sont séparés clairement.
+- [ ] **A664 — Figer le snapshot de prix :** validation : modifier un produit ne modifie jamais une commande passée.
+- [ ] **A665 — Figer le snapshot d’adresse :** validation : modifier le compte ne modifie jamais l’adresse d’une commande existante.
+- [ ] **A666 — Tester le double clic :** validation : une seule clé d’idempotence produit une seule commande.
+- [ ] **A667 — Tester le rafraîchissement :** validation : le panier et l’état de soumission restent récupérables.
+- [ ] **A668 — Tester la concurrence de stock :** validation : deux commandes concurrentes ne vendent pas le même stock disponible.
+- [ ] **A669 — Tester le produit désactivé :** validation : le serveur refuse une ligne devenue indisponible après affichage.
+- [ ] **A670 — Tester l’erreur réseau :** validation : aucune commande locale n’est supprimée avant confirmation serveur.
+- [ ] **A671 — Tester les nouveaux comptes :** validation : chaque nouvel utilisateur reçoit uniquement le grade client.
+- [ ] **A672 — Tester le compte propriétaire :** validation : le rôle serveur confirmé affiche d’abord la gestion, sans route admin publique.
+- [ ] **A673 — Tester la tentative d’élévation :** validation : un client ne peut pas s’auto-promouvoir par formulaire, REST ou fonction.
+- [ ] **A674 — Tester la session longue :** validation : l’espace propriétaire ne déconnecte pas inutilement pendant la gestion normale.
+- [ ] **A675 — Tester l’expiration :** validation : une session expirée affiche une récupération claire sans perdre les données déjà saisies.
+- [ ] **A676 — Tester les accès directs :** validation : URLs, fichiers, Storage et fonctions sensibles refusent les comptes non autorisés.
+- [ ] **A677 — Tester les sauvegardes :** validation : sauvegarde, restauration et vérification de cohérence sont prouvées sur un environnement de test.
+- [ ] **A678 — Tester les migrations :** validation : l’historique local et distant est synchronisé avant chaque changement de schéma.
+- [ ] **A679 — Écrire le runbook d’incident :** validation : commande introuvable, e-mail échoué, stock incohérent et panne Supabase ont une procédure.
+- [ ] **A680 — Fermer la porte de fiabilité commerciale :** validation : aucune ouverture réelle avant que commandes, stocks, rôles, sauvegardes et reprises soient testés.
+
+### 97 — E-mails Gmail, PDF, livraison, légal et passation
+
+- [ ] **A681 — Figer l’expéditeur Gmail :** validation : adresse, nom affiché et compte propriétaire sont confirmés avant OAuth.
+- [ ] **A682 — Configurer Gmail sans mot de passe :** validation : OAuth serveur, scope minimal et refresh token privé sont utilisés.
+- [ ] **A683 — Tester l’autorisation Gmail :** validation : autoriser, envoyer un test, révoquer puis réautoriser produisent des états explicites.
+- [ ] **A684 — Tester l’e-mail de commande :** validation : la commande persistée est résumée sans annoncer un paiement confirmé.
+- [ ] **A685 — Tester l’alerte propriétaire :** validation : la propriétaire reçoit une alerte idempotente lorsqu’une commande est réellement enregistrée.
+- [ ] **A686 — Tester le reçu payé :** validation : aucune pièce jointe de paiement ne part avant confirmation Viva vérifiée.
+- [ ] **A687 — Tester la pièce jointe PDF :** validation : MIME, nom, accents, lisibilité et lien entre document et commande sont contrôlés.
+- [ ] **A688 — Tester l’absence de PDF :** validation : l’e-mail n’affirme jamais qu’une pièce jointe existe si sa génération a échoué.
+- [ ] **A689 — Tester les e-mails mobiles :** validation : Gmail mobile et desktop affichent un contenu lisible sans débordement.
+- [ ] **A690 — Tester la livraison :** validation : chaque changement autorisé conserve son historique et son message associé.
+- [ ] **A691 — Tester l’échec de livraison :** validation : la commande reste retrouvable, l’alerte propriétaire est créée et aucune fausse livraison n’est annoncée.
+- [ ] **A692 — Définir l’opt-in newsletter :** validation : un compte client ne devient jamais abonné automatiquement.
+- [ ] **A693 — Tester la désinscription :** validation : le lien est signé, expirant, idempotent et n’expose aucune autre adresse.
+- [ ] **A694 — Vérifier SPF/DKIM/DMARC :** validation : le domaine d’envoi est authentifié avant tout envoi réel.
+- [ ] **A695 — Définir les règles de conservation :** validation : commandes, documents, logs et consentements possèdent une durée validée.
+- [ ] **A696 — Recueillir les données légales :** validation : raison sociale, coordonnées, CGV, confidentialité, livraison et retours sont fournis par la propriétaire.
+- [ ] **A697 — Relier les pages légales :** validation : footer, compte et checkout pointent vers des textes validés et non inventés.
+- [ ] **A698 — Préparer la passation :** validation : la propriétaire possède ses comptes GitHub, Supabase, Gmail, hébergeur et domaine, sans dépendre du développeur.
+- [ ] **A699 — Préparer la rotation des accès :** validation : les accès de démonstration sont remplacés et les anciens secrets révoqués.
+- [ ] **A700 — Fermer la porte de mise en production :** validation : la propriétaire signe la recette fonctionnelle, visuelle, e-mail, données et hébergement.
+
+### Ordre d’exécution recommandé pour le bloc A561–A700
+
+1. `A561–A580` : verrouiller la direction WOOD et les règles éditoriales.
+2. `A581–A600` : préparer les vraies photos et remplacer proprement les placeholders.
+3. `A601–A620` : finaliser l’architecture de l’accueil inspirée de TealerLab sans copie.
+4. `A621–A640` : valider toutes les compositions mobile, tablette et ordinateur.
+5. `A641–A660` : ajouter uniquement les animations qui passent les budgets de performance et d’accessibilité.
+6. `A661–A680` : vérifier les comptes, commandes, stocks, rôles, RLS, sauvegardes et reprises.
+7. `A681–A700` : connecter Gmail et les documents après validation, puis fermer les portes légales et de passation.
+
+### Validation de complétude du bloc A561–A700
+
+- Aucun tag n’est considéré comme terminé sans une preuve : test automatisé, capture contrôlée, donnée validée, revue propriétaire ou réglage externe vérifié.
+- Les tâches qui dépendent des stocks, des photos, des règles de livraison, de Gmail, de Viva, de Supabase ou de Hostinger restent explicitement ouvertes jusqu’à réception des informations et validation réelle.
+- La fin du bloc ne signifie pas que des identifiants ont été inventés : elle signifie que la checklist complète est prête à être exécutée dans le bon ordre.
 
 ## Décisions qui restent volontairement bloquées
 

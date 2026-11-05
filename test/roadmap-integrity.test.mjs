@@ -11,8 +11,8 @@ test('la feuille de route conserve ses 76 tâches uniques et dans l’ordre', ()
 });
 
 test('l’état de vérification ne contient pas de compteur obsolète', () => {
-  assert.match(roadmap, /npm run check` passe avec \*\*171 tests\*\*/);
-  assert.doesNotMatch(roadmap, /\*\*(44|47|51|53|54|64|122|125) tests\*\*/);
+  assert.match(roadmap, /npm run check` passe avec \*\*172 tests\*\*/);
+  assert.doesNotMatch(roadmap, /\*\*(44|47|51|53|54|64|122|125|171) tests\*\*/);
   assert.match(roadmap, /paquet de \*\*49 fichiers\*\*/);
   assert.match(roadmap, /availability_state/);
   assert.match(roadmap, /order_notification_outbox/);
@@ -22,4 +22,9 @@ test('la feuille renvoie vers l’inventaire public et interdit la route admin h
   assert.match(routes, /test\/links\.test\.mjs/);
   assert.match(routes, /admin\.html[\s\S]*supprimée/);
   assert.match(roadmap, /docs\/ops\/public-routes\.md/);
+});
+
+test('les tags d’exécution de la feuille sont continus jusqu’à A700', () => {
+  const tags = [...roadmap.matchAll(/\*\*A(\d+) —/g)].map(match => Number(match[1]));
+  assert.deepEqual(tags, Array.from({ length: 700 }, (_, index) => index + 1));
 });
