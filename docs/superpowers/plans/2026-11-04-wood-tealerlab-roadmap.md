@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **132 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **135 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit courant ont été vérifiés avec succès ; la page publique, `produit.html` et une image WebP répondent en HTTP 200. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -1895,29 +1895,29 @@ Ce bloc décrit tout ce qu’il faut pour obtenir une chaîne fiable `commande �
 
 ### 81 — Cadre, décisions et séparation des responsabilités
 
-- [ ] **A361 — Écrire le périmètre du système e-mail :** distinguer e-mails transactionnels, documents commerciaux et newsletters ; validation : chaque message futur possède une catégorie unique.
-- [ ] **A362 — Écrire la matrice des états de commande :** `pending`, `paid`, `processing`, `shipped`, `delivered`, `cancelled`, `refunded`, `failed` ; validation : aucun e-mail ne peut être déclenché par un état ambigu.
-- [ ] **A363 — Séparer la confirmation de commande du reçu de paiement :** validation : une commande enregistrée ne dit jamais qu’elle est payée avant la confirmation Viva Wallet.
-- [ ] **A364 — Séparer les newsletters des e-mails de commande :** validation : un client qui refuse le marketing reçoit toujours les e-mails indispensables à sa commande.
-- [ ] **A365 — Définir les sources de vérité :** Supabase pour les données et états, Edge Functions pour les secrets et appels externes, navigateur pour l’interface ; validation : aucun secret n’est requis côté public.
-- [ ] **A366 — Écrire le registre des décisions commerciales manquantes :** frais, zones, délais et formulation de livraison ; validation : le code affiche un état “à confirmer” plutôt qu’une règle inventée.
+- [x] **A361 — Écrire le périmètre du système e-mail :** distinguer e-mails transactionnels, documents commerciaux et newsletters ; validation : chaque message futur possède une catégorie unique.
+- [x] **A362 — Écrire la matrice des états de commande :** `pending`, `paid`, `processing`, `shipped`, `delivered`, `cancelled`, `refunded`, `failed` ; validation : aucun e-mail ne peut être déclenché par un état ambigu.
+- [x] **A363 — Séparer la confirmation de commande du reçu de paiement :** validation : une commande enregistrée ne dit jamais qu’elle est payée avant la confirmation Viva Wallet.
+- [x] **A364 — Séparer les newsletters des e-mails de commande :** validation : un client qui refuse le marketing reçoit toujours les e-mails indispensables à sa commande.
+- [x] **A365 — Définir les sources de vérité :** Supabase pour les données et états, Edge Functions pour les secrets et appels externes, navigateur pour l’interface ; validation : aucun secret n’est requis côté public.
+- [x] **A366 — Écrire le registre des décisions commerciales manquantes :** frais, zones, délais et formulation de livraison ; validation : le code affiche un état “à confirmer” plutôt qu’une règle inventée.
 - [ ] **A367 — Fixer le seuil d’usage acceptable de Gmail :** validation : le volume prévu est comparé aux limites Google avant de choisir Gmail pour les newsletters.
-- [ ] **A368 — Prévoir un fournisseur transactionnel de secours :** validation : le plan de secours est documenté sans remplacer Gmail ni envoyer de données sans accord.
-- [ ] **A369 — Interdire le mot de passe Gmail dans la base :** validation : test de recherche sur dépôt, variables publiques, migrations et logs.
-- [ ] **A370 — Écrire le modèle de menaces :** token révoqué, double clic, double webhook, quota dépassé, adresse invalide, PDF manquant ; validation : chaque menace a une réaction attendue.
+- [x] **A368 — Prévoir un fournisseur transactionnel de secours :** validation : le plan de secours est documenté sans remplacer Gmail ni envoyer de données sans accord.
+- [x] **A369 — Interdire le mot de passe Gmail dans la base :** validation : test de recherche sur dépôt, variables publiques, migrations et logs.
+- [x] **A370 — Écrire le modèle de menaces :** token révoqué, double clic, double webhook, quota dépassé, adresse invalide, PDF manquant ; validation : chaque menace a une réaction attendue.
 
 ### 82 — Fichiers, environnements et configuration
 
-- [ ] **A371 — Définir les fichiers de référence :** `supabase/functions/`, `supabase/migrations/`, `docs/ops/`, `test/` ; validation : aucune logique serveur n’est ajoutée dans `index.html` ou un script public.
-- [ ] **A372 — Créer la matrice local/staging/production :** validation : chaque environnement a des URLs et secrets distincts.
-- [ ] **A373 — Ajouter un exemple de variables non sensibles :** validation : le dépôt contient uniquement des noms de variables, jamais de valeur réelle.
-- [ ] **A374 — Lister les secrets Edge Function requis :** client OAuth, secret OAuth, refresh token, expéditeur et clés de secours ; validation : la liste est exploitable par la propriétaire sans exposer de secret.
-- [ ] **A375 — Interdire les secrets dans les builds publics :** validation : test automatisé sur les fichiers publiés et les artefacts générés.
-- [ ] **A376 — Documenter la rotation des secrets :** validation : un token peut être remplacé sans réécrire l’historique des commandes.
-- [ ] **A377 — Documenter la révocation Gmail :** validation : le tableau de bord indique “connexion à réautoriser” sans bloquer l’accès aux commandes déjà reçues.
-- [ ] **A378 — Documenter la restauration :** validation : restauration de base, documents et secrets traitée séparément.
-- [ ] **A379 — Ajouter un runbook propriétaire :** validation : la propriétaire sait reconnecter Gmail, relancer un e-mail et consulter une commande sans comprendre le code.
-- [ ] **A380 — Ajouter un journal des changements de configuration :** validation : auteur, date, raison et environnement sont conservés.
+- [x] **A371 — Définir les fichiers de référence :** `supabase/functions/`, `supabase/migrations/`, `docs/ops/`, `test/` ; validation : aucune logique serveur n’est ajoutée dans `index.html` ou un script public.
+- [x] **A372 — Créer la matrice local/staging/production :** validation : chaque environnement a des URLs et secrets distincts.
+- [x] **A373 — Ajouter un exemple de variables non sensibles :** validation : le dépôt contient uniquement des noms de variables, jamais de valeur réelle.
+- [x] **A374 — Lister les secrets Edge Function requis :** client OAuth, secret OAuth, refresh token, expéditeur et clés de secours ; validation : la liste est exploitable par la propriétaire sans exposer de secret.
+- [x] **A375 — Interdire les secrets dans les builds publics :** validation : test automatisé sur les fichiers publiés et les artefacts générés.
+- [x] **A376 — Documenter la rotation des secrets :** validation : un token peut être remplacé sans réécrire l’historique des commandes.
+- [x] **A377 — Documenter la révocation Gmail :** validation : le tableau de bord indique “connexion à réautoriser” sans bloquer l’accès aux commandes déjà reçues.
+- [x] **A378 — Documenter la restauration :** validation : restauration de base, documents et secrets traitée séparément.
+- [x] **A379 — Ajouter un runbook propriétaire :** validation : la propriétaire sait reconnecter Gmail, relancer un e-mail et consulter une commande sans comprendre le code.
+- [x] **A380 — Ajouter un journal des changements de configuration :** validation : auteur, date, raison et environnement sont conservés.
 
 ### 83 — Connexion Gmail par OAuth sécurisé
 
@@ -2147,6 +2147,8 @@ Ce bloc décrit tout ce qu’il faut pour obtenir une chaîne fiable `commande �
 - `docs/ops/gmail-supabase-email-system.md` : secrets, OAuth, quotas, exploitation et reprise.
 - `docs/ops/supabase-workers-scheduler.md` : déclenchement récurrent des workers, secrets attendus et garde-fous newsletter.
 - `docs/ops/transactional-email.md` : modèles, états, limites et distinction paiement/commande.
+- `docs/ops/email-operations.md` : périmètre, matrice des environnements, menaces, rotation et runbook propriétaire.
+- `docs/ops/config-change-log.md` : modèle sûr de journal des changements, sans secret ni donnée client.
 - `test/email-*.test.mjs` et `test/delivery-*.test.mjs` : tests d’idempotence, RLS, erreurs, documents et transitions.
 - `test/fixtures/` : commandes de test anonymisées, jamais de données réelles ni de tokens.
 - `output/` : artefacts de vérification uniquement, jamais de secrets ni de documents clients réels.
