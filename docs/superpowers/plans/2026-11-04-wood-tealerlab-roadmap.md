@@ -24,6 +24,7 @@
 - Ne pas transformer WOOD en copie de TealerLab : on reprend des mécanismes utiles, pas ses textes, images, logo, slogans ou mise en page exacte.
 - Garder une interface simple pour tous les âges, sans menu surchargé ni animation extravagante.
 - Ne générer ni intégrer les graphismes graffiti/stickers finaux qu’après réception et validation des références de la propriétaire.
+- Les photos finales de fleurs et résines doivent montrer les produits réels sans bocal ni cloche, dans une prise de vue de photographe : angle maîtrisé, lumière soignée, détails nets et fond WOOD cohérent.
 - Adapter réellement l’affichage au mobile, à la tablette et à l’ordinateur ; le mobile doit donner une sensation d’application sans application native.
 - Boutique : 3 produits par ligne sur ordinateur ; 4 cases carrées bien alignées sur mobile lorsque la largeur le permet, sans débordement ni cartes coupées.
 - Livraison uniquement pour le moment ; ne pas réintroduire le retrait Barla/Borriglione dans le parcours d’achat.
@@ -42,6 +43,8 @@
 - Ne pas connecter Viva Wallet avant d’avoir les identifiants officiels et les paramètres de production.
 - Ne pas héberger ni déployer pendant cette feuille de route ; préparer seulement un paquet transférable et une procédure courte.
 - Notifications de la première version : préparer l’e-mail transactionnel ; aucun SMS ni promesse de réception ne doit être activé sans fournisseur, configuration et test de délivrabilité validés.
+
+**Mise à jour de direction photo — 5 novembre 2026 :** toute ancienne mention de “photo sous cloche” dans les notes historiques doit être lue comme “photo produit réelle, sans bocal ni cloche”. La cloche peut rester un motif graphique optionnel de la carte imprimée, mais elle n’est plus le format demandé pour la photo principale des fleurs et résines.
 
 ## Review Focus
 
@@ -358,10 +361,11 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 **Validation :** le visiteur sait immédiatement quel numéro correspond à quel lieu.
 
-### Tâche 27 — Préparer l’intégration des photos sous cloche
+### Tâche 27 — Préparer l’intégration des vraies photos produit
 
 - [ ] Créer des emplacements image stables avec ratio défini.
-- [ ] Prévoir `alt`, compression et version haute résolution.
+- [ ] Prévoir `alt`, compression et version haute résolution pour des fleurs/résines photographiées sans bocal ni cloche.
+- [ ] Rédiger un brief photographe : angle trois-quarts, lumière latérale douce, détail de texture, ombre contrôlée et fond cohérent avec WOOD.
 - [ ] Remplacer les images temporaires uniquement après réception et validation des originaux.
 
 **Validation :** aucun saut de mise en page lorsqu’une vraie photo est ajoutée.
@@ -530,10 +534,11 @@ L’audit complet ordinateur/mobile est documenté dans `docs/audits/2026-11-04-
 
 **Validation :** l’utilisateur peut comprendre et acheter sans fermer une fenêtre avant chaque action.
 
-### Tâche 45 — Préparer les vraies photos sous cloche
+### Tâche 45 — Préparer les vraies photos de fleurs et résines
 
 - [ ] Prévoir un ratio d’image stable pour les fiches et les cartes.
-- [ ] Ajouter un texte alternatif précis.
+- [ ] Ajouter un texte alternatif précis indiquant la variété et le type de produit, sans allégation.
+- [ ] Exiger une prise de vue sans bocal ni cloche, avec cadrage photographe et éclairage maîtrisé.
 - [ ] Charger les grandes images progressivement sans provoquer de saut.
 - [ ] Remplacer les illustrations temporaires uniquement après validation des originaux.
 
@@ -1486,10 +1491,10 @@ Ce bloc répond précisément à la demande de la propriétaire : WOOD doit rest
 
 ### Images, illustrations et génération d’assets
 
-- [ ] **A221 — Définir les briefs photo WOOD :** fond, cloche, lumière, angle, distance, matière et niveau de retouche pour fleurs, résines, huiles et textile ; validation : un photographe peut reproduire le brief sans deviner.
+- [ ] **A221 — Définir les briefs photo WOOD :** fond, absence de bocal/cloche, lumière, angle, distance, matière et niveau de retouche pour fleurs, résines, huiles et textile ; validation : un photographe peut reproduire le brief sans deviner.
 - [ ] **A222 — Générer des concepts de décor :** créer des fonds botanique, béton, papier, bois et graffiti uniquement comme références de direction artistique ; validation : aucun concept n’est présenté comme une photo réelle.
 - [ ] **A223 — Générer des essais de stickers :** produire des variations originales dans les couleurs WOOD, sans texte de marque tiers ; validation : planche de choix envoyée à la propriétaire avant intégration.
-- [ ] **A224 — Générer des essais de cloches :** varier lumière et composition tout en gardant le produit central et lisible ; validation : pas de fleur anatomiquement bizarre, de texte parasite ou de watermark.
+- [ ] **A224 — Générer des essais de photographie produit :** varier angle, lumière, profondeur de champ et composition sans bocal ni cloche, en gardant la fleur centrale et lisible ; validation : pas de fleur anatomiquement bizarre, de texte parasite ou de watermark.
 - [ ] **A225 — Générer des essais textile/goods :** créer des placeholders pour t-shirts et objets uniquement avec les noms exacts existants ; validation : aucun faux modèle, prix ou stock n’est affiché comme réel.
 - [ ] **A226 — Contrôler les artefacts d’IA :** vérifier doigts, étiquettes, lettres, logos, bords, transparences, répétitions et proportions ; validation : asset rejeté dès qu’un défaut peut nuire à la marque.
 - [ ] **A227 — Préparer les exports multi-formats :** produire source haute définition, version web, miniature, fallback et alt text ; validation : le pipeline conserve une version source non destructive.
@@ -1501,7 +1506,7 @@ Ce bloc répond précisément à la demande de la propriétaire : WOOD doit rest
 
 - [ ] **A231 — Définir le tempo d’animation WOOD :** documenter durée, easing, délai et distance pour apparitions, hover, zoom et ticker ; validation : aucune animation ne semble lente ou gadget.
 - [ ] **A232 — Animer les stickers avec retenue :** prévoir un léger décalage ou une entrée latérale, jamais une rotation permanente ; validation : l’animation s’arrête après l’introduction.
-- [ ] **A233 — Animer les cloches au scroll :** utiliser un mouvement subtil de lumière ou de profondeur sans déplacer la fiche ; validation : `transform/opacity` seulement et CLS nul.
+- [ ] **A233 — Animer les photos produit au scroll :** utiliser un mouvement subtil de lumière ou de profondeur sur les photos sans bocal ni cloche, sans déplacer la fiche ; validation : `transform/opacity` seulement et CLS nul.
 - [ ] **A234 — Animer les cartes au survol :** renforcer bordure, média ou détail sur desktop sans agrandir la grille ; validation : aucun voisin ne saute et le CTA reste à sa place.
 - [ ] **A235 — Animer le feedback panier :** confirmer l’ajout par une micro-interaction locale et accessible, sans popup agressif ; validation : l’utilisateur sait que l’ajout est réussi et peut continuer.
 - [ ] **A236 — Animer les transitions de fiche :** conserver le zoom fluide demandé, avec fallback immédiat sur appareil lent ou mouvement réduit ; validation : retour arrière et URL restent fiables.
@@ -1761,7 +1766,7 @@ Cette passe est dédiée à la page d’accueil, car c’est elle que le conjoin
 - [ ] **A294 — Définir le texte d’introduction :** écrire une phrase courte sur l’univers WOOD sans promesse médicale, effet garanti ni donnée inventée ; validation : texte validable par la propriétaire.
 - [ ] **A295 — Définir le CTA principal :** choisir une action WOOD claire comme `Découvrir la boutique` ou `Voir les univers` ; validation : un seul CTA principal domine le premier écran.
 - [ ] **A296 — Définir le CTA secondaire :** relier le second bouton à `Nous trouver` ou `Notre histoire`, sans détourner vers l’administration ; validation : tous les liens sont testés.
-- [ ] **A297 — Réserver l’emplacement de la photo réelle :** prévoir un ratio stable pour la future photographie sous cloche ; validation : le remplacement ne change pas la géométrie du hero.
+- [ ] **A297 — Réserver l’emplacement de la photo réelle :** prévoir un ratio stable pour la future photographie de fleur/résine sans bocal ni cloche ; validation : le remplacement ne change pas la géométrie du hero.
 - [ ] **A298 — Préparer un prototype graphique original :** générer au besoin une image de démonstration avec une fleur présentée proprement, sans texte parasite ni logo inventé ; validation : asset marqué `demo` et remplaçable.
 - [ ] **A299 — Ajouter le contrôle de scroll :** proposer une indication discrète vers la section suivante, sans scroll-jacking ; validation : le clavier et le toucher conservent le contrôle du document.
 - [ ] **A300 — Tester le hero sans image :** prévoir un état de chargement et un état absent qui restent esthétiques ; validation : le texte et le CTA restent utilisables si l’image échoue.
@@ -1782,7 +1787,7 @@ Cette passe est dédiée à la page d’accueil, car c’est elle que le conjoin
 ### 78.2 — Univers WOOD et présentation éditoriale
 
 - [ ] **A311 — Créer la section “Nos univers” :** présenter les quatre familles WOOD comme des entrées visuelles fortes ; validation : chaque carte possède un nom, une phrase courte et un lien.
-- [ ] **A312 — Définir la carte fleurs :** utiliser une image de fleur sous cloche ou un placeholder validé ; validation : le média n’est pas une simple copie d’un visuel TealerLab.
+- [ ] **A312 — Définir la carte fleurs :** utiliser une vraie photo de fleur sans bocal, prise dans un angle photographe, ou un placeholder clairement marqué ; validation : le média n’est pas une simple copie d’un visuel TealerLab.
 - [ ] **A313 — Définir la carte résines :** utiliser une présentation matière cohérente avec la carte WOOD ; validation : aucune résine sans données validées n’est vendue.
 - [ ] **A314 — Définir la carte bien-être :** inclure huiles et cosmétiques sans promesse thérapeutique ; validation : textes et produits sont séparés des fleurs/résines.
 - [ ] **A315 — Définir la carte textile/goods :** prévoir t-shirts et objets sans inventer tailles, prix ou disponibilité ; validation : états `à renseigner` propres.
@@ -1820,7 +1825,7 @@ Cette passe est dédiée à la page d’accueil, car c’est elle que le conjoin
 
 ### 80.1 — Blocs de confiance et contenu d’accueil
 
-- [ ] **A341 — Créer une section “sous cloche” :** préparer un récit visuel sur la présentation qualitative des fleurs/résines ; validation : la section reste un contenu de marque, pas une promesse d’effet.
+- [ ] **A341 — Créer une section photo produit :** préparer un récit visuel sur la présentation qualitative de vraies fleurs/résines photographiées sans bocal ni cloche ; validation : la section reste un contenu de marque, pas une promesse d’effet.
 - [ ] **A342 — Préparer le remplacement par photos réelles :** garder un ratio, une légende et un emplacement stables ; validation : une photo de la propriétaire remplace le placeholder sans refonte.
 - [ ] **A343 — Ajouter une section qualité vérifiable :** réserver des emplacements aux informations réellement fournies par WOOD ; validation : aucun faux laboratoire, taux ou label.
 - [ ] **A344 — Ajouter une section boutiques :** présenter Barla et Borriglione avec le bon numéro, l’adresse exacte et des boutons indépendants ; validation : aucun point final ajouté aux noms.

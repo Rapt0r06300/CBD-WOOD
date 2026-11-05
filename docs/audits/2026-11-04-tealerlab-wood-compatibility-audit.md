@@ -552,3 +552,9 @@ Les erreurs à tester explicitement sont : hero sans image, titre long, carte sa
 ### 19.5 Décision de roadmap
 
 Les résultats de cette passe sont maintenant détaillés dans les tags `A281–A360` de la feuille de route. Ils ajoutent un plan précis pour l’accueil WOOD, la présentation des fleurs/résines, les cartes, le hero, le menu, la recomposition mobile, la motion, l’accessibilité, la performance et la recette finale. Ils ne modifient aucune décision commerciale ni l’identité graphique validée.
+
+### 19.6 Correction de direction photo demandée par Florent
+
+La référence finale n’est pas une présentation sous bocal ou sous cloche. Pour les fleurs et résines, WOOD doit viser une vraie photographie produit de type studio/editorial : produit posé ou présenté seul, sans contenant qui masque la matière, angle trois-quarts ou angle validé par la propriétaire, lumière douce et directionnelle, détails nets, ombre contrôlée, fond cohérent avec les couleurs WOOD et retouche discrète.
+
+Cette décision remplace les anciennes formulations de la roadmap qui parlaient de “photos sous cloche” pour les produits. La cloche peut rester une idée graphique historique de la carte imprimée ou un décor optionnel, mais elle ne doit plus être le format de la photo produit principale. Les images générées ne serviront que de maquettes clairement identifiées jusqu’à réception ou validation des vraies photos.
