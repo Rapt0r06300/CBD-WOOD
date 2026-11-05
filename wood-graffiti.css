@@ -1,0 +1,20 @@
+.wood-graffiti{position:absolute;z-index:3;display:block;max-width:none;pointer-events:none;user-select:none;aria-hidden:true}
+.hero-copy .wood-graffiti--tag{top:9%;right:7%;width:145px;opacity:.62;transform:rotate(-8deg)}
+.hero-art .wood-graffiti--halo{right:8%;top:14%;width:185px;opacity:.72;transform:rotate(-12deg)}
+.section-headline{position:relative}
+.wood-graffiti--star{right:-42px;top:-22px;width:70px;opacity:.88;transform:rotate(12deg)}
+.wood-graffiti--pack-stamp{right:4%;top:78px;width:112px;opacity:.58;transform:rotate(12deg)}
+.wood-pack{position:relative}
+.wood-selection .wood-graffiti--botanical{right:-30px;top:-18px;width:82px;opacity:.86;transform:rotate(10deg)}
+.wood-selection__card{position:relative}
+.wood-selection__card .wood-graffiti--botanical{right:-11px;top:205px;width:70px;opacity:.86;transform:rotate(10deg)}
+.wood-selection__card .wood-graffiti--accent{right:12px;bottom:11px;width:30px;opacity:.72;transform:rotate(-8deg)}
+.story-image .wood-graffiti--stamp{right:30px;top:29px;width:92px;opacity:.65;transform:rotate(16deg)}
+.faq-layout{position:relative}
+.faq-layout .wood-graffiti--speed{left:-34px;bottom:8px;width:135px;opacity:.55;transform:rotate(-5deg)}
+.footer-brand{position:relative}
+.footer-brand .wood-graffiti--arrow{right:4%;top:6px;width:108px;opacity:.65;transform:rotate(-12deg)}
+@media(max-width:800px){.hero-copy .wood-graffiti--tag{top:5%;right:4%;width:104px}.hero-art .wood-graffiti--halo{right:3%;top:8%;width:125px}.wood-graffiti--star{right:-6px;top:-18px;width:54px}.wood-graffiti--pack-stamp{right:5%;top:58px;width:78px;opacity:.42}.wood-selection .wood-graffiti--botanical{right:-16px;top:-12px;width:62px}.wood-selection__card .wood-graffiti--botanical{right:-7px;top:128px;width:50px}.story-image .wood-graffiti--stamp{right:18px;top:18px;width:70px}.faq-layout .wood-graffiti--speed{left:auto;right:5px;bottom:-22px;width:105px}.footer-brand .wood-graffiti--arrow{right:0;top:-14px;width:80px}}
+@media(max-width:500px){.hero-copy .wood-graffiti--tag{opacity:.45}.hero-art .wood-graffiti--halo{opacity:.48}.wood-selection__card .wood-graffiti--accent{width:23px;right:7px;bottom:7px}.wood-selection__card .wood-graffiti--botanical{opacity:.56}.story-image .wood-graffiti--stamp{opacity:.48}.faq-layout .wood-graffiti--speed{opacity:.42}.footer-brand .wood-graffiti--arrow{opacity:.42}}
+@media(prefers-reduced-motion:reduce){.wood-graffiti{transform:none!important}}
+@media print{.wood-graffiti{display:none!important}}

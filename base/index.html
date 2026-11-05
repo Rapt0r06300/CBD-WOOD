@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#101610">
+  <title>WOOD CBD Shop Nice — Le CBD autrement | Rue Barla</title>
+  <meta name="description" content="Découvrez WOOD CBD Shop, boutique indépendante à Nice depuis 2020. Fleurs, résines, accessoires et conseils au 7 rue Barla, quartier du Port.">
+  <meta property="og:title" content="WOOD CBD Shop Nice — Le CBD autrement">
+  <meta property="og:description" content="Si c'est WOOD, c'est GOOD. Rendez-nous visite au 7 rue Barla à Nice.">
+  <meta property="og:type" content="website">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <style>
+    :root {--bg:#101610;--ink:#f1f0e6;--muted:#abb3a3;--line:#344338;--lime:#cbf096;--wood:#d8d4bd;--pine:#1b2c20;--card:#1d281e;--font:Arial,Helvetica,sans-serif}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:86px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased}
+    body:before{content:"";inset:0;position:fixed;pointer-events:none;z-index:25;opacity:.11;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E")}
+    a{color:inherit;text-decoration:none}button{font:inherit}img{max-width:100%;display:block}
+    .skip{position:absolute;z-index:99;left:12px;top:-100px;padding:12px;background:#fff;color:#111}.skip:focus{top:12px}
+    .announcement{background:#d9f2a6;color:#18271c;font-size:10px;letter-spacing:2.4px;text-transform:uppercase;font-weight:900;text-align:center;padding:10px 14px}
+    .nav{height:79px;position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(20px,5.4vw,90px);background:rgba(16,22,16,.94);backdrop-filter:blur(17px);border-bottom:1px solid rgba(221,235,204,.14)}
+    .brand{font-size:31px;line-height:1;font-weight:900;letter-spacing:-3px;display:inline-flex;align-items:flex-end;gap:9px}.brand em{font-style:normal;color:var(--lime);font-weight:800;font-size:9px;letter-spacing:2px;padding-bottom:4px}
+    .nav-links{display:flex;align-items:center;gap:clamp(20px,2.8vw,43px);font-size:11px;text-transform:uppercase;font-weight:800;letter-spacing:1.6px}.nav-links a:not(.pill):hover{color:var(--lime)}
+    .nav-cta,.btn{display:inline-flex;justify-content:center;align-items:center;gap:17px;font-size:11px;text-transform:uppercase;letter-spacing:1.7px;font-weight:900;min-height:49px;padding:0 20px;border:1px solid var(--lime);transition:transform .2s,background .2s,color .2s}
+    .nav-cta{background:var(--lime);color:#1b2a1b}.nav-cta:hover,.btn:hover{transform:translateY(-2px)}
+    .hamb{display:none;background:transparent;border:1px solid var(--line);color:var(--ink);width:44px;height:44px;font-size:24px;cursor:pointer}
+    .container{max-width:1440px;padding-left:clamp(20px,5.4vw,90px);padding-right:clamp(20px,5.4vw,90px);margin-inline:auto}
+    .hero{position:relative;min-height:660px;display:grid;grid-template-columns:52% 48%;border-bottom:1px solid var(--line)}
+    .hero-copy{padding:clamp(65px,8vw,115px) clamp(26px,6vw,92px) 70px clamp(20px,5.4vw,90px);display:flex;flex-direction:column;justify-content:center;position:relative;z-index:1}
+    .eyebrow{color:var(--lime);font-size:11px;font-weight:900;letter-spacing:3.3px;text-transform:uppercase;display:flex;align-items:center;gap:15px}.eyebrow:before{content:"";width:25px;height:1px;background:var(--lime)}
+    .hero h1,.big-title{font-weight:900;font-stretch:condensed;letter-spacing:-.075em;line-height:.90;text-transform:uppercase}
+    .hero h1{font-size:clamp(83px,9.5vw,162px);margin:34px 0 24px}.hero h1 span{color:var(--lime);display:block}
+    .hero .sub{font-size:19px;line-height:1.58;color:#c6cebf;max-width:460px;letter-spacing:-.25px;margin:0}
+    .buttons{display:flex;flex-wrap:wrap;gap:12px;margin-top:40px}.btn.primary{background:var(--lime);color:#172519}.btn.secondary{border-color:#778a75;color:#eef1e6}.btn.secondary:hover{background:#283929}
+    .hero-art{position:relative;background:#233427;overflow:hidden;min-height:650px}.hero-art img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}.hero-art:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(16,22,16,.11),transparent 25%),linear-gradient(0deg,rgba(16,22,16,.24),transparent 40%)}
+    .vertical-label{position:absolute;z-index:2;right:24px;top:26px;writing-mode:vertical-rl;letter-spacing:4px;color:#e9f0db;font-size:10px;font-weight:900}.hero-counter{position:absolute;z-index:2;left:28px;bottom:27px;font-size:11px;font-weight:bold;letter-spacing:3px}.hero-scroll{position:absolute;z-index:3;right:30px;bottom:25px;display:grid;justify-items:center;gap:4px;color:#e9f0db;text-decoration:none;border:1px solid rgba(233,240,219,.65);padding:9px 11px 8px;min-width:57px;transition:color .2s,border-color .2s,transform .2s}.hero-scroll span{font-size:18px;line-height:1}.hero-scroll small{font-size:8px;font-weight:900;letter-spacing:1.4px;text-transform:uppercase}.hero-scroll:hover,.hero-scroll:focus-visible{color:var(--lime);border-color:var(--lime);transform:translateY(2px)}
+    .ticker{display:block;padding:20px 0;font-size:10px;font-weight:900;letter-spacing:2.6px;text-transform:uppercase;background:#d6efae;color:#1d2a19;overflow:hidden}.ticker-track{display:flex;width:max-content;animation:woodTicker 30s linear infinite}.ticker-group{display:flex;align-items:center;flex-shrink:0;min-width:100vw;justify-content:space-around;gap:16px;padding:0 clamp(20px,5.4vw,90px)}.ticker span{white-space:nowrap}.ticker .dot{color:#708849}@keyframes woodTicker{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .section{padding-top:110px;padding-bottom:115px}.section-header{display:flex;justify-content:space-between;align-items:end;gap:40px;margin-bottom:38px}.section-headline{max-width:770px}.kicker{font-weight:900;color:var(--lime);text-transform:uppercase;font-size:11px;letter-spacing:3px}.big-title{font-size:clamp(47px,6vw,90px);margin:18px 0 0}.big-title span{color:var(--lime)}.section-aside{max-width:280px;line-height:1.7;color:#c1cbb9;font-size:14px;margin:0 0 8px}
+    .cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.cards>a{display:block;color:inherit;text-decoration:none;touch-action:manipulation}.category{background:#1b2a1f;border:1px solid #354535;transition:transform .25s,border-color .25s;overflow:hidden}.category:hover{transform:translateY(-5px);border-color:var(--lime)}.category .visual{height:250px;overflow:hidden;position:relative}.category .visual img{height:100%;width:100%;object-fit:cover;transition:transform .45s}.category:hover img{transform:scale(1.05)}.category .cat-inner{padding:25px 21px 28px}.category .cat-index{font-size:10px;letter-spacing:2px;color:var(--lime);font-weight:800}.category h3{font-size:27px;text-transform:uppercase;letter-spacing:-1px;margin:15px 0 12px}.category p{line-height:1.55;color:#b8c4b4;margin:0;font-size:13px;min-height:61px}
+    .story{background:#e8e7d7;color:#18291d;display:grid;grid-template-columns:48% 52%;min-height:520px}.story-image{background:#b8c6a3;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}.story-image .outline{font-size:clamp(140px,25vw,400px);line-height:.8;font-weight:900;letter-spacing:-40px;color:#2c5138;opacity:.24;transform:rotate(-12deg)}.story-image:after{content:"NICE / 2020";position:absolute;bottom:40px;left:42px;font-size:12px;letter-spacing:4px;font-weight:900;color:#294734}.story-image:before{content:"";position:absolute;inset:38px;border:1px solid rgba(38,70,50,.3)}
+    .story-text{padding:85px clamp(28px,6vw,112px);display:flex;justify-content:center;flex-direction:column}.story-text .kicker{color:#3c6c36}.story-text h2{font-size:clamp(48px,6vw,86px);line-height:.95;letter-spacing:-.065em;text-transform:uppercase;margin:23px 0}.story-text p{max-width:550px;line-height:1.8;font-size:16px;color:#3c4c40;margin:0 0 22px}.story-text .signature{font-size:15px;letter-spacing:2px;text-transform:uppercase;font-weight:900;color:#3b6739}
+    .value-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#334437;margin-top:42px;border:1px solid #334437}.value{padding:39px;background:#132017}.num{color:var(--lime);font-size:11px;font-weight:900;letter-spacing:2px}.value h3{text-transform:uppercase;margin:22px 0 12px;font-size:21px}.value p{color:#afbdad;line-height:1.6;max-width:300px;font-size:14px;margin:0}
+    .visit{background:#1d2b21}.visit-grid{display:grid;grid-template-columns:1fr 1fr;gap:55px;align-items:stretch}.visit h2{font-size:clamp(55px,7vw,101px);line-height:.9;letter-spacing:-.07em;text-transform:uppercase;margin:21px 0 28px}.visit h2 em{color:var(--lime);font-style:normal}.visit-lead{font-size:18px;line-height:1.5;color:#c6d0bf;max-width:470px}.info-block{padding:20px 0;border-bottom:1px solid #405344}.info-block dt{font-size:10px;text-transform:uppercase;letter-spacing:2.6px;font-weight:900;color:var(--lime);margin-bottom:8px}.info-block dd{margin:0;font-size:17px;line-height:1.6}.info-block dd a:hover{text-decoration:underline}.visit .buttons{margin-top:28px}
+    .map-art{min-height:500px;background:linear-gradient(135deg,#435d43,#304938);position:relative;overflow:hidden;border:1px solid #5b735a;display:flex;align-items:center;justify-content:center}.map-art:before{content:"";position:absolute;inset:-40px;background:repeating-linear-gradient(64deg,transparent 0,transparent 100px,rgba(218,235,194,.11) 101px,rgba(218,235,194,.11) 104px,transparent 105px,transparent 165px),repeating-linear-gradient(-20deg,transparent 0,transparent 75px,rgba(218,235,194,.09) 77px,rgba(218,235,194,.09) 82px,transparent 83px,transparent 160px);transform:rotate(6deg)}.map-art .inner{z-index:1;text-align:center;padding:30px}.location-pin{width:75px;height:75px;border-radius:50%;background:#ccef9b;color:#1a2a1d;display:grid;place-items:center;font-size:35px;margin:0 auto 26px;box-shadow:0 0 0 14px rgba(207,242,174,.15),0 0 0 28px rgba(207,242,174,.07)}.map-art strong{display:block;font-size:clamp(47px,5vw,71px);font-weight:900;letter-spacing:-5px}.map-art p{font-weight:900;text-transform:uppercase;letter-spacing:2px;font-size:12px;line-height:1.6}.map-label{position:absolute;bottom:24px;left:27px;z-index:2;color:#e2f2d5;font-size:10px;letter-spacing:2px;text-transform:uppercase}
+    .faq-layout{display:grid;grid-template-columns:44% 56%;gap:50px}.faq-layout .big-title{margin-top:20px}.faq-items{border-top:1px solid #455544}.faq-items details{border-bottom:1px solid #455544;padding:22px 0}.faq-items summary{cursor:pointer;display:flex;justify-content:space-between;gap:15px;font-size:16px;font-weight:800;list-style:none}.faq-items summary::-webkit-details-marker{display:none}.faq-items summary:after{content:'+';font-size:25px;color:var(--lime)}.faq-items details[open] summary:after{content:'−'}.faq-items p{color:#b8c8b4;font-size:14px;line-height:1.65;padding:4px 40px 0 0;margin-bottom:0}
+    .footer{background:#0b120e;border-top:1px solid #344435}.footer-top{padding:66px 0 60px;display:grid;grid-template-columns:2fr 1fr 1fr;gap:45px}.footer-logo{font-size:91px;font-weight:900;letter-spacing:-10px;line-height:.82}.footer-slogan{font-size:13px;letter-spacing:2.5px;color:var(--lime);text-transform:uppercase;font-weight:800;margin:23px 0 0}.footer h3{text-transform:uppercase;font-size:11px;letter-spacing:2px;color:var(--lime);margin:0 0 20px}.footer-links{display:grid;gap:13px;color:#d0d9cb;font-size:14px}.footer a:hover{color:var(--lime)}.footer-bottom{border-top:1px solid #344435;padding:22px 0;display:flex;justify-content:space-between;gap:20px;font-size:11px;line-height:1.7;color:#aab9aa}.footer-bottom strong{color:#cce0b2}
+    :focus-visible{outline:3px solid #d7ee9a;outline-offset:5px}
+    @media(max-width:1100px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.hero h1{font-size:clamp(77px,10.3vw,132px)}.hero{min-height:585px}.hero-art{min-height:585px}.visit-grid{gap:25px}.story-text{padding:55px 40px}}
+    @media(max-width:800px){.nav{height:68px}.nav-cta{display:none}.hamb{display:block}.nav-links{display:none;position:absolute;left:0;right:0;top:67px;background:#151e17;border-bottom:1px solid #405241;padding:25px 22px;flex-direction:column;align-items:stretch;gap:0}.nav-links.open{display:flex}.nav-links a{padding:14px 10px;border-bottom:1px solid #314032}.hero{grid-template-columns:1fr}.hero-copy{padding:65px 23px 65px}.hero h1{font-size:clamp(86px,17vw,143px)}.hero-art{min-height:415px}.hero-art img{object-position:center 58%}.section{padding-top:76px;padding-bottom:78px}.section-header{display:block}.section-aside{margin-top:23px}.story{grid-template-columns:1fr}.story-image{min-height:290px}.story-text{padding:65px 26px}.visit-grid,.faq-layout{grid-template-columns:1fr}.map-art{min-height:350px}.footer-top{grid-template-columns:1fr 1fr}.footer-brand{grid-column:1/-1}.footer-logo{font-size:76px}.value-grid{grid-template-columns:1fr}.value{padding:30px}.value h3{margin-top:12px}}
+    @media(max-width:500px){.hero h1{font-size:clamp(75px,18vw,105px)}.hero .sub{font-size:17px}.hero-art{min-height:355px}.hero-scroll{right:20px;bottom:20px}.hero-counter{left:20px;bottom:24px;font-size:10px;letter-spacing:2px}.buttons{gap:10px}.btn{min-height:50px;padding:0 14px;font-size:10px}.cards{grid-template-columns:1fr;gap:16px}.category .visual{height:240px}.category .cat-inner{padding:20px}.category p{min-height:0}.section .big-title{font-size:55px}.story-text h2{font-size:55px}.visit h2{font-size:67px}.map-art strong{letter-spacing:-3px}.footer-top{gap:34px}.footer-logo{font-size:63px}.footer-bottom{flex-direction:column}.ticker-group{min-width:100vw;padding-inline:18px;gap:12px}.ticker-group span:nth-of-type(n+5){display:none}}
+    @media (min-width:801px) and (max-width:900px){.nav{height:68px}.nav-cta{display:none}.hamb{display:block}.nav-links{display:none}.nav-links.open{display:flex;position:absolute;left:0;right:0;top:67px;background:#151e17;border-bottom:1px solid #405241;padding:25px 22px;flex-direction:column;align-items:stretch;gap:0}.nav-links a{padding:14px 10px;border-bottom:1px solid #314032}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}.ticker-track{transform:none!important}.ticker-group:nth-child(2){display:none!important}}
+  </style>
+  <link rel="stylesheet" href="responsive.css?v=wood-logo-20261103">
+  <link rel="stylesheet" href="mobile.css?v=wood-mobile-app-v6-20261104">
+  <style>
+    .locations-panel{display:grid;grid-template-rows:repeat(2,minmax(0,1fr));gap:14px;min-height:500px}
+    .location-card{display:flex;flex-direction:column;justify-content:space-between;gap:24px;padding:27px 30px;background:#132017;border:1px solid #5b735a;transition:border-color .2s,transform .2s}
+    .location-card:hover{border-color:var(--lime);transform:translateY(-3px)}
+    .location-card__top{display:flex;justify-content:space-between;align-items:flex-start;gap:18px}
+    .location-card__number{color:var(--lime);font-size:10px;font-weight:900;letter-spacing:2.2px;text-transform:uppercase}
+    .location-card__badge{color:#b7c9ae;font-size:10px;font-weight:900;letter-spacing:2px;text-transform:uppercase}
+    .location-card h3{font-size:clamp(34px,4vw,58px);line-height:.9;letter-spacing:-.07em;text-transform:uppercase;margin:22px 0 18px}
+    .location-card__address{font-size:17px;line-height:1.5;margin:0;color:#e5ebdf}
+    .location-card__details{display:grid;gap:14px;margin:22px 0 0}
+    .location-card__details dt{color:var(--lime);font-size:9px;font-weight:900;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px}
+    .location-card__details dd{margin:0;color:#bfcdbb;font-size:13px;line-height:1.55}
+    .location-card__details a:hover{text-decoration:underline}
+    .location-card .buttons{display:flex;gap:10px;margin:0}
+    .location-card .btn{min-height:44px;padding-inline:14px;font-size:9px;flex:1}
+    @media(max-width:800px){.locations-panel{grid-template-rows:none;min-height:0}.location-card{min-height:330px}}
+    @media(max-width:500px){.location-card{padding:23px 20px}.location-card .buttons{display:grid;grid-template-columns:1fr 1fr}.location-card .btn{padding-inline:8px}}
+  </style>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Store","name":"CBD Nice - Wood Shop Barla","description":"Boutique CBD indépendante à Nice, au 7 rue Barla.","address":{"@type":"PostalAddress","streetAddress":"7 rue Barla","postalCode":"06300","addressLocality":"Nice","addressCountry":"FR"},"telephone":"+33422163570","email":"woodcbdshop@gmail.com","openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"10:00","closes":"13:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":["Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"14:30","closes":"19:00"}]}
+  </script>
+</head>
+<body>
+  <a class="skip" href="#contenu">Aller au contenu</a>
+  <div class="announcement">Proposition de site vitrine · Maquette non officielle · À valider</div>
+  <header class="nav">
+    <a class="brand" href="#accueil" aria-label="WOOD CBD Nice, accueil"><img class="brand-mark" src="assets/wood-mark.svg?v=wood-logo-original-exact-20261103" alt="" aria-hidden="true">WOOD<em>CBD / NICE</em></a>
+    <nav class="nav-links" id="navigation" aria-label="Navigation principale">
+      <span class="nav-menu-label">Explorer WOOD</span><a href="#univers">Nos univers</a><a href="#histoire">L'histoire</a><a href="#boutique">La boutique</a><a href="#questions">FAQ</a><span class="nav-menu-label">Les univers</span><a class="nav-menu-mobile-only" href="fleurs.html">Fleurs</a><a class="nav-menu-mobile-only" href="resines.html">Résines</a><a class="nav-menu-mobile-only" href="bien-etre.html">Cosmétiques &amp; huiles</a><a class="nav-menu-mobile-only" href="wood-shop.html">Textile &amp; produits dérivés</a><span class="nav-menu-label">Accès rapides</span><a class="nav-menu-mobile-only" href="compte.html">Compte</a><a class="nav-menu-mobile-only" href="checkout.html">Panier</a>
+    </nav>
+    <a class="nav-cta" href="#boutique">Venir chez WOOD <span aria-hidden="true">↗</span></a>
+    <button class="hamb" id="hamb" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navigation">☰</button>
+  </header>
+  <main id="contenu">
+    <section class="hero" id="accueil" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <div class="eyebrow">Nice, France · Depuis 2020</div>
+        <h1 id="hero-title">LE CBD<span>AUTRE-</span>MENT.</h1>
+        <p class="sub">Une autre vision du chanvre. Une sélection qui a du caractère. Et surtout, de vrais conseils, au cœur de Nice.</p>
+        <div class="buttons"><a href="#univers" class="btn primary">Découvrir WOOD <span aria-hidden="true">↗</span></a><a href="#boutique" class="btn secondary">Nous trouver <span aria-hidden="true">↗</span></a></div>
+      </div>
+      <div class="hero-art"><img src="assets/botanique-wood.svg" alt="Illustration botanique originale d'une feuille de chanvre" fetchpriority="high"><span class="vertical-label">WOOD — BOTANICAL EDITION</span><span class="hero-counter">01 / 04 — L'ESPRIT WOOD</span><a class="hero-scroll" href="#univers" aria-label="Descendre vers les univers WOOD"><span aria-hidden="true">↓</span><small>Explorer</small></a></div>
+    </section>
+    <div class="ticker" aria-label="Les valeurs de WOOD"><div class="ticker-track"><div class="ticker-group" aria-hidden="true"><span>Indépendant depuis 2020</span><span class="dot">✳</span><span>Made of character</span><span class="dot">✳</span><span>7 rue Barla · Nice</span><span class="dot">✳</span><span>Si c'est WOOD c'est GOOD</span></div><div class="ticker-group" aria-hidden="true"><span>Indépendant depuis 2020</span><span class="dot">✳</span><span>Made of character</span><span class="dot">✳</span><span>7 rue Barla · Nice</span><span class="dot">✳</span><span>Si c'est WOOD c'est GOOD</span></div></div><span class="sr-only">Indépendant depuis 2020. Made of character. 7 rue Barla, Nice. Si c'est WOOD c'est GOOD.</span></div>
+    <section class="section container" id="univers" aria-labelledby="univers-title">
+      <div class="section-header"><div class="section-headline"><div class="kicker">01 / À découvrir</div><h2 id="univers-title" class="big-title">LE BON <span>UNIVERS.</span></h2></div><p class="section-aside">Explorez les grandes familles de l'univers WOOD. Pour connaître la sélection du moment, passez en boutique.</p></div>
+      <div class="cards">
+        <a href="fleurs.html" aria-label="Voir la page Fleurs CBD"><article class="category"><div class="visual"><img loading="lazy" src="assets/fleurs.svg" alt="Illustration de fleurs de chanvre"></div><div class="cat-inner"><span class="cat-index">01 / BOTANICAL</span><h3>Fleurs CBD</h3><p>Des profils variés à découvrir et à comparer avec l'équipe en magasin.</p></div></article></a>
+        <a href="resines.html" aria-label="Voir la page Résines"><article class="category"><div class="visual"><img loading="lazy" src="assets/resines.svg" alt="Illustration abstraite de résines"></div><div class="cat-inner"><span class="cat-index">02 / TEXTURES</span><h3>Résines</h3><p>Un univers de textures et de références choisies avec attention.</p></div></article></a>
+        <a href="wood-shop.html" aria-label="Voir la page WOOD Shop"><article class="category"><div class="visual"><img loading="lazy" src="assets/accessoires.svg" alt="Illustration d'un grinder en métal"></div><div class="cat-inner"><span class="cat-index">03 / EVERYDAY</span><h3>Accessoires</h3><p>Les essentiels pratiques et les petits détails qui font la différence.</p></div></article></a>
+        <a href="bien-etre.html" aria-label="Voir la page Bien-être"><article class="category"><div class="visual"><img loading="lazy" src="assets/cosmetiques.svg" alt="Illustration d'un flacon cosmétique botanique"></div><div class="cat-inner"><span class="cat-index">04 / CARE</span><h3>Cosmétiques</h3><p>Des soins et produits autour du chanvre, selon les disponibilités en boutique.</p></div></article></a>
+      </div>
+    </section>
+    <section class="section container wood-selection" id="selection-wood" aria-labelledby="selection-wood-title" data-state="awaiting-real-products" hidden>
+      <div class="section-header"><div class="section-headline"><div class="kicker">02 / Sélection WOOD</div><h2 id="selection-wood-title" class="big-title">LA SÉLECTION <span>WOOD.</span></h2></div><p class="section-aside">Cette sélection apparaîtra uniquement lorsque les produits, photos, prix et stocks auront été validés par la boutique.</p></div>
+      <div class="wood-selection__grid" data-selection-grid></div>
+    </section>
+    <section id="histoire" class="story" aria-labelledby="story-title"><div class="story-image" aria-hidden="true"><div class="outline">W.</div></div><div class="story-text"><div class="kicker">02 / Notre histoire</div><h2 id="story-title">PLUS QU'UN<br>SHOP.</h2><p>WOOD, c'est une enseigne familiale et indépendante née à Nice en 2020. Une adresse où l'on prend le temps de vous accueillir, de vous écouter et de vous guider dans vos découvertes.</p><p>Pas de discours compliqué. Juste une équipe passionnée, une sélection soignée et une bonne dose de personnalité.</p><div class="signature">SI C'EST WOOD, C'EST GOOD.</div></div></section>
+    <section class="section container" aria-label="L'expérience WOOD"><div class="kicker">L'esprit maison</div><div class="value-grid"><div class="value"><span class="num">01 /</span><h3>Le conseil avant tout</h3><p>Une équipe à l'écoute pour présenter les produits et répondre aux questions.</p></div><div class="value"><span class="num">02 /</span><h3>L'indépendance</h3><p>Une enseigne niçoise, familiale, à taille humaine depuis 2020.</p></div><div class="value"><span class="num">03 /</span><h3>La sélection</h3><p>Des références choisies pour leur intérêt et présentées en toute transparence.</p></div></div></section>
+    <section class="section visit" id="boutique" aria-labelledby="visit-title">
+      <div class="container visit-grid">
+        <div>
+          <div class="kicker">03 / On se voit ?</div>
+          <h2 id="visit-title">RENDEZ-<br>VOUS <em>À NICE.</em></h2>
+          <p class="visit-lead">L'équipe WOOD vous accueille dans deux quartiers de Nice, avec la même sélection et le même esprit.</p>
+          <dl>
+            <div class="info-block"><dt>Le Port · Libération</dt><dd>Deux boutiques, une même identité WOOD.</dd></div>
+            <div class="info-block"><dt>Nous contacter</dt><dd><a href="mailto:woodcbdshop@gmail.com">woodcbdshop@gmail.com</a></dd></div>
+          </dl>
+        </div>
+        <div class="locations-panel" aria-label="Les deux boutiques WOOD à Nice">
+          <article class="location-card">
+            <div>
+              <div class="location-card__top"><span class="location-card__number">01 / LE PORT</span><span class="location-card__badge">WOOD</span></div>
+              <h3>BARLA</h3>
+              <p class="location-card__address">7 rue Barla<br>06300 Nice</p>
+              <dl class="location-card__details">
+                <div><dt>Horaires habituels — à confirmer</dt><dd>Mardi au samedi : 10h–13h et 14h30–19h<br>Lundi et dimanche : fermé</dd></div>
+                <div><dt>Téléphone</dt><dd><a href="tel:+33422163570">04 22 16 35 70</a></dd></div>
+              </dl>
+            </div>
+            <div class="buttons"><a class="btn primary" href="https://www.google.com/maps/dir/?api=1&amp;destination=7+Rue+Barla%2C+06300+Nice" target="_blank" rel="noopener noreferrer">Itinéraire <span aria-hidden="true">↗</span></a><a class="btn secondary" href="tel:+33422163570">Appeler <span aria-hidden="true">↗</span></a></div>
+          </article>
+          <article class="location-card">
+            <div>
+              <div class="location-card__top"><span class="location-card__number">02 / LIBÉRATION</span><span class="location-card__badge">WOOD</span></div>
+              <h3>BORRIGLIONE</h3>
+              <p class="location-card__address">16 avenue Alfred Borriglione<br>06100 Nice</p>
+              <dl class="location-card__details">
+                <div><dt>Horaires habituels — à confirmer</dt><dd>Mardi au samedi : 10h–13h et 14h30–19h<br>Lundi et dimanche : fermé</dd></div>
+                <div><dt>Téléphone</dt><dd><a href="tel:+33423130305">04 23 13 03 05</a></dd></div>
+              </dl>
+            </div>
+            <div class="buttons"><a class="btn primary" href="https://www.google.com/maps/dir/?api=1&amp;destination=16+Avenue+Alfred+Borriglione%2C+06100+Nice" target="_blank" rel="noopener noreferrer">Itinéraire <span aria-hidden="true">↗</span></a><a class="btn secondary" href="tel:+33423130305">Appeler <span aria-hidden="true">↗</span></a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section class="section container" id="questions" aria-labelledby="faq-title"><div class="faq-layout"><div><div class="kicker">04 / Questions fréquentes</div><h2 id="faq-title" class="big-title">ON VOUS <span>RÉPOND.</span></h2></div><div class="faq-items"><details><summary>Où se trouve WOOD CBD Shop ?</summary><p>Nos deux boutiques sont situées au 7 rue Barla, 06300 Nice, près du quartier du Port, et au 16 avenue Alfred Borriglione, 06100 Nice, dans le quartier Libération.</p></details><details><summary>Quels produits trouve-t-on en boutique ?</summary><p>Vous pouvez découvrir notamment nos univers fleurs CBD, résines, accessoires et produits cosmétiques autour du chanvre. La disponibilité évolue : contactez la boutique avant de vous déplacer pour une référence précise.</p></details><details><summary>La livraison est-elle disponible ?</summary><p>La livraison à domicile est disponible. Les frais, zones et délais seront précisés par WOOD avant l’ouverture complète du parcours de commande.</p></details><details><summary>Comment fonctionne le paiement ?</summary><p>Le parcours de commande est préparé, mais le paiement en ligne Viva sera activé séparément avec les identifiants officiels de la boutique.</p></details><details><summary>Dois-je créer un compte ?</summary><p>Non. Une commande peut être enregistrée en invité. Un compte permet simplement de retrouver plus facilement ses informations et son historique.</p></details><details><summary>Qu'est-ce que le CBD ?</summary><p>Le CBD, ou cannabidiol, est un composé naturellement présent dans le chanvre. Les produits proposés doivent respecter la réglementation française applicable. Ils ne remplacent pas un traitement médical.</p></details><details><summary>Puis-je demander conseil avant de venir ?</summary><p>Bien sûr. Contactez-nous au 04 22 16 35 70 (Barla), au 04 23 13 03 05 (Borriglione) ou par e-mail à woodcbdshop@gmail.com. La commande peut être enregistrée en ligne ; le paiement Viva sera activé séparément.</p></details></div></div></section>
+  </main>
+  <footer class="footer"><div class="container"><div class="footer-top"><div class="footer-brand"><div class="footer-logo">WOOD.</div><div class="footer-slogan">Si c'est WOOD, c'est GOOD.</div></div><div><h3>Explorer</h3><div class="footer-links"><a href="#univers">Nos univers</a><a href="#histoire">Notre histoire</a><a href="#boutique">La boutique</a><a href="#questions">Questions fréquentes</a></div></div><div><h3>Rester en contact</h3><div class="footer-links"><a href="tel:+33422163570">Barla · 04 22 16 35 70</a><a href="tel:+33423130305">Borriglione · 04 23 13 03 05</a><a href="mailto:woodcbdshop@gmail.com">woodcbdshop@gmail.com</a><a href="https://www.instagram.com/woodcbdshop/" target="_blank" rel="noopener noreferrer">Instagram ↗</a><span>7 rue Barla, 06300 Nice<br>16 avenue Alfred Borriglione, 06100 Nice</span></div></div></div><div class="footer-bottom"><span>© <span id="year">2026</span> WOOD — <strong>Maquette de démonstration non officielle.</strong> Les commandes sont enregistrées de manière sécurisée.</span><span>Visuel conceptuel et illustrations originales. Paiement Viva et mentions légales à valider.</span></div></div></footer>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const toggle = document.getElementById('hamb');
+    const nav = document.getElementById('navigation');
+    let lastMenuTrigger = null;
+    function closeMenu({ restoreFocus = true } = {}) {const wasOpen=nav.classList.contains('open');nav.classList.remove('open');toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Ouvrir le menu');toggle.textContent='☰';if(wasOpen&&restoreFocus) queueMicrotask(()=>lastMenuTrigger?.focus({preventScroll:true}));}
+    toggle.addEventListener('click',()=>{if(nav.classList.contains('open')){closeMenu();return;}lastMenuTrigger=toggle;nav.classList.add('open');nav.setAttribute('tabindex','-1');toggle.setAttribute('aria-expanded','true');toggle.setAttribute('aria-label','Fermer le menu');toggle.textContent='×';queueMicrotask(()=>nav.focus({preventScroll:true}));});
+    nav.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>closeMenu({restoreFocus:false})));
+    document.addEventListener('keydown',ev=>{if(ev.key==='Escape')closeMenu();});
+  </script>
+  <script src="mobile-shell.js?v=wood-mobile-app-v5-20261105"></script>
+  <script src="github-pages-switch.js?v=wood-pages-switch-v1-20261106"></script>
+</body>
+</html>
