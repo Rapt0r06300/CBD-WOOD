@@ -31,6 +31,7 @@
 - [ ] Turnstile est configuré côté serveur avant ouverture publique.
 - [ ] La limitation serveur de `create-pending-order` est testée avec une répétition rapide et n’empêche pas une commande normale.
 - [ ] La protection contre les mots de passe compromis est activée.
+- [ ] La table privée `private.order_rate_limit_buckets` a RLS activé ; `anon` et `authenticated` n'ont aucun privilège et `service_role` reste le seul rôle opérationnel. Voir `docs/ops/supabase-security-gate.md`.
 - [ ] L’utilisateur propriétaire est le seul présent dans `owner_users`.
 - [ ] La migration `customer_account_roles` crée automatiquement le rôle `customer` pour chaque nouveau compte et interdit toute auto-promotion.
 - [ ] Le bouton propriétaire reste masqué pour un client, y compris au clavier ; l’accès réel reste contrôlé par `owner_users` et les RLS.
