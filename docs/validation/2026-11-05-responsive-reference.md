@@ -34,7 +34,7 @@ Des captures de référence ont également été produites à `320` et `1440` px
 - La version publique répond sur les routes principales ; la route historique `admin.html` répond `404`.
 - Les fiches fleur et génériques proposent une zone `Même univers` limitée aux références publiées de la catégorie, sans promotion, avis ou preuve sociale inventée ; la fiche générique et la fiche fleur conservent leur bloc d’achat.
 - La fiche générique ne laisse plus sa colonne de texte imposer une largeur minimale sur les téléphones étroits : la grille mobile utilise `minmax(0, 1fr)` et les éléments de contenu ont `min-width: 0`.
-- Les pages publiques qui chargent `boutique.css` utilisent maintenant `wood-responsive-v7-20261105`, afin qu’un cache navigateur ou GitHub Pages ne conserve pas l’ancien CSS après correction.
+- Les pages publiques qui chargent `boutique.css` utilisent maintenant `wood-responsive-v8-20261105`, afin qu’un cache navigateur ou GitHub Pages ne conserve pas l’ancien CSS après correction.
 - Une vérification Playwright réelle en `390 × 844` a recontrôlé les dix routes publiques : largeur du document égale à la fenêtre, navigation mobile présente et titres principaux chargés. Sur `fleurs.html`, les largeurs `390` affichent deux colonnes équilibrées et `320` bascule proprement à une colonne, sans débordement et avec les boutons contenus dans les cartes.
 - Après le déploiement du commit de code `34eac62`, un contrôle live a confirmé le CSS mobile à deux colonnes, le bandeau de livraison de `fleurs.html`, les réponses HTTP attendues et l’absence de `/admin.html`.
 - Le même contrôle navigateur a vérifié `fleurs.html` à `1440`, `1024` et `768` px : trois colonnes régulières, 13 cartes présentes et aucune largeur de document supérieure à la fenêtre.
