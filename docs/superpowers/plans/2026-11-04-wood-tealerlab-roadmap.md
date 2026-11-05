@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **137 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **143 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit courant ont été vérifiés avec succès ; la page publique, `produit.html` et une image WebP répondent en HTTP 200. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -94,6 +94,8 @@
 - Le 5 novembre 2026, les fonctions `newsletter-subscribe` et `newsletter-unsubscribe` enregistrent le consentement explicite et le retrait par token hashé, sans révéler l’existence d’une adresse et sans mélanger le marketing aux commandes.
 - Le 5 novembre 2026, les tokens newsletter sont signés, expirants et vérifiés avec un secret serveur ; la base ne conserve qu’une empreinte et le worker revalide le consentement juste avant l’envoi.
 - Le 5 novembre 2026, `newsletter-campaign` prépare les lots, réserve les destinataires avec un bail anti-doublon, journalise chaque tentative et refuse toute campagne qui n’est pas explicitement en `sending`.
+- Le 5 novembre 2026, `newsletter-control` a été ajouté et déployé avec JWT obligatoire : la propriétaire crée un brouillon, prévisualise son contenu, met une campagne en pause, la reprend ou l’annule. L’envoi reste bloqué sans `NEWSLETTER_CAN_SEND=true` et les actions sont journalisées dans `newsletter_campaign_actions`.
+- La migration `20261105160000_newsletter_campaign_actions.sql` est appliquée à Supabase sous la version distante `20261105042036`; la préproduction Hostinger reste valide avec 49 fichiers publics et aucun code serveur privé.
 - Le 5 novembre 2026, `delivery-events` impose des transitions de livraison autorisées, une clé d’idempotence et une notification cohérente ; aucune livraison n’est auto-marquée sans événement propriétaire.
 - Le 5 novembre 2026, `20261105150000_delivery_notification_events.sql` a été appliquée (version distante `20261105040825`) : chaque événement de livraison possède son `delivery_event_id`, les étapes successives ne s’écrasent plus dans l’outbox et un échec crée une alerte propriétaire distincte. `delivery-events` et `email-worker` ont été redéployées avec cette règle ; aucun e-mail réel ne part sans Gmail configuré.
 - Le 5 novembre 2026, `document-download` délivre uniquement des URL signées de cinq minutes après contrôle du compte client ou du rôle propriétaire ; le bucket PDF reste privé.
@@ -2070,7 +2072,7 @@ Ce bloc décrit tout ce qu’il faut pour obtenir une chaîne fiable `commande �
 - [x] **A505 — Créer l’audience à partir des abonnements actifs :** validation : les clients désinscrits sont exclus au moment de l’envoi, pas seulement à la création.
 - [x] **A506 — Interdire l’audience issue de commandes sans consentement :** validation : test négatif avec client ayant acheté mais refusé le marketing.
 - [ ] **A507 — Prévoir des segments minimaux :** validation : seuls les critères validés par la propriétaire sont utilisables.
-- [ ] **A508 — Ajouter l’aperçu propriétaire :** validation : sujet, expéditeur, contenu et pied de page sont visibles avant envoi.
+- [x] **A508 — Ajouter l’aperçu propriétaire :** validation : le tableau de bord récupère le brouillon et affiche son sujet et son contenu avant toute action d’envoi.
 - [ ] **A509 — Ajouter l’envoi test isolé :** validation : un test ne touche jamais la vraie audience.
 - [x] **A510 — Versionner le contenu final :** validation : le message envoyé est reconstructible après modification du brouillon.
 - [x] **A511 — Ajouter le lien de désinscription dans chaque newsletter :** validation : aucune campagne active ne peut être enregistrée sans lien valide.
@@ -2091,13 +2093,13 @@ Ce bloc décrit tout ce qu’il faut pour obtenir une chaîne fiable `commande �
 - [x] **A526 — Enregistrer l’identifiant d’envoi :** validation : une réponse fournisseur est rattachée au bon destinataire.
 - [x] **A527 — Réessayer seulement les erreurs réessayables :** validation : rejet définitif et erreur réseau ne suivent pas la même branche.
 - [x] **A528 — Ajouter la file des échecs définitifs :** validation : les erreurs restent consultables sans bloquer toute la campagne.
-- [ ] **A529 — Permettre la pause propriétaire :** validation : une campagne en pause n’est plus consommée par le worker.
-- [ ] **A530 — Permettre la reprise contrôlée :** validation : reprise réservée au owner et journalisée.
-- [ ] **A531 — Permettre l’annulation avant envoi :** validation : aucun lot non envoyé ne part après annulation.
+- [x] **A529 — Permettre la pause propriétaire :** validation : l’action owner-only passe la campagne en `paused`, état que le worker ne consomme pas.
+- [x] **A530 — Permettre la reprise contrôlée :** validation : la reprise passe par `newsletter-control`, exige `owner_users` et est journalisée.
+- [x] **A531 — Permettre l’annulation avant envoi :** validation : l’action owner-only passe un brouillon, une planification ou une pause en `cancelled`, état jamais consommé par le worker.
 - [ ] **A532 — Interdire les doublons de campagne :** validation : même clé métier et version ne créent pas deux campagnes actives.
 - [ ] **A533 — Isoler les adresses de test :** validation : elles sont marquées test et jamais comptées dans les statistiques commerciales.
 - [x] **A534 — Restreindre la gestion aux owners :** validation : les clients ne peuvent pas créer, modifier ou envoyer une campagne.
-- [ ] **A535 — Journaliser les actions marketing :** validation : création, aperçu, test, pause, reprise et envoi sont traçables.
+- [x] **A535 — Journaliser les actions marketing :** validation : création, aperçu, pause, reprise, annulation et démarrage sont conservés dans `newsletter_campaign_actions`.
 - [ ] **A536 — Préparer l’export d’un abonné :** validation : l’export ne contient que ses données et son historique pertinent.
 - [ ] **A537 — Préparer la suppression d’un abonné :** validation : suppression et suppression marketing ne sont pas confondues.
 - [ ] **A538 — Définir la conservation :** validation : campagnes, destinataires, erreurs et consentements ont une durée documentée.

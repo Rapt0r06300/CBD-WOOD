@@ -4,6 +4,7 @@ const orderStatuses = ['pending', 'paid', 'preparing', 'ready', 'completed', 'ca
 const statusLabels = { pending: 'En attente', paid: 'Payée', preparing: 'En préparation', ready: 'Prête', completed: 'Terminée', cancelled: 'Annulée' };
 const notificationKindLabels = { order_created: 'Commande créée', owner_order_alert: 'Alerte propriétaire', payment_confirmed: 'Paiement confirmé', invoice_ready: 'Document prêt', delivery_update: 'Livraison mise à jour', delivery_issue_alert: 'Problème de livraison', order_cancelled: 'Commande annulée', refund_confirmed: 'Remboursement confirmé' };
 const notificationStatusLabels = { pending: 'À envoyer', processing: 'En cours', sent: 'Envoyé', failed: 'Échec', dead_letter: 'À reprendre', cancelled: 'Annulé' };
+const newsletterStatusLabels = { draft: 'Brouillon', scheduled: 'Planifiée', sending: 'Envoi', paused: 'En pause', sent: 'Terminée', cancelled: 'Annulée', failed: 'Échec' };
 const documentLabels = { order_confirmation: 'Confirmation', payment_receipt: 'Reçu de paiement', invoice: 'Facture' };
 
 const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[character]));
@@ -18,6 +19,9 @@ export async function mountOwnerDashboard({ supabase, config = window.WOOD_SUPAB
   const productsBody = $('#ownerProductsBody');
   const ordersBody = $('#ownerOrdersBody');
   const notificationsBody = $('#ownerNotificationsBody');
+  const newsletterBody = $('#ownerNewsletterBody');
+  const newsletterForm = $('#ownerNewsletterForm');
+  const newsletterPreview = $('#ownerNewsletterPreview');
   let products = [];
   let orders = [];
   let documents = [];
@@ -80,6 +84,27 @@ export async function mountOwnerDashboard({ supabase, config = window.WOOD_SUPAB
     }).join('');
   };
 
+  const renderNewsletter = campaigns => {
+    if (!newsletterBody) return;
+    if (!campaigns.length) {
+      newsletterBody.innerHTML = '<tr><td colspan="5" class="owner-dashboard__empty">Aucun brouillon pour le moment.</td></tr>';
+      return;
+    }
+    newsletterBody.innerHTML = campaigns.map(campaign => {
+      const counts = campaign.counts || {};
+      const total = Object.values(counts).reduce((sum, value) => sum + Number(value || 0), 0);
+      const status = newsletterStatusLabels[campaign.status] || campaign.status;
+      const actions = [
+        `<button class="owner-dashboard__button" type="button" data-owner-newsletter-action="preview" data-owner-newsletter-id="${escapeHtml(campaign.id)}">Prévisualiser</button>`,
+        campaign.status === 'draft' || campaign.status === 'paused' || campaign.status === 'scheduled' ? `<button class="owner-dashboard__button" type="button" data-owner-newsletter-action="start" data-owner-newsletter-id="${escapeHtml(campaign.id)}">Démarrer</button>` : '',
+        campaign.status === 'sending' || campaign.status === 'scheduled' ? `<button class="owner-dashboard__button" type="button" data-owner-newsletter-action="pause" data-owner-newsletter-id="${escapeHtml(campaign.id)}">Pause</button>` : '',
+        campaign.status === 'paused' ? `<button class="owner-dashboard__button" type="button" data-owner-newsletter-action="resume" data-owner-newsletter-id="${escapeHtml(campaign.id)}">Reprendre</button>` : '',
+        ['draft', 'scheduled', 'paused'].includes(campaign.status) ? `<button class="owner-dashboard__button" type="button" data-owner-newsletter-action="cancel" data-owner-newsletter-id="${escapeHtml(campaign.id)}">Annuler</button>` : '',
+      ].join('');
+      return `<tr><td data-label="Campagne"><div class="owner-dashboard__product"><strong>${escapeHtml(campaign.name)}</strong><span>v${escapeHtml(campaign.template_version)}</span></div></td><td data-label="Sujet">${escapeHtml(campaign.subject)}</td><td data-label="État"><span class="owner-dashboard__status-badge owner-dashboard__status-badge--${escapeHtml(campaign.status)}">${escapeHtml(status)}</span></td><td data-label="Destinataires">${escapeHtml(total)}</td><td data-label="Actions"><div class="owner-dashboard__newsletter-actions">${actions}</div></td></tr>`;
+    }).join('');
+  };
+
   const loadProducts = async () => {
     const { data, error } = await supabase.from('products').select('*').order('created_at', { ascending: false });
     if (error) throw error;
@@ -120,6 +145,67 @@ export async function mountOwnerDashboard({ supabase, config = window.WOOD_SUPAB
       return;
     }
     renderNotifications(data || []);
+  };
+
+  const newsletterControl = async payload => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.access_token || !config?.url) throw new Error('Session invalide.');
+    const response = await fetch(`${config.url}/functions/v1/newsletter-control`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${session.access_token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(result.error || 'Action newsletter indisponible.');
+    return result;
+  };
+
+  const loadNewsletter = async () => {
+    if (!newsletterBody) return;
+    try {
+      const result = await newsletterControl({ action: 'list' });
+      renderNewsletter(result.campaigns || []);
+    } catch (error) {
+      newsletterBody.innerHTML = `<tr><td colspan="5" class="owner-dashboard__empty">${escapeHtml(error.message || 'Campagnes indisponibles.')}</td></tr>`;
+    }
+  };
+
+  const createNewsletterDraft = async event => {
+    event.preventDefault();
+    setMessage('#ownerNewsletterMessage', 'Enregistrement…');
+    try {
+      await newsletterControl({
+        action: 'create_draft',
+        name: $('#ownerNewsletterName').value,
+        subject: $('#ownerNewsletterSubject').value,
+        text_body: $('#ownerNewsletterText').value,
+      });
+      newsletterForm.reset();
+      setMessage('#ownerNewsletterMessage', 'Brouillon enregistré.');
+      await loadNewsletter();
+    } catch (error) {
+      setMessage('#ownerNewsletterMessage', error.message || 'Brouillon indisponible.', true);
+    }
+  };
+
+  const handleNewsletterAction = async button => {
+    const action = button.dataset.ownerNewsletterAction;
+    const campaignId = button.dataset.ownerNewsletterId;
+    button.disabled = true;
+    try {
+      const result = await newsletterControl({ action, campaign_id: campaignId });
+      if (action === 'preview' && newsletterPreview) {
+        newsletterPreview.textContent = `Sujet : ${result.template?.subject || result.campaign?.subject || ''}\n\n${result.template?.text_body || ''}`;
+        newsletterPreview.classList.remove('hidden');
+      } else {
+        setMessage('#ownerNewsletterMessage', 'Campagne mise à jour.');
+        await loadNewsletter();
+      }
+    } catch (error) {
+      setMessage('#ownerNewsletterMessage', error.message || 'Action newsletter indisponible.', true);
+    } finally {
+      button.disabled = false;
+    }
   };
 
   const syncPricingFields = () => {
@@ -242,9 +328,14 @@ export async function mountOwnerDashboard({ supabase, config = window.WOOD_SUPAB
       .catch(error => setMessage('#ownerNotificationMessage', error.message || 'Relance indisponible.', true))
       .finally(() => { button.disabled = false; });
   });
+  newsletterForm?.addEventListener('submit', event => { void createNewsletterDraft(event); });
+  newsletterBody?.addEventListener('click', event => {
+    const button = event.target.closest('[data-owner-newsletter-action]');
+    if (button) void handleNewsletterAction(button);
+  });
   syncPricingFields();
   root.classList.remove('hidden');
   root.setAttribute('aria-hidden', 'false');
-  try { await Promise.all([loadProducts(), loadOrders(), loadDocuments(), loadNotifications()]); } catch (error) { setMessage('#ownerProductMessage', `Impossible de charger les données : ${error.message}`, true); }
+  try { await Promise.all([loadProducts(), loadOrders(), loadDocuments(), loadNotifications(), loadNewsletter()]); } catch (error) { setMessage('#ownerProductMessage', `Impossible de charger les données : ${error.message}`, true); }
   return { hide() { root.classList.add('hidden'); root.setAttribute('aria-hidden', 'true'); } };
 }

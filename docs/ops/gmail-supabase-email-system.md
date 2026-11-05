@@ -35,6 +35,7 @@ Les documents PDF restent dans le bucket privé `order-documents`. Le navigateur
 - `supabase/functions/delivery-events/index.ts` : transitions de livraison propriétaire, idempotence et notification.
 - `supabase/functions/newsletter-subscribe/index.ts` et `newsletter-unsubscribe/index.ts` : consentement et retrait.
 - `supabase/functions/newsletter-campaign/index.ts` : campagnes séparées, lots, désinscription et reprise.
+- `supabase/functions/newsletter-control/index.ts` : création de brouillons, aperçu, pause, reprise et annulation réservés au rôle propriétaire.
 
 ## Secrets Edge Function — à renseigner à la fin
 
@@ -91,6 +92,8 @@ Depuis l’espace propriétaire, une notification `failed` ou `dead_letter` peut
 ## Newsletter
 
 La newsletter ne doit pas réutiliser aveuglément la file des commandes. Elle exige : consentement prouvable, confirmation éventuelle, désinscription, suppression, lots bornés, quotas, gestion des rebonds et journal par destinataire. Un achat ne vaut pas consentement marketing automatique.
+
+Le tableau de bord propriétaire peut maintenant créer un brouillon texte et le prévisualiser. Les actions `start`, `pause`, `resume` et `cancel` passent par `newsletter-control`, sont contrôlées par `owner_users` et écrites dans `newsletter_campaign_actions`. `start` reste refusé tant que `NEWSLETTER_CAN_SEND=true` n’est pas configuré après validation Gmail ; aucun envoi n’est donc activé par défaut.
 
 Chaque événement de livraison possède aussi sa propre notification (`delivery_event_id`). Une commande ne peut donc plus écraser silencieusement la notification précédente : `in_progress`, `delivered` et `failed` restent visibles séparément. Un événement `failed` ajoute une alerte propriétaire distincte afin que l’adresse ou l’instruction soit vérifiée sans perdre la commande.
 
