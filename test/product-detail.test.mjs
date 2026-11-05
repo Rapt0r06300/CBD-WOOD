@@ -39,6 +39,15 @@ test('la fiche fleur propose uniquement des découvertes du même univers', () =
   assert.doesNotMatch(flowerDetailScript, /best-seller|promotion|avis|étoile/i);
 });
 
+test('les fiches génériques proposent uniquement des produits publiés du même univers', () => {
+  assert.match(genericScript, /renderRelated/);
+  assert.match(genericScript, /eq\('category', category\)/);
+  assert.match(genericScript, /neq\('id', data\.id\)/);
+  assert.match(genericScript, /status.*published/);
+  assert.match(genericScript, /produit\.html\?produit=/);
+  assert.match(genericScript, /Disponibilité à confirmer/);
+});
+
 test('le zoom utilise uniquement transform/opacity et garde un accès sans animation', () => {
   assert.match(boutique, /prefers-reduced-motion/);
   assert.match(boutique, /window\.location\.href\s*=\s*href/);

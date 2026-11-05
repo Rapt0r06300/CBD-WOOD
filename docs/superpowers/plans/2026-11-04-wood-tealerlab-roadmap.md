@@ -1676,12 +1676,12 @@ Cette extension reprend des mécanismes utiles observés sur les pages produit, 
 
 ### Tâche 68 — Ajouter une zone “produits liés” maîtrisée
 
-- [ ] Proposer quelques produits du même univers ou d’un univers proche après la fiche produit.
-- [ ] Conserver la même carte WOOD, les mêmes contrôles de grammage et les mêmes règles de prix.
-- [ ] Ne pas afficher de recommandations trompeuses, de remise automatique ou de vente forcée.
-- [ ] Ne pas faire passer les produits liés avant la description et l’ajout au panier.
+- [x] Proposer quelques produits publiés du même univers après la fiche produit ; les fiches génériques interrogent uniquement les références `published` de la catégorie courante et la fiche fleur conserve sa sélection locale.
+- [x] Conserver la carte WOOD et les règles de disponibilité ; le clic sur une référence liée revient à sa fiche complète, où les contrôles de grammage et d’achat applicables restent centralisés.
+- [x] Ne pas afficher de recommandations trompeuses, de remise automatique ou de vente forcée ; les cartes liées affichent seulement un prix confirmé ou `Disponibilité à confirmer`.
+- [x] Ne pas faire passer les produits liés avant la description et l’ajout au panier ; la zone est ajoutée après la fiche, l’achat et le lien de retour.
 
-**Validation :** la découverte de produits est utile sans détourner le client de sa fiche actuelle.
+**Validation :** le code local et `test/product-detail.test.mjs` garantissent une découverte limitée aux produits publiés du même univers, sans prix inventé ni déplacement de l’achat principal ; la présence de références réelles dépend encore des produits que la propriétaire publiera dans Supabase.
 
 ### Tâche 69 — Clarifier l’aide et le contact
 

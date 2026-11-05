@@ -17,6 +17,30 @@
     ? `<img src="${escapeHtml(image)}" alt="Visuel de démonstration de ${escapeHtml(name)}">`
     : '<div class="product-art--type">WOOD.<small>WOOD SHOP / VISUEL À VENIR</small></div>';
 
+  function renderRelated(relatedProducts = []) {
+    const existing = root.querySelector('.product-related');
+    if (existing) existing.remove();
+    if (!relatedProducts.length) return;
+    const section = document.createElement('section');
+    section.className = 'product-related';
+    section.setAttribute('aria-labelledby', 'related-title');
+    section.innerHTML = `
+      <div class="product-related__heading"><div><div class="kicker">Même univers</div><h2 id="related-title">À DÉCOUVRIR<br><span>CHEZ WOOD.</span></h2></div><p>Quelques références publiées dans le même univers, sans promotion ni recommandation automatique.</p></div>
+      <div class="product-related__grid">
+        ${relatedProducts.map((related) => {
+          const relatedName = related.name || 'Référence WOOD';
+          const relatedCategory = related.category || category;
+          const relatedHref = `produit.html?produit=${encodeURIComponent(related.slug || related.id || '')}&categorie=${encodeURIComponent(relatedCategory)}&nom=${encodeURIComponent(relatedName)}`;
+          const relatedStock = Number(related.stock_quantity);
+          const relatedPrice = Number(related.price_cents);
+          const relatedAvailable = related.availability_state === 'available' && Number.isFinite(relatedStock) && relatedStock > 0 && Number.isFinite(relatedPrice) && relatedPrice > 0;
+          const relatedStatus = relatedAvailable ? `${(relatedPrice / 100).toFixed(2).replace('.', ',')} €` : 'Disponibilité à confirmer';
+          return `<a class="product-related__card" href="${escapeHtml(relatedHref)}"><div class="product-related__media">${imageMarkup(related.image_path || context.image, relatedName)}</div><div class="product-related__body"><span>${escapeHtml(context.title)}</span><strong>${escapeHtml(relatedName)}</strong><em>${escapeHtml(relatedStatus)} · Voir la fiche <span aria-hidden="true">↗</span></em></div></a>`;
+        }).join('')}
+      </div>`;
+    root.appendChild(section);
+  }
+
   function render(product = {}) {
     const name = product.name || fallbackName;
     const description = product.description || context.copy;
@@ -59,10 +83,14 @@
   if (!config || !requestedId) return;
   import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/+esm').then(({ createClient }) => {
     const client = createClient(config.url, config.publishableKey);
-    const query = client.from('products').select('id, slug, name, description, price_cents, image_path, stock_quantity, availability_state, status').eq('status', 'published');
+    const query = client.from('products').select('id, slug, name, description, price_cents, image_path, stock_quantity, availability_state, status, category').eq('status', 'published');
     const lookup = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(requestedId) ? query.eq('id', requestedId) : query.eq('slug', requestedId);
-    return lookup.maybeSingle();
-  }).then(({ data }) => {
-    if (data) render(data);
+    return lookup.maybeSingle().then(result => ({ ...result, client }));
+  }).then(async ({ data, client }) => {
+    if (!data) return;
+    render(data);
+    const relatedQuery = client.from('products').select('id, slug, name, image_path, price_cents, stock_quantity, availability_state, category').eq('status', 'published').eq('category', category).neq('id', data.id).order('created_at', { ascending: false }).limit(3);
+    const { data: related } = await relatedQuery;
+    renderRelated(related || []);
   }).catch(() => {});
 })();
