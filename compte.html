@@ -25,7 +25,7 @@
     <div class="crumbs"><a href="index.html">Accueil</a><span aria-hidden="true"> &nbsp;/&nbsp; </span>Compte client</div>
     <section class="checkout-section container" aria-labelledby="account-title">
       <div class="section-heading"><div><div class="kicker">06 / Mon espace</div><h1 id="account-title" class="section-title">VOTRE <span>COMPTE.</span></h1></div><p class="section-aside">Un espace simple pour retrouver ses commandes et ses informations, sans modifier l'univers WOOD.</p></div>
-      <div class="account-card"><div class="account-tabs"><button class="account-tab is-active" type="button" data-account-tab="login">Se connecter</button><button class="account-tab" type="button" data-account-tab="register">Créer un compte</button></div><form class="account-form" data-account-form="" data-backend="supabase"><label for="account-email">E-mail<input id="account-email" name="email" type="email" autocomplete="email" placeholder="votre@email.fr" required></label><label for="account-password">Mot de passe<input id="account-password" name="password" type="password" autocomplete="current-password" placeholder="••••••••" minlength="6" required></label><button class="btn" id="accountAction" type="submit">Se connecter</button></form><p id="accountMessage" class="inline-message hidden" role="status" aria-live="polite"></p><p class="account-note">La connexion est sécurisée par Supabase. Un e-mail de confirmation peut être demandé lors de la création du compte.</p></div>
+      <div class="account-card"><div class="account-tabs"><button class="account-tab is-active" type="button" data-account-tab="login">Se connecter</button><button class="account-tab" type="button" data-account-tab="register">Créer un compte</button></div><form class="account-form" data-account-form="" data-backend="supabase"><label for="account-email">E-mail<input id="account-email" name="email" type="email" autocomplete="email" placeholder="votre@email.fr" required></label><label for="account-password">Mot de passe<input id="account-password" name="password" type="password" autocomplete="current-password" placeholder="••••••••" minlength="6" required></label><button class="btn" id="accountAction" type="submit">Se connecter</button></form><button class="account-text-button" id="forgotPasswordButton" type="button">Mot de passe oublié ?</button><p id="accountMessage" class="inline-message hidden" role="status" aria-live="polite"></p><p class="account-note">La connexion est sécurisée par Supabase. Un e-mail de confirmation peut être demandé lors de la création du compte.</p></div>
       <section class="account-dashboard hidden" id="accountDashboard" aria-live="polite">
         <div class="account-dashboard__head"><div><div class="kicker">ESPACE CLIENT</div><h2>BIENVENUE <span>CHEZ WOOD.</span></h2><p id="accountWelcome" class="account-dashboard__muted"></p></div><div class="account-dashboard__actions"><button class="btn account-owner-link hidden" id="ownerDashboardLink" type="button" aria-hidden="true" tabindex="-1">Gérer la boutique ↗</button><button class="btn account-logout" id="accountLogout" type="button">Se déconnecter</button></div></div>
         <section class="owner-dashboard hidden" id="ownerDashboard" aria-labelledby="owner-dashboard-title" aria-hidden="true">
@@ -70,6 +70,16 @@
           </form>
           <section class="account-panel" aria-labelledby="orders-title"><div class="kicker">MON HISTORIQUE</div><h3 id="orders-title">Mes commandes</h3><div id="accountOrders" class="account-orders"><p class="account-dashboard__muted">Chargement de vos commandes…</p></div></section>
         </div>
+        <section class="account-panel account-rights" aria-labelledby="account-rights-title">
+          <div class="kicker">MES DROITS</div><h3 id="account-rights-title">Sécurité &amp; données</h3>
+          <form class="account-form account-security-form" id="passwordUpdateForm">
+            <label for="newPassword">Nouveau mot de passe<input id="newPassword" type="password" autocomplete="new-password" minlength="8" required placeholder="8 caractères minimum"></label>
+            <button class="btn" type="submit">Mettre à jour le mot de passe</button>
+          </form>
+          <div class="account-security-actions"><button class="account-text-button" id="downloadAccountDataButton" type="button">Télécharger mes données</button><button class="account-text-button account-text-button--danger" id="requestAccountDeletionButton" type="button">Demander la suppression du compte</button></div>
+          <p class="inline-message hidden" id="accountRightsMessage" role="status" aria-live="polite"></p>
+          <p class="account-note">La suppression est une demande vérifiée manuellement. Elle ne supprime pas immédiatement une commande nécessaire à la conservation légale des documents.</p>
+        </section>
       </section>
     </section>
   </main>

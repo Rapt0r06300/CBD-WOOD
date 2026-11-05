@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **198 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **202 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit `34eac62` ont été vérifiés avec succès ; les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -1163,7 +1163,7 @@ Les 76 tâches principales et les tags `A01–A40` ne couvraient pas encore tout
 - [ ] **A41 — Identité légale de la boutique :** recueillir raison sociale, adresse légale, SIRET, contact et informations nécessaires aux pages légales ; validation : propriétaire et conseil compétent valident les données publiées.
 - [ ] **A42 — Âge et public autorisé :** confirmer avec la propriétaire et le conseil si un contrôle d’âge ou un message majeur est requis pour les produits exacts ; validation : règle écrite, parcours non bloquant pour les visiteurs autorisés.
 - [ ] **A43 — Cartographie RGPD :** inventorier compte, commande, adresse, e-mail, journaux, notifications et sauvegardes ; validation : chaque donnée possède une finalité, une base et une durée.
-- [ ] **A44 — Droits du compte client :** prévoir changement de mot de passe, réinitialisation, confirmation d’e-mail, export et demande de suppression ; validation : le client ne voit ni données d’un autre client ni données propriétaire.
+- [x] **A44 — Droits du compte client :** prévoir changement de mot de passe, réinitialisation, confirmation d’e-mail, export et demande de suppression ; validation locale : `compte.html` et `account.js` exposent ces actions sans exporter de session, `account_deletion_requests` limite la demande à `auth.uid()` et au statut `requested`, et `test/account-rights.test.mjs` couvre les garde-fous ; validation distante Supabase et vérification juridique de conservation restent nécessaires avant production.
 - [ ] **A45 — Cookies et consentements :** inventorier les scripts non essentiels et n’ajouter une bannière que si un consentement est réellement nécessaire ; validation : aucun traceur tiers n’est chargé en silence.
 - [ ] **A46 — Conservation et effacement :** documenter la durée des comptes, paniers, commandes, e-mails, logs et sauvegardes ; validation : une suppression demandée ne détruit jamais une obligation légale de conservation sans décision documentée.
 
