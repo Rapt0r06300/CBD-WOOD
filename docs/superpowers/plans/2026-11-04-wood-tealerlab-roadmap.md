@@ -171,9 +171,9 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 5 — Améliorer la hiérarchie de l’accueil sans changer son identité
 
-- [ ] Conserver le hero WOOD, son message et ses couleurs.
-- [ ] Ajouter seulement une accroche courte de marque, un CTA principal et un CTA secondaire clair.
-- [ ] Faire remonter les quatre univers existants : fleurs, résines, cosmétiques/huiles et textile/goods.
+- [x] Conserver le hero WOOD, son message et ses couleurs.
+- [x] Ajouter seulement une accroche courte de marque, un CTA principal et un CTA secondaire clair.
+- [x] Faire remonter les quatre univers existants : fleurs, résines, cosmétiques/huiles et textile/goods.
 - [ ] Ajouter plus tard une zone “sélection WOOD” uniquement lorsque les produits, stocks et photos sont réels.
 
 **Validation :** en quelques secondes, un visiteur comprend ce que vend WOOD et où cliquer.
@@ -190,7 +190,7 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 - [ ] Mettre en avant uniquement les faits vérifiés : boutique ouverte depuis 2020, conseil en boutique, présence à Nice si confirmé.
 - [ ] Préparer des emplacements pour avis, photos produit réelles sans contenant et preuves de qualité lorsque la propriétaire les transmettra.
-- [ ] Ne pas fabriquer de note, de nombre de clients ou de test de laboratoire.
+- [x] Ne pas fabriquer de note, de nombre de clients ou de test de laboratoire.
 
 **Validation :** aucune preuve commerciale non vérifiée n’est affichée.
 
@@ -228,12 +228,12 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 11 — Définir les données minimales d’une fiche fleur
 
-- [ ] Nom de la variété.
-- [ ] Niveau affiché : `CBD boosté (strong)`, `CBD soft (medium)` ou `CBD classique`.
+- [x] Nom de la variété.
+- [x] Niveau affiché : `CBD boosté (strong)`, `CBD soft (medium)` ou `CBD classique`.
 - [ ] Image réelle ou état “photo à venir” propre.
 - [ ] Description courte et description détaillée.
-- [ ] Tableau de prix par gramme issu de l’affiche de la propriétaire.
-- [ ] Stock et statut actif/inactif.
+- [x] Tableau de prix par gramme issu de l’affiche de la propriétaire.
+- [x] Stock et statut actif/inactif.
 
 **Validation :** une fiche incomplète ne peut pas afficher un prix inventé ou un bouton d’achat incohérent.
 
@@ -379,7 +379,7 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 ### Tâche 25 — Laisser Viva Wallet isolé mais prêt
 
 - [x] Garder le statut de paiement séparé du statut de commande.
-- [ ] Préparer l’emplacement d’un futur webhook signé et idempotent.
+- [x] Préparer l’emplacement d’un futur webhook signé et idempotent.
 - [x] Ne stocker aucun identifiant Viva fictif dans le dépôt.
 
 **Validation :** la boutique peut être testée sans appeler Viva Wallet et aucune fausse confirmation de paiement n’est possible.
@@ -405,9 +405,9 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 28 — Préparer le ton et les contenus de la propriétaire
 
-- [ ] Utiliser le chic/premium dans les titres et la clarté produit.
+- [x] Utiliser le chic/premium dans les titres et la clarté produit.
 - [ ] Utiliser le graffiti, les stickers et l’humour dans les détails et messages secondaires.
-- [ ] Ne pas inventer les promesses produits, effets, avis ou informations légales.
+- [x] Ne pas inventer les promesses produits, effets, avis ou informations légales.
 
 **Validation :** chaque texte est compréhensible seul et peut être validé par la propriétaire.
 
@@ -483,7 +483,7 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 36 — Tests fonctionnels complets
 
-- [ ] Parcours visiteur : accueil → univers → catégorie → détail → panier.
+- [x] Parcours visiteur : accueil → univers → catégorie → détail → panier.
 - [ ] Parcours client : création de compte → connexion → commande test → historique.
 - [ ] Parcours admin : connexion → commandes → produits → stocks ; vérifier que les promotions restent absentes et désactivées.
 - [ ] Parcours négatifs : mauvais mot de passe, session expirée, stock nul, réseau coupé, rôle client sur route admin.
@@ -559,11 +559,11 @@ L’audit complet ordinateur/mobile est documenté dans `docs/audits/2026-11-04-
 
 ### Tâche 44 — Refuser les pop-ups et animations bloquants
 
-- [ ] Ne pas recouvrir le premier affichage avec une collecte d’e-mail ou une promotion.
+- [x] Ne pas recouvrir le premier affichage avec une collecte d’e-mail ou une promotion.
 - [x] Ne jamais masquer le prix, le grammage, le stock ou le bouton d’achat.
 - [x] Respecter `prefers-reduced-motion` et garder une interaction fonctionnelle sans animation.
 - [x] Tester le focus, la fermeture par `Échap`, le retour du focus au bouton déclencheur et l’absence de piège clavier dans le menu et les panneaux.
-- [ ] Réserver les animations aux propriétés composées (`transform`, `opacity`) et réserver les dimensions des médias avant chargement.
+- [x] Réserver les animations aux propriétés composées (`transform`, `opacity`) et réserver les dimensions des médias avant chargement.
 
 **Validation :** l’utilisateur peut comprendre et acheter sans fermer une fenêtre avant chaque action.
 
@@ -898,9 +898,9 @@ Ce bloc ajoute les enseignements de l’audit visuel et fonctionnel de [TealerLa
 
 ### Tâche 51 — Définir le nouveau rythme narratif WOOD
 
-- [ ] Organiser l’accueil autour de : identité WOOD → livraison disponible → quatre univers → sélection WOOD → photographie produit réelle → réassurance → FAQ → boutiques.
-- [ ] Utiliser des intertitres courts et une alternance de densité pour éviter une page monotone.
-- [ ] Ne pas ajouter de section promotionnelle, newsletter, jeu ou fidélité sans validation séparée.
+- [x] Organiser l’accueil autour de : identité WOOD → livraison disponible → quatre univers → sélection WOOD → photographie produit réelle → réassurance → FAQ → boutiques.
+- [x] Utiliser des intertitres courts et une alternance de densité pour éviter une page monotone.
+- [x] Ne pas ajouter de section promotionnelle, newsletter, jeu ou fidélité sans validation séparée.
 
 **Validation :** un visiteur comprend l’univers, les produits et la prochaine action sans parcourir une page confuse.
 
@@ -955,7 +955,7 @@ Ce bloc ajoute les enseignements de l’audit visuel et fonctionnel de [TealerLa
 - [x] Ouvrir une fiche fleur avec une transition fluide, sans saut de scroll.
 - [ ] Présenter la photo réelle sans contenant, le nom, le niveau, la description, la sélection de grammes, le prix et l’ajout.
 - [ ] Ajouter plus tard une zone de présentation détaillée, uniquement avec les informations réelles fournies par la propriétaire.
-- [ ] Prévoir une sélection de produits liés sans détourner l’utilisateur de l’achat.
+- [x] Prévoir une sélection de produits liés sans détourner l’utilisateur de l’achat.
 
 **Validation :** la fiche donne envie de découvrir le produit sans masquer une information commerciale.
 
@@ -970,27 +970,27 @@ Ce bloc ajoute les enseignements de l’audit visuel et fonctionnel de [TealerLa
 
 ### Tâche 59 — Orchestrer les animations avec mesure
 
-- [ ] Ajouter les apparitions au scroll, le bandeau WOOD, le zoom de fiche, les effets de carte et les transitions de page dans cet ordre.
-- [ ] Utiliser uniquement des effets courts, réversibles et utiles à la compréhension.
-- [ ] Éviter le scroll-jacking, les rotations permanentes, les flashs et les mouvements qui attirent l’attention loin du produit.
-- [ ] Désactiver les mouvements non essentiels avec `prefers-reduced-motion`.
+- [x] Ajouter les apparitions au scroll, le bandeau WOOD, le zoom de fiche, les effets de carte et les transitions de page dans cet ordre.
+- [x] Utiliser uniquement des effets courts, réversibles et utiles à la compréhension.
+- [x] Éviter le scroll-jacking, les rotations permanentes, les flashs et les mouvements qui attirent l’attention loin du produit.
+- [x] Désactiver les mouvements non essentiels avec `prefers-reduced-motion`.
 
 **Validation :** les animations donnent une impression premium et vivante sans latence, nausée, saut ou confusion.
 
 ### Tâche 60 — Adapter la grille aux trois familles d’appareils
 
-- [ ] Desktop : trois produits WOOD par ligne, alignés sur la hauteur utile.
-- [ ] Mobile : quatre cases carrées en `2 × 2` lorsque l’espace le permet, sans bouton coupé.
-- [ ] Tablette : choisir entre deux ou trois colonnes selon la largeur réelle, pas selon le modèle du téléphone.
+- [x] Desktop : trois produits WOOD par ligne, alignés sur la hauteur utile.
+- [x] Mobile : quatre cases carrées en `2 × 2` lorsque l’espace le permet, sans bouton coupé.
+- [x] Tablette : choisir entre deux ou trois colonnes selon la largeur réelle, pas selon le modèle du téléphone.
 - [ ] Tester portrait, paysage, zoom navigateur, encoche, barre d’outils mobile et clavier virtuel.
 
 **Validation :** aucune largeur cible ne produit de décalage, débordement ou carte illisible.
 
 ### Tâche 61 — Garantir la performance de la mise en scène
 
-- [ ] Réserver les dimensions des images et des blocs avant leur chargement.
-- [ ] Charger les images hors écran progressivement et éviter les bibliothèques d’animation lourdes.
-- [ ] Limiter les animations aux propriétés composées et mesurer les décalages de mise en page.
+- [x] Réserver les dimensions des images et des blocs avant leur chargement.
+- [x] Charger les images hors écran progressivement et éviter les bibliothèques d’animation lourdes.
+- [x] Limiter les animations aux propriétés composées et mesurer les décalages de mise en page.
 - [ ] Tester réseau lent, batterie faible, appareil moyen et navigateur sans accélération visible.
 
 **Validation :** le site reste immédiatement utilisable, même quand les visuels ou Supabase répondent lentement.
@@ -999,8 +999,8 @@ Ce bloc ajoute les enseignements de l’audit visuel et fonctionnel de [TealerLa
 
 - [x] Utiliser de vrais boutons et liens avec des noms accessibles.
 - [x] Gérer `aria-expanded`, le focus à l’ouverture, le retour du focus à la fermeture et `Échap`.
-- [ ] Garantir un ordre de tabulation logique et une zone tactile confortable.
-- [ ] Vérifier que les animations ne sont jamais indispensables pour comprendre ou acheter.
+- [x] Garantir un ordre de tabulation logique et une zone tactile confortable.
+- [x] Vérifier que les animations ne sont jamais indispensables pour comprendre ou acheter.
 
 **Validation :** parcours complet au clavier, au toucher et avec lecteur d’écran sans blocage.
 
@@ -1723,10 +1723,10 @@ Cette extension reprend des mécanismes utiles observés sur les pages produit, 
 
 ### Tâche 73 — Auditer les risques d’ergonomie observés chez TealerLab
 
-- [ ] Vérifier que le menu, les bannières et les widgets ne masquent jamais un bouton ou un prix.
-- [ ] Éviter les pop-ups intrusifs, les superpositions multiples et les éléments flottants non essentiels.
-- [ ] Tester les liens de toutes les cartes, les boutons d’achat et les retours arrière sur mobile et ordinateur.
-- [ ] Tester l’absence de débordement horizontal, de texte tronqué et de saut lors du chargement des images.
+- [x] Vérifier que le menu, les bannières et les widgets ne masquent jamais un bouton ou un prix.
+- [x] Éviter les pop-ups intrusifs, les superpositions multiples et les éléments flottants non essentiels.
+- [x] Tester les liens de toutes les cartes, les boutons d’achat et les retours arrière sur mobile et ordinateur.
+- [x] Tester l’absence de débordement horizontal, de texte tronqué et de saut lors du chargement des images.
 
 **Validation :** WOOD récupère la richesse visuelle utile, pas les sources potentielles de confusion.
 
