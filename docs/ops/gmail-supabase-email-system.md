@@ -23,6 +23,7 @@ Les documents PDF restent dans le bucket privé `order-documents`. Le navigateur
 
 - `supabase/migrations/20261105100000_email_automation_foundation.sql` : tables, RLS, nouvelles catégories et fonction de réservation atomique.
 - `supabase/migrations/20261105180000_newsletter_safety_gates.sql` : adresses de test exclues des campagnes commerciales et une seule campagne active par version de modèle.
+- `supabase/migrations/20261105190000_newsletter_action_policy.sql` : journal d’actions explicitement lisible uniquement par les propriétaires et indexé par acteur.
 - `supabase/migrations/20261105120000_owner_order_alerts.sql` : alerte propriétaire créée après persistance d’une nouvelle commande.
 - `supabase/functions/email-worker/core.mjs` : normalisation, retries, MIME et encodage Gmail.
 - `supabase/functions/email-worker/gmail.mjs` : échange du refresh token et appel Gmail `messages.send`.

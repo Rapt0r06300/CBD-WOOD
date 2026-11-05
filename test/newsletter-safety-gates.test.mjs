@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 const migration = await readFile(new URL('../supabase/migrations/20261105180000_newsletter_safety_gates.sql', import.meta.url), 'utf8');
+const policyMigration = await readFile(new URL('../supabase/migrations/20261105190000_newsletter_action_policy.sql', import.meta.url), 'utf8');
 const control = await readFile(new URL('../supabase/functions/newsletter-control/index.ts', import.meta.url), 'utf8');
 
 test('newsletter safety gates isolate test subscribers and live campaign duplicates', () => {
@@ -13,4 +14,7 @@ test('newsletter safety gates isolate test subscribers and live campaign duplica
   assert.match(control, /eq\("is_test", false\)/);
   assert.match(control, /subscriber:newsletter_subscribers!inner\(is_test\)/);
   assert.match(control, /Une campagne active utilise déjà cette version/);
+  assert.match(policyMigration, /newsletter_campaign_actions_actor_idx/);
+  assert.match(policyMigration, /newsletter_campaign_actions_owner_read/);
+  assert.match(policyMigration, /owner_users/);
 });
