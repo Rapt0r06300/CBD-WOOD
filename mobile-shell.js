@@ -94,6 +94,22 @@
     });
   }
 
+  function initPhotoMotion() {
+    const targets = document.querySelectorAll('.product-art img, .product-related__media img');
+    if (!targets.length || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('wood-photo-visible');
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.45, rootMargin: '0px 0px -10% 0px' });
+    targets.forEach(target => {
+      target.classList.add('wood-photo-motion');
+      observer.observe(target);
+    });
+  }
+
   function initStructuredMenu() {
     const nav = document.getElementById('navigation');
     if (!nav || nav.dataset.woodStructuredMenu === 'true') return;
@@ -190,6 +206,7 @@
   initFooterSections();
   initLandingImageFallbacks();
   initScrollReveal();
+  initPhotoMotion();
   initStructuredMenu();
 
   const items = [
