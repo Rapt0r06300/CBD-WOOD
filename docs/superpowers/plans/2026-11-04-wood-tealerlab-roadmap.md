@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **149 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **151 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit courant ont été vérifiés avec succès ; la page publique, `produit.html` et une image WebP répondent en HTTP 200. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -2077,13 +2077,13 @@ Ce bloc décrit tout ce qu’il faut pour obtenir une chaîne fiable `commande �
 - [x] **A509 — Ajouter l’envoi test isolé :** validation : le propriétaire peut envoyer un modèle à `NEWSLETTER_TEST_RECIPIENT` via une fonction serveur dédiée ; le destinataire est marqué `is_test`, aucun destinataire client n’est accepté et aucune ligne de livraison réelle n’est créée.
 - [x] **A510 — Versionner le contenu final :** validation : le message envoyé est reconstructible après modification du brouillon.
 - [x] **A511 — Ajouter le lien de désinscription dans chaque newsletter :** validation : aucune campagne active ne peut être enregistrée sans lien valide.
-- [ ] **A512 — Créer la liste de suppression :** validation : désinscription, rebond définitif et plainte bloquent tout futur marketing.
+- [x] **A512 — Créer la liste de suppression :** validation : `newsletter_suppressions` conserve les adresses protégées ; une adresse active y est exclue des campagnes et ne peut pas se réinscrire automatiquement.
 - [ ] **A513 — Ajouter le statut `confirmed` :** validation : une adresse non confirmée reste exclue si le double opt-in est activé.
 - [ ] **A514 — Prévoir la réinscription explicite :** validation : une réinscription remplace un retrait uniquement par action claire du client.
-- [ ] **A515 — Classer les rebonds définitifs :** validation : l’adresse est supprimée des lots futurs.
+- [x] **A515 — Classer les rebonds définitifs :** validation : l’événement fournisseur idempotent `permanent_bounce` marque l’abonné `suppressed` et bloque les lots futurs.
 - [x] **A516 — Classer les erreurs temporaires :** validation : elles sont réessayées avec une limite, pas ajoutées directement à la suppression.
-- [ ] **A517 — Enregistrer les plaintes :** validation : une plainte retire immédiatement l’adresse des campagnes.
-- [ ] **A518 — Prévoir la réception d’événements fournisseur :** validation : les événements sont authentifiés et idempotents.
+- [x] **A517 — Enregistrer les plaintes :** validation : l’événement fournisseur idempotent `complaint` active une suppression marketing et l’abonné sort des lots futurs.
+- [x] **A518 — Prévoir la réception d’événements fournisseur :** validation : `newsletter-provider-events` exige un jeton serveur, limite les types et délègue à une RPC idempotente ; aucun événement n’est activé sans secret fournisseur configuré.
 - [x] **A519 — Créer les lots de destinataires :** validation : une campagne de 1 ou 1 000 destinataires suit le même modèle.
 - [x] **A520 — Fixer une taille de lot configurable :** validation : la valeur est plafonnée et documentée.
 - [ ] **A521 — Ajouter un rythme d’envoi :** validation : le worker respecte les limites choisies au lieu d’envoyer en rafale.

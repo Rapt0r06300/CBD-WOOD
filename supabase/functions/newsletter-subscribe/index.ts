@@ -48,6 +48,13 @@ Deno.serve(async (request) => {
   const client = createClient(supabaseUrl, serviceRoleKey, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
+  const { data: suppression, error: suppressionError } = await client.from("newsletter_suppressions")
+    .select("id")
+    .eq("normalized_email", validation.value.email)
+    .eq("active", true)
+    .maybeSingle();
+  if (suppressionError) return json(request, { error: "Inscription momentanément indisponible." }, 503);
+  if (suppression) return json(request, { error: "Cette adresse ne peut pas être réinscrite automatiquement." }, 409);
   const { data: subscriber, error } = await client.from("newsletter_subscribers").upsert({
     normalized_email: validation.value.email,
     consent_status: "subscribed",

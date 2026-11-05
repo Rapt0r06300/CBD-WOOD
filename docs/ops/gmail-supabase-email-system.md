@@ -58,6 +58,7 @@ NEWSLETTER_UNSUBSCRIBE_SECRET (au moins 32 caractères aléatoires)
 NEWSLETTER_UNSUBSCRIBE_URL (URL publique de la fonction newsletter-unsubscribe)
 NEWSLETTER_CAN_SEND (doit rester false/absent jusqu’à validation complète)
 NEWSLETTER_TEST_RECIPIENT (adresse dédiée contrôlée par la propriétaire)
+NEWSLETTER_PROVIDER_EVENTS_TOKEN (uniquement si un fournisseur d’envoi expose des événements authentifiés)
 LEGAL_ENTITY_NAME (nécessaire uniquement pour une facture)
 LEGAL_ENTITY_ADDRESS (nécessaire uniquement pour une facture)
 ```
@@ -102,6 +103,8 @@ Le tableau de bord propriétaire peut maintenant créer un brouillon texte, le p
 Un brouillon peut aussi recevoir une date future. Il reste `scheduled` jusqu’à ce que le worker vérifie que l’heure est atteinte ; un démarrage manuel anticipé est refusé. La planification ne contourne jamais la porte Gmail.
 
 Les abonnés marqués `is_test` sont conservés séparément et exclus des lots, des workers et de la simulation commerciale. Une contrainte unique partielle empêche aussi deux campagnes `scheduled` ou `sending` de réutiliser simultanément la même version de modèle. Les aperçus HTML utilisent une largeur fluide, une largeur maximale, un retour de ligne sûr et un lien de désinscription explicitement libellé et suffisamment contrasté.
+
+Les adresses frappées par un rebond définitif ou une plainte passent dans `newsletter_suppressions` via `newsletter-provider-events`. Le webhook exige `NEWSLETTER_PROVIDER_EVENTS_TOKEN`, refuse les types inconnus et déduplique `provider_event_id` ; le marketing est bloqué sans toucher aux e-mails transactionnels. Les deux tables restent fermées aux rôles publics par RLS.
 
 Chaque événement de livraison possède aussi sa propre notification (`delivery_event_id`). Une commande ne peut donc plus écraser silencieusement la notification précédente : `in_progress`, `delivered` et `failed` restent visibles séparément. Un événement `failed` ajoute une alerte propriétaire distincte afin que l’adresse ou l’instruction soit vérifiée sans perdre la commande.
 
