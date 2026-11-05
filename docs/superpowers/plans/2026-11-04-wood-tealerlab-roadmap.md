@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **155 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **156 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité des commits `7afcd55` et `6010026` ont été vérifiés avec succès ; les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -594,7 +594,7 @@ L’audit complet ordinateur/mobile est documenté dans `docs/audits/2026-11-04-
 ### Tâche 48 — Nettoyer définitivement les traces du retrait
 
 - [ ] Vérifier qu’aucune commande réelle ne dépend de `pickup_code` ou des anciens modes Barla/Borriglione.
-- [ ] Appliquer après sauvegarde et revue la migration de garde `20261105230000_delivery_only_schema_guard.sql`, qui bloque d’abord toute donnée historique incompatible et n’efface pas la colonne héritée sans validation.
+- [ ] Appliquer après sauvegarde et revue les migrations de garde `20261105230000_delivery_only_schema_guard.sql` et `20261105231000_delivery_only_order_function.sql`, qui bloquent d’abord toute donnée historique incompatible, gardent l’historique sans suppression automatique et rendent la fonction active strictement livraison-only.
 - [ ] Conserver la livraison comme seul mode autorisé dans les tables, fonctions, tests et interfaces.
 
 **Validation :** le retrait n’apparaît plus dans le produit final sans casser l’historique des commandes.
