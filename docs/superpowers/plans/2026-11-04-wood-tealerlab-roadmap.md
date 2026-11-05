@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **211 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **213 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit `34eac62` ont été vérifiés avec succès ; les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -86,6 +86,7 @@
 - Le 5 novembre 2026, une annulation validée libère maintenant la réservation de stock une seule fois dans `order_stock_releases`, y compris lors d’une annulation de livraison et de sa reprise idempotente ; la libération est transactionnelle, contrôlée par rôle et couverte par `test/delivery-stock-release.test.mjs`. Les expirations automatiques et la recette avec stock réel restent ouvertes.
 - La tentative d’enregistrement de commande possède aussi un délai maximum, annule une requête bloquée et laisse le panier intact avec un message de reprise ; `test/order-client-resilience.test.mjs` le vérifie.
 - Le 5 novembre 2026, le checkout collecte une adresse structurée (ligne, complément facultatif, code postal, ville, pays), la normalise côté frontière Edge Function et conserve un snapshot texte canonique ; `test/order-security.test.mjs` couvre les adresses valides, incomplètes et contenant des caractères de contrôle. Les zones, frais, délais et corrections administratives restent volontairement séparés des décisions commerciales A47/A53.
+- Le 5 novembre 2026, la correction d’adresse propriétaire passe par `owner_update_order_address`, verrouille la commande, exige un motif et conserve un journal append-only sous RLS ; le tableau de bord ne modifie jamais `orders` directement. `test/owner-order-address-security.test.mjs` couvre ce contrat.
 - Le menu public mobile regroupe maintenant les quatre univers WOOD et les accès rapides `Nous trouver`, `FAQ`, `Compte` et `Panier`, sans exposer l’administration ; `test/navigation-accessibility.test.mjs` le vérifie.
 - Les cartes catalogue affichent maintenant, dans un ordre stable, l’univers puis uniquement le niveau reconnu dans la donnée fleur (`CBD boosté · strong`, `CBD soft · medium` ou `CBD classique`) ; aucune étiquette n’est inventée pour une donnée inconnue. `test/product-availability.test.mjs` le vérifie.
 - Les fiches fleur proposent maintenant trois recommandations limitées au même univers, dans une grille séparée et sans promotion/avis inventé ; `test/product-detail.test.mjs` le vérifie.

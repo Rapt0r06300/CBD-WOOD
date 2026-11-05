@@ -30,6 +30,8 @@ export async function mountOwnerDashboard({ supabase, config = window.WOOD_SUPAB
   const newsletterBody = $('#ownerNewsletterBody');
   const newsletterForm = $('#ownerNewsletterForm');
   const newsletterPreview = $('#ownerNewsletterPreview');
+  const addressDialog = $('#ownerAddressDialog');
+  const addressForm = $('#ownerAddressForm');
   let products = [];
   let orders = [];
   let documents = [];
@@ -73,7 +75,7 @@ export async function mountOwnerDashboard({ supabase, config = window.WOOD_SUPAB
       const orderDocuments = documents.filter(document => document.order_id === order.id && document.status === 'ready');
       const documentButtons = orderDocuments.map(document => `<button class="owner-dashboard__document" type="button" data-owner-document-id="${escapeHtml(document.id)}">${escapeHtml(documentLabels[document.document_kind] || 'Document')} ↗</button>`).join('');
       const allowedStatuses = new Set(orderTransitions[order.status] || [order.status]);
-      return `<tr><td data-label="Date">${formatDate(order.created_at)}</td><td data-label="Commande / client"><div class="owner-dashboard__product"><strong>${escapeHtml(order.order_number || 'Commande sans numéro')}</strong><span>${escapeHtml(order.customer_name || order.customer_email)}${order.customer_phone ? ` · ${escapeHtml(order.customer_phone)}` : ''}</span></div></td><td data-label="Livraison"><strong>Livraison à domicile</strong>${order.delivery_address ? `<br><span class="owner-dashboard__address">${escapeHtml(order.delivery_address)}</span>` : ''}</td><td data-label="Total">${formatMoney(order.total_cents)}</td><td data-label="Paiement"><span class="owner-dashboard__status-badge owner-dashboard__status-badge--${escapeHtml(order.payment_status)}">${escapeHtml(order.payment_status)}</span></td><td data-label="État"><select class="owner-dashboard__order-status" data-owner-order-status="${escapeHtml(order.id)}" aria-label="État de ${escapeHtml(order.order_number || 'la commande')}">${orderStatuses.map(status => `<option value="${status}"${status === order.status ? ' selected' : ''}${allowedStatuses.has(status) ? '' : ' disabled'}>${statusLabels[status]}</option>`).join('')}</select></td><td data-label="Documents"><div class="owner-dashboard__documents">${documentButtons || '<span class="owner-dashboard__product">Pas encore disponible</span>'}</div></td></tr>`;
+      return `<tr><td data-label="Date">${formatDate(order.created_at)}</td><td data-label="Commande / client"><div class="owner-dashboard__product"><strong>${escapeHtml(order.order_number || 'Commande sans numéro')}</strong><span>${escapeHtml(order.customer_name || order.customer_email)}${order.customer_phone ? ` · ${escapeHtml(order.customer_phone)}` : ''}</span></div></td><td data-label="Livraison"><strong>Livraison à domicile</strong>${order.delivery_address ? `<br><span class="owner-dashboard__address">${escapeHtml(order.delivery_address)}</span>` : ''}<br><button class="owner-dashboard__edit" type="button" data-owner-edit-address="${escapeHtml(order.id)}">Corriger l’adresse</button></td><td data-label="Total">${formatMoney(order.total_cents)}</td><td data-label="Paiement"><span class="owner-dashboard__status-badge owner-dashboard__status-badge--${escapeHtml(order.payment_status)}">${escapeHtml(order.payment_status)}</span></td><td data-label="État"><select class="owner-dashboard__order-status" data-owner-order-status="${escapeHtml(order.id)}" aria-label="État de ${escapeHtml(order.order_number || 'la commande')}">${orderStatuses.map(status => `<option value="${status}"${status === order.status ? ' selected' : ''}${allowedStatuses.has(status) ? '' : ' disabled'}>${statusLabels[status]}</option>`).join('')}</select></td><td data-label="Documents"><div class="owner-dashboard__documents">${documentButtons || '<span class="owner-dashboard__product">Pas encore disponible</span>'}</div></td></tr>`;
     }).join('');
     renderSummary(orderRows.length);
   };
@@ -329,6 +331,48 @@ export async function mountOwnerDashboard({ supabase, config = window.WOOD_SUPAB
     setMessage('#ownerOrderMessage', 'État de la commande mis à jour.');
   };
 
+  const closeAddressEditor = () => {
+    if (!addressDialog) return;
+    if (typeof addressDialog.close === 'function' && addressDialog.open) addressDialog.close();
+    else addressDialog.removeAttribute('open');
+  };
+
+  const editOrderAddress = id => {
+    const order = orders.find(item => item.id === id);
+    if (!order || !addressDialog) return;
+    $('#ownerAddressOrderId').value = order.id;
+    $('#ownerAddressValue').value = order.delivery_address || '';
+    $('#ownerAddressReason').value = '';
+    setMessage('#ownerAddressMessage', '');
+    if (typeof addressDialog.showModal === 'function') addressDialog.showModal();
+    else addressDialog.setAttribute('open', '');
+    $('#ownerAddressValue')?.focus();
+  };
+
+  const saveOrderAddress = async event => {
+    event.preventDefault();
+    if (!addressForm?.reportValidity()) return;
+    const orderId = $('#ownerAddressOrderId')?.value;
+    const address = $('#ownerAddressValue')?.value.trim();
+    const reason = $('#ownerAddressReason')?.value.trim();
+    const button = addressForm.querySelector('button[type="submit"]');
+    if (button) button.disabled = true;
+    setMessage('#ownerAddressMessage', 'Enregistrement…');
+    const { error } = await supabase.rpc('owner_update_order_address', {
+      p_order_id: orderId,
+      p_delivery_address: address,
+      p_reason: reason,
+    });
+    if (button) button.disabled = false;
+    if (error) {
+      setMessage('#ownerAddressMessage', `Impossible de corriger l’adresse : ${error.message}`, true);
+      return;
+    }
+    closeAddressEditor();
+    setMessage('#ownerOrderMessage', 'Adresse corrigée et journalisée.');
+    await loadOrders();
+  };
+
   const downloadDocument = async documentId => {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session?.access_token || !config?.url) throw new Error('Session invalide.');
@@ -362,6 +406,8 @@ export async function mountOwnerDashboard({ supabase, config = window.WOOD_SUPAB
   productsBody?.addEventListener('click', event => { const button = event.target.closest('[data-owner-edit-product]'); if (button) editProduct(button.dataset.ownerEditProduct); });
   ordersBody?.addEventListener('change', event => { const select = event.target.closest('[data-owner-order-status]'); if (select) void updateOrderStatus(select.dataset.ownerOrderStatus, select.value, select); });
   ordersBody?.addEventListener('click', event => {
+    const addressButton = event.target.closest('[data-owner-edit-address]');
+    if (addressButton) { editOrderAddress(addressButton.dataset.ownerEditAddress); return; }
     const button = event.target.closest('[data-owner-document-id]');
     if (!button) return;
     button.disabled = true;
@@ -369,6 +415,9 @@ export async function mountOwnerDashboard({ supabase, config = window.WOOD_SUPAB
       .catch(error => setMessage('#ownerOrderMessage', error.message || 'Document indisponible.', true))
       .finally(() => { button.disabled = false; });
   });
+  addressForm?.addEventListener('submit', event => { void saveOrderAddress(event); });
+  $('#ownerAddressCancel')?.addEventListener('click', closeAddressEditor);
+  $('#ownerAddressCancelBottom')?.addEventListener('click', closeAddressEditor);
   notificationsBody?.addEventListener('click', event => {
     const button = event.target.closest('[data-owner-notification-retry]');
     if (!button) return;
