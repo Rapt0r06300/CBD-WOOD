@@ -14,6 +14,21 @@
 
 **Architecture d’administration retenue :** après connexion, le compte dont le rôle propriétaire est confirmé affiche directement le tableau de bord dans `compte.html`. Les nouveaux comptes restent clients. Aucun fichier ou route `admin.*` n’est publié ; RLS et les fonctions serveur restent obligatoires.
 
+## Porte de clôture — ordre des actions restantes
+
+Les éléments ci-dessous sont les seuls groupes qui empêchent de déclarer la feuille terminée à 100 %. Ils restent volontairement séparés du code déjà vérifié ; aucun identifiant ou secret n’est demandé avant cette étape finale.
+
+1. **Décisions de la propriétaire :** fournir stocks, photos réelles sans bocal ni cloche, descriptions validées, références graffiti/stickers, données légales et règles finales de livraison (zones, transporteur, frais, délais, minimum, suivi, emballage et retours).
+2. **Catalogue réel :** saisir les produits, prix, stocks et disponibilités dans Supabase ; vérifier les 13 fleurs, les règles propres à chaque variété et les univers résines, bien-être/huiles et WOOD Shop sans inventer de contenu manquant.
+3. **Sécurité Supabase :** décider l’application de `supabase/migrations/20261105232000_rate_limit_rls.sql`, activer Leaked Password Protection, renseigner les URL/redirects finales, confirmer Turnstile et exécuter la recette anon/client/owner.
+4. **E-mails Gmail :** connecter le compte de la propriétaire par OAuth serveur, configurer l’expéditeur et le domaine, publier SPF/DKIM/DMARC, lancer des tests reçus avec PDF et vérifier les rebonds ; aucune newsletter réelle avant cette validation.
+5. **Paiement Viva :** fournir les identifiants professionnels, tester le sandbox puis le webhook signé, l’idempotence, la réconciliation et les scénarios refus/expiration/remboursement ; le paiement reste séparé et désactivé avant cela.
+6. **Hébergement et domaine :** transférer le paquet contrôlé dans l’hébergeur choisi, relier le domaine `.fr`, vérifier DNS/HTTPS/404/cache/retour arrière et rejouer le smoke test sans publier secrets, tests ou route admin.
+7. **Recettes humaines :** tester sur Safari iOS/macOS, Chrome Android/Windows, Edge, Firefox, Linux, appareils réels, zoom 200/400 %, clavier virtuel et orientation ; obtenir séparément l’accord « c’est toujours WOOD » de la propriétaire et « la présentation est aussi travaillée que TealerLab » de son conjoint.
+8. **Passation :** remettre les comptes, sauvegardes et procédures à la propriétaire, vérifier qu’elle peut gérer seule, puis retirer ou rétrograder les accès de construction après son accord écrit.
+
+Tant que ces huit groupes ne sont pas prouvés, la prévisualisation GitHub Pages reste une démonstration et le dépôt reste la version de travail ; aucune ouverture commerciale n’est déclarée.
+
 **Spécification détaillée :** `docs/audits/2026-11-04-tealerlab-wood-compatibility-audit.md` et les contraintes validées ci-dessous.
 
 ## Contraintes globales non négociables
