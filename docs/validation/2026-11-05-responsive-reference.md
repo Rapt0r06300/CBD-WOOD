@@ -24,7 +24,7 @@ Des captures de référence ont également été produites à `320` et `1440` px
 
 ## Contrôles complémentaires
 
-- Les tests automatisés du dépôt passent (`177 tests`).
+- Les tests automatisés du dépôt passent (`179 tests`).
 - La syntaxe JavaScript et l’audit statique passent.
 - Le paquet Hostinger est généré et contrôlé avant transfert.
 - La version publique répond sur les routes principales ; la route historique `admin.html` répond `404`.
@@ -48,6 +48,7 @@ Des captures de référence ont également été produites à `320` et `1440` px
 - Le garde-fou de mouvement vérifie que les animations restent composées (`transform`/`opacity`), que le scroll n’est jamais intercepté et que `prefers-reduced-motion` conserve toutes les actions. Le chargement progressif garde des liens HTML directs si JavaScript ou un média échoue.
 - Une passe console Chromium a parcouru les 10 routes publiques et n’a relevé ni `console.error` ni `pageerror`. Cette preuve concerne le navigateur local contrôlé ; les variantes Safari, Firefox, appareils réels et erreurs réseau restent distinctes.
 - Les contrôles locaux de continuité couvrent aussi le panier conservé en cas de réseau indisponible, la clé d’idempotence, les snapshots de prix/adresse, le grade client par défaut, l’accès propriétaire confirmé par rôle et les refus RLS. La concurrence réelle de stock, la restauration et l’acceptation sur Supabase distant nécessitent encore un environnement de recette.
+- Le registre de direction `docs/design/wood-direction-register.md` fige les contraintes WOOD, les tokens actuels, la matrice TealerLab à adapter/exclure et la règle de non-copie ; il laisse volontairement les stickers, photos et accents finaux en attente de validation propriétaire.
 
 ## Limite de cette preuve
 

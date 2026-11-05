@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **177 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **179 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit `34eac62` ont été vérifiés avec succès ; les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -2182,24 +2182,24 @@ Ce bloc complète la construction du site de démonstration WOOD jusqu’à la m
 
 ### 91 — Registre de direction artistique et contenus WOOD
 
-- [ ] **A561 — Créer le registre des contraintes propriétaire :** validation : identité WOOD, couleurs, logo, premium, chill, graffiti maîtrisé, stickers, humour dosé et simplicité sont listés comme contraintes bloquantes.
-- [ ] **A562 — Créer le registre des interdits :** validation : aucune couleur nouvelle, aucune copie TealerLab, aucun style non demandé, aucune promotion, aucun QR code et aucun retrait en boutique ne passent sans décision explicite.
-- [ ] **A563 — Figer les tokens de couleur :** validation : les accents futurs réutilisent uniquement les variables WOOD existantes ou une teinte validée.
-- [ ] **A564 — Figer les tokens de typographie :** validation : aucune police externe ou substitution imprévue n’est chargée.
-- [ ] **A565 — Figer les tokens d’espacement :** validation : hero, cartes, boutons, sections et footer utilisent une échelle cohérente.
-- [ ] **A566 — Figer les tokens de bordure :** validation : cadres, séparateurs et rayons restent cohérents avec l’existant.
-- [ ] **A567 — Figer les tokens de mouvement :** validation : durée, easing et distance maximale sont documentés avant ajout d’animation.
-- [ ] **A568 — Créer la matrice inspiration/identité :** validation : chaque idée TealerLab possède une adaptation WOOD ou une décision d’exclusion.
-- [ ] **A569 — Documenter la règle de non-copie :** validation : aucun texte, visuel, logo, slogan ou placement exact n’est repris.
+- [x] **A561 — Créer le registre des contraintes propriétaire :** validation : `docs/design/wood-direction-register.md` liste identité WOOD, couleurs, logo, premium, chill, graffiti maîtrisé, stickers, humour dosé et simplicité comme contraintes bloquantes.
+- [x] **A562 — Créer le registre des interdits :** validation : le registre interdit couleur nouvelle, copie TealerLab, style non demandé, promotion, QR code et retrait sans décision explicite.
+- [x] **A563 — Figer les tokens de couleur :** validation : le registre reprend uniquement les variables WOOD existantes et le test de direction vérifie les tokens critiques.
+- [x] **A564 — Figer les tokens de typographie :** validation : `--font` reste la pile Arial/Helvetica existante et aucune police externe n’est chargée par le registre.
+- [x] **A565 — Figer les tokens d’espacement :** validation : le registre impose la réutilisation des composants et de l’échelle existante avant extension.
+- [x] **A566 — Figer les tokens de bordure :** validation : cadres, séparateurs, surfaces et états sont explicitement rattachés aux composants WOOD existants.
+- [x] **A567 — Figer les tokens de mouvement :** validation : le registre impose des mouvements bornés sur `transform`/`opacity` et renvoie aux garde-fous reduced-motion.
+- [x] **A568 — Créer la matrice inspiration/identité :** validation : le registre classe hero, cartes, menu, bandeaux, stickers et pop-ups en garder/adapter/exclure.
+- [x] **A569 — Documenter la règle de non-copie :** validation : le registre interdit explicitement texte, visuel, slogan, logo, asset et placement exact repris de TealerLab.
 - [ ] **A570 — Préparer la bibliothèque de stickers WOOD :** validation : chaque sticker est original, nommé, versionné et retiré s’il gêne la lecture.
 - [ ] **A571 — Préparer la bibliothèque de pictogrammes :** validation : les pictogrammes restent homogènes et ne remplacent pas les libellés utiles.
 - [ ] **A572 — Définir le dosage des accents :** validation : les zones d’achat, prix, stock et paiement restent visuellement sobres.
 - [ ] **A573 — Définir la grammaire d’humour :** validation : les microcopies restent courtes, compréhensibles et sans promesse produit.
 - [ ] **A574 — Définir la grammaire des emojis :** validation : un emoji est décoratif, accessible et jamais indispensable à l’information.
-- [ ] **A575 — Relire tous les noms de produits :** validation : les noms correspondent exactement à la liste et à la carte de la propriétaire.
-- [ ] **A576 — Relire tous les niveaux de profil :** validation : seuls `CBD boosté (strong)`, `CBD soft (medium)` et `CBD classique` sont employés quand la donnée est connue.
+- [x] **A575 — Relire tous les noms de produits :** validation : le registre de présentation et `test/flower-presentation.test.mjs` conservent les 13 noms exacts fournis par la carte.
+- [x] **A576 — Relire tous les niveaux de profil :** validation : `test/product-availability.test.mjs` et le registre n’autorisent que `CBD boosté (strong)`, `CBD soft (medium)` et `CBD classique`.
 - [ ] **A577 — Relire les descriptions provisoires :** validation : elles sont identifiées comme démonstration et ne contiennent aucun effet médical ou promesse garantie.
-- [ ] **A578 — Créer un état “donnée à renseigner” :** validation : une donnée manquante est lisible sans inventer de texte, prix ou stock.
+- [x] **A578 — Créer un état “donnée à renseigner” :** validation : les cartes sans prix/stock affichent un état explicite et un CTA désactivé, protégé par `test/product-availability.test.mjs`.
 - [ ] **A579 — Créer la fiche d’approbation propriétaire :** validation : une section graphique ou textuelle n’est publiée qu’après validation de son contenu.
 - [ ] **A580 — Archiver les versions approuvées :** validation : chaque asset et chaque texte accepté possède une date et une origine documentées.
 
@@ -2222,8 +2222,8 @@ Ce bloc complète la construction du site de démonstration WOOD jusqu’à la m
 - [ ] **A595 — Générer les formats responsives :** validation : WebP/AVIF et fallback JPEG sont disponibles lorsque les outils les produisent correctement.
 - [ ] **A596 — Définir les tailles maximales :** validation : aucune image publique inutilement lourde n’est publiée.
 - [ ] **A597 — Tester le recadrage automatique :** validation : aucune tête, fleur, résine, étiquette ou détail utile n’est coupé.
-- [ ] **A598 — Tester l’état image absente :** validation : l’état “Visuel à venir” reste beau, accessible et non trompeur.
-- [ ] **A599 — Tester l’image lente :** validation : le texte et les actions restent utilisables avant la fin du chargement.
+- [x] **A598 — Tester l’état image absente :** validation : le fallback `WOOD. / VISUEL À VENIR` reste accessible et ne remplace pas le titre ou l’action.
+- [x] **A599 — Tester l’image lente :** validation : la simulation réseau à `390 px` conserve titre, 13 cartes, 14 actions et largeur du document dès `DOMContentLoaded`.
 - [ ] **A600 — Valider la planche photo :** validation : la propriétaire valide l’ensemble des visuels avant leur statut de production.
 
 ### 93 — Accueil WOOD inspiré de TealerLab sans copie
