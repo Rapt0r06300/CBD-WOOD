@@ -25,6 +25,7 @@ Des captures de référence ont également été produites à `320` et `1440` px
 ## Contrôles complémentaires
 
 - Les tests automatisés du dépôt passent (`179 tests`).
+- La feuille de route contient `1 016` items d’exécution : `508` sont vérifiés localement et `508` restent ouverts pour validation propriétaire, accès externes ou données réelles ; les `700` tags `Axxx` sont continus.
 - La syntaxe JavaScript et l’audit statique passent.
 - Le paquet Hostinger est généré et contrôlé avant transfert.
 - La version publique répond sur les routes principales ; la route historique `admin.html` répond `404`.
