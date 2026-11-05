@@ -200,7 +200,7 @@ $$;
 revoke all on function public.claim_order_notification_jobs(text, integer, integer) from public, anon, authenticated;
 grant execute on function public.claim_order_notification_jobs(text, integer, integer) to service_role;
 
-create or replace function public.is_order_owner(p_order_id uuid)
+create or replace function public.customer_owns_order(p_order_id uuid)
 returns boolean
 language sql
 stable
@@ -215,8 +215,8 @@ as $$
   );
 $$;
 
-revoke all on function public.is_order_owner(uuid) from public, anon;
-grant execute on function public.is_order_owner(uuid) to authenticated, service_role;
+revoke all on function public.customer_owns_order(uuid) from public, anon;
+grant execute on function public.customer_owns_order(uuid) to authenticated, service_role;
 
 alter table public.email_templates enable row level security;
 alter table public.email_delivery_attempts enable row level security;
@@ -252,7 +252,7 @@ using (exists (select 1 from public.owner_users where owner_users.user_id = (sel
 drop policy if exists invoice_documents_customer_read on public.invoice_documents;
 create policy invoice_documents_customer_read
 on public.invoice_documents for select to authenticated
-using (public.is_order_owner(order_id));
+using (public.customer_owns_order(order_id));
 
 drop policy if exists invoice_documents_owner_read on public.invoice_documents;
 create policy invoice_documents_owner_read
@@ -262,7 +262,7 @@ using (exists (select 1 from public.owner_users where owner_users.user_id = (sel
 drop policy if exists delivery_events_customer_read on public.delivery_events;
 create policy delivery_events_customer_read
 on public.delivery_events for select to authenticated
-using (public.is_order_owner(order_id));
+using (public.customer_owns_order(order_id));
 
 drop policy if exists delivery_events_owner_read on public.delivery_events;
 create policy delivery_events_owner_read
@@ -288,3 +288,7 @@ drop policy if exists newsletter_deliveries_owner_read on public.newsletter_deli
 create policy newsletter_deliveries_owner_read
 on public.newsletter_deliveries for select to authenticated
 using (exists (select 1 from public.owner_users where owner_users.user_id = (select auth.uid())));
+
+insert into storage.buckets (id, name, public)
+values ('order-documents', 'order-documents', false)
+on conflict (id) do update set public = false;
