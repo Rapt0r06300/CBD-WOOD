@@ -14,6 +14,7 @@ test('newsletter draft normalizes safe owner input and keeps text content', () =
     name: 'Sélection WOOD',
     subject: 'Nouvelles fleurs',
     textBody: 'Bonjour WOOD\n\nUne sélection à découvrir.',
+    scheduledAt: null,
     templateKey: 'wood-newsletter',
   });
 });
@@ -22,10 +23,12 @@ test('newsletter draft rejects empty or oversized content', () => {
   assert.throws(() => normalizeCampaignDraft({ name: '', subject: 'Sujet', text_body: 'Texte' }), /nom/i);
   assert.throws(() => normalizeCampaignDraft({ name: 'Nom', subject: 'Sujet', text_body: '' }), /contenu/i);
   assert.throws(() => normalizeCampaignDraft({ name: 'Nom', subject: 'Sujet', text_body: 'x'.repeat(10001) }), /long/i);
+  assert.throws(() => normalizeCampaignDraft({ name: 'Nom', subject: 'Sujet', text_body: 'Texte', scheduled_at: '2000-01-01T00:00:00Z' }), /future/i);
 });
 
 test('campaign controls allow safe pause, resume and cancellation only', () => {
   assert.deepEqual(campaignTransition('draft', 'start'), { ok: true, next: 'sending' });
+  assert.equal(campaignTransition('scheduled', 'start').ok, false);
   assert.deepEqual(campaignTransition('sending', 'pause'), { ok: true, next: 'paused' });
   assert.deepEqual(campaignTransition('paused', 'resume'), { ok: true, next: 'sending' });
   assert.deepEqual(campaignTransition('draft', 'cancel'), { ok: true, next: 'cancelled' });

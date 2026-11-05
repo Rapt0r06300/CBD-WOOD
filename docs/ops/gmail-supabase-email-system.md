@@ -97,6 +97,8 @@ La newsletter ne doit pas réutiliser aveuglément la file des commandes. Elle e
 
 Le tableau de bord propriétaire peut maintenant créer un brouillon texte, le prévisualiser et simuler uniquement l’audience consentante. Les actions `start`, `pause`, `resume` et `cancel` passent par `newsletter-control`, sont contrôlées par `owner_users` et écrites dans `newsletter_campaign_actions`. `start` reste refusé tant que `NEWSLETTER_CAN_SEND=true` n’est pas configuré après validation Gmail ; aucun envoi n’est donc activé par défaut.
 
+Un brouillon peut aussi recevoir une date future. Il reste `scheduled` jusqu’à ce que le worker vérifie que l’heure est atteinte ; un démarrage manuel anticipé est refusé. La planification ne contourne jamais la porte Gmail.
+
 Les abonnés marqués `is_test` sont conservés séparément et exclus des lots, des workers et de la simulation commerciale. Une contrainte unique partielle empêche aussi deux campagnes `scheduled` ou `sending` de réutiliser simultanément la même version de modèle. Les aperçus HTML utilisent une largeur fluide, une largeur maximale, un retour de ligne sûr et un lien de désinscription explicitement libellé et suffisamment contrasté.
 
 Chaque événement de livraison possède aussi sa propre notification (`delivery_event_id`). Une commande ne peut donc plus écraser silencieusement la notification précédente : `in_progress`, `delivered` et `failed` restent visibles séparément. Un événement `failed` ajoute une alerte propriétaire distincte afin que l’adresse ou l’instruction soit vérifiée sans perdre la commande.

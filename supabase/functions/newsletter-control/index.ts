@@ -92,11 +92,12 @@ Deno.serve(async (request) => {
         subject: draft.subject,
         template_key: draft.templateKey,
         template_version: version,
-        status: "draft",
+        status: draft.scheduledAt ? "scheduled" : "draft",
+        scheduled_at: draft.scheduledAt,
         created_by: userData.user.id,
       }).select("id, name, subject, template_key, template_version, status, created_at").single();
       if (campaignError || !campaign) throw new Error("Brouillon non enregistré.");
-      await recordAction(client, { campaign_id: campaign.id, actor_id: userData.user.id, action: "create_draft", from_status: null, to_status: "draft" });
+      await recordAction(client, { campaign_id: campaign.id, actor_id: userData.user.id, action: "create_draft", from_status: null, to_status: campaign.status });
       return json({ campaign });
     }
 

@@ -2069,7 +2069,7 @@ Ce bloc décrit tout ce qu’il faut pour obtenir une chaîne fiable `commande �
 - [x] **A501 — Créer `newsletter_campaigns` :** validation : nom interne, sujet, contenu, statut, version et dates sont séparés des abonnés.
 - [x] **A502 — Définir les statuts de campagne :** `draft`, `scheduled`, `sending`, `paused`, `sent`, `cancelled`, `failed` ; validation : transitions interdites refusées.
 - [x] **A503 — Ajouter la sauvegarde brouillon :** validation : un brouillon ne peut jamais partir par erreur.
-- [ ] **A504 — Ajouter la planification facultative :** validation : une campagne future ne peut pas être envoyée avant son heure.
+- [x] **A504 — Ajouter la planification facultative :** validation : le propriétaire peut saisir une date future ; la campagne reste `scheduled` et le worker refuse tout envoi avant l’heure prévue.
 - [x] **A505 — Créer l’audience à partir des abonnements actifs :** validation : les clients désinscrits sont exclus au moment de l’envoi, pas seulement à la création.
 - [x] **A506 — Interdire l’audience issue de commandes sans consentement :** validation : test négatif avec client ayant acheté mais refusé le marketing.
 - [ ] **A507 — Prévoir des segments minimaux :** validation : seuls les critères validés par la propriétaire sont utilisables.

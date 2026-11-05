@@ -28,4 +28,6 @@ test('newsletter worker handles empty audiences and Gmail failures safely', () =
   assert.match(source, /processed: 0/);
   assert.match(source, /action: "reconnect_gmail"/);
   assert.match(source, /status: "paused"/);
+  assert.match(source, /campaign\.scheduled_at/);
+  assert.match(source, /eq\("status", "scheduled"\)/);
 });

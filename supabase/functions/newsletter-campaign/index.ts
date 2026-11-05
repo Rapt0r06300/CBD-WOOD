@@ -49,11 +49,25 @@ Deno.serve(async (request) => {
   const client = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
-  const { data: campaign, error: campaignError } = await client.from("newsletter_campaigns")
+  const { data: loadedCampaign, error: campaignError } = await client.from("newsletter_campaigns")
     .select("id, subject, template_key, template_version, status")
     .eq("id", campaignId)
     .maybeSingle();
-  if (campaignError || !campaign) return json({ error: "Campagne introuvable." }, 404);
+  if (campaignError || !loadedCampaign) return json({ error: "Campagne introuvable." }, 404);
+  let campaign = loadedCampaign;
+  if (campaign.status === "scheduled") {
+    if (!campaign.scheduled_at || Date.parse(campaign.scheduled_at) > Date.now()) {
+      return json({ error: "La campagne est planifiée pour plus tard." }, 409);
+    }
+    const { data: startedCampaign, error: startError } = await client.from("newsletter_campaigns")
+      .update({ status: "sending", started_at: new Date().toISOString(), updated_at: new Date().toISOString() })
+      .eq("id", campaignId)
+      .eq("status", "scheduled")
+      .select("id, subject, template_key, template_version, status, scheduled_at")
+      .maybeSingle();
+    if (startError || !startedCampaign) return json({ error: "La campagne planifiée n’a pas pu démarrer." }, 409);
+    campaign = startedCampaign;
+  }
   if (campaign.status !== "sending") return json({ error: "La campagne doit être en envoi." }, 409);
   const { error: populateError } = await client.rpc("populate_newsletter_campaign", { p_campaign_id: campaignId });
   if (populateError) return json({ error: "Impossible de préparer l’audience newsletter." }, 503);

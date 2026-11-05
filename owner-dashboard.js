@@ -100,7 +100,7 @@ export async function mountOwnerDashboard({ supabase, config = window.WOOD_SUPAB
       const actions = [
         `<button class="owner-dashboard__button" type="button" data-owner-newsletter-action="preview" data-owner-newsletter-id="${escapeHtml(campaign.id)}">Prévisualiser</button>`,
         `<button class="owner-dashboard__button" type="button" data-owner-newsletter-action="simulate" data-owner-newsletter-id="${escapeHtml(campaign.id)}">Simuler l’audience</button>`,
-        campaign.status === 'draft' || campaign.status === 'paused' || campaign.status === 'scheduled' ? `<button class="owner-dashboard__button" type="button" data-owner-newsletter-action="start" data-owner-newsletter-id="${escapeHtml(campaign.id)}">Démarrer</button>` : '',
+        campaign.status === 'draft' || campaign.status === 'paused' ? `<button class="owner-dashboard__button" type="button" data-owner-newsletter-action="start" data-owner-newsletter-id="${escapeHtml(campaign.id)}">Démarrer</button>` : '',
         campaign.status === 'sending' || campaign.status === 'scheduled' ? `<button class="owner-dashboard__button" type="button" data-owner-newsletter-action="pause" data-owner-newsletter-id="${escapeHtml(campaign.id)}">Pause</button>` : '',
         campaign.status === 'paused' ? `<button class="owner-dashboard__button" type="button" data-owner-newsletter-action="resume" data-owner-newsletter-id="${escapeHtml(campaign.id)}">Reprendre</button>` : '',
         ['draft', 'scheduled', 'paused'].includes(campaign.status) ? `<button class="owner-dashboard__button" type="button" data-owner-newsletter-action="cancel" data-owner-newsletter-id="${escapeHtml(campaign.id)}">Annuler</button>` : '',
@@ -178,14 +178,16 @@ export async function mountOwnerDashboard({ supabase, config = window.WOOD_SUPAB
     event.preventDefault();
     setMessage('#ownerNewsletterMessage', 'Enregistrement…');
     try {
-      await newsletterControl({
+      const scheduledInput = $('#ownerNewsletterSchedule')?.value || '';
+      const result = await newsletterControl({
         action: 'create_draft',
         name: $('#ownerNewsletterName').value,
         subject: $('#ownerNewsletterSubject').value,
         text_body: $('#ownerNewsletterText').value,
+        scheduled_at: scheduledInput ? new Date(scheduledInput).toISOString() : '',
       });
       newsletterForm.reset();
-      setMessage('#ownerNewsletterMessage', 'Brouillon enregistré.');
+      setMessage('#ownerNewsletterMessage', result.campaign?.status === 'scheduled' ? 'Campagne planifiée.' : 'Brouillon enregistré.');
       await loadNewsletter();
     } catch (error) {
       setMessage('#ownerNewsletterMessage', error.message || 'Brouillon indisponible.', true);
