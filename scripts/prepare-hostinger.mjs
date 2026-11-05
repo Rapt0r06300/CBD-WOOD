@@ -20,6 +20,7 @@ const PUBLIC_FILES = [
   'confirmation.js',
   'fleur.html',
   'fleurs.html',
+  'flower-presentation.js',
   'flower-detail.js',
   'flower-pricing.js',
   'index.html',
@@ -41,6 +42,19 @@ const PUBLIC_FILES = [
   'assets/fleurs.svg',
   'assets/resines.svg',
   'assets/wood-mark.svg',
+  'assets/products/fleurs/bloody-mary.png',
+  'assets/products/fleurs/charlotte.png',
+  'assets/products/fleurs/cosmic-cbg.png',
+  'assets/products/fleurs/euphoria.png',
+  'assets/products/fleurs/fanta-hazy.png',
+  'assets/products/fleurs/ivory.png',
+  'assets/products/fleurs/nimbus-3000.png',
+  'assets/products/fleurs/orange-bud.png',
+  'assets/products/fleurs/pastraweed.png',
+  'assets/products/fleurs/plutonium.png',
+  'assets/products/fleurs/purple.png',
+  'assets/products/fleurs/rainbow.png',
+  'assets/products/fleurs/velvet-kush.png',
 ];
 
 const expectedFiles = new Set(PUBLIC_FILES);

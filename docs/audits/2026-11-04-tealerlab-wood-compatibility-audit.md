@@ -399,3 +399,29 @@ La ressemblance recherchée doit venir de la recomposition, pas d’un simple zo
 - **tous supports :** aucun texte coupé, aucun prix déplacé, aucun bouton masqué, aucun défilement horizontal global et aucun saut au chargement.
 
 Ces décisions sont maintenant détaillées dans les tags `A81–A140` de la feuille de route. Les tags ne valident pas encore une nouvelle direction graphique : la propriétaire doit d’abord confirmer que la proposition reste WOOD, puis son conjoint peut confirmer que la puissance de présentation lui rappelle bien TealerLab.
+
+## 16. Seconde vérification de l’accueil TealerLab — 5 novembre 2026
+
+Une nouvelle lecture de l’accueil, du catalogue et d’une fiche produit TealerLab confirme plusieurs mécanismes à récupérer pour WOOD : bandeau de service, navigation par intentions, hero immersif, ticker, blocs éditoriaux, rails de sélection, cartes avec variantes et prix au gramme, guide d’orientation, bloc livraison, garanties, produits liés et FAQ. TealerLab affiche aussi promotions, fidélité, parrainage, avis, compteurs et claims de laboratoire ; ces éléments ne sont pas copiés et restent hors WOOD tant qu’ils ne sont pas documentés et validés.
+
+### 16.1 Ce que WOOD peut reprendre
+
+- **Scénarisation de l’accueil :** faire vivre la page comme un parcours `message WOOD → découverte des quatre univers → sélection fleurs/résines → présentation sous cloche → informations pratiques → boutiques/FAQ`.
+- **Densité contrôlée :** alterner un hero fort, une sélection courte, une section pleine largeur, une grille et un bloc d’aide afin que la page paraisse riche sans devenir confuse.
+- **Cartes orientées achat :** maintenir l’ordre média, catégorie, nom exact, description, grammage, prix choisi, disponibilité et bouton ; le client ne doit pas chercher l’action.
+- **Fiche détaillée :** afficher le visuel et l’achat tôt, puis descendre progressivement vers les informations de livraison et les détails validés.
+- **Guidage sans filtre :** utiliser les quatre univers WOOD comme point de départ visuel ; ne pas ajouter de recherche par nom ni de filtre, conformément aux demandes de la propriétaire.
+- **Micro-interactions :** prévoir ticker non promotionnel, apparition douce, hover desktop, feedback tactile, zoom de fiche et accordéons, avec réduction de mouvement.
+- **Responsive recomposé :** ne pas réduire le desktop ; réordonner et densifier les zones pour une expérience mobile app-like, garder trois colonnes desktop et quatre cases `2 × 2` sur mobile quand la largeur l’autorise.
+
+### 16.2 Ce que WOOD doit explicitement ne pas reprendre
+
+- promotions, prix barrés, compteurs, cadeaux, fidélité, parrainage ou jeu ;
+- faux avis, fausses notes, faux volumes de vente, faux labels ou données laboratoire ;
+- promesses d’effets, de délai, de transporteur, de conformité ou de remboursement non validées ;
+- logos, wordmark, textes, slogans, photographies, illustrations et assets de TealerLab ;
+- pop-ups, widgets ou mouvements qui cachent un bouton, un prix ou l’accès au contenu.
+
+### 16.3 Décision de feuille de route
+
+Les observations de cette seconde passe sont enregistrées dans les tags `A161–A190` : elles enrichissent la composition, la fiche produit, les rails, le menu, le responsive, la motion, la performance et les validations propriétaire/conjoint. Elles ne changent pas la palette WOOD, le logo officiel, la carte tarifaire, les noms des variétés, la livraison seule, l’absence actuelle de promotion ni la carte des boutiques.

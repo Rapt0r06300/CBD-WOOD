@@ -17,7 +17,13 @@
   };
 
   const requestedId = new URLSearchParams(window.location.search).get('produit') || 'fleurs-nimbus-3000';
-  const product = products[requestedId] || products['fleurs-nimbus-3000'];
+  const productId = Object.hasOwn(products, requestedId) ? requestedId : 'fleurs-nimbus-3000';
+  const product = products[productId];
+  const presentation = window.WoodFlowerPresentation?.get(productId);
+  const presentationDescription = presentation?.demoDescription
+    ? `${presentation.demoDescription} Choisissez le grammage souhaité.`
+    : product.description;
+  const presentationImage = presentation?.image || 'assets/fleurs.svg';
   const profileTag = product.profile.includes('STRONG') ? 'STRONG' : product.profile.includes('MEDIUM') ? 'MEDIUM' : 'FLEURS CBD';
   const root = document.getElementById('flowerDetail');
   if (!root) return;
@@ -27,19 +33,19 @@
       <div class="flower-detail__copy">
         <div class="kicker">Fleurs CBD · fiche produit</div>
         <h1 id="detail-title">${product.name}</h1>
-        <p class="flower-detail__lead">${product.description}</p>
+        <p class="flower-detail__lead">${presentationDescription}</p>
         <div class="flower-detail__facts" aria-label="Informations produit">
           <div><span>Profil</span><strong>${product.profile}</strong></div>
           <div><span>Grammages</span><strong>1 g à 25 g</strong></div>
         </div>
         <p class="flower-detail__note">La sélection, les disponibilités et les tarifs sont à confirmer avec la boutique avant toute commande.</p>
       </div>
-      <article class="product-card flower-detail-card" data-product-id="${requestedId in products ? requestedId : 'fleurs-nimbus-3000'}" data-product-name="${product.name}" data-product-category="Fleurs CBD">
-        <div class="product-art"><img src="assets/fleurs.svg" alt="Illustration conceptuelle de ${product.name}"></div>
+      <article class="product-card flower-detail-card" data-product-id="${productId}" data-product-name="${product.name}" data-product-category="Fleurs CBD">
+        <div class="product-art"><img src="${presentationImage}" alt="Photo de démonstration de ${product.name} sous cloche"></div>
         <div class="product-body">
           <span class="product-index">${product.index} / ${profileTag}</span>
           <h3>${product.name}</h3>
-          <p>${product.description}</p>
+          <p>${presentationDescription}</p>
           <div class="product-choice">
             <label for="detail-weight">Choisir le grammage</label>
             <select id="detail-weight" class="product-weight" data-product-weight aria-label="Choisir le grammage de ${product.name}">

@@ -169,19 +169,29 @@
     if (flowerPage) {
       flowerPage.querySelectorAll('.product-card').forEach(card => {
         if (flowerListing) wireFlowerCard(card);
+        const presentation = window.WoodFlowerPresentation?.get(card.dataset.productId);
+        if (presentation) {
+          const image = card.querySelector('.product-art img');
+          const cardDescription = card.querySelector('.product-body > p');
+          if (image) {
+            image.src = presentation.image;
+            image.alt = `Photo de démonstration de ${presentation.name} sous cloche`;
+          }
+          if (cardDescription) cardDescription.textContent = presentation.demoDescription;
+        }
         const index = card.querySelector('.product-index');
         const description = card.querySelector('.product-body > p');
         const category = index?.textContent || '';
         if (index && description) {
           if (category.includes('STRONG')) {
             index.textContent = category.replace('STRONG', 'CBD BOOSTÉ (STRONG)');
-            description.textContent = 'CBD Boosté (strong). Choisissez le grammage souhaité.';
+            if (!presentation) description.textContent = 'CBD Boosté (strong). Choisissez le grammage souhaité.';
           } else if (category.includes('MEDIUM')) {
             index.textContent = category.replace('MEDIUM', 'CBD SOFT (MEDIUM)');
-            description.textContent = 'CBD Soft (medium). Choisissez le grammage souhaité.';
+            if (!presentation) description.textContent = 'CBD Soft (medium). Choisissez le grammage souhaité.';
           } else if (category.includes('FLEURS CBD')) {
             index.textContent = category.replace('FLEURS CBD', 'CBD CLASSIQUE');
-            description.textContent = 'CBD classique. Choisissez le grammage souhaité.';
+            if (!presentation) description.textContent = 'CBD classique. Choisissez le grammage souhaité.';
           }
         }
 
