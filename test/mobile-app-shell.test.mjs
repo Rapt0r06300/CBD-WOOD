@@ -38,6 +38,7 @@ test('la couche mobile utilise les capacités réelles du navigateur et protège
   assert.doesNotMatch(shell, /navigator\.userAgent|platform\.toLowerCase/);
   assert.match(shell, /mobile-app-nav/);
   assert.match(shell, /cartTrigger\.click\(\)/);
+  assert.match(shell, /'produit\.html'/);
   assert.match(shell, /IntersectionObserver/);
   assert.match(shell, /prefers-reduced-motion/);
   assert.match(stylesheet, /\.wood-reveal\.is-visible/);

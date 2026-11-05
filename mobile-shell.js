@@ -6,7 +6,7 @@
 
   const page = new URL(window.location.href).pathname.split('/').pop() || 'index.html';
   const isHome = page === '' || page === 'index.html';
-  const isShop = ['wood-shop.html', 'fleurs.html', 'fleur.html', 'resines.html', 'bien-etre.html'].includes(page);
+  const isShop = ['wood-shop.html', 'fleurs.html', 'fleur.html', 'produit.html', 'resines.html', 'bien-etre.html'].includes(page);
   const isAccount = page === 'compte.html';
   const isCart = page === 'checkout.html' || page === 'confirmation.html';
   const cartTrigger = document.getElementById('cartTrigger');
