@@ -23,4 +23,6 @@ test('la fonction de commande active est livraison-only et ne renvoie pas le ret
   assert.doesNotMatch(functionBody, /\bpickup_code\b/i);
   assert.doesNotMatch(functionBody, /barla|borriglione|retrait/i);
   assert.match(functionBody, /insert into public\.orders \(customer_id, customer_email, customer_name, customer_phone, delivery_address, fulfillment_mode, status, payment_status, total_cents, order_number\)/);
+  assert.match(functionBody, /insert into public\.order_items \(order_id, product_id, product_name, unit_price_cents, quantity, line_total_cents, grams\)/);
+  assert.match(functionBody, /values \(v_order_id, v_product_id, v_product_name, v_unit_price, v_quantity, v_unit_price \* v_quantity, v_grams\)/);
 });
