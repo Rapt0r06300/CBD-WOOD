@@ -18,6 +18,9 @@ test('les changements de statut propriétaire sont validés, verrouillés et jou
   assert.match(migration, /create or replace function public\.release_order_stock/);
   assert.match(migration, /stock_quantity = stock_quantity \+ v_item\.quantity/);
   assert.match(migration, /grant execute on function public\.release_order_stock\(uuid, uuid, text\) to service_role/);
+  assert.match(migration, /create or replace function public\.service_update_order_status/);
+  assert.match(migration, /Fonction serveur uniquement/);
+  assert.match(migration, /grant execute on function public\.service_update_order_status\(uuid, text, text, uuid\) to service_role/);
   assert.match(migration, /grant execute on function public\.owner_update_order_status\(uuid, text, text\) to authenticated/);
 });
 

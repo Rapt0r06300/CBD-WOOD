@@ -5,7 +5,7 @@ const statusLabels = { pending: 'En attente', paid: 'Pay√©e', preparing: 'En pr√
 const orderTransitions = {
   pending: ['pending', 'cancelled'],
   paid: ['paid', 'preparing', 'cancelled'],
-  preparing: ['preparing', 'ready', 'cancelled'],
+  preparing: ['preparing', 'ready', 'completed', 'cancelled'],
   ready: ['ready', 'completed'],
   completed: ['completed'],
   cancelled: ['cancelled'],

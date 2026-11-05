@@ -4,10 +4,10 @@ import test from 'node:test';
 
 const source = await readFile(new URL('../supabase/functions/delivery-events/index.ts', import.meta.url), 'utf8');
 
-test('une annulation de livraison libère le stock de façon idempotente', () => {
-  assert.match(source, /existing\.status === "cancelled"[\s\S]*?rpc\("release_order_stock"/);
-  assert.match(source, /nextOrderStatus === "cancelled"[\s\S]*?rpc\("release_order_stock"/);
+test('les événements de livraison passent par la transition serveur et peuvent reprendre une annulation', () => {
+  assert.match(source, /existingOrderStatus !== order\.status[\s\S]*?rpc\("service_update_order_status"/);
+  assert.match(source, /nextOrderStatus !== order\.status[\s\S]*?rpc\("service_update_order_status"/);
   assert.match(source, /p_order_id: orderId/);
   assert.match(source, /p_actor_id: userData\.user\.id/);
-  assert.match(source, /stock à reprendre/);
+  assert.match(source, /p_next_status: nextOrderStatus/);
 });

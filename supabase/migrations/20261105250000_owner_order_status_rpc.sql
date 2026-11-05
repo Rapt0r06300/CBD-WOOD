@@ -187,7 +187,7 @@ begin
   if not (
     (v_previous_status = 'pending' and v_next_status = 'cancelled')
     or (v_previous_status = 'paid' and v_next_status in ('preparing', 'cancelled'))
-    or (v_previous_status = 'preparing' and v_next_status in ('ready', 'cancelled'))
+    or (v_previous_status = 'preparing' and v_next_status in ('ready', 'completed', 'cancelled'))
     or (v_previous_status = 'ready' and v_next_status = 'completed')
   ) then
     raise exception using errcode = '22023', message = 'Transition de commande non autorisée.';
@@ -227,6 +227,78 @@ $$;
 
 revoke all on function public.owner_update_order_status(uuid, text, text) from public, anon, authenticated;
 grant execute on function public.owner_update_order_status(uuid, text, text) to authenticated;
+
+create or replace function public.service_update_order_status(
+  p_order_id uuid,
+  p_next_status text,
+  p_reason text,
+  p_actor_id uuid
+)
+returns jsonb
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_order public.orders%rowtype;
+  v_previous_status text;
+  v_next_status text := lower(btrim(coalesce(p_next_status, '')));
+  v_reason text := nullif(btrim(coalesce(p_reason, '')), '');
+begin
+  if coalesce(auth.role(), '') <> 'service_role' then
+    raise exception using errcode = '42501', message = 'Fonction serveur uniquement.';
+  end if;
+  if p_actor_id is null or not exists (
+    select 1 from public.owner_users where owner_users.user_id = p_actor_id
+  ) then
+    raise exception using errcode = '42501', message = 'Acteur propriétaire invalide.';
+  end if;
+  if v_next_status not in ('pending', 'paid', 'preparing', 'ready', 'completed', 'cancelled') then
+    raise exception using errcode = '22023', message = 'État de commande inconnu.';
+  end if;
+
+  select * into v_order
+  from public.orders
+  where id = p_order_id
+  for update;
+  if not found then
+    raise exception using errcode = 'P0002', message = 'Commande introuvable.';
+  end if;
+
+  v_previous_status := v_order.status;
+  if v_previous_status = v_next_status then
+    return jsonb_build_object('id', v_order.id, 'order_number', v_order.order_number, 'previous_status', v_previous_status, 'status', v_order.status, 'changed', false);
+  end if;
+  if v_next_status = 'cancelled' and v_reason is null then
+    raise exception using errcode = '22023', message = 'Un motif est obligatoire pour annuler une commande.';
+  end if;
+  if v_reason is not null and char_length(v_reason) > 500 then
+    raise exception using errcode = '22001', message = 'Le motif est limité à 500 caractères.';
+  end if;
+  if not (
+    (v_previous_status = 'pending' and v_next_status = 'cancelled')
+    or (v_previous_status = 'paid' and v_next_status in ('preparing', 'cancelled'))
+    or (v_previous_status = 'preparing' and v_next_status in ('ready', 'completed', 'cancelled'))
+    or (v_previous_status = 'ready' and v_next_status = 'completed')
+  ) then
+    raise exception using errcode = '22023', message = 'Transition de commande non autorisée.';
+  end if;
+  if v_next_status = 'preparing' and v_order.payment_status <> 'paid' then
+    raise exception using errcode = '22023', message = 'La commande doit être payée avant sa préparation.';
+  end if;
+
+  insert into public.order_status_changes (order_id, actor_id, previous_status, next_status, reason)
+  values (v_order.id, p_actor_id, v_previous_status, v_next_status, v_reason);
+  update public.orders set status = v_next_status where id = v_order.id;
+  if v_next_status = 'cancelled' then
+    perform public.release_order_stock(v_order.id, p_actor_id, v_reason);
+  end if;
+  return jsonb_build_object('id', v_order.id, 'order_number', v_order.order_number, 'previous_status', v_previous_status, 'status', v_next_status, 'changed', true);
+end;
+$$;
+
+revoke all on function public.service_update_order_status(uuid, text, text, uuid) from public, anon, authenticated;
+grant execute on function public.service_update_order_status(uuid, text, text, uuid) to service_role;
 
 -- Owners must use the transition function; service-role callbacks keep their
 -- existing path for payment events and server-side reconciliation.
