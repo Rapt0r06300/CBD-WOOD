@@ -100,6 +100,7 @@ export async function mountOwnerDashboard({ supabase, config = window.WOOD_SUPAB
       const actions = [
         `<button class="owner-dashboard__button" type="button" data-owner-newsletter-action="preview" data-owner-newsletter-id="${escapeHtml(campaign.id)}">Prévisualiser</button>`,
         `<button class="owner-dashboard__button" type="button" data-owner-newsletter-action="simulate" data-owner-newsletter-id="${escapeHtml(campaign.id)}">Simuler l’audience</button>`,
+        `<button class="owner-dashboard__button" type="button" data-owner-newsletter-action="test_send" data-owner-newsletter-id="${escapeHtml(campaign.id)}">Envoyer un test</button>`,
         campaign.status === 'draft' || campaign.status === 'paused' ? `<button class="owner-dashboard__button" type="button" data-owner-newsletter-action="start" data-owner-newsletter-id="${escapeHtml(campaign.id)}">Démarrer</button>` : '',
         campaign.status === 'sending' || campaign.status === 'scheduled' ? `<button class="owner-dashboard__button" type="button" data-owner-newsletter-action="pause" data-owner-newsletter-id="${escapeHtml(campaign.id)}">Pause</button>` : '',
         campaign.status === 'paused' ? `<button class="owner-dashboard__button" type="button" data-owner-newsletter-action="resume" data-owner-newsletter-id="${escapeHtml(campaign.id)}">Reprendre</button>` : '',
@@ -164,6 +165,19 @@ export async function mountOwnerDashboard({ supabase, config = window.WOOD_SUPAB
     return result;
   };
 
+  const newsletterTestSend = async campaignId => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.access_token || !config?.url) throw new Error('Session invalide.');
+    const response = await fetch(`${config.url}/functions/v1/newsletter-test-send`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${session.access_token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ campaign_id: campaignId }),
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(result.error || 'Envoi de test indisponible.');
+    return result;
+  };
+
   const loadNewsletter = async () => {
     if (!newsletterBody) return;
     try {
@@ -199,12 +213,16 @@ export async function mountOwnerDashboard({ supabase, config = window.WOOD_SUPAB
     const campaignId = button.dataset.ownerNewsletterId;
     button.disabled = true;
     try {
-      const result = await newsletterControl({ action, campaign_id: campaignId });
+      const result = action === 'test_send'
+        ? await newsletterTestSend(campaignId)
+        : await newsletterControl({ action, campaign_id: campaignId });
       if (action === 'preview' && newsletterPreview) {
         newsletterPreview.textContent = `Sujet : ${result.template?.subject || result.campaign?.subject || ''}\n\n${result.template?.text_body || ''}`;
         newsletterPreview.classList.remove('hidden');
       } else if (action === 'simulate') {
         setMessage('#ownerNewsletterMessage', `Simulation terminée : ${Number(result.simulation?.subscribed || 0)} abonné(s) consentant(s), aucun e-mail envoyé.`);
+      } else if (action === 'test_send') {
+        setMessage('#ownerNewsletterMessage', 'E-mail de test envoyé à l’adresse configurée côté serveur. Aucun client réel n’a été ciblé.');
       } else {
         setMessage('#ownerNewsletterMessage', 'Campagne mise à jour.');
         await loadNewsletter();

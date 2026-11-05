@@ -134,6 +134,14 @@ Deno.serve(async (request) => {
       ? campaignTransition(campaign.status, "start")
       : campaignTransition(campaign.status, action);
     if (!transition.ok) return json({ error: transition.error }, 409);
+    if (transition.next === "sending") {
+      const { error: activationError } = await client.rpc("activate_newsletter_template", {
+        p_template_key: campaign.template_key,
+        p_locale: "fr-FR",
+        p_version: campaign.template_version,
+      });
+      if (activationError) return json({ error: "Version du modèle impossible à activer." }, 409);
+    }
     const { error: updateError } = await client.from("newsletter_campaigns").update({
       status: transition.next,
       started_at: transition.next === "sending" ? new Date().toISOString() : campaign.started_at,

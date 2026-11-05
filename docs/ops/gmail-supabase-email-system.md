@@ -56,6 +56,8 @@ DOCUMENT_WORKER_TOKEN
 NEWSLETTER_WORKER_TOKEN
 NEWSLETTER_UNSUBSCRIBE_SECRET (au moins 32 caractères aléatoires)
 NEWSLETTER_UNSUBSCRIBE_URL (URL publique de la fonction newsletter-unsubscribe)
+NEWSLETTER_CAN_SEND (doit rester false/absent jusqu’à validation complète)
+NEWSLETTER_TEST_RECIPIENT (adresse dédiée contrôlée par la propriétaire)
 LEGAL_ENTITY_NAME (nécessaire uniquement pour une facture)
 LEGAL_ENTITY_ADDRESS (nécessaire uniquement pour une facture)
 ```
@@ -73,7 +75,7 @@ LEGAL_ENTITY_ADDRESS (nécessaire uniquement pour une facture)
 7. Échanger le code à usage unique côté serveur contre le refresh token.
 8. Enregistrer les secrets dans Supabase Edge Functions.
 9. Déployer la fonction `email-worker` avec vérification du jeton d’appel.
-10. Lancer un test vers une adresse contrôlée, puis vérifier la file, la tentative et l’état `sent`.
+10. Renseigner `NEWSLETTER_TEST_RECIPIENT`, lancer d’abord le bouton `Envoyer un test` depuis l’espace propriétaire, puis vérifier la réception et l’action `test_send` ; ne passer `NEWSLETTER_CAN_SEND=true` qu’après cette validation.
 
 Références officielles : [OAuth Gmail côté serveur](https://developers.google.com/workspace/gmail/api/auth/web-server), [envoi Gmail API](https://developers.google.com/workspace/gmail/api/guides/sending), [scopes Gmail](https://developers.google.com/workspace/gmail/api/auth/scopes).
 
@@ -95,7 +97,7 @@ Depuis l’espace propriétaire, une notification `failed` ou `dead_letter` peut
 
 La newsletter ne doit pas réutiliser aveuglément la file des commandes. Elle exige : consentement prouvable, confirmation éventuelle, désinscription, suppression, lots bornés, quotas, gestion des rebonds et journal par destinataire. Un achat ne vaut pas consentement marketing automatique.
 
-Le tableau de bord propriétaire peut maintenant créer un brouillon texte, le prévisualiser et simuler uniquement l’audience consentante. Les actions `start`, `pause`, `resume` et `cancel` passent par `newsletter-control`, sont contrôlées par `owner_users` et écrites dans `newsletter_campaign_actions`. `start` reste refusé tant que `NEWSLETTER_CAN_SEND=true` n’est pas configuré après validation Gmail ; aucun envoi n’est donc activé par défaut.
+Le tableau de bord propriétaire peut maintenant créer un brouillon texte, le prévisualiser, simuler uniquement l’audience consentante et envoyer un test isolé. Le bouton d’envoi de test appelle `newsletter-test-send` : l’adresse vient exclusivement de `NEWSLETTER_TEST_RECIPIENT`, elle est conservée comme `is_test=true`, aucun destinataire fourni par le navigateur n’est accepté et aucune ligne de livraison réelle n’est créée. Les actions `start`, `pause`, `resume` et `cancel` passent par `newsletter-control`, sont contrôlées par `owner_users` et écrites dans `newsletter_campaign_actions`. `start` et l’envoi de test restent refusés tant que `NEWSLETTER_CAN_SEND=true` n’est pas configuré après validation Gmail ; aucun envoi n’est donc activé par défaut.
 
 Un brouillon peut aussi recevoir une date future. Il reste `scheduled` jusqu’à ce que le worker vérifie que l’heure est atteinte ; un démarrage manuel anticipé est refusé. La planification ne contourne jamais la porte Gmail.
 

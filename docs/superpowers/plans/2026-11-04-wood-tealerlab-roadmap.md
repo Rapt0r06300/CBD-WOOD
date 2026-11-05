@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **146 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **149 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit courant ont été vérifiés avec succès ; la page publique, `produit.html` et une image WebP répondent en HTTP 200. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -2074,7 +2074,7 @@ Ce bloc décrit tout ce qu’il faut pour obtenir une chaîne fiable `commande �
 - [x] **A506 — Interdire l’audience issue de commandes sans consentement :** validation : test négatif avec client ayant acheté mais refusé le marketing.
 - [ ] **A507 — Prévoir des segments minimaux :** validation : seuls les critères validés par la propriétaire sont utilisables.
 - [x] **A508 — Ajouter l’aperçu propriétaire :** validation : le tableau de bord récupère le brouillon et affiche son sujet et son contenu avant toute action d’envoi.
-- [ ] **A509 — Ajouter l’envoi test isolé :** validation : un test ne touche jamais la vraie audience.
+- [x] **A509 — Ajouter l’envoi test isolé :** validation : le propriétaire peut envoyer un modèle à `NEWSLETTER_TEST_RECIPIENT` via une fonction serveur dédiée ; le destinataire est marqué `is_test`, aucun destinataire client n’est accepté et aucune ligne de livraison réelle n’est créée.
 - [x] **A510 — Versionner le contenu final :** validation : le message envoyé est reconstructible après modification du brouillon.
 - [x] **A511 — Ajouter le lien de désinscription dans chaque newsletter :** validation : aucune campagne active ne peut être enregistrée sans lien valide.
 - [ ] **A512 — Créer la liste de suppression :** validation : désinscription, rebond définitif et plainte bloquent tout futur marketing.
@@ -2100,7 +2100,7 @@ Ce bloc décrit tout ce qu’il faut pour obtenir une chaîne fiable `commande �
 - [x] **A532 — Interdire les doublons de campagne :** validation : l’index unique partiel et la gestion du conflit empêchent deux campagnes `scheduled` ou `sending` d’utiliser la même clé et version.
 - [x] **A533 — Isoler les adresses de test :** validation : `is_test` est conservé côté base et exclu de la simulation, du remplissage des lots et de la réservation des workers.
 - [x] **A534 — Restreindre la gestion aux owners :** validation : les clients ne peuvent pas créer, modifier ou envoyer une campagne.
-- [x] **A535 — Journaliser les actions marketing :** validation : création, aperçu, simulation, pause, reprise, annulation et démarrage sont conservés dans `newsletter_campaign_actions`.
+- [x] **A535 — Journaliser les actions marketing :** validation : création, aperçu, simulation, envoi de test, pause, reprise, annulation et démarrage sont conservés dans `newsletter_campaign_actions`.
 - [ ] **A536 — Préparer l’export d’un abonné :** validation : l’export ne contient que ses données et son historique pertinent.
 - [ ] **A537 — Préparer la suppression d’un abonné :** validation : suppression et suppression marketing ne sont pas confondues.
 - [ ] **A538 — Définir la conservation :** validation : campagnes, destinataires, erreurs et consentements ont une durée documentée.
