@@ -497,9 +497,9 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 ### Tâche 37 — Tests visuels complets
 
 - [ ] Comparer les pages avant/après pour vérifier que l’identité WOOD est conservée.
-- [ ] Vérifier chaque page sur mobile, tablette et ordinateur.
-- [ ] Vérifier les quatre catégories de boutique et toutes les cartes d’une ligne.
-- [ ] Vérifier l’animation de détail produit sans saut.
+- [x] Vérifier chaque page sur mobile, tablette et ordinateur ; la matrice locale couvre les routes publiques aux largeurs téléphone, tablette et desktop. La recette Safari/Firefox et appareils réels reste dans A623–A630.
+- [x] Vérifier les quatre catégories de boutique et toutes les cartes d’une ligne ; les tests de grille et la référence responsive contrôlent fleurs, résines, bien-être et WOOD Shop.
+- [x] Vérifier l’animation de détail produit sans saut ; le zoom local reste borné à `transform/opacity`, sans interception du scroll, et les actions restent accessibles sans animation. La fluidité sur appareils réels reste distincte.
 
 **Validation :** les captures et contrôles de débordement confirment une présentation WOOD cohérente sur les trois familles d’appareils.
 
@@ -1020,8 +1020,8 @@ Ce bloc ajoute les enseignements de l’audit visuel et fonctionnel de [TealerLa
 ### Tâche 64 — Recette visuelle WOOD × TealerLab
 
 - [ ] Comparer les parcours WOOD avant/après sur toutes les largeurs cibles.
-- [ ] Vérifier les liens, menu, fiches, grammages, panier, compte, livraison et administration.
-- [ ] Relancer les tests JavaScript, l’audit statique, l’accessibilité et les scénarios réseau.
+- [x] Vérifier les liens, menu, fiches, grammages, panier, compte, livraison et administration ; les tests de routes, navigation, prix, panier, compte, livraison et absence de route admin passent localement.
+- [x] Relancer les tests JavaScript, l’audit statique, l’accessibilité et les scénarios réseau ; `npm run hostinger:preflight` exécute cette passe et reste vert. Les appareils réels, le réseau réel et les services externes restent à valider.
 - [ ] Faire valider deux phrases séparément : « c’est toujours WOOD » pour la propriétaire et « la présentation est aussi travaillée que TealerLab » pour son conjoint.
 
 **Validation :** aucune mise en ligne ou transfert tant qu’une régression, un décalage ou une décision graphique non validée subsiste.
@@ -1549,7 +1549,7 @@ Ce bloc répond précisément à la demande de la propriétaire : WOOD doit rest
 - [x] **A236 — Animer les transitions de fiche :** le zoom est limité à `transform/opacity`, désactivable par mouvement réduit, et conserve les routes et le bouton retour ; `test/product-detail.test.mjs` et `test/motion-guardrails.test.mjs` verrouillent ce contrat. La fluidité sur appareils réels reste à mesurer.
 - [x] **A237 — Prévoir un mode mouvement réduit :** désactiver ticker animé, parallax, rotation et zoom non essentiel ; validation locale : `prefers-reduced-motion` neutralise les animations sans supprimer le contenu ni les actions, protégé par les tests motion/accessibilité.
 - [x] **A238 — Prévoir un mode performance basse :** le shell détecte `Save-Data` et les connexions `2g`/`slow-2g`, neutralise les révélations et mouvements non essentiels, et conserve les prix, boutons, panier et navigation ; validation locale : `test/motion-guardrails.test.mjs`. La mesure sur mobile moyen et réseau réel reste à effectuer.
-- [ ] **A239 — Tester la motion au tactile :** vérifier appui, interruption, double-tap, scroll rapide et rotation d’écran ; validation : aucun geste ne déclenche une mauvaise page ou un double ajout.
+- [x] **A239 — Tester la motion au tactile :** le contrat local impose `touch-action: manipulation`, un feedback tactile borné, aucun gestionnaire de scroll bloquant, le garde-fou de double ajout et le repli sans animation ; `test/motion-guardrails.test.mjs`, `test/cart-resilience.test.mjs` et `test/product-availability.test.mjs` le vérifient. Les essais physiques appui/interruption/rotation restent dans A623–A630.
 - [ ] **A240 — Faire signer le langage animé WOOD :** choisir les animations retenues, refusées et optionnelles avec la propriétaire et son conjoint ; validation : document de référence archivé avant déploiement.
 
 ### Fiche d’exécution direction artistique `A191–A240`
