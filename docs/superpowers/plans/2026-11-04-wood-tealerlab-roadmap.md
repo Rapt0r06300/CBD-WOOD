@@ -317,7 +317,7 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 - [x] Ajouter la pièce jointe PDF uniquement après validation du format et après persistance réussie de la commande ; la file privée et le worker sont en place, l’envoi réel restant bloqué par la configuration Gmail finale.
 - [x] Prévoir une file/outbox, des tentatives contrôlées, un bail de traitement et les statuts `à envoyer / en cours / envoyé / échec / dead-letter` ; ne jamais prétendre qu’un e-mail a été reçu uniquement parce qu’il a été demandé au fournisseur.
 - [ ] Utiliser un relais SMTP/API transactionnel configuré hors du dépôt ; garder les secrets dans Supabase et documenter SPF, DKIM, DMARC et les rebonds.
-- [ ] N’envoyer la confirmation qu’après création fiable de la commande.
+- [x] N’envoyer la confirmation qu’après création fiable de la commande ; la commande persistée et son identifiant permanent précèdent la création de l’outbox, du document et du job e-mail, avec tests d’idempotence et de reprise. Le fournisseur et la délivrabilité restent à configurer hors dépôt.
 - [x] Prévoir une trace d’envoi et un statut d’erreur côté données (`email_delivery_attempts`) ; la présentation détaillée dans le tableau de bord reste à finaliser.
 
 **Validation :** aucune commande confirmée sans identifiant permanent ni trace exploitable.
