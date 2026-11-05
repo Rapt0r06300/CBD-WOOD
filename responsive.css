@@ -149,7 +149,11 @@ video {
   .big-title,
   .section-title,
   .story-text h2,
-  .visit h2 {
+  .visit h2,
+  .faq-items summary,
+  .faq-items p,
+  .footer-links a,
+  .footer-links span {
     overflow-wrap: anywhere;
   }
 

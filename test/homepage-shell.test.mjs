@@ -38,3 +38,10 @@ test('la page d’accueil garde le shell éditorial WOOD complet et dans le bon 
   assert.match(homepage, /class="footer-links"/);
   assert.doesNotMatch(homepage, /href="admin\.html"/i);
 });
+
+test('les contenus longs de l’accueil ont un repli mobile', async () => {
+  const responsive = await readFile(new URL('../responsive.css', import.meta.url), 'utf8');
+  assert.match(responsive, /\.faq-items summary/);
+  assert.match(responsive, /\.footer-links a/);
+  assert.match(responsive, /overflow-wrap:\s*anywhere/);
+});
