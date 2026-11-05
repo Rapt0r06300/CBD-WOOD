@@ -72,6 +72,7 @@
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit courant ont été vérifiés avec succès ; la page publique, `produit.html` et une image WebP répondent en HTTP 200. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
 - Le contrôle responsive Playwright confirme l’absence de débordement horizontal sur les **70 combinaisons** (10 routes publiques × `320`, `375`, `390`, `430`, `768`, `1024`, `1440`), avec des titres non vides et la navigation mobile chargée sur les vues étroites.
+- Une seconde passe locale, documentée dans `docs/validation/2026-11-05-responsive-reference.md`, a capturé les parcours accueil, quatre univers, fiche, checkout et compte à `320` et `1440` px, puis contrôlé ces huit routes aux sept largeurs : les **56 combinaisons** conservent exactement la largeur de la fenêtre.
 - La disponibilité est maintenant une donnée Supabase explicite (`available`, `soon`, `rupture`, `incomplete`) et le serveur refuse de traiter un produit qui n’est pas `available`.
 - Le projet Supabase connecté possède maintenant la colonne `availability_state` ; la fonction de commande vérifie cet état et le calcul serveur refuse les grammages intermédiaires tout en facturant 50 g comme deux lots de 25 g.
 - Les cartes de résines, bien-être et WOOD Shop ouvrent maintenant `produit.html` avec une fiche générique, un état de disponibilité et le panier partagé ; la fiche fleur dédiée reste inchangée.
@@ -123,9 +124,9 @@
 
 ### Tâche 1 — Figer la base de référence
 
-- [ ] Conserver l’état actuel de `main` comme point de comparaison.
-- [ ] Générer une capture de référence des pages publiques, des pages boutique, du panier et du compte.
-- [ ] Vérifier que `npm run hostinger:preflight` passe avant toute modification.
+- [x] Conserver l’état actuel de `main` comme point de comparaison ; la référence actuelle est le commit `4e994d3`.
+- [x] Générer une capture de référence des pages publiques, des pages boutique, du panier et du compte ; les captures et le contrôle de largeur sont documentés dans `docs/validation/2026-11-05-responsive-reference.md`.
+- [x] Vérifier que `npm run hostinger:preflight` passe avant toute modification.
 - [ ] Vérifier que le dépôt est propre après le point de sauvegarde.
 
 **Validation :** les tests actuels passent et aucune régression n’est introduite avant le travail visuel.
@@ -142,8 +143,8 @@ Référence d’exécution : `docs/ops/public-routes.md` et `test/links.test.mjs
 
 ### Tâche 3 — Définir la charte visuelle WOOD à ne pas dépasser
 
-- [ ] Relever les couleurs, tailles, espacements, bordures, traitements d’images et niveaux de contraste actuels.
-- [ ] Définir ce qui reste strictement identique et ce qui peut évoluer.
+- [x] Relever les couleurs, tailles, espacements, bordures, traitements d’images et niveaux de contraste actuels ; l’audit comparatif et le CSS courant servent de référence.
+- [x] Définir ce qui reste strictement identique et ce qui peut évoluer ; les contraintes WOOD sont rappelées dans l’audit et cette feuille.
 - [ ] Faire valider le principe : `premium calme` majoritaire, `graffiti/chill` en accents contrôlés.
 
 **Validation :** aucune nouvelle section ne pourra introduire une couleur, une police ou un effet hors charte sans validation.
@@ -410,7 +411,7 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 - [ ] Tester petits iPhone/Android, grands téléphones, iPad portrait/paysage, ordinateur Windows, macOS et Linux.
 - [ ] Tester zoom navigateur à 100 %, 125 %, 200 % et taille de texte augmentée.
-- [ ] Utiliser les media/container queries et la mise en page fluide pour choisir la composition ; ne pas dépendre d’un User-Agent fragile pour décider mobile, tablette ou ordinateur.
+- [x] Utiliser les media/container queries et la mise en page fluide pour choisir la composition ; ne pas dépendre d’un User-Agent fragile pour décider mobile, tablette ou ordinateur.
 - [ ] Tester clavier, tactile, souris et absence de hover.
 - [ ] Vérifier safe areas, barre du navigateur mobile, orientation et clavier virtuel.
 
@@ -420,14 +421,14 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 - [ ] Prévoir des titres longs, noms en plusieurs mots et prix larges.
 - [ ] Gérer l’image lente, l’image absente, le chargement lent et l’erreur Supabase.
-- [ ] Désactiver les animations si `prefers-reduced-motion` est activé.
-- [ ] Conserver une action fonctionnelle même si l’animation ne se lance pas.
+- [x] Désactiver les animations si `prefers-reduced-motion` est activé.
+- [x] Conserver une action fonctionnelle même si l’animation ne se lance pas.
 
 **Validation :** les erreurs d’affichage se transforment en états propres et compréhensibles.
 
 ### Tâche 31 — Accessibilité et lisibilité
 
-- [ ] Contrôler contraste, focus visible, labels, boutons et ordre de tabulation.
+- [x] Contrôler contraste, focus visible, labels, boutons et ordre de tabulation ; le contrôle structurel et les parcours clavier du menu/carton sont couverts par les tests d’accessibilité.
 - [ ] Ne pas utiliser la couleur seule pour indiquer un stock, une erreur ou un niveau.
 - [ ] Garder des zones tactiles confortables et des textes lisibles sans zoom manuel.
 
@@ -435,9 +436,9 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 32 — Performance sans perte visuelle
 
-- [ ] Réserver les dimensions d’images pour éviter les sauts.
-- [ ] Charger les images hors écran progressivement.
-- [ ] Limiter les scripts et animations aux interactions utiles.
+- [x] Réserver les dimensions d’images pour éviter les sauts.
+- [x] Charger les images hors écran progressivement.
+- [x] Limiter les scripts et animations aux interactions utiles.
 - [ ] Vérifier que la boutique reste utilisable sur réseau mobile lent.
 
 **Validation :** aucun écran blanc prolongé, aucun clic bloqué et aucune animation ne retarde l’achat.
@@ -875,17 +876,17 @@ Ce bloc ajoute les enseignements de l’audit visuel et fonctionnel de [TealerLa
 
 ### Tâche 49 — Figer la référence WOOD avant comparaison
 
-- [ ] Capturer l’accueil, le menu, les quatre pages boutique, une fiche fleur, le panier, le compte et `Nous trouver`.
-- [ ] Capturer les mêmes parcours sur 320, 375, 390, 430, 768, 1024 et 1440 px.
-- [ ] Archiver les captures et les dimensions avant toute adaptation.
+- [x] Capturer l’accueil, le menu, les quatre pages boutique, une fiche fleur, le panier, le compte et `Nous trouver`.
+- [x] Capturer les mêmes parcours sur 320, 375, 390, 430, 768, 1024 et 1440 px.
+- [x] Archiver les captures et les dimensions avant toute adaptation ; la preuve locale est référencée dans `docs/validation/2026-11-05-responsive-reference.md`.
 
 **Validation :** chaque amélioration peut être comparée à une version WOOD intacte.
 
 ### Tâche 50 — Cartographier la composition TealerLab sans la copier
 
-- [ ] Documenter séparément l’en-tête, le hero, les bandeaux, les blocs de sélection, les cartes produits, les preuves de confiance, la FAQ, le contenu éditorial et le footer.
-- [ ] Relever pour chaque bloc son objectif, son ordre, sa densité, son action et son comportement responsive.
-- [ ] Traduire chaque bloc en équivalent WOOD ou le classer hors périmètre.
+- [x] Documenter séparément l’en-tête, le hero, les bandeaux, les blocs de sélection, les cartes produits, les preuves de confiance, la FAQ, le contenu éditorial et le footer.
+- [x] Relever pour chaque bloc son objectif, son ordre, sa densité, son action et son comportement responsive.
+- [x] Traduire chaque bloc en équivalent WOOD ou le classer hors périmètre.
 
 **Validation :** chaque inspiration est justifiée par une amélioration concrète de compréhension ou de conversion.
 
@@ -899,18 +900,18 @@ Ce bloc ajoute les enseignements de l’audit visuel et fonctionnel de [TealerLa
 
 ### Tâche 52 — Protéger le système visuel WOOD
 
-- [ ] Extraire les valeurs actuelles des couleurs, bordures, espacements, typographies et états interactifs.
-- [ ] Réutiliser ces valeurs pour les nouveaux blocs ; ne créer aucune palette TealerLab parallèle.
+- [x] Extraire les valeurs actuelles des couleurs, bordures, espacements, typographies et états interactifs.
+- [x] Réutiliser ces valeurs pour les nouveaux blocs ; ne créer aucune palette TealerLab parallèle.
 - [ ] Vérifier le contraste des textes, prix, badges, boutons et états désactivés sur le fond WOOD.
 
 **Validation :** une comparaison côte à côte montre une évolution de structure, jamais un changement d’identité.
 
 ### Tâche 53 — Recomposer l’en-tête WOOD
 
-- [ ] Conserver le logo officiel WOOD exactement tel qu’il est fourni.
-- [ ] Organiser autour de lui l’accès au menu, à la boutique, au panier, au compte et à `Nous trouver`.
-- [ ] Prévoir une version desktop aérée et une version mobile compacte façon application.
-- [ ] Afficher l’accès propriétaire uniquement après authentification et confirmation du rôle admin.
+- [x] Conserver le logo officiel WOOD exactement tel qu’il est fourni.
+- [x] Organiser autour de lui l’accès au menu, à la boutique, au panier, au compte et à `Nous trouver`.
+- [x] Prévoir une version desktop aérée et une version mobile compacte façon application.
+- [x] Afficher l’accès propriétaire uniquement après authentification et confirmation du rôle admin.
 
 **Validation :** les actions principales sont comprises en moins de quelques secondes, sans bouton caché ni chevauchement.
 
@@ -925,27 +926,27 @@ Ce bloc ajoute les enseignements de l’audit visuel et fonctionnel de [TealerLa
 
 ### Tâche 55 — Repenser les cartes produits WOOD
 
-- [ ] Utiliser une zone média stable en haut de chaque carte.
-- [ ] Afficher les badges dans un ordre fixe : univers, niveau `strong/medium/classique`, éventuelle information vérifiée.
-- [ ] Garder un nom de produit lisible, même sur deux lignes.
-- [ ] Afficher l’état photo à venir ou la vraie photo sans espace vide imprévisible.
-- [ ] Garder le choix de grammage, le prix correspondant, le prix au gramme si validé, le stock et `Ajouter au panier` au même endroit.
+- [x] Utiliser une zone média stable en haut de chaque carte.
+- [ ] Afficher les badges dans un ordre fixe : univers, niveau `strong/medium/classique`, éventuelle information vérifiée ; la structure est définie, mais les données commerciales finales restent à valider.
+- [x] Garder un nom de produit lisible, même sur deux lignes.
+- [x] Afficher l’état photo à venir ou la vraie photo sans espace vide imprévisible.
+- [x] Garder le choix de grammage, le prix correspondant, le prix au gramme si validé, le stock et `Ajouter au panier` au même endroit.
 
 **Validation :** toutes les cartes d’une ligne ont une structure et une ligne d’action parfaitement alignées.
 
 ### Tâche 56 — Respecter les règles propres aux fleurs
 
-- [ ] Partir de 1 g avec les boutons `−` et `+`.
-- [ ] Conserver les paliers 1/3/5/10/25 g et les prix propres à chaque variété.
-- [ ] Ne jamais appliquer la grille d’une fleur à une autre.
-- [ ] Au-delà de 25 g, appliquer uniquement la répétition contrôlée validée, sans inventer de remise.
-- [ ] Afficher le grammage choisi et le prix près du bouton d’ajout.
+- [x] Partir de 1 g avec les boutons `−` et `+`.
+- [x] Conserver les paliers 1/3/5/10/25 g et les prix propres à chaque variété.
+- [x] Ne jamais appliquer la grille d’une fleur à une autre.
+- [x] Au-delà de 25 g, appliquer uniquement la répétition contrôlée validée, sans inventer de remise.
+- [x] Afficher le grammage choisi et le prix près du bouton d’ajout.
 
 **Validation :** la carte inspirée de TealerLab reste entièrement conforme à l’affiche WOOD fournie par la propriétaire.
 
 ### Tâche 57 — Mettre en scène la fiche produit
 
-- [ ] Ouvrir une fiche fleur avec une transition fluide, sans saut de scroll.
+- [x] Ouvrir une fiche fleur avec une transition fluide, sans saut de scroll.
 - [ ] Présenter la photo réelle sans contenant, le nom, le niveau, la description, la sélection de grammes, le prix et l’ajout.
 - [ ] Ajouter plus tard une zone de présentation détaillée, uniquement avec les informations réelles fournies par la propriétaire.
 - [ ] Prévoir une sélection de produits liés sans détourner l’utilisateur de l’achat.
@@ -999,10 +1000,10 @@ Ce bloc ajoute les enseignements de l’audit visuel et fonctionnel de [TealerLa
 
 ### Tâche 63 — Verrouiller les contenus commerciaux
 
-- [ ] Garder les promotions, vouchers, fidélité et parrainage désactivés pour l’instant.
-- [ ] Afficher seulement la disponibilité de la livraison ; ne pas inventer les délais ou frais.
-- [ ] Ne publier aucun prix, stock, avis, photo, chiffre ou promesse sans validation de la propriétaire.
-- [ ] Conserver le parcours de paiement Viva séparé jusqu’à réception des identifiants officiels.
+- [x] Garder les promotions, vouchers, fidélité et parrainage désactivés pour l’instant.
+- [x] Afficher seulement la disponibilité de la livraison ; ne pas inventer les délais ou frais.
+- [x] Ne publier aucun prix, stock, avis, photo, chiffre ou promesse sans validation de la propriétaire.
+- [x] Conserver le parcours de paiement Viva séparé jusqu’à réception des identifiants officiels.
 
 **Validation :** le site ne promet jamais plus que ce que la boutique peut réellement assurer.
 
