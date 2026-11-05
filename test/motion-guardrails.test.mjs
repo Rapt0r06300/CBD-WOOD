@@ -16,6 +16,9 @@ test('les animations WOOD restent composées et bornées', async () => {
   assert.match(shell, /prefers-reduced-motion: reduce/);
   assert.match(boutique, /@media\(prefers-reduced-motion:reduce\)[\s\S]*?transition:none!important/);
   assert.match(mobile, /@media \(prefers-reduced-motion: reduce\)[\s\S]*?transition:\s*none !important/);
+  assert.match(boutique, /\.wood-loading\{animation:wood-loading-pulse \.8s ease-in-out 2/);
+  assert.match(boutique, /@keyframes wood-loading-pulse/);
+  assert.match(boutique, /@media \(hover:none\) and \(pointer:coarse\)[\s\S]*?\.add-to-cart:active/);
 });
 
 test('les actions essentielles restent accessibles sans enhancement mobile', async () => {

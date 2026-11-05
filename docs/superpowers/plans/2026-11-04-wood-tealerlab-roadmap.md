@@ -550,10 +550,10 @@ L’audit complet ordinateur/mobile est documenté dans `docs/audits/2026-11-04-
 
 ### Tâche 43 — Ajouter seulement les mécanismes TealerLab compatibles
 
-- [ ] Préparer une hiérarchie visuelle extensible, mais laisser toute promotion et tout voucher désactivé jusqu’à validation de la propriétaire.
-- [ ] Renforcer les cartes produit avec niveau, grammage, prix total, prix au gramme et disponibilité.
+- [x] Préparer une hiérarchie visuelle extensible, mais laisser toute promotion et tout voucher désactivé jusqu’à validation de la propriétaire.
+- [x] Renforcer les cartes produit avec niveau, grammage, prix total, prix au gramme et disponibilité.
 - [ ] Ajouter une réassurance WOOD authentique, une FAQ lisible et une présentation photographique réelle sans contenant.
-- [ ] Ne pas ajouter de contenus, avis, chiffres ou promesses non validés.
+- [x] Ne pas ajouter de contenus, avis, chiffres ou promesses non validés.
 
 **Validation :** la boutique est plus vendeuse sans devenir un clone ni un catalogue surchargé.
 
@@ -1714,10 +1714,10 @@ Cette extension reprend des mécanismes utiles observés sur les pages produit, 
 
 ### Tâche 72 — Ajouter une barre de réassurance non promotionnelle
 
-- [ ] Prévoir une petite zone sobre indiquant uniquement que la livraison est disponible, comme demandé.
+- [x] Prévoir une petite zone sobre indiquant uniquement que la livraison est disponible, comme demandé.
 - [ ] Ajouter plus tard les informations de paiement, de confidentialité et de service seulement après validation.
-- [ ] Ne pas ajouter de compte à rebours, cadeau, pop-up, WhatsApp flottant, fidélité ou réduction sans décision explicite.
-- [ ] Répéter l’information de livraison au bon endroit sans la dupliquer à chaque écran.
+- [x] Ne pas ajouter de compte à rebours, cadeau, pop-up, WhatsApp flottant, fidélité ou réduction sans décision explicite.
+- [x] Répéter l’information de livraison au bon endroit sans la dupliquer à chaque écran.
 
 **Validation :** le client connaît le mode de réception avant son achat, sans que le site ressemble à une page promotionnelle.
 
@@ -1867,7 +1867,7 @@ Cette passe est dédiée à la page d’accueil, car c’est elle que le conjoin
 - [x] **A347 — Préparer la FAQ d’accueil :** répondre simplement à compte, commande, livraison, paiement et produits ; validation : aucune règle de livraison non validée.
 - [x] **A348 — Ajouter un accordéon accessible :** ouvrir une réponse sans déplacer brutalement le viewport ; validation : clavier, toucher et lecteur d’écran.
 - [ ] **A349 — Réserver une zone éditoriale WOOD :** histoire, humour, graffiti ou coulisses uniquement après validation des textes et images ; validation : la zone peut rester vide proprement.
-- [ ] **A350 — Exclure les preuves sociales inventées :** ne pas copier les avis, compteurs, followers ou témoignages TealerLab ; validation : aucun chiffre de démonstration en production.
+- [x] **A350 — Exclure les preuves sociales inventées :** ne pas copier les avis, compteurs, followers ou témoignages TealerLab ; validation : aucun chiffre de démonstration en production, contrôlé par les garde-fous publics.
 
 ### 80.2 — Footer, animation et sensation d’application
 
@@ -2193,9 +2193,9 @@ Ce bloc complète la construction du site de démonstration WOOD jusqu’à la m
 - [x] **A569 — Documenter la règle de non-copie :** validation : le registre interdit explicitement texte, visuel, slogan, logo, asset et placement exact repris de TealerLab.
 - [ ] **A570 — Préparer la bibliothèque de stickers WOOD :** validation : chaque sticker est original, nommé, versionné et retiré s’il gêne la lecture.
 - [ ] **A571 — Préparer la bibliothèque de pictogrammes :** validation : les pictogrammes restent homogènes et ne remplacent pas les libellés utiles.
-- [ ] **A572 — Définir le dosage des accents :** validation : les zones d’achat, prix, stock et paiement restent visuellement sobres.
-- [ ] **A573 — Définir la grammaire d’humour :** validation : les microcopies restent courtes, compréhensibles et sans promesse produit.
-- [ ] **A574 — Définir la grammaire des emojis :** validation : un emoji est décoratif, accessible et jamais indispensable à l’information.
+- [x] **A572 — Définir le dosage des accents :** validation : les zones d’achat, prix, stock et paiement restent visuellement sobres ; voir `docs/design/wood-accent-grammar.md`.
+- [x] **A573 — Définir la grammaire d’humour :** validation : les microcopies restent courtes, compréhensibles et sans promesse produit ; voir `docs/design/wood-accent-grammar.md`.
+- [x] **A574 — Définir la grammaire des emojis :** validation : un emoji est décoratif, accessible et jamais indispensable à l’information ; voir `docs/design/wood-accent-grammar.md`.
 - [x] **A575 — Relire tous les noms de produits :** validation : le registre de présentation et `test/flower-presentation.test.mjs` conservent les 13 noms exacts fournis par la carte.
 - [x] **A576 — Relire tous les niveaux de profil :** validation : `test/product-availability.test.mjs` et le registre n’autorisent que `CBD boosté (strong)`, `CBD soft (medium)` et `CBD classique`.
 - [x] **A577 — Relire les descriptions provisoires :** validation : elles sont identifiées comme démonstration et ne contiennent aucun effet médical ou promesse garantie ; `flower-presentation.js` et `test/flower-presentation.test.mjs` le protègent.
@@ -2267,19 +2267,19 @@ Ce bloc complète la construction du site de démonstration WOOD jusqu’à la m
 - [x] **A634 — Vérifier le panier long :** validation : la passe de contenu extrême a injecté adresses et prix longs dans le parcours panier/checkout à `320`, `390` et `768` px sans débordement.
 - [x] **A635 — Vérifier les titres extrêmes :** validation : noms longs, prix à six chiffres et FAQ longue restent contenus à `320`, `390` et `768` px ; `test/product-availability.test.mjs` garde ce comportement.
 - [x] **A636 — Vérifier les écrans très larges :** validation : `1280`, `1440` et `1920` px conservent un contenu borné, trois colonnes lisibles et une largeur de document égale à la fenêtre.
-- [ ] **A637 — Vérifier les écrans très courts :** validation : le premier CTA reste atteignable sans chevauchement du header.
-- [ ] **A638 — Vérifier le bas de page mobile :** validation : la navigation basse ne recouvre jamais le dernier bouton ou la dernière ligne.
-- [ ] **A639 — Vérifier les captures multi-appareils :** validation : aucune correction n’est faite sur un seul téléphone au détriment des autres.
+- [x] **A637 — Vérifier les écrans très courts :** validation : à `390 × 320`, le CTA du hero reste atteignable et, après défilement contrôlé, ne passe pas sous le header ; preuve Playwright locale.
+- [x] **A638 — Vérifier le bas de page mobile :** validation : à `390 × 320`, le dernier bouton catalogue reste au-dessus de la navigation basse après `scrollIntoView` ; preuve Playwright locale.
+- [x] **A639 — Vérifier les captures multi-appareils :** validation : la matrice `320–1920` et les orientations complémentaires ont été archivées ; aucune correction n’est fondée sur un seul téléphone.
 - [x] **A640 — Archiver la matrice responsive :** validation : les mesures, largeurs, orientations, anomalies corrigées et limites restantes sont archivées dans `docs/validation/2026-11-05-responsive-reference.md`.
 
 ### 95 — Animations, interaction et performance
 
 - [x] **A641 — Définir un budget de mouvement :** validation : les animations WOOD restent limitées à `transform`, `opacity`, ombres et bordures, avec des durées courtes ; `test/motion-guardrails.test.mjs` protège la composition.
-- [ ] **A642 — Définir les animations de chargement :** validation : elles indiquent l’attente sans animation infinie trompeuse.
+- [x] **A642 — Définir les animations de chargement :** validation : `docs/design/wood-loading-grammar.md` fixe un libellé explicite, deux pulsations bornées, `aria-busy`, la conservation des données et le retour réessayable sans animation infinie.
 - [x] **A643 — Définir l’arrivée du hero :** validation : les éléments révélés utilisent une transition bornée, et les dimensions des blocs restent réservées avant l’arrivée du média.
 - [x] **A644 — Définir l’apparition au scroll :** validation : `IntersectionObserver` ajoute seulement une classe, avec contenu complet sans JavaScript et sans interception du scroll.
 - [x] **A645 — Définir le hover desktop :** validation : l’élévation et le zoom restent limités à `transform`/bordure et sont protégés par le test de mouvement.
-- [ ] **A646 — Définir le tap mobile :** validation : le retour tactile ne reste pas bloqué après le doigt.
+- [x] **A646 — Définir le tap mobile :** validation : `boutique.css` limite le feedback tactile à un `transform` bref sur les contrôles d’achat, de grammage et de panier ; le style disparaît au relâchement et le garde-fou motion le couvre.
 - [x] **A647 — Définir la transition fiche produit :** validation : le zoom est une transformation composée, possède un fallback réduit et est protégé par `test/product-detail.test.mjs`.
 - [x] **A648 — Interdire le scroll-jacking :** validation : aucun gestionnaire public ne bloque molette, toucher ou clavier ; le garde-fou est permanent dans `test/motion-guardrails.test.mjs`.
 - [x] **A649 — Respecter `prefers-reduced-motion` :** validation : les transitions, animations, ticker et scroll fluide sont neutralisés sans retirer le contenu ni les actions.

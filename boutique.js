@@ -497,6 +497,8 @@
       const button = document.getElementById('createOrderButton');
       button.disabled = true;
       button.textContent = 'Enregistrement…';
+      button.classList.add('wood-loading');
+      button.setAttribute('aria-busy', 'true');
       message.textContent = 'Vérification des produits et enregistrement sécurisé…';
       message.classList.remove('hidden');
       try {
@@ -517,6 +519,8 @@
         message.classList.add('is-error');
         button.disabled = false;
         button.textContent = 'Enregistrer la commande';
+        button.classList.remove('wood-loading');
+        button.removeAttribute('aria-busy');
       }
     });
   }
