@@ -27,6 +27,9 @@
   const presentationDescription = presentation?.demoDescription
     ? `${presentation.demoDescription} Choisissez le grammage souhaité.`
     : product.description;
+  const presentationDetail = presentation?.demoDescription
+    ? `Cette fiche de démonstration présente ${product.name} dans l’univers WOOD. La photographie réelle et les informations détaillées de la boutique remplaceront ce contenu après validation.`
+    : product.description;
   const presentationImage = presentation?.image || 'assets/fleurs.svg';
   const profileTag = product.profile.includes('STRONG') ? 'STRONG' : product.profile.includes('MEDIUM') ? 'MEDIUM' : 'FLEURS CBD';
   const priceHeaders = product.prices.map(tier => `<th scope="col">${tier.grams} g</th>`).join('');
@@ -40,6 +43,7 @@
         <div class="kicker">Fleurs CBD · fiche produit</div>
         <h1 id="detail-title">${product.name}</h1>
         <p class="flower-detail__lead">${presentationDescription}</p>
+        <p class="flower-detail__description">${presentationDetail}</p>
         <div class="flower-detail__facts" aria-label="Informations produit">
           <div><span>Profil</span><strong>${product.profile}</strong></div>
           <div><span>Grammages</span><strong>1 g à 25 g</strong></div>
@@ -51,7 +55,7 @@
         <p class="flower-detail__note">La sélection, les disponibilités et les tarifs sont à confirmer avec la boutique avant toute commande.</p>
       </div>
       <article class="product-card flower-detail-card" data-product-id="${productId}" data-product-name="${product.name}" data-product-category="Fleurs CBD">
-        <div class="product-art"><img src="${presentationImage}" alt="Photo de démonstration de la fleur ${product.name}"></div>
+        <div class="product-art"><img src="${presentationImage}" alt="Visuel de démonstration de la fleur ${product.name}"><span class="product-art__status">Visuel de démonstration · photo réelle à venir</span></div>
         <div class="product-body">
           <span class="product-index">${product.index} / ${profileTag}</span>
           <h3>${product.name}</h3>

@@ -251,8 +251,8 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 - [x] Nom de la variété.
 - [x] Niveau affiché : `CBD boosté (strong)`, `CBD soft (medium)` ou `CBD classique`.
-- [ ] Image réelle ou état “photo à venir” propre.
-- [ ] Description courte et description détaillée.
+- [x] Image réelle ou état “photo à venir” propre ; la fiche affiche explicitement `Visuel de démonstration · photo réelle à venir` et conserve un alt text honnête tant que les originaux de la boutique ne sont pas transmis.
+- [x] Description courte et description détaillée ; la fiche sépare le texte d’introduction d’une présentation éditoriale de démonstration, sans allégation ni promesse commerciale.
 - [x] Tableau de prix par gramme issu de l’affiche de la propriétaire.
 - [x] Stock et statut actif/inactif.
 
