@@ -1801,14 +1801,14 @@ Cette passe est dédiée à la page d’accueil, car c’est elle que le conjoin
 - [ ] **A297 — Réserver l’emplacement de la photo réelle :** prévoir un ratio stable pour la future photographie de fleur/résine sans bocal ni cloche ; validation : le remplacement ne change pas la géométrie du hero.
 - [ ] **A298 — Préparer un prototype graphique original :** générer au besoin une image de démonstration avec une fleur présentée proprement, sans texte parasite ni logo inventé ; validation : asset marqué `demo` et remplaçable.
 - [ ] **A299 — Ajouter le contrôle de scroll :** proposer une indication discrète vers la section suivante, sans scroll-jacking ; validation : le clavier et le toucher conservent le contrôle du document.
-- [ ] **A300 — Tester le hero sans image :** prévoir un état de chargement et un état absent qui restent esthétiques ; validation : le texte et le CTA restent utilisables si l’image échoue.
+- [x] **A300 — Tester le hero sans image :** prévoir un état de chargement et un état absent qui restent esthétiques ; validation : le shell public masque l’image défaillante, expose un fallback WOOD accessible et conserve le titre/CTA sans débordement.
 
 ### 78.1 — En-tête, bandeau et navigation d’accueil
 
 - [x] **A301 — Réordonner l’en-tête desktop WOOD :** logo officiel, univers, boutique, recherche éventuelle non activée, compte et panier selon la hiérarchie existante ; validation : aucun accès admin public.
 - [x] **A302 — Réordonner l’en-tête mobile WOOD :** menu, logo, panier et compte doivent rester atteignables au pouce ; validation : aucun élément important n’est caché derrière un geste non documenté.
 - [x] **A303 — Conserver le logo original :** intégrer uniquement le fichier/logo validé fourni par l’utilisateur, sans branche inventée ni déformation ; validation : comparaison visuelle avec la référence originale.
-- [ ] **A304 — Prévoir un header sticky mesuré :** le header peut rester visible après scroll, mais ne doit pas couvrir les titres ou les boutons ; validation : offset d’ancre et zones de clic testés.
+- [x] **A304 — Prévoir un header sticky mesuré :** le header peut rester visible après scroll, mais ne doit pas couvrir les titres ou les boutons ; validation : `position: sticky`, `scroll-padding-top`, ancres et contrôle local des largeurs sont en place.
 - [x] **A305 — Préparer un menu WOOD structuré :** regrouper fleurs, résines, bien-être/huiles, textile/goods, boutiques, FAQ, compte et panier ; validation : menu compréhensible à tout âge.
 - [x] **A306 — Adapter le menu mobile en panneau :** créer une ouverture fluide avec retour de focus, fermeture Échap et bouton fermer ; validation : clavier, lecteur d’écran et toucher fonctionnent.
 - [x] **A307 — Ajouter un bandeau de service non promotionnel :** annoncer uniquement que la livraison est disponible tant que les règles détaillées ne sont pas confirmées ; validation : aucun cadeau, remise, seuil ou délai inventé.

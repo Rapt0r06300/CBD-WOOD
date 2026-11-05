@@ -30,6 +30,25 @@
     }
   }
 
+  function wireLandingImageFallback(image) {
+    if (!image || image.dataset.landingFallbackWired === 'true') return;
+    const frame = image.closest('.hero-art, .category .visual, .story-image');
+    if (!frame) return;
+    image.dataset.landingFallbackWired = 'true';
+    image.addEventListener('error', () => {
+      if (image.dataset.landingFallbackApplied === 'true') return;
+      image.dataset.landingFallbackApplied = 'true';
+      image.hidden = true;
+      frame.classList.add('wood-image-fallback');
+      frame.setAttribute('role', 'img');
+      frame.setAttribute('aria-label', image.alt || 'Visuel WOOD à venir');
+    }, { once: true });
+  }
+
+  function initLandingImageFallbacks() {
+    document.querySelectorAll('.hero-art img, .category .visual img, .story-image img').forEach(wireLandingImageFallback);
+  }
+
   function initScrollReveal() {
     const targets = document.querySelectorAll('.page-hero__copy, .page-hero__art, .hero-copy, .hero-art, .section-heading, .notice, .story, .visit-grid, .faq-layout, .checkout-layout, .account-dashboard, .flower-detail__copy, .flower-detail-card, .product-detail__copy, .product-detail-card, .footer');
     if (!targets.length || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
@@ -48,6 +67,7 @@
   }
 
   ensureFooterLocations();
+  initLandingImageFallbacks();
   initScrollReveal();
 
   const items = [

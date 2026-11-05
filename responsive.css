@@ -11,6 +11,26 @@ video {
   max-width: 100%;
 }
 
+.wood-image-fallback {
+  isolation: isolate;
+}
+
+.wood-image-fallback::after {
+  content: "WOOD. / VISUEL À VENIR";
+  position: absolute;
+  inset: 50% auto auto 50%;
+  z-index: 1;
+  max-width: calc(100% - 36px);
+  color: var(--lime, #cbf096);
+  font-size: clamp(11px, 1.4vw, 17px);
+  font-weight: 900;
+  letter-spacing: 2px;
+  line-height: 1.35;
+  text-align: center;
+  text-transform: uppercase;
+  transform: translate(-50%, -50%);
+}
+
 .brand {
   gap: 9px;
 }

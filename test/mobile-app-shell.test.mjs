@@ -19,7 +19,7 @@ test('toutes les pages publiques chargent la couche app-like mobile', async () =
   for (const page of publicPages) {
     const html = await readFile(new URL(`../${page}`, import.meta.url), 'utf8');
     assert.match(html, /mobile\.css\?v=wood-mobile-app-v6-20261104/, `${page} doit charger mobile.css`);
-    assert.match(html, /mobile-shell\.js\?v=wood-mobile-app-v3-20261104/, `${page} doit charger mobile-shell.js`);
+    assert.match(html, /mobile-shell\.js\?v=wood-mobile-app-v4-20261105/, `${page} doit charger mobile-shell.js`);
     assert.match(html, /name="viewport" content="width=device-width, initial-scale=1"/, `${page} doit conserver le viewport responsive`);
   }
 });
@@ -49,6 +49,15 @@ test('la navigation mobile ne se charge pas dans l’espace propriétaire', asyn
   const account = await readFile(new URL('../compte.html', import.meta.url), 'utf8');
   assert.match(shell, /classList\.contains\('admin-page'\)/);
   assert.match(account, /ownerDashboard/);
+});
+
+test('le shell public prévoit un fallback pour les visuels de l’accueil', async () => {
+  const shell = await readFile(new URL('../mobile-shell.js', import.meta.url), 'utf8');
+  const stylesheet = await readFile(new URL('../responsive.css', import.meta.url), 'utf8');
+  assert.match(shell, /wireLandingImageFallback/);
+  assert.match(shell, /landingFallbackApplied/);
+  assert.match(stylesheet, /\.wood-image-fallback::after/);
+  assert.match(stylesheet, /VISUEL À VENIR/);
 });
 
 test('les cartes WOOD Shop gardent leur action dans la colonne mobile', async () => {
