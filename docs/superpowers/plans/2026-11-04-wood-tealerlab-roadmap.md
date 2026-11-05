@@ -82,7 +82,7 @@ Tant que ces huit groupes ne sont pas prouvés, la prévisualisation GitHub Page
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **240 tests**, la syntaxe JavaScript contrôlée sur 30 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **241 tests**, la syntaxe JavaScript contrôlée sur 30 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité ont été vérifiés avec succès ; le dernier commit de code poussé est `d0a7b9a` et le dernier alignement documentaire est `28a2a66`. Les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -513,7 +513,7 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 37 — Tests visuels complets
 
-- [ ] Comparer les pages avant/après pour vérifier que l’identité WOOD est conservée.
+- [x] Comparer les pages avant/après pour vérifier que l’identité WOOD est conservée ; `docs/validation/2026-11-05-wood-tealerlab-comparison.md` sépare les contrôles desktop/mobile, les adaptations TealerLab retenues et les éléments exclus. La validation humaine reste dans la tâche suivante.
 - [x] Vérifier chaque page sur mobile, tablette et ordinateur ; la matrice locale couvre les routes publiques aux largeurs téléphone, tablette et desktop. La recette Safari/Firefox et appareils réels reste dans A623–A630.
 - [x] Vérifier les quatre catégories de boutique et toutes les cartes d’une ligne ; les tests de grille et la référence responsive contrôlent fleurs, résines, bien-être et WOOD Shop.
 - [x] Vérifier l’animation de détail produit sans saut ; le zoom local reste borné à `transform/opacity`, sans interception du scroll, et les actions restent accessibles sans animation. La fluidité sur appareils réels reste distincte.
@@ -1127,7 +1127,7 @@ Ces sous-tâches détaillent la refonte à exécuter plus tard. Elles ne valent 
 - [x] **A36 — Garder les scripts sobres :** pas de dépendance lourde ou de widget tiers nécessaire à l’achat.
 - [x] **A37 — Tester l’accessibilité :** clavier, lecteur d’écran, contraste, focus, noms accessibles et tailles tactiles ; la passe navigateur à `390 × 844` a contrôlé les noms des contrôles visibles, 18 tabulations par route, le focus du menu/panier et les tailles tactiles. La validation sur appareils physiques et avec un lecteur d’écran réel reste une recette externe.
 - [x] **A38 — Tester les parcours :** accueil → univers → fiche → panier → compte/checkout, sur desktop et mobile ; Playwright a rejoué l’accueil → fleurs → fiche Nimbus, vérifié la fiche compte/checkout et, avec un panier de test local, le panneau panier → checkout à 390 px. L’ordre réel reste bloqué tant que les stocks et le paiement ne sont pas activés.
-- [ ] **A39 — Comparer avant/après :** captures aux largeurs cibles, aucun changement non expliqué de l’identité WOOD.
+- [x] **A39 — Comparer avant/après :** `docs/validation/2026-11-05-wood-tealerlab-comparison.md` rapproche les captures et la structure desktop/mobile aux largeurs contrôlées ; chaque différence est expliquée par l’adaptation WOOD ou un élément exclu. La signature propriétaire/conjoint reste A40.
 - [ ] **A40 — Faire valider en deux temps :** d’abord `c’est toujours WOOD` par la propriétaire, puis `la présentation est aussi forte que TealerLab` par son conjoint.
 
 ### Fiche d’exécution mise à jour des tags `A01–A40`
@@ -1464,7 +1464,7 @@ La relecture de l’accueil, du catalogue et d’une fiche produit TealerLab con
 - [x] **A186 — Prévoir une version mobile réellement recomposée :** adapter ordre, densité, header, rails, CTA et footer comme une application mobile dans le thème WOOD, au lieu de réduire le desktop ; validation : tests à 320, 375, 390, 430 et 480 px.
 - [x] **A187 — Prévoir une version tablette et ordinateur distinctes :** `responsive.css`, `mobile.css` et les tests de grille définissent des paliers par largeur plutôt qu’une détection fragile de modèle ; la recette Chrome/Safari/Firefox réelle reste A623–A630.
 - [x] **A188 — Stabiliser le chargement réel :** les zones média ont une géométrie réservée, le hero est priorisé, les autres images sont différées et les fallbacks WOOD restent disponibles si Supabase tarde ; `test/product-availability.test.mjs`, `test/mobile-app-shell.test.mjs`, `test/motion-guardrails.test.mjs` et la baseline CLS locale le vérifient. La mesure sur appareils réels et l’hébergement final restent ouverts.
-- [ ] **A189 — Comparer l’expérience par captures :** constituer une grille avant/après de l’accueil TealerLab observé et du prototype WOOD, avec contrôles de structure, rythme, lisibilité, identité et accessibilité ; validation : la ressemblance est fonctionnelle et la différence de marque est évidente.
+- [x] **A189 — Comparer l’expérience par captures :** `docs/validation/2026-11-05-wood-tealerlab-comparison.md` constitue la grille avant/après desktop/mobile et contrôle structure, rythme, lisibilité, identité et accessibilité ; la ressemblance fonctionnelle et la différence de marque sont documentées. La signature de référence reste A190.
 - [ ] **A190 — Faire signer la version de référence :** conserver une capture desktop, mobile et tablette validée par la propriétaire et son conjoint avant d’engager la refonte ; validation : tout changement ultérieur est comparé à cette référence et peut être restauré.
 
 ### Fiche d’exécution accueil et expérience des tags `A161–A190`

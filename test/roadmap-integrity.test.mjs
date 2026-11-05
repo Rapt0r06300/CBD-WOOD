@@ -6,6 +6,7 @@ const roadmap = await readFile(new URL('../docs/superpowers/plans/2026-11-04-woo
 const routes = await readFile(new URL('../docs/ops/public-routes.md', import.meta.url), 'utf8');
 const viva = await readFile(new URL('../docs/ops/viva-wallet.md', import.meta.url), 'utf8');
 const supabaseSecurityGate = await readFile(new URL('../docs/ops/supabase-security-gate.md', import.meta.url), 'utf8');
+const visualComparison = await readFile(new URL('../docs/validation/2026-11-05-wood-tealerlab-comparison.md', import.meta.url), 'utf8');
 
 test('la feuille de route conserve ses 76 tâches uniques et dans l’ordre', () => {
   const taskNumbers = [...roadmap.matchAll(/^### Tâche (\d+) —/gm)].map(match => Number(match[1]));
@@ -13,8 +14,8 @@ test('la feuille de route conserve ses 76 tâches uniques et dans l’ordre', ()
 });
 
 test('l’état de vérification ne contient pas de compteur obsolète', () => {
-  assert.match(roadmap, /npm run check` passe avec \*\*240 tests\*\*/);
-  assert.doesNotMatch(roadmap, /\*\*(44|47|51|53|54|64|122|125|171|172|174) tests\*\*/);
+  assert.match(roadmap, /npm run check` passe avec \*\*241 tests\*\*/);
+  assert.doesNotMatch(roadmap, /\*\*(44|47|51|53|54|64|122|125|171|172|174|240) tests\*\*/);
   assert.match(roadmap, /paquet de \*\*49 fichiers\*\*/);
   assert.match(roadmap, /availability_state/);
   assert.match(roadmap, /order_notification_outbox/);
@@ -40,4 +41,10 @@ test('la feuille renvoie vers la porte de sécurité Supabase avant production',
   assert.match(roadmap, /docs\/ops\/supabase-security-gate\.md/);
   assert.match(supabaseSecurityGate, /private\.order_rate_limit_buckets/);
   assert.match(supabaseSecurityGate, /Leaked Password Protection/);
+});
+
+test('la comparaison visuelle sépare adaptation WOOD et validation humaine', () => {
+  for (const marker of ['## Desktop', '## Mobile', 'Palette, logo officiel', 'Cette preuve technique ne remplace pas']) {
+    assert.match(visualComparison, new RegExp(marker.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&')));
+  }
 });
