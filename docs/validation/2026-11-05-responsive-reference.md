@@ -24,8 +24,8 @@ Des captures de référence ont également été produites à `320` et `1440` px
 
 ## Contrôles complémentaires
 
-- Les tests automatisés du dépôt passent (`190 tests`).
-- La feuille de route contient `1 016` items d’exécution : `648` sont vérifiés localement et `368` restent ouverts pour validation propriétaire, accès externes ou données réelles ; les `700` tags `Axxx` sont continus.
+- Les tests automatisés du dépôt passent (`195 tests`).
+- La feuille de route contient `1 016` items d’exécution : `664` sont vérifiés localement et `352` restent ouverts pour validation propriétaire, accès externes ou données réelles ; les `700` tags `Axxx` sont continus.
 - Les captures TealerLab desktop/mobile et le storyboard WOOD correspondant sont archivés dans `docs/audits/2026-11-05-tealerlab-capture-log.md` et `docs/design/wood-home-storyboard.md` ; ils servent de référence structurelle et ne sont pas des assets publics.
 - Le brief photo `docs/design/wood-photo-brief.md` fixe les prises de vue réelles sans bocal ni cloche, les ratios carte/fiche, le nommage, les alt texts et la procédure de remplacement sans toucher à l’achat.
 - Le runbook `docs/ops/incident-runbook.md` couvre commande introuvable, e-mail échoué, stock incohérent et panne Supabase sans recréer ni confirmer une commande depuis le navigateur.
@@ -66,6 +66,7 @@ Des captures de référence ont également été produites à `320` et `1440` px
 - Le registre de direction `docs/design/wood-direction-register.md` fige les contraintes WOOD, les tokens actuels, la matrice TealerLab à adapter/exclure et la règle de non-copie ; il laisse volontairement les stickers, photos et accents finaux en attente de validation propriétaire.
 - Le socle e-mail local couvre les messages `pending`, les reçus uniquement après `paid`, les PDF privés/idempotents, l’absence de pièce jointe si le document manque, les alertes propriétaire, les transitions de livraison et l’opt-in/désinscription newsletter. Aucun envoi réel n’est affirmé tant que Gmail OAuth et le domaine d’envoi ne sont pas configurés.
 - `test/operational-readiness.test.mjs` verrouille les huit événements transactionnels, les préconditions de paiement/annulation/remboursement, l’outbox et ses reprises, les documents privés, l’absence de SMS/retrait/QR/promotion, la séparation des environnements, l’hygiène des secrets et la présence du runbook incident.
+- `test/design-foundation.test.mjs` verrouille la grille artistique, les niveaux de densité, la hiérarchie WOOD, les ratios photo, les fallbacks décoratifs et le tempo des animations ; les assets réels et les validations de la propriétaire restent séparés.
 
 ## Limite de cette preuve
 

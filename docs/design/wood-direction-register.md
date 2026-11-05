@@ -30,12 +30,30 @@ Les nouveaux composants doivent réutiliser les variables de `boutique.css` :
 
 Les espacements, cadres, rayons, surfaces et états doivent suivre les composants existants avant toute extension. Une nouvelle teinte ou une nouvelle police est un changement de charte et nécessite l'accord de la propriétaire.
 
+## Grille artistique et densité
+
+- Le conteneur commun est borné à `1440px` avec des marges fluides ; les sections
+  utilisent les mêmes rails que `container`, les grilles `minmax(0, 1fr)` et les
+  espacements existants.
+- Trois intensités sont prévues pour la composition, sans changer la palette :
+  `calme` pour les zones de lecture et de confiance, `sélection` pour les
+  catégories et cartes, `impact` pour le hero ou un seul moment éditorial.
+- La hiérarchie reste `kicker → titre → phrase courte → action`. Les blocs
+  alternent surface sombre, surface botanique, carte et respiration claire afin
+  d'éviter une mosaïque ou une affiche saturée.
+- Les ratios photo sont ceux du brief `wood-photo-brief.md` : carré pour carte,
+  `4:5`/portrait pour mobile et `3:2` ou `4:5` pour desktop. Le cadrage ne doit
+  jamais modifier la géométrie d'achat.
+
 ## Mouvement et accessibilité
 
 - Les transitions restent bornées et composées : `transform`, `opacity`, bordure et ombre.
 - Le scroll normal, le clavier et le toucher ne sont jamais capturés pour produire un effet de démonstration.
 - `prefers-reduced-motion` conserve le contenu et les actions en supprimant les mouvements.
 - Un sticker, un emoji ou une image décorative ne porte jamais seul une information essentielle ; le texte utile reste présent.
+- Une section reste complète si l'asset décoratif est masqué, non chargé ou
+  retiré ; aucun sticker n'est ancré au viewport ni placé au-dessus d'un prix,
+  d'un stock, d'un panier, d'un menu ou de la barre système.
 
 ## Statut des assets décoratifs
 

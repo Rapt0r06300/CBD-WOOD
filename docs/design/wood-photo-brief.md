@@ -27,6 +27,11 @@ Exemple : `fleurs-nimbus-3000-card-v01-approved.webp`.
 
 Le remplacement se fait par le registre de présentation et le même ratio : aucun HTML d’achat, prix, stock ou lien ne doit être modifié lors du remplacement d’une image. Toute image reçue doit conserver sa source, son autorisation, sa date, ses dimensions, son poids et son texte alternatif.
 
+Les exports attendus sont l'original haute définition séparé, l'export web
+moderne, une miniature lorsque nécessaire, un fallback JPEG/PNG et son alt text.
+Le statut `demo`/`approved` reste attaché à chaque fichier ; un fichier sans
+source ou autorisation est refusé avant publication.
+
 ## Contrôles avant approbation
 
 1. Vérifier le produit, la variété et l’univers avec la propriétaire.
