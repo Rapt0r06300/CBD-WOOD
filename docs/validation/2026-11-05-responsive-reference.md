@@ -28,6 +28,7 @@ Des captures de référence ont également été produites à `320` et `1440` px
 - Le paquet Hostinger est généré et contrôlé avant transfert.
 - La version publique répond sur les routes principales ; la route historique `admin.html` répond `404`.
 - Une vérification Playwright réelle en `390 × 844` a recontrôlé les neuf routes publiques : largeur du document égale à la fenêtre, navigation mobile présente et titres principaux chargés. Sur `fleurs.html`, les largeurs `375`, `390` et `430` affichent deux colonnes équilibrées ; `320` bascule proprement à une colonne, sans débordement et avec les boutons contenus dans les cartes.
+- Après le déploiement du commit `512afd8`, un contrôle live a confirmé le CSS mobile à deux colonnes, le bandeau de livraison de `fleurs.html`, les réponses HTTP attendues et l’absence de `/admin.html`.
 
 ## Limite de cette preuve
 
