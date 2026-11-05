@@ -33,3 +33,12 @@ une promesse sur un produit.
 4. Les futurs stickers, graffiti, résines, biens-être et textiles restent
    `pending` tant que les références de la propriétaire ne sont pas reçues.
 
+## Contrôle local avant publication
+
+Les visuels de démonstration actuels sont contrôlés par
+`test/asset-quality.test.mjs` : fichier présent, signature WebP attendue,
+dimensions carrées suffisantes et poids compatible avec une carte mobile. Ce
+contrôle ne prétend pas remplacer la revue humaine d'une vraie photo : cadrage,
+contraste, watermark, artefacts et autorisation restent à vérifier avant de
+passer un asset de `demo` à `approved`.
+
