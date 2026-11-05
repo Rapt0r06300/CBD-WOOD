@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 const migration = await readFile(new URL('../supabase/migrations/20261105140000_document_generation_jobs.sql', import.meta.url), 'utf8');
+const policyMigration = await readFile(new URL('../supabase/migrations/20261105141000_document_jobs_policy.sql', import.meta.url), 'utf8');
 const worker = await readFile(new URL('../supabase/functions/document-worker/index.ts', import.meta.url), 'utf8');
 
 test('la file PDF est idempotente, privée et récupérable après expiration du bail', () => {
@@ -18,6 +19,13 @@ test('la commande crée une confirmation et le paiement crée un reçu sans doub
   assert.match(migration, /document_kind\)\s*values \(new\.id, 'order_confirmation'\)/);
   assert.match(migration, /document_kind\)\s*values \(new\.id, 'payment_receipt'\)/);
   assert.match(migration, /on conflict \(order_id, document_kind\) do nothing/);
+});
+
+test('la file PDF possède une policy de refus explicite pour les comptes publics', () => {
+  assert.match(policyMigration, /create policy document_generation_jobs_no_client_access/);
+  assert.match(policyMigration, /to anon, authenticated/);
+  assert.match(policyMigration, /using \(false\)/);
+  assert.match(policyMigration, /with check \(false\)/);
 });
 
 test('le worker PDF reste côté serveur et sait traiter une file', () => {
