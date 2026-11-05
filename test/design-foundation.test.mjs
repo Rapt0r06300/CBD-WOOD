@@ -28,6 +28,9 @@ test('le storyboard desktop/mobile reprend la richesse de présentation sans cha
     assert.match(storyboard, new RegExp(universe));
   }
   assert.match(storyboard, /partagent les mêmes informations/);
+  for (const rhythmMarker of ['Carte de rythme et de densité', 'Hero et média principal', 'Réassurance et FAQ', 'identité → information → découverte']) {
+    assert.match(storyboard, new RegExp(rhythmMarker.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  }
 });
 
 test('le brief photo décrit les vrais visuels sans bocal ni cloche et leurs ratios', () => {

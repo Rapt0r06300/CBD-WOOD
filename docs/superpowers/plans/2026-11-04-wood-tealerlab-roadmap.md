@@ -70,7 +70,7 @@
 - `npm run check` passe avec **240 tests**, la syntaxe JavaScript contrôlée sur 30 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
-- Les workflows GitHub Pages et de qualité du commit `34eac62` ont été vérifiés avec succès ; les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
+- Les workflows GitHub Pages et de qualité ont été vérifiés avec succès ; le dernier commit de code poussé est `229f17d` et le dernier alignement documentaire est `61212d2`. Les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
 - Le contrôle responsive Playwright confirme l’absence de débordement inattendu sur les **40 combinaisons** récentes (10 routes publiques × `320`, `390`, `768`, `1440`), avec des titres non vides et la navigation mobile chargée sur les vues étroites.
 - Une passe d’orientation complémentaire, documentée dans `docs/validation/2026-11-05-responsive-reference.md`, a contrôlé les mêmes dix routes en paysage, tablette et desktop (`30 combinaisons`) ; chaque document conserve exactement la largeur de la fenêtre.
 - La disponibilité est maintenant une donnée Supabase explicite (`available`, `soon`, `rupture`, `incomplete`) et le serveur refuse de traiter un produit qui n’est pas `available`.
@@ -136,7 +136,7 @@
 
 ### Tâche 1 — Figer la base de référence
 
-- [x] Conserver l’état initial de `main` comme point de comparaison ; la référence de départ est le commit `4e994d3`, puis les contrôles post-modification sont suivis jusqu’au dernier commit de code validé `34eac62`.
+- [x] Conserver l’état initial de `main` comme point de comparaison ; la référence de départ est le commit `4e994d3`, puis les contrôles post-modification sont suivis jusqu’au dernier commit de code validé `229f17d`.
 - [x] Générer une capture de référence des pages publiques, des pages boutique, du panier et du compte ; les captures et le contrôle de largeur sont documentés dans `docs/validation/2026-11-05-responsive-reference.md`.
 - [x] Vérifier que `npm run hostinger:preflight` passe avant toute modification.
 - [x] Vérifier que le dépôt est propre après le point de sauvegarde ; les artefacts locaux `output/` sont conservés hors Git par `.gitignore`.
@@ -1232,8 +1232,8 @@ Cette passe ajoute les manques visibles qui n’étaient pas assez détaillés d
 ### Direction artistique, composition et identité
 
 - [x] **A81 — Photographier l’état visuel actuel :** capturer accueil, menu, quatre univers, fiche, panier, compte, FAQ, boutiques et footer en desktop, tablette et mobile ; validation : une base avant/après complète est conservée dans la preuve responsive locale.
-- [ ] **A82 — Définir la proportion WOOD :** valider une direction `premium/chic` dominante, `graffiti/chill` en accent et humour en ponctuation ; validation : chaque future section indique son niveau d’intensité et ne surcharge pas l’écran.
-- [ ] **A83 — Cartographier les manques de rythme :** repérer les longues zones vides, les répétitions, les changements de densité et les sections qui arrivent trop brutalement ; validation : l’accueil possède une progression lisible du premier écran au footer.
+- [x] **A82 — Définir la proportion WOOD :** la direction `premium/chic` reste dominante, `graffiti/chill` reste un accent et l’humour une ponctuation ; les intensités `calme`, `sélection` et `impact` sont définies dans `docs/design/wood-direction-register.md` et appliquées à chaque zone du storyboard.
+- [x] **A83 — Cartographier les manques de rythme :** `docs/design/wood-home-storyboard.md` contient maintenant la carte de rythme et de densité, de l’identité au footer, avec les respirations, les risques de répétition et les garde-fous pour les sections absentes ou futures.
 - [x] **A84 — Figer les tokens visuels WOOD :** documenter couleurs, surfaces, bordures, ombres, rayons, espacements et états sans introduire de palette TealerLab ; validation : tout nouveau composant utilise les tokens validés. Vérifié dans `docs/design/wood-direction-register.md`, `boutique.css` et `test/direction-register.test.mjs`.
 - [x] **A85 — Auditer la typographie :** vérifier police, graisse, casse, interlettrage, hauteur de ligne, titres très longs et accents français ; validation : aucun titre ne déborde et la police WOOD reste reconnaissable sur tous les écrans. Vérifié par les règles WOOD, le clamp des titres, les tests de contenu extrême et la matrice responsive locale.
 - [x] **A86 — Réserver les accents graphiques :** définir les zones où stickers, traits, annotations, emojis et graffiti sont autorisés ; validation : aucun accent ne recouvre un prix, un stock, un bouton ou une information légale. Vérifié dans `docs/design/wood-accent-grammar.md` et le registre de direction ; les assets finaux restent en attente de validation propriétaire.
