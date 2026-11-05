@@ -10,7 +10,7 @@
 
 **Référence :** audit de [TealerLab](https://tealerlab.com/), site actuel WOOD, échanges avec la propriétaire et exigences de Florent.
 
-**Contrôle de cohérence :** cette feuille contient 76 tâches principales uniques, numérotées de 1 à 76. Elle contient aussi 240 tags d’exécution `A01–A240` : chaque tag possède un périmètre et un contrôle de validation, sans modifier le contrat de numérotation testé par le dépôt. Les tâches 75 et 76 ajoutent les deux garde-fous indispensables à une ouverture commerciale : conformité éditoriale/légale et continuité des données. Les décisions commerciales inconnues restent bloquées ; elles ne peuvent pas être déduites par le code.
+**Contrôle de cohérence :** cette feuille contient 76 tâches principales uniques, numérotées de 1 à 76. Elle contient aussi 280 tags d’exécution `A01–A280` : chaque tag possède un périmètre et un contrôle de validation, sans modifier le contrat de numérotation testé par le dépôt. Les tâches 75 et 76 ajoutent les deux garde-fous indispensables à une ouverture commerciale : conformité éditoriale/légale et continuité des données. Les décisions commerciales inconnues restent bloquées ; elles ne peuvent pas être déduites par le code.
 
 **Architecture d’administration retenue :** après connexion, le compte dont le rôle propriétaire est confirmé affiche directement le tableau de bord dans `compte.html`. Les nouveaux comptes restent clients. Aucun fichier ou route `admin.*` n’est publié ; RLS et les fonctions serveur restent obligatoires.
 
@@ -87,6 +87,7 @@
 - La passe de production de maquette du 5 novembre 2026 ajoute `A141–A160` : registre exact des variétés, visuels de démonstration distincts, descriptions éditoriales, pipeline de remplacement par les photos réelles, performance des images et validation de cohérence entre accueil, boutique, fiche et Supabase.
 - La seconde relecture officielle du 5 novembre 2026 ajoute `A161–A190` : le site TealerLab confirme une page d’accueil scénarisée par rails, blocs éditoriaux, sélections produits, guide, réassurance, livraison, contenus de fiche et produits liés ; WOOD récupère cette architecture d’expérience uniquement, en retirant promotions, fidélité, avis, promesses et claims non validés.
 - La passe direction artistique du 5 novembre 2026 ajoute `A191–A240` : elle détaille le dosage premium/chill/graffiti/stickers/humour, la création d’assets WOOD originaux, les règles de composition, les microcopies, les animations responsables et les contrôles finaux sur tous les supports.
+- La carte imprimée des fleurs et résines fournie le 5 novembre 2026 ajoute `A241–A280` : elle révèle le langage graphique propriétaire de WOOD — poster illustré, papier texturé, cadres irréguliers, coulures, pictogrammes par variété, badges de profil, hiérarchie tarifaire, éditions saisonnières et composition narrative — à transposer sur le site sans intégrer ses promotions actuelles.
 
 ## Phase 0 — Sécuriser l’existant avant toute évolution
 
@@ -1516,6 +1517,65 @@ Ce bloc répond précisément à la demande de la propriétaire : WOOD doit rest
 - **A221–A230** — Fichiers : briefs image, `assets/products/`, pipeline d’export, alt text. Validation : placeholders non trompeurs et remplacement réversible.
 - **A231–A240** — Fichiers : CSS/JS motion, `prefers-reduced-motion`, Playwright, matrice mobile. Validation : animation fluide, interrompable et sans régression.
 
+## Audit de la carte WOOD fleurs/résines — tags `A241–A280`
+
+Les deux photos fournies montrent une carte imprimée qui constitue une référence graphique beaucoup plus précise que la simple consigne “ajouter du graffiti”. La première photo permet de lire la liste des fleurs et les paliers ; la seconde révèle la composition globale avec les résines, l’édition Halloween et une zone promotionnelle. La carte doit être traitée comme une source de direction artistique et de données à vérifier, pas comme une image à étirer sur le site.
+
+### Décomposition visuelle constatée
+
+- [ ] **A241 — Conserver l’original comme référence maître :** archiver les deux photos reçues sans les retoucher ni les remplacer ; validation : la référence originale reste récupérable.
+- [ ] **A242 — Obtenir une capture plane de meilleure qualité :** demander un scan ou une photo sans perspective, reflet ni ombre pour les futurs découpages ; validation : texte, pictogrammes et tarifs sont lisibles à 100 %.
+- [ ] **A243 — Décomposer la carte en couches :** identifier logo, explosion jaune, titre rouge, sous-titre, textures bleues, lune, château, chauves-souris, monstre, végétation, cadres et personnages ; validation : chaque couche possède un usage documenté.
+- [ ] **A244 — Séparer le logo de campagne du logo officiel :** ne jamais remplacer automatiquement le logo WOOD officiel du site par le wordmark dessiné de la carte ; validation : utilisation distincte et validée par la propriétaire.
+- [ ] **A245 — Analyser la typographie dessinée :** documenter les effets de pinceau, contour, ombre, irrégularité et volume sans remplacer la police principale du site ; validation : les textes fonctionnels restent dans la typographie WOOD validée.
+- [ ] **A246 — Préserver la palette de la carte comme référence d’expression :** relever jaune papier, rouge, bleu, noir, crème et vert, puis les traduire uniquement avec les couleurs WOOD existantes ; validation : aucune nouvelle palette permanente n’est introduite.
+- [ ] **A247 — Reproduire la texture papier avec mesure :** prévoir un fond grainé ou une image de texture légère pour les zones éditoriales ; validation : texture compressée, accessible et jamais appliquée derrière un prix difficile à lire.
+- [ ] **A248 — Reproduire les contours irréguliers :** prévoir des cadres organiques, déchirés ou dessinés pour les titres de catégorie ; validation : le contour reste décoratif et ne réduit pas la zone de clic.
+- [ ] **A249 — Étudier les coulures :** intégrer éventuellement des coulures rouges ou noires comme motifs contrôlés, jamais comme état d’erreur ou de disponibilité ; validation : aucun effet ne brouille un texte.
+- [ ] **A250 — Documenter le décor narratif :** utiliser château, lune, chauves-souris, plantes et personnage comme inspiration de scène, jamais comme décoration automatique partout ; validation : chaque illustration a une intention et un emplacement.
+- [ ] **A251 — Définir le traitement des grands titres :** adapter `LE MENU`, `FLEURS CBD`, `RÉSINES CBD` et les futures catégories en blocs forts ; validation : le titre reste lisible sur mobile et ne déborde pas.
+- [ ] **A252 — Préserver l’asymétrie maîtrisée :** garder une composition vivante avec des éléments décalés, mais ancrer les zones commerciales sur une grille stable ; validation : l’irrégularité ne crée aucun décalage de prix ou CTA.
+- [ ] **A253 — Relever les motifs de bordure :** documenter végétation, bords noirs, cadres rouges, personnages et éléments latéraux ; validation : les motifs peuvent être masqués sur mobile sans perte d’information.
+- [ ] **A254 — Prévoir des variantes saisonnières :** rendre l’ambiance Halloween ou autre édition activable comme une couche, sans modifier le catalogue ; validation : retour à la version WOOD permanente en un seul changement.
+- [ ] **A255 — Isoler la zone promotionnelle :** traiter le bloc `10G 30€` visible sur la photo comme une future zone désactivée ; validation : aucune promotion n’apparaît dans la maquette actuelle.
+
+### Pictogrammes, catégories et données
+
+- [ ] **A256 — Recenser les pictogrammes par variété :** associer chaque icône visible à son nom exact sans deviner sa signification ; validation : registre propriétaire relu avec la photo originale.
+- [ ] **A257 — Créer une bibliothèque d’icônes WOOD :** vectoriser ou redessiner uniquement les pictogrammes validés, sans les lisser jusqu’à perdre leur personnalité ; validation : chaque icône possède une version couleur, monochrome et sans image.
+- [ ] **A258 — Ajouter l’icône comme renfort, pas comme nom :** afficher nom écrit et pictogramme ensemble ; validation : un client comprend la variété si l’icône ne charge pas.
+- [ ] **A259 — Reproduire les badges de profil :** transposer `STRONG`, `MEDIUM` et `CBD CLASSIQUE` en badges WOOD lisibles ; validation : les badges ne revendiquent aucun effet et suivent les profils validés.
+- [ ] **A260 — Harmoniser les profils avec le site :** conserver `CBD BOOSTÉ (STRONG)`, `CBD SOFT (MEDIUM)` et `CBD CLASSIQUE` dans l’interface, même si la carte imprimée utilise des libellés plus courts ; validation : aucun mélange ambigu.
+- [ ] **A261 — Construire la grille tarifaire accessible :** afficher les colonnes 1 g, 3 g, 5 g, 10 g et 25 g en HTML, pas uniquement dans une image ; validation : clavier, lecteur d’écran et zoom 200 % donnent les mêmes tarifs.
+- [ ] **A262 — Aligner les colonnes de prix :** conserver une largeur constante et un alignement numérique propre ; validation : les prix des 13 fleurs et des résines ne se décalent pas.
+- [ ] **A263 — Vérifier chaque tarif avec la source :** comparer la carte et les données `flower-pricing.js` variété par variété ; validation : aucune valeur n’est copiée d’une autre fleur.
+- [ ] **A264 — Documenter les réductions visibles :** conserver les réductions de la carte jusqu’à 25 g, sans généraliser au-delà ; validation : la règle des deux lots de 25 g reste séparée et testée.
+- [ ] **A265 — Préparer le schéma résines :** utiliser la même logique de grille sans inventer les prix masqués ou coupés dans la photo ; validation : aucune résine n’est activée avant lecture/validation complète.
+- [ ] **A266 — Conserver les libellés exacts :** ne pas corriger automatiquement les noms de variétés ou de résines à partir d’une supposition ; validation : toute correction est confirmée par la propriétaire.
+- [ ] **A267 — Prévoir l’état “donnée à confirmer” :** afficher proprement une icône, un prix ou une photo manquante sans inventer ; validation : la carte reste esthétique et l’achat est bloqué si nécessaire.
+- [ ] **A268 — Relier la carte à la boutique sans image plate :** utiliser la carte comme référence puis proposer des cartes produits interactives ; validation : clic, gramme, prix et panier restent des éléments HTML séparés.
+- [ ] **A269 — Créer une version “voir la carte” optionnelle :** afficher une vue complète haute qualité dans une visionneuse accessible ; validation : zoom, fermeture, retour clavier et mobile fonctionnent.
+- [ ] **A270 — Ajouter une transcription structurée :** fournir une version texte des catégories, noms, profils et prix ; validation : aucun utilisateur ne dépend de la photo pour comprendre l’offre.
+
+### Transposition web et campagne
+
+- [ ] **A271 — Concevoir un hero “menu WOOD” :** reprendre l’idée du poster comme scène d’accueil boutique, avec composition originale et couleurs WOOD ; validation : le hero ne devient pas une simple capture de la carte.
+- [ ] **A272 — Créer une entrée fleurs/résines :** placer les deux univers comme deux panneaux éditoriaux issus de la logique de la carte ; validation : les boutons renvoient aux bonnes pages.
+- [ ] **A273 — Préparer une section “carte de la boutique” :** présenter la carte complète comme complément du catalogue, jamais comme unique interface d’achat ; validation : un bouton d’achat réel reste disponible dans les fiches.
+- [ ] **A274 — Transformer les pictogrammes en micro-interactions :** léger mouvement au survol ou à l’appui, sans rotation permanente ; validation : animation désactivable et sans saut de carte.
+- [ ] **A275 — Prévoir une animation de coulure contrôlée :** utiliser un masque ou une entrée courte pour les titres, jamais un effet continu ; validation : mouvement réduit et performance basse respectés.
+- [ ] **A276 — Créer une édition saisonnière indépendante :** stocker décor, textes et actifs saisonniers séparément du catalogue et des prix ; validation : désactivation sans modification de Supabase.
+- [ ] **A277 — Garder la promotion désactivée :** intégrer un drapeau de campagne par défaut à `false` ; validation : aucune remise ou prix spécial ne peut apparaître par accident.
+- [ ] **A278 — Préparer les exports web :** produire SVG/PNG/WebP selon l’usage, avec source maître conservée ; validation : aucun fichier flou, trop lourd ou déformé.
+- [ ] **A279 — Faire une comparaison visuelle carte/site :** vérifier logo, textures, pictogrammes, hiérarchie, couleurs, profils, tarifs et ambiance ; validation : la transposition est reconnaissable sans être une copie plate.
+- [ ] **A280 — Faire valider la direction de la carte :** soumettre une planche `conservé / adapté / exclu` à la propriétaire ; validation : aucune intégration finale avant son accord.
+
+### Fiche d’exécution carte fleurs/résines `A241–A280`
+
+- **A241–A255** — Fichiers : références originales, `docs/design/wood-card-audit.md`, assets de décor. Validation : couches, saisonnalité et promotions séparées.
+- **A256–A270** — Fichiers : registre pictogrammes, `flower-pricing.js`, catalogue résines, HTML accessible. Validation : icônes, profils, noms et tarifs exacts.
+- **A271–A280** — Fichiers : accueil boutique, visionneuse carte, assets web, flag de campagne, captures de validation. Validation : transposition interactive et réversible.
+
 ### Interdits explicites issus de l’audit
 
 - Ne pas copier la palette noir/blanc/lime, la police, le wordmark, les slogans, les photos, les badges exacts ou les textes de TealerLab.
@@ -1540,6 +1600,8 @@ Ce bloc répond précisément à la demande de la propriétaire : WOOD doit rest
 12. `A176–A190` : ajouter seulement les blocs prouvables, verrouiller le responsive, la motion, les performances et les validations croisées.
 13. `A191–A220` : définir l’art direction, les stickers, le graffiti, l’humour, les emojis et la voix éditoriale avant de générer les assets.
 14. `A221–A240` : générer, contrôler, animer et faire valider les images et micro-interactions sans toucher au socle WOOD.
+15. `A241–A255` : numériser la carte comme référence graphique, séparer ses couches et isoler toute promotion saisonnière.
+16. `A256–A280` : transposer pictogrammes, profils, grille tarifaire, carte interactive et édition saisonnière avec validation de la propriétaire.
 
 ## Bloc de tâches 65 à 74 — éléments supplémentaires récupérés de l’audit TealerLab
 

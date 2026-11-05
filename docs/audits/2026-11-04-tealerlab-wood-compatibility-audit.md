@@ -449,3 +449,41 @@ Les assets générés peuvent servir de prototypes de direction artistique. Ils 
 ### 17.3 Nouvelles tâches de la roadmap
 
 Les points précédents sont désormais détaillés en `A191–A240` : art direction, grille, densité, graffiti, stickers, humour, emojis, briefs photo, génération d’images, registre d’assets, animations, mode mouvement réduit, performance basse, responsive et validation finale par la propriétaire et son conjoint.
+
+## 18. Audit de la carte imprimée fleurs/résines — 5 novembre 2026
+
+Les deux photographies de la carte WOOD montrent le langage graphique historique de la boutique. Elles sont plus riches qu’un simple support tarifaire et doivent être considérées comme une référence de marque à préserver, tout en séparant soigneusement la direction artistique des données commerciales.
+
+### 18.1 Structure visuelle
+
+- **Masthead :** un WOOD dessiné en noir dans une explosion jaune, avec une énergie de lettrage manuel et une bordure rouge irrégulière.
+- **Titre de campagne :** `LE MENU` en rouge, avec contour/ombre et effet de coulure ; le sous-titre `FLEURS & RÉSINES` crée immédiatement la promesse de contenu.
+- **Décor narratif :** ciel bleu, lune jaune, château, chauves-souris, végétation, monstre, griffes, personnages et bords organiques ; l’ensemble raconte une édition saisonnière plutôt qu’un simple tableau.
+- **Panneaux de catégorie :** `FLEURS CBD` et `RÉSINES CBD` sont présentés comme des cartouches dessinés, avec une forte séparation entre décor et informations.
+- **Grille tarifaire :** les colonnes de grammage sont constantes, les noms sont alignés à gauche, les prix sont alignés verticalement et les profils `STRONG`/`MEDIUM` sont visibles près de la variété.
+- **Pictogrammes :** chaque fleur possède un petit signe distinctif — botanique, fruit, objet, symbole ou personnage — qui aide la mémoire et donne une dimension de collection.
+- **Texture :** papier vieilli, grain, traces d’impression et contraste imparfait ; ces défauts sont volontaires et donnent une impression d’objet imprimé réel.
+
+### 18.2 Ce qu’il faut reprendre sur le site
+
+1. Une scène d’accueil boutique inspirée du poster, mais composée nativement pour le web.
+2. Des titres de catégories en cartouches WOOD originaux.
+3. Une bibliothèque de pictogrammes par variété, toujours accompagnée du nom écrit.
+4. Une grille de prix HTML lisible en complément des cartes interactives.
+5. Des textures, contours et coulures utilisées comme couches décoratives ponctuelles.
+6. Une édition saisonnière activable séparément du catalogue.
+7. Une visionneuse optionnelle pour voir la carte complète en haute qualité.
+8. Une transcription textuelle pour l’accessibilité et le référencement interne, sans modifier Google ni la Search Console.
+
+### 18.3 Ce qu’il ne faut pas reprendre maintenant
+
+- Le bloc promotionnel visible sur la seconde photo : la propriétaire a demandé aucune promotion pour l’instant.
+- Une image plate de la carte comme unique boutique : les choix de grammage, le prix, la disponibilité et le panier doivent rester interactifs.
+- Les textes ou prix coupés par la perspective de la photo : ils doivent être confirmés avant d’activer les résines.
+- Le wordmark dessiné comme remplacement automatique du logo officiel du site.
+- Une police graphique appliquée à tout le site : la typographie validée de WOOD reste la référence fonctionnelle.
+- Des pictogrammes dont la signification serait devinée par le code : ils doivent être validés par la propriétaire.
+
+### 18.4 Décision de roadmap
+
+Cet audit est maintenant traduit dans les tags `A241–A280`. Il complète les blocs `A191–A240` sans changer les couleurs, le logo, les prix déjà validés, la livraison uniquement, l’absence actuelle de promotion ni la carte des boutiques.
