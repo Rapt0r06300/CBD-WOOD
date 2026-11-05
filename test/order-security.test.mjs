@@ -32,12 +32,13 @@ test('validates a delivery order before it reaches the database', () => {
     customer_email: 'client@example.com',
     customer_name: 'Client WOOD',
     customer_phone: '0600000000',
-    delivery_address: '1 rue de Nice, 06000 Nice',
+    delivery_address: '1 rue de l’Église,\n06000 Nice',
     fulfillment_mode: 'delivery',
     idempotency_key: '8d6f26b9-999a-4a19-a934-2a27c7bf62db',
     items: [{ product_id: '11111111-1111-4111-8111-111111111111', grams: 3, quantity: 1 }],
   });
   assert.equal(valid.ok, true);
+  assert.equal(valid.payload.delivery_address, '1 rue de l’Église, 06000 Nice');
   assert.equal(valid.payload.items[0].grams, 3);
 });
 
@@ -54,4 +55,6 @@ test('rejects malformed, oversized or non-delivery order payloads', () => {
   assert.equal(validateOrderPayload({ ...base, idempotency_key: '' }).ok, false);
   assert.equal(validateOrderPayload({ ...base, items: [{ ...base.items[0], grams: 51 }] }).ok, false);
   assert.equal(validateOrderPayload({ ...base, items: Array.from({ length: 51 }, () => base.items[0]) }).ok, false);
+  assert.equal(validateOrderPayload({ ...base, delivery_address: `1 rue de Nice\u0000, 06000 Nice` }).ok, false);
+  assert.equal(validateOrderPayload({ ...base, delivery_address: 'x'.repeat(501) }).ok, false);
 });

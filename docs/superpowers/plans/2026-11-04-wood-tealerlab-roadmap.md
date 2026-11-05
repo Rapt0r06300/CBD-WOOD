@@ -1169,7 +1169,7 @@ Les 76 tâches principales et les tags `A01–A40` ne couvraient pas encore tout
 ### Livraison et traitement de commande
 
 - [ ] **A47 — Règles de livraison finales :** confirmer zones, transporteur, frais, délais, minimum éventuel, suivi, emballage et retours ; validation : un document propriétaire alimente les textes et le calcul réel.
-- [ ] **A48 — Adresse robuste :** gérer champs obligatoires, caractères accentués, longueur maximale, code postal, ville, pays et correction avant validation ; validation : les adresses invalides sont expliquées sans perdre le panier.
+- [ ] **A48 — Adresse robuste :** normaliser les accents, espaces et retours à la ligne, refuser les caractères de contrôle et borner l’adresse à 500 caractères côté Edge Function ; les champs structurés code postal, ville, pays, correction avant validation et règles finales restent à confirmer avec la propriétaire.
 - [ ] **A49 — États de traitement :** distinguer reçue, à préparer, expédiée, livrée, annulée, remboursée et bloquée ; validation : chaque état est visible selon le rôle et enregistré dans l’historique.
 - [ ] **A50 — Travail de la propriétaire :** afficher les informations nécessaires pour préparer, expédier et suivre une commande sans ouvrir Supabase ; validation : une commande réelle est traitable depuis le tableau de bord.
 - [ ] **A51 — Instantané de commande :** conserver nom, prix, grammage, quantité, adresse et frais tels qu’acceptés au moment de la commande ; validation : une modification future du catalogue ne réécrit jamais une ancienne commande.

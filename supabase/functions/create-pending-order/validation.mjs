@@ -1,10 +1,12 @@
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const EMAIL_PATTERN = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 const IDEMPOTENCY_PATTERN = /^[A-Za-z0-9._:-]{16,128}$/;
+const UNSAFE_CONTROL_PATTERN = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/u;
 
 const asTrimmedString = (value, maxLength) => {
   if (typeof value !== 'string') return null;
-  const normalized = value.trim();
+  if (UNSAFE_CONTROL_PATTERN.test(value)) return null;
+  const normalized = value.normalize('NFC').replace(/[\t\r\n]+/g, ' ').replace(/\s+/g, ' ').trim();
   if (!normalized || normalized.length > maxLength) return null;
   return normalized;
 };
