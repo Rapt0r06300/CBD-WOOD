@@ -68,6 +68,16 @@ test('les noms longs restent contenus sur deux lignes dans les cartes', async ()
   assert.match(stylesheet, /\.product-card h3[^\{]*\{[^}]*overflow:\s*hidden/);
 });
 
+test('les cartes gardent un fallback si une image ou un prix est extrême', async () => {
+  const script = await readFile(new URL('../boutique.js', import.meta.url), 'utf8');
+  const stylesheet = await readFile(new URL('../boutique.css', import.meta.url), 'utf8');
+  assert.match(script, /wireProductImageFallback/);
+  assert.match(script, /fallbackApplied/);
+  assert.match(script, /Visuel à venir/);
+  assert.match(stylesheet, /\.product-art--fallback/);
+  assert.match(stylesheet, /\.product-price-label[^\{]*\{[^}]*overflow-wrap:\s*anywhere/);
+});
+
 test('les cartes affichent uniquement les niveaux WOOD reconnus', async () => {
   const source = await readFile(new URL('../storefront.js', import.meta.url), 'utf8');
   const stylesheet = await readFile(new URL('../boutique.css', import.meta.url), 'utf8');

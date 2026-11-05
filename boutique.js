@@ -181,6 +181,33 @@
     card.setAttribute('aria-label', `Voir la fiche de ${card.dataset.productName || 'la référence'}`);
   }
 
+  function wireProductImageFallback(image) {
+    if (!image || image.dataset.fallbackWired === 'true') return;
+    image.dataset.fallbackWired = 'true';
+    image.addEventListener('error', () => {
+      if (image.dataset.fallbackApplied === 'true') return;
+      image.dataset.fallbackApplied = 'true';
+      image.hidden = true;
+      const art = image.closest('.product-art, .product-related__media');
+      if (!art) return;
+      let fallback = art.querySelector('[data-image-fallback]');
+      if (!fallback) {
+        fallback = document.createElement('div');
+        fallback.className = 'product-art--type product-art--fallback';
+        fallback.dataset.imageFallback = 'true';
+        fallback.setAttribute('role', 'img');
+        fallback.setAttribute('aria-label', 'Visuel à venir');
+        fallback.innerHTML = 'WOOD.<small>Visuel à venir</small>';
+        art.appendChild(fallback);
+      }
+      fallback.hidden = false;
+    }, { once: true });
+  }
+
+  function wireProductImageFallbacks() {
+    document.querySelectorAll('.product-art img, .product-related__media img').forEach(wireProductImageFallback);
+  }
+
   function enhanceFlowerCards() {
     const catalogPage = document.querySelector('main[data-catalog-category]');
     const flowerListing = document.querySelector('main[data-catalog-category="fleurs"]');
@@ -241,6 +268,7 @@
         choice.dataset.enhanced = 'true';
         meta.remove();
       });
+      wireProductImageFallbacks();
     }
   }
 
@@ -358,9 +386,11 @@
     const refreshCatalogEnhancements = () => {
       enhanceFlowerCards();
       document.querySelectorAll('[data-product-weight], [data-product-gram-control]').forEach(updateProductPrice);
+      wireProductImageFallbacks();
     };
     window.WoodShopRefreshCatalog = refreshCatalogEnhancements;
     document.addEventListener('wood:catalog-rendered', refreshCatalogEnhancements);
+    document.addEventListener('wood:detail-rendered', wireProductImageFallbacks);
     markFallbackCatalogUnavailable();
     refreshCatalogEnhancements();
     ensureCartPanel(); renderCart();

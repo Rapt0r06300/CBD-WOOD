@@ -51,6 +51,7 @@
         </article>
       </div>
       <div class="product-detail__back"><a class="btn secondary" href="${escapeHtml(context.back)}">← Retour à ${escapeHtml(context.title)}</a></div>`;
+    document.dispatchEvent(new CustomEvent('wood:detail-rendered'));
   }
 
   render();
