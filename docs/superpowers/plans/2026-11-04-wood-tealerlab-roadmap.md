@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **153 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **154 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit `b531f72d54e15d4035605ab56e8190ad4db62448` ont été vérifiés avec succès ; la page publique, `compte.html`, `fleurs.html` et une image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -431,8 +431,8 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 ### Tâche 31 — Accessibilité et lisibilité
 
 - [x] Contrôler contraste, focus visible, labels, boutons et ordre de tabulation ; le contrôle structurel et les parcours clavier du menu/carton sont couverts par les tests d’accessibilité.
-- [ ] Ne pas utiliser la couleur seule pour indiquer un stock, une erreur ou un niveau.
-- [ ] Garder des zones tactiles confortables et des textes lisibles sans zoom manuel.
+- [x] Ne pas utiliser la couleur seule pour indiquer un stock, une erreur ou un niveau ; les états et profils sont également écrits dans le DOM et testés.
+- [x] Garder des zones tactiles confortables et des textes lisibles sans zoom manuel ; les contrôles mobiles ont une hauteur minimale de 48 px et les pointeurs tactiles une largeur minimale de 44 px.
 
 **Validation :** parcours boutique et compte utilisables au clavier et sur écran étroit.
 
@@ -565,10 +565,10 @@ L’audit complet ordinateur/mobile est documenté dans `docs/audits/2026-11-04-
 
 ### Tâche 45 — Préparer les vraies photos de fleurs et résines
 
-- [ ] Prévoir un ratio d’image stable pour les fiches et les cartes.
-- [ ] Ajouter un texte alternatif précis indiquant la variété et le type de produit, sans allégation.
+- [x] Prévoir un ratio d’image stable pour les fiches et les cartes.
+- [x] Ajouter un texte alternatif précis indiquant la variété et le type de produit, sans allégation.
 - [ ] Exiger une prise de vue sans bocal ni cloche, avec cadrage photographe et éclairage maîtrisé.
-- [ ] Charger les grandes images progressivement sans provoquer de saut.
+- [x] Charger les grandes images progressivement sans provoquer de saut ; dimensions et `loading="lazy"` sont réservés dans le rendu actuel.
 - [ ] Remplacer les illustrations temporaires uniquement après validation des originaux.
 
 **Validation :** les photos de la propriétaire sont nettes, cadrées et cohérentes sur desktop et mobile.
