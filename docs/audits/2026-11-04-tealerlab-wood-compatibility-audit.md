@@ -487,3 +487,68 @@ Les deux photographies de la carte WOOD montrent le langage graphique historique
 ### 18.4 Décision de roadmap
 
 Cet audit est maintenant traduit dans les tags `A241–A280`. Il complète les blocs `A191–A240` sans changer les couleurs, le logo, les prix déjà validés, la livraison uniquement, l’absence actuelle de promotion ni la carte des boutiques.
+
+## 19. Audit approfondi de l’accueil TealerLab — desktop et mobile — 5 novembre 2026
+
+Une seconde vérification a été réalisée sur l’accueil officiel [TealerLab](https://tealerlab.com/) avec Exa, Parallel Search et un navigateur réel : viewport desktop `1440 × 1000`, puis viewport mobile `390 × 844`. L’objectif était de comprendre précisément pourquoi la présentation des fleurs plaît au conjoint de la propriétaire et de traduire les mécanismes compatibles en version WOOD.
+
+### 19.1 Architecture observée sur l’accueil
+
+L’accueil est construit comme un parcours éditorial commercial continu, et non comme une simple page vitrine :
+
+1. une barre de service et un en-tête avec menu, recherche, compte et panier ;
+2. un hero de campagne très visuel avec CTA, indice de scroll et preuve sociale ;
+3. un bandeau animé de service ;
+4. des opérations mises en avant ;
+5. une série de cartes d’offres en carousel ;
+6. une bande de logos de visibilité ;
+7. une sélection de produits avec cartes riches ;
+8. un guide pour orienter le client ;
+9. une navigation par familles de produits ;
+10. un module de composition de pack ;
+11. des sections fleurs et résines répétant la même grammaire de carte ;
+12. des contenus communautaires, un blog, une FAQ, des statistiques, une newsletter et un footer structuré.
+
+Ce rythme est la principale inspiration à récupérer pour WOOD. Les opérations, les jeux, les chiffres, la fidélité, les avis, les parrainages, les cadeaux et les slogans restent exclus tant qu’ils ne sont pas propres à WOOD, documentés et validés.
+
+### 19.2 Présentation des fleurs et résines à récupérer
+
+Les cartes produits observées combinent plusieurs informations dans un ordre constant : média produit, badges de profil, nom exact, éventuels avis, choix de grammage, prix d’origine/prix courant, prix au gramme et bouton d’ajout. Le client comprend donc rapidement ce qu’il regarde et peut acheter sans ouvrir chaque fiche.
+
+Pour WOOD, cette grammaire doit devenir :
+
+- visuel sous cloche ou placeholder WOOD clairement marqué ;
+- `CBD BOOSTÉ (STRONG)`, `CBD SOFT (MEDIUM)` ou `CBD CLASSIQUE` ;
+- nom exact de la variété ;
+- description courte validée, sans promesse d’effet ;
+- contrôle `− / grammes / +` démarrant à `1 g` ;
+- prix exact propre à la variété et au grammage choisi ;
+- disponibilité réelle ;
+- bouton `Ajouter au panier` ;
+- clic indépendant vers une fiche détaillée avec transition fluide.
+
+La grille TealerLab est dense et répétitive ; WOOD doit en conserver la lisibilité mais appliquer les décisions déjà données par l’utilisateur : trois produits par ligne sur ordinateur, quatre cases carrées en `2 × 2` sur mobile lorsque la largeur le permet, aucune recherche par nom, aucun filtre et aucune promotion active.
+
+### 19.3 Différences desktop/mobile observées
+
+Sur desktop, le site utilise un en-tête complet, des sections larges, plusieurs cartes côte à côte, des rails de sélection et des blocs éditoriaux alternés. Sur mobile, il ne fait pas qu’écraser les mêmes éléments :
+
+- l’en-tête devient compact avec menu, recherche et panier ;
+- les rails affichent moins d’éléments à la fois ;
+- les cartes produits passent en deux colonnes ;
+- les sections sont réordonnées verticalement ;
+- le footer devient accordéon ;
+- les contrôles de produit restent accessibles au pouce ;
+- les informations restent lisibles sans dépendre du survol.
+
+WOOD doit reprendre cette recomposition en gardant sa navigation basse app-like, ses couleurs, son logo et sa simplicité pour tous les âges. La version tablette doit être traitée comme une troisième composition, pas comme un mobile agrandi.
+
+### 19.4 Audit des risques à éviter
+
+Le site de référence montre aussi des éléments qui ne doivent pas être copiés : superpositions de consentement, widgets flottants, nombreuses bandes de promotion, pop-ups, compteurs, avis et données de preuve sociale. Sur WOOD, aucun de ces éléments ne doit recouvrir une fiche, déplacer un prix ou retarder l’accès au panier.
+
+Les erreurs à tester explicitement sont : hero sans image, titre long, carte sans photo, stock absent, prix incomplet, réseau lent, viewport `320 px`, orientation paysage, clavier virtuel, zoom 200 %, mouvement réduit, double clic sur l’ajout et retour arrière après une fiche.
+
+### 19.5 Décision de roadmap
+
+Les résultats de cette passe sont maintenant détaillés dans les tags `A281–A360` de la feuille de route. Ils ajoutent un plan précis pour l’accueil WOOD, la présentation des fleurs/résines, les cartes, le hero, le menu, la recomposition mobile, la motion, l’accessibilité, la performance et la recette finale. Ils ne modifient aucune décision commerciale ni l’identité graphique validée.

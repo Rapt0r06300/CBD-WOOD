@@ -10,7 +10,7 @@
 
 **Référence :** audit de [TealerLab](https://tealerlab.com/), site actuel WOOD, échanges avec la propriétaire et exigences de Florent.
 
-**Contrôle de cohérence :** cette feuille contient 76 tâches principales uniques, numérotées de 1 à 76. Elle contient aussi 280 tags d’exécution `A01–A280` : chaque tag possède un périmètre et un contrôle de validation, sans modifier le contrat de numérotation testé par le dépôt. Les tâches 75 et 76 ajoutent les deux garde-fous indispensables à une ouverture commerciale : conformité éditoriale/légale et continuité des données. Les décisions commerciales inconnues restent bloquées ; elles ne peuvent pas être déduites par le code.
+**Contrôle de cohérence :** cette feuille contient 76 tâches principales uniques, numérotées de 1 à 76. Elle contient aussi 360 tags d’exécution `A01–A360` : chaque tag possède un périmètre et un contrôle de validation, sans modifier le contrat de numérotation testé par le dépôt. Les tâches 75 et 76 ajoutent les deux garde-fous indispensables à une ouverture commerciale : conformité éditoriale/légale et continuité des données. Les décisions commerciales inconnues restent bloquées ; elles ne peuvent pas être déduites par le code.
 
 **Architecture d’administration retenue :** après connexion, le compte dont le rôle propriétaire est confirmé affiche directement le tableau de bord dans `compte.html`. Les nouveaux comptes restent clients. Aucun fichier ou route `admin.*` n’est publié ; RLS et les fonctions serveur restent obligatoires.
 
@@ -88,6 +88,7 @@
 - La seconde relecture officielle du 5 novembre 2026 ajoute `A161–A190` : le site TealerLab confirme une page d’accueil scénarisée par rails, blocs éditoriaux, sélections produits, guide, réassurance, livraison, contenus de fiche et produits liés ; WOOD récupère cette architecture d’expérience uniquement, en retirant promotions, fidélité, avis, promesses et claims non validés.
 - La passe direction artistique du 5 novembre 2026 ajoute `A191–A240` : elle détaille le dosage premium/chill/graffiti/stickers/humour, la création d’assets WOOD originaux, les règles de composition, les microcopies, les animations responsables et les contrôles finaux sur tous les supports.
 - La carte imprimée des fleurs et résines fournie le 5 novembre 2026 ajoute `A241–A280` : elle révèle le langage graphique propriétaire de WOOD — poster illustré, papier texturé, cadres irréguliers, coulures, pictogrammes par variété, badges de profil, hiérarchie tarifaire, éditions saisonnières et composition narrative — à transposer sur le site sans intégrer ses promotions actuelles.
+- La seconde passe live de l’accueil TealerLab, contrôlée le 5 novembre 2026 en viewport desktop `1440 × 1000` et mobile `390 × 844`, ajoute `A281–A360` : elle détaille la chorégraphie de la page d’accueil, la présentation des fleurs/résines, les cartes, les rails, les états, la recomposition mobile, la performance et la validation sans changer l’identité WOOD.
 
 ## Phase 0 — Sécuriser l’existant avant toute évolution
 
@@ -1734,6 +1735,132 @@ Cette extension reprend des mécanismes utiles observés sur les pages produit, 
 - [ ] Tester la reprise après rafraîchissement, panne réseau, erreur fournisseur et restauration, avec preuve de non-duplication.
 
 **Validation :** une commande persistée reste retrouvable et traitable même si le réseau, l’e-mail ou le paiement échoue.
+
+## Bloc de tâches 77 à 84 — refonte précise de l’accueil WOOD inspirée de TealerLab
+
+Cette passe est dédiée à la page d’accueil, car c’est elle que le conjoint de la propriétaire apprécie le plus chez TealerLab. L’objectif est de reprendre la logique de présentation et le rythme d’une boutique éditoriale moderne, pas de copier la page. Les couleurs WOOD, le logo officiel, la typographie, la carte tarifaire, les quatre univers, la livraison seule et la simplicité restent prioritaires.
+
+### 77.1 — Observer et cartographier l’accueil de référence
+
+- [ ] **A281 — Capturer l’état desktop de référence :** conserver une capture de l’accueil TealerLab en `1440 × 1000` pour analyser la hiérarchie, pas pour réutiliser ses assets ; validation : capture datée et séparée des assets WOOD.
+- [ ] **A282 — Capturer l’état mobile de référence :** conserver une capture en `390 × 844` et noter les différences de composition ; validation : le mobile est étudié comme une composition autonome.
+- [ ] **A283 — Lister les sections visibles :** relever hero, bandeau, offres, logos de confiance, sélection, guide, catégories, pack, fleurs, résines, FAQ, contenus éditoriaux et footer ; validation : aucune section observée n’est oubliée ou activée automatiquement dans WOOD.
+- [ ] **A284 — Cartographier les transitions :** documenter ce qui apparaît au chargement, au scroll, au survol, au toucher et au clic ; validation : chaque animation future a une intention et un état de repli.
+- [ ] **A285 — Séparer mécanisme et contenu :** classer chaque élément en `structure`, `interaction`, `donnée`, `asset` ou `promotion` ; validation : seuls les mécanismes compatibles passent dans la proposition WOOD.
+- [ ] **A286 — Établir la matrice garder/adapter/exclure :** faire relire la matrice avant intégration ; validation : promotions, fidélité, parrainage, jeu, faux avis et compteurs sont exclus par défaut.
+- [ ] **A287 — Définir l’ordre WOOD de l’accueil :** proposer `hero → livraison → univers → sélection → cloche → informations → boutiques → FAQ → footer` ; validation : l’ordre explique WOOD avant de pousser l’achat.
+- [ ] **A288 — Préparer un storyboard desktop/mobile :** produire deux schémas basse fidélité avec les mêmes informations et des compositions différentes ; validation : aucun simple redimensionnement du desktop n’est accepté.
+- [ ] **A289 — Fixer le rythme de densité :** alterner une section forte, une section respirée et une section commerciale ; validation : la page reste riche sans devenir chargée.
+- [ ] **A290 — Créer une checklist de non-copie :** vérifier logo, textes, images, couleurs, police, slogans, badges et placement ; validation : la ressemblance provient de l’expérience, pas d’éléments protégés.
+
+### 77.2 — Construire le premier écran WOOD
+
+- [ ] **A291 — Composer le hero WOOD desktop :** prévoir un message fort, une zone image/illustration et un CTA sans reprendre l’image de campagne TealerLab ; validation : le premier écran est immédiatement identifiable comme WOOD.
+- [ ] **A292 — Composer le hero WOOD mobile :** empiler le message, le média et l’action avec une zone de clic confortable ; validation : aucun titre n’est coupé sur `320–430 px`.
+- [ ] **A293 — Réutiliser la hiérarchie typographique WOOD :** garder la police et les couleurs existantes, puis travailler seulement taille, poids, rythme et respiration ; validation : aucune nouvelle police n’est chargée.
+- [ ] **A294 — Définir le texte d’introduction :** écrire une phrase courte sur l’univers WOOD sans promesse médicale, effet garanti ni donnée inventée ; validation : texte validable par la propriétaire.
+- [ ] **A295 — Définir le CTA principal :** choisir une action WOOD claire comme `Découvrir la boutique` ou `Voir les univers` ; validation : un seul CTA principal domine le premier écran.
+- [ ] **A296 — Définir le CTA secondaire :** relier le second bouton à `Nous trouver` ou `Notre histoire`, sans détourner vers l’administration ; validation : tous les liens sont testés.
+- [ ] **A297 — Réserver l’emplacement de la photo réelle :** prévoir un ratio stable pour la future photographie sous cloche ; validation : le remplacement ne change pas la géométrie du hero.
+- [ ] **A298 — Préparer un prototype graphique original :** générer au besoin une image de démonstration avec une fleur présentée proprement, sans texte parasite ni logo inventé ; validation : asset marqué `demo` et remplaçable.
+- [ ] **A299 — Ajouter le contrôle de scroll :** proposer une indication discrète vers la section suivante, sans scroll-jacking ; validation : le clavier et le toucher conservent le contrôle du document.
+- [ ] **A300 — Tester le hero sans image :** prévoir un état de chargement et un état absent qui restent esthétiques ; validation : le texte et le CTA restent utilisables si l’image échoue.
+
+### 78.1 — En-tête, bandeau et navigation d’accueil
+
+- [ ] **A301 — Réordonner l’en-tête desktop WOOD :** logo officiel, univers, boutique, recherche éventuelle non activée, compte et panier selon la hiérarchie existante ; validation : aucun accès admin public.
+- [ ] **A302 — Réordonner l’en-tête mobile WOOD :** menu, logo, panier et compte doivent rester atteignables au pouce ; validation : aucun élément important n’est caché derrière un geste non documenté.
+- [ ] **A303 — Conserver le logo original :** intégrer uniquement le fichier/logo validé fourni par l’utilisateur, sans branche inventée ni déformation ; validation : comparaison visuelle avec la référence originale.
+- [ ] **A304 — Prévoir un header sticky mesuré :** le header peut rester visible après scroll, mais ne doit pas couvrir les titres ou les boutons ; validation : offset d’ancre et zones de clic testés.
+- [ ] **A305 — Préparer un menu WOOD structuré :** regrouper fleurs, résines, bien-être/huiles, textile/goods, boutiques, FAQ, compte et panier ; validation : menu compréhensible à tout âge.
+- [ ] **A306 — Adapter le menu mobile en panneau :** créer une ouverture fluide avec retour de focus, fermeture Échap et bouton fermer ; validation : clavier, lecteur d’écran et toucher fonctionnent.
+- [ ] **A307 — Ajouter un bandeau de service non promotionnel :** annoncer uniquement que la livraison est disponible tant que les règles détaillées ne sont pas confirmées ; validation : aucun cadeau, remise, seuil ou délai inventé.
+- [ ] **A308 — Créer un ticker WOOD optionnel :** reprendre le mouvement de bandeau comme rythme de marque, avec texte neutre et arrêt accessible ; validation : il ne masque jamais le contenu et respecte `prefers-reduced-motion`.
+- [ ] **A309 — Éviter les barres concurrentes :** ne pas empiler annonce, cookie, widget, WhatsApp et pop-up sur le premier écran ; validation : une seule couche temporaire maximum recouvre l’écran.
+- [ ] **A310 — Vérifier la position des ancres :** les liens `Boutique`, `Nous trouver`, `FAQ` et `Compte` doivent arriver au bon endroit sur toutes les tailles ; validation : aucun saut vers une section masquée.
+
+### 78.2 — Univers WOOD et présentation éditoriale
+
+- [ ] **A311 — Créer la section “Nos univers” :** présenter les quatre familles WOOD comme des entrées visuelles fortes ; validation : chaque carte possède un nom, une phrase courte et un lien.
+- [ ] **A312 — Définir la carte fleurs :** utiliser une image de fleur sous cloche ou un placeholder validé ; validation : le média n’est pas une simple copie d’un visuel TealerLab.
+- [ ] **A313 — Définir la carte résines :** utiliser une présentation matière cohérente avec la carte WOOD ; validation : aucune résine sans données validées n’est vendue.
+- [ ] **A314 — Définir la carte bien-être :** inclure huiles et cosmétiques sans promesse thérapeutique ; validation : textes et produits sont séparés des fleurs/résines.
+- [ ] **A315 — Définir la carte textile/goods :** prévoir t-shirts et objets sans inventer tailles, prix ou disponibilité ; validation : états `à renseigner` propres.
+- [ ] **A316 — Reprendre les cartouches de la carte WOOD :** adapter cadres, textures et pictogrammes à l’écran sans transformer chaque zone en affiche illisible ; validation : contraste et lisibilité validés.
+- [ ] **A317 — Ajouter des repères numérotés :** utiliser `01`, `02`, `03`, `04` comme rythme éditorial, sans signification commerciale cachée ; validation : ordre identique desktop/mobile.
+- [ ] **A318 — Ajouter des accents graffiti contrôlés :** limiter les stickers aux zones éditoriales et garder les prix sobres ; validation : aucun sticker ne recouvre une action.
+- [ ] **A319 — Ajouter une pointe d’humour WOOD :** préparer des microcopies originales, simples et validables ; validation : l’humour ne promet rien et ne gêne pas la compréhension.
+- [ ] **A320 — Vérifier la sobriété premium :** mesurer le ratio décor/information de chaque carte ; validation : l’identité reste chic et premium, avec les accents chill/graffiti demandés, sans ajout de style non demandé.
+
+### 79.1 — Sélection de fleurs et résines sur l’accueil
+
+- [ ] **A321 — Ajouter un bloc “Sélection fleurs” :** afficher une sélection courte issue des produits WOOD réels ou de placeholders marqués ; validation : les variétés restent celles fournies par la boutique.
+- [ ] **A322 — Ajouter un bloc “Sélection résines” :** créer la même qualité de présentation après validation des données résines ; validation : aucun prix coupé ou supposé n’est affiché.
+- [ ] **A323 — Fixer la grille desktop à trois produits :** conserver trois cartes par ligne comme demandé par l’utilisateur ; validation : la quatrième carte passe à la ligne suivante sans décalage.
+- [ ] **A324 — Fixer la grille mobile à quatre cases :** composer une grille `2 × 2` carrée lorsque la largeur le permet ; validation : chaque carte reste entière et cliquable.
+- [ ] **A325 — Définir le comportement tablette :** passer à deux ou trois cartes selon la largeur réelle, sans forcer un texte minuscule ; validation : aucun titre ou bouton n’est tronqué.
+- [ ] **A326 — Prévoir le lien “Voir toute la sélection” :** relier chaque bloc à la bonne page fleurs ou résines ; validation : test de navigation desktop/mobile.
+- [ ] **A327 — Préparer les rails uniquement si nécessaire :** utiliser un rail tactile local pour les contenus secondaires, pas pour cacher la grille principale ; validation : pas de scroll horizontal global.
+- [ ] **A328 — Mettre en place la carte produit WOOD :** ordre fixe `image → profil → nom → description → grammage → prix → panier` ; validation : ordre identique sur toutes les cartes.
+- [ ] **A329 — Afficher les profils exacts :** conserver `CBD BOOSTÉ (STRONG)`, `CBD SOFT (MEDIUM)` et `CBD CLASSIQUE` ; validation : aucun synonyme inventé.
+- [ ] **A330 — Afficher le nom exact de la variété :** aucune correction automatique, accent ou renommage sans validation propriétaire ; validation : comparaison avec la carte source.
+
+### 79.2 — Achat rapide et fiche produit depuis l’accueil
+
+- [ ] **A331 — Ajouter le contrôle `− / grammage / +` :** commencer à `1 g` et permettre une présélection depuis la carte ; validation : le contrôle ne descend jamais sous `1 g`.
+- [ ] **A332 — Afficher le prix du grammage choisi près de l’action :** recalculer l’affichage sans déplacer la carte ; validation : le grammage, le total et le prix au gramme sont cohérents.
+- [ ] **A333 — Appliquer la grille propre à chaque fleur :** utiliser les prix de la carte et le registre de la variété, jamais une moyenne commune ; validation : tests par variété.
+- [ ] **A334 — Bloquer les paliers non confirmés :** ne pas inventer la tarification de `2 g`, `4 g`, `6–9 g` ou `11–24 g` ; validation : état explicite et panier intact.
+- [ ] **A335 — Limiter les réductions à la règle validée :** ne pas dépasser `25 g` sauf règle distincte pour deux lots de `25 g` ; validation : aucun arrondi promotionnel automatique.
+- [ ] **A336 — Ajouter le feedback panier :** afficher une confirmation courte et réversible après ajout ; validation : aucun saut de page ni double ajout au double clic.
+- [ ] **A337 — Faire cliquer l’image vers la fiche :** transformer le clic en transition douce vers une présentation détaillée ; validation : l’action `+` reste indépendante du lien.
+- [ ] **A338 — Préparer le zoom de fiche fluide :** utiliser une transition stable de type shared-element lorsque possible, avec fallback sans animation ; validation : aucun saut ni repositionnement du document.
+- [ ] **A339 — Répéter l’achat dans la fiche :** garder la sélection de grammes, `−/+`, prix et panier visibles tôt dans la page ; validation : le client n’a pas à chercher le contrôle.
+- [ ] **A340 — Ajouter une indication de livraison avant achat :** afficher une phrase courte dans la fiche et sur l’accueil ; validation : retrait en boutique absent du parcours.
+
+### 80.1 — Blocs de confiance et contenu d’accueil
+
+- [ ] **A341 — Créer une section “sous cloche” :** préparer un récit visuel sur la présentation qualitative des fleurs/résines ; validation : la section reste un contenu de marque, pas une promesse d’effet.
+- [ ] **A342 — Préparer le remplacement par photos réelles :** garder un ratio, une légende et un emplacement stables ; validation : une photo de la propriétaire remplace le placeholder sans refonte.
+- [ ] **A343 — Ajouter une section qualité vérifiable :** réserver des emplacements aux informations réellement fournies par WOOD ; validation : aucun faux laboratoire, taux ou label.
+- [ ] **A344 — Ajouter une section boutiques :** présenter Barla et Borriglione avec le bon numéro, l’adresse exacte et des boutons indépendants ; validation : aucun point final ajouté aux noms.
+- [ ] **A345 — Garder la carte WOOD actuelle :** réutiliser la carte existante dans `Nous trouver` sans la remplacer ; validation : seulement cadrage/responsive améliorés.
+- [ ] **A346 — Préparer une section contact :** email, téléphone et formulaire seulement avec données confirmées ; validation : un numéro est toujours associé à sa boutique.
+- [ ] **A347 — Préparer la FAQ d’accueil :** répondre simplement à compte, commande, livraison, paiement et produits ; validation : aucune règle de livraison non validée.
+- [ ] **A348 — Ajouter un accordéon accessible :** ouvrir une réponse sans déplacer brutalement le viewport ; validation : clavier, toucher et lecteur d’écran.
+- [ ] **A349 — Réserver une zone éditoriale WOOD :** histoire, humour, graffiti ou coulisses uniquement après validation des textes et images ; validation : la zone peut rester vide proprement.
+- [ ] **A350 — Exclure les preuves sociales inventées :** ne pas copier les avis, compteurs, followers ou témoignages TealerLab ; validation : aucun chiffre de démonstration en production.
+
+### 80.2 — Footer, animation et sensation d’application
+
+- [ ] **A351 — Recomposer le footer desktop :** groupes courts `Explorer`, `Aide`, `WOOD`, `Légal` avec les deux boutiques ; validation : rien d’administratif n’est visible.
+- [ ] **A352 — Recomposer le footer mobile :** utiliser des sections repliables, sans texte minuscule ni colonnes qui débordent ; validation : ouverture/fermeture accessible.
+- [ ] **A353 — Conserver la navigation basse mobile :** garder `Accueil`, `Boutique`, `Nous trouver`, `Compte` et `Panier` selon la structure WOOD validée ; validation : l’onglet actif correspond à la page.
+- [ ] **A354 — Animer l’arrivée du hero :** révéler le texte et le média en douceur, sans retarder le CTA ; validation : animation désactivable et aucun CLS visible.
+- [ ] **A355 — Animer les sections au scroll :** utiliser une apparition unique avec seuil raisonnable ; validation : retour arrière et rechargement ne rejouent pas un mouvement gênant.
+- [ ] **A356 — Animer les cartes au survol desktop :** prévoir élévation légère, zoom limité et focus visible ; validation : aucune carte ne change de taille de grille.
+- [ ] **A357 — Adapter les micro-interactions au toucher :** remplacer le hover par un feedback bref au tap ; validation : aucun bouton ne reste dans un état hover bloqué.
+- [ ] **A358 — Respecter `prefers-reduced-motion` :** supprimer zoom, translation et ticker animé tout en gardant le contenu ; validation : parcours identique sans mouvement.
+- [ ] **A359 — Vérifier la sensation app-like :** tester zones de pouce, navigation basse, retours, états de chargement et conservation du panier ; validation : la version mobile semble dédiée sans devenir une application native.
+- [ ] **A360 — Réaliser la recette visuelle finale :** comparer WOOD desktop/mobile aux storyboards, vérifier chaque lien et faire valider une planche par la propriétaire et son conjoint ; validation : aucun changement final sans accord explicite.
+
+### Fiche d’exécution de l’accueil `A281–A360`
+
+- **A281–A290** — Fichiers : captures d’audit, storyboard, matrice garder/adapter/exclure. Validation : architecture d’accueil documentée et non copiée.
+- **A291–A310** — Fichiers : `index.html`, `boutique.css`, `responsive.css`, navigation et bandeau. Validation : hero, menu et annonce WOOD cohérents sur desktop/mobile.
+- **A311–A330** — Fichiers : blocs univers, registre de contenu, pictogrammes et cartes. Validation : quatre univers, grille et profils exacts.
+- **A331–A340** — Fichiers : `boutique.js`, `flower-pricing.js`, fiche produit, panier et tests de prix. Validation : achat rapide et fiche ne régressent pas.
+- **A341–A350** — Fichiers : sections cloche, boutiques, FAQ, contact et textes validés. Validation : aucun claim ni preuve sociale inventé.
+- **A351–A360** — Fichiers : footer, navigation mobile, CSS/JS motion, Playwright et captures. Validation : app-like mobile, mouvement réduit, liens et validation humaine.
+
+### Ordre de travail de cette passe d’accueil
+
+1. `A281–A290` : terminer l’audit, le storyboard et la matrice de décision avant tout changement graphique.
+2. `A291–A310` : recomposer hero, header, menu et bandeau en gardant les primitives WOOD.
+3. `A311–A330` : construire univers et sélections avec photos réelles ou placeholders explicitement marqués.
+4. `A331–A340` : connecter les cartes à la tarification existante, au panier et aux fiches sans modifier les règles commerciales.
+5. `A341–A350` : ajouter cloche, boutiques, FAQ et contenus vérifiables ; garder les zones inconnues désactivées.
+6. `A351–A360` : finaliser mobile/desktop, animations, accessibilité, performance et recette propriétaire/conjoint.
 
 ## Décisions qui restent volontairement bloquées
 
