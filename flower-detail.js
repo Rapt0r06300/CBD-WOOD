@@ -19,6 +19,10 @@
   const requestedId = new URLSearchParams(window.location.search).get('produit') || 'fleurs-nimbus-3000';
   const productId = Object.hasOwn(products, requestedId) ? requestedId : 'fleurs-nimbus-3000';
   const product = products[productId];
+  const relatedProducts = Object.entries(products)
+    .filter(([id]) => id !== productId)
+    .sort(([, left], [, right]) => Math.abs(Number(left.index) - Number(product.index)) - Math.abs(Number(right.index) - Number(product.index)))
+    .slice(0, 3);
   const presentation = window.WoodFlowerPresentation?.get(productId);
   const presentationDescription = presentation?.demoDescription
     ? `${presentation.demoDescription} Choisissez le grammage souhaité.`
@@ -56,5 +60,15 @@
         </div>
       </article>
     </div>
+    <section class="product-related" aria-labelledby="related-title">
+      <div class="product-related__heading"><div><div class="kicker">Même univers</div><h2 id="related-title">À DÉCOUVRIR<br><span>CHEZ WOOD.</span></h2></div><p>Trois autres fleurs de la sélection, à consulter sans quitter l’univers WOOD.</p></div>
+      <div class="product-related__grid">
+        ${relatedProducts.map(([id, related]) => {
+          const relatedPresentation = window.WoodFlowerPresentation?.get(id);
+          const relatedImage = relatedPresentation?.image || 'assets/fleurs.svg';
+          return `<a class="product-related__card" href="fleur.html?produit=${encodeURIComponent(id)}"><div class="product-related__media"><img src="${relatedImage}" alt="Photo de démonstration de la fleur ${related.name}" loading="lazy"></div><div class="product-related__body"><span>${related.profile}</span><strong>${related.name}</strong><em>Voir la fiche <span aria-hidden="true">↗</span></em></div></a>`;
+        }).join('')}
+      </div>
+    </section>
     <div class="flower-detail__back"><a class="btn secondary" href="fleurs.html">← Retour aux fleurs</a></div>`;
 })();

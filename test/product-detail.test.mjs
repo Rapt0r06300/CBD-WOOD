@@ -7,6 +7,7 @@ const listing = await readFile(new URL('fleurs.html', root), 'utf8');
 const detail = await readFile(new URL('fleur.html', root), 'utf8');
 const genericDetail = await readFile(new URL('produit.html', root), 'utf8');
 const boutique = await readFile(new URL('boutique.js', root), 'utf8');
+const flowerDetailScript = await readFile(new URL('flower-detail.js', root), 'utf8');
 const genericScript = await readFile(new URL('product-detail.js', root), 'utf8');
 const stylesheet = await readFile(new URL('boutique.css', root), 'utf8');
 
@@ -29,6 +30,13 @@ test('les trois autres univers mènent vers une fiche générique exploitable', 
   assert.match(genericScript, /bien-etre/);
   assert.match(genericScript, /wood-shop/);
   assert.match(genericScript, /createClient/);
+});
+
+test('la fiche fleur propose uniquement des découvertes du même univers', () => {
+  assert.match(flowerDetailScript, /product-related/);
+  assert.match(flowerDetailScript, /fleur\.html\?produit=/);
+  assert.match(flowerDetailScript, /Même univers/);
+  assert.doesNotMatch(flowerDetailScript, /best-seller|promotion|avis|étoile/i);
 });
 
 test('le zoom utilise uniquement transform/opacity et garde un accès sans animation', () => {

@@ -10,7 +10,7 @@ test('checkout section keeps the shared container gutters', async () => {
     const html = await readFile(new URL(`../${page}`, import.meta.url), 'utf8');
     assert.match(
       html,
-      /boutique\.css\?v=wood-responsive-v6-20261104/,
+      /boutique\.css\?v=wood-responsive-v7-20261105/,
       `${page} doit charger la feuille responsive publiée sans cache obsolète`,
     );
   }
@@ -73,4 +73,13 @@ test('la grille catalogue garde trois colonnes sur desktop et tablette', async (
 
   assert.match(boutiqueStylesheet, /\.product-grid\{display:grid;grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/);
   assert.match(boutiqueStylesheet, /\.product-grid\{grid-auto-rows:1fr\}/);
+});
+
+test('la fiche générique passe en une colonne avant la largeur des téléphones étroits', async () => {
+  const boutiqueStylesheet = await readFile(new URL('../boutique.css', import.meta.url), 'utf8');
+  assert.match(
+    boutiqueStylesheet,
+    /@media\(max-width:900px\)\{[\s\S]*?\.product-detail__intro\{grid-template-columns:minmax\(0,1fr\)[^}]*\}/,
+    'la fiche générique ne doit pas conserver sa grille desktop sur un téléphone',
+  );
 });

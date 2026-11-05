@@ -1083,7 +1083,7 @@ Ces sous-tâches détaillent la refonte à exécuter plus tard. Elles ne valent 
 - [x] **A17 — Interdire les données décoratives inventées :** avis, taux, réductions, économies, badges et chiffres non fournis.
 - [x] **A18 — Créer la fiche produit WOOD :** grande image, présentation, achat et informations dans cet ordre.
 - [x] **A19 — Ajouter le zoom de fiche sans saut :** transition courte, centrée, annulable et compatible avec le bouton retour.
-- [ ] **A20 — Prévoir les recommandations :** produits du même univers uniquement, sans détourner l’action d’achat.
+- [x] **A20 — Prévoir les recommandations :** produits du même univers uniquement, sans détourner l’action d’achat ; la fiche fleur propose maintenant trois découvertes du même univers dans `flower-detail.js`, sans promotions ni avis inventés.
 - [x] **A21 — Mettre en scène la photo produit :** emplacement réservé aux vraies photos de la propriétaire et à leurs ratios ; les originaux restent attendus avant remplacement.
 - [x] **A22 — Préparer le bloc de réassurance :** conseil, Nice, boutiques et livraison seulement lorsque chaque formulation est validée.
 - [x] **A23 — Préparer la FAQ WOOD :** accordéon simple, recherche non nécessaire, réponses confirmées uniquement.
@@ -1092,7 +1092,7 @@ Ces sous-tâches détaillent la refonte à exécuter plus tard. Elles ne valent 
 - [x] **A26 — Adapter la grille mobile :** deux colonnes formant quatre cases visibles dans un bloc `2 × 2` quand la largeur le permet.
 - [x] **A27 — Adapter la tablette :** deux ou trois colonnes selon la largeur réelle, sans dépendre du nom du modèle.
 - [ ] **A28 — Isoler les carrousels :** overflow local contrôlé, boutons précédent/suivant accessibles et aucun débordement de page.
-- [ ] **A29 — Vérifier les zones sûres :** encoche, barre d’outils Safari, orientation et navigation basse.
+- [x] **A29 — Vérifier les zones sûres :** encoche, barre d’outils Safari, orientation et navigation basse ; les zones `safe-area-inset-*`, `100svh`, la navigation basse et les orientations portrait/paysage ont été contrôlées sur les routes publiques.
 - [ ] **A30 — Vérifier les contenus extrêmes :** nom long, prix élevé, absence d’image, état incomplet et texte de FAQ long.
 - [x] **A31 — Ajouter les apparitions au scroll :** une fois les dimensions réservées, sans déplacer les contrôles.
 - [x] **A32 — Ajouter le bandeau animé WOOD :** message de service ou de marque, jamais promotion inventée ; repli accessible et statique en mouvement réduit.
