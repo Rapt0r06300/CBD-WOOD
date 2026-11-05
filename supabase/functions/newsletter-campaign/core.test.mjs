@@ -31,6 +31,7 @@ test('newsletter message includes a signed unsubscribe link in text and html', a
 
 test('newsletter failures defer temporary errors and stop after the attempt limit', () => {
   assert.equal(deliveryOutcome({ error: { status: 503 }, attempts: 1 }).status, 'deferred');
+  assert.equal(deliveryOutcome({ error: { status: 429 }, attempts: 1 }).status, 'deferred');
   assert.equal(deliveryOutcome({ error: { status: 400 }, attempts: 1 }).status, 'failed');
   assert.equal(deliveryOutcome({ error: { status: 503 }, attempts: 5 }).status, 'failed');
 });

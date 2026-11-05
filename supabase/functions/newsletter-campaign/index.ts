@@ -55,7 +55,21 @@ Deno.serve(async (request) => {
     .maybeSingle();
   if (campaignError || !campaign) return json({ error: "Campagne introuvable." }, 404);
   if (campaign.status !== "sending") return json({ error: "La campagne doit être en envoi." }, 409);
-  await client.rpc("populate_newsletter_campaign", { p_campaign_id: campaignId });
+  const { error: populateError } = await client.rpc("populate_newsletter_campaign", { p_campaign_id: campaignId });
+  if (populateError) return json({ error: "Impossible de préparer l’audience newsletter." }, 503);
+
+  // An empty audience must finish cleanly and must not require Gmail credentials.
+  const { count: remainingBeforeSend } = await client.from("newsletter_deliveries")
+    .select("id", { count: "exact", head: true })
+    .eq("campaign_id", campaignId)
+    .in("status", ["pending", "processing", "deferred"]);
+  if (!remainingBeforeSend) {
+    await client.from("newsletter_campaigns")
+      .update({ status: "sent", completed_at: new Date().toISOString(), updated_at: new Date().toISOString() })
+      .eq("id", campaignId)
+      .eq("status", "sending");
+    return json({ campaign_id: campaignId, processed: 0, results: [] });
+  }
 
   let accessToken: string;
   try {
@@ -66,7 +80,11 @@ Deno.serve(async (request) => {
     });
     accessToken = token.accessToken;
   } catch {
-    return json({ error: "Autorisation Gmail indisponible." }, 503);
+    await client.from("newsletter_campaigns")
+      .update({ status: "paused", updated_at: new Date().toISOString() })
+      .eq("id", campaignId)
+      .eq("status", "sending");
+    return json({ error: "Autorisation Gmail indisponible. Campagne mise en pause ; reconnecte Gmail avant de reprendre.", action: "reconnect_gmail" }, 503);
   }
 
   const workerId = crypto.randomUUID();

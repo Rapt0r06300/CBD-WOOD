@@ -106,6 +106,8 @@ Le lien de désinscription est un jeton signé et expirant qui contient l’iden
 
 Le worker newsletter ne traite qu’une campagne `sending`, réserve les destinataires avec `FOR UPDATE SKIP LOCKED`, limite les tentatives et conserve une trace par destinataire dans `newsletter_delivery_attempts`. Les campagnes `draft`, `paused` ou `cancelled` ne sont jamais consommées.
 
+Une campagne sans destinataire éligible est clôturée proprement sans tenter de se connecter à Gmail. Si le renouvellement OAuth Gmail échoue avant la réservation d’un lot, la campagne est automatiquement mise en pause et l’espace propriétaire reçoit une indication de reconnexion. Les réponses temporaires comme `429` sont différées avec le bail et le nombre de tentatives, sans créer de nouveau destinataire ni de doublon.
+
 ## Contrôles avant activation
 
 - Aucun secret dans les fichiers publics ou les logs.

@@ -22,3 +22,10 @@ test('newsletter worker requires a sending campaign and updates only its lease',
   assert.match(source, /status: "accepted"/);
   assert.match(source, /buildNewsletterMessage/);
 });
+
+test('newsletter worker handles empty audiences and Gmail failures safely', () => {
+  assert.match(source, /remainingBeforeSend/);
+  assert.match(source, /processed: 0/);
+  assert.match(source, /action: "reconnect_gmail"/);
+  assert.match(source, /status: "paused"/);
+});
