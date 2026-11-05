@@ -24,7 +24,7 @@ Des captures de référence ont également été produites à `320` et `1440` px
 
 ## Contrôles complémentaires
 
-- Les tests automatisés du dépôt passent (`169 tests`).
+- Les tests automatisés du dépôt passent (`170 tests`).
 - La syntaxe JavaScript et l’audit statique passent.
 - Le paquet Hostinger est généré et contrôlé avant transfert.
 - La version publique répond sur les routes principales ; la route historique `admin.html` répond `404`.
@@ -40,6 +40,7 @@ Des captures de référence ont également été produites à `320` et `1440` px
 - Une passe de robustesse a injecté un nom de produit très long, un prix à six chiffres et une question/réponse FAQ très longue à `320`, `390` et `768` px sur l’accueil, les quatre catalogues et la fiche fleur : le document et le body sont restés exactement à la largeur de la fenêtre et aucun titre ne débordait.
 - Une passe accessibilité navigateur à `390 × 844` a parcouru l’accueil, les fleurs, le checkout et le compte : aucun contrôle visible sans nom accessible n’a été trouvé après prise en compte des labels associés, et 18 tabulations par route sont restées sur des éléments visibles. Les tailles des liens de texte et la validation lecteur d’écran restent à vérifier sur appareils réels.
 - Une baseline de performance locale a relevé `DOMContentLoaded = 26 ms`, `FCP = 56 ms`, `CLS = 0` et `891 ms` pour la navigation accueil → fleurs dans le navigateur de contrôle. Ces valeurs sont indicatives et ne valent pas mesure de production.
+- Une vérification de la boutique a relu les `data-tiers` après enhancement JavaScript : les 13 fleurs ont chacune cinq paliers et aucun écart avec la matrice WOOD issue de la carte (`1/3/5/10/25 g`). La même matrice est désormais protégée par un test permanent.
 
 ## Limite de cette preuve
 

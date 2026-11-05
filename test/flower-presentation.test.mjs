@@ -56,3 +56,31 @@ test('les visuels de maquette suivent la direction photo sans contenant', () => 
     assert.doesNotMatch(`${entry.image} ${entry.demoDescription}`, /sous cloche|bocal|street/i);
   }
 });
+
+test('les 13 fleurs conservent leurs propres tarifs de la carte WOOD', async () => {
+  const catalogue = await readFile(resolve(root, 'fleurs.html'), 'utf8');
+  const expected = {
+    'fleurs-nimbus-3000': [15, 42, 70, 130, 260],
+    'fleurs-ivory': [15, 42, 70, 130, 260],
+    'fleurs-velvet-kush': [12, 34, 55, 100, 200],
+    'fleurs-pastraweed': [12, 34, 55, 100, 200],
+    'fleurs-euphoria': [12, 34, 55, 100, 200],
+    'fleurs-purple': [11, 30, 50, 100, 180],
+    'fleurs-bloody-mary': [10, 28, 45, 80, 160],
+    'fleurs-cosmic-cbg': [10, 28, 45, 80, 160],
+    'fleurs-charlotte': [10, 28, 45, 80, 160],
+    'fleurs-rainbow': [8, 22, 35, 60, 120],
+    'fleurs-orange-bud': [7, 20, 30, 50, 100],
+    'fleurs-plutonium': [7, 20, 30, 50, 100],
+    'fleurs-fanta-hazy': [6, 16, 25, 40, 80],
+  };
+  for (const [id, prices] of Object.entries(expected)) {
+    const block = catalogue.match(new RegExp(`<article[^>]+data-product-id="${id}"[\\s\\S]*?<\\/article>`))?.[0];
+    assert.ok(block, `Carte absente pour ${id}`);
+    assert.deepEqual(
+      [...block.matchAll(/data-price="(\d+)"/g)].map((match) => Number(match[1])),
+      prices,
+      `Tarifs incorrects pour ${id}`,
+    );
+  }
+});

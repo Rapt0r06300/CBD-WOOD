@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **169 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **170 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit `34eac62` ont été vérifiés avec succès ; les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -1586,7 +1586,7 @@ Les deux photos fournies montrent une carte imprimée qui constitue une référe
 - [ ] **A260 — Harmoniser les profils avec le site :** conserver `CBD BOOSTÉ (STRONG)`, `CBD SOFT (MEDIUM)` et `CBD CLASSIQUE` dans l’interface, même si la carte imprimée utilise des libellés plus courts ; validation : aucun mélange ambigu.
 - [ ] **A261 — Construire la grille tarifaire accessible :** afficher les colonnes 1 g, 3 g, 5 g, 10 g et 25 g en HTML, pas uniquement dans une image ; validation : clavier, lecteur d’écran et zoom 200 % donnent les mêmes tarifs.
 - [ ] **A262 — Aligner les colonnes de prix :** conserver une largeur constante et un alignement numérique propre ; validation : les prix des 13 fleurs et des résines ne se décalent pas.
-- [ ] **A263 — Vérifier chaque tarif avec la source :** comparer la carte et les données `flower-pricing.js` variété par variété ; validation : aucune valeur n’est copiée d’une autre fleur.
+- [x] **A263 — Vérifier chaque tarif avec la source :** les 13 fleurs et leurs cinq paliers `1/3/5/10/25 g` ont été comparés à la carte WOOD et verrouillés par `test/flower-presentation.test.mjs` ; aucune variété n’hérite silencieusement du tarif d’une autre.
 - [ ] **A264 — Documenter les réductions visibles :** conserver les réductions de la carte jusqu’à 25 g, sans généraliser au-delà ; validation : la règle des deux lots de 25 g reste séparée et testée.
 - [ ] **A265 — Préparer le schéma résines :** utiliser la même logique de grille sans inventer les prix masqués ou coupés dans la photo ; validation : aucune résine n’est activée avant lecture/validation complète.
 - [ ] **A266 — Conserver les libellés exacts :** ne pas corriger automatiquement les noms de variétés ou de résines à partir d’une supposition ; validation : toute correction est confirmée par la propriétaire.
