@@ -2,7 +2,7 @@
 
 > **Pour l’exécution :** réaliser les tâches dans l’ordre, sur `main` comme demandé par Florent, avec un test de non-régression après chaque bloc. Ne jamais remplacer une version fonctionnelle sans conserver un point de retour.
 
-**Objectif :** faire évoluer WOOD vers une expérience plus forte, premium et street, en reprenant les bonnes idées d’expérience de TealerLab sans copier son identité, tout en conservant les couleurs, le logo, la structure de marque et la simplicité voulue par la propriétaire.
+**Objectif :** faire évoluer WOOD vers une expérience plus forte, chic, premium, chill et graffiti, en reprenant les bonnes idées d’expérience de TealerLab sans copier son identité, tout en conservant les couleurs, le logo, la structure de marque et la simplicité voulue par la propriétaire.
 
 **Architecture :** le site reste un site statique HTML/CSS/JavaScript hébergé séparément de Supabase. Supabase reste la source de vérité pour les comptes, rôles, produits, stocks, commandes et éventuels vouchers futurs, désactivés par défaut. Viva Wallet reste volontairement hors périmètre tant que les identifiants professionnels ne sont pas disponibles.
 
@@ -62,7 +62,7 @@
 7. Une animation ne doit jamais modifier la géométrie d’une carte, déplacer le prix, cacher un bouton ou créer un débordement horizontal.
 8. Un changement de rôle, une session expirée ou un token ancien doit refuser l’action sensible proprement et proposer une récupération claire.
 
-## État de vérification locale — 4 novembre 2026
+## État de vérification locale — 5 novembre 2026
 
 - `npm run check` passe avec **71 tests**, la syntaxe JavaScript contrôlée sur 26 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **47 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
@@ -113,7 +113,7 @@ Référence d’exécution : `docs/ops/public-routes.md` et `test/links.test.mjs
 
 - [ ] Relever les couleurs, tailles, espacements, bordures, traitements d’images et niveaux de contraste actuels.
 - [ ] Définir ce qui reste strictement identique et ce qui peut évoluer.
-- [ ] Faire valider le principe : `premium calme` majoritaire, `street/graffiti` en accents contrôlés.
+- [ ] Faire valider le principe : `premium calme` majoritaire, `graffiti/chill` en accents contrôlés.
 
 **Validation :** aucune nouvelle section ne pourra introduire une couleur, une police ou un effet hors charte sans validation.
 
@@ -121,7 +121,7 @@ Référence d’exécution : `docs/ops/public-routes.md` et `test/links.test.mjs
 
 L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible : offres visibles, catégories immédiatement compréhensibles, cartes produit informatives, preuves de confiance, FAQ et contenus de marque. Le site utilise aussi des programmes de fidélité, parrainage, quiz, jeu, newsletter et contenus éditoriaux ; ces éléments seront étudiés mais ne seront pas ajoutés en bloc à WOOD. [TealerLab](https://tealerlab.com/)
 
-### Tâche 4 — Créer le système d’accents street
+### Tâche 4 — Créer le système d’accents graffiti et chill
 
 - [ ] Prévoir des badges type sticker, sous-titres manuscrits, petites annotations et micro-illustrations.
 - [ ] Attendre les exemples graphiques de la propriétaire avant de définir les formes, textures, personnages ou motifs définitifs.
@@ -483,9 +483,9 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ## Phase 9 — Mise à jour après l’audit TealerLab et WOOD
 
-L’audit complet ordinateur/mobile est documenté dans `docs/audits/2026-11-04-tealerlab-wood-compatibility-audit.md`. Il confirme que le conjoint aime surtout la hiérarchie commerciale, l’énergie street et la richesse des cartes de TealerLab, tandis que la propriétaire veut garder WOOD, ses couleurs, son logo, son côté premium et ses présentations sous cloche.
+L’audit complet ordinateur/mobile est documenté dans `docs/audits/2026-11-04-tealerlab-wood-compatibility-audit.md`. Il confirme que le conjoint aime surtout la hiérarchie commerciale, l’énergie visuelle et la richesse des cartes de TealerLab, tandis que la propriétaire veut garder WOOD, ses couleurs, son logo, son côté premium et ses présentations sous cloche.
 
-### Tâche 40 — Valider la direction WOOD premium/street
+### Tâche 40 — Valider la direction WOOD chic, premium, chill et graffiti
 
 - [ ] Garder WOOD comme fondation visuelle.
 - [ ] Ajouter les accents graffiti, stickers et humour en touches contrôlées.
@@ -625,7 +625,7 @@ Cette annexe transforme les 48 tâches de base et les compléments 49 à 74 en c
 | 37 | Comparer visuellement avant/après sur quatre boutiques, panier, compte, mobile/tablette/desktop. | `docs/audits/`, captures Playwright | Identité WOOD conservée et animation sans saut. |
 | 38 | Faire valider avec la propriétaire : accueil, univers, fleur réelle, panier, livraison et admin. | `docs/validation/` | Retours consignés par tâche ; aucun changement improvisé. |
 | 39 | Obtenir le feu vert final : stocks, livraison, Viva, tests, paquet et secrets vérifiés. | `docs/ops/production-checklist.md` | Toutes les cases bloquantes sont validées avant transfert. |
-| 40 | Faire valider la direction premium/street : WOOD d’abord, TealerLab seulement comme inspiration. | `docs/audits/`, plan visuel | La propriétaire reconnaît WOOD ; le conjoint retrouve l’énergie street. |
+| 40 | Faire valider la direction chic/premium/chill/graffiti : WOOD d’abord, TealerLab seulement comme inspiration. | `docs/audits/`, plan visuel | La propriétaire reconnaît WOOD ; le conjoint retrouve une présentation riche et vivante. |
 | 41 | Corriger `Nous trouver` et les quatre labels de navigation mobile. | `mobile.css`, `mobile-shell.js`, tests responsive | Aucun libellé tronqué à 320/375/390 px. |
 | 42 | Étendre l’audit responsive à toutes les pages et toutes les largeurs cibles. | Tests Playwright, `docs/audits/` | Rapport de largeur complet sans débordement. |
 | 43 | Ajouter seulement les mécanismes compatibles : cartes riches, réassurance, FAQ, cloches ; préparer les promotions sans les activer. | HTML/CSS/JS concernés, contenu validé | Boutique plus claire sans copie ni surcharge TealerLab. |
@@ -697,7 +697,7 @@ L’audit détaillé est conservé dans `docs/audits/2026-11-04-tealerlab-wood-c
 - **Catalogue WOOD :** trois cartes par ligne sur ordinateur ; deux colonnes carrées sur mobile, donc quatre cartes visibles dans une structure `2 × 2` ; une colonne de secours uniquement lorsque l’écran est trop étroit.
 - **Carte produit :** image ou état « photo à venir », nom, niveau `strong/medium/classique`, stock, grammage si applicable, prix exact et ajout au panier.
 - **Fiche fleur :** grande présentation sous cloche, description courte, `− / grammes / +`, prix total, prix au gramme, ajout au panier et livraison ; pas de copie de la fiche TealerLab.
-- **Street/graffiti :** stickers, annotations et humour en petites touches, jamais sur le prix, le stock, le paiement ou les contrôles essentiels.
+- **Graffiti/chill :** stickers, annotations et humour en petites touches, jamais sur le prix, le stock, le paiement ou les contrôles essentiels.
 - **Animations :** seulement `transform/opacity`, courtes, interruptibles et désactivées avec `prefers-reduced-motion` ; aucun zoom qui déplace le scroll.
 - **Popups :** interdits sur le premier écran et interdits s’ils masquent le prix, le stock ou l’ajout au panier.
 - **Défilements :** uniquement à l’intérieur d’un composant contrôlé ; le document et les cartes ne doivent jamais dépasser la largeur de l’écran.
@@ -747,7 +747,7 @@ Le conjoint apprécie aussi la manière dont TealerLab présente ses contenus, p
 2. **Rythme éditorial** — alterner hero, bandeau, univers, sélection, présentation sous cloche, réassurance, FAQ et boutiques pour éviter une page plate ou répétitive.
 3. **Cartes produits fortes** — image en premier, niveau CBD visible, nom lisible, prix exact, grammes choisis et bouton d’ajout toujours accessibles.
 4. **Mise en scène qualitative** — conserver la présentation des fleurs et résines sous cloche comme élément premium central ; les futures vraies photos remplaceront les états provisoires sans changer la structure.
-5. **Touches street maîtrisées** — stickers, annotations, humour et détails graffiti dans les espaces éditoriaux, jamais au détriment de la lisibilité ou du parcours d’achat.
+5. **Touches graffiti et chill maîtrisées** — stickers, annotations, humour et détails graphiques dans les espaces éditoriaux, jamais au détriment de la lisibilité ou du parcours d’achat.
 6. **Blocs de réassurance** — livraison, compte, paiement et contact présentés avec des phrases courtes et des icônes simples, sans promesse non validée.
 7. **Respiration et densité** — garder des marges régulières, des alignements nets et des sections suffisamment aérées ; éviter l’effet catalogue compressé comme l’effet page vide.
 8. **Responsive réellement distinct** — desktop avec grilles plus larges et trois produits par ligne ; mobile avec navigation basse, cartes en `2 × 2`, actions tactiles et aucun texte tronqué ; tablette avec composition intermédiaire.
@@ -838,7 +838,7 @@ Ce bloc ajoute les enseignements de l’audit visuel et fonctionnel de [TealerLa
 - **Ce qui fonctionne chez TealerLab :** un en-tête immédiatement lisible, un menu qui devient une vraie interface, des cartes produits complètes, des badges bien séparés, une sélection du format visible, un prix hiérarchisé, un bouton d’action évident et une succession de sections qui raconte une histoire.
 - **Ce qui doit être adapté à WOOD :** le fond sombre WOOD, les tons existants, le logo officiel, la typographie actuelle, la présentation sous cloche, les quatre univers et le parcours de grammage propre aux fleurs.
 - **Ce qui ne doit pas être repris :** couleurs blanc/noir/lime de TealerLab, textes, slogans, photos, logos, promotions, pop-ups, fidélité, jeux, promesses, chiffres ou mise en page exacte.
-- **Règle de priorité :** la propriétaire doit reconnaître WOOD immédiatement ; son conjoint doit retrouver une présentation riche, travaillée, street et vivante.
+- **Règle de priorité :** la propriétaire doit reconnaître WOOD immédiatement ; son conjoint doit retrouver une présentation riche, travaillée et vivante.
 
 ### Tâche 49 — Figer la référence WOOD avant comparaison
 
@@ -1186,7 +1186,7 @@ Cette passe ajoute les manques visibles qui n’étaient pas assez détaillés d
 ### Direction artistique, composition et identité
 
 - [ ] **A81 — Photographier l’état visuel actuel :** capturer accueil, menu, quatre univers, fiche, panier, compte, FAQ, boutiques et footer en desktop, tablette et mobile ; validation : une base avant/après complète est conservée.
-- [ ] **A82 — Définir la proportion WOOD :** valider une direction `premium/chic` dominante, `street/graffiti` en accent et humour en ponctuation ; validation : chaque future section indique son niveau d’intensité et ne surcharge pas l’écran.
+- [ ] **A82 — Définir la proportion WOOD :** valider une direction `premium/chic` dominante, `graffiti/chill` en accent et humour en ponctuation ; validation : chaque future section indique son niveau d’intensité et ne surcharge pas l’écran.
 - [ ] **A83 — Cartographier les manques de rythme :** repérer les longues zones vides, les répétitions, les changements de densité et les sections qui arrivent trop brutalement ; validation : l’accueil possède une progression lisible du premier écran au footer.
 - [ ] **A84 — Figer les tokens visuels WOOD :** documenter couleurs, surfaces, bordures, ombres, rayons, espacements et états sans introduire de palette TealerLab ; validation : tout nouveau composant utilise les tokens validés.
 - [ ] **A85 — Auditer la typographie :** vérifier police, graisse, casse, interlettrage, hauteur de ligne, titres très longs et accents français ; validation : aucun titre ne déborde et la police WOOD reste reconnaissable sur tous les écrans.
@@ -1263,7 +1263,7 @@ Cette passe ajoute les manques visibles qui n’étaient pas assez détaillés d
 Chaque tag doit être traité avec une capture avant/après et un test de non-régression. Les fichiers indiqués sont les premiers points d’entrée ; une validation propriétaire est obligatoire dès qu’un contenu ou un visuel est nouveau.
 
 - **A81** — Fichiers : captures Playwright, `docs/audits/`, `docs/ops/visual-baseline.md`. Validation : inventaire desktop/tablette/mobile archivé.
-- **A82** — Fichiers : roadmap, compte-rendu propriétaire, `boutique.css`. Validation : proportions premium/street/humour approuvées.
+- **A82** — Fichiers : roadmap, compte-rendu propriétaire, `boutique.css`. Validation : proportions premium/chill/graffiti/humour approuvées.
 - **A83** — Fichiers : `index.html`, `boutique.css`, captures. Validation : progression de l’accueil lisible sans zone vide inexpliquée.
 - **A84** — Fichiers : `boutique.css`, `responsive.css`, `mobile.css`. Validation : aucun composant ne crée une couleur ou un effet hors tokens.
 - **A85** — Fichiers : CSS global, toutes les pages HTML, test responsive. Validation : titres, accents et textes longs ne débordent pas.
@@ -1445,7 +1445,7 @@ Ce bloc répond précisément à la demande de la propriétaire : WOOD doit rest
 
 ### Premium, rythme et composition
 
-- [ ] **A191 — Définir la proportion premium/chill/graffiti :** établir une règle mesurable par page, avec une base premium dominante et des accents street ponctuels ; validation : aucune page ne ressemble à une affiche saturée.
+- [ ] **A191 — Définir la proportion premium/chill/graffiti :** établir une règle mesurable par page, avec une base premium dominante et des accents graffiti ponctuels ; validation : aucune page ne ressemble à une affiche saturée.
 - [ ] **A192 — Créer une grille artistique WOOD :** fixer conteneur, marges, colonnes, lignes de base, espaces négatifs et points d’ancrage ; validation : hero, cartes, cloches et blocs texte partagent la même structure.
 - [ ] **A193 — Définir trois niveaux de densité :** `calme`, `sélection`, `impact`, pour éviter que chaque section ait la même intensité ; validation : chaque page possède une respiration entre deux moments forts.
 - [ ] **A194 — Construire un système de contraste interne :** utiliser les couleurs existantes par niveaux de fond, bordure, texte et accent, sans créer de nouvelle palette ; validation : contraste lisible et identité inchangée.

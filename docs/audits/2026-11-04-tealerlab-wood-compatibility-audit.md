@@ -8,7 +8,7 @@ Projet audité : WOOD local, servi depuis le dépôt actuel
 
 Le conjoint de la propriétaire peut retrouver dans WOOD ce qu’il aime chez TealerLab sans que WOOD perde son identité. La bonne direction n’est pas de copier TealerLab, mais de reprendre sa hiérarchie : une entrée forte, des univers immédiatement compréhensibles, des produits très lisibles, des preuves de confiance et des actions d’achat directes.
 
-WOOD possède déjà une base plus calme et plus premium. C’est un avantage pour la propriétaire : il faut ajouter de l’énergie street par petites touches, pas remplacer toute la direction artistique.
+WOOD possède déjà une base plus calme et plus premium. C’est un avantage pour la propriétaire : il faut ajouter de l’énergie graffiti et chill par petites touches, pas remplacer toute la direction artistique.
 
 ## 2. Ce qui fonctionne chez TealerLab
 
@@ -69,7 +69,7 @@ WOOD possède déjà une base plus calme et plus premium. C’est un avantage po
 
 **Fondation WOOD :** vert profond, crème, lime, typographie actuelle, logo officiel, composition éditoriale et images botaniques.  
 **Énergie inspirée de TealerLab :** badges/stickers ponctuels, petites annotations graffiti, offres lisibles, cartes produit plus expressives, micro-animations contrôlées et ton un peu plus vivant.  
-**Règle de dosage proposée :** environ 80 % premium calme, 15 % texture/street, 5 % surprise ou humour. Cette règle est une proposition de direction, pas un élément à appliquer sans validation visuelle.
+**Règle de dosage proposée :** environ 80 % premium calme, 15 % texture/graffiti, 5 % surprise ou humour. Cette règle est une proposition de direction, pas un élément à appliquer sans validation visuelle.
 
 ### Accueil WOOD
 
@@ -115,7 +115,7 @@ WOOD possède déjà une base plus calme et plus premium. C’est un avantage po
 
 Les tâches 40 à 48 ajoutées à la feuille de route reprennent directement cet audit :
 
-40. Formaliser la direction WOOD premium/street avec validation visuelle de la propriétaire.
+40. Formaliser la direction WOOD chic/premium/chill/graffiti avec validation visuelle de la propriétaire.
 41. Corriger le libellé de navigation mobile `Nous trouver` et vérifier tous les textes courts.
 42. Ajouter un audit responsive multi-largeurs sur toutes les pages publiques.
 43. Ajouter les blocs TealerLab compatibles : offres sobres, cartes produit riches, réassurance, FAQ et sélection WOOD.
@@ -181,7 +181,7 @@ La fiche observée est structurée en profondeur : présentation produit, achat,
 - ton direct, humoristique et communautaire ;
 - menus très riches et forte densité de collections.
 
-**Ce que WOOD reprend :** hiérarchie, densité contrôlée des cartes, bandeaux d’information, preuve de qualité et petites touches street.  
+**Ce que WOOD reprend :** hiérarchie, densité contrôlée des cartes, bandeaux d’information, preuve de qualité et petites touches graffiti/chill.
 **Ce que WOOD ne reprend pas :** noir/lime de TealerLab, sa police, ses images, ses slogans, ses badges exacts, ses promotions, ses emojis ou sa structure copiée.
 
 ### 9.5 Défauts à ne pas importer
@@ -432,7 +432,7 @@ La propriétaire ne demande pas un simple site sombre avec quelques décorations
 
 ### 17.1 Règle de dosage
 
-La base visuelle reste majoritaire : espaces, alignements, photos propres, titres forts, prix lisibles et CTA évidents. Les accents street sont ponctuels : un sticker par zone forte, une annotation dans un hero ou une micro-formule dans une section éditoriale. Aucun sticker ne porte seul une information importante et aucun mouvement ne doit attirer l’œil au détriment du prix ou du panier.
+La base visuelle reste majoritaire : espaces, alignements, photos propres, titres forts, prix lisibles et CTA évidents. Les accents graffiti/chill sont ponctuels : un sticker par zone forte, une annotation dans un hero ou une micro-formule dans une section éditoriale. Aucun sticker ne porte seul une information importante et aucun mouvement ne doit attirer l’œil au détriment du prix ou du panier.
 
 ### 17.2 Ce qui doit être créé, pas copié
 
