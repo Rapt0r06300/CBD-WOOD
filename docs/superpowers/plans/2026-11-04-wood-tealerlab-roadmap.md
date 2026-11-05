@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **204 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **206 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit `34eac62` ont été vérifiés avec succès ; les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -1234,7 +1234,7 @@ Cette passe ajoute les manques visibles qui n’étaient pas assez détaillés d
 - [ ] **A87 — Intégrer le logo officiel exact :** utiliser uniquement le fichier transmis par la propriétaire, sans branche ajoutée, déformation, recoloration ou reconstruction ; validation : comparaison visuelle avec l’original et test sur fond clair/sombre.
 - [ ] **A88 — Harmoniser les pictogrammes :** créer un petit jeu d’icônes cohérent pour panier, compte, livraison, boutiques, téléphone, itinéraire et FAQ ; validation : les icônes ont une taille, une épaisseur et un nom accessible constants.
 - [x] **A89 — Définir la grammaire des badges :** limiter les badges aux informations réelles `univers`, `strong/medium/classique`, disponibilité et livraison ; validation : aucun badge ne ressemble à une promotion ou à un avis inventé. Vérifié par `storefront.js`, les garde-fous publics et `test/product-availability.test.mjs`.
-- [ ] **A90 — Créer une bibliothèque de micro-copy :** recenser les libellés courts, états, confirmations, erreurs, boutons et textes d’aide dans le ton WOOD ; validation : même action = même formulation sur toutes les pages.
+- [x] **A90 — Créer une bibliothèque de micro-copy :** `docs/design/wood-microcopy.md` recense les actions, états, confirmations, erreurs et replis dans le ton WOOD; `test/microcopy-contract.test.mjs` protège les libellés sensibles et l’absence de promesses inventées. La relecture finale de la propriétaire reste nécessaire avant publication.
 
 ### Accueil WOOD façon TealerLab, sans copie
 
