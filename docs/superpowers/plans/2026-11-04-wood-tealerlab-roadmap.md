@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **235 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **236 tests**, la syntaxe JavaScript contrôlée sur 29 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit `34eac62` ont été vérifiés avec succès ; les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -1545,7 +1545,7 @@ Ce bloc répond précisément à la demande de la propriétaire : WOOD doit rest
 - [ ] **A232 — Animer les stickers avec retenue :** prévoir un léger décalage ou une entrée latérale, jamais une rotation permanente ; validation : l’animation s’arrête après l’introduction.
 - [ ] **A233 — Animer les photos produit au scroll :** utiliser un mouvement subtil de lumière ou de profondeur sur les photos sans bocal ni cloche, sans déplacer la fiche ; validation : `transform/opacity` seulement et CLS nul.
 - [x] **A234 — Animer les cartes au survol :** renforcer bordure, média ou détail sur desktop sans agrandir la grille ; validation locale : les cartes utilisent uniquement transformation/bordure/média bornées et le garde-fou motion interdit le saut de layout.
-- [ ] **A235 — Animer le feedback panier :** confirmer l’ajout par une micro-interaction locale et accessible, sans popup agressif ; validation : l’utilisateur sait que l’ajout est réussi et peut continuer.
+- [x] **A235 — Animer le feedback panier :** l’ajout affiche un statut `aria-live` local et une classe courte `is-added`, sans popup agressif ; `test/cart-feedback.test.mjs` protège le feedback et son absence de dépendance à `alert()`.
 - [x] **A236 — Animer les transitions de fiche :** le zoom est limité à `transform/opacity`, désactivable par mouvement réduit, et conserve les routes et le bouton retour ; `test/product-detail.test.mjs` et `test/motion-guardrails.test.mjs` verrouillent ce contrat. La fluidité sur appareils réels reste à mesurer.
 - [x] **A237 — Prévoir un mode mouvement réduit :** désactiver ticker animé, parallax, rotation et zoom non essentiel ; validation locale : `prefers-reduced-motion` neutralise les animations sans supprimer le contenu ni les actions, protégé par les tests motion/accessibilité.
 - [ ] **A238 — Prévoir un mode performance basse :** réduire les images, désactiver les animations coûteuses et conserver les contrôles ; validation : pas de latence perceptible sur mobile moyen.

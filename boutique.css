@@ -97,3 +97,4 @@ a{color:inherit;text-decoration:none}button{font:inherit}img{max-width:100%;disp
 .product-art--fallback small{display:block}
 .address-fields{border:1px solid #3e523f;padding:18px;margin:14px 0 0;display:grid;gap:14px}.address-fields legend{padding:0 8px;color:var(--lime);font-size:11px;font-weight:900;letter-spacing:1.4px;text-transform:uppercase}.address-fields label{display:grid;gap:7px}.address-fields label span{color:#aebca9;font-size:10px;font-weight:400;letter-spacing:0;text-transform:none}.address-fields input,.address-fields select{width:100%;min-width:0}.address-fields__row{display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr);gap:12px}
 @media(max-width:500px){.address-fields{padding:15px}.address-fields__row{grid-template-columns:1fr}}
+.cart-feedback{min-height:18px;margin:0 0 6px;color:var(--lime);font-size:11px;line-height:1.45}.add-to-cart.is-added{background:var(--lime);color:#172519}

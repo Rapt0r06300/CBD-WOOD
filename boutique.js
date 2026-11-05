@@ -71,6 +71,7 @@
         <div class="cart-panel__header"><h2 id="cartTitle">Votre sélection</h2><button class="cart-close" type="button" data-cart-close aria-label="Fermer le panier">×</button></div>
         <div class="cart-items" id="cartItems"></div>
         <div class="cart-summary"><span>Total</span><strong id="cartTotal">À confirmer</strong></div>
+        <p class="cart-feedback" id="cartFeedback" role="status" aria-live="polite"></p>
         <p class="cart-caption">Les prix sont vérifiés côté serveur. Le paiement Viva.com sera activé séparément.</p>
         <a class="cart-checkout" id="cartCheckout" href="checkout.html">Voir le récapitulatif</a>
       </aside>`);
@@ -340,7 +341,12 @@
     const existing = cart.find(item => item.id === variant.id);
     const item = { id: variant.id, productId: card.dataset.productId, name: variant.name, category: card.dataset.productCategory, price: variant.price, weight: variant.label, quantity: Math.min(MAX_CART_QUANTITY, existing ? existing.quantity + 1 : 1) };
     cart = existing ? cart.map(entry => entry.id === variant.id ? item : entry) : [...cart, item];
-    writeCart(cart); renderCart(); setCartOpen(true);
+    writeCart(cart); renderCart();
+    const feedback = document.getElementById('cartFeedback');
+    if (feedback) feedback.textContent = `${item.name} · ${item.weight} ajouté à ta sélection.`;
+    button.classList.add('is-added');
+    window.setTimeout(() => button.classList.remove('is-added'), 420);
+    setCartOpen(true);
   }
 
   function updateQuantity(id, delta) {
