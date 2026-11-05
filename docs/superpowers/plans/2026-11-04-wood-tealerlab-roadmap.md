@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **238 tests**, la syntaxe JavaScript contrôlée sur 30 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **239 tests**, la syntaxe JavaScript contrôlée sur 30 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit `34eac62` ont été vérifiés avec succès ; les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -1532,7 +1532,7 @@ Ce bloc répond précisément à la demande de la propriétaire : WOOD doit rest
 - [ ] **A222 — Générer des concepts de décor :** créer des fonds botanique, béton, papier, bois et graffiti uniquement comme références de direction artistique ; validation : aucun concept n’est présenté comme une photo réelle.
 - [ ] **A223 — Générer des essais de stickers :** produire des variations originales dans les couleurs WOOD, sans texte de marque tiers ; validation : planche de choix envoyée à la propriétaire avant intégration.
 - [x] **A224 — Générer des essais de photographie produit :** les 13 visuels de démonstration sous `assets/flowers/` suivent le brief photographe sans bocal ni cloche et restent remplaçables ; `test/flower-presentation.test.mjs` et `test/asset-quality.test.mjs` verrouillent le registre et le format. La revue visuelle humaine et les vraies photos restent à faire.
-- [ ] **A225 — Générer des essais textile/goods :** créer des placeholders pour t-shirts et objets uniquement avec les noms exacts existants ; validation : aucun faux modèle, prix ou stock n’est affiché comme réel.
+- [x] **A225 — Générer des essais textile/goods :** les trois cartes WOOD Shop utilisent uniquement les noms de démonstration présents, affichent `À VALIDER`/`Prix à renseigner`, restent indisponibles et ne possèdent aucun prix ou stock fictif ; `test/public-visual-guardrails.test.mjs` verrouille ce garde-fou. Les modèles, tailles, photos et stocks réels restent à fournir.
 - [ ] **A226 — Contrôler les artefacts d’IA :** vérifier doigts, étiquettes, lettres, logos, bords, transparences, répétitions et proportions ; validation : asset rejeté dès qu’un défaut peut nuire à la marque.
 - [x] **A227 — Préparer les exports multi-formats :** produire source haute définition, version web, miniature, fallback et alt text ; validation locale : le brief fixe l’original séparé, l’export web moderne, la miniature si nécessaire, le fallback et l’alt text ; la production des fichiers réels reste ouverte.
 - [x] **A228 — Ajouter un registre d’assets :** `docs/design/wood-asset-register.md` liste les 13 noms exacts, fichiers, usage, statut de démonstration, alt et règles de remplacement/rollback ; `test/asset-register.test.mjs` vérifie que chaque visuel utilisé par le catalogue est traçable. Les dimensions/poids finaux et les photos réelles seront ajoutés lors de la validation propriétaire.

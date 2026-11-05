@@ -38,3 +38,14 @@ test('les contraintes commerciales publiques restent sans retrait, QR code ou pr
   const publicCopy = pages.map(([, html]) => html).join('\n');
   assert.doesNotMatch(publicCopy, /voucher|coupon|promo(?:tion)?\b|prix barré|économie/i);
 });
+
+test('les placeholders WOOD Shop ne simulent ni prix ni disponibilité', () => {
+  const shop = pages.find(([page]) => page === 'wood-shop.html')[1];
+  for (const name of ['T-shirt WOOD', 'Vêtement WOOD', 'Produit dérivé']) {
+    assert.match(shop, new RegExp(`data-product-name="${name.replace(' ', '\\s+')}"`));
+  }
+  assert.match(shop, /T-SHIRT \/ À VALIDER/);
+  assert.match(shop, /Prix à renseigner/);
+  assert.match(shop, /data-product-unavailable/);
+  assert.doesNotMatch(shop, /data-price=|data-stock=|data-available=/i);
+});
