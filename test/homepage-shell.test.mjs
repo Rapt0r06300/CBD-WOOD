@@ -11,6 +11,7 @@ test('la page d’accueil garde le shell éditorial WOOD complet et dans le bon 
     '<section class="hero"',
     '<div class="ticker"',
     '<section class="section container" id="univers"',
+    '<section class="section container wood-selection" id="selection-wood"',
     '<section id="histoire"',
     '<section class="section visit" id="boutique"',
     '<section class="section container" id="questions"',
@@ -26,6 +27,8 @@ test('la page d’accueil garde le shell éditorial WOOD complet et dans le bon 
   assert.match(homepage, /class="hero-scroll" href="#univers"/);
   assert.match(homepage, /aria-label="Descendre vers les univers WOOD"/);
   assert.match(homepage, /class="cards"/);
+  assert.match(homepage, /id="selection-wood"[^>]*data-state="awaiting-real-products"[^>]*hidden/);
+  assert.match(homepage, /data-selection-grid/);
   assert.equal((homepage.match(/aria-label="Voir la page /g) || []).length, 4);
   for (const route of ['fleurs.html', 'resines.html', 'wood-shop.html', 'bien-etre.html']) {
     assert.match(homepage, new RegExp(`href="${route}"`), `l’univers ${route} doit être accessible depuis l’accueil`);
