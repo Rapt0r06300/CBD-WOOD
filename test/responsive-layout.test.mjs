@@ -58,3 +58,12 @@ test('le bandeau WOOD est animé avec un repli réduit et accessible', async () 
   assert.match(homepage, /prefers-reduced-motion:reduce/);
   assert.match(homepage, /class="sr-only"/);
 });
+
+test('la grille mobile conserve deux colonnes lisibles et un repli étroit', async () => {
+  const boutiqueStylesheet = await readFile(new URL('../boutique.css', import.meta.url), 'utf8');
+  const mobileStylesheet = await readFile(new URL('../mobile.css', import.meta.url), 'utf8');
+
+  assert.match(boutiqueStylesheet, /@media\(max-width:500px\)\{\.product-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+  assert.match(mobileStylesheet, /\.product-grid\s*\{\s*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/);
+  assert.match(mobileStylesheet, /@media \(max-width: 350px\)[\s\S]*?\.product-grid\s*\{\s*grid-template-columns:\s*1fr/);
+});
