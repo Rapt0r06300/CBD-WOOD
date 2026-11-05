@@ -62,6 +62,18 @@ test('les cartes exposent des états de disponibilité et des zones de hauteur s
   assert.match(stylesheet, /\.product-choice[^\{]*\{[^}]*min-height/);
 });
 
+test('les cartes affichent uniquement les niveaux WOOD reconnus', async () => {
+  const source = await readFile(new URL('../storefront.js', import.meta.url), 'utf8');
+  const stylesheet = await readFile(new URL('../boutique.css', import.meta.url), 'utf8');
+  assert.match(source, /function productLevel\(description\)/);
+  assert.match(source, /CBD boosté · strong/);
+  assert.match(source, /CBD soft · medium/);
+  assert.match(source, /CBD classique/);
+  assert.match(source, /product-badges/);
+  assert.match(stylesheet, /\.product-badges/);
+  assert.match(stylesheet, /\.product-badge--level/);
+});
+
 test('le tableau de bord permet de renseigner un état de disponibilité explicite', async () => {
   const accountPage = await readFile(new URL('../compte.html', import.meta.url), 'utf8');
   const dashboard = await readFile(new URL('../owner-dashboard.js', import.meta.url), 'utf8');

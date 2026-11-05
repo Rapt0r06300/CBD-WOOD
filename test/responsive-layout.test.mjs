@@ -50,3 +50,11 @@ test('checkout section keeps the shared container gutters', async () => {
   );
   assert.match(ownerStylesheet, /@media\(max-width:760px\)/, 'le tableau de bord propriétaire doit rester adapté sur mobile');
 });
+
+test('le bandeau WOOD est animé avec un repli réduit et accessible', async () => {
+  const homepage = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+  assert.match(homepage, /class="ticker-track"/);
+  assert.match(homepage, /@keyframes woodTicker/);
+  assert.match(homepage, /prefers-reduced-motion:reduce/);
+  assert.match(homepage, /class="sr-only"/);
+});

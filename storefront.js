@@ -23,6 +23,14 @@ function formatMoney(cents) {
   return (Number(cents) / 100).toFixed(2);
 }
 
+function productLevel(description) {
+  const value = String(description || '').toLowerCase();
+  if (value.includes('cbd boosté (strong)')) return 'CBD boosté · strong';
+  if (value.includes('cbd soft (medium)')) return 'CBD soft · medium';
+  if (value.includes('cbd classique')) return 'CBD classique';
+  return '';
+}
+
 function productVisual(product, category) {
   const presentationKey = product.slug || product.id;
   const flowerPresentation = category === 'fleurs'
@@ -71,10 +79,13 @@ function renderProducts(grid, products, category) {
     const flowerMetaMarkup = weightMarkup ? `<div class="product-meta">${purchasable ? '<strong class="product-price-label" data-product-price-label></strong>' : `<span class="product-status">${availabilityLabel}</span>`}${buttonMarkup}</div>` : '';
     const flowerPresentation = isFlower ? window.WoodFlowerPresentation?.get(product.slug || product.id) : null;
     const description = flowerPresentation?.demoDescription || product.description || 'Une référence sélectionnée par la boutique WOOD.';
+    const level = isFlower ? productLevel(product.description) : '';
+    const badgeMarkup = `<div class="product-badges"><span class="product-badge">${escapeHtml(labels[category] || category)}</span>${level ? `<span class="product-badge product-badge--level">${escapeHtml(level)}</span>` : ''}</div>`;
     return `<article class="product-card" data-product-id="${escapeHtml(product.id)}" data-product-slug="${escapeHtml(product.slug || product.id)}" data-product-name="${escapeHtml(product.name)}" data-product-category="${escapeHtml(labels[category] || category)}" data-product-price="${price}" data-availability-state="${availabilityState}"${purchasable ? '' : ' data-product-unavailable="true"'}>
       <div class="product-art">${productVisual(product, category)}</div>
       <div class="product-body">
         <span class="product-index">${String(index + 1).padStart(2, '0')} / WOOD CATALOGUE</span>
+        ${badgeMarkup}
         <h3>${escapeHtml(product.name)}</h3>
         <p>${escapeHtml(description)}</p>
         ${weightMarkup}${priceMarkup}

@@ -67,10 +67,10 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **151 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **153 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
-- Les workflows GitHub Pages et de qualité du commit courant ont été vérifiés avec succès ; la page publique, `produit.html` et une image WebP répondent en HTTP 200. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
+- Les workflows GitHub Pages et de qualité du commit `b531f72d54e15d4035605ab56e8190ad4db62448` ont été vérifiés avec succès ; la page publique, `compte.html`, `fleurs.html` et une image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
 - Le contrôle responsive Playwright confirme l’absence de débordement horizontal sur les **70 combinaisons** (10 routes publiques × `320`, `375`, `390`, `430`, `768`, `1024`, `1440`), avec des titres non vides et la navigation mobile chargée sur les vues étroites.
 - Une seconde passe locale, documentée dans `docs/validation/2026-11-05-responsive-reference.md`, a capturé les parcours accueil, quatre univers, fiche, checkout et compte à `320` et `1440` px, puis contrôlé ces huit routes aux sept largeurs : les **56 combinaisons** conservent exactement la largeur de la fenêtre.
 - La disponibilité est maintenant une donnée Supabase explicite (`available`, `soon`, `rupture`, `incomplete`) et le serveur refuse de traiter un produit qui n’est pas `available`.
@@ -84,6 +84,8 @@
 - Le panier nettoie les données locales avant réutilisation, échappe les valeurs affichées, plafonne une quantité locale à 99, se resynchronise entre onglets et garde le focus dans son dialogue au clavier ; ces garde-fous sont couverts par `test/cart-resilience.test.mjs`.
 - La tentative d’enregistrement de commande possède aussi un délai maximum, annule une requête bloquée et laisse le panier intact avec un message de reprise ; `test/order-client-resilience.test.mjs` le vérifie.
 - Le menu public mobile regroupe maintenant les quatre univers WOOD et les accès rapides `Nous trouver`, `FAQ`, `Compte` et `Panier`, sans exposer l’administration ; `test/navigation-accessibility.test.mjs` le vérifie.
+- Les cartes catalogue affichent maintenant, dans un ordre stable, l’univers puis uniquement le niveau reconnu dans la donnée fleur (`CBD boosté · strong`, `CBD soft · medium` ou `CBD classique`) ; aucune étiquette n’est inventée pour une donnée inconnue. `test/product-availability.test.mjs` le vérifie.
+- Le bandeau de valeurs WOOD de l’accueil défile maintenant en boucle courte avec un texte accessible masqué visuellement et un arrêt complet en `prefers-reduced-motion`; `test/responsive-layout.test.mjs` le vérifie.
 - La FAQ d’accueil couvre maintenant la livraison disponible, le compte invité et l’état séparé de Viva sans inventer de frais, délais ou promotions ; `test/location-contact.test.mjs` le vérifie.
 - Le tableau de bord propriétaire affiche maintenant l’état de la file `order_notification_outbox` (`à envoyer`, `en cours`, `envoyé`, `échec`) sans présenter l’envoi comme actif ; `test/order-notification-outbox.test.mjs` le vérifie.
 - La migration locale `20261104150000_order_status_history.sql` a été appliquée au projet Supabase sous `20261104215031_order_status_history` ; la table est protégée par RLS, le trigger est présent et aucune commande n’existait au moment du contrôle.
@@ -124,7 +126,7 @@
 
 ### Tâche 1 — Figer la base de référence
 
-- [x] Conserver l’état actuel de `main` comme point de comparaison ; la référence actuelle est le commit `4e994d3`.
+- [x] Conserver l’état initial de `main` comme point de comparaison ; la référence de départ est le commit `4e994d3`, puis les contrôles post-modification sont suivis jusqu’au commit courant `b531f72`.
 - [x] Générer une capture de référence des pages publiques, des pages boutique, du panier et du compte ; les captures et le contrôle de largeur sont documentés dans `docs/validation/2026-11-05-responsive-reference.md`.
 - [x] Vérifier que `npm run hostinger:preflight` passe avant toute modification.
 - [ ] Vérifier que le dépôt est propre après le point de sauvegarde.
@@ -927,7 +929,7 @@ Ce bloc ajoute les enseignements de l’audit visuel et fonctionnel de [TealerLa
 ### Tâche 55 — Repenser les cartes produits WOOD
 
 - [x] Utiliser une zone média stable en haut de chaque carte.
-- [ ] Afficher les badges dans un ordre fixe : univers, niveau `strong/medium/classique`, éventuelle information vérifiée ; la structure est définie, mais les données commerciales finales restent à valider.
+- [x] Afficher les badges dans un ordre fixe : univers puis niveau `strong/medium/classique` uniquement lorsque la donnée correspond exactement à un profil WOOD reconnu ; les informations commerciales finales restent à valider.
 - [x] Garder un nom de produit lisible, même sur deux lignes.
 - [x] Afficher l’état photo à venir ou la vraie photo sans espace vide imprévisible.
 - [x] Garder le choix de grammage, le prix correspondant, le prix au gramme si validé, le stock et `Ajouter au panier` au même endroit.
@@ -1073,7 +1075,7 @@ Ces sous-tâches détaillent la refonte à exécuter plus tard. Elles ne valent 
 - [ ] **A09 — Prévoir un bloc d’introduction par univers :** une phrase utile, aucune promesse d’effet ou de qualité non vérifiée.
 - [ ] **A10 — Créer la future sélection WOOD :** uniquement avec produits, photos, stocks et prix validés.
 - [ ] **A11 — Stabiliser la zone média des cartes :** ratio, hauteur, fond et état photo à venir.
-- [ ] **A12 — Stabiliser la zone d’identification :** univers puis `CBD boosté (strong)`, `CBD soft (medium)` ou `CBD classique`.
+- [x] **A12 — Stabiliser la zone d’identification :** univers puis `CBD boosté (strong)`, `CBD soft (medium)` ou `CBD classique`, avec aucune étiquette affichée si la donnée n’est pas reconnue.
 - [ ] **A13 — Stabiliser les titres :** deux lignes maximum avec hauteur réservée et nom complet accessible.
 - [ ] **A14 — Stabiliser le sélecteur de grammes :** départ à 1 g, `−`, valeur, `+`, clavier et toucher.
 - [ ] **A15 — Stabiliser le bloc de prix :** grammage choisi, total et prix au gramme près de l’action.
@@ -1093,7 +1095,7 @@ Ces sous-tâches détaillent la refonte à exécuter plus tard. Elles ne valent 
 - [ ] **A29 — Vérifier les zones sûres :** encoche, barre d’outils Safari, orientation et navigation basse.
 - [ ] **A30 — Vérifier les contenus extrêmes :** nom long, prix élevé, absence d’image, état incomplet et texte de FAQ long.
 - [ ] **A31 — Ajouter les apparitions au scroll :** une fois les dimensions réservées, sans déplacer les contrôles.
-- [ ] **A32 — Ajouter le bandeau animé WOOD :** message de service ou de marque, jamais promotion inventée.
+- [x] **A32 — Ajouter le bandeau animé WOOD :** message de service ou de marque, jamais promotion inventée ; repli accessible et statique en mouvement réduit.
 - [ ] **A33 — Ajouter les micro-interactions :** hover desktop, feedback tactile mobile, ajout panier et focus clavier.
 - [ ] **A34 — Respecter `prefers-reduced-motion` :** aucune information ne dépend d’un mouvement.
 - [ ] **A35 — Mesurer la performance :** images, CLS, temps d’interaction et comportement sur réseau lent.
