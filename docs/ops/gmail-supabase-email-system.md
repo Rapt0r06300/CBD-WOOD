@@ -2,6 +2,8 @@
 
 ## Principe
 
+**État du socle — 5 novembre 2026 :** les migrations `email_automation_foundation` et `email_security_cleanup` sont appliquées au projet Supabase connecté et les fonctions Edge sont déployées. Aucun secret Gmail, jeton interne ou réglage de production n’est fourni dans le dépôt : les fonctions restent donc volontairement inactives tant que la propriétaire n’a pas validé la connexion et les identifiants finaux.
+
 Le site ne connecte pas un mot de passe Gmail à la base de données. Supabase conserve les commandes, les consentements, les documents et les états d’envoi. Une Edge Function privée utilise OAuth Gmail pour envoyer les messages.
 
 ```text

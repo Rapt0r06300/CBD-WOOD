@@ -1879,7 +1879,7 @@ Cette passe est dédiée à la page d’accueil, car c’est elle que le conjoin
 
 ## Bloc A361–A560 — système e-mail Gmail/Supabase, documents, livraison et newsletter
 
-Ce bloc décrit tout ce qu’il faudra construire pour obtenir une chaîne fiable `commande → traitement → document → e-mail → livraison`, ainsi qu’une newsletter séparée. Il ne connecte pas Gmail maintenant et ne modifie pas le site dans cette passe. Le mot de passe Gmail ne sera jamais enregistré dans Supabase, GitHub ou le navigateur.
+Ce bloc décrit tout ce qu’il faut pour obtenir une chaîne fiable `commande → traitement → document → e-mail → livraison`, ainsi qu’une newsletter séparée. Le socle local et les migrations Supabase sont maintenant en place ; la connexion Gmail et les identifiants restent volontairement à la toute fin. Le mot de passe Gmail ne sera jamais enregistré dans Supabase, GitHub ou le navigateur.
 
 ### 81 — Cadre, décisions et séparation des responsabilités
 
