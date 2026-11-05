@@ -87,6 +87,7 @@
 - Les cartes catalogue affichent maintenant, dans un ordre stable, l’univers puis uniquement le niveau reconnu dans la donnée fleur (`CBD boosté · strong`, `CBD soft · medium` ou `CBD classique`) ; aucune étiquette n’est inventée pour une donnée inconnue. `test/product-availability.test.mjs` le vérifie.
 - Les fiches fleur proposent maintenant trois recommandations limitées au même univers, dans une grille séparée et sans promotion/avis inventé ; `test/product-detail.test.mjs` le vérifie.
 - La grille de la fiche générique neutralise désormais la largeur minimale implicite des éléments sur mobile avec `minmax(0, 1fr)` et `min-width: 0`; `test/responsive-layout.test.mjs` et la matrice Playwright étroite le vérifient.
+- Le parcours navigateur local a été rejoué avec un panier synthétique non publié : accueil → fleurs → fiche Nimbus → panier → checkout, puis compte et livraison visible. Aucun paiement réel ni commande réelle n’a été simulé comme réussi.
 - Le bandeau de valeurs WOOD de l’accueil défile maintenant en boucle courte avec un texte accessible masqué visuellement et un arrêt complet en `prefers-reduced-motion`; `test/responsive-layout.test.mjs` le vérifie.
 - La FAQ d’accueil couvre maintenant la livraison disponible, le compte invité et l’état séparé de Viva sans inventer de frais, délais ou promotions ; `test/location-contact.test.mjs` le vérifie.
 - Le tableau de bord propriétaire affiche maintenant l’état de la file `order_notification_outbox` (`à envoyer`, `en cours`, `envoyé`, `échec`) sans présenter l’envoi comme actif ; `test/order-notification-outbox.test.mjs` le vérifie.
@@ -1103,7 +1104,7 @@ Ces sous-tâches détaillent la refonte à exécuter plus tard. Elles ne valent 
 - [ ] **A35 — Mesurer la performance :** images, CLS, temps d’interaction et comportement sur réseau lent.
 - [x] **A36 — Garder les scripts sobres :** pas de dépendance lourde ou de widget tiers nécessaire à l’achat.
 - [ ] **A37 — Tester l’accessibilité :** clavier, lecteur d’écran, contraste, focus, noms accessibles et tailles tactiles.
-- [ ] **A38 — Tester les parcours :** accueil → univers → fiche → panier → compte/checkout, sur desktop et mobile.
+- [x] **A38 — Tester les parcours :** accueil → univers → fiche → panier → compte/checkout, sur desktop et mobile ; Playwright a rejoué l’accueil → fleurs → fiche Nimbus, vérifié la fiche compte/checkout et, avec un panier de test local, le panneau panier → checkout à 390 px. L’ordre réel reste bloqué tant que les stocks et le paiement ne sont pas activés.
 - [ ] **A39 — Comparer avant/après :** captures aux largeurs cibles, aucun changement non expliqué de l’identité WOOD.
 - [ ] **A40 — Faire valider en deux temps :** d’abord `c’est toujours WOOD` par la propriétaire, puis `la présentation est aussi forte que TealerLab` par son conjoint.
 
