@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **166 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **169 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit `34eac62` ont été vérifiés avec succès ; les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -349,9 +349,9 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 - [x] Autoriser un client à lire/modifier uniquement ses propres données ; `customer_profiles` et les commandes utilisent `auth.uid()`.
 - [x] Réserver produits, stocks et commandes globales au rôle propriétaire ou aux fonctions serveur prévues ; aucun coupon n’est exposé tant que les promotions restent désactivées.
 - [x] Garder les clés privilégiées uniquement côté serveur.
-- [ ] Ajouter des tests négatifs : client qui tente de lire une autre commande, modifier un stock ou s’attribuer admin.
+- [x] Ajouter des tests négatifs : `test/rls-negative.test.mjs` vérifie les politiques de lecture des commandes, les écritures de stock/idempotence et l’impossibilité pour un rôle client de devenir propriétaire ; le test direct sur un projet Supabase de staging reste externe.
 
-**Validation :** les tests d’accès refusé passent aussi bien depuis l’interface que depuis des appels directs.
+**Validation :** la couverture locale des politiques d’accès refusé passe ; l’acceptation finale par appels REST directs doit encore être exécutée sur un projet Supabase de staging.
 
 ### Tâche 23 — Fiabiliser les commandes et le stock
 
