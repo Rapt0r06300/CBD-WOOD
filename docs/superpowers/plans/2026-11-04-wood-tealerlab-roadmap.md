@@ -519,8 +519,8 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 - [ ] Les stocks réels sont renseignés par la propriétaire.
 - [ ] Les règles de livraison sont confirmées.
 - [ ] Les identifiants Viva sont disponibles ou le paiement reste explicitement désactivé.
-- [ ] Les tests et le paquet Hostinger sont verts.
-- [ ] Aucun secret ou accès de test ne reste dans le dépôt public.
+- [x] Les tests et le paquet Hostinger sont verts localement : `npm run hostinger:preflight` passe, le paquet contient 49 fichiers publics et reste distinct du dépôt source ; DNS, HTTPS, Supabase et l’hébergement réel restent externes.
+- [x] Aucun secret ou accès de test n’est présent dans le dépôt ou le paquet public selon l’audit statique et le préflight ; les identifiants réels seront ajoutés uniquement dans les gestionnaires externes à la fin.
 
 **Validation :** aucune ouverture commerciale n’est déclarée tant que toutes les portes de sortie externes et techniques ne sont pas vertes.
 
