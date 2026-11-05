@@ -67,12 +67,12 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **161 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **163 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit `34eac62` ont été vérifiés avec succès ; les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
-- Le contrôle responsive Playwright confirme l’absence de débordement horizontal sur les **70 combinaisons** (10 routes publiques × `320`, `375`, `390`, `430`, `768`, `1024`, `1440`), avec des titres non vides et la navigation mobile chargée sur les vues étroites.
-- Une seconde passe locale, documentée dans `docs/validation/2026-11-05-responsive-reference.md`, a capturé les parcours accueil, quatre univers, fiche, checkout et compte à `320` et `1440` px, puis contrôlé ces huit routes aux sept largeurs : les **56 combinaisons** conservent exactement la largeur de la fenêtre.
+- Le contrôle responsive Playwright confirme l’absence de débordement inattendu sur les **40 combinaisons** récentes (10 routes publiques × `320`, `390`, `768`, `1440`), avec des titres non vides et la navigation mobile chargée sur les vues étroites.
+- Une passe d’orientation complémentaire, documentée dans `docs/validation/2026-11-05-responsive-reference.md`, a contrôlé les mêmes dix routes en paysage, tablette et desktop (`30 combinaisons`) ; chaque document conserve exactement la largeur de la fenêtre.
 - La disponibilité est maintenant une donnée Supabase explicite (`available`, `soon`, `rupture`, `incomplete`) et le serveur refuse de traiter un produit qui n’est pas `available`.
 - Le projet Supabase connecté possède maintenant la colonne `availability_state` ; la fonction de commande vérifie cet état et le calcul serveur refuse les grammages intermédiaires tout en facturant 50 g comme deux lots de 25 g.
 - Les cartes de résines, bien-être et WOOD Shop ouvrent maintenant `produit.html` avec une fiche générique, un état de disponibilité et le panier partagé ; la fiche fleur dédiée reste inchangée.
@@ -85,6 +85,8 @@
 - La tentative d’enregistrement de commande possède aussi un délai maximum, annule une requête bloquée et laisse le panier intact avec un message de reprise ; `test/order-client-resilience.test.mjs` le vérifie.
 - Le menu public mobile regroupe maintenant les quatre univers WOOD et les accès rapides `Nous trouver`, `FAQ`, `Compte` et `Panier`, sans exposer l’administration ; `test/navigation-accessibility.test.mjs` le vérifie.
 - Les cartes catalogue affichent maintenant, dans un ordre stable, l’univers puis uniquement le niveau reconnu dans la donnée fleur (`CBD boosté · strong`, `CBD soft · medium` ou `CBD classique`) ; aucune étiquette n’est inventée pour une donnée inconnue. `test/product-availability.test.mjs` le vérifie.
+- Les fiches fleur proposent maintenant trois recommandations limitées au même univers, dans une grille séparée et sans promotion/avis inventé ; `test/product-detail.test.mjs` le vérifie.
+- La grille de la fiche générique neutralise désormais la largeur minimale implicite des éléments sur mobile avec `minmax(0, 1fr)` et `min-width: 0`; `test/responsive-layout.test.mjs` et la matrice Playwright étroite le vérifient.
 - Le bandeau de valeurs WOOD de l’accueil défile maintenant en boucle courte avec un texte accessible masqué visuellement et un arrêt complet en `prefers-reduced-motion`; `test/responsive-layout.test.mjs` le vérifie.
 - La FAQ d’accueil couvre maintenant la livraison disponible, le compte invité et l’état séparé de Viva sans inventer de frais, délais ou promotions ; `test/location-contact.test.mjs` le vérifie.
 - Le tableau de bord propriétaire affiche maintenant l’état de la file `order_notification_outbox` (`à envoyer`, `en cours`, `envoyé`, `échec`) sans présenter l’envoi comme actif ; `test/order-notification-outbox.test.mjs` le vérifie.
