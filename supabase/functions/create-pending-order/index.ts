@@ -35,13 +35,14 @@ const corsHeadersFor = (request: Request) => {
   return headers;
 };
 
-const response = (request: Request, body: Record<string, unknown>, status = 200) =>
+const response = (request: Request, body: Record<string, unknown>, status = 200, extraHeaders: Record<string, string> = {}) =>
   new Response(JSON.stringify(body), {
     status,
     headers: {
       ...corsHeadersFor(request),
       "Content-Type": "application/json",
       "Cache-Control": "no-store",
+      ...extraHeaders,
     },
   });
 
@@ -60,6 +61,11 @@ const verifyTurnstile = async (secret: string, token: string, remoteIp: string |
   if (!verification.ok) return false;
   const result = await verification.json().catch(() => ({}));
   return result.success === true;
+};
+
+const fingerprint = async (value: string) => {
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
+  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
 };
 
 Deno.serve(async (request) => {
@@ -115,6 +121,29 @@ Deno.serve(async (request) => {
   const validation = validateOrderPayload(candidatePayload);
   if (!validation.ok) return response(request, { error: validation.error }, 400);
 
+  const adminClient = createClient(supabaseUrl, serviceRoleKey, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
+  const remoteAddress = request.headers.get("CF-Connecting-IP")?.trim()
+    || request.headers.get("X-Real-IP")?.trim()
+    || "";
+  if (remoteAddress && remoteAddress.length <= 128 && !remoteAddress.includes(",")) {
+    const bucketKey = await fingerprint(`${serviceRoleKey}:${remoteAddress}`);
+    const { data: allowed, error: rateLimitError } = await adminClient.rpc("consume_order_rate_limit", {
+      p_bucket_key: bucketKey,
+      p_window_seconds: 60,
+      p_max_requests: 8,
+    });
+    if (rateLimitError) {
+      console.error(`[${requestId}] order rate limit unavailable`, rateLimitError);
+      if (Deno.env.get("REQUIRE_ORDER_RATE_LIMIT") === "true") {
+        return response(request, { error: "Le service est momentanément indisponible." }, 503);
+      }
+    } else if (allowed === false) {
+      return response(request, { error: "Trop de tentatives. Réessaie dans une minute." }, 429, { "Retry-After": "60" });
+    }
+  }
+
   const turnstileSecret = Deno.env.get("TURNSTILE_SECRET_KEY");
   const requiresTurnstile = Deno.env.get("REQUIRE_TURNSTILE") === "true";
   if (requiresTurnstile && !turnstileSecret) {
@@ -141,9 +170,6 @@ Deno.serve(async (request) => {
     customerId = data.user.id;
   }
 
-  const adminClient = createClient(supabaseUrl, serviceRoleKey, {
-    auth: { persistSession: false, autoRefreshToken: false },
-  });
   const { data, error } = await adminClient.rpc("create_pending_order", {
     payload: { ...validation.payload, customer_id: customerId },
   });

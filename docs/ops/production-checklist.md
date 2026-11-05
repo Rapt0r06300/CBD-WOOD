@@ -29,6 +29,7 @@
 - [ ] Site URL et Redirect URLs contiennent le domaine réel, sans remplacer les URL locales par erreur.
 - [ ] `ALLOWED_ORIGINS` contient uniquement les origines réellement utilisées.
 - [ ] Turnstile est configuré côté serveur avant ouverture publique.
+- [ ] La limitation serveur de `create-pending-order` est testée avec une répétition rapide et n’empêche pas une commande normale.
 - [ ] La protection contre les mots de passe compromis est activée.
 - [ ] L’utilisateur propriétaire est le seul présent dans `owner_users`.
 - [ ] La migration `customer_account_roles` crée automatiquement le rôle `customer` pour chaque nouveau compte et interdit toute auto-promotion.

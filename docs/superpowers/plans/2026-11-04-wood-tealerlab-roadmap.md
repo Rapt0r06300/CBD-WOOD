@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **118 tests**, la syntaxe JavaScript contrôlée sur 26 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **120 tests**, la syntaxe JavaScript contrôlée sur 26 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **47 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - Le contrôle responsive Playwright confirme l’absence de débordement horizontal sur les **70 combinaisons** (10 routes publiques × `320`, `375`, `390`, `430`, `768`, `1024`, `1440`), avec des titres non vides et la navigation mobile chargée sur les vues étroites.
 - La disponibilité est maintenant une donnée Supabase explicite (`available`, `soon`, `rupture`, `incomplete`) et le serveur refuse de traiter un produit qui n’est pas `available`.
@@ -94,6 +94,7 @@
 - Le 5 novembre 2026, `document-download` délivre uniquement des URL signées de cinq minutes après contrôle du compte client ou du rôle propriétaire ; le bucket PDF reste privé.
 - Le 5 novembre 2026, le tableau de bord propriétaire permet aussi d’ouvrir les documents prêts d’une commande via `document-download`, sans exposer de chemin Storage durable. Les états `dead_letter` et `cancelled` sont également lisibles dans le suivi des notifications.
 - Le 5 novembre 2026, `20261105120000_owner_order_alerts.sql` a été appliquée au projet Supabase : chaque nouvelle commande persistée crée, quand un propriétaire est configuré, une alerte propriétaire distincte dans l’outbox. Le worker `email-worker` sait la formater, mais aucun mail réel ne part sans les secrets Gmail et un déclencheur serveur autorisé.
+- Le 5 novembre 2026, `20261105130000_order_rate_limit.sql` a été appliquée et `create-pending-order` a été déployée en version 4 : les répétitions réseau rapides sont limitées côté serveur avec une empreinte SHA-256, un `Retry-After` explicite et sans stockage d’adresse IP brute.
 - Le 5 novembre 2026, le compte client affiche les documents prêts de ses commandes et demande une URL signée à la fonction serveur, sans exposer de chemin Storage durable.
 - Le 5 novembre 2026, l’accueil officiel [TealerLab](https://tealerlab.com/) a été revu avec Exa, Parallel Search et un navigateur réel en desktop et en viewport mobile `390 × 844`. L’audit confirme une architecture de sections réutilisables, des rails de cartes produits, une hiérarchie de fiche dense et une version mobile réellement recomposée ; ces constats sont traduits dans les tags d’exécution `A01–A40` et `A81–A240` ci-dessous.
 - Cette observation ne valide aucun changement graphique WOOD : elle sert uniquement de référence d’inspiration. Les couleurs, le logo, la typographie, la carte, les prix et les contraintes de la propriétaire restent prioritaires.
