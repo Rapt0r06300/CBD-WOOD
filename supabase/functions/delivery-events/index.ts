@@ -108,6 +108,14 @@ Deno.serve(async (request) => {
       .eq("event_key", eventKey)
       .maybeSingle();
     if (!existing) return json({ error: "Événement déjà traité mais introuvable." }, 503);
+    if (existing.status === "cancelled") {
+      const { error: releaseError } = await client.rpc("release_order_stock", {
+        p_order_id: orderId,
+        p_actor_id: userData.user.id,
+        p_reason: "Annulation de livraison.",
+      });
+      if (releaseError) return json({ error: "Événement conservé, mais stock à reprendre." }, 503);
+    }
     const notificationError = await enqueueDeliveryNotifications(client, order, existing);
     if (notificationError) return json({ error: "Événement conservé, mais notification à reprendre." }, 503);
     return json({ event: existing, idempotent: true });
@@ -118,6 +126,14 @@ Deno.serve(async (request) => {
   if (nextOrderStatus !== order.status) {
     const { error: updateError } = await client.from("orders").update({ status: nextOrderStatus }).eq("id", orderId);
     if (updateError) return json({ error: "Événement enregistré, mais commande à vérifier." }, 503);
+    if (nextOrderStatus === "cancelled") {
+      const { error: releaseError } = await client.rpc("release_order_stock", {
+        p_order_id: orderId,
+        p_actor_id: userData.user.id,
+        p_reason: message.note || "Annulation de livraison.",
+      });
+      if (releaseError) return json({ error: "Événement enregistré, mais stock à reprendre." }, 503);
+    }
   }
   const notificationError = await enqueueDeliveryNotifications(client, order, event);
   if (notificationError) return json({ error: "Événement enregistré, mais notification à reprendre." }, 503);

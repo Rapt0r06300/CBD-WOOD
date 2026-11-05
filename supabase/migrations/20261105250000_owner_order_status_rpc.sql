@@ -32,6 +32,101 @@ using (exists (
   where owner_users.user_id = (select auth.uid())
 ));
 
+create table if not exists public.order_stock_releases (
+  id bigint generated always as identity primary key,
+  order_id uuid not null unique references public.orders(id) on delete cascade,
+  actor_id uuid not null references auth.users(id) on delete restrict,
+  reason text,
+  created_at timestamptz not null default now(),
+  check (reason is null or char_length(reason) between 1 and 500)
+);
+
+alter table public.order_stock_releases enable row level security;
+revoke all on table public.order_stock_releases from public, anon, authenticated;
+grant select on table public.order_stock_releases to authenticated;
+grant all on table public.order_stock_releases to service_role;
+
+drop policy if exists order_stock_releases_owner_read on public.order_stock_releases;
+create policy order_stock_releases_owner_read
+on public.order_stock_releases for select
+to authenticated
+using (exists (
+  select 1
+  from public.owner_users
+  where owner_users.user_id = (select auth.uid())
+));
+
+create or replace function public.release_order_stock(
+  p_order_id uuid,
+  p_actor_id uuid,
+  p_reason text default null
+)
+returns boolean
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_actor_id uuid := p_actor_id;
+  v_order_status text;
+  v_release_id bigint;
+  v_item record;
+begin
+  if v_actor_id is null or not exists (
+    select 1 from public.owner_users where owner_users.user_id = v_actor_id
+  ) then
+    raise exception using errcode = '42501', message = 'Acteur propriétaire invalide.';
+  end if;
+
+  if coalesce(auth.role(), '') <> 'service_role' and v_actor_id <> auth.uid() then
+    raise exception using errcode = '42501', message = 'Acteur non autorisé.';
+  end if;
+
+  select status
+  into v_order_status
+  from public.orders
+  where id = p_order_id
+  for update;
+
+  if not found then
+    raise exception using errcode = 'P0002', message = 'Commande introuvable.';
+  end if;
+  if v_order_status <> 'cancelled' then
+    raise exception using errcode = '22023', message = 'Le stock ne peut être libéré que pour une commande annulée.';
+  end if;
+
+  insert into public.order_stock_releases (order_id, actor_id, reason)
+  values (p_order_id, v_actor_id, nullif(btrim(coalesce(p_reason, '')), ''))
+  on conflict (order_id) do nothing
+  returning id into v_release_id;
+
+  if v_release_id is null then
+    return false;
+  end if;
+
+  for v_item in
+    select product_id, quantity
+    from public.order_items
+    where order_id = p_order_id
+  loop
+    if v_item.product_id is null then
+      raise exception using errcode = '23514', message = 'Produit absent : libération de stock impossible.';
+    end if;
+    update public.products
+    set stock_quantity = stock_quantity + v_item.quantity
+    where id = v_item.product_id;
+    if not found then
+      raise exception using errcode = '23503', message = 'Produit introuvable : libération de stock impossible.';
+    end if;
+  end loop;
+
+  return true;
+end;
+$$;
+
+revoke all on function public.release_order_stock(uuid, uuid, text) from public, anon, authenticated;
+grant execute on function public.release_order_stock(uuid, uuid, text) to service_role;
+
 create or replace function public.owner_update_order_status(
   p_order_id uuid,
   p_next_status text,
@@ -115,6 +210,10 @@ begin
   update public.orders
   set status = v_next_status
   where id = v_order.id;
+
+  if v_next_status = 'cancelled' then
+    perform public.release_order_stock(v_order.id, v_actor_id, v_reason);
+  end if;
 
   return jsonb_build_object(
     'id', v_order.id,

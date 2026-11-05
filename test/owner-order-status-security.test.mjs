@@ -13,13 +13,18 @@ test('les changements de statut propriétaire sont validés, verrouillés et jou
   assert.match(migration, /from public\.orders[\s\S]*?for update/);
   assert.match(migration, /Transition de commande non autorisée/);
   assert.match(migration, /insert into public\.order_status_changes/);
+  assert.match(migration, /create table if not exists public\.order_stock_releases/);
+  assert.match(migration, /order_id uuid not null unique references public\.orders\(id\)/);
+  assert.match(migration, /create or replace function public\.release_order_stock/);
+  assert.match(migration, /stock_quantity = stock_quantity \+ v_item\.quantity/);
+  assert.match(migration, /grant execute on function public\.release_order_stock\(uuid, uuid, text\) to service_role/);
   assert.match(migration, /grant execute on function public\.owner_update_order_status\(uuid, text, text\) to authenticated/);
 });
 
 test('le tableau de bord passe par la fonction contrôlée et demande un motif pour annuler', () => {
   assert.match(ownerSource, /const orderTransitions = \{/);
   assert.match(ownerSource, /pending: \['pending', 'cancelled'\]/);
-  assert.match(ownerSource, /disabled\}.*statusLabels\[status\]/);
+  assert.match(ownerSource, /allowedStatuses\.has\(status\)[\s\S]*?statusLabels\[status\]/);
   assert.match(ownerSource, /supabase\.rpc\('owner_update_order_status'/);
   assert.match(ownerSource, /window\.prompt\('Pourquoi cette commande est-elle annulée \?'/);
   assert.match(ownerSource, /p_order_id: id/);
