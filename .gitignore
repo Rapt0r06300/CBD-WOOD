@@ -2,6 +2,7 @@ supabase/.temp/
 test-results/
 .superpowers/
 .playwright-cli/
+output/
 dist-hostinger/
 hostinger-site.zip
 .hostinger-release-*/
