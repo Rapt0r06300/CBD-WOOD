@@ -46,6 +46,13 @@ Cette carte sert à éviter les zones vides, les répétitions et les arrivées 
 
 La séquence desktop et mobile reste donc lisible : **identité → information → découverte → sélection éventuelle → respiration visuelle → aide → contact**. Une section absente ou non validée laisse sa place vide proprement, sans créer un trou dans le parcours ni forcer un rail horizontal.
 
+## Décision de débordement pour les sélections
+
+- La grille principale reste prioritaire : trois cartes sur ordinateur, deux colonnes sur mobile lorsque la largeur le permet, puis une colonne très étroite.
+- Une sélection d’accueil future se replie d’abord sur plusieurs lignes ; elle ne transforme jamais le `body` en rail horizontal et ne masque jamais le prix, le stock ou le bouton.
+- Un rail local n’est autorisé que pour un contenu éditorial secondaire, dans son propre conteneur, avec boutons précédent/suivant, état de progression, clavier, toucher et repli en grille.
+- Le lien `Voir tout` reste disponible afin qu’un client ne soit jamais obligé de deviner un geste de balayage pour atteindre le catalogue complet.
+
 ## Règles de fidélité
 
 1. Le desktop et le mobile partagent les mêmes informations, mais pas nécessairement le même ordre visuel ni les mêmes dimensions.
