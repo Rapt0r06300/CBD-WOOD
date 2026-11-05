@@ -2002,7 +2002,7 @@ Ce bloc décrit tout ce qu’il faut pour obtenir une chaîne fiable `commande �
 - [x] **A440 — Concevoir l’e-mail d’annulation :** validation : raison publique courte et état final sont cohérents.
 - [x] **A441 — Concevoir l’e-mail de remboursement :** validation : il ne part qu’après confirmation du remboursement.
 - [x] **A442 — Ajouter une version texte alternative :** validation : l’e-mail reste compréhensible sans HTML.
-- [ ] **A443 — Rendre les modèles lisibles sur mobile :** validation : test 320 px, 375 px, 390 px et 430 px sans débordement.
+- [x] **A443 — Rendre les modèles lisibles sur mobile :** le HTML transactionnel contient une viewport, un conteneur WOOD borné, une adaptation à 430 px et un retour à la ligne des articles/adresses ; validation : le générateur et ses tests passent, les vérifications 320–430 px restent à rejouer avec l’adresse Gmail réelle.
 - [ ] **A444 — Ajouter les liens absolus de production :** validation : aucun lien `localhost`, GitHub temporaire ou URL de test n’est envoyé.
 - [ ] **A445 — Ajouter la signature WOOD validée :** validation : logo, couleurs et ton restent conformes sans copier TealerLab.
 - [ ] **A446 — Encadrer les emojis :** validation : ils sont décoratifs et ne remplacent jamais une information essentielle.

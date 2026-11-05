@@ -41,6 +41,9 @@ test('builds a payment confirmation only for the paid notification kind', () => 
   assert.equal(message.subject, 'Paiement confirmé — WOOD-1001');
   assert.match(message.text, /paiement confirmé/i);
   assert.match(message.html, /Nimbus 3000/);
+  assert.match(message.html, /name="viewport"/);
+  assert.match(message.html, /class="wood-email"/);
+  assert.match(message.html, /overflow-wrap:anywhere/);
 });
 
 test('builds a document-ready message without claiming a new payment', () => {

@@ -70,20 +70,37 @@ export const buildOrderEmailMessage = ({ order, items, kind, deliveryEvent = nul
     'WOOD — CBD / Nice',
   ].join('\n');
   const htmlItems = items.map((item) => `<li>${escapeHtml(lineText(item))}</li>`).join('');
-  const html = [
-    `<p>Bonjour ${escapeHtml(isOwnerAlert ? 'WOOD' : name)},</p>`,
-    `<p>${escapeHtml(status)}</p>`,
-    `<p><strong>Commande :</strong> ${escapeHtml(order.order_number)}</p>`,
-    isOwnerAlert ? `<p><strong>Client :</strong> ${escapeHtml(name)}<br><strong>E-mail client :</strong> ${escapeHtml(order.customer_email)}</p>` : '',
-    '<p><strong>Récapitulatif :</strong></p>',
-    `<ul>${htmlItems}</ul>`,
-    `<p><strong>Total :</strong> ${escapeHtml(money(order.total_cents))}<br>`
-      + `<strong>Livraison :</strong> ${escapeHtml(order.delivery_address)}</p>`,
-    (isDeliveryUpdate || isDeliveryIssueAlert) && deliveryEvent
-      ? `<p><strong>État de livraison :</strong> ${escapeHtml(deliveryStatusLabels[deliveryEvent.status] || 'état mis à jour')}${deliveryEvent.trackingReference ? `<br><strong>Référence :</strong> ${escapeHtml(deliveryEvent.trackingReference)}` : ''}${deliveryEvent.note ? `<br><strong>Note :</strong> ${escapeHtml(deliveryEvent.note)}` : ''}</p>`
-      : '',
-    '<p>WOOD — CBD / Nice</p>',
-  ].join('');
+  const html = `<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>${escapeHtml(subject)}</title>
+    <style>
+      @media (max-width: 430px) {
+        .wood-email { padding: 20px 14px !important; }
+        .wood-email h1 { font-size: 30px !important; }
+      }
+    </style>
+  </head>
+  <body style="margin:0;background:#101610;color:#f1f0e6;font-family:Arial,Helvetica,sans-serif;line-height:1.6;">
+    <main class="wood-email" style="max-width:600px;margin:0 auto;padding:32px 24px;">
+      <div style="border-bottom:1px solid #536950;padding-bottom:18px;color:#cbf096;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">WOOD · CBD / NICE</div>
+      <h1 style="font-size:38px;line-height:1;letter-spacing:-1px;margin:28px 0 18px;color:#f1f0e6;">${escapeHtml(subject.split(' — ')[0])}</h1>
+      <p>Bonjour ${escapeHtml(isOwnerAlert ? 'WOOD' : name)},</p>
+      <p>${escapeHtml(status)}</p>
+      <p><strong>Commande :</strong> ${escapeHtml(order.order_number)}</p>
+      ${isOwnerAlert ? `<p><strong>Client :</strong> ${escapeHtml(name)}<br><strong>E-mail client :</strong> ${escapeHtml(order.customer_email)}</p>` : ''}
+      <p style="color:#cbf096;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Récapitulatif</p>
+      <ul style="padding-left:22px;overflow-wrap:anywhere;">${htmlItems}</ul>
+      <p><strong>Total :</strong> ${escapeHtml(money(order.total_cents))}<br><strong>Livraison :</strong> ${escapeHtml(order.delivery_address)}</p>
+      ${(isDeliveryUpdate || isDeliveryIssueAlert) && deliveryEvent
+        ? `<p><strong>État de livraison :</strong> ${escapeHtml(deliveryStatusLabels[deliveryEvent.status] || 'état mis à jour')}${deliveryEvent.trackingReference ? `<br><strong>Référence :</strong> ${escapeHtml(deliveryEvent.trackingReference)}` : ''}${deliveryEvent.note ? `<br><strong>Note :</strong> ${escapeHtml(deliveryEvent.note)}` : ''}</p>`
+        : ''}
+      <p style="border-top:1px solid #536950;padding-top:18px;color:#cbf096;">WOOD — CBD / Nice</p>
+    </main>
+  </body>
+</html>`;
 
   return { from, subject, text, html };
 };
