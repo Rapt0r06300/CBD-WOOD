@@ -1261,7 +1261,7 @@ Cette passe ajoute les manques visibles qui n’étaient pas assez détaillés d
 - [x] **A104 — Ajouter une hiérarchie au menu :** distinguer découverte, boutique, aide et contact par espaces, séparateurs et micro-labels ; validation : un utilisateur de tout âge trouve les quatre univers sans comprendre une logique technique. Vérifié par le menu structuré public, les sous-menus mobiles et `test/navigation-accessibility.test.mjs`.
 - [x] **A105 — Prévoir les états de navigation :** définir hover, focus, actif, pressé, désactivé et retour arrière avec transitions sobres ; validation : chaque état reste lisible en clavier, tactile et contraste renforcé.
 - [x] **A106 — Repenser le CTA d’accueil :** réserver un bouton principal à l’action utile et un bouton secondaire à la découverte ou aux boutiques ; validation : aucun bouton décoratif ne renvoie vers une mauvaise page.
-- [ ] **A107 — Structurer le footer :** organiser `Explorer`, `Aide`, `WOOD`, `Légal` et contacts en colonnes desktop puis accordéons mobile ; validation : numéros associés à Barla/Borriglione, adresses exactes et aucun point final indésirable.
+- [x] **A107 — Structurer le footer :** le footer public conserve ses groupes WOOD et contacts en colonnes desktop, puis `mobile-shell.js` les transforme en sections repliables à moins de 500 px ; les numéros restent associés à Barla/Borriglione, les adresses sont exactes et les noms n’ont pas de point final. `test/mobile-app-shell.test.mjs` et `test/location-contact.test.mjs` verrouillent le contrat ; les textes légaux finaux restent à fournir.
 - [x] **A108 — Harmoniser les liens de boutiques :** associer explicitement chaque numéro, adresse, itinéraire et bouton d’appel à `BARLA` ou `BORRIGLIONE` ; validation : aucun visiteur ne doit deviner quel numéro appartient à quelle boutique.
 
 ### Cartes, grille et présentation des produits
@@ -1875,8 +1875,8 @@ Cette passe est dédiée à la page d’accueil, car c’est elle que le conjoin
 
 ### 80.2 — Footer, animation et sensation d’application
 
-- [ ] **A351 — Recomposer le footer desktop :** groupes courts `Explorer`, `Aide`, `WOOD`, `Légal` avec les deux boutiques ; validation : rien d’administratif n’est visible.
-- [ ] **A352 — Recomposer le footer mobile :** utiliser des sections repliables, sans texte minuscule ni colonnes qui débordent ; validation : ouverture/fermeture accessible.
+- [x] **A351 — Recomposer le footer desktop :** le shell public garde des groupes courts, les deux boutiques et leurs numéros, sans aucun lien d’administration ; la structure est vérifiée par `test/mobile-app-shell.test.mjs`, `test/location-contact.test.mjs` et le préflight public. Les rubriques légales finales restent en attente des données validées.
+- [x] **A352 — Recomposer le footer mobile :** `initFooterSections()` produit des sections natives `details/summary` sous 500 px, avec ouverture clavier/tactile et repli automatique sans colonne débordante ; le CSS conserve la lisibilité et les tests de shell mobile verrouillent l’activation. La recette sur appareils réels reste ouverte.
 - [x] **A353 — Conserver la navigation basse mobile :** garder `Accueil`, `Boutique`, `Nous trouver`, `Compte` et `Panier` selon la structure WOOD validée ; validation : l’onglet actif correspond à la page.
 - [x] **A354 — Animer l’arrivée du hero :** révéler le texte et le média en douceur, sans retarder le CTA ; validation : animation désactivable et aucun CLS visible.
 - [x] **A355 — Animer les sections au scroll :** utiliser une apparition unique avec seuil raisonnable ; validation : retour arrière et rechargement ne rejouent pas un mouvement gênant.
