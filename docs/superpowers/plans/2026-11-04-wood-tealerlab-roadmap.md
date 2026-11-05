@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **172 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **175 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit `34eac62` ont été vérifiés avec succès ; les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -925,7 +925,7 @@ Ce bloc ajoute les enseignements de l’audit visuel et fonctionnel de [TealerLa
 
 - [x] Créer un panneau compact structuré par `Fleurs`, `Résines`, `Cosmétiques & huiles` et `Textile & produits dérivés` dans le menu mobile, sans modifier l’en-tête desktop.
 - [x] Ajouter `Panier`, `Compte`, `Nous trouver` et `FAQ` comme accès rapides.
-- [ ] Ajouter des sous-menus avec `Retour au menu`, sans énorme mega-menu.
+- [x] Ajouter des sous-menus avec `Retour au menu`, sans énorme mega-menu ; `mobile-shell.js` construit une navigation progressive par groupes, avec focus, retour, Échap et repli conservant le menu existant.
 - [x] Ne jamais afficher l’administration, les stocks ou les commandes dans le menu public ; un test parcourt toutes les pages publiques.
 
 **Validation :** le menu est lisible, accessible et cohérent sur PC, tablette et mobile.
@@ -1104,7 +1104,7 @@ Ces sous-tâches détaillent la refonte à exécuter plus tard. Elles ne valent 
 - [x] **A34 — Respecter `prefers-reduced-motion` :** aucune information ne dépend d’un mouvement.
 - [x] **A35 — Mesurer la performance :** baseline locale en navigateur à 390 px : DOMContentLoaded 26 ms, FCP 56 ms, CLS 0, navigation accueil → fleurs 891 ms ; la simulation d’images retardées reste utilisable avant et après chargement. Ces chiffres ne remplacent pas la mesure d’un appareil réel en production.
 - [x] **A36 — Garder les scripts sobres :** pas de dépendance lourde ou de widget tiers nécessaire à l’achat.
-- [ ] **A37 — Tester l’accessibilité :** clavier, lecteur d’écran, contraste, focus, noms accessibles et tailles tactiles.
+- [x] **A37 — Tester l’accessibilité :** clavier, lecteur d’écran, contraste, focus, noms accessibles et tailles tactiles ; la passe navigateur à `390 × 844` a contrôlé les noms des contrôles visibles, 18 tabulations par route, le focus du menu/panier et les tailles tactiles. La validation sur appareils physiques et avec un lecteur d’écran réel reste une recette externe.
 - [x] **A38 — Tester les parcours :** accueil → univers → fiche → panier → compte/checkout, sur desktop et mobile ; Playwright a rejoué l’accueil → fleurs → fiche Nimbus, vérifié la fiche compte/checkout et, avec un panier de test local, le panneau panier → checkout à 390 px. L’ordre réel reste bloqué tant que les stocks et le paiement ne sont pas activés.
 - [ ] **A39 — Comparer avant/après :** captures aux largeurs cibles, aucun changement non expliqué de l’identité WOOD.
 - [ ] **A40 — Faire valider en deux temps :** d’abord `c’est toujours WOOD` par la propriétaire, puis `la présentation est aussi forte que TealerLab` par son conjoint.
@@ -1814,7 +1814,7 @@ Cette passe est dédiée à la page d’accueil, car c’est elle que le conjoin
 - [x] **A306 — Adapter le menu mobile en panneau :** créer une ouverture fluide avec retour de focus, fermeture Échap et bouton fermer ; validation : clavier, lecteur d’écran et toucher fonctionnent.
 - [x] **A307 — Ajouter un bandeau de service non promotionnel :** annoncer uniquement que la livraison est disponible tant que les règles détaillées ne sont pas confirmées ; validation : aucun cadeau, remise, seuil ou délai inventé.
 - [x] **A308 — Créer un ticker WOOD optionnel :** reprendre le mouvement de bandeau comme rythme de marque, avec texte neutre et arrêt accessible ; validation : il ne masque jamais le contenu et respecte `prefers-reduced-motion`.
-- [ ] **A309 — Éviter les barres concurrentes :** ne pas empiler annonce, cookie, widget, WhatsApp et pop-up sur le premier écran ; validation : une seule couche temporaire maximum recouvre l’écran.
+- [x] **A309 — Éviter les barres concurrentes :** ne pas empiler annonce, cookie, widget, WhatsApp et pop-up sur le premier écran ; `test/public-visual-guardrails.test.mjs` verrouille l’absence de widgets/pop-ups concurrents et limite l’accueil à un seul bandeau d’annonce WOOD.
 - [x] **A310 — Vérifier la position des ancres :** les liens `Boutique`, `Nous trouver`, `FAQ` et `Compte` doivent arriver au bon endroit sur toutes les tailles ; validation : aucun saut vers une section masquée.
 
 ### 78.2 — Univers WOOD et présentation éditoriale

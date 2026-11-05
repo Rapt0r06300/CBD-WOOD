@@ -30,3 +30,13 @@ test('le menu public expose les quatre univers et les accès rapides sans admini
     assert.doesNotMatch(html, /admin\.html/i);
   }
 });
+
+test('le shell mobile prévoit des sous-menus avec retour sans dépendre d’une page admin', async () => {
+  const mobileShell = await readFile(new URL('../mobile-shell.js', import.meta.url), 'utf8');
+  const mobileStyles = await readFile(new URL('../mobile.css', import.meta.url), 'utf8');
+  assert.match(mobileShell, /nav-menu-trigger/);
+  assert.match(mobileShell, /nav-menu-back/);
+  assert.match(mobileShell, /Retour au menu/);
+  assert.match(mobileStyles, /nav-structured/);
+  assert.match(mobileStyles, /data-menu-view\^=/);
+});

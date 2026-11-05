@@ -24,7 +24,7 @@ Des captures de référence ont également été produites à `320` et `1440` px
 
 ## Contrôles complémentaires
 
-- Les tests automatisés du dépôt passent (`172 tests`).
+- Les tests automatisés du dépôt passent (`175 tests`).
 - La syntaxe JavaScript et l’audit statique passent.
 - Le paquet Hostinger est généré et contrôlé avant transfert.
 - La version publique répond sur les routes principales ; la route historique `admin.html` répond `404`.
@@ -42,6 +42,8 @@ Des captures de référence ont également été produites à `320` et `1440` px
 - Une baseline de performance locale a relevé `DOMContentLoaded = 26 ms`, `FCP = 56 ms`, `CLS = 0` et `891 ms` pour la navigation accueil → fleurs dans le navigateur de contrôle. Ces valeurs sont indicatives et ne valent pas mesure de production.
 - Une vérification de la boutique a relu les `data-tiers` après enhancement JavaScript : les 13 fleurs ont chacune cinq paliers et aucun écart avec la matrice WOOD issue de la carte (`1/3/5/10/25 g`). La même matrice est désormais protégée par un test permanent.
 - Une passe de contraste a inspecté les textes visibles de l’accueil, des catalogues, du checkout et du compte à `390 px` ; le seul échec trouvé était le kicker de l’histoire à `3,85:1` sur le panneau clair. Sa couleur WOOD a été assombrie à `#3c6c36`, soit `4,97:1`, sans modifier la palette générale.
+- Le contrôle `test/public-visual-guardrails.test.mjs` verrouille aussi l’absence de widgets/pop-ups concurrents, de retrait en boutique, de QR code et de promotion publique tant que ces éléments ne sont pas validés.
+- La navigation mobile structurée a été rejouée dans le navigateur à `390 × 844` : le bouton `Les univers` ouvre un sous-menu de quatre liens, `Retour au menu` revient au niveau racine et le focus est restauré. À `1440 × 900`, les déclencheurs de sous-menu restent masqués et les quatre liens desktop historiques restent visibles ; le document et le body restent à `1440` px.
 
 ## Limite de cette preuve
 

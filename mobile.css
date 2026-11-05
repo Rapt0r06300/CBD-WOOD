@@ -13,6 +13,22 @@
   display: none;
 }
 
+/* The structured menu is progressively enhanced: desktop keeps the original
+   flat navigation, while the mobile breakpoint exposes grouped panels. */
+.nav-menu-root,
+.nav-menu-section {
+  display: contents;
+}
+
+.nav-menu-trigger,
+.nav-menu-back {
+  display: none;
+}
+
+.nav-submenu-panel {
+  display: contents;
+}
+
 @media (max-width: 900px) {
   html {
     scroll-padding-top: calc(86px + var(--wood-safe-top));
@@ -56,6 +72,81 @@
     top: calc(68px + var(--wood-safe-top));
     max-height: calc(100svh - 68px - var(--wood-safe-top));
     padding-bottom: max(25px, var(--wood-safe-bottom));
+  }
+
+  .nav-links.nav-structured {
+    overflow: hidden;
+  }
+
+  .nav-structured .nav-menu-root {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .nav-structured .nav-menu-section {
+    display: block;
+    width: 100%;
+  }
+
+  .nav-structured .nav-menu-label {
+    display: none;
+  }
+
+  .nav-structured .nav-menu-trigger,
+  .nav-structured .nav-menu-back {
+    display: flex;
+    width: 100%;
+    min-height: 48px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 10px;
+    border: 0;
+    border-bottom: 1px solid #314032;
+    background: transparent;
+    color: var(--lime, #cbf096);
+    font: inherit;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 1.7px;
+    text-align: left;
+    text-transform: uppercase;
+  }
+
+  .nav-structured .nav-menu-trigger:focus-visible,
+  .nav-structured .nav-menu-back:focus-visible {
+    outline: 2px solid var(--lime, #cbf096);
+    outline-offset: -2px;
+  }
+
+  .nav-structured .nav-submenu-panel {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .nav-structured .nav-submenu-panel.is-active {
+    display: flex;
+  }
+
+  .nav-structured[data-menu-view^="submenu-"] .nav-menu-section {
+    display: none;
+  }
+
+  .nav-structured[data-menu-view^="submenu-"] .nav-menu-section.is-active {
+    display: block;
+  }
+
+  .nav-structured[data-menu-view^="submenu-"] .nav-menu-trigger {
+    display: none;
+  }
+
+  .nav-structured .nav-submenu-panel a {
+    display: flex;
+    min-height: 48px;
+    align-items: center;
+    padding: 14px 10px;
+    border-bottom: 1px solid #314032;
   }
 
   .mobile-app-nav {

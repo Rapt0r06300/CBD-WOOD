@@ -66,9 +66,102 @@
     });
   }
 
+  function initStructuredMenu() {
+    const nav = document.getElementById('navigation');
+    if (!nav || nav.dataset.woodStructuredMenu === 'true') return;
+
+    const groups = [];
+    let currentGroup = null;
+    [...nav.children].forEach((child) => {
+      if (child.classList.contains('nav-menu-label')) {
+        currentGroup = { label: child.textContent.trim(), nodes: [] };
+        groups.push(currentGroup);
+        return;
+      }
+      if (currentGroup) currentGroup.nodes.push(child);
+    });
+    if (!groups.length || !groups.some(group => group.nodes.length)) return;
+
+    const root = document.createElement('div');
+    root.className = 'nav-menu-root';
+    const menuSections = [];
+
+    groups.forEach((group, index) => {
+      const section = document.createElement('section');
+      section.className = 'nav-menu-section';
+      section.dataset.menuSection = String(index);
+
+      const desktopLabel = document.createElement('span');
+      desktopLabel.className = 'nav-menu-label';
+      desktopLabel.textContent = group.label;
+
+      const panelId = `wood-nav-submenu-${index}`;
+      const trigger = document.createElement('button');
+      trigger.className = 'nav-menu-trigger';
+      trigger.type = 'button';
+      trigger.setAttribute('aria-controls', panelId);
+      trigger.setAttribute('aria-expanded', 'false');
+      trigger.append(document.createTextNode(group.label));
+      const triggerArrow = document.createElement('span');
+      triggerArrow.setAttribute('aria-hidden', 'true');
+      triggerArrow.textContent = '↗';
+      trigger.append(triggerArrow);
+
+      const panel = document.createElement('div');
+      panel.className = 'nav-submenu-panel';
+      panel.id = panelId;
+      panel.dataset.menuPanel = String(index);
+      panel.setAttribute('aria-label', group.label);
+
+      const back = document.createElement('button');
+      back.className = 'nav-menu-back';
+      back.type = 'button';
+      back.textContent = '← Retour au menu';
+      panel.append(back, ...group.nodes);
+
+      section.append(desktopLabel, trigger, panel);
+      root.append(section);
+      menuSections.push({ back, panel, section, trigger, index });
+    });
+
+    nav.replaceChildren(root);
+    nav.classList.add('nav-structured');
+    nav.dataset.woodStructuredMenu = 'true';
+
+    const setMenuView = (view = 'root') => {
+      nav.dataset.menuView = view;
+      menuSections.forEach(({ panel, section, trigger, index }) => {
+        const active = view === `submenu-${index}`;
+        panel.classList.toggle('is-active', active);
+        section.classList.toggle('is-active', active);
+        trigger.setAttribute('aria-expanded', String(active));
+      });
+    };
+
+    menuSections.forEach(({ back, trigger, index }) => {
+      trigger.addEventListener('click', () => {
+        setMenuView(`submenu-${index}`);
+        queueMicrotask(() => back.focus({ preventScroll: true }));
+      });
+      back.addEventListener('click', () => {
+        setMenuView('root');
+        queueMicrotask(() => trigger.focus({ preventScroll: true }));
+      });
+    });
+
+    nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenuView('root')));
+    const toggle = document.getElementById('hamb');
+    toggle?.addEventListener('click', () => queueMicrotask(() => setMenuView('root')));
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') queueMicrotask(() => setMenuView('root'));
+    });
+    setMenuView();
+  }
+
   ensureFooterLocations();
   initLandingImageFallbacks();
   initScrollReveal();
+  initStructuredMenu();
 
   const items = [
     { href: 'index.html', icon: '⌂', label: 'Accueil', active: isHome },
