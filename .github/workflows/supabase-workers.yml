@@ -1,0 +1,81 @@
+name: WOOD — Supabase workers
+
+on:
+  workflow_dispatch:
+    inputs:
+      newsletter_campaign_id:
+        description: "UUID d’une campagne newsletter explicitement validée (facultatif)"
+        required: false
+        type: string
+  schedule:
+    - cron: "*/5 * * * *"
+
+permissions: {}
+
+concurrency:
+  group: wood-supabase-workers
+  cancel-in-progress: false
+
+jobs:
+  email-worker:
+    name: Traiter les e-mails transactionnels
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      SUPABASE_FUNCTIONS_URL: ${{ secrets.SUPABASE_FUNCTIONS_URL }}
+      EMAIL_WORKER_TOKEN: ${{ secrets.EMAIL_WORKER_TOKEN }}
+    steps:
+      - name: Vérifier la configuration sans afficher les secrets
+        id: configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "${SUPABASE_FUNCTIONS_URL}" || -z "${EMAIL_WORKER_TOKEN}" ]]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "Le worker e-mail reste inactif : secrets GitHub absents."
+            exit 0
+          fi
+          if [[ "${SUPABASE_FUNCTIONS_URL}" != https://*.supabase.co/functions/v1 ]]; then
+            echo "URL Supabase inattendue : utiliser uniquement l’URL HTTPS /functions/v1." >&2
+            exit 1
+          fi
+          echo "configured=true" >> "$GITHUB_OUTPUT"
+      - name: Appeler le worker e-mail
+        if: steps.configuration.outputs.configured == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail-with-body --silent --show-error \
+            --retry 2 --retry-delay 5 --max-time 45 \
+            -X POST "${SUPABASE_FUNCTIONS_URL}/email-worker" \
+            -H "x-email-worker-token: ${EMAIL_WORKER_TOKEN}" \
+            -H "content-type: application/json" \
+            --data '{}'
+
+  newsletter-worker:
+    name: Envoyer une campagne explicitement lancée
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.newsletter_campaign_id != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      SUPABASE_FUNCTIONS_URL: ${{ secrets.SUPABASE_FUNCTIONS_URL }}
+      NEWSLETTER_WORKER_TOKEN: ${{ secrets.NEWSLETTER_WORKER_TOKEN }}
+      NEWSLETTER_CAMPAIGN_ID: ${{ inputs.newsletter_campaign_id }}
+    steps:
+      - name: Vérifier la configuration sans afficher les secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${SUPABASE_FUNCTIONS_URL}" || { echo "SUPABASE_FUNCTIONS_URL manquant." >&2; exit 1; }
+          test -n "${NEWSLETTER_WORKER_TOKEN}" || { echo "NEWSLETTER_WORKER_TOKEN manquant." >&2; exit 1; }
+          test "${SUPABASE_FUNCTIONS_URL#https://}" != "${SUPABASE_FUNCTIONS_URL}" || { echo "HTTPS requis." >&2; exit 1; }
+      - name: Appeler le worker newsletter
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail-with-body --silent --show-error \
+            --retry 2 --retry-delay 5 --max-time 90 \
+            -X POST "${SUPABASE_FUNCTIONS_URL}/newsletter-campaign" \
+            -H "x-newsletter-worker-token: ${NEWSLETTER_WORKER_TOKEN}" \
+            -H "content-type: application/json" \
+            --data "{\"campaign_id\":\"${NEWSLETTER_CAMPAIGN_ID}\"}"
