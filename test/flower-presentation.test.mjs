@@ -57,6 +57,13 @@ test('les visuels de maquette suivent la direction photo sans contenant', () => 
   }
 });
 
+test('les descriptions de démonstration restent imagées sans allégation', () => {
+  const prohibited = /effet garanti|thérapeut|soigne|guérit|anti[- ]douleur|médicament|taux de cbd|% de cbd/i;
+  for (const entry of Object.values(presentations.all())) {
+    assert.doesNotMatch(entry.demoDescription, prohibited, `Description à relire pour ${entry.name}`);
+  }
+});
+
 test('les 13 fleurs conservent leurs propres tarifs de la carte WOOD', async () => {
   const catalogue = await readFile(resolve(root, 'fleurs.html'), 'utf8');
   const expected = {
