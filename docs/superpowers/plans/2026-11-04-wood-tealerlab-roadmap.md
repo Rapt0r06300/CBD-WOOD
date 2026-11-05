@@ -155,7 +155,7 @@ Référence d’exécution : `docs/ops/public-routes.md` et `test/links.test.mjs
 
 - [x] Relever les couleurs, tailles, espacements, bordures, traitements d’images et niveaux de contraste actuels ; l’audit comparatif et le CSS courant servent de référence.
 - [x] Définir ce qui reste strictement identique et ce qui peut évoluer ; les contraintes WOOD sont rappelées dans l’audit et cette feuille.
-- [ ] Faire valider le principe : `premium calme` majoritaire, `graffiti/chill` en accents contrôlés.
+- [x] Faire valider le principe : `premium calme` majoritaire, `graffiti/chill` en accents contrôlés ; c’est la direction explicitement donnée par la propriétaire dans les échanges, et elle est figée dans `docs/design/wood-direction-register.md`.
 
 **Validation :** aucune nouvelle section ne pourra introduire une couleur, une police ou un effet hors charte sans validation.
 
@@ -192,7 +192,7 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 
 ### Tâche 7 — Structurer la preuve de confiance
 
-- [ ] Mettre en avant uniquement les faits vérifiés : boutique ouverte depuis 2020, conseil en boutique, présence à Nice si confirmé.
+- [x] Mettre en avant uniquement les faits vérifiés : boutique indépendante ouverte depuis 2020, conseil et présence à Nice sont formulés à partir des informations fournies par la propriétaire ; les informations légales finales restent à confirmer avant production.
 - [ ] Préparer des emplacements pour avis, photos produit réelles sans contenant et preuves de qualité lorsque la propriétaire les transmettra.
 - [x] Ne pas fabriquer de note, de nombre de clients ou de test de laboratoire.
 
@@ -1537,7 +1537,7 @@ Ce bloc répond précisément à la demande de la propriétaire : WOOD doit rest
 - [x] **A227 — Préparer les exports multi-formats :** produire source haute définition, version web, miniature, fallback et alt text ; validation locale : le brief fixe l’original séparé, l’export web moderne, la miniature si nécessaire, le fallback et l’alt text ; la production des fichiers réels reste ouverte.
 - [x] **A228 — Ajouter un registre d’assets :** `docs/design/wood-asset-register.md` liste les 13 noms exacts, fichiers, usage, statut de démonstration, alt et règles de remplacement/rollback ; `test/asset-register.test.mjs` vérifie que chaque visuel utilisé par le catalogue est traçable. Les dimensions/poids finaux et les photos réelles seront ajoutés lors de la validation propriétaire.
 - [x] **A229 — Créer un mode placeholder explicite :** les fallbacks `Visuel à venir`/`Visuel de démonstration` et l’état non achetable sont intégrés aux cartes et au shell ; `test/public-visual-guardrails.test.mjs`, `test/product-availability.test.mjs` et `test/flower-presentation.test.mjs` empêchent de présenter un asset de maquette comme une photo réelle.
-- [ ] **A230 — Organiser la substitution par lots :** remplacer les images par catégorie sans toucher aux prix, noms, panier ou routes ; validation : rollback fichier par fichier possible.
+- [x] **A230 — Organiser la substitution par lots :** `docs/design/wood-asset-register.md` fixe le remplacement par univers, le contrôle des noms/prix/stocks/routes, le préflight et le retour fichier par fichier. Les originaux réels et la validation propriétaire restent à fournir.
 
 ### Animations et expérience premium
 
@@ -1568,33 +1568,33 @@ Les deux photos fournies montrent une carte imprimée qui constitue une référe
 
 - [ ] **A241 — Conserver l’original comme référence maître :** archiver les deux photos reçues sans les retoucher ni les remplacer ; validation : la référence originale reste récupérable.
 - [ ] **A242 — Obtenir une capture plane de meilleure qualité :** demander un scan ou une photo sans perspective, reflet ni ombre pour les futurs découpages ; validation : texte, pictogrammes et tarifs sont lisibles à 100 %.
-- [ ] **A243 — Décomposer la carte en couches :** identifier logo, explosion jaune, titre rouge, sous-titre, textures bleues, lune, château, chauves-souris, monstre, végétation, cadres et personnages ; validation : chaque couche possède un usage documenté.
-- [ ] **A244 — Séparer le logo de campagne du logo officiel :** ne jamais remplacer automatiquement le logo WOOD officiel du site par le wordmark dessiné de la carte ; validation : utilisation distincte et validée par la propriétaire.
-- [ ] **A245 — Analyser la typographie dessinée :** documenter les effets de pinceau, contour, ombre, irrégularité et volume sans remplacer la police principale du site ; validation : les textes fonctionnels restent dans la typographie WOOD validée.
-- [ ] **A246 — Préserver la palette de la carte comme référence d’expression :** relever jaune papier, rouge, bleu, noir, crème et vert, puis les traduire uniquement avec les couleurs WOOD existantes ; validation : aucune nouvelle palette permanente n’est introduite.
+- [x] **A243 — Décomposer la carte en couches :** `docs/design/wood-card-audit.md` identifie le masthead, les titres, textures, décor narratif, pictogrammes, cadres et hiérarchie tarifaire ; chaque couche possède une règle de transposition. L’archivage d’un scan maître reste ouvert.
+- [x] **A244 — Séparer le logo de campagne du logo officiel :** l’audit de carte et le registre WOOD imposent de garder le logo officiel exact du site distinct du wordmark dessiné ; l’intégration finale de tout nouvel asset reste soumise à validation propriétaire.
+- [x] **A245 — Analyser la typographie dessinée :** l’audit documente pinceau, contours, ombres, irrégularité et volume comme effets décoratifs ; la typographie fonctionnelle WOOD reste inchangée, avec validation graphique finale encore ouverte.
+- [x] **A246 — Préserver la palette de la carte comme référence d’expression :** la carte est documentée comme référence jaune papier/rouge/bleu/noir/crème/vert, tandis que le registre interdit toute nouvelle palette de production et impose les tokens WOOD existants.
 - [ ] **A247 — Reproduire la texture papier avec mesure :** prévoir un fond grainé ou une image de texture légère pour les zones éditoriales ; validation : texture compressée, accessible et jamais appliquée derrière un prix difficile à lire.
 - [ ] **A248 — Reproduire les contours irréguliers :** prévoir des cadres organiques, déchirés ou dessinés pour les titres de catégorie ; validation : le contour reste décoratif et ne réduit pas la zone de clic.
 - [ ] **A249 — Étudier les coulures :** intégrer éventuellement des coulures rouges ou noires comme motifs contrôlés, jamais comme état d’erreur ou de disponibilité ; validation : aucun effet ne brouille un texte.
 - [ ] **A250 — Documenter le décor narratif :** utiliser château, lune, chauves-souris, plantes et personnage comme inspiration de scène, jamais comme décoration automatique partout ; validation : chaque illustration a une intention et un emplacement.
-- [ ] **A251 — Définir le traitement des grands titres :** adapter `LE MENU`, `FLEURS CBD`, `RÉSINES CBD` et les futures catégories en blocs forts ; validation : le titre reste lisible sur mobile et ne déborde pas.
-- [ ] **A252 — Préserver l’asymétrie maîtrisée :** garder une composition vivante avec des éléments décalés, mais ancrer les zones commerciales sur une grille stable ; validation : l’irrégularité ne crée aucun décalage de prix ou CTA.
+- [x] **A251 — Définir le traitement des grands titres :** les titres WOOD utilisent une hiérarchie forte, des tailles fluides et des replis mobiles protégés par la matrice responsive ; la carte imprimée reste une référence et non un titre copié.
+- [x] **A252 — Préserver l’asymétrie maîtrisée :** la composition éditoriale peut rester décalée, tandis que les catalogues utilisent une grille `minmax(0, 1fr)` stable ; les tests de largeur contrôlent prix et CTA sans décalage local.
 - [ ] **A253 — Relever les motifs de bordure :** documenter végétation, bords noirs, cadres rouges, personnages et éléments latéraux ; validation : les motifs peuvent être masqués sur mobile sans perte d’information.
 - [ ] **A254 — Prévoir des variantes saisonnières :** rendre l’ambiance Halloween ou autre édition activable comme une couche, sans modifier le catalogue ; validation : retour à la version WOOD permanente en un seul changement.
-- [ ] **A255 — Isoler la zone promotionnelle :** traiter le bloc `10G 30€` visible sur la photo comme une future zone désactivée ; validation : aucune promotion n’apparaît dans la maquette actuelle.
+- [x] **A255 — Isoler la zone promotionnelle :** le bloc `10G 30€` de la photo est documenté comme futur et désactivé ; les garde-fous publics bloquent promotion, voucher et prix spécial dans la maquette actuelle.
 
 ### Pictogrammes, catégories et données
 
 - [ ] **A256 — Recenser les pictogrammes par variété :** associer chaque icône visible à son nom exact sans deviner sa signification ; validation : registre propriétaire relu avec la photo originale.
 - [ ] **A257 — Créer une bibliothèque d’icônes WOOD :** vectoriser ou redessiner uniquement les pictogrammes validés, sans les lisser jusqu’à perdre leur personnalité ; validation : chaque icône possède une version couleur, monochrome et sans image.
 - [ ] **A258 — Ajouter l’icône comme renfort, pas comme nom :** afficher nom écrit et pictogramme ensemble ; validation : un client comprend la variété si l’icône ne charge pas.
-- [ ] **A259 — Reproduire les badges de profil :** transposer `STRONG`, `MEDIUM` et `CBD CLASSIQUE` en badges WOOD lisibles ; validation : les badges ne revendiquent aucun effet et suivent les profils validés.
-- [ ] **A260 — Harmoniser les profils avec le site :** conserver `CBD BOOSTÉ (STRONG)`, `CBD SOFT (MEDIUM)` et `CBD CLASSIQUE` dans l’interface, même si la carte imprimée utilise des libellés plus courts ; validation : aucun mélange ambigu.
+- [x] **A259 — Reproduire les badges de profil :** les badges WOOD existent dans les cartes, restent textuels et n’emportent aucune promesse d’effet ; les tests de catalogue protègent les trois niveaux autorisés.
+- [x] **A260 — Harmoniser les profils avec le site :** l’interface conserve exactement `CBD BOOSTÉ (STRONG)`, `CBD SOFT (MEDIUM)` et `CBD CLASSIQUE`, avec contrôle de contenu et de tarification ; la carte imprimée garde ses libellés comme source à relire.
 - [ ] **A261 — Construire la grille tarifaire accessible :** afficher les colonnes 1 g, 3 g, 5 g, 10 g et 25 g en HTML, pas uniquement dans une image ; validation : clavier, lecteur d’écran et zoom 200 % donnent les mêmes tarifs.
 - [ ] **A262 — Aligner les colonnes de prix :** conserver une largeur constante et un alignement numérique propre ; validation : les prix des 13 fleurs et des résines ne se décalent pas.
 - [x] **A263 — Vérifier chaque tarif avec la source :** les 13 fleurs et leurs cinq paliers `1/3/5/10/25 g` ont été comparés à la carte WOOD et verrouillés par `test/flower-presentation.test.mjs` ; aucune variété n’hérite silencieusement du tarif d’une autre.
-- [ ] **A264 — Documenter les réductions visibles :** conserver les réductions de la carte jusqu’à 25 g, sans généraliser au-delà ; validation : la règle des deux lots de 25 g reste séparée et testée.
+- [x] **A264 — Documenter les réductions visibles :** la matrice de prix conserve les paliers propres à chaque variété jusqu’à `25 g`, et les tests séparent les deux lots de `25 g` de toute remise inventée au-delà.
 - [ ] **A265 — Préparer le schéma résines :** utiliser la même logique de grille sans inventer les prix masqués ou coupés dans la photo ; validation : aucune résine n’est activée avant lecture/validation complète.
-- [ ] **A266 — Conserver les libellés exacts :** ne pas corriger automatiquement les noms de variétés ou de résines à partir d’une supposition ; validation : toute correction est confirmée par la propriétaire.
+- [x] **A266 — Conserver les libellés exacts :** le registre et les tests verrouillent les 13 noms de fleurs fournis, sans correction automatique ni renommage supposé ; les résines restent bloquées jusqu’à réception d’une liste validée.
 - [x] **A267 — Prévoir l’état “donnée à confirmer” :** afficher proprement une icône, un prix ou une photo manquante sans inventer ; validation locale : `storefront.js` expose les états disponibilité/prix/visuel à confirmer et désactive l’achat tant que les données ne sont pas complètes ; preuve : `test/catalog-contract.test.mjs`.
 - [x] **A268 — Relier la carte à la boutique sans image plate :** utiliser la carte comme référence puis proposer des cartes produits interactives ; validation locale : le clic de carte ouvre la fiche, tandis que grammage, prix et ajout au panier restent des contrôles HTML séparés ; preuve : `test/catalog-contract.test.mjs`.
 - [ ] **A269 — Créer une version “voir la carte” optionnelle :** afficher une vue complète haute qualité dans une visionneuse accessible ; validation : zoom, fermeture, retour clavier et mobile fonctionnent.

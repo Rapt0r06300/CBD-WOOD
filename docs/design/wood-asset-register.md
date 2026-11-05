@@ -33,6 +33,16 @@ une promesse sur un produit.
 4. Les futurs stickers, graffiti, résines, biens-être et textiles restent
    `pending` tant que les références de la propriétaire ne sont pas reçues.
 
+## Substitution par lots
+
+Pour remplacer plusieurs visuels, travailler par univers et par commit réversible :
+
+1. préparer les originaux, les exports WebP et les alt texts dans un dossier de revue ;
+2. mettre à jour uniquement les entrées du registre du même univers ;
+3. vérifier que les noms, prix, stocks, routes et contrôles d’achat n’ont pas changé ;
+4. exécuter les tests d’assets, de catalogue, de liens et le préflight public ;
+5. publier le lot uniquement après validation propriétaire, avec retour fichier par fichier possible.
+
 ## Contrôle local avant publication
 
 Les visuels de démonstration actuels sont contrôlés par
