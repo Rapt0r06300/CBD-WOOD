@@ -7,6 +7,7 @@ const unsubscribe = await readFile(new URL('../supabase/functions/newsletter-uns
 
 test('newsletter subscribe writes through the service role and requires consent', () => {
   assert.match(subscribe, /SUPABASE_SERVICE_ROLE_KEY/);
+  assert.match(subscribe, /NEWSLETTER_UNSUBSCRIBE_SECRET/);
   assert.match(subscribe, /validateSubscription/);
   assert.match(subscribe, /consent_status.*subscribed/s);
   assert.match(subscribe, /normalized_email/);
@@ -15,6 +16,8 @@ test('newsletter subscribe writes through the service role and requires consent'
 
 test('newsletter unsubscribe uses a hashed token and a generic response', () => {
   assert.match(unsubscribe, /hashToken/);
+  assert.match(unsubscribe, /parseSignedUnsubscribeToken/);
+  assert.match(unsubscribe, /NEWSLETTER_UNSUBSCRIBE_SECRET/);
   assert.match(unsubscribe, /unsubscribe_token_hash/);
   assert.match(unsubscribe, /consent_status.*unsubscribed/s);
   assert.match(unsubscribe, /La demande a été prise en compte/);

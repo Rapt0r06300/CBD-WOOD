@@ -16,5 +16,5 @@ test('document worker is server-only and stores PDFs privately', () => {
 test('document worker does not generate a paid receipt without paid status', () => {
   assert.match(source, /payment_receipt/);
   assert.match(source, /buildDocumentModel/);
-  assert.match(source, /Payment receipt requires paid order/);
+  assert.match(source, /paiement doit être confirmé/);
 });

@@ -42,3 +42,33 @@ test('builds a payment confirmation only for the paid notification kind', () => 
   assert.match(message.text, /paiement confirmé/i);
   assert.match(message.html, /Nimbus 3000/);
 });
+
+test('builds a document-ready message without claiming a new payment', () => {
+  const message = buildOrderEmailMessage({
+    order: { ...order, status: 'paid', payment_status: 'paid' },
+    items,
+    kind: 'invoice_ready',
+  });
+
+  assert.equal(message.subject, 'Document WOOD — WOOD-1001');
+  assert.match(message.text, /document WOOD est prêt et joint/i);
+  assert.match(message.text, /Nimbus 3000/);
+  assert.doesNotMatch(message.text, /paiement confirmé|payée/i);
+});
+
+test('builds a delivery update from the persisted delivery event', () => {
+  const message = buildOrderEmailMessage({
+    order,
+    items,
+    kind: 'delivery_update',
+    deliveryEvent: {
+      status: 'in_progress',
+      trackingReference: 'WOOD-42',
+      note: 'En route',
+    },
+  });
+
+  assert.equal(message.subject, 'Suivi de livraison — WOOD-1001');
+  assert.match(message.text, /WOOD-42/);
+  assert.match(message.html, /En route/);
+});

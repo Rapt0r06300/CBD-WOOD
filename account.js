@@ -23,6 +23,7 @@ const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, character =>
 const formatMoney = cents => `${(Number(cents || 0) / 100).toFixed(2).replace('.', ',')} €`;
 const modeLabels = { delivery: 'Livraison à domicile' };
 const statusLabels = { pending: 'En attente', paid: 'Payée', preparing: 'En préparation', ready: 'Prête', completed: 'Terminée', cancelled: 'Annulée' };
+const documentLabels = { order_confirmation: 'Confirmation', payment_receipt: 'Reçu de paiement', invoice: 'Facture' };
 
 function setOwnerDashboardVisibility(isOwner) {
   if (!ownerDashboardLink) return;
@@ -63,18 +64,23 @@ function showLogin() {
   setOwnerDashboardVisibility(false);
 }
 
-function renderOrders(orders) {
+function renderOrders(orders, documents = []) {
   const container = document.getElementById('accountOrders');
   if (!container) return;
   if (!orders.length) {
     container.innerHTML = '<p class="account-dashboard__muted">Aucune commande enregistrée pour le moment.</p>';
     return;
   }
-  container.innerHTML = orders.map(order => `
+  container.innerHTML = orders.map(order => {
+    const orderDocuments = documents.filter(document => document.order_id === order.id && document.status === 'ready');
+    const documentButtons = orderDocuments.map(document => `<button class="account-order__document" type="button" data-document-id="${escapeHtml(document.id)}">${escapeHtml(documentLabels[document.document_kind] || 'Document')} ↗</button>`).join('');
+    return `
     <article class="account-order">
       <div class="account-order__head"><strong>${escapeHtml(order.order_number || 'Commande WOOD')}</strong><span>${escapeHtml(statusLabels[order.status] || order.status)}</span></div>
       <p>${escapeHtml(modeLabels[order.fulfillment_mode] || order.fulfillment_mode)} · ${escapeHtml(formatMoney(order.total_cents))}</p>
-    </article>`).join('');
+      ${documentButtons ? `<div class="account-order__documents" aria-label="Documents de la commande">${documentButtons}</div>` : ''}
+    </article>`;
+  }).join('');
 }
 
 async function saveCustomerProfile(user, values = {}) {
@@ -89,12 +95,14 @@ async function getValidatedUser() {
 }
 
 async function showAccount(user) {
-  const [{ data: profile }, { data: orders, error: ordersError }, { data: owner, error: ownerError }] = await Promise.all([
+  const [{ data: profile }, { data: orders, error: ordersError }, { data: documents, error: documentsError }, { data: owner, error: ownerError }] = await Promise.all([
     supabase.from('customer_profiles').select('full_name, phone').eq('id', user.id).maybeSingle(),
-    supabase.from('orders').select('order_number, fulfillment_mode, status, total_cents, created_at').eq('customer_id', user.id).order('created_at', { ascending: false }).limit(50),
+    supabase.from('orders').select('id, order_number, fulfillment_mode, status, total_cents, created_at').eq('customer_id', user.id).order('created_at', { ascending: false }).limit(50),
+    supabase.from('invoice_documents').select('id, order_id, document_kind, document_number, status, created_at').order('created_at', { ascending: false }).limit(100),
     supabase.from('owner_users').select('user_id').eq('user_id', user.id).maybeSingle()
   ]);
   if (ordersError) throw ordersError;
+  if (documentsError) throw documentsError;
   const isOwner = !ownerError && Boolean(owner);
   setOwnerDashboardVisibility(isOwner);
   if (isOwner && !ownerDashboardApi) ownerDashboardApi = await mountOwnerDashboard({ supabase });
@@ -106,7 +114,18 @@ async function showAccount(user) {
   const phone = document.getElementById('profilePhone');
   if (name) name.value = profile?.full_name || '';
   if (phone) phone.value = profile?.phone || '';
-  renderOrders(orders || []);
+  renderOrders(orders || [], documents || []);
+}
+
+async function downloadDocument(documentId) {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session?.access_token || !config?.url) throw new Error('Session invalide.');
+  const response = await fetch(`${config.url}/functions/v1/document-download?document_id=${encodeURIComponent(documentId)}`, {
+    headers: { Authorization: `Bearer ${session.access_token}` },
+  });
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok || !payload.url) throw new Error(payload.error || 'Document indisponible.');
+  window.open(payload.url, '_blank', 'noopener,noreferrer');
 }
 
 async function handleSubmit(event) {
@@ -168,6 +187,14 @@ async function boot() {
   document.querySelectorAll('[data-account-tab]').forEach(tab => tab.addEventListener('click', () => setMode(tab.dataset.accountTab)));
   form?.addEventListener('submit', handleSubmit);
   document.getElementById('profileForm')?.addEventListener('submit', saveProfile);
+  document.getElementById('accountOrders')?.addEventListener('click', event => {
+    const button = event.target.closest('[data-document-id]');
+    if (!button) return;
+    button.disabled = true;
+    void downloadDocument(button.dataset.documentId)
+      .catch(error => showMessage(error.message || 'Document indisponible.', true))
+      .finally(() => { button.disabled = false; });
+  });
   ownerDashboardLink?.addEventListener('click', () => ownerDashboard?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
   document.getElementById('accountLogout')?.addEventListener('click', async () => {
     await supabase.auth.signOut();

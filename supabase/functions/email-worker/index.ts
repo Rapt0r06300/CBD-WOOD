@@ -5,6 +5,7 @@ import { refreshGmailAccessToken, sendGmailRawMessage } from "./gmail.mjs";
 import { processEmailJob } from "./worker-core.mjs";
 
 const MAX_BATCH_SIZE = 20;
+const DOCUMENT_BUCKET = "order-documents";
 
 const json = (body: Record<string, unknown>, status = 200) => new Response(JSON.stringify(body), {
   status,
@@ -29,7 +30,8 @@ const configuredBatchSize = () => Math.max(
 );
 
 const orderMessage = async (client: ReturnType<typeof createClient>, job: Record<string, unknown>) => {
-  if (!["order_created", "payment_confirmed"].includes(String(job.notification_kind))) {
+  const notificationKind = String(job.notification_kind);
+  if (!["order_created", "payment_confirmed", "invoice_ready", "delivery_update", "order_cancelled", "refund_confirmed"].includes(notificationKind)) {
     throw new Error("Notification kind is not implemented");
   }
 
@@ -47,12 +49,56 @@ const orderMessage = async (client: ReturnType<typeof createClient>, job: Record
     .order("id", { ascending: true });
   if (itemError || !items?.length) throw new Error("Order items could not be loaded");
 
-  return buildOrderEmailMessage({
+  let deliveryEvent = null;
+  if (notificationKind === "delivery_update") {
+    const { data: deliveryEvents, error: deliveryError } = await client
+      .from("delivery_events")
+      .select("status, note, tracking_reference")
+      .eq("order_id", job.order_id)
+      .order("created_at", { ascending: false })
+      .limit(1);
+    if (deliveryError || !deliveryEvents?.[0]) throw new Error("Delivery event could not be loaded");
+    deliveryEvent = {
+      status: deliveryEvents[0].status,
+      note: deliveryEvents[0].note || "",
+      trackingReference: deliveryEvents[0].tracking_reference || "",
+    };
+  }
+
+  const message = buildOrderEmailMessage({
     order,
     items,
-    kind: String(job.notification_kind),
+    kind: notificationKind,
+    deliveryEvent,
     from: Deno.env.get("GMAIL_FROM"),
   });
+
+  if (notificationKind !== "invoice_ready") return message;
+
+  const { data: document, error: documentError } = await client
+    .from("invoice_documents")
+    .select("document_number, storage_path, status")
+    .eq("order_id", job.order_id)
+    .eq("document_kind", String(job.template_key || ""))
+    .eq("status", "ready")
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (documentError || !document) throw new Error("Ready order document could not be loaded");
+
+  const { data: pdf, error: downloadError } = await client.storage
+    .from(DOCUMENT_BUCKET)
+    .download(document.storage_path);
+  if (downloadError || !pdf) throw new Error("Order document could not be downloaded");
+
+  return {
+    ...message,
+    attachment: {
+      filename: `${document.document_number}.pdf`,
+      contentType: "application/pdf",
+      content: new Uint8Array(await pdf.arrayBuffer()),
+    },
+  };
 };
 
 const workerError = (request: Request) => {

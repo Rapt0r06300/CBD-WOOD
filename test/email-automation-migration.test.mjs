@@ -13,6 +13,7 @@ test('email automation migration defines isolated transactional and marketing da
     'newsletter_subscribers',
     'newsletter_campaigns',
     'newsletter_deliveries',
+    'newsletter_delivery_attempts',
   ]) {
     assert.match(migration, new RegExp(`create table if not exists public\\.${table}\\b`, 'i'));
     assert.match(migration, new RegExp(`alter table public\\.${table} enable row level security`, 'i'));

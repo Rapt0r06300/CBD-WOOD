@@ -1,6 +1,6 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.118.0";
-import { hashToken, validateUnsubscribeToken } from "../newsletter/core.mjs";
+import { hashToken, parseSignedUnsubscribeToken } from "../newsletter/core.mjs";
 
 const json = (body: Record<string, unknown>, status = 200) => new Response(JSON.stringify(body), {
   status,
@@ -12,8 +12,16 @@ Deno.serve(async (request) => {
   const token = new URL(request.url).searchParams.get("token")
     || (request.method === "POST" ? String((await request.json().catch(() => ({}))).token || "") : "");
 
+  const unsubscribeSecret = Deno.env.get("NEWSLETTER_UNSUBSCRIBE_SECRET");
   // Always use the same public response for an invalid or unknown token.
-  if (!validateUnsubscribeToken(token)) return json({ ok: true, message: "La demande a été prise en compte." });
+  if (!unsubscribeSecret || unsubscribeSecret.length < 32) return json({ error: "Service indisponible." }, 503);
+  let parsed;
+  try {
+    parsed = await parseSignedUnsubscribeToken({ token, secret: unsubscribeSecret });
+  } catch {
+    return json({ error: "Service indisponible." }, 503);
+  }
+  if (!parsed) return json({ ok: true, message: "La demande a été prise en compte." });
 
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
   const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
@@ -29,6 +37,7 @@ Deno.serve(async (request) => {
       unsubscribed_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     })
+    .eq("id", parsed.subscriberId)
     .eq("unsubscribe_token_hash", await hashToken(token));
   if (error) {
     console.error("Newsletter unsubscribe persistence failed.");

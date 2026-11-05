@@ -15,6 +15,8 @@ commande persistée
 
 Les confirmations de commande et les confirmations de paiement sont séparées. Un reçu disant que le paiement est confirmé ne peut partir qu’après un webhook Viva Wallet vérifié. Tant que Viva n’est pas connecté, le site ne doit envoyer qu’un statut d’enregistrement ou d’attente.
 
+Les documents PDF restent dans le bucket privé `order-documents`. Le navigateur ne reçoit jamais de chemin de stockage durable : `document-download` vérifie le compte client ou le rôle propriétaire puis délivre une URL signée limitée à cinq minutes.
+
 ## Fichiers
 
 - `supabase/migrations/20261105100000_email_automation_foundation.sql` : tables, RLS, nouvelles catégories et fonction de réservation atomique.
@@ -23,6 +25,11 @@ Les confirmations de commande et les confirmations de paiement sont séparées. 
 - `supabase/functions/email-worker/message.mjs` : messages de commande sans affirmation de paiement prématurée.
 - `supabase/functions/email-worker/worker-core.mjs` : traitement idempotent, retries et dead-letter.
 - `supabase/functions/email-worker/index.ts` : fonction Edge privée qui loue les jobs puis les envoie.
+- `supabase/functions/document-worker/index.ts` : génération et stockage privé des PDF.
+- `supabase/functions/document-download/index.ts` : URL signée courte pour le client authentifié ou la propriétaire.
+- `supabase/functions/delivery-events/index.ts` : transitions de livraison propriétaire, idempotence et notification.
+- `supabase/functions/newsletter-subscribe/index.ts` et `newsletter-unsubscribe/index.ts` : consentement et retrait.
+- `supabase/functions/newsletter-campaign/index.ts` : campagnes séparées, lots, désinscription et reprise.
 
 ## Secrets Edge Function — à renseigner à la fin
 
@@ -37,6 +44,12 @@ GMAIL_CLIENT_SECRET
 GMAIL_REFRESH_TOKEN
 GMAIL_FROM
 EMAIL_WORKER_BATCH_SIZE (facultatif)
+DOCUMENT_WORKER_TOKEN
+NEWSLETTER_WORKER_TOKEN
+NEWSLETTER_UNSUBSCRIBE_SECRET (au moins 32 caractères aléatoires)
+NEWSLETTER_UNSUBSCRIBE_URL (URL publique de la fonction newsletter-unsubscribe)
+LEGAL_ENTITY_NAME (nécessaire uniquement pour une facture)
+LEGAL_ENTITY_ADDRESS (nécessaire uniquement pour une facture)
 ```
 
 `EMAIL_WORKER_TOKEN` protège l’appel du worker. Il doit être différent des clés Supabase. Le refresh token est obtenu par le flux OAuth Google et reste un secret serveur.
@@ -74,6 +87,10 @@ En cas de quota ou de panne réseau, le job revient en `pending` avec un délai 
 La newsletter ne doit pas réutiliser aveuglément la file des commandes. Elle exige : consentement prouvable, confirmation éventuelle, désinscription, suppression, lots bornés, quotas, gestion des rebonds et journal par destinataire. Un achat ne vaut pas consentement marketing automatique.
 
 Gmail peut convenir à un faible volume après vérification des limites et de la délivrabilité. Pour un volume important, la décision doit être réévaluée avec un fournisseur transactionnel spécialisé ; aucun basculement ne doit être automatique.
+
+Le lien de désinscription est un jeton signé et expirant qui contient l’identifiant de l’abonné, mais aucun secret. La base conserve uniquement son empreinte. Le worker revalide le consentement juste avant chaque envoi, ce qui évite qu’une désinscription concurrente reçoive encore une campagne.
+
+Le worker newsletter ne traite qu’une campagne `sending`, réserve les destinataires avec `FOR UPDATE SKIP LOCKED`, limite les tentatives et conserve une trace par destinataire dans `newsletter_delivery_attempts`. Les campagnes `draft`, `paused` ou `cancelled` ne sont jamais consommées.
 
 ## Contrôles avant activation
 

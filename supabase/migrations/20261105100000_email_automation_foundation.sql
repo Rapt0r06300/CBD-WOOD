@@ -87,6 +87,7 @@ create table if not exists public.delivery_events (
   id uuid primary key default gen_random_uuid(),
   order_id uuid not null references public.orders(id) on delete cascade,
   status text not null check (status in ('pending', 'in_progress', 'delivered', 'failed', 'cancelled')),
+  event_key text,
   note text,
   tracking_reference text,
   created_by uuid references auth.users(id) on delete set null,
@@ -95,6 +96,46 @@ create table if not exists public.delivery_events (
 
 create index if not exists delivery_events_order_idx
 on public.delivery_events(order_id, created_at desc);
+
+create unique index if not exists delivery_events_order_key_idx
+on public.delivery_events(order_id, event_key)
+where event_key is not null;
+
+-- Existing orders get a public-safe delivery notification path when the owner
+-- changes a terminal order state. Delivery updates themselves are enqueued by
+-- the delivery-events function after its idempotency check.
+create or replace function public.enqueue_order_notifications()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if tg_op = 'INSERT' and new.customer_email is not null then
+    insert into public.order_notification_outbox (order_id, notification_kind, recipient_email)
+    values (new.id, 'order_created', lower(trim(new.customer_email)))
+    on conflict (order_id, notification_kind) do nothing;
+  elsif tg_op = 'UPDATE' and old.payment_status is distinct from new.payment_status then
+    if new.payment_status = 'paid' and new.customer_email is not null then
+      insert into public.order_notification_outbox (order_id, notification_kind, recipient_email)
+      values (new.id, 'payment_confirmed', lower(trim(new.customer_email)))
+      on conflict (order_id, notification_kind) do nothing;
+    elsif new.payment_status = 'refunded' and new.customer_email is not null then
+      insert into public.order_notification_outbox (order_id, notification_kind, recipient_email)
+      values (new.id, 'refund_confirmed', lower(trim(new.customer_email)))
+      on conflict (order_id, notification_kind) do nothing;
+    end if;
+  elsif tg_op = 'UPDATE'
+    and old.status is distinct from new.status
+    and new.status = 'cancelled'
+    and new.customer_email is not null then
+    insert into public.order_notification_outbox (order_id, notification_kind, recipient_email)
+    values (new.id, 'order_cancelled', lower(trim(new.customer_email)))
+    on conflict (order_id, notification_kind) do nothing;
+  end if;
+  return new;
+end;
+$$;
 
 create table if not exists public.newsletter_subscribers (
   id uuid primary key default gen_random_uuid(),
@@ -154,6 +195,22 @@ create table if not exists public.newsletter_deliveries (
 create index if not exists newsletter_deliveries_pending_idx
 on public.newsletter_deliveries(status, available_at, created_at);
 
+create table if not exists public.newsletter_delivery_attempts (
+  id bigint generated always as identity primary key,
+  delivery_id bigint not null references public.newsletter_deliveries(id) on delete cascade,
+  attempt_number integer not null check (attempt_number > 0),
+  status text not null check (status in ('accepted', 'deferred', 'failed', 'suppressed', 'unsubscribed')),
+  provider text not null,
+  provider_message_id text,
+  response_code integer,
+  error_code text,
+  error_message text,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists newsletter_delivery_attempts_delivery_idx
+on public.newsletter_delivery_attempts(delivery_id, created_at desc);
+
 create or replace function public.claim_order_notification_jobs(
   p_worker_id text,
   p_limit integer default 10,
@@ -200,6 +257,84 @@ $$;
 revoke all on function public.claim_order_notification_jobs(text, integer, integer) from public, anon, authenticated;
 grant execute on function public.claim_order_notification_jobs(text, integer, integer) to service_role;
 
+create or replace function public.populate_newsletter_campaign(p_campaign_id uuid)
+returns integer
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_inserted integer;
+begin
+  if not exists (
+    select 1 from public.newsletter_campaigns
+    where id = p_campaign_id and status in ('draft', 'scheduled', 'sending')
+  ) then
+    raise exception 'campaign is not eligible';
+  end if;
+
+  insert into public.newsletter_deliveries (campaign_id, subscriber_id)
+  select p_campaign_id, subscriber.id
+  from public.newsletter_subscribers as subscriber
+  where subscriber.consent_status = 'subscribed'
+  on conflict (campaign_id, subscriber_id) do nothing;
+  get diagnostics v_inserted = row_count;
+  return v_inserted;
+end;
+$$;
+
+revoke all on function public.populate_newsletter_campaign(uuid) from public, anon, authenticated;
+grant execute on function public.populate_newsletter_campaign(uuid) to service_role;
+
+create or replace function public.claim_newsletter_deliveries(
+  p_worker_id text,
+  p_limit integer default 10,
+  p_lease_seconds integer default 300
+)
+returns setof public.newsletter_deliveries
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_limit integer := greatest(1, least(coalesce(p_limit, 10), 100));
+  v_lease_seconds integer := greatest(30, least(coalesce(p_lease_seconds, 300), 3600));
+begin
+  if p_worker_id is null or length(trim(p_worker_id)) not between 1 and 120 then
+    raise exception 'invalid worker id';
+  end if;
+
+  return query
+  with candidates as (
+    select delivery.id
+    from public.newsletter_deliveries as delivery
+    join public.newsletter_campaigns as campaign on campaign.id = delivery.campaign_id
+    join public.newsletter_subscribers as subscriber on subscriber.id = delivery.subscriber_id
+    where campaign.status = 'sending'
+      and subscriber.consent_status = 'subscribed'
+      and ((delivery.status in ('pending', 'deferred') and delivery.available_at <= now())
+        or (delivery.status = 'processing' and delivery.processing_until < now()))
+    order by delivery.available_at, delivery.id
+    limit v_limit
+    for update of delivery skip locked
+  ), claimed as (
+    update public.newsletter_deliveries as delivery
+    set status = 'processing',
+        processing_by = trim(p_worker_id),
+        processing_until = now() + make_interval(secs => v_lease_seconds),
+        attempts = delivery.attempts + 1,
+        updated_at = now()
+    from candidates
+    where delivery.id = candidates.id
+    returning delivery.*
+  )
+  select * from claimed order by id;
+end;
+$$;
+
+revoke all on function public.claim_newsletter_deliveries(text, integer, integer) from public, anon, authenticated;
+grant execute on function public.claim_newsletter_deliveries(text, integer, integer) to service_role;
+
 create or replace function public.customer_owns_order(p_order_id uuid)
 returns boolean
 language sql
@@ -225,19 +360,26 @@ alter table public.delivery_events enable row level security;
 alter table public.newsletter_subscribers enable row level security;
 alter table public.newsletter_campaigns enable row level security;
 alter table public.newsletter_deliveries enable row level security;
+alter table public.newsletter_delivery_attempts enable row level security;
 
 revoke all on table public.email_templates, public.email_delivery_attempts,
   public.invoice_documents, public.delivery_events, public.newsletter_subscribers,
   public.newsletter_campaigns, public.newsletter_deliveries
 from public, anon, authenticated;
 
+revoke all on table public.newsletter_delivery_attempts from public, anon, authenticated;
+
 grant select on table public.email_templates, public.email_delivery_attempts,
   public.invoice_documents, public.delivery_events, public.newsletter_subscribers,
   public.newsletter_campaigns, public.newsletter_deliveries to authenticated;
 
+grant select on table public.newsletter_delivery_attempts to authenticated;
+
 grant all on table public.email_templates, public.email_delivery_attempts,
   public.invoice_documents, public.delivery_events, public.newsletter_subscribers,
   public.newsletter_campaigns, public.newsletter_deliveries to service_role;
+
+grant all on table public.newsletter_delivery_attempts to service_role;
 
 drop policy if exists email_templates_owner_read on public.email_templates;
 create policy email_templates_owner_read
@@ -287,6 +429,11 @@ using (exists (select 1 from public.owner_users where owner_users.user_id = (sel
 drop policy if exists newsletter_deliveries_owner_read on public.newsletter_deliveries;
 create policy newsletter_deliveries_owner_read
 on public.newsletter_deliveries for select to authenticated
+using (exists (select 1 from public.owner_users where owner_users.user_id = (select auth.uid())));
+
+drop policy if exists newsletter_delivery_attempts_owner_read on public.newsletter_delivery_attempts;
+create policy newsletter_delivery_attempts_owner_read
+on public.newsletter_delivery_attempts for select to authenticated
 using (exists (select 1 from public.owner_users where owner_users.user_id = (select auth.uid())));
 
 insert into storage.buckets (id, name, public)
