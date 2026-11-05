@@ -10,7 +10,7 @@
 
 **Référence :** audit de [TealerLab](https://tealerlab.com/), site actuel WOOD, échanges avec la propriétaire et exigences de Florent.
 
-**Contrôle de cohérence :** cette feuille contient 76 tâches principales uniques, numérotées de 1 à 76. Elle contient aussi 360 tags d’exécution `A01–A360` : chaque tag possède un périmètre et un contrôle de validation, sans modifier le contrat de numérotation testé par le dépôt. Les tâches 75 et 76 ajoutent les deux garde-fous indispensables à une ouverture commerciale : conformité éditoriale/légale et continuité des données. Les décisions commerciales inconnues restent bloquées ; elles ne peuvent pas être déduites par le code.
+**Contrôle de cohérence :** cette feuille contient 76 tâches principales uniques, numérotées de 1 à 76. Elle contient aussi 560 tags d’exécution `A01–A560` : chaque tag possède un périmètre et un contrôle de validation, sans modifier le contrat de numérotation testé par le dépôt. Les tâches 75 et 76 ajoutent les deux garde-fous indispensables à une ouverture commerciale : conformité éditoriale/légale et continuité des données. Les décisions commerciales inconnues restent bloquées ; elles ne peuvent pas être déduites par le code.
 
 **Architecture d’administration retenue :** après connexion, le compte dont le rôle propriétaire est confirmé affiche directement le tableau de bord dans `compte.html`. Les nouveaux comptes restent clients. Aucun fichier ou route `admin.*` n’est publié ; RLS et les fonctions serveur restent obligatoires.
 
@@ -1866,6 +1866,278 @@ Cette passe est dédiée à la page d’accueil, car c’est elle que le conjoin
 4. `A331–A340` : connecter les cartes à la tarification existante, au panier et aux fiches sans modifier les règles commerciales.
 5. `A341–A350` : ajouter cloche, boutiques, FAQ et contenus vérifiables ; garder les zones inconnues désactivées.
 6. `A351–A360` : finaliser mobile/desktop, animations, accessibilité, performance et recette propriétaire/conjoint.
+
+## Bloc A361–A560 — système e-mail Gmail/Supabase, documents, livraison et newsletter
+
+Ce bloc décrit tout ce qu’il faudra construire pour obtenir une chaîne fiable `commande → traitement → document → e-mail → livraison`, ainsi qu’une newsletter séparée. Il ne connecte pas Gmail maintenant et ne modifie pas le site dans cette passe. Le mot de passe Gmail ne sera jamais enregistré dans Supabase, GitHub ou le navigateur.
+
+### 81 — Cadre, décisions et séparation des responsabilités
+
+- [ ] **A361 — Écrire le périmètre du système e-mail :** distinguer e-mails transactionnels, documents commerciaux et newsletters ; validation : chaque message futur possède une catégorie unique.
+- [ ] **A362 — Écrire la matrice des états de commande :** `pending`, `paid`, `processing`, `shipped`, `delivered`, `cancelled`, `refunded`, `failed` ; validation : aucun e-mail ne peut être déclenché par un état ambigu.
+- [ ] **A363 — Séparer la confirmation de commande du reçu de paiement :** validation : une commande enregistrée ne dit jamais qu’elle est payée avant la confirmation Viva Wallet.
+- [ ] **A364 — Séparer les newsletters des e-mails de commande :** validation : un client qui refuse le marketing reçoit toujours les e-mails indispensables à sa commande.
+- [ ] **A365 — Définir les sources de vérité :** Supabase pour les données et états, Edge Functions pour les secrets et appels externes, navigateur pour l’interface ; validation : aucun secret n’est requis côté public.
+- [ ] **A366 — Écrire le registre des décisions commerciales manquantes :** frais, zones, délais et formulation de livraison ; validation : le code affiche un état “à confirmer” plutôt qu’une règle inventée.
+- [ ] **A367 — Fixer le seuil d’usage acceptable de Gmail :** validation : le volume prévu est comparé aux limites Google avant de choisir Gmail pour les newsletters.
+- [ ] **A368 — Prévoir un fournisseur transactionnel de secours :** validation : le plan de secours est documenté sans remplacer Gmail ni envoyer de données sans accord.
+- [ ] **A369 — Interdire le mot de passe Gmail dans la base :** validation : test de recherche sur dépôt, variables publiques, migrations et logs.
+- [ ] **A370 — Écrire le modèle de menaces :** token révoqué, double clic, double webhook, quota dépassé, adresse invalide, PDF manquant ; validation : chaque menace a une réaction attendue.
+
+### 82 — Fichiers, environnements et configuration
+
+- [ ] **A371 — Définir les fichiers de référence :** `supabase/functions/`, `supabase/migrations/`, `docs/ops/`, `test/` ; validation : aucune logique serveur n’est ajoutée dans `index.html` ou un script public.
+- [ ] **A372 — Créer la matrice local/staging/production :** validation : chaque environnement a des URLs et secrets distincts.
+- [ ] **A373 — Ajouter un exemple de variables non sensibles :** validation : le dépôt contient uniquement des noms de variables, jamais de valeur réelle.
+- [ ] **A374 — Lister les secrets Edge Function requis :** client OAuth, secret OAuth, refresh token, expéditeur et clés de secours ; validation : la liste est exploitable par la propriétaire sans exposer de secret.
+- [ ] **A375 — Interdire les secrets dans les builds publics :** validation : test automatisé sur les fichiers publiés et les artefacts générés.
+- [ ] **A376 — Documenter la rotation des secrets :** validation : un token peut être remplacé sans réécrire l’historique des commandes.
+- [ ] **A377 — Documenter la révocation Gmail :** validation : le tableau de bord indique “connexion à réautoriser” sans bloquer l’accès aux commandes déjà reçues.
+- [ ] **A378 — Documenter la restauration :** validation : restauration de base, documents et secrets traitée séparément.
+- [ ] **A379 — Ajouter un runbook propriétaire :** validation : la propriétaire sait reconnecter Gmail, relancer un e-mail et consulter une commande sans comprendre le code.
+- [ ] **A380 — Ajouter un journal des changements de configuration :** validation : auteur, date, raison et environnement sont conservés.
+
+### 83 — Connexion Gmail par OAuth sécurisé
+
+- [ ] **A381 — Créer le projet Google Cloud dédié :** validation : le projet est au nom de la propriétaire ou de la structure qui exploite le site.
+- [ ] **A382 — Activer Gmail API :** validation : un appel de test contrôlé répond sans erreur d’API.
+- [ ] **A383 — Configurer l’écran de consentement OAuth :** validation : nom, logo, domaine et coordonnées correspondent à WOOD.
+- [ ] **A384 — Choisir le scope minimal `gmail.send` :** validation : aucun scope de lecture de boîte ou d’administration n’est demandé.
+- [ ] **A385 — Déclarer les URI de redirection séparément :** validation : local, staging et production ne se mélangent jamais.
+- [ ] **A386 — Générer le client OAuth serveur :** validation : le secret reste dans les secrets Edge Function.
+- [ ] **A387 — Protéger la requête OAuth par `state` :** validation : une réponse OAuth provenant d’un autre navigateur est rejetée.
+- [ ] **A388 — Ajouter PKCE si le flux retenu l’exige :** validation : le code challenge est vérifié lors de l’échange.
+- [ ] **A389 — Échanger le code à usage unique côté serveur :** validation : aucun code ni refresh token n’apparaît dans l’URL finale ou les logs.
+- [ ] **A390 — Stocker le refresh token hors de Postgres :** validation : le token n’est présent ni dans une table publique ni dans les réponses API.
+- [ ] **A391 — Vérifier l’identité d’expédition :** validation : l’adresse Gmail autorisée est affichée au propriétaire avant activation.
+- [ ] **A392 — Définir `From`, `Reply-To` et nom d’expéditeur :** validation : les trois valeurs sont cohérentes et testées.
+- [ ] **A393 — Ajouter une page de connexion Gmail réservée au propriétaire :** validation : un client ordinaire ne peut ni la voir ni la déclencher.
+- [ ] **A394 — Ajouter la reconnexion après révocation :** validation : une autorisation révoquée produit une action claire, pas une boucle de chargement.
+- [ ] **A395 — Ajouter la rotation sans interruption :** validation : ancien et nouveau secret sont vérifiés avant retrait de l’ancien.
+- [ ] **A396 — Tester une adresse de destination contrôlée :** validation : l’e-mail de test est explicitement marqué comme test.
+- [ ] **A397 — Gérer les erreurs Google 401/403 :** validation : token invalide, scope insuffisant et compte bloqué ont des messages distincts.
+- [ ] **A398 — Gérer les quotas et 429 :** validation : le worker attend puis réessaie selon une stratégie bornée.
+- [ ] **A399 — Vérifier l’absence de mot de passe Gmail :** validation : test négatif dans le code, la base, les logs et les écrans.
+- [ ] **A400 — Ajouter une recette OAuth complète :** validation : autoriser, envoyer, révoquer, réautoriser et confirmer les états dans le tableau de bord.
+
+### 84 — Modèle de données e-mail et outbox
+
+- [ ] **A401 — Généraliser `order_notification_outbox` :** validation : le modèle accepte les nouveaux messages sans supprimer les commandes existantes.
+- [ ] **A402 — Ajouter les types transactionnels :** `order_created`, `payment_confirmed`, `invoice_ready`, `delivery_update`, `order_cancelled`, `refund_confirmed`, `owner_order_alert` ; validation : enum et code sont identiques.
+- [ ] **A403 — Ajouter la table `email_templates` :** validation : clé, langue, sujet, HTML, texte, version et état actif sont séparés.
+- [ ] **A404 — Ajouter la version des modèles :** validation : une commande ancienne garde le modèle utilisé au moment de l’envoi.
+- [ ] **A405 — Ajouter la table `email_delivery_attempts` :** validation : chaque tentative conserve fournisseur, horodatage, résultat, code et erreur réduite.
+- [ ] **A406 — Conserver l’identifiant fournisseur :** validation : le même message ne peut pas être considéré envoyé deux fois.
+- [ ] **A407 — Ajouter l’idempotence d’envoi :** validation : double exécution du worker ne crée pas deux messages pour la même clé.
+- [ ] **A408 — Ajouter un bail de traitement :** validation : un job bloqué est récupérable après expiration, sans traitement concurrent.
+- [ ] **A409 — Ajouter les délais de nouvelle tentative :** validation : les erreurs transitoires sont réessayées, les erreurs définitives sont classées.
+- [ ] **A410 — Ajouter l’état `dead_letter` ou équivalent :** validation : un échec durable devient visible et relançable manuellement.
+- [ ] **A411 — Classer les erreurs :** validation : quota, token, adresse, contenu, document et réseau ne sont pas mélangés.
+- [ ] **A412 — Ajouter une limite de tentatives :** validation : aucun message ne boucle indéfiniment.
+- [ ] **A413 — Enregistrer la date de disponibilité :** validation : un job futur n’est jamais pris avant son heure.
+- [ ] **A414 — Ajouter les timestamps d’audit :** validation : création, prise en charge, dernier essai et fin sont disponibles.
+- [ ] **A415 — Normaliser les adresses e-mail :** validation : espaces, casse et adresses manifestement invalides sont traités avant insertion.
+- [ ] **A416 — Ajouter les contraintes d’unicité utiles :** validation : commandes, documents et notifications ne se dupliquent pas.
+- [ ] **A417 — Réconcilier les triggers de commande :** validation : insertion, paiement confirmé et changement de livraison créent chacun le bon message une seule fois.
+- [ ] **A418 — Vérifier l’historique des migrations :** validation : migration locale, état distant et rollback documenté correspondent.
+- [ ] **A419 — Ajouter les index utiles :** validation : lecture des jobs en attente et recherche par commande restent rapides sans index inutiles.
+- [ ] **A420 — Préparer le rollback de schéma :** validation : chaque migration e-mail peut être annulée ou restaurée avec une sauvegarde vérifiée.
+
+### 85 — RLS, rôles et confidentialité
+
+- [ ] **A421 — Refuser toute écriture publique dans l’outbox :** validation : anon et client ne peuvent pas créer un e-mail arbitraire.
+- [ ] **A422 — Réserver les écritures d’envoi au worker serveur :** validation : service role/secret reste absent du navigateur.
+- [ ] **A423 — Autoriser un propriétaire à voir les états utiles :** validation : seuls les comptes owner confirmés voient les erreurs d’envoi.
+- [ ] **A424 — Autoriser un client à voir ses propres reçus :** validation : un client ne peut jamais lire l’ordre ou le document d’un autre.
+- [ ] **A425 — Protéger les documents par bucket privé :** validation : aucun PDF n’est accessible par URL publique permanente.
+- [ ] **A426 — Ajouter des URLs signées à durée courte :** validation : le lien d’un document expire et ne donne pas accès aux autres fichiers.
+- [ ] **A427 — Protéger les données de livraison :** validation : téléphone et adresse ne sont renvoyés qu’au propriétaire ou au client concerné.
+- [ ] **A428 — Ajouter le rôle client par défaut :** validation : toute nouvelle inscription ne possède aucun droit owner.
+- [ ] **A429 — Ajouter une vérification serveur du rôle owner :** validation : masquer un bouton ne suffit jamais à obtenir les données.
+- [ ] **A430 — Tester les accès directs :** validation : appels REST, fonctions et URLs devinées sont refusés pour les comptes non autorisés.
+- [ ] **A431 — Tester la fuite par erreurs :** validation : logs et messages publics ne contiennent ni token, ni adresse complète, ni secret.
+- [ ] **A432 — Ajouter une revue RLS avant production :** validation : tables, storage et fonctions sont contrôlés avec anon, client et owner.
+
+### 86 — E-mails de commande et de paiement
+
+- [ ] **A433 — Concevoir l’e-mail “commande enregistrée” :** validation : numéro, lignes, grammes, total affiché et statut réel sont présents.
+- [ ] **A434 — Indiquer clairement “paiement en attente” si nécessaire :** validation : aucun texte ne laisse croire que Viva a confirmé la transaction.
+- [ ] **A435 — Concevoir l’e-mail “paiement confirmé” :** validation : il n’est généré qu’après événement Viva vérifié.
+- [ ] **A436 — Concevoir l’alerte propriétaire nouvelle commande :** validation : elle permet de retrouver la commande sans exposer de secret.
+- [ ] **A437 — Concevoir l’e-mail “commande préparée” :** validation : son envoi dépend d’un changement propriétaire traçable.
+- [ ] **A438 — Concevoir l’e-mail “commande expédiée” :** validation : le texte n’invente pas de suivi si aucun numéro n’existe.
+- [ ] **A439 — Concevoir l’e-mail “livrée” :** validation : il n’est envoyé qu’après confirmation définie par le processus de livraison.
+- [ ] **A440 — Concevoir l’e-mail d’annulation :** validation : raison publique courte et état final sont cohérents.
+- [ ] **A441 — Concevoir l’e-mail de remboursement :** validation : il ne part qu’après confirmation du remboursement.
+- [ ] **A442 — Ajouter une version texte alternative :** validation : l’e-mail reste compréhensible sans HTML.
+- [ ] **A443 — Rendre les modèles lisibles sur mobile :** validation : test 320 px, 375 px, 390 px et 430 px sans débordement.
+- [ ] **A444 — Ajouter les liens absolus de production :** validation : aucun lien `localhost`, GitHub temporaire ou URL de test n’est envoyé.
+- [ ] **A445 — Ajouter la signature WOOD validée :** validation : logo, couleurs et ton restent conformes sans copier TealerLab.
+- [ ] **A446 — Encadrer les emojis :** validation : ils sont décoratifs et ne remplacent jamais une information essentielle.
+- [ ] **A447 — Ajouter le pied de page légal :** validation : coordonnées et liens nécessaires sont validés avant activation.
+- [ ] **A448 — Ajouter une protection contre le double clic :** validation : une même commande ne produit pas deux confirmations.
+- [ ] **A449 — Tester les montants par variété :** validation : chaque grille de prix conserve ses propres paliers.
+- [ ] **A450 — Tester les grammes et répétitions :** validation : aucune remise ou quantité non validée n’apparaît dans l’e-mail.
+- [ ] **A451 — Tester les adresses accentuées :** validation : noms, rues et caractères français restent lisibles.
+- [ ] **A452 — Tester l’échec d’envoi après commande :** validation : la commande reste conservée, l’échec devient visible et relançable.
+
+### 87 — Factures, reçus et pièces jointes PDF
+
+- [ ] **A453 — Décider le type de document envoyé :** confirmation, reçu de paiement ou facture ; validation : le vocabulaire ne mélange pas ces documents.
+- [ ] **A454 — Bloquer le reçu payé avant Viva :** validation : test d’une commande pending qui ne génère pas de preuve de paiement.
+- [ ] **A455 — Définir la numérotation documentaire :** validation : numéro unique, séquentiel selon la règle retenue et non réutilisé.
+- [ ] **A456 — Définir les données légales de la boutique :** validation : raison sociale, adresse, contact et régime applicable sont confirmés avant production.
+- [ ] **A457 — Capturer l’instantané de commande :** validation : nom produit, grammage, prix, quantité, total et adresse ne changent pas si le produit change plus tard.
+- [ ] **A458 — Capturer les frais de livraison :** validation : aucun frais inventé tant que la règle commerciale n’est pas confirmée.
+- [ ] **A459 — Capturer la devise et les totaux :** validation : somme des lignes, livraison et total final concordent.
+- [ ] **A460 — Définir le traitement TVA/taxe :** validation : aucune mention fiscale n’est inventée ; le document reste bloqué si l’information manque.
+- [ ] **A461 — Construire le modèle PDF :** validation : le document est net, imprimable et cohérent avec WOOD.
+- [ ] **A462 — Gérer les polices et accents PDF :** validation : le PDF affiche correctement français, € et noms de produits.
+- [ ] **A463 — Ajouter la ligne de chaque article :** validation : prix unitaire, quantité, grammes et sous-total sont visibles.
+- [ ] **A464 — Ajouter l’adresse de livraison snapshot :** validation : le PDF correspond à l’adresse acceptée au moment de la commande.
+- [ ] **A465 — Générer le PDF de manière idempotente :** validation : deux traitements produisent un document identique ou une nouvelle version explicitement tracée.
+- [ ] **A466 — Calculer l’empreinte du document :** validation : le fichier attaché est vérifiable par son hash stocké.
+- [ ] **A467 — Stocker le PDF dans un bucket privé :** validation : aucun chemin public permanent n’est exposé.
+- [ ] **A468 — Attacher le PDF à l’e-mail :** validation : taille, type MIME, nom de fichier et contenu sont contrôlés.
+- [ ] **A469 — Gérer l’échec de génération :** validation : l’e-mail n’affirme jamais qu’une pièce jointe existe si elle n’a pas été créée.
+- [ ] **A470 — Ajouter le téléchargement dans Compte :** validation : client autorisé seulement, document récent et lien expirant.
+- [ ] **A471 — Ajouter le téléchargement propriétaire :** validation : la propriétaire peut retrouver un document depuis une commande.
+- [ ] **A472 — Tester impression et mobile :** validation : PDF lisible sur téléphone et ordinateur, sans texte coupé.
+- [ ] **A473 — Définir la conservation documentaire :** validation : durée et suppression sont documentées avant production.
+- [ ] **A474 — Tester la reconstruction après incident :** validation : une commande peut retrouver son document ou être régénérée selon la règle choisie.
+
+### 88 — Livraison et suivi de la commande
+
+- [ ] **A475 — Conserver la livraison comme seul mode actif :** validation : aucun retrait Barla/Borriglione ne réapparaît dans le panier.
+- [ ] **A476 — Définir les champs d’adresse obligatoires :** validation : nom, téléphone et adresse minimale sont vérifiés avant soumission.
+- [ ] **A477 — Ajouter une validation de format d’adresse :** validation : erreurs visibles et corrigeables sans perdre le panier.
+- [ ] **A478 — Enregistrer un snapshot d’adresse :** validation : la commande conserve l’adresse utilisée, même si le profil change.
+- [ ] **A479 — Décider les zones livrées :** validation : le système refuse proprement une zone non desservie.
+- [ ] **A480 — Décider les frais de livraison :** validation : le total affiché avant paiement correspond à la règle validée.
+- [ ] **A481 — Décider les délais annoncés :** validation : aucun délai public n’est affiché avant confirmation de la propriétaire.
+- [ ] **A482 — Définir l’état `delivery_pending` :** validation : il est distinct de `paid` et `delivered`.
+- [ ] **A483 — Définir l’état `delivery_in_progress` :** validation : changement réservé au propriétaire ou au processus autorisé.
+- [ ] **A484 — Définir les événements de livraison :** validation : chaque changement conserve auteur, date et note courte.
+- [ ] **A485 — Ajouter la table de suivi livraison :** validation : un événement ne peut pas modifier silencieusement l’historique.
+- [ ] **A486 — Ajouter le numéro de suivi optionnel :** validation : aucun faux suivi n’est affiché si le transporteur n’est pas défini.
+- [ ] **A487 — Ajouter l’e-mail de mise à jour livraison :** validation : le message reflète l’état réel de la commande.
+- [ ] **A488 — Ajouter l’alerte d’adresse problématique :** validation : la commande reste visible et l’action à prendre est claire.
+- [ ] **A489 — Ajouter l’annulation avant traitement :** validation : les transitions interdites sont refusées côté serveur.
+- [ ] **A490 — Ajouter la gestion d’un échec de livraison :** validation : la commande passe dans un état explicite et une alerte propriétaire est créée.
+- [ ] **A491 — Interdire le marquage automatique “livrée” :** validation : aucun cron ne clôt une commande sans événement autorisé.
+- [ ] **A492 — Tester une livraison normale :** validation : commande, document, e-mails et historique sont cohérents.
+- [ ] **A493 — Tester une livraison échouée :** validation : aucune perte de commande, aucun faux reçu et relance possible.
+- [ ] **A494 — Vérifier la confidentialité de l’adresse dans les e-mails :** validation : seules les informations nécessaires sont envoyées.
+
+### 89 — Newsletter, consentement et désinscription
+
+- [ ] **A495 — Créer `newsletter_subscribers` :** validation : e-mail normalisé, statut, source, date de consentement et dates de retrait sont présents.
+- [ ] **A496 — Séparer consentement marketing et compte client :** validation : créer un compte ne coche pas automatiquement la newsletter.
+- [ ] **A497 — Enregistrer la preuve du consentement :** validation : source, texte présenté, horodatage et version sont conservés.
+- [ ] **A498 — Prévoir la confirmation d’inscription :** validation : la newsletter n’est active qu’après confirmation si cette règle est retenue.
+- [ ] **A499 — Créer le token de désinscription :** validation : le lien est unique, limité et ne révèle pas d’autre abonné.
+- [ ] **A500 — Verrouiller le consentement marketing :** validation : aucune newsletter ne part avant consentement prouvable et les décisions Gmail, volume, livraison et documents sont listées dans le journal de mise en production.
+
+### 90 — Campagnes, lots et hygiène de newsletter
+
+- [ ] **A501 — Créer `newsletter_campaigns` :** validation : nom interne, sujet, contenu, statut, version et dates sont séparés des abonnés.
+- [ ] **A502 — Définir les statuts de campagne :** `draft`, `scheduled`, `sending`, `paused`, `sent`, `cancelled`, `failed` ; validation : transitions interdites refusées.
+- [ ] **A503 — Ajouter la sauvegarde brouillon :** validation : un brouillon ne peut jamais partir par erreur.
+- [ ] **A504 — Ajouter la planification facultative :** validation : une campagne future ne peut pas être envoyée avant son heure.
+- [ ] **A505 — Créer l’audience à partir des abonnements actifs :** validation : les clients désinscrits sont exclus au moment de l’envoi, pas seulement à la création.
+- [ ] **A506 — Interdire l’audience issue de commandes sans consentement :** validation : test négatif avec client ayant acheté mais refusé le marketing.
+- [ ] **A507 — Prévoir des segments minimaux :** validation : seuls les critères validés par la propriétaire sont utilisables.
+- [ ] **A508 — Ajouter l’aperçu propriétaire :** validation : sujet, expéditeur, contenu et pied de page sont visibles avant envoi.
+- [ ] **A509 — Ajouter l’envoi test isolé :** validation : un test ne touche jamais la vraie audience.
+- [ ] **A510 — Versionner le contenu final :** validation : le message envoyé est reconstructible après modification du brouillon.
+- [ ] **A511 — Ajouter le lien de désinscription dans chaque newsletter :** validation : aucune campagne active ne peut être enregistrée sans lien valide.
+- [ ] **A512 — Créer la liste de suppression :** validation : désinscription, rebond définitif et plainte bloquent tout futur marketing.
+- [ ] **A513 — Ajouter le statut `confirmed` :** validation : une adresse non confirmée reste exclue si le double opt-in est activé.
+- [ ] **A514 — Prévoir la réinscription explicite :** validation : une réinscription remplace un retrait uniquement par action claire du client.
+- [ ] **A515 — Classer les rebonds définitifs :** validation : l’adresse est supprimée des lots futurs.
+- [ ] **A516 — Classer les erreurs temporaires :** validation : elles sont réessayées avec une limite, pas ajoutées directement à la suppression.
+- [ ] **A517 — Enregistrer les plaintes :** validation : une plainte retire immédiatement l’adresse des campagnes.
+- [ ] **A518 — Prévoir la réception d’événements fournisseur :** validation : les événements sont authentifiés et idempotents.
+- [ ] **A519 — Créer les lots de destinataires :** validation : une campagne de 1 ou 1 000 destinataires suit le même modèle.
+- [ ] **A520 — Fixer une taille de lot configurable :** validation : la valeur est plafonnée et documentée.
+- [ ] **A521 — Ajouter un rythme d’envoi :** validation : le worker respecte les limites choisies au lieu d’envoyer en rafale.
+- [ ] **A522 — Ajouter un plafond journalier :** validation : le système se met en pause avant dépassement.
+- [ ] **A523 — Limiter les workers concurrents :** validation : deux workers ne prennent pas le même destinataire.
+- [ ] **A524 — Ajouter une idempotence campagne/destinataire :** validation : une relance ne renvoie pas un message déjà confirmé.
+- [ ] **A525 — Créer `newsletter_deliveries` :** validation : chaque destinataire possède un état individuel et un lien vers la campagne.
+- [ ] **A526 — Enregistrer l’identifiant d’envoi :** validation : une réponse fournisseur est rattachée au bon destinataire.
+- [ ] **A527 — Réessayer seulement les erreurs réessayables :** validation : rejet définitif et erreur réseau ne suivent pas la même branche.
+- [ ] **A528 — Ajouter la file des échecs définitifs :** validation : les erreurs restent consultables sans bloquer toute la campagne.
+- [ ] **A529 — Permettre la pause propriétaire :** validation : une campagne en pause n’est plus consommée par le worker.
+- [ ] **A530 — Permettre la reprise contrôlée :** validation : reprise réservée au owner et journalisée.
+- [ ] **A531 — Permettre l’annulation avant envoi :** validation : aucun lot non envoyé ne part après annulation.
+- [ ] **A532 — Interdire les doublons de campagne :** validation : même clé métier et version ne créent pas deux campagnes actives.
+- [ ] **A533 — Isoler les adresses de test :** validation : elles sont marquées test et jamais comptées dans les statistiques commerciales.
+- [ ] **A534 — Restreindre la gestion aux owners :** validation : les clients ne peuvent pas créer, modifier ou envoyer une campagne.
+- [ ] **A535 — Journaliser les actions marketing :** validation : création, aperçu, test, pause, reprise et envoi sont traçables.
+- [ ] **A536 — Préparer l’export d’un abonné :** validation : l’export ne contient que ses données et son historique pertinent.
+- [ ] **A537 — Préparer la suppression d’un abonné :** validation : suppression et suppression marketing ne sont pas confondues.
+- [ ] **A538 — Définir la conservation :** validation : campagnes, destinataires, erreurs et consentements ont une durée documentée.
+- [ ] **A539 — Ajouter un pied de page newsletter WOOD :** validation : identité, raison de réception et désinscription sont lisibles.
+- [ ] **A540 — Tester le texte brut des newsletters :** validation : liens et désinscription fonctionnent sans HTML.
+- [ ] **A541 — Tester les écrans mobiles :** validation : newsletter lisible sur petits écrans sans bouton coupé.
+- [ ] **A542 — Rendre la désinscription accessible :** validation : lien clavier, contraste et libellé explicite.
+- [ ] **A543 — Expirer les tokens de désinscription :** validation : token usé ou expiré donne une page sûre sans divulgation.
+- [ ] **A544 — Nettoyer les adresses invalides :** validation : format invalide refusé avant ajout et erreur compréhensible.
+- [ ] **A545 — Vérifier l’authentification du domaine d’expédition :** validation : SPF, DKIM et DMARC sont documentés avant campagne réelle.
+- [ ] **A546 — Documenter les limites Gmail pour le marketing :** validation : le lancement est bloqué si le volume dépasse la capacité acceptable.
+- [ ] **A547 — Documenter le basculement fournisseur :** validation : un fournisseur de secours est seulement activé après décision et configuration vérifiées.
+- [ ] **A548 — Ajouter le mode simulation :** validation : le worker calcule les destinataires sans envoyer de message.
+- [ ] **A549 — Ajouter les métriques d’envoi :** validation : total prévu, envoyé, refusé, différé et échoué sont cohérents.
+- [ ] **A550 — Ajouter le rapport de campagne :** validation : la propriétaire voit un résumé simple, sans jargon technique.
+- [ ] **A551 — Décider si les ouvertures sont mesurées :** validation : aucun pixel de suivi n’est activé sans décision de confidentialité.
+- [ ] **A552 — Désactiver le tracking par défaut :** validation : aucune donnée comportementale n’est collectée sans option validée.
+- [ ] **A553 — Vérifier la séparation commande/marketing :** validation : reçus et confirmations restent envoyés même après désinscription newsletter.
+- [ ] **A554 — Valider les textes légaux newsletter :** validation : les textes sont relus avant activation.
+- [ ] **A555 — Tester une campagne vide :** validation : elle se termine proprement sans worker bloqué.
+- [ ] **A556 — Tester un compte Gmail révoqué en campagne :** validation : pause sûre et action de reconnexion affichée.
+- [ ] **A557 — Tester un quota dépassé :** validation : lots différés, aucun doublon, état visible.
+- [ ] **A558 — Tester la reprise après panne :** validation : worker relancé sans perte ni duplication.
+- [ ] **A559 — Tester une campagne en staging :** validation : aucune adresse ou donnée de production ne fuit vers le test.
+- [ ] **A560 — Fermer la porte de mise en ligne newsletter :** validation : consentement, désinscription, quotas, RLS, tests et validation propriétaire sont tous verts.
+
+> **Suite d’exécution à créer avant le prochain chantier :** les tâches de newsletter au-delà de la base (campagnes, segments, lots, statistiques, rebonds et plaintes) seront ajoutées dans un second sous-bloc après validation de l’expéditeur Gmail et des règles légales. Elles ne doivent pas être improvisées dans la première version transactionnelle.
+
+### Ordre d’exécution recommandé pour le système e-mail
+
+1. `A361–A380` : figer le périmètre, les décisions, les environnements et les règles de secret.
+2. `A381–A400` : créer et tester l’autorisation Gmail OAuth, sans mot de passe et sans exposition publique.
+3. `A401–A432` : renforcer le modèle Supabase, l’outbox, les idempotences, les leases et les RLS.
+4. `A433–A452` : produire les e-mails transactionnels avec états réels et sans fausse confirmation de paiement.
+5. `A453–A474` : générer, stocker et joindre les documents PDF de façon privée et vérifiable.
+6. `A475–A494` : formaliser la livraison, ses états, ses alertes et ses tests d’échec.
+7. `A495–A500` : poser le consentement newsletter et ne lancer aucune campagne avant validation.
+8. `A501–A560` : construire les campagnes, lots, limites, désinscriptions, erreurs, statistiques et portes de mise en ligne.
+
+### Fichiers et contrôles à prévoir pour ce bloc
+
+- `supabase/migrations/` : nouvelles tables, contraintes, index, triggers, RLS et rollback.
+- `supabase/functions/gmail-oauth/` : autorisation et renouvellement de token côté serveur.
+- `supabase/functions/email-worker/` : prise de jobs, génération, envoi, retries et mise à jour d’état.
+- `supabase/functions/document-worker/` : génération et stockage privé des documents.
+- `supabase/functions/delivery-events/` : transitions de livraison autorisées et historique.
+- `docs/ops/gmail-supabase-email-system.md` : secrets, OAuth, quotas, exploitation et reprise.
+- `docs/ops/transactional-email.md` : modèles, états, limites et distinction paiement/commande.
+- `test/email-*.test.mjs` et `test/delivery-*.test.mjs` : tests d’idempotence, RLS, erreurs, documents et transitions.
+- `test/fixtures/` : commandes de test anonymisées, jamais de données réelles ni de tokens.
+- `output/` : artefacts de vérification uniquement, jamais de secrets ni de documents clients réels.
+
+### Portes de validation avant ouverture commerciale
+
+- Aucun mot de passe Gmail, refresh token, clé Viva ou `service_role` dans le dépôt, le navigateur ou un PDF public.
+- Une commande enregistrée reste retrouvable même si Gmail, la génération PDF ou le réseau tombe.
+- Une notification échouée est visible, relançable et idempotente.
+- Un reçu de paiement n’existe qu’après confirmation Viva vérifiée.
+- Un client ne voit que ses propres commandes et documents ; la propriétaire voit les opérations nécessaires.
+- Une newsletter exige un consentement prouvable, une désinscription et une suppression respectée.
+- Les adresses et données de livraison sont conservées dans la commande, protégées par RLS et absentes des logs publics.
+- Les tests couvrent mobile, desktop, double clic, double webhook, token révoqué, quota, PDF manquant et échec de livraison.
+- Le système est seulement “prêt à connecter” tant que la propriétaire n’a pas autorisé le compte Google et confirmé les règles de livraison/documentation.
 
 ## Décisions qui restent volontairement bloquées
 
