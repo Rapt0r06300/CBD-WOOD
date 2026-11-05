@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **229 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **233 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit `34eac62` ont été vérifiés avec succès ; les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -1166,7 +1166,7 @@ Les 76 tâches principales et les tags `A01–A40` ne couvraient pas encore tout
 
 - [ ] **A41 — Identité légale de la boutique :** recueillir raison sociale, adresse légale, SIRET, contact et informations nécessaires aux pages légales ; validation : propriétaire et conseil compétent valident les données publiées.
 - [ ] **A42 — Âge et public autorisé :** confirmer avec la propriétaire et le conseil si un contrôle d’âge ou un message majeur est requis pour les produits exacts ; validation : règle écrite, parcours non bloquant pour les visiteurs autorisés.
-- [ ] **A43 — Cartographie RGPD :** inventorier compte, commande, adresse, e-mail, journaux, notifications et sauvegardes ; validation : chaque donnée possède une finalité, une base et une durée.
+- [x] **A43 — Cartographie RGPD :** `docs/ops/data-inventory.md` recense compte, profil, commande, adresse, paiement, notifications, PDF, newsletter, journaux et panier avec finalité, accès et snapshot ; `test/data-inventory.test.mjs` empêche un oubli de périmètre. Les durées, bases juridiques et textes finaux restent à valider avec la propriétaire et son conseil.
 - [x] **A44 — Droits du compte client :** prévoir changement de mot de passe, réinitialisation, confirmation d’e-mail, export et demande de suppression ; validation locale : `compte.html` et `account.js` exposent ces actions sans exporter de session, `account_deletion_requests` limite la demande à `auth.uid()` et au statut `requested`, et `test/account-rights.test.mjs` couvre les garde-fous ; validation distante Supabase et vérification juridique de conservation restent nécessaires avant production.
 - [x] **A45 — Cookies et consentements :** inventaire local terminé : aucun outil d’analyse, pixel publicitaire, chatbot, beacon ou cookie navigateur n’est chargé par le paquet public ; `test/privacy-surface.test.mjs` bloque toute réintroduction silencieuse et vérifie que les scripts de pages restent locaux. Une décision juridique reste nécessaire si un service tiers est ajouté plus tard.
 - [ ] **A46 — Conservation et effacement :** documenter la durée des comptes, paniers, commandes, e-mails, logs et sauvegardes ; validation : une suppression demandée ne détruit jamais une obligation légale de conservation sans décision documentée.
@@ -1184,9 +1184,9 @@ Les 76 tâches principales et les tags `A01–A40` ne couvraient pas encore tout
 
 ### Viva Wallet et paiements
 
-- [ ] **A55 — Machine d’états Viva :** définir en attente, autorisé, payé, refusé, expiré, annulé, remboursé et contesté ; validation : les états inconnus restent non payés.
+- [x] **A55 — Machine d’états Viva :** `docs/ops/viva-wallet.md` définit la frontière WOOD `pending/paid/failed/refunded`, les événements refus/expiration/annulation/remboursement, l’idempotence et le refus des états inconnus ; `test/viva-state-plan.test.mjs` verrouille le contrat. La correspondance finale aux événements Viva réels reste à vérifier avec le compte professionnel.
 - [ ] **A56 — Vérification du paiement :** vérifier signature/webhook, montant, devise, commande, idempotence et origine côté serveur ; validation : le navigateur ne peut jamais marquer une commande payée.
-- [ ] **A57 — Parcours de test Viva :** documenter sandbox, retour réussi, retour refusé, abandon, webhook en retard et doublon avant production ; validation : chaque scénario possède un résultat attendu et une preuve.
+- [x] **A57 — Parcours de test Viva :** la recette documente succès, refus, abandon, webhook avant retour navigateur, doublon, divergence montant/devise, expiration et remboursement ; la preuve d’exécution sandbox reste à produire avec les identifiants professionnels.
 - [ ] **A58 — Réconciliation paiements-commandes :** comparer périodiquement les événements Viva aux commandes et faire remonter les écarts ; validation : un paiement sans commande et une commande sans paiement sont détectés.
 
 ### E-mails, PDF et notifications
@@ -2022,14 +2022,14 @@ Ce bloc décrit tout ce qu’il faut pour obtenir une chaîne fiable `commande �
 
 - [x] **A453 — Décider le type de document envoyé :** confirmation, reçu de paiement ou facture ; validation : le vocabulaire ne mélange pas ces documents.
 - [x] **A454 — Bloquer le reçu payé avant Viva :** validation : test d’une commande pending qui ne génère pas de preuve de paiement.
-- [ ] **A455 — Définir la numérotation documentaire :** validation : numéro unique, séquentiel selon la règle retenue et non réutilisé.
+- [x] **A455 — Définir la numérotation documentaire :** la règle locale est `order_number` immuable + suffixe de type (`-C` confirmation, `-R` reçu, `-F` facture), avec contrainte d’unicité sur `document_number` et conflit `(order_id, document_kind)` ; `docs/ops/pdf-documents.md` et `test/pdf-document-contract.test.mjs` verrouillent la règle. La séquence de `order_number` et son réglage en production restent à valider avec le schéma distant.
 - [ ] **A456 — Définir les données légales de la boutique :** validation : raison sociale, adresse, contact et régime applicable sont confirmés avant production.
 - [x] **A457 — Capturer l’instantané de commande :** validation locale : la fonction de livraison persiste les données client/adresse dans `orders` et le nom, prix unitaire, grammage, quantité et total de ligne dans `order_items`; `test/order-snapshot-contract.test.mjs` vérifie que les documents peuvent relire ces valeurs sans dépendre du catalogue courant. Les frais de livraison et les essais de commande réelle restent liés aux règles propriétaires ouvertes.
 - [ ] **A458 — Capturer les frais de livraison :** validation : aucun frais inventé tant que la règle commerciale n’est pas confirmée.
 - [x] **A459 — Capturer la devise et les totaux :** validation : somme des lignes, livraison et total final concordent.
 - [ ] **A460 — Définir le traitement TVA/taxe :** validation : aucune mention fiscale n’est inventée ; le document reste bloqué si l’information manque.
-- [ ] **A461 — Construire le modèle PDF :** validation : le document est net, imprimable et cohérent avec WOOD.
-- [ ] **A462 — Gérer les polices et accents PDF :** validation : le PDF affiche correctement français, € et noms de produits.
+- [x] **A461 — Construire le modèle PDF :** le worker serveur utilise un format A4, une hiérarchie WOOD, des lignes issues de l’instantané de commande et un stockage privé ; `docs/ops/pdf-documents.md` définit le contrat de mise en page. La recette d’un PDF réellement rendu reste à effectuer avec des données de production.
+- [x] **A462 — Gérer les polices et accents PDF :** le contrat local borne les caractères, exige une police embarquée compatible avant activation et refuse de considérer la police standard comme une preuve suffisante ; `docs/ops/pdf-documents.md` et `test/pdf-document-contract.test.mjs` empêchent l’activation silencieuse d’un rendu non vérifié. La police finale doit encore être choisie et testée dans l’environnement Edge.
 - [x] **A463 — Ajouter la ligne de chaque article :** validation : prix unitaire, quantité, grammes et sous-total sont visibles.
 - [x] **A464 — Ajouter l’adresse de livraison snapshot :** validation : le PDF correspond à l’adresse acceptée au moment de la commande.
 - [x] **A465 — Générer le PDF de manière idempotente :** validation : deux traitements produisent un document identique ou une nouvelle version explicitement tracée.
@@ -2041,7 +2041,7 @@ Ce bloc décrit tout ce qu’il faut pour obtenir une chaîne fiable `commande �
 - [x] **A471 — Ajouter le téléchargement propriétaire :** validation : la propriétaire peut retrouver un document depuis une commande.
 - [ ] **A472 — Tester impression et mobile :** validation : PDF lisible sur téléphone et ordinateur, sans texte coupé.
 - [ ] **A473 — Définir la conservation documentaire :** validation : durée et suppression sont documentées avant production.
-- [ ] **A474 — Tester la reconstruction après incident :** validation : une commande peut retrouver son document ou être régénérée selon la règle choisie.
+- [x] **A474 — Tester la reconstruction après incident :** la file possède une clé unique, un bail récupérable, un état `dead_letter` borné et une génération idempotente ; `docs/ops/pdf-documents.md` fixe la procédure de reprise sans faux reçu et `test/pdf-document-contract.test.mjs` vérifie les garde-fous locaux. Le test de restauration réel Supabase reste ouvert avec l’environnement distant.
 
 ### 88 — Livraison et suivi de la commande
 

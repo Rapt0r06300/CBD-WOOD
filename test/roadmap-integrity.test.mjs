@@ -4,6 +4,7 @@ import test from 'node:test';
 
 const roadmap = await readFile(new URL('../docs/superpowers/plans/2026-11-04-wood-tealerlab-roadmap.md', import.meta.url), 'utf8');
 const routes = await readFile(new URL('../docs/ops/public-routes.md', import.meta.url), 'utf8');
+const viva = await readFile(new URL('../docs/ops/viva-wallet.md', import.meta.url), 'utf8');
 
 test('la feuille de route conserve ses 76 tâches uniques et dans l’ordre', () => {
   const taskNumbers = [...roadmap.matchAll(/^### Tâche (\d+) —/gm)].map(match => Number(match[1]));
@@ -11,7 +12,7 @@ test('la feuille de route conserve ses 76 tâches uniques et dans l’ordre', ()
 });
 
 test('l’état de vérification ne contient pas de compteur obsolète', () => {
-  assert.match(roadmap, /npm run check` passe avec \*\*229 tests\*\*/);
+  assert.match(roadmap, /npm run check` passe avec \*\*233 tests\*\*/);
   assert.doesNotMatch(roadmap, /\*\*(44|47|51|53|54|64|122|125|171|172|174) tests\*\*/);
   assert.match(roadmap, /paquet de \*\*49 fichiers\*\*/);
   assert.match(roadmap, /availability_state/);
@@ -27,4 +28,9 @@ test('la feuille renvoie vers l’inventaire public et interdit la route admin h
 test('les tags d’exécution de la feuille sont continus jusqu’à A700', () => {
   const tags = [...roadmap.matchAll(/\*\*A(\d+) —/g)].map(match => Number(match[1]));
   assert.deepEqual(tags, Array.from({ length: 700 }, (_, index) => index + 1));
+});
+
+test('la frontière Viva reste documentée sans activer le paiement', () => {
+  assert.match(viva, /Le site ne lance actuellement aucun paiement Viva/);
+  assert.match(viva, /retour du navigateur n’est jamais une transition/);
 });
