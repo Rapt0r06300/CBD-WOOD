@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **71 tests**, la syntaxe JavaScript contrôlée sur 26 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **98 tests**, la syntaxe JavaScript contrôlée sur 26 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **47 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - Le contrôle responsive Playwright confirme l’absence de débordement horizontal sur les **70 combinaisons** (10 routes publiques × `320`, `375`, `390`, `430`, `768`, `1024`, `1440`), avec des titres non vides et la navigation mobile chargée sur les vues étroites.
 - La disponibilité est maintenant une donnée Supabase explicite (`available`, `soon`, `rupture`, `incomplete`) et le serveur refuse de traiter un produit qui n’est pas `available`.
@@ -83,6 +83,10 @@
 - Le tableau de bord propriétaire affiche maintenant l’état de la file `order_notification_outbox` (`à envoyer`, `en cours`, `envoyé`, `échec`) sans présenter l’envoi comme actif ; `test/order-notification-outbox.test.mjs` le vérifie.
 - La migration locale `20261104150000_order_status_history.sql` a été appliquée au projet Supabase sous `20261104215031_order_status_history` ; la table est protégée par RLS, le trigger est présent et aucune commande n’existait au moment du contrôle.
 - La migration locale `20261104160000_order_notification_outbox.sql` a été appliquée au projet Supabase sous `20261104220305_order_notification_outbox` ; la file est idempotente, protégée par RLS, vide au contrôle et ne lance aucun e-mail tant qu’aucun fournisseur n’est configuré.
+- Le 5 novembre 2026, le socle local `20261105100000_email_automation_foundation.sql` ajoute les modèles d’e-mails, tentatives, documents privés, livraison, newsletter et réservations atomiques ; il n’est pas encore appliqué au projet distant, conformément au choix de garder les identifiants et la mise en service pour la fin.
+- Le 5 novembre 2026, `supabase/functions/email-worker/` est prêt côté code : OAuth Gmail serveur, MIME avec pièce jointe, bail anti-doublon, retries bornés et dead-letter ; aucun secret n’est présent et aucun envoi réel n’a été déclenché.
+- Le 5 novembre 2026, `supabase/functions/document-worker/` prépare les confirmations et reçus PDF dans le bucket privé `order-documents` ; un reçu de paiement exige `payment_status = paid` et la génération n’est pas annoncée comme active avant configuration.
+- Le 5 novembre 2026, les fonctions `newsletter-subscribe` et `newsletter-unsubscribe` enregistrent le consentement explicite et le retrait par token hashé, sans révéler l’existence d’une adresse et sans mélanger le marketing aux commandes.
 - Le 5 novembre 2026, l’accueil officiel [TealerLab](https://tealerlab.com/) a été revu avec Exa, Parallel Search et un navigateur réel en desktop et en viewport mobile `390 × 844`. L’audit confirme une architecture de sections réutilisables, des rails de cartes produits, une hiérarchie de fiche dense et une version mobile réellement recomposée ; ces constats sont traduits dans les tags d’exécution `A01–A40` et `A81–A240` ci-dessous.
 - Cette observation ne valide aucun changement graphique WOOD : elle sert uniquement de référence d’inspiration. Les couleurs, le logo, la typographie, la carte, les prix et les contraintes de la propriétaire restent prioritaires.
 - L’audit de cohérence du 5 novembre 2026 a identifié 40 angles morts opérationnels supplémentaires, ajoutés comme tags `A41–A80` : conformité et données personnelles, parcours d’expédition, états de paiement, e-mails/PDF, sécurité, observabilité, transfert propriétaire et recette de mise en service.
@@ -276,12 +280,12 @@ L’audit de TealerLab montre surtout une hiérarchie commerciale très lisible 
 ### Tâche 19 — Préparer les e-mails de commande
 
 - [x] Préparer la persistance d’un récapitulatif de commande dans la file `order_notification_outbox` à partir d’une commande créée côté serveur.
-- [ ] Préparer un e-mail client et un e-mail propriétaire ; la première version utilise l’e-mail transactionnel, sans SMS.
+- [x] Préparer le message e-mail client transactionnel et la base du worker ; l’e-mail propriétaire et la connexion finale de l’expéditeur restent à activer avec les identifiants validés.
 - [ ] Ajouter la pièce jointe PDF uniquement après validation du format et après persistance réussie de la commande.
-- [x] Prévoir une file/outbox, des tentatives contrôlées et un statut `à envoyer / envoyé / échec` ; ne jamais prétendre qu’un e-mail a été reçu uniquement parce qu’il a été demandé au fournisseur.
+- [x] Prévoir une file/outbox, des tentatives contrôlées, un bail de traitement et les statuts `à envoyer / en cours / envoyé / échec / dead-letter` ; ne jamais prétendre qu’un e-mail a été reçu uniquement parce qu’il a été demandé au fournisseur.
 - [ ] Utiliser un relais SMTP/API transactionnel configuré hors du dépôt ; garder les secrets dans Supabase et documenter SPF, DKIM, DMARC et les rebonds.
 - [ ] N’envoyer la confirmation qu’après création fiable de la commande.
-- [ ] Prévoir une trace d’envoi et un statut d’erreur visible côté propriétaire.
+- [x] Prévoir une trace d’envoi et un statut d’erreur côté données (`email_delivery_attempts`) ; la présentation détaillée dans le tableau de bord reste à finaliser.
 
 **Validation :** aucune commande confirmée sans identifiant permanent ni trace exploitable.
 
