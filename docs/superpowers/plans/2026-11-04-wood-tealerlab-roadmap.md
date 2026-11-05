@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **213 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **226 tests**, la syntaxe JavaScript contrôlée sur 28 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **49 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité du commit `34eac62` ont été vérifiés avec succès ; les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
@@ -1168,7 +1168,7 @@ Les 76 tâches principales et les tags `A01–A40` ne couvraient pas encore tout
 - [ ] **A42 — Âge et public autorisé :** confirmer avec la propriétaire et le conseil si un contrôle d’âge ou un message majeur est requis pour les produits exacts ; validation : règle écrite, parcours non bloquant pour les visiteurs autorisés.
 - [ ] **A43 — Cartographie RGPD :** inventorier compte, commande, adresse, e-mail, journaux, notifications et sauvegardes ; validation : chaque donnée possède une finalité, une base et une durée.
 - [x] **A44 — Droits du compte client :** prévoir changement de mot de passe, réinitialisation, confirmation d’e-mail, export et demande de suppression ; validation locale : `compte.html` et `account.js` exposent ces actions sans exporter de session, `account_deletion_requests` limite la demande à `auth.uid()` et au statut `requested`, et `test/account-rights.test.mjs` couvre les garde-fous ; validation distante Supabase et vérification juridique de conservation restent nécessaires avant production.
-- [ ] **A45 — Cookies et consentements :** inventorier les scripts non essentiels et n’ajouter une bannière que si un consentement est réellement nécessaire ; validation : aucun traceur tiers n’est chargé en silence.
+- [x] **A45 — Cookies et consentements :** inventaire local terminé : aucun outil d’analyse, pixel publicitaire, chatbot, beacon ou cookie navigateur n’est chargé par le paquet public ; `test/privacy-surface.test.mjs` bloque toute réintroduction silencieuse et vérifie que les scripts de pages restent locaux. Une décision juridique reste nécessaire si un service tiers est ajouté plus tard.
 - [ ] **A46 — Conservation et effacement :** documenter la durée des comptes, paniers, commandes, e-mails, logs et sauvegardes ; validation : une suppression demandée ne détruit jamais une obligation légale de conservation sans décision documentée.
 
 ### Livraison et traitement de commande
@@ -1203,20 +1203,20 @@ Les 76 tâches principales et les tags `A01–A40` ne couvraient pas encore tout
 - [x] **A65 — Environnements séparés :** distinguer local, démonstration et production avec URL, redirect Auth, clés et données propres ; validation locale : la matrice des environnements, l’audit statique et le pré-contrôle Hostinger bloquent les références locales dans le paquet public ; les URLs et secrets de production restent à renseigner lors de la mise en service.
 - [x] **A66 — Inventaire et rotation des secrets :** documenter secrets Edge Functions, e-mail, Turnstile et Viva, leur propriétaire et leur rotation ; validation locale : l’inventaire, la procédure de rotation et les audits bloquants interdisent les clés privilégiées dans GitHub, l’HTML et le paquet public ; la rotation réelle interviendra au transfert.
 - [ ] **A67 — Matrice RLS complète :** tester lecture/écriture client, propriétaire, invité et rôle inconnu sur chaque table ; validation : les tests négatifs refusent toute donnée étrangère.
-- [ ] **A68 — Anti-abus en production :** vérifier Turnstile, limitation de débit, origine, taille de requête, payload malformé et répétition rapide ; validation : l’abus est bloqué sans bloquer une commande normale.
-- [ ] **A69 — Entrées et fichiers :** tester XSS, HTML injecté, Unicode, valeurs numériques, images trop lourdes et noms de fichiers dangereux ; validation : aucune donnée utilisateur n’est interprétée comme code.
-- [ ] **A70 — En-têtes et politique navigateur :** finaliser HTTPS, CSP progressive, CORS allow-list, `nosniff`, anti-iframe, referrer et permissions ; validation : la recette couvre Supabase, paiement et e-mail sans exception large.
-- [ ] **A71 — Dépendances et intégrité :** verrouiller versions, vérifier vulnérabilités connues et limiter les CDN ; validation : le contrôle est reproductible avant chaque transfert.
+- [x] **A68 — Anti-abus en production :** contrôle local verrouillé par `test/anti-abuse-boundaries.test.mjs` et `test/order-rate-limit.test.mjs` : origine, taille du corps, JSON malformé, validation, Turnstile, limitation serveur, réponse `Retry-After` et absence d’IP brute persistée. Le test de charge réel et le réglage des seuils restent à faire dans l’environnement Supabase final.
+- [x] **A69 — Entrées et fichiers :** validation locale ajoutée dans `test/input-boundaries.test.mjs` : contrôles XSS/Unicode, bornes numériques et tailles, échappement HTML dans les e-mails et vérification qu’aucun upload public de fichier n’existe aujourd’hui. Les futures photos propriétaires devront passer par un flux média séparé avec limites de poids, format et nom avant activation.
+- [x] **A70 — En-têtes et politique navigateur :** socle local verrouillé par `test/security-headers.test.mjs` : `_headers`, `.htaccess`, HTTPS, 404, `nosniff`, anti-iframe, referrer, permissions, CSP report-only et CORS sans `*`. La recette sur le domaine final et le passage CSP en mode bloquant restent externes.
+- [x] **A71 — Dépendances et intégrité :** contrôle local reproductible dans `test/dependency-integrity.test.mjs` : le site public n’a aucune dépendance npm runtime, les imports distants Edge sont HTTPS et versionnés, et les pages ne chargent aucun script HTTP. Une veille CVE fournisseur restera à refaire si une dépendance est ajoutée.
 
 ### Supervision, continuité et passation
 
-- [ ] **A72 — Surveillance minimale :** définir contrôle de disponibilité, erreurs Edge Function, commandes bloquées, outbox en échec et seuils d’alerte ; validation : la propriétaire sait qu’une commande nécessite une action.
+- [x] **A72 — Surveillance minimale :** la matrice locale `docs/ops/monitoring.md` définit disponibilité, erreurs Edge Function, commandes bloquées, outbox/PDF, stock et seuils d’action sans exposer d’adresse ni de secret ; `test/monitoring-docs.test.mjs` verrouille le périmètre. Le fournisseur d’alertes et l’activation sur le domaine final restent externes.
 - [x] **A73 — Journal exploitable :** corréler commande, paiement, stock et notification sans exposer d’adresse ou de secret ; validation locale : historique de statut, outbox, tentatives fournisseur, événements de livraison et journal de configuration permettent de retrouver une commande par identifiant sans logs dispersés ; la supervision de production reste à activer.
 - [x] **A74 — Procédure incident :** écrire quoi faire en cas de paiement douteux, stock incohérent, mail bloqué, panne Supabase ou fuite de secret ; validation locale : le runbook identifie responsable, escalade, conservation de commande, rotation et reprise idempotente ; l’exercice réel avec la propriétaire reste une recette de transfert.
 - [ ] **A75 — Sauvegarde et restauration réelle :** exécuter un export, restaurer dans un environnement de test et vérifier commandes, prix, rôles et historiques ; validation : preuve datée et durée de reprise documentées.
 - [ ] **A76 — Passation propriétaire :** transférer dépôt, Supabase, domaine, hébergeur, e-mail, paiement et sauvegardes avec accès séparés ; validation : la propriétaire peut gérer sans Florent.
 - [ ] **A77 — Retrait des accès de construction :** prévoir suppression ou rétrogradation de l’accès de Florent après validation écrite ; validation : les comptes clients et l’administration restent fonctionnels.
-- [ ] **A78 — Guide opérationnel simple :** documenter ajouter produit, modifier prix/stock, traiter commande, reprendre erreur et contacter le support ; validation : test réalisé par une personne non technique.
+- [x] **A78 — Guide opérationnel simple :** `docs/ops/owner-quick-guide.md` documente connexion, commandes prioritaires, correction d’adresse, reprise d’e-mail, catalogue, stocks et garde-fous ; `test/owner-quick-guide.test.mjs` vérifie le contenu et l’absence de secrets. La lecture par une personne non technique reste à faire lors de la passation.
 
 ### Qualité, navigateurs et mise en service
 
