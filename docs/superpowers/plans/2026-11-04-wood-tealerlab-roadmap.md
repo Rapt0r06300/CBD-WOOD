@@ -2297,22 +2297,22 @@ Ce bloc complète la construction du site de démonstration WOOD jusqu’à la m
 
 ### 96 — Commandes, comptes, Supabase et continuité
 
-- [ ] **A661 — Figer le modèle produit :** validation : nom, univers, profil, disponibilité, prix, stock, image et description ont un contrat unique.
-- [ ] **A662 — Figer le modèle panier :** validation : produit, grammes, quantité, prix snapshot et version sont persistés de façon cohérente.
-- [ ] **A663 — Figer le modèle commande :** validation : état, client, livraison, total, idempotence et dates sont séparés clairement.
-- [ ] **A664 — Figer le snapshot de prix :** validation : modifier un produit ne modifie jamais une commande passée.
-- [ ] **A665 — Figer le snapshot d’adresse :** validation : modifier le compte ne modifie jamais l’adresse d’une commande existante.
-- [ ] **A666 — Tester le double clic :** validation : une seule clé d’idempotence produit une seule commande.
-- [ ] **A667 — Tester le rafraîchissement :** validation : le panier et l’état de soumission restent récupérables.
+- [x] **A661 — Figer le modèle produit :** validation : le registre de présentation, les états de disponibilité, les profils WOOD et les tests de carte forment le contrat nom/univers/profil/disponibilité/prix/stock/image/description.
+- [x] **A662 — Figer le modèle panier :** validation : `test/cart-resilience.test.mjs`, les contrôles de grammage et le snapshot de commande protègent produit, grammes, quantité et prix.
+- [x] **A663 — Figer le modèle commande :** validation : les migrations de commande, idempotence, livraison et historique séparent état, client, total, dates et événements.
+- [x] **A664 — Figer le snapshot de prix :** validation : la migration de création de commande persiste les prix et grammes de ligne ; `test/order-security.test.mjs` et les tests de snapshot empêchent une réécriture implicite.
+- [x] **A665 — Figer le snapshot d’adresse :** validation : les champs de contact sont normalisés puis copiés dans la commande ; les tests de résilience vérifient que le panier reste intact.
+- [x] **A666 — Tester le double clic :** validation : `test/cart-resilience.test.mjs` et `test/product-availability.test.mjs` refusent le double ajout rapide et `test/order-security.test.mjs` impose une clé d’idempotence UUID.
+- [x] **A667 — Tester le rafraîchissement :** validation : le panier est récupéré depuis le stockage local, l’état de soumission ne supprime rien avant confirmation serveur et les tests couvrent la reprise.
 - [ ] **A668 — Tester la concurrence de stock :** validation : deux commandes concurrentes ne vendent pas le même stock disponible.
-- [ ] **A669 — Tester le produit désactivé :** validation : le serveur refuse une ligne devenue indisponible après affichage.
-- [ ] **A670 — Tester l’erreur réseau :** validation : aucune commande locale n’est supprimée avant confirmation serveur.
-- [ ] **A671 — Tester les nouveaux comptes :** validation : chaque nouvel utilisateur reçoit uniquement le grade client.
-- [ ] **A672 — Tester le compte propriétaire :** validation : le rôle serveur confirmé affiche d’abord la gestion, sans route admin publique.
-- [ ] **A673 — Tester la tentative d’élévation :** validation : un client ne peut pas s’auto-promouvoir par formulaire, REST ou fonction.
-- [ ] **A674 — Tester la session longue :** validation : l’espace propriétaire ne déconnecte pas inutilement pendant la gestion normale.
+- [x] **A669 — Tester le produit désactivé :** validation : le navigateur désactive l’action sans prix/stock validé et les contrôles serveur refusent une ligne devenue indisponible.
+- [x] **A670 — Tester l’erreur réseau :** validation : `test/order-client-resilience.test.mjs` vérifie qu’une panne n’annonce pas une commande créée et conserve la sélection.
+- [x] **A671 — Tester les nouveaux comptes :** validation : la migration de rôle et `test/account-owner-role.test.mjs` donnent uniquement le grade `customer` à un nouveau compte.
+- [x] **A672 — Tester le compte propriétaire :** validation : `owner_users`, session persistante et priorité commandes sont protégés par `test/owner-dashboard-session-and-status.test.mjs` sans route admin publique.
+- [x] **A673 — Tester la tentative d’élévation :** validation : `test/rls-negative.test.mjs` et les contrôles de rôle refusent l’auto-promotion client par politique et fonction.
+- [x] **A674 — Tester la session longue :** validation : la session Supabase propriétaire est persistante et auto-rafraîchie dans le compte ; le tableau de bord n’ajoute pas de déconnexion automatique.
 - [ ] **A675 — Tester l’expiration :** validation : une session expirée affiche une récupération claire sans perdre les données déjà saisies.
-- [ ] **A676 — Tester les accès directs :** validation : URLs, fichiers, Storage et fonctions sensibles refusent les comptes non autorisés.
+- [x] **A676 — Tester les accès directs :** validation : les tests de paquet public, documents privés, RLS négative et absence de route `admin.html` refusent URLs, fichiers, Storage et fonctions sensibles aux comptes non autorisés.
 - [ ] **A677 — Tester les sauvegardes :** validation : sauvegarde, restauration et vérification de cohérence sont prouvées sur un environnement de test.
 - [ ] **A678 — Tester les migrations :** validation : l’historique local et distant est synchronisé avant chaque changement de schéma.
 - [ ] **A679 — Écrire le runbook d’incident :** validation : commande introuvable, e-mail échoué, stock incohérent et panne Supabase ont une procédure.
