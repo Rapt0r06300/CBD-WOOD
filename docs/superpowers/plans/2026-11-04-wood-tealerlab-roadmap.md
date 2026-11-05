@@ -67,7 +67,7 @@
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **113 tests**, la syntaxe JavaScript contrôlée sur 26 fichiers et l’audit statique sans erreur.
+- `npm run check` passe avec **115 tests**, la syntaxe JavaScript contrôlée sur 26 fichiers et l’audit statique sans erreur.
 - `npm run hostinger:preflight` reconstruit un paquet de **47 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - Le contrôle responsive Playwright confirme l’absence de débordement horizontal sur les **70 combinaisons** (10 routes publiques × `320`, `375`, `390`, `430`, `768`, `1024`, `1440`), avec des titres non vides et la navigation mobile chargée sur les vues étroites.
 - La disponibilité est maintenant une donnée Supabase explicite (`available`, `soon`, `rupture`, `incomplete`) et le serveur refuse de traiter un produit qui n’est pas `available`.
@@ -83,7 +83,8 @@
 - Le tableau de bord propriétaire affiche maintenant l’état de la file `order_notification_outbox` (`à envoyer`, `en cours`, `envoyé`, `échec`) sans présenter l’envoi comme actif ; `test/order-notification-outbox.test.mjs` le vérifie.
 - La migration locale `20261104150000_order_status_history.sql` a été appliquée au projet Supabase sous `20261104215031_order_status_history` ; la table est protégée par RLS, le trigger est présent et aucune commande n’existait au moment du contrôle.
 - La migration locale `20261104160000_order_notification_outbox.sql` a été appliquée au projet Supabase sous `20261104220305_order_notification_outbox` ; la file est idempotente, protégée par RLS, vide au contrôle et ne lance aucun e-mail tant qu’aucun fournisseur n’est configuré.
-- Le 5 novembre 2026, le socle local `20261105100000_email_automation_foundation.sql` ajoute les modèles d’e-mails, tentatives, documents privés, livraison, newsletter et réservations atomiques ; il n’est pas encore appliqué au projet distant, conformément au choix de garder les identifiants et la mise en service pour la fin.
+- Le 5 novembre 2026, le socle `20261105100000_email_automation_foundation.sql` a été appliqué au projet Supabase connecté sous `email_automation_foundation` : modèles d’e-mails, tentatives, documents privés, livraison, newsletter et réservations atomiques sont maintenant présents ; aucun fournisseur n’est activé sans les identifiants de fin.
+- Le 5 novembre 2026, `20261105110000_email_security_cleanup.sql` a été appliqué sous `email_security_cleanup` : helper propriétaire déplacé dans un schéma privé, politiques RLS de lecture consolidées et index des clés étrangères ajoutés. L’audit distant ne laisse plus qu’un réglage externe à activer : la protection Auth contre les mots de passe compromis.
 - Le 5 novembre 2026, `supabase/functions/email-worker/` est prêt côté code : OAuth Gmail serveur, MIME avec pièce jointe, bail anti-doublon, retries bornés et dead-letter ; aucun secret n’est présent et aucun envoi réel n’a été déclenché.
 - Le 5 novembre 2026, `supabase/functions/document-worker/` prépare les confirmations et reçus PDF dans le bucket privé `order-documents` ; un reçu de paiement exige `payment_status = paid` et la génération n’est pas annoncée comme active avant configuration.
 - Le 5 novembre 2026, les fonctions `newsletter-subscribe` et `newsletter-unsubscribe` enregistrent le consentement explicite et le retrait par token hashé, sans révéler l’existence d’une adresse et sans mélanger le marketing aux commandes.

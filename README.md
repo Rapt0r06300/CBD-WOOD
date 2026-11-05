@@ -80,6 +80,8 @@ Ces réglages appartiennent au tableau de bord Supabase et ne doivent pas être 
 6. renseigner les stocks réels et vérifier chaque tarif avant publication ;
 7. connecter Viva Wallet uniquement après réception des identifiants professionnels et validation d’un paiement de test.
 
+Les migrations de fondation e-mail et de nettoyage sécurité ont été appliquées au projet Supabase connecté. Les fonctions Edge sont déployées comme socle, mais aucun envoi réel n’est actif tant que les secrets Gmail, les jetons internes, l’URL de désinscription, les informations légales et le planificateur ne sont pas renseignés et testés.
+
 Le paiement Viva reste volontairement non activé tant que les identifiants professionnels et la validation du prestataire ne sont pas disponibles.
 
 ## Espace propriétaire
@@ -91,6 +93,6 @@ Le tableau de bord propriétaire est intégré à `compte.html` et reste masqué
 - Le domaine `.fr` et les réglages Cloudflare restent des actions de compte externe.
 - L’accord de l’hébergeur pour les produits exacts doit être conservé avant l’ouverture commerciale.
 - Les informations légales et les photos définitives doivent encore être validées par la propriétaire.
-- Les e-mails automatiques et Viva seront ajoutés après validation de leur fournisseur ; aucune fausse confirmation de paiement n’est envoyée aujourd’hui.
+- Le code des e-mails automatiques, des documents privés, de la livraison et de la newsletter est préparé et déployé comme socle, mais reste inactif sans configuration externe validée ; aucune fausse confirmation de paiement n’est envoyée aujourd’hui.
 
 Avant ouverture : exécuter `npm run check`, tester les pages sur mobile et ordinateur, créer une commande de test sans paiement réel, vérifier la décrémentation du stock et confirmer les e-mails avec le fournisseur retenu.
