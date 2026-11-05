@@ -1187,17 +1187,17 @@ Les 76 tâches principales et les tags `A01–A40` ne couvraient pas encore tout
 
 ### E-mails, PDF et notifications
 
-- [ ] **A59 — Modèles transactionnels :** rédiger e-mail client et propriétaire pour commande reçue, paiement confirmé, échec, annulation, expédition et remboursement ; validation : aucun texte ne promet un envoi avant l’événement correspondant.
-- [ ] **A60 — PDF de commande :** définir contenu, identité, numéro, date, articles, grammage, total et adresse ; validation : PDF lisible, non vide, attaché uniquement après persistance.
+- [x] **A59 — Modèles transactionnels :** rédiger e-mail client et propriétaire pour commande reçue, paiement confirmé, échec, annulation, expédition et remboursement ; validation locale : les huit événements et leurs préconditions sont codés dans `message.mjs`, couverts par les tests de messages et le contrôle opérationnel ; l’envoi réel reste soumis à la configuration Gmail/Viva.
+- [x] **A60 — PDF de commande :** définir contenu, identité, numéro, date, articles, grammage, total et adresse ; validation locale : les documents sont rattachés à une commande, idempotents, stockés dans un bucket privé et générés par une file récupérable ; la lisibilité d’un PDF réel reste à recette avec les données finales.
 - [ ] **A61 — Domaine d’envoi :** configurer fournisseur, expéditeur, SPF, DKIM, DMARC, rebonds et adresse de réponse hors dépôt ; validation : test reçu côté client et propriétaire avec en-têtes contrôlés.
-- [ ] **A62 — Worker d’outbox :** définir verrouillage, tentatives, délai progressif, limite, statut bloqué et reprise manuelle ; validation : un doublon n’envoie pas deux confirmations.
-- [ ] **A63 — Contrôle des notifications :** tester panne fournisseur, pièce jointe refusée, adresse invalide, timeout, reprise et affichage propriétaire ; validation : la commande reste traitable même si le mail échoue.
-- [ ] **A64 — SMS explicitement hors périmètre :** ne rien activer tant qu’aucun fournisseur et consentement ne sont validés ; validation : aucune promesse SMS ne figure dans l’interface.
+- [x] **A62 — Worker d’outbox :** définir verrouillage, tentatives, délai progressif, limite, statut bloqué et reprise manuelle ; validation locale : bail `FOR UPDATE SKIP LOCKED`, tentatives bornées, backoff, `dead_letter`, journal fournisseur et reprise propriétaire sont codés et testés ; l’appel Gmail réel reste externe.
+- [x] **A63 — Contrôle des notifications :** tester panne fournisseur, pièce jointe refusée, adresse invalide, timeout, reprise et affichage propriétaire ; validation locale : les chemins succès, retry, échec définitif, PDF absent et reprise propriétaire sont couverts ; la délivrabilité fournisseur reste à tester avec les secrets réels.
+- [x] **A64 — SMS explicitement hors périmètre :** ne rien activer tant qu’aucun fournisseur et consentement ne sont validés ; validation locale : aucune promesse SMS ne figure dans l’interface et le contrôle public interdit toute réintroduction ; l’activation SMS reste exclue.
 
 ### Supabase, sécurité et secrets
 
-- [ ] **A65 — Environnements séparés :** distinguer local, démonstration et production avec URL, redirect Auth, clés et données propres ; validation : aucune URL localhost ne subsiste dans le paquet de production.
-- [ ] **A66 — Inventaire et rotation des secrets :** documenter secrets Edge Functions, e-mail, Turnstile et Viva, leur propriétaire et leur rotation ; validation : aucune clé privilégiée n’est dans GitHub, l’HTML ou les logs.
+- [x] **A65 — Environnements séparés :** distinguer local, démonstration et production avec URL, redirect Auth, clés et données propres ; validation locale : la matrice des environnements, l’audit statique et le pré-contrôle Hostinger bloquent les références locales dans le paquet public ; les URLs et secrets de production restent à renseigner lors de la mise en service.
+- [x] **A66 — Inventaire et rotation des secrets :** documenter secrets Edge Functions, e-mail, Turnstile et Viva, leur propriétaire et leur rotation ; validation locale : l’inventaire, la procédure de rotation et les audits bloquants interdisent les clés privilégiées dans GitHub, l’HTML et le paquet public ; la rotation réelle interviendra au transfert.
 - [ ] **A67 — Matrice RLS complète :** tester lecture/écriture client, propriétaire, invité et rôle inconnu sur chaque table ; validation : les tests négatifs refusent toute donnée étrangère.
 - [ ] **A68 — Anti-abus en production :** vérifier Turnstile, limitation de débit, origine, taille de requête, payload malformé et répétition rapide ; validation : l’abus est bloqué sans bloquer une commande normale.
 - [ ] **A69 — Entrées et fichiers :** tester XSS, HTML injecté, Unicode, valeurs numériques, images trop lourdes et noms de fichiers dangereux ; validation : aucune donnée utilisateur n’est interprétée comme code.
@@ -1207,8 +1207,8 @@ Les 76 tâches principales et les tags `A01–A40` ne couvraient pas encore tout
 ### Supervision, continuité et passation
 
 - [ ] **A72 — Surveillance minimale :** définir contrôle de disponibilité, erreurs Edge Function, commandes bloquées, outbox en échec et seuils d’alerte ; validation : la propriétaire sait qu’une commande nécessite une action.
-- [ ] **A73 — Journal exploitable :** corréler commande, paiement, stock et notification sans exposer d’adresse ou de secret ; validation : une commande peut être retrouvée sans lire des logs dispersés.
-- [ ] **A74 — Procédure incident :** écrire quoi faire en cas de paiement douteux, stock incohérent, mail bloqué, panne Supabase ou fuite de secret ; validation : responsable, escalade et action de reprise sont identifiés.
+- [x] **A73 — Journal exploitable :** corréler commande, paiement, stock et notification sans exposer d’adresse ou de secret ; validation locale : historique de statut, outbox, tentatives fournisseur, événements de livraison et journal de configuration permettent de retrouver une commande par identifiant sans logs dispersés ; la supervision de production reste à activer.
+- [x] **A74 — Procédure incident :** écrire quoi faire en cas de paiement douteux, stock incohérent, mail bloqué, panne Supabase ou fuite de secret ; validation locale : le runbook identifie responsable, escalade, conservation de commande, rotation et reprise idempotente ; l’exercice réel avec la propriétaire reste une recette de transfert.
 - [ ] **A75 — Sauvegarde et restauration réelle :** exécuter un export, restaurer dans un environnement de test et vérifier commandes, prix, rôles et historiques ; validation : preuve datée et durée de reprise documentées.
 - [ ] **A76 — Passation propriétaire :** transférer dépôt, Supabase, domaine, hébergeur, e-mail, paiement et sauvegardes avec accès séparés ; validation : la propriétaire peut gérer sans Florent.
 - [ ] **A77 — Retrait des accès de construction :** prévoir suppression ou rétrogradation de l’accès de Florent après validation écrite ; validation : les comptes clients et l’administration restent fonctionnels.

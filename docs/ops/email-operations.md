@@ -24,6 +24,10 @@ transactionnels restent séparés de la newsletter : le retrait marketing ne
 supprime jamais une confirmation de commande, une facture ou une mise à jour de
 livraison indispensable.
 
+Aucun SMS n'est activé dans cette version : aucune interface ne promet un SMS
+tant qu'un fournisseur, un consentement et un test de délivrabilité n'ont pas
+été validés séparément.
+
 ## Sources de vérité
 
 - **Supabase/Postgres** : commande, lignes immuables, état de paiement, stock,
