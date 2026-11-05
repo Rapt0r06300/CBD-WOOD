@@ -33,6 +33,9 @@ test('les trois autres univers mènent vers une fiche générique exploitable', 
   assert.match(genericScript, /bien-etre/);
   assert.match(genericScript, /wood-shop/);
   assert.match(genericScript, /createClient/);
+  assert.match(genericScript, /priceTableMarkup/);
+  assert.match(genericScript, /product_prices/);
+  assert.match(genericScript, /scope="col"/);
 });
 
 test('la fiche fleur propose uniquement des découvertes du même univers', () => {
@@ -49,6 +52,7 @@ test('les fiches génériques proposent uniquement des produits publiés du mêm
   assert.match(genericScript, /status.*published/);
   assert.match(genericScript, /produit\.html\?produit=/);
   assert.match(genericScript, /Disponibilité à confirmer/);
+  assert.match(genericScript, /pricing_tiers/);
 });
 
 test('le zoom utilise uniquement transform/opacity et garde un accès sans animation', () => {

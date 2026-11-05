@@ -17,6 +17,18 @@
     ? `<img src="${escapeHtml(image)}" alt="Visuel de démonstration de ${escapeHtml(name)}">`
     : '<div class="product-art--type">WOOD.<small>WOOD SHOP / VISUEL À VENIR</small></div>';
 
+  const priceTableMarkup = (product, name) => {
+    const tiers = Array.isArray(product.pricing_tiers)
+      ? product.pricing_tiers
+        .map(tier => ({ grams: Number(tier.grams), priceCents: Number(tier.price_cents) }))
+        .filter(tier => Number.isInteger(tier.grams) && tier.grams > 0 && Number.isInteger(tier.priceCents) && tier.priceCents > 0)
+      : [];
+    if (!tiers.length) return '';
+    const headers = tiers.map(tier => `<th scope="col">${tier.grams} g</th>`).join('');
+    const prices = tiers.map(tier => `<td>${(tier.priceCents / 100).toFixed(2).replace('.', ',')} €</td>`).join('');
+    return `<details class="flower-detail__prices"><summary>Voir les tarifs par grammage</summary><div class="flower-detail__prices-scroll"><table><caption>Tarifs affichés pour ${escapeHtml(name)}</caption><thead><tr>${headers}</tr></thead><tbody><tr>${prices}</tr></tbody></table></div></details>`;
+  };
+
   function renderRelated(relatedProducts = []) {
     const existing = root.querySelector('.product-related');
     if (existing) existing.remove();
@@ -62,6 +74,7 @@
             <div><span>Univers</span><strong>${escapeHtml(context.title)}</strong></div>
             <div><span>Disponibilité</span><strong>${escapeHtml(available ? 'Disponible' : 'À confirmer')}</strong></div>
           </div>
+          ${priceTableMarkup(product, name)}
           <p class="product-detail__note">Les références, prix et disponibilités sont confirmés par la boutique avant toute commande.</p>
         </div>
         <article class="product-card product-detail-card" data-product-id="${escapeHtml(product.id || requestedId)}" data-product-slug="${escapeHtml(product.slug || requestedId)}" data-product-name="${escapeHtml(name)}" data-product-category="${escapeHtml(context.title)}" data-product-price="${hasPrice ? price / 100 : ''}" data-availability-state="${escapeHtml(product.availability_state || 'incomplete')}"${available ? '' : ' data-product-unavailable="true"'}>
@@ -88,7 +101,8 @@
     return lookup.maybeSingle().then(result => ({ ...result, client }));
   }).then(async ({ data, client }) => {
     if (!data) return;
-    render(data);
+    const { data: priceRows } = await client.from('product_prices').select('product_id, grams, price_cents').eq('product_id', data.id).order('grams', { ascending: true });
+    render({ ...data, pricing_tiers: priceRows || [] });
     const relatedQuery = client.from('products').select('id, slug, name, image_path, price_cents, stock_quantity, availability_state, category').eq('status', 'published').eq('category', category).neq('id', data.id).order('created_at', { ascending: false }).limit(3);
     const { data: related } = await relatedQuery;
     renderRelated(related || []);
