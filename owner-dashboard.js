@@ -75,7 +75,8 @@ export async function mountOwnerDashboard({ supabase, config = window.WOOD_SUPAB
       const status = notificationStatusLabels[notification.status] || notification.status || 'Inconnu';
       const statusClass = ['pending', 'processing', 'sent', 'failed', 'dead_letter', 'cancelled'].includes(notification.status) ? notification.status : 'pending';
       const orderId = String(notification.order_id || '—');
-      return `<tr><td data-label="Date">${formatDate(notification.created_at)}</td><td data-label="Commande"><span class="owner-dashboard__address">…${escapeHtml(orderId.slice(-8))}</span></td><td data-label="Type">${escapeHtml(notificationKindLabels[notification.notification_kind] || notification.notification_kind)}</td><td data-label="État"><span class="owner-dashboard__status-badge owner-dashboard__status-badge--${statusClass}">${escapeHtml(status)}</span></td><td data-label="Tentatives">${escapeHtml(notification.attempts)}</td><td data-label="Erreur">${escapeHtml(notification.last_error || '—')}</td></tr>`;
+      const retryButton = ['failed', 'dead_letter'].includes(notification.status) ? `<button class="owner-dashboard__notification-retry" type="button" data-owner-notification-retry="${escapeHtml(notification.id)}">Relancer</button>` : '';
+      return `<tr><td data-label="Date">${formatDate(notification.created_at)}</td><td data-label="Commande"><span class="owner-dashboard__address">…${escapeHtml(orderId.slice(-8))}</span></td><td data-label="Type">${escapeHtml(notificationKindLabels[notification.notification_kind] || notification.notification_kind)}</td><td data-label="État"><span class="owner-dashboard__status-badge owner-dashboard__status-badge--${statusClass}">${escapeHtml(status)}</span></td><td data-label="Tentatives">${escapeHtml(notification.attempts)}</td><td data-label="Erreur"><span class="owner-dashboard__address">${escapeHtml(notification.last_error || '—')}</span>${retryButton}</td></tr>`;
     }).join('');
   };
 
@@ -113,7 +114,7 @@ export async function mountOwnerDashboard({ supabase, config = window.WOOD_SUPAB
 
   const loadNotifications = async () => {
     if (!notificationsBody) return;
-    const { data, error } = await supabase.from('order_notification_outbox').select('order_id, notification_kind, status, attempts, last_error, created_at').order('created_at', { ascending: false }).limit(100);
+    const { data, error } = await supabase.from('order_notification_outbox').select('id, order_id, notification_kind, status, attempts, last_error, created_at').order('created_at', { ascending: false }).limit(100);
     if (error) {
       notificationsBody.innerHTML = '<tr><td colspan="6" class="owner-dashboard__empty">Le suivi des notifications est indisponible.</td></tr>';
       return;
@@ -204,6 +205,20 @@ export async function mountOwnerDashboard({ supabase, config = window.WOOD_SUPAB
     window.open(payload.url, '_blank', 'noopener,noreferrer');
   };
 
+  const retryNotification = async notificationId => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.access_token || !config?.url) throw new Error('Session invalide.');
+    const response = await fetch(`${config.url}/functions/v1/notification-retry`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${session.access_token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ outbox_id: notificationId }),
+    });
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok || !payload.queued) throw new Error(payload.error || 'Relance indisponible.');
+    setMessage('#ownerNotificationMessage', 'Notification remise dans la file.');
+    await loadNotifications();
+  };
+
   $('#ownerNewProductButton')?.addEventListener('click', () => { resetProductForm(); $('#ownerProductForm')?.classList.remove('hidden'); $('#ownerProductForm')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
   $('#ownerCancelProductButton')?.addEventListener('click', resetProductForm);
   $('#ownerCancelProductButtonBottom')?.addEventListener('click', resetProductForm);
@@ -217,6 +232,14 @@ export async function mountOwnerDashboard({ supabase, config = window.WOOD_SUPAB
     button.disabled = true;
     void downloadDocument(button.dataset.ownerDocumentId)
       .catch(error => setMessage('#ownerOrderMessage', error.message || 'Document indisponible.', true))
+      .finally(() => { button.disabled = false; });
+  });
+  notificationsBody?.addEventListener('click', event => {
+    const button = event.target.closest('[data-owner-notification-retry]');
+    if (!button) return;
+    button.disabled = true;
+    void retryNotification(button.dataset.ownerNotificationRetry)
+      .catch(error => setMessage('#ownerNotificationMessage', error.message || 'Relance indisponible.', true))
       .finally(() => { button.disabled = false; });
   });
   syncPricingFields();

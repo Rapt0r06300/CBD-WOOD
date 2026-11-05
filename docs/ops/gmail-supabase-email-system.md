@@ -28,6 +28,7 @@ Les documents PDF restent dans le bucket privé `order-documents`. Le navigateur
 - `supabase/functions/email-worker/message.mjs` : messages de commande sans affirmation de paiement prématurée.
 - `supabase/functions/email-worker/worker-core.mjs` : traitement idempotent, retries et dead-letter.
 - `supabase/functions/email-worker/index.ts` : fonction Edge privée qui loue les jobs puis les envoie.
+- `supabase/functions/notification-retry/index.ts` : reprise JWT réservée au propriétaire pour les jobs `failed` ou `dead_letter`.
 - `supabase/functions/document-worker/index.ts` : génération et stockage privé des PDF.
 - `supabase/functions/document-download/index.ts` : URL signée courte pour le client authentifié ou la propriétaire.
 - `owner-dashboard.js` : suivi des notifications et ouverture des documents prêts via URL signée courte.
@@ -85,6 +86,7 @@ Avant chaque lot :
 - chaque job est traité une seule fois grâce au bail et à l’identifiant fournisseur.
 
 En cas de quota ou de panne réseau, le job revient en `pending` avec un délai borné. En cas de scope révoqué, d’adresse invalide ou d’échec durable, il passe en `dead_letter` et reste visible pour intervention.
+Depuis l’espace propriétaire, une notification `failed` ou `dead_letter` peut être remise en file avec `notification-retry`; cette action ne modifie jamais directement l’outbox depuis le navigateur.
 
 ## Newsletter
 
