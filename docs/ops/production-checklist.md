@@ -4,7 +4,7 @@
 
 - [ ] `main` est la branche de production.
 - [ ] Le projet GitHub Pages est connecté au bon dépôt et utilise la source **GitHub Actions**.
-- [ ] Le workflow `.github/workflows/pages.yml` prépare puis publie uniquement `dist-hostinger`.
+- [ ] Le workflow `.github/workflows/pages.yml` prépare puis publie uniquement `.github-pages`.
 - [ ] Une URL de prévisualisation est testée sur mobile et ordinateur.
 - [ ] Les previews sensibles sont protégées avant d’y mettre des données réelles.
 - [ ] Le domaine `.fr` est acheté, relié et une seule variante (`www` ou sans `www`) est canonique.

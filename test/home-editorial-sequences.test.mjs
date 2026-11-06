@@ -26,7 +26,7 @@ test('l’accueil possède des séquences photo, intention, pack et preuve expli
   assert.match(homepage, /id="humeurs"[^>]*data-mood-selector/);
   assert.match(homepage, /id="selection-editoriale"[^>]*data-state="demo"/);
   assert.match(homepage, /id="packs"[^>]*data-offer-state="demo"/);
-  assert.match(homepage, /id="preuve"[^>]*data-proof-state="empty"/);
+  assert.match(homepage, /id="preuve"[^>]*data-proof-state="demo"/);
   assert.match(homepage, /class="hero-product-card"/u);
   assert.match(homepage, /class="hero-proof-rail"/u);
   assert.match(homepage, /wood-cloche/gu);
@@ -47,7 +47,8 @@ test('le sélecteur humeur est partageable, clavier-compatible et neutre', () =>
 });
 
 test('les blocs sociaux et commerciaux ne fabriquent pas de preuve ni de promotion', () => {
-  assert.match(homepage, /Aucun avis vérifié n’est encore publié/iu);
+  assert.match(homepage, /data-proof-reviews/iu);
+  assert.match(homepage, /rotation automatique/iu);
   assert.match(homepage, /offre active/iu);
   assert.match(homepage, /PHOTO DÉMO/gu);
   assert.doesNotMatch(homepage, /(?:prix|offre)[^<]{0,120}-\d+%/iu);

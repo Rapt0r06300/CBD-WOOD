@@ -19,10 +19,10 @@ test('le contrat résines garde les références inconnues visibles mais non ach
     assert.match(contract, new RegExp(`## ${heading}`));
   }
   assert.match(page, /data-catalog-category="resines"/);
-  assert.equal((page.match(/class="product-card"/g) || []).length, 3);
+  assert.equal((page.match(/class="product-card\b/g) || []).length, 3);
   assert.equal((page.match(/class="add-to-cart"[^>]*disabled/g) || []).length, 3);
-  assert.match(page, /Prix à renseigner/);
-  assert.match(page, /Disponibilité boutique/);
+  assert.match(page, /Référence à valider/);
+  assert.match(page, /Indisponible/);
   assert.match(page, /Fiche à compléter/);
   assert.doesNotMatch(page, /data-price=|data-stock=|data-available=/i);
   assert.match(boutique, /wireGenericCard/);

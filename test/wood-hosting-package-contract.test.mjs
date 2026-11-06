@@ -23,14 +23,16 @@ test('le contrat délimite un paquet public explicite et reproductible', () => {
   assert.match(prepare, /owner-dashboard\.js/);
   assert.match(prepare, /owner-media\.mjs/);
   assert.match(prepare, /checkout-required\.js/);
+  assert.match(prepare, /wood-mobile-finish\.css/);
+  assert.match(prepare, /wood-mobile-finish\.js/);
   assert.match(checkJs, /dist-hostinger/);
   assert.doesNotMatch(prepare, /'admin\.html'|'admin\.js'|'admin\.css'/);
   assert.match(hostingerGuide, /contenu[\s\S]*dist-hostinger[\s\S]*public_html/iu);
   assert.match(pagesWorkflow, /upload-pages-artifact/);
-  assert.match(pagesWorkflow, /path: dist-hostinger/);
+  assert.match(pagesWorkflow, /path: \.github-pages/);
   assert.match(productionChecklist, /prévisualisation GitHub Pages/iu);
   assert.match(productionChecklist, /source \*\*GitHub Actions\*\*/u);
-  assert.match(productionChecklist, /workflow `\.github\/workflows\/pages\.yml` prépare puis publie uniquement `dist-hostinger`/u);
+  assert.match(productionChecklist, /workflow `\.github\/workflows\/pages\.yml` prépare puis publie uniquement `\.github-pages`/u);
   assert.doesNotMatch(productionChecklist, /Cloudflare Pages/iu);
 });
 

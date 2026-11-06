@@ -23,7 +23,8 @@ test('le contrat du header desktop garde la navigation WOOD stable et publique',
     assert.match(homepage, new RegExp(marker.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&')));
   }
   assert.match(shop, /class="cart-trigger"/);
-  assert.doesNotMatch(homepage, /type="search"|name="search"/i);
+  const header = homepage.slice(homepage.indexOf('<header class="nav">'), homepage.indexOf('</header>') + '</header>'.length);
+  assert.doesNotMatch(header, /type="search"|name="search"/i);
   assert.doesNotMatch(homepage, /href="admin\.html"/i);
   assert.match(stylesheet, /@media\(max-width:800px\)/);
   assert.match(stylesheet, /@media \(min-width:801px\) and \(max-width:900px\)/);

@@ -53,7 +53,7 @@ test('le contrat graffiti interdit la dépendance au décor', async () => {
 });
 
 test('les graffitis sont intégrés par zone sans entrer dans le parcours commercial', () => {
-  assert.match(homepage, /wood-graffiti\.css\?v=wood-graffiti-v2-20261105/);
+  assert.match(homepage, /wood-graffiti\.css\?v=wood-graffiti-v3-20261106/);
   for (const assetName of assetNames) {
     assert.match(homepage, new RegExp(`assets/graffiti/${assetName.replace('.', '\\.')}`));
   }

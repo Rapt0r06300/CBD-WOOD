@@ -31,7 +31,7 @@ test('une carte fleur mène à la fiche dédiée sans supprimer le bloc d’acha
 
 test('les trois autres univers mènent vers une fiche générique exploitable', () => {
   assert.match(genericDetail, /id="productDetail"/);
-  assert.match(genericDetail, /src="product-detail\.js\?v=wood-accessible-title-20261105"/);
+  assert.match(genericDetail, /src="product-detail\.js\?v=wood-resin-detail-v1-20261106"/);
   assert.match(boutique, /produit\.html\?/);
   assert.match(boutique, /wireGenericCard/);
   assert.match(genericScript, /resines/);
