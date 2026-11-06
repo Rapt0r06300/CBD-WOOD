@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 const roadmap = await readFile(new URL('../docs/superpowers/plans/2026-11-04-wood-tealerlab-roadmap.md', import.meta.url), 'utf8');
+const deferredRoadmap = await readFile(new URL('../docs/superpowers/plans/2026-11-06-wood-attente-identifiants-validations.md', import.meta.url), 'utf8');
 const routes = await readFile(new URL('../docs/ops/public-routes.md', import.meta.url), 'utf8');
 const viva = await readFile(new URL('../docs/ops/viva-wallet.md', import.meta.url), 'utf8');
 const supabaseSecurityGate = await readFile(new URL('../docs/ops/supabase-security-gate.md', import.meta.url), 'utf8');
@@ -29,9 +30,13 @@ test('la feuille renvoie vers l’inventaire public et interdit la route admin h
   assert.match(roadmap, /docs\/ops\/public-routes\.md/);
 });
 
-test('les tags d’exécution de la feuille sont continus jusqu’à A700', () => {
-  const tags = [...roadmap.matchAll(/\*\*A(\d+) —/g)].map(match => Number(match[1]));
+test('les tags A01–A700 restent uniques dans la feuille active et les tâches différées', () => {
+  const tags = [roadmap, deferredRoadmap]
+    .flatMap(document => [...document.matchAll(/\*\*A(\d+) —/g)].map(match => Number(match[1])))
+    .sort((a, b) => a - b);
   assert.deepEqual(tags, Array.from({ length: 700 }, (_, index) => index + 1));
+  assert.match(roadmap, /registre d'attente externe/);
+  assert.match(deferredRoadmap, /mises en attente/);
 });
 
 test('la batterie finale de libération contient 150 tests numérotés et continus', () => {
