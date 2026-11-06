@@ -25,7 +25,7 @@
         image.dataset.flowerSource = flowerSource;
         image.dataset.previewSource = previewSource;
         const showFlower = () => { image.src = flowerSource; };
-        const showPreview = () => { if (canHover) image.src = previewSource; };
+        const showPreview = () => { image.src = flowerSource; };
         const showFallback = () => {
           if (image.dataset.demoFallback === 'true') return;
           image.dataset.demoFallback = 'true';
@@ -34,7 +34,6 @@
         };
         image.addEventListener('error', showFallback, { once: true });
         if (canHover) {
-          image.src = previewSource;
           card.addEventListener('mouseenter', showFlower);
           card.addEventListener('mouseleave', showPreview);
         }

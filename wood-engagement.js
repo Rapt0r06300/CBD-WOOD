@@ -35,11 +35,9 @@
     const flowerSource = image.getAttribute('src');
     const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     image.dataset.flowerSource = flowerSource;
-    image.dataset.previewSource = 'assets/fleurs.svg';
     const showFlower = () => { image.src = image.dataset.flowerSource; };
-    const showPreview = () => { if (canHover) image.src = image.dataset.previewSource; };
+    const showPreview = () => { image.src = image.dataset.flowerSource; };
     if (canHover) {
-      image.src = image.dataset.previewSource;
       card.addEventListener('mouseenter', showFlower);
       card.addEventListener('mouseleave', showPreview);
     }
