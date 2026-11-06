@@ -1,5 +1,12 @@
 .wood-graffiti{position:absolute;z-index:3;display:block;max-width:none;pointer-events:none;user-select:none;aria-hidden:true}
 .wood-graffiti{filter:drop-shadow(4px 5px 0 rgba(7,17,9,.22));animation:woodGraffitiInk 6.5s ease-in-out infinite}
+.wood-comic-doodle{position:absolute;z-index:4;display:block;aspect-ratio:1/1;background-image:url('assets/graffiti/wood-comic-sprite.webp');background-repeat:no-repeat;background-size:300% 200%;pointer-events:none;user-select:none;filter:drop-shadow(3px 4px 0 rgba(7,17,9,.2));}
+.wood-comic-doodle--wood{background-position:0 0}
+.wood-comic-doodle--smile{background-position:50% 0}
+.wood-comic-doodle--leaf{background-position:100% 0}
+.wood-comic-doodle--cloche{background-position:0 100%}
+.wood-comic-doodle--good{background-position:50% 100%}
+.wood-comic-doodle--arrow{background-position:100% 100%}
 @keyframes woodGraffitiInk{0%,100%{opacity:var(--wood-graffiti-opacity, .82)}50%{opacity:calc(var(--wood-graffiti-opacity, .82) - .12)}}
 .hero-copy .wood-graffiti--tag{top:9%;right:7%;width:145px;opacity:.62;transform:rotate(-8deg)}
 .hero-copy .wood-graffiti--scribble{left:-12px;bottom:4%;width:210px;opacity:.42;transform:rotate(-8deg)}
@@ -38,4 +45,6 @@
 @media(max-width:800px){.hero-copy .wood-graffiti--tag{top:5%;right:4%;width:104px}.hero-copy .wood-graffiti--scribble{bottom:3%;left:-25px;width:170px;opacity:.28}.hero-art .wood-graffiti--halo{right:3%;top:8%;width:125px}.hero-art .wood-graffiti--burst{right:2%;top:7%;width:80px}.hero-art .wood-graffiti--loop{left:-22px;bottom:12%;width:145px;opacity:.42}.wood-graffiti--star{right:-6px;top:-18px;width:54px}.wood-graffiti--zigzag{left:-8px;bottom:-31px;width:105px;opacity:.4}.wood-graffiti--pack-stamp{right:5%;top:58px;width:78px;opacity:.42}.wood-selection .wood-graffiti--botanical{right:-16px;top:-12px;width:62px}.wood-selection .wood-graffiti--crown{right:-4px;top:-52px;width:90px}.wood-selection__card .wood-graffiti--botanical{right:-7px;top:128px;width:50px}.wood-selection__card .wood-graffiti--card-smiley{width:34px;right:7px;bottom:39px}.wood-selection__card .wood-graffiti--card-splash{width:76px;right:-14px;bottom:24px}.wood-mood .wood-graffiti--smiley{right:-8px;top:-15px;width:60px}#selection-editoriale .wood-graffiti--editorial-loop{right:-14px;top:34px;width:120px;opacity:.33}.wood-pack .wood-graffiti--pack-crown{right:2%;top:118px;width:85px;opacity:.3}.wood-proof-section .wood-graffiti--proof-burst{right:-9px;top:-36px;width:72px;opacity:.32}.story-image .wood-graffiti--stamp{right:18px;top:18px;width:70px}.story-text .wood-graffiti--story-sticker{right:-9px;top:-30px;width:75px;opacity:.3}.visit .wood-graffiti--visit-scribble{right:-22px;top:-25px;width:130px;opacity:.25}.wood-community__inner .wood-graffiti--community-sticker{right:-10px;top:-37px;width:86px;opacity:.28}.wood-mail .wood-graffiti--mail-smiley{right:-8px;top:-21px;width:65px;opacity:.26}.faq-layout .wood-graffiti--speed{left:auto;right:5px;bottom:-22px;width:105px}.footer-brand .wood-graffiti--arrow{right:0;top:-14px;width:80px}}
 @media(max-width:500px){.hero-copy .wood-graffiti--tag{opacity:.45}.hero-art .wood-graffiti--halo{opacity:.48}.hero-art .wood-graffiti--burst{opacity:.65}.wood-selection__card .wood-graffiti--accent{width:23px;right:7px;bottom:7px}.wood-selection__card .wood-graffiti--botanical{opacity:.56}.story-image .wood-graffiti--stamp{opacity:.48}.faq-layout .wood-graffiti--speed{opacity:.42}.footer-brand .wood-graffiti--arrow{opacity:.42}.wood-graffiti{animation-duration:8s}}
 @media(prefers-reduced-motion:reduce){.wood-graffiti{transform:none!important;animation:none!important}}
+@media(prefers-reduced-motion:reduce){.wood-comic-doodle{filter:none!important}}
 @media print{.wood-graffiti{display:none!important}}
+@media print{.wood-comic-doodle{display:none!important}}

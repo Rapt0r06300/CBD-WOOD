@@ -1,6 +1,7 @@
-.github-pages-switch{position:fixed;z-index:9999;top:14px;right:14px;display:flex;align-items:center;gap:4px;padding:5px 6px;background:rgba(16,22,16,.94);border:1px solid rgba(203,240,150,.7);box-shadow:0 10px 28px rgba(0,0,0,.22);font:900 9px/1 Arial,Helvetica,sans-serif;letter-spacing:1.2px}
+.github-pages-switch{position:relative;z-index:2;flex:0 0 auto;display:flex;align-items:center;gap:4px;margin-left:clamp(8px,1.5vw,18px);padding:5px 6px;background:rgba(16,22,16,.94);border:1px solid rgba(203,240,150,.7);box-shadow:0 10px 28px rgba(0,0,0,.22);font:900 9px/1 Arial,Helvetica,sans-serif;letter-spacing:1.2px;white-space:nowrap}
 .github-pages-switch span{padding:7px 5px;color:#cbf096;font-size:8px}
 .github-pages-switch a{padding:8px 9px;color:#f1f0e6;text-decoration:none}
 .github-pages-switch a:hover,.github-pages-switch a:focus-visible,.github-pages-switch a[aria-current="page"]{background:#cbf096;color:#172519}
 .github-pages-switch a:focus-visible{outline:2px solid #f1f0e6;outline-offset:2px}
-@media(max-width:650px){.github-pages-switch{top:8px;right:8px}.github-pages-switch span{display:none}.github-pages-switch a{padding:8px 7px;font-size:8px}}
+@media(max-width:900px){.github-pages-switch{margin-left:8px}}
+@media(max-width:650px){.github-pages-switch{gap:2px;padding:3px}.github-pages-switch span{display:none}.github-pages-switch a{padding:8px 7px;font-size:8px}}

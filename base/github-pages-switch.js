@@ -12,12 +12,13 @@
 
   const stylesheet = document.createElement('link');
   stylesheet.rel = 'stylesheet';
-  stylesheet.href = new URL('github-pages-switch.css', currentScript.src).href;
+  stylesheet.href = new URL('github-pages-switch.css?v=wood-pages-switch-v2-20261106', currentScript.src).href;
   document.head.append(stylesheet);
 
   const switcher = document.createElement('nav');
   switcher.className = 'github-pages-switch';
   switcher.setAttribute('aria-label', 'Choisir la version du site');
   switcher.innerHTML = `<span>VERSION</span><a href="${demoHref}"${inBase ? '' : ' aria-current="page"'}>DÉMO</a><a href="${baseHref}"${inBase ? ' aria-current="page"' : ''}>BASE</a>`;
-  document.body.append(switcher);
+  const header = document.querySelector('.nav');
+  (header || document.body).append(switcher);
 })();

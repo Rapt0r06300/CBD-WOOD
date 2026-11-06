@@ -10,6 +10,7 @@
 
   const qs = (selector, context = document) => context.querySelector(selector);
   const qsa = (selector, context = document) => [...context.querySelectorAll(selector)];
+  let revealFallbacksWired = false;
 
   function initScrollState() {
     const nav = qs('.nav');
@@ -26,6 +27,73 @@
     };
     window.addEventListener('scroll', update, { passive: true });
     update();
+  }
+
+  function initComicDoodles() {
+    const replacements = [
+      ['.hero-copy .wood-graffiti--tag', 'wood-comic-doodle--wood'],
+      ['.hero-art .wood-graffiti--halo', 'wood-comic-doodle--leaf'],
+      ['.hero-art .wood-graffiti--burst', 'wood-comic-doodle--smile'],
+      ['.hero-art .wood-graffiti--loop', 'wood-comic-doodle--arrow'],
+      ['.wood-service:nth-child(1) .wood-service__mark', 'wood-comic-doodle--leaf'],
+      ['.wood-service:nth-child(2) .wood-service__mark', 'wood-comic-doodle--cloche'],
+      ['.wood-service:nth-child(3) .wood-service__mark', 'wood-comic-doodle--arrow'],
+      ['.wood-service:nth-child(4) .wood-service__mark', 'wood-comic-doodle--smile'],
+      ['.wood-campaign__media .wood-graffiti--campaign-sun', 'wood-comic-doodle--cloche'],
+      ['.wood-campaign__media .wood-graffiti--campaign-check', 'wood-comic-doodle--good'],
+      ['.wood-runway .wood-graffiti--runway-arrow', 'wood-comic-doodle--arrow'],
+      ['.wood-runway-card:nth-child(1) .wood-graffiti--runway-star', 'wood-comic-doodle--leaf'],
+      ['.wood-runway-card:nth-child(2) .wood-graffiti--runway-star', 'wood-comic-doodle--smile'],
+      ['.wood-runway-card:nth-child(3) .wood-graffiti--runway-star', 'wood-comic-doodle--cloche'],
+      ['.wood-runway-card:nth-child(4) .wood-graffiti--runway-star', 'wood-comic-doodle--good']
+    ];
+    let replaced = false;
+    replacements.forEach(([selector, doodle]) => {
+      const image = qs(selector);
+      if (!image || image.dataset.woodComicDoodle === 'true') return;
+      const sticker = document.createElement('span');
+      sticker.className = `${image.className} wood-comic-doodle ${doodle}`;
+      sticker.setAttribute('aria-hidden', 'true');
+      sticker.dataset.woodComicDoodle = 'true';
+      image.replaceWith(sticker);
+      replaced = true;
+    });
+    if (replaced) root.classList.add('wood-comic-ready');
+  }
+
+  function initRunwayViews() {
+    qsa('a.wood-runway-card').forEach(anchor => {
+      const media = qs('.wood-runway-card__media', anchor);
+      if (!media || media.querySelectorAll('img').length < 2) return;
+      const title = qs('h3', anchor)?.textContent.trim() || 'ce produit';
+      const article = document.createElement('article');
+      article.className = anchor.className;
+      const link = document.createElement('a');
+      link.className = 'wood-runway-card__link';
+      link.href = anchor.href;
+      const label = anchor.getAttribute('aria-label');
+      if (label) link.setAttribute('aria-label', label);
+      const decoration = qs('.wood-graffiti--runway-star', anchor);
+      [...anchor.childNodes].forEach(node => {
+        if (node === decoration) article.append(node);
+        else link.append(node);
+      });
+      article.append(link);
+      const toggle = document.createElement('button');
+      toggle.type = 'button';
+      toggle.className = 'wood-runway-card__view-toggle';
+      toggle.setAttribute('aria-pressed', 'false');
+      toggle.setAttribute('aria-label', `Afficher la vue alternative de ${title}`);
+      toggle.textContent = '1 / 2';
+      toggle.addEventListener('click', () => {
+        const alternate = article.classList.toggle('is-alt-view');
+        toggle.setAttribute('aria-pressed', String(alternate));
+        toggle.setAttribute('aria-label', `${alternate ? 'Afficher la vue principale' : 'Afficher la vue alternative'} de ${title}`);
+        toggle.textContent = alternate ? '2 / 2' : '1 / 2';
+      });
+      article.append(toggle);
+      anchor.replaceWith(article);
+    });
   }
 
   function initReveals() {
@@ -55,11 +123,17 @@
         entry.target.classList.add('is-visible');
         observer.unobserve(entry.target);
       });
-    }, { threshold: .08, rootMargin: '0px 0px 18% 0px' });
+    }, { threshold: .12, rootMargin: '0px 0px -8% 0px' });
     targets.forEach(target => observer.observe(target));
-    // Never leave content hidden when a browser captures a long page without
-    // scrolling through it (print, full-page screenshot, keyboard navigation).
-    window.setTimeout(() => targets.forEach(target => target.classList.add('is-visible')), 220);
+    if (!revealFallbacksWired) {
+      revealFallbacksWired = true;
+      document.addEventListener('focusin', event => {
+        event.target.closest?.('.wood-reveal-v2')?.classList.add('is-visible');
+      });
+      window.addEventListener('beforeprint', () => {
+        qsa('.wood-reveal-v2').forEach(target => target.classList.add('is-visible'));
+      });
+    }
   }
 
   function initHeroMotion() {
@@ -162,6 +236,8 @@
   }
 
   initScrollState();
+  initRunwayViews();
+  initComicDoodles();
   initReveals();
   initHeroMotion();
   initRails();
