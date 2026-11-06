@@ -1,6 +1,6 @@
 # Pack graffiti WOOD
 
-Le pack est une bibliothèque de huit accents vectoriels originaux. Ils servent à donner du rythme aux blocs éditoriaux WOOD ; ils ne remplacent ni une photo, ni un titre, ni une information d’achat.
+Le pack est une bibliothèque de seize accents vectoriels originaux. Ils servent à donner du rythme aux blocs éditoriaux WOOD ; ils ne remplacent ni une photo, ni un titre, ni une information d’achat.
 
 ## Inventaire
 
@@ -14,6 +14,14 @@ Le pack est une bibliothèque de huit accents vectoriels originaux. Ils servent 
 | Sticker botanique | `wood-botanical-sticker.svg` | signer une zone récit |
 | Tampon de section | `wood-section-stamp.svg` | identifier une section WOOD |
 | Accent de carte | `wood-card-accent.svg` | souligner une carte produit ou éditoriale |
+| Burst | `wood-burst.svg` | créer un impact de drop ou de preuve |
+| Scribble | `wood-scribble.svg` | relier une accroche à une action |
+| Zigzag | `wood-zigzag.svg` | rythmer une grille d’univers |
+| Smiley | `wood-smiley.svg` | apporter une touche chill/humour |
+| Couronne | `wood-crown.svg` | valoriser une sélection sans promesse commerciale |
+| Splash | `wood-splash.svg` | habiller une carte sans masquer son contenu |
+| Flèche en boucle | `wood-loop-arrow.svg` | guider la lecture d’un rail |
+| Sticker GOOD MOOD | `wood-sticker-good.svg` | signer une zone éditoriale avec humour |
 
 ## Règles
 
