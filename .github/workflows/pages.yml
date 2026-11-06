@@ -23,14 +23,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Prepare the reviewed public bundle
-        run: npm run prepare:hostinger
+      - name: Prepare the demo and base switcher bundle
+        run: npm run prepare:github-pages
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
@@ -38,7 +40,7 @@ jobs:
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist-hostinger
+          path: .github-pages
 
       - name: Deploy to GitHub Pages
         id: deployment
