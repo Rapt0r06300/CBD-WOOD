@@ -240,10 +240,58 @@
     ticker.insertAdjacentElement('afterend', strip);
   }
 
+  function initProofReviews() {
+    qsa('[data-proof-reviews]').forEach(reviews => {
+      if (reviews.dataset.motionWired === 'true') return;
+      const items = qsa('[data-proof-review]', reviews);
+      if (items.length < 2) return;
+      const panel = reviews.closest('.wood-proof__panel');
+      const count = qs('[data-proof-review-count]', panel);
+      const prev = qs('[data-proof-review-prev]', panel);
+      const next = qs('[data-proof-review-next]', panel);
+      let index = Math.max(0, items.findIndex(item => item.classList.contains('is-active')));
+      let timer = null;
+      reviews.dataset.motionWired = 'true';
+
+      const render = nextIndex => {
+        index = (nextIndex + items.length) % items.length;
+        items.forEach((item, itemIndex) => {
+          const active = itemIndex === index;
+          item.classList.toggle('is-active', active);
+          item.setAttribute('aria-hidden', String(!active));
+        });
+        if (count) count.textContent = String(index + 1).padStart(2, '0') + ' / ' + String(items.length).padStart(2, '0');
+      };
+      const stop = () => {
+        if (timer) window.clearInterval(timer);
+        timer = null;
+      };
+      const start = () => {
+        if (reduced || lowData) return;
+        stop();
+        timer = window.setInterval(() => render(index + 1), 5200);
+      };
+
+      prev?.addEventListener('click', () => { render(index - 1); start(); });
+      next?.addEventListener('click', () => { render(index + 1); start(); });
+      reviews.addEventListener('mouseenter', stop);
+      reviews.addEventListener('mouseleave', start);
+      reviews.addEventListener('focusin', stop);
+      reviews.addEventListener('focusout', event => {
+        if (!reviews.contains(event.relatedTarget)) start();
+      });
+      reviews.addEventListener('touchstart', stop, { passive: true });
+      reviews.addEventListener('touchend', () => window.setTimeout(start, 900), { passive: true });
+      render(index);
+      start();
+    });
+  }
+
   function initDynamicHooks() {
     const refresh = () => {
       initReveals();
       initRails();
+      initProofReviews();
       initPointerHints();
     };
     document.addEventListener('wood:catalog-rendered', refresh);
@@ -258,6 +306,7 @@
   initReveals();
   initHeroMotion();
   initRails();
+  initProofReviews();
   initPointerHints();
   initActionFeedback();
   initDynamicHooks();
