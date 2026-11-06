@@ -34,9 +34,9 @@ const gitFileExists = (path) => {
 
 const gitFile = (path) => execFileSync('git', ['show', `origin/main:${path}`], { cwd: root, encoding: 'buffer' });
 
-const injectSwitcher = (html) => html.includes(switchScript)
-  ? html
-  : html.replace(/<\/body>/iu, `  <script src="${switchScript}?v=wood-pages-switch-v2-20261106"></script>\n</body>`);
+// The demo remains reachable through its dedicated /demo/ URL, but the
+// Base/Demo switcher is intentionally hidden from the storefront header.
+const injectSwitcher = (html) => html;
 
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
