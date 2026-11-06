@@ -27,13 +27,13 @@ html.wood-motion-ready .nav { transition: background .28s ease, border-color .28
 .hero-copy h1,
 .hero-copy .sub,
 .hero-copy .buttons,
-.hero-copy .hero-proof-rail { opacity: 0; transform: translate3d(0, 18px, 0); animation: woodHeroIn .72s var(--wood-ease) forwards; }
+.hero-copy .hero-proof-rail { opacity: 1; transform: none; animation: woodHeroIn .72s var(--wood-ease) both; }
 .hero-copy .eyebrow { animation-delay: .08s; }
 .hero-copy h1 { animation-delay: .16s; }
 .hero-copy .sub { animation-delay: .25s; }
 .hero-copy .buttons { animation-delay: .34s; }
 .hero-copy .hero-proof-rail { animation-delay: .43s; }
-@keyframes woodHeroIn { to { opacity: 1; transform: none; } }
+@keyframes woodHeroIn { from { opacity: 1; transform: translate3d(0, 18px, 0); } to { opacity: 1; transform: none; } }
 
 .hero-art > img:first-child { transform: translate3d(calc(var(--wood-hero-x, 0) * 1px), calc(var(--wood-hero-y, 0) * 1px), 0) scale(1.04); transition: transform .25s ease-out; }
 .hero-product-card { transform: translate3d(calc(var(--wood-hero-x, 0) * -.45px), calc(var(--wood-hero-y, 0) * -.45px), 0) rotate(3deg); animation: woodClocheFloat 5.2s ease-in-out infinite; }
