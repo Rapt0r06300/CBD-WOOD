@@ -10,6 +10,7 @@
 - Des animations d’entrée, de scroll, de photo, de bouton et des états reduced-motion. Le bouton `1 / 2` des cartes commute la seconde image sur mobile, séparément du lien de fiche.
 - Les photos, packs, offres, avis et preuves qualité restent marqués comme démonstrations ou vides quand leur source n’est pas validée.
 - La FAQ a maintenant une recherche locale. Le sélecteur Démo/Base est placé dans la barre de navigation pour rester accessible sans masquer l’annonce sur mobile.
+- La page Résines dispose maintenant de trois scènes photo conceptuelles originales sous cloche, avec un badge « image démo » sur chaque carte ; elles ne sont associées à aucune référence vendue.
 
 ## Écarts visibles avec TealerLab
 
@@ -18,7 +19,7 @@
 | Rythme de page | Les grands blocs éditoriaux, les drops et les rails sont là. | Resserer certaines séquences et donner davantage de place aux cartes produit entre les campagnes. |
 | Achat depuis l’accueil | Les cartes conduisent à une fiche, sans formats, prix vérifiés ni ajout rapide au panier. | Relier les contrôles d’achat aux vrais produits, prix, formats et stocks validés. |
 | Offres et drops | Le pack et le voucher ont un habillage de démo, aucune campagne active. | Ajouter une vraie offre seulement avec prix, période, stock et règles fournis par WOOD. |
-| Galerie produit | Le rail a un bouton de seconde vue, mais les images restent des démonstrations génériques. | Remplacer par plusieurs photos actuelles et cohérentes de chaque produit. |
+| Galerie produit | Les fleurs ont des visuels générés par référence et la page Résines a des scènes conceptuelles sous cloche ; toutes restent des démonstrations. | Remplacer par plusieurs photos actuelles et cohérentes de chaque produit. |
 | Réassurance | Les zones avis et laboratoire sont honnêtement vides. | Ajouter des avis autorisés et des documents datés, sourcés et validés. |
 | Contenu vivant | Feed et newsletter sont des emplacements de démonstration ; la newsletter est désactivée. | Brancher les comptes, droits média et service d’inscription de WOOD. |
 | Graffiti | Le sprite peint est intégré dans plusieurs zones ; il traduit le style de la carte sans la recopier. | Faire valider ce vocabulaire permanent et enrichir le pack avec les dessins définitifs de la propriétaire si elle en fournit. |
@@ -26,7 +27,7 @@
 
 ## Données qui bloquent un vrai parcours d’achat
 
-La propriétaire indique que les photos produits envoyées sont en partie obsolètes et que certaines nouvelles fleurs n’ont pas encore de photo. Les quatre fichiers du mail (« Bloody Mary », « Nimbus », « CBN Cream » et « CBN Cream ZOOM ») ne suffisent donc pas à prouver l’association ou l’actualité d’une photo. Aucun nouveau prix, grammage, stock, remise, code voucher, avis, résultat de laboratoire ou droit de diffusion ne doit être déduit de ces pièces.
+La propriétaire indique que les photos produits envoyées sont en partie obsolètes et que certaines nouvelles fleurs n’ont pas encore de photo. Les quatre fichiers du mail (« Bloody Mary », « Nimbus », « CBN Cream » et « CBN Cream ZOOM ») ne suffisent donc pas à prouver l’association ou l’actualité d’une photo. La carte Halloween reçue montre des noms, des grammages et des prix, mais leur validité actuelle n’est pas confirmée ; ils restent à faire valider avant toute présentation comme tarifs en vigueur. Aucun stock, remise, code voucher, avis, résultat de laboratoire ou droit de diffusion ne doit être déduit de ces pièces.
 
 La démo peut montrer les composants et les interactions. Pour montrer un achat réel sans tromper le client, il manque encore : fiches de produits approuvées, photos actuelles par angle, formats, prix, disponibilités, conditions des offres, politique de livraison/paiement et preuves autorisées.
 
