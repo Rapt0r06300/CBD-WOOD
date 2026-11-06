@@ -100,7 +100,7 @@
     const targets = qsa([
       '.hero-proof-rail figure', '.page-hero__copy > *', '.page-hero__art', '.shop-section > .section-heading', '.cards .category', '.wood-service', '.wood-campaign__media', '.wood-campaign__copy', '.wood-runway-card', '.wood-selection__card', '.wood-mood__copy',
       '.wood-mood__card', '.wood-photo-rail figure', '.wood-pack__card', '.wood-proof__empty',
-      '.story-image', '.story-text', '.value', '.location-card', '.wood-community__inner',
+      '.story-image', '.story-text', '.value', '.location-card', '.wood-community__inner', '.wood-detail-strip__item',
       '.faq-items details', '.product-card', '.product-related__card', '.product-detail__copy',
       '.product-detail__gallery', '.flower-detail__copy', '.flower-detail-card', '.notice'
     ].join(','));
@@ -224,6 +224,22 @@
     }, true);
   }
 
+  function initDetailStrip() {
+    const ticker = qs('.ticker');
+    if (!ticker || qs('.wood-detail-strip')) return;
+    const strip = document.createElement('section');
+    strip.className = 'wood-detail-strip';
+    strip.setAttribute('aria-label', 'Les repères WOOD');
+    strip.innerHTML = `
+      <div class="wood-detail-strip__inner">
+        <article class="wood-detail-strip__item"><span class="wood-detail-strip__mark">01</span><div><strong>À NICE</strong><small>Deux adresses, une même signature.</small></div></article>
+        <article class="wood-detail-strip__item"><span class="wood-detail-strip__mark">02</span><div><strong>SOUS CLOCHE</strong><small>Une présentation qui mérite un gros plan.</small></div></article>
+        <article class="wood-detail-strip__item"><span class="wood-detail-strip__mark">03</span><div><strong>BON CONSEIL</strong><small>On prend le temps avant le clic.</small></div></article>
+        <article class="wood-detail-strip__item"><span class="wood-detail-strip__mark">04</span><div><strong>WOOD MOOD</strong><small>Chill, chic et un peu drôle.</small></div></article>
+      </div>`;
+    ticker.insertAdjacentElement('afterend', strip);
+  }
+
   function initDynamicHooks() {
     const refresh = () => {
       initReveals();
@@ -238,6 +254,7 @@
   initScrollState();
   initRunwayViews();
   initComicDoodles();
+  initDetailStrip();
   initReveals();
   initHeroMotion();
   initRails();
