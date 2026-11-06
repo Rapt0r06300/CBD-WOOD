@@ -35,6 +35,12 @@ Les vérifications comportementales confirment aussi :
 - la console navigateur ne produit aucune erreur ni avertissement sur mobile ;
 - les images et les contrôles restent utilisables avec clavier et toucher.
 
+Après publication, `https://rapt0r06300.github.io/CBD-WOOD/demo/` répond en
+HTTP 200 et les deux assets `wood-mobile-finish.css` et
+`wood-mobile-finish.js` répondent eux aussi en HTTP 200. Le HTML public charge
+bien ces deux fichiers, ne montre plus le switch Base/Démo en en-tête et la
+section d’avis ne contient ni bouton de sélection ni compteur d’avis.
+
 ## Contrôles automatisés
 
 - `node --test test/mobile-finish-contract.test.mjs` : 4/4.
