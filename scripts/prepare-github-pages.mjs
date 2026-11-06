@@ -32,7 +32,11 @@ const gitFileExists = (path) => {
   }
 };
 
-const gitFile = (path) => execFileSync('git', ['show', `origin/main:${path}`], { cwd: root, encoding: 'buffer' });
+const gitFile = (path) => execFileSync('git', ['show', `origin/main:${path}`], {
+  cwd: root,
+  encoding: 'buffer',
+  maxBuffer: 16 * 1024 * 1024,
+});
 
 // The demo remains reachable through its dedicated /demo/ URL, but the
 // Base/Demo switcher is intentionally hidden from the storefront header.
