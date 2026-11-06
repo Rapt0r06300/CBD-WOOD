@@ -6,7 +6,8 @@ import { fileURLToPath } from 'node:url';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const source = join(root, 'dist-hostinger');
 const output = join(root, '.github-pages');
-const legacyRoot = join(output, 'base');
+const demoRoot = join(output, 'demo');
+const baseRoot = join(output, 'base');
 const switchScript = 'github-pages-switch.js';
 const switchStyles = 'github-pages-switch.css';
 
@@ -39,27 +40,31 @@ const injectSwitcher = (html) => html.includes(switchScript)
 
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
-await cp(source, output, { recursive: true });
+await cp(source, demoRoot, { recursive: true });
 
-const demoFiles = await collectFiles(output);
+const demoFiles = await collectFiles(demoRoot);
 for (const file of demoFiles) {
   if (!file.endsWith('.html')) continue;
-  const path = join(output, file);
+  const path = join(demoRoot, file);
   await writeFile(path, injectSwitcher(await readFile(path, 'utf8')), 'utf8');
 }
 
-await mkdir(legacyRoot, { recursive: true });
+await mkdir(baseRoot, { recursive: true });
 for (const file of demoFiles) {
   if (!gitFileExists(file)) continue;
-  const destination = join(legacyRoot, file);
-  await mkdir(dirname(destination), { recursive: true });
   const content = file.endsWith('.html') ? injectSwitcher(gitFile(file).toString('utf8')) : gitFile(file);
-  await writeFile(destination, content);
+  for (const destinationRoot of [output, baseRoot]) {
+    const destination = join(destinationRoot, file);
+    await mkdir(dirname(destination), { recursive: true });
+    await writeFile(destination, content);
+  }
 }
 
-await cp(join(output, switchScript), join(legacyRoot, switchScript));
-await cp(join(output, switchStyles), join(legacyRoot, switchStyles));
+await cp(join(demoRoot, switchScript), join(output, switchScript));
+await cp(join(demoRoot, switchScript), join(baseRoot, switchScript));
+await cp(join(demoRoot, switchStyles), join(output, switchStyles));
+await cp(join(demoRoot, switchStyles), join(baseRoot, switchStyles));
 
 await writeFile(join(output, '.nojekyll'), '', 'utf8');
-await writeFile(join(output, 'README.md'), '# WOOD GitHub Pages\n\nLa racine sert la démo. La version de base est disponible dans `base/`.\n', 'utf8');
-console.log(`GitHub Pages préparé dans ${relative(root, output)} : démo ${demoFiles.length} fichiers, base ${await collectFiles(legacyRoot).then(files => files.length)} fichiers.`);
+await writeFile(join(output, 'README.md'), '# WOOD GitHub Pages\n\nLa racine sert la version de base. La démo est disponible dans `demo/`.\n', 'utf8');
+console.log(`GitHub Pages préparé dans ${relative(root, output)} : base ${await collectFiles(output).then(files => files.length)} fichiers, démo ${demoFiles.length} fichiers, alias base ${await collectFiles(baseRoot).then(files => files.length)} fichiers.`);
