@@ -183,3 +183,34 @@ La partie locale est considérée prête lorsque les sections 03 à 18 sont cod�
 ## Hors périmètre automatique
 
 La génération de vraies photos de marque, la validation artistique finale, les prix/promotions/stocks, les avis et preuves de laboratoire, les comptes tiers, les clés de production et la publication finale nécessitent des entrées ou validations externes.
+
+
+## Extension prioritaire — Cloudflare D1 Free et feuille Signature 120
+
+**Ajout du 6 novembre 2026.** La feuille de route complète **TXW-001 à TXW-120** est maintenant versionnée dans le dépôt : [WOOD Signature Edition 120 tâches](2026-11-06-wood-signature-edition-120-taches.md). Le plan technique pour la base gratuite est [Cloudflare D1 Free autonome — D1-001 à D1-025](2026-11-06-wood-cloudflare-d1-free-autonome.md).
+
+Ces deux plans sont **complémentaires**, non des remplacements : Codex doit réconcilier les tâches déjà réalisées dans `docs/validation/2026-11-06-109-task-status.md`, conserver le registre des **138 tâches externes**, exécuter d'abord les garde-fous de sécurité démo et le travail local faisable, puis gérer les étapes Cloudflare sans services payants.
+
+### Tâche 22 — Intégration Cloudflare dans Codex, offre gratuite uniquement `[>]`
+
+- Appliquer [D1-001 à D1-005](2026-11-06-wood-cloudflare-d1-free-autonome.md) à partir des fichiers déjà présents : `.codex/config.toml`, `AGENTS.md`, `scripts/setup-cloudflare-codex.ps1`.
+- Installer dans l'environnement **effectivement accessible** de Codex et déclencher OAuth Cloudflare si possible. Le consentement du titulaire reste humain ; toute autre étape est automatisable.
+- Aucun abonnement, aucun token dans GitHub, aucune affirmation d'installation distante sans preuve.
+
+### Tâche 23 — Base SQLite/D1 et Worker en lecture seule `[>]`
+
+- Réaliser D1-006 à D1-015 : 4 catégories et 13 références fictives WOOD, API GET, tests SQL, CORS, quota et failover local.
+- Aucun compte, vraie commande, paiement, donnée personnelle, email, promotion ou stock inventé.
+- Conserver Supabase en l'état et GitHub Pages comme site démo principal.
+
+### Tâche 24 — Cloudflare Free distant quand l'OAuth est prêt `[~]`
+
+- Réaliser D1-016 à D1-020 seulement si le plan `Workers Free / D1 Free` est vérifié à **0 €** ; sinon tâches `BLOCKED-EXTERNAL` et poursuite des autres tests.
+- Tester la base distante, Worker `workers.dev`, sécurité et limites ; ne pas publier une boutique commerciale.
+
+### Tâche 25 — Connexion optionnelle, non-régression et preuves `[>]`
+
+- Réaliser D1-021 à D1-025 ; adaptateur D1 **désactivé par défaut**, repli catalogue local, contrôles responsive et sécurité, `npm run check`, journal de progression et rollback.
+- Aucune migration réelle ou coupure de Supabase sans consentement explicite à une phase ultérieure.
+
+**Priorité nouvelle :** P0 sécurité et isolation démo → D1 local gratuit et plan Signature → D1 distant uniquement après OAuth gratuit → recette visuelle et responsive, sans bloquer les autres tâches sur les identifiants.

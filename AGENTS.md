@@ -18,3 +18,10 @@ Improve the independent **CBD WOOD demonstration website** at https://rapt0r0630
 - Keep the existing GitHub Pages demo functional; use feature flags and verify rollback for all backend integrations.
 - Respect the existing deferred-task register: `docs/superpowers/plans/2026-11-06-wood-attente-identifiants-validations.md`.
 - Progress reports must distinguish implemented, verified, blocked, and awaiting owner validation.
+
+## Canonical Codex roadmaps
+- **Visual / brand:** `docs/superpowers/plans/2026-11-06-wood-signature-edition-120-taches.md` (TXW-001…TXW-120).
+- **Cloudflare Free autonomous execution:** `docs/superpowers/plans/2026-11-06-wood-cloudflare-d1-free-autonome.md` (D1-001…D1-025).
+- **Existing visual implementation roadmap:** `docs/superpowers/plans/2026-11-05-wood-tealerlab-visual-rebuild-roadmap.md` includes the integrations.
+- Read these files before work. Work autonomously on every feasible code/test task; only Cloudflare account-holder OAuth consent, ownership approvals, and potentially cost-changing operations can require the user. Never claim these have been completed automatically.
+- Generate any missing D1 kit source and tests **inside this GitHub repository**, not from the user's downloaded ZIP, so no manual file copying is required. Do not assume that conversation sandbox files are mounted in Codex.
