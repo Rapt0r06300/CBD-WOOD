@@ -23,6 +23,15 @@ test('les deux cibles d’hébergement gardent les en-têtes de sécurité commu
   assert.match(apacheHeaders, /ErrorDocument 404 \/404\.html/);
 });
 
+test('le cache distingue les documents HTML des assets versionnés', () => {
+  assert.ok(apacheHeaders.includes('<FilesMatch "\\.(?:html?|htm)$">'));
+  assert.ok(apacheHeaders.includes('Cache-Control "no-cache, no-store, must-revalidate"'));
+  assert.ok(apacheHeaders.includes('<FilesMatch "\\.(?:css|js|mjs|svg|webp|png|jpe?g|ico|woff2?)$">'));
+  assert.ok(apacheHeaders.includes('Cache-Control "public, max-age=86400, must-revalidate"'));
+  assert.ok(pagesHeaders.includes('/*.html\n  Cache-Control: no-cache, no-store, must-revalidate'));
+  assert.ok(pagesHeaders.includes('/*.{css,js,mjs,svg,webp,png,jpg,jpeg,ico,woff,woff2}\n  Cache-Control: public, max-age=86400, must-revalidate'));
+});
+
 test('la fonction de commande garde une CORS allow-list et des méthodes minimales', () => {
   assert.match(orderFunction, /ALLOWED_ORIGINS/);
   assert.match(orderFunction, /Access-Control-Allow-Methods.*POST, OPTIONS/);

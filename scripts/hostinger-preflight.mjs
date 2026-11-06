@@ -1,5 +1,5 @@
 import { readFile, readdir } from 'node:fs/promises';
-import { join, relative, resolve } from 'node:path';
+import { join, posix, relative, resolve } from 'node:path';
 
 const root = resolve(process.cwd(), 'dist-hostinger');
 const requiredFiles = ['index.html', '404.html', '.htaccess', 'assets/favicon.svg'];
@@ -38,6 +38,25 @@ try {
       const httpUrls = source.match(/http:\/\/[^\s"'<>\\)]+/gi) || [];
       if (httpUrls.some((url) => !url.startsWith('http://www.w3.org/'))) {
         fail(`URL HTTP non sécurisée dans le paquet : ${file}`);
+      }
+      if (extension === '.html') {
+        const localReferences = [...source.matchAll(/\b(?:href|src)\s*=\s*["']([^"']+)["']/giu)]
+          .map((match) => match[1])
+          .filter((reference) => reference && !/^(?:#|https?:|\/\/|data:|blob:|mailto:|tel:|javascript:)/iu.test(reference));
+        const normalizedFile = file.replaceAll('\\', '/');
+        const base = posix.dirname(normalizedFile);
+        for (const reference of localReferences) {
+          const cleanReference = reference.split(/[?#]/u, 1)[0];
+          if (!cleanReference) continue;
+          const referenceBase = cleanReference.startsWith('/') ? '' : base;
+          const requestedPath = cleanReference.replace(/^\/+/, '');
+          const resolvedReference = requestedPath
+            ? posix.normalize(posix.join(referenceBase, requestedPath))
+            : 'index.html';
+          if (resolvedReference.startsWith('../') || !files.includes(resolvedReference)) {
+            fail(`Référence locale absente dans le paquet : ${file} → ${reference}`);
+          }
+        }
       }
     }
   }

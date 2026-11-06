@@ -30,8 +30,12 @@ une promesse sur un produit.
    registre avant publication.
 3. Le statut passe de `demo` à `approved` seulement après validation de la
    propriétaire ; un rollback doit rester possible fichier par fichier.
-4. Les futurs stickers, graffiti, résines, biens-être et textiles restent
-   `pending` tant que les références de la propriétaire ne sont pas reçues.
+4. Notre équipe crée et classe les futurs stickers, graffiti et illustrations
+   des univers en statut `demo` à partir du brief reçu. La propriétaire valide
+   les versions finales ; les photos réelles des produits restent distinctes.
+5. Un chemin renseigné ne prouve ni une origine photographique réelle ni une
+   approbation. Le futur contrat média doit porter explicitement ces statuts
+   et alimenter les mêmes images dans boutique, fiche, accueil et gestion.
 
 ## Substitution par lots
 

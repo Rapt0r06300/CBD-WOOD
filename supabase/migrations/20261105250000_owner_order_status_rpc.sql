@@ -78,7 +78,7 @@ begin
     raise exception using errcode = '42501', message = 'Acteur propriétaire invalide.';
   end if;
 
-  if coalesce(auth.role(), '') <> 'service_role' and v_actor_id <> auth.uid() then
+  if coalesce((select auth.jwt() ->> 'role'), '') <> 'service_role' and v_actor_id <> auth.uid() then
     raise exception using errcode = '42501', message = 'Acteur non autorisé.';
   end if;
 
@@ -245,7 +245,7 @@ declare
   v_next_status text := lower(btrim(coalesce(p_next_status, '')));
   v_reason text := nullif(btrim(coalesce(p_reason, '')), '');
 begin
-  if coalesce(auth.role(), '') <> 'service_role' then
+  if coalesce((select auth.jwt() ->> 'role'), '') <> 'service_role' then
     raise exception using errcode = '42501', message = 'Fonction serveur uniquement.';
   end if;
   if p_actor_id is null or not exists (

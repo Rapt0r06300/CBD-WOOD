@@ -23,6 +23,13 @@ Ce document fixe un cadre provisoire pour préparer les futurs stickers, microco
 - Les descriptions de démonstration peuvent en utiliser un avec parcimonie, sans effet médical ni promesse.
 - Les futurs emojis/stickers sont soumis à la même validation d’origine, de version et de droits que les images.
 
+## Pictogrammes d’interface
+
+- La bibliothèque locale de `mobile-shell.js` fournit des SVG inline sobres pour l’accueil, le catalogue, la localisation, le panier, le compte, les boutiques, le téléphone, l’itinéraire, la livraison et la FAQ.
+- Les pictogrammes complètent toujours un libellé textuel ; ils restent absents des montants, grammages, stocks, erreurs, paiements et documents transactionnels.
+- Aucun fichier externe ni service d’icônes n’est requis. Si le script ne se charge pas, les libellés et les actions textuelles restent utilisables.
+- Leur tracé est volontairement neutre et réversible ; la propriétaire valide ensuite les variations de style, stickers et accents commerciaux.
+
 ## Validation future
 
-Les formes, textures, personnages, pictogrammes et familles d’emojis seront choisis après réception des références de la propriétaire. Une planche `conservé / adapté / exclu` devra être validée avant intégration généralisée.
+Notre équipe crée et gère les formes, textures, pictogrammes et stickers à partir des références WOOD déjà disponibles. Les futurs exemples de la propriétaire affinent les propositions sans les bloquer. Une planche en contexte `conservé / adapté / exclu` est présentée avant intégration généralisée. Les images et variations restent en démonstration jusqu’à cette validation ; le logo officiel n’est jamais régénéré.

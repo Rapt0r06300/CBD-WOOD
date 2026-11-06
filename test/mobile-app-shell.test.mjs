@@ -47,6 +47,15 @@ test('la couche mobile utilise les capacités réelles du navigateur et protège
   assert.match(shell, /window\.location\.assign/);
   assert.match(shell, /initFooterSections/);
   assert.match(shell, /woodFooterSections/);
+  assert.match(shell, /WOOD_ICON_MARKUP/);
+  for (const iconName of ['home', 'catalog', 'pin', 'cart', 'account', 'store', 'phone', 'directions', 'delivery', 'faq']) {
+    assert.match(shell, new RegExp(`${iconName}:`), `le pictogramme ${iconName} doit être défini`);
+  }
+  assert.match(shell, /createElementNS\('http:\/\/www\.w3\.org\/2000\/svg'/);
+  assert.match(shell, /aria-hidden', 'true'/);
+  assert.match(shell, /hydrateWoodIcons/);
+  assert.match(stylesheet, /\.wood-icon--inline/);
+  assert.match(stylesheet, /\.mobile-app-nav__icon \.wood-icon/);
   assert.match(stylesheet, /\.wood-reveal\.is-visible/);
   assert.match(boutiqueStylesheet, /\.footer-section>summary/);
   assert.match(boutiqueStylesheet, /wood-page-transitions body\.wood-page-ready/);

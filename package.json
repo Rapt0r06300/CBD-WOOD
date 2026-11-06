@@ -6,8 +6,15 @@
     "test": "node --test",
     "audit": "node scripts/static-audit.mjs",
     "check:js": "node scripts/check-js.mjs",
-    "check": "npm run test && npm run check:js && npm run audit",
+    "check": "npm run test && npm run check:js && npm run audit && npm run readiness && npm run continuity",
+    "readiness": "node scripts/site-readiness.mjs",
+    "continuity": "node scripts/continuity-readiness.mjs",
+    "site:status": "node scripts/site-version.mjs status",
+    "site:demo": "node scripts/site-version.mjs demo",
+    "site:legacy": "node scripts/site-version.mjs legacy",
+    "site:snapshot": "node scripts/create-site-snapshots.mjs",
     "prepare:hostinger": "node scripts/prepare-hostinger.mjs",
+    "prepare:github-pages": "npm run prepare:hostinger && node scripts/prepare-github-pages.mjs",
     "hostinger:preflight": "npm run check && npm run prepare:hostinger && node scripts/hostinger-preflight.mjs"
   }
 }

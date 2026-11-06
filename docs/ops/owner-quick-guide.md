@@ -25,6 +25,7 @@ Viva ne sont jamais écrits ici.
 ## Gérer le catalogue
 
 - `Ajouter un produit` crée une référence brouillon.
+- La colonne `Média` montre l’illustration de démonstration utilisée par la boutique et indique `Photo à fournir` tant qu’une vraie photo n’est pas renseignée. Le badge `démo` ne signifie pas que le stock est réel.
 - Avant publication, renseigner uniquement un nom, prix, disponibilité et stock
   confirmés.
 - Une référence incomplète reste non achetable.

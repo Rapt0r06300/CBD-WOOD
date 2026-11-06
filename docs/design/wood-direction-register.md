@@ -19,7 +19,7 @@ Statut : fondation technique versionnée, à faire relire par la propriétaire a
 | Cartes produit denses | nom exact, profil WOOD, grammage, prix de la carte, disponibilité et ajout | garder la richesse, exclure faux avis/taux/promotions |
 | Menu riche et panier visible | menu public structuré, compte client et panier accessibles | garder, aucune entrée admin publique |
 | Bandeaux et mouvement | ticker WOOD neutre, reveal et zoom composés | garder seulement les mouvements accessibles |
-| Stickers, emojis et humour | emplacements éditoriaux optionnels | attendre les références de la propriétaire |
+| Stickers, emojis et humour | créations originales et emplacements éditoriaux optionnels | notre équipe prépare les propositions ; la propriétaire valide la sélection |
 | Pop-ups promotionnels, fidélité, jeux | aucun équivalent automatique | exclure |
 
 ## Tokens WOOD déjà en production
@@ -57,7 +57,11 @@ Les espacements, cadres, rayons, surfaces et états doivent suivre les composant
 
 ## Statut des assets décoratifs
 
-La bibliothèque finale de stickers, graffiti, emojis et photographies reste vide tant que la propriétaire n'a pas fourni ses références et validé une planche. Les fallbacks `VISUEL À VENIR` sont des états de démonstration, pas des visuels de production.
+Notre équipe prend en charge la création, la génération éventuelle, le classement et les exports des stickers, graffiti et illustrations. Les messages, la carte et le logo déjà reçus constituent le brief initial. Les références supplémentaires ne bloquent pas les propositions de démonstration. La propriétaire valide la sélection avant publication finale. Les photos commerciales réelles restent distinctes des illustrations générées. Voir les tâches G001–G120 de la feuille de route.
+
+## Parcours principal sous contraintes
+
+Le chemin de référence est `accueil → boutique fleurs → fiche produit → panier → checkout`. Il conserve la hiérarchie WOOD et ne permet l'ajout ou la poursuite d'achat qu'après contrôle des stocks, tarifs et disponibilité validés. Si ces données manquent, la fiche reste consultable mais l'action commerciale reste indisponible ; aucun paiement, retrait, code promotionnel ou avis n'est simulé. Le parcours est réversible tant que la propriétaire n'a pas validé les données commerciales et les photos réelles.
 
 ## Relecture avant intégration
 

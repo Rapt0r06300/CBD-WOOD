@@ -7,8 +7,18 @@ test('customer login identifies the e-mail field for password managers', async (
 
   assert.match(
     accountPage,
-    /id="account-email" name="email" type="email" autocomplete="email"/,
+    /id="account-email" name="email" type="email" autocomplete="username"/,
     'le champ e-mail du compte doit être identifiable par les gestionnaires de mots de passe',
+  );
+});
+
+test('password update form exposes a username context to password managers', async () => {
+  const accountPage = await readFile(new URL('../compte.html', import.meta.url), 'utf8');
+
+  assert.match(
+    accountPage,
+    /<form[^>]+id="passwordUpdateForm"[\s\S]*?name="username"[\s\S]*?autocomplete="username"/u,
+    'le formulaire de changement doit fournir le contexte utilisateur au gestionnaire de mots de passe',
   );
 });
 

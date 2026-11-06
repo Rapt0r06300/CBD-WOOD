@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 const migration = await readFile(new URL('../supabase/migrations/20261105250000_owner_order_status_rpc.sql', import.meta.url), 'utf8');
+const roleCompatibilityMigration = await readFile(new URL('../supabase/migrations/20261105270000_auth_role_compatibility.sql', import.meta.url), 'utf8');
 const ownerSource = await readFile(new URL('../owner-dashboard.js', import.meta.url), 'utf8');
 
 test('les changements de statut propriétaire sont validés, verrouillés et journalisés', () => {
@@ -22,6 +23,8 @@ test('les changements de statut propriétaire sont validés, verrouillés et jou
   assert.match(migration, /Fonction serveur uniquement/);
   assert.match(migration, /grant execute on function public\.service_update_order_status\(uuid, text, text, uuid\) to service_role/);
   assert.match(migration, /grant execute on function public\.owner_update_order_status\(uuid, text, text\) to authenticated/);
+  assert.match(migration, /auth\.jwt\(\)\s*->>\s*'role'/);
+  assert.doesNotMatch(migration, /auth\.role\(\)/);
 });
 
 test('le tableau de bord passe par la fonction contrôlée et demande un motif pour annuler', () => {
@@ -33,4 +36,11 @@ test('le tableau de bord passe par la fonction contrôlée et demande un motif p
   assert.match(ownerSource, /p_order_id: id/);
   assert.match(ownerSource, /p_next_status: status/);
   assert.doesNotMatch(ownerSource, /supabase\.from\(['"]orders['"]\)\.update\(\{ status \}\)/);
+});
+
+test('les contrôles de rôle des fonctions sensibles utilisent le claim JWT actuel', () => {
+  assert.match(roleCompatibilityMigration, /auth\.jwt\(\)\s*->>\s*'role'/);
+  assert.match(roleCompatibilityMigration, /create or replace function public\.release_order_stock/);
+  assert.match(roleCompatibilityMigration, /create or replace function public\.service_update_order_status/);
+  assert.doesNotMatch(roleCompatibilityMigration, /auth\.role\(\)/);
 });

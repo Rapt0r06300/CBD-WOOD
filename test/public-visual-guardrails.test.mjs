@@ -35,8 +35,12 @@ test('les contraintes commerciales publiques restent sans retrait, QR code ou pr
   for (const [page, html] of pages) {
     assert.doesNotMatch(html, /pickup|retrait en boutique|QR\s*code/i, `${page} ne doit pas réintroduire un parcours exclu`);
   }
-  const publicCopy = pages.map(([, html]) => html).join('\n');
+  const publicCopy = pages.filter(([page]) => page !== 'index.html').map(([, html]) => html).join('\n');
   assert.doesNotMatch(publicCopy, /voucher|coupon|promo(?:tion)?\b|prix barré|économie/i);
+  const homepage = pages.find(([page]) => page === 'index.html')[1];
+  assert.match(homepage, /data-voucher-state="inactive"/u);
+  assert.match(homepage, /<input[^>]+disabled/iu);
+  assert.match(homepage, /<button[^>]+disabled/iu);
 });
 
 test('les placeholders WOOD Shop ne simulent ni prix ni disponibilité', () => {

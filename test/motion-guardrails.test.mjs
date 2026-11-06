@@ -30,6 +30,13 @@ test('les animations WOOD restent composées et bornées', async () => {
   assert.match(boutique, /@media \(hover:none\) and \(pointer:coarse\)[\s\S]*?\.add-to-cart:active/);
 });
 
+test('les animations produit suivent aussi les cartes rendues après Supabase', async () => {
+  const shell = await readFile(new URL('../mobile-shell.js', import.meta.url), 'utf8');
+
+  assert.match(shell, /wood:catalog-rendered/u);
+  assert.match(shell, /woodPhotoMotionObserved/u);
+});
+
 test('les actions essentielles restent accessibles sans enhancement mobile', async () => {
   const shell = await readFile(new URL('../mobile-shell.js', import.meta.url), 'utf8');
   const pages = ['index.html', 'fleurs.html', 'resines.html', 'bien-etre.html', 'wood-shop.html', 'compte.html', 'checkout.html'];

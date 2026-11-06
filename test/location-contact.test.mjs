@@ -17,7 +17,9 @@ test('la FAQ reste courte, sûre et cohérente avec les décisions de commande',
   assert.match(homepage, /Les frais, zones et délais seront précisés/);
   assert.match(homepage, /le paiement en ligne Viva sera activé séparément/);
   assert.match(homepage, /Une commande peut être enregistrée en invité/);
-  assert.doesNotMatch(homepage, /compte à rebours|fidélité|voucher|promotion/i);
+  const faqCopy = homepage.replace(/<section[^>]+id="packs"[\s\S]*?<\/section>/iu, '');
+  assert.doesNotMatch(faqCopy, /compte à rebours|fidélité|voucher|promotion/i);
+  assert.match(homepage, /data-voucher-state="inactive"/u);
 });
 
 test('le pied de page associe toujours les deux boutiques et leurs numéros', async () => {

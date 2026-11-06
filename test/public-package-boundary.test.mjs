@@ -9,6 +9,12 @@ const ownerDashboard = await readFile(new URL('../owner-dashboard.js', import.me
 test('public package uses the integrated owner dashboard and excludes the legacy admin route', () => {
   assert.match(prepareSource, /'owner-dashboard\.css'/);
   assert.match(prepareSource, /'owner-dashboard\.js'/);
+  assert.match(prepareSource, /'catalog-demo-hydration\.js'/);
+  assert.match(prepareSource, /'home-selection\.css'/);
+  assert.match(prepareSource, /'home-engagement\.css'/);
+  assert.match(prepareSource, /'wood-engagement\.js'/);
+  assert.match(prepareSource, /'owner-media\.mjs'/);
+  assert.match(prepareSource, /'owner-product-validation\.mjs'/);
   assert.doesNotMatch(prepareSource, /'admin\.html'/);
   assert.doesNotMatch(prepareSource, /'admin\.js'/);
   assert.doesNotMatch(prepareSource, /'admin\.css'/);

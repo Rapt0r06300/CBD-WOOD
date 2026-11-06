@@ -107,7 +107,7 @@ WOOD possède déjà une base plus calme et plus premium. C’est un avantage po
 - Les politiques observées séparent globalement les clients de leur propre compte et les propriétaires des données d’administration.
 - La fonction `create-pending-order` est active. Elle accepte les commandes invitées, vérifie le bearer token lorsqu’il est fourni, valide l’origine, l’idempotence et la livraison uniquement.
 - Le conseiller sécurité Supabase signale une seule alerte : la protection contre les mots de passe compromis est désactivée. Elle doit être activée avant une vraie ouverture commerciale.
-- Les conseillers performance indiquent huit index actuellement inutilisés, dont les index de l’historique des commandes et de la file d’outbox. Ce n’est pas bloquant avant trafic réel ; ils devront être réévalués après observation des requêtes.
+- Les conseillers performance indiquent 29 index actuellement inutilisés, dont les index de l’historique des commandes et de la file d’outbox. Ce n’est pas bloquant avant trafic réel ; ils devront être réévalués après observation des requêtes.
 - Le schéma conserve encore des colonnes et anciennes migrations liées au retrait (`pickup_code` et anciennes règles Barla/Borriglione), même si la contrainte et la fonction active imposent désormais `delivery`. Une migration de nettoyage devra être préparée, testée et appliquée seulement après sauvegarde et vérification qu’aucune commande réelle ne dépend de ces champs.
 - Le système anti-robot est prévu dans le code, mais son activation effective et la limitation de débit doivent être vérifiées dans l’environnement Supabase avant production.
 
@@ -253,7 +253,7 @@ Contrôle en lecture seule du projet connecté après les migrations additives :
 - `orders.fulfillment_mode` est limité à `delivery` ; `pickup_code` est conservé uniquement pour l’historique et ne doit pas être supprimé avant sauvegarde et revue des commandes existantes.
 - Les migrations de disponibilité, de sécurisation des commandes et de garde tarifaire sont enregistrées côté Supabase ; les tarifs intermédiaires restent refusés par le serveur.
 - La migration `order_status_history` est maintenant enregistrée côté Supabase ; la table est protégée par RLS, le trigger `orders_record_status_history` est présent et l’historique est vide car aucune commande n’existe actuellement.
-- L’avis sécurité Supabase restant est `Leaked Password Protection Disabled`. Il doit être activé dans Auth avant l’ouverture commerciale. Les huit avis de performance concernent uniquement des index encore inutilisés sur une base sans trafic et ne justifient pas de suppression préventive.
+- L’avis sécurité Supabase restant est `Leaked Password Protection Disabled`. Il doit être activé dans Auth avant l’ouverture commerciale. Les 29 avis de performance concernent uniquement des index encore inutilisés sur une base sans trafic et ne justifient pas de suppression préventive.
 
 ## 13. Audit approfondi de l’architecture d’accueil — 5 novembre 2026
 

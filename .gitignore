@@ -4,5 +4,7 @@ test-results/
 .playwright-cli/
 output/
 dist-hostinger/
+.github-pages/
 hostinger-site.zip
 .hostinger-release-*/
+site-versions/

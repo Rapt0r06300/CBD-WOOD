@@ -27,7 +27,9 @@ test('la page d’accueil garde le shell éditorial WOOD complet et dans le bon 
   assert.match(homepage, /class="hero-scroll" href="#univers"/);
   assert.match(homepage, /aria-label="Descendre vers les univers WOOD"/);
   assert.match(homepage, /class="cards"/);
-  assert.match(homepage, /id="selection-wood"[^>]*data-state="awaiting-real-products"[^>]*hidden/);
+  assert.match(homepage, /id="selection-wood"[^>]*data-state="demo"/);
+  assert.match(homepage, /illustrations de démonstration/iu);
+  assert.match(homepage, /home-selection\.css\?v=wood-home-selection-v1-20261105/);
   assert.match(homepage, /data-selection-grid/);
   assert.equal((homepage.match(/aria-label="Voir la page /g) || []).length, 4);
   for (const route of ['fleurs.html', 'resines.html', 'wood-shop.html', 'bien-etre.html']) {
@@ -56,4 +58,10 @@ test('les contenus longs de l’accueil ont un repli mobile', async () => {
   assert.match(responsive, /\.faq-items summary/);
   assert.match(responsive, /\.footer-links a/);
   assert.match(responsive, /overflow-wrap:\s*anywhere/);
+});
+
+test('les quatre visuels structurels de l’accueil ne dépendent pas du défilement pour apparaître', () => {
+  for (const asset of ['assets/fleurs.svg', 'assets/resines.svg', 'assets/accessoires.svg', 'assets/cosmetiques.svg']) {
+    assert.match(homepage, new RegExp(`<img loading="eager" src="${asset.replace('.', '\\.')}`), `${asset} doit être chargé dès l’accueil`);
+  }
 });

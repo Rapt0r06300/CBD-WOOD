@@ -1,13 +1,14 @@
 # Checklist de mise en production
 
-## Dépôt et Cloudflare Pages
+## Dépôt et prévisualisation GitHub Pages
 
 - [ ] `main` est la branche de production.
-- [ ] Le projet Pages est connecté au bon dépôt et publie la racine `.` sans commande de build.
+- [ ] Le projet GitHub Pages est connecté au bon dépôt et utilise la source **GitHub Actions**.
+- [ ] Le workflow `.github/workflows/pages.yml` prépare puis publie uniquement `dist-hostinger`.
 - [ ] Une URL de prévisualisation est testée sur mobile et ordinateur.
 - [ ] Les previews sensibles sont protégées avant d’y mettre des données réelles.
 - [ ] Le domaine `.fr` est acheté, relié et une seule variante (`www` ou sans `www`) est canonique.
-- [ ] Un rollback Pages est connu et testé sur une version de démonstration.
+- [ ] Un rollback GitHub Pages est connu et testé sur une version de démonstration.
 - [ ] L’accord écrit de l’hébergeur pour les produits exacts est conservé.
 
 ## Préparation Hostinger
@@ -29,6 +30,7 @@
 - [ ] Site URL et Redirect URLs contiennent le domaine réel, sans remplacer les URL locales par erreur.
 - [ ] `ALLOWED_ORIGINS` contient uniquement les origines réellement utilisées.
 - [ ] Turnstile est configuré côté serveur avant ouverture publique.
+- [ ] La sitekey publique Turnstile est renseignée dans `supabase-config.js` uniquement après validation du domaine ; le secret reste dans les secrets Edge Function et le widget client reste inactif sans sitekey.
 - [ ] La limitation serveur de `create-pending-order` est testée avec une répétition rapide et n’empêche pas une commande normale.
 - [ ] La protection contre les mots de passe compromis est activée.
 - [ ] La table privée `private.order_rate_limit_buckets` a RLS activé ; `anon` et `authenticated` n'ont aucun privilège et `service_role` reste le seul rôle opérationnel. Voir `docs/ops/supabase-security-gate.md`.

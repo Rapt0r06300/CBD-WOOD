@@ -3,7 +3,7 @@ import { join, relative } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
 const root = process.cwd();
-const ignored = new Set(['.git', '.fallow', '.superpowers', 'node_modules', 'test-results']);
+const ignored = new Set(['.git', '.fallow', '.superpowers', 'dist-hostinger', 'node_modules', 'test-results']);
 
 async function collect(directory) {
   const entries = await readdir(directory, { withFileTypes: true });

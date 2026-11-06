@@ -19,6 +19,8 @@ test('la fondation artistique conserve une grille, une hiérarchie et trois dens
   assert.match(boutique, /\.container\{max-width:1440px/);
   assert.match(boutique, /\.product-grid\{[^}]*repeat\(3,minmax\(0,1fr\)\)/);
   assert.match(responsive, /grid-template-columns:\s*1fr/);
+  assert.match(responsive, /\.wood-accent-rule/);
+  assert.match(responsive, /\.wood-accent-frame/);
 });
 
 test('le storyboard desktop/mobile reprend la richesse de présentation sans changer WOOD', () => {

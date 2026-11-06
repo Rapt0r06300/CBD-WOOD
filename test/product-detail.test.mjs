@@ -14,7 +14,7 @@ const stylesheet = await readFile(new URL('boutique.css', root), 'utf8');
 test('une carte fleur mène à la fiche dédiée sans supprimer le bloc d’achat', () => {
   assert.match(listing, /class="product-grid"/);
   assert.match(detail, /id="flowerDetail"/);
-  assert.match(detail, /src="flower-detail\.js"/);
+  assert.match(detail, /src="flower-detail\.js\?v=wood-accessible-title-20261105"/);
   assert.match(detail, /Retour aux fleurs/);
   assert.match(boutique, /data-detail-href/);
   assert.match(boutique, /data-gram-step/);
@@ -25,11 +25,13 @@ test('une carte fleur mène à la fiche dédiée sans supprimer le bloc d’acha
   assert.match(flowerDetailScript, /flower-detail__description/);
   assert.match(flowerDetailScript, /photo réelle à venir/);
   assert.match(stylesheet, /product-art__status/);
+  assert.match(flowerDetailScript, /À DÉCOUVRIR <span>CHEZ WOOD\.<\/span>/);
+  assert.doesNotMatch(flowerDetailScript, /À DÉCOUVRIR<br>/);
 });
 
 test('les trois autres univers mènent vers une fiche générique exploitable', () => {
   assert.match(genericDetail, /id="productDetail"/);
-  assert.match(genericDetail, /src="product-detail\.js"/);
+  assert.match(genericDetail, /src="product-detail\.js\?v=wood-accessible-title-20261105"/);
   assert.match(boutique, /produit\.html\?/);
   assert.match(boutique, /wireGenericCard/);
   assert.match(genericScript, /resines/);
@@ -64,4 +66,10 @@ test('le zoom utilise uniquement transform/opacity et garde un accès sans anima
   assert.match(stylesheet, /product-zoom-clone[^{]*\{[\s\S]*?transform:/);
   assert.match(stylesheet, /product-zoom-clone\.is-active[^{]*\{[\s\S]*?transform:/);
   assert.match(stylesheet, /@media\(prefers-reduced-motion:reduce\)/);
+});
+
+test('le titre des références associées reste séparé visuellement et lisible par les technologies d’assistance', () => {
+  assert.match(genericScript, /À DÉCOUVRIR <span>CHEZ WOOD\.<\/span>/);
+  assert.doesNotMatch(genericScript, /À DÉCOUVRIR<br>/);
+  assert.match(stylesheet, /product-related__heading h2 span\{display:block;color:var\(--lime\)\}/);
 });

@@ -2,6 +2,8 @@
 
 Ce storyboard traduit les mécanismes appréciés dans l’accueil TealerLab en une version WOOD. Il ne change ni les couleurs, ni le logo, ni la typographie, ni la carte des produits.
 
+**Révision G051–G060 :** notre équipe produit les images de démonstration et les décors. La sélection doit être montrée en démo avec ces illustrations signalées, même avant les stocks et photos réels ; l’achat réel reste indisponible. Les mentions historiques de sélection « masquée » ci-dessous décrivent le repli commercial pour contenu non validé, pas une obligation de cacher la future présentation d’accueil pendant sa revue.
+
 ## Desktop — composition large
 
 ```text

@@ -11,6 +11,44 @@
   const isCart = page === 'checkout.html' || page === 'confirmation.html';
   const cartTrigger = document.getElementById('cartTrigger');
 
+  const WOOD_ICON_MARKUP = Object.freeze({
+    home: '<path d="M3 10.5 12 3l9 7.5M5.5 9.5V21h13V9.5M9.5 21v-6h5v6"/>',
+    catalog: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+    pin: '<path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/>',
+    cart: '<path d="M3 4h2l2 11h10.5l2-8H6"/><circle cx="9" cy="19" r="1.2"/><circle cx="17" cy="19" r="1.2"/>',
+    account: '<circle cx="12" cy="8" r="3.5"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/>',
+    store: '<path d="M4 10h16v10H4zM3 10l2-6h14l2 6"/><path d="M3 10c0 1.7 1.2 3 3 3s3-1.3 3-3c0 1.7 1.2 3 3 3s3-1.3 3-3c0 1.7 1.2 3 3 3s3-1.3 3-3M9 20v-5h6v5"/>',
+    phone: '<path d="M7 3.5h3l1.5 4-2 1.5a14 14 0 0 0 5.5 5.5l1.5-2 4 1.5v3c0 1.1-.9 2-2 2C10 19 5 14 5 5.5c0-1.1.9-2 2-2Z"/>',
+    directions: '<path d="m12 3 9 9-9 9-9-9 9-9Z"/><path d="M8 12h8M13 9l3 3-3 3"/>',
+    delivery: '<path d="M3 6h11v10H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.5"/><circle cx="18" cy="18" r="1.5"/>',
+    faq: '<circle cx="12" cy="12" r="9"/><path d="M9.7 9a2.4 2.4 0 1 1 4.1 1.7c-1.1 1-1.8 1.3-1.8 2.8M12 17h.01"/>',
+  });
+
+  function createWoodIcon(name, extraClass = '') {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', 'currentColor');
+    svg.setAttribute('stroke-width', '1.8');
+    svg.setAttribute('stroke-linecap', 'round');
+    svg.setAttribute('stroke-linejoin', 'round');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+    svg.classList.add('wood-icon', `wood-icon--${name}`);
+    if (extraClass) svg.classList.add(extraClass);
+    svg.innerHTML = WOOD_ICON_MARKUP[name] || WOOD_ICON_MARKUP.faq;
+    return svg;
+  }
+
+  function hydrateWoodIcons(root = document) {
+    root.querySelectorAll('[data-wood-icon]').forEach((slot) => {
+      if (slot.querySelector('.wood-icon')) return;
+      const name = slot.getAttribute('data-wood-icon');
+      if (!WOOD_ICON_MARKUP[name]) return;
+      slot.replaceChildren(createWoodIcon(name, 'wood-icon--inline'));
+    });
+  }
+
   function ensureFooterLocations() {
     const footer = document.querySelector('.footer');
     const barla = footer?.querySelector('a[href="tel:+33422163570"]');
@@ -109,7 +147,7 @@
   }
 
   function initScrollReveal() {
-    const targets = document.querySelectorAll('.page-hero__copy, .page-hero__art, .hero-copy, .hero-art, .section-heading, .notice, .story, .visit-grid, .faq-layout, .checkout-layout, .account-dashboard, .flower-detail__copy, .flower-detail-card, .product-detail__copy, .product-detail-card, .footer');
+    const targets = document.querySelectorAll('.page-hero__copy, .page-hero__art, .hero-copy, .hero-art, .section-heading, .notice, .story, .visit-grid, .faq-layout, .checkout-layout, .account-dashboard, .flower-detail__copy, .flower-detail-card, .product-detail__copy, .product-detail-card, .wood-mood, #selection-editoriale, .wood-pack, #preuve, .wood-community, .wood-photo-rail, .footer');
     if (!targets.length || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -126,8 +164,7 @@
   }
 
   function initPhotoMotion() {
-    const targets = document.querySelectorAll('.product-art img, .product-related__media img');
-    if (!targets.length || document.documentElement.classList.contains('wood-low-data') || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+    if (document.documentElement.classList.contains('wood-low-data') || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
@@ -135,10 +172,16 @@
         observer.unobserve(entry.target);
       });
     }, { threshold: 0.45, rootMargin: '0px 0px -10% 0px' });
-    targets.forEach(target => {
-      target.classList.add('wood-photo-motion');
-      observer.observe(target);
-    });
+    const observePhotos = () => {
+      document.querySelectorAll('.product-art img, .product-related__media img').forEach(target => {
+        if (target.dataset.woodPhotoMotionObserved === 'true') return;
+        target.dataset.woodPhotoMotionObserved = 'true';
+        target.classList.add('wood-photo-motion');
+        observer.observe(target);
+      });
+    };
+    observePhotos();
+    document.addEventListener('wood:catalog-rendered', observePhotos);
   }
 
   function initStructuredMenu() {
@@ -241,14 +284,15 @@
   initScrollReveal();
   initPhotoMotion();
   initStructuredMenu();
+  hydrateWoodIcons();
 
   const items = [
-    { href: 'index.html', icon: '⌂', label: 'Accueil', active: isHome },
-    { href: 'index.html#univers', icon: '▦', label: 'Boutique', active: isShop },
+    { href: 'index.html', icon: 'home', label: 'Accueil', active: isHome },
+    { href: 'index.html#univers', icon: 'catalog', label: 'Boutique', active: isShop },
     isHome
-      ? { href: 'index.html#boutique', icon: '⌖', label: 'Nous trouver', active: false }
-      : { href: 'checkout.html', icon: '◫', label: 'Panier', active: isCart, cart: true },
-    { href: 'compte.html', icon: '◉', label: 'Compte', active: isAccount },
+      ? { href: 'index.html#boutique', icon: 'pin', label: 'Nous trouver', active: false }
+      : { href: 'checkout.html', icon: 'cart', label: 'Panier', active: isCart, cart: true },
+    { href: 'compte.html', icon: 'account', label: 'Compte', active: isAccount },
   ];
 
   const nav = document.createElement('nav');
@@ -264,7 +308,7 @@
     const icon = document.createElement('span');
     icon.className = 'mobile-app-nav__icon';
     icon.setAttribute('aria-hidden', 'true');
-    icon.textContent = item.icon;
+    icon.append(createWoodIcon(item.icon));
     const label = document.createElement('span');
     label.className = 'mobile-app-nav__label';
     label.textContent = item.label;
