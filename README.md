@@ -1,3 +1,3 @@
 # WOOD GitHub Pages
 
-La racine sert la démo. La version de base est disponible dans `base/`.
+La racine sert la version de base. La démo est disponible dans `demo/`.

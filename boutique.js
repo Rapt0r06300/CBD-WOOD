@@ -264,12 +264,7 @@
         control.innerHTML = `<button type="button" class="gram-step" data-gram-step="-1" aria-label="Diminuer le grammage">−</button><output class="gram-value" data-gram-value aria-live="polite">${initialGrams} g</output><button type="button" class="gram-step" data-gram-step="1" aria-label="Augmenter le grammage">+</button>`;
         const row = document.createElement('div');
         row.className = 'product-buy-row';
-        const pricePerGram = document.createElement('span');
-        pricePerGram.className = 'product-price-per-gram';
-        pricePerGram.dataset.productPricePerGram = 'true';
-        pricePerGram.setAttribute('aria-live', 'polite');
-        pricePerGram.setAttribute('aria-label', 'Prix au gramme');
-        row.append(control, price, pricePerGram, button);
+        row.append(control, price, button);
         choice.replaceChildren(row);
         choice.dataset.enhanced = 'true';
         meta.remove();
@@ -296,7 +291,6 @@
   function updateProductPrice(select) {
     const card = select.closest('.product-card');
     const label = card?.querySelector('[data-product-price-label]');
-    const pricePerGram = card?.querySelector('[data-product-price-per-gram]');
     if (select.matches('[data-product-gram-control]')) {
       const grams = Math.max(1, Number.parseInt(select.dataset.grams, 10) || 1);
       const pricing = getFlowerPriceForOrder(grams, readFlowerTiers(select));
@@ -304,7 +298,6 @@
       const button = card?.querySelector('.add-to-cart');
       const orderable = pricing.price !== '';
       if (label) label.textContent = `${grams} g · ${orderable ? priceLabel({ price: pricing.price }) : 'Tarif à confirmer'}`;
-      if (pricePerGram) pricePerGram.textContent = orderable ? `${(Number(pricing.price) / grams).toFixed(2).replace('.', ',')} € / g` : '€/g à confirmer';
       if (button && card?.dataset.productUnavailable !== 'true') {
         button.disabled = !orderable;
         button.setAttribute('aria-disabled', String(!orderable));
@@ -321,11 +314,6 @@
     }
     const option = select.options[select.selectedIndex];
     if (label && option) label.textContent = `${option.dataset.label || option.textContent} · ${priceLabel({ price: option.dataset.price || '' })}`;
-    if (pricePerGram && option) {
-      const grams = Number.parseInt(option.value, 10);
-      const priceValue = Number(option.dataset.price || 0);
-      pricePerGram.textContent = grams > 0 && priceValue > 0 ? `${(priceValue / grams).toFixed(2).replace('.', ',')} € / g` : '€/g à confirmer';
-    }
   }
 
   function markFallbackCatalogUnavailable() {

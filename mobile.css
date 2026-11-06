@@ -203,27 +203,6 @@
     line-height: 1;
   }
 
-  .mobile-app-nav__icon .wood-icon {
-    display: block;
-    width: 1.35rem;
-    height: 1.35rem;
-  }
-
-  .wood-icon-slot {
-    display: inline-flex;
-    width: 1.05rem;
-    height: 1.05rem;
-    align-items: center;
-    justify-content: center;
-    vertical-align: -.2em;
-  }
-
-  .wood-icon--inline {
-    display: block;
-    width: 1rem;
-    height: 1rem;
-  }
-
   .mobile-app-nav__label {
     max-width: 100%;
     overflow: hidden;

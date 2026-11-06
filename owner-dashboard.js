@@ -1,6 +1,3 @@
-import { getOwnerMediaPreview, getOwnerMediaStatus } from './owner-media.mjs?v=wood-owner-media-v1-20261105';
-import { validateProductDraft } from './owner-product-validation.mjs?v=wood-owner-product-validation-v1-20261105';
-
 const categoryLabels = { fleurs: 'Fleurs CBD', resines: 'Résines', 'bien-etre': 'Bien-être', 'wood-shop': 'WOOD Shop' };
 const flowerTierGrams = [1, 3, 5, 10, 25];
 const orderStatuses = ['pending', 'paid', 'preparing', 'ready', 'completed', 'cancelled'];
@@ -61,10 +58,10 @@ export async function mountOwnerDashboard({ supabase, config = window.WOOD_SUPAB
   const renderProducts = () => {
     if (!productsBody) return;
     if (!products.length) {
-      productsBody.innerHTML = '<tr><td colspan="7" class="owner-dashboard__empty">Aucun produit pour le moment. Ajoute la première référence.</td></tr>';
+      productsBody.innerHTML = '<tr><td colspan="6" class="owner-dashboard__empty">Aucun produit pour le moment. Ajoute la première référence.</td></tr>';
       return;
     }
-    productsBody.innerHTML = products.map(product => { const media = getOwnerMediaStatus(product); const preview = getOwnerMediaPreview(product); return `<tr><td data-label="Produit"><div class="owner-dashboard__product"><strong>${escapeHtml(product.name)}</strong><span>${escapeHtml(product.slug)}</span></div></td><td data-label="Catégorie">${escapeHtml(categoryLabels[product.category] || product.category)}</td><td data-label="Prix">${product.category === 'fleurs' && product.pricing_tiers?.length ? product.pricing_tiers.map(tier => `${tier.grams} g · ${formatMoney(tier.price_cents)}`).join('<br>') : formatMoney(product.price_cents)}</td><td data-label="Stock">${escapeHtml(product.stock_quantity)}</td><td data-label="Média"><div class="owner-dashboard__media"><img src="${escapeHtml(preview.src)}" alt="${escapeHtml(preview.alt)}" loading="lazy"><span class="owner-dashboard__media-badge owner-dashboard__media-badge--${media.kind}">${media.label}${preview.isDemo ? ' · démo' : ''}</span></div></td><td data-label="Statut"><span class="owner-dashboard__status-badge owner-dashboard__status-badge--${escapeHtml(product.status)}">${product.status === 'published' ? 'Publié' : product.status === 'archived' ? 'Archivé' : 'Brouillon'}</span></td><td data-label="Action"><button class="owner-dashboard__edit" type="button" data-owner-edit-product="${escapeHtml(product.id)}">Modifier</button></td></tr>`; }).join('');
+    productsBody.innerHTML = products.map(product => `<tr><td data-label="Produit"><div class="owner-dashboard__product"><strong>${escapeHtml(product.name)}</strong><span>${escapeHtml(product.slug)}</span></div></td><td data-label="Catégorie">${escapeHtml(categoryLabels[product.category] || product.category)}</td><td data-label="Prix">${product.category === 'fleurs' && product.pricing_tiers?.length ? product.pricing_tiers.map(tier => `${tier.grams} g · ${formatMoney(tier.price_cents)}`).join('<br>') : formatMoney(product.price_cents)}</td><td data-label="Stock">${escapeHtml(product.stock_quantity)}</td><td data-label="Statut"><span class="owner-dashboard__status-badge owner-dashboard__status-badge--${escapeHtml(product.status)}">${product.status === 'published' ? 'Publié' : product.status === 'archived' ? 'Archivé' : 'Brouillon'}</span></td><td data-label="Action"><button class="owner-dashboard__edit" type="button" data-owner-edit-product="${escapeHtml(product.id)}">Modifier</button></td></tr>`).join('');
   };
 
   const renderOrders = (orderRows = orders) => {
@@ -290,12 +287,11 @@ export async function mountOwnerDashboard({ supabase, config = window.WOOD_SUPAB
     const name = $('#ownerProductName').value.trim();
     const category = $('#ownerProductCategory').value;
     const tiers = flowerTierGrams.map(grams => { const value = $(`#ownerProductPrice${grams}`).value.trim(); return { grams, value, price_cents: value === '' ? null : Math.round(Number(value) * 100) }; });
-    const priceValue = $('#ownerProductPrice').value.trim();
-    const validationMessage = validateProductDraft({ name, category, priceValue, stockValue: $('#ownerProductStock').value, tiers });
-    if (validationMessage) {
-      setMessage('#ownerProductMessage', validationMessage, true);
+    if (category === 'fleurs' && tiers.some(tier => tier.value === '' || !Number.isFinite(tier.price_cents) || tier.price_cents < 0)) {
+      setMessage('#ownerProductMessage', 'Renseigne les cinq tarifs fleurs : 1 g, 3 g, 5 g, 10 g et 25 g.', true);
       return;
     }
+    const priceValue = $('#ownerProductPrice').value.trim();
     const payload = { name, category, description: $('#ownerProductDescription').value.trim(), price_cents: priceValue === '' ? null : Math.round(Number(priceValue) * 100), stock_quantity: Number($('#ownerProductStock').value), status: $('#ownerProductStatus').value, availability_state: $('#ownerProductAvailability').value };
     if (!id) payload.slug = `${slugify(name)}-${Date.now().toString(36).slice(-5)}`;
     const request = id ? supabase.from('products').update(payload).eq('id', id) : supabase.from('products').insert(payload).select('id').single();
