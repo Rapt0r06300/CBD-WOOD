@@ -25,3 +25,5 @@ Improve the independent **CBD WOOD demonstration website** at https://rapt0r0630
 - **Existing visual implementation roadmap:** `docs/superpowers/plans/2026-11-05-wood-tealerlab-visual-rebuild-roadmap.md` includes the integrations.
 - Read these files before work. Work autonomously on every feasible code/test task; only Cloudflare account-holder OAuth consent, ownership approvals, and potentially cost-changing operations can require the user. Never claim these have been completed automatically.
 - Generate any missing D1 kit source and tests **inside this GitHub repository**, not from the user's downloaded ZIP, so no manual file copying is required. Do not assume that conversation sandbox files are mounted in Codex.
+
+- **Client-first conversion / UX :** `docs/superpowers/plans/2026-11-06-wood-cro-client-first-128-taches.md` (CRO-001…CRO-128, 16 groupes). Complementary to TXW and D1: execute P0 demo safety, then P1 buyer journey/brand, then P2 optimizations. No real sale, no invented product claims or proofs. Track actual task completion and owner validation distinctly.

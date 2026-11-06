@@ -214,3 +214,7 @@ Ces deux plans sont **complémentaires**, non des remplacements : Codex doit ré
 - Aucune migration réelle ou coupure de Supabase sans consentement explicite à une phase ultérieure.
 
 **Priorité nouvelle :** P0 sécurité et isolation démo → D1 local gratuit et plan Signature → D1 distant uniquement après OAuth gratuit → recette visuelle et responsive, sans bloquer les autres tâches sur les identifiants.
+
+## Extension orientation client / décision d'achat
+
+À cette feuille visuelle s'ajoute [la feuille CRO client-first de 128 tâches](2026-11-06-wood-cro-client-first-128-taches.md) : catalogue trouvable, résultats filtrables et comparables, fiche produit qui répond aux hésitations, provenance des contenus, localisateur des deux boutiques, contrôle anti-faux arguments et épreuves de navigation client. Elle apporte des critères plus fins à la conception TXW sans la remplacer. P0 : isolation démo et légalité ; P1 : parcours ; P2 : performance/mesure.

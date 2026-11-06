@@ -514,3 +514,7 @@ Après exécution, produire :
 ## Mise à jour technique liée
 
 La migration gratuite Cloudflare D1 et l'automatisation Codex se trouvent dans [D1-001 à D1-025](2026-11-06-wood-cloudflare-d1-free-autonome.md). Ce plan est complémentaire et ne change pas le comptage TXW-001 à TXW-120.
+
+## Extension conversion et parcours client (128 tickets)
+
+La feuille de route [CRO-001 à CRO-128](2026-11-06-wood-cro-client-first-128-taches.md) approfondit les parcours d'achat, la navigation produit, la recherche, les filtres, les fiches, la confiance, les deux boutiques, la conformité et les tests de décision. **Ne pas recompter comme nouvelles tâches les contrôles TXW déjà faits.** P0 sécurité en premier, démo sans vente, approbation propriétaire exigée pour vrais produits et données.
