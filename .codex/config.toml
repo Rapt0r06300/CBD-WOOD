@@ -1,0 +1,18 @@
+# Cloudflare MCP for Codex in the trusted CBD-WOOD repository.
+# Official guide: https://developers.cloudflare.com/agent-setup/prompt.md
+# No credentials or tokens belong in this file. Cloudflare authorization uses OAuth.
+
+[mcp_servers.cloudflare]
+url = "https://mcp.cloudflare.com/mcp"
+
+[mcp_servers.cloudflare-docs]
+url = "https://docs.mcp.cloudflare.com/mcp"
+
+[mcp_servers.cloudflare-bindings]
+url = "https://bindings.mcp.cloudflare.com/mcp"
+
+[mcp_servers.cloudflare-builds]
+url = "https://builds.mcp.cloudflare.com/mcp"
+
+[mcp_servers.cloudflare-observability]
+url = "https://observability.mcp.cloudflare.com/mcp"
