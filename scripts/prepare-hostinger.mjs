@@ -1,9 +1,20 @@
-import { cp, lstat, mkdir, mkdtemp, readdir, rename, rm } from 'node:fs/promises';
+import { cp, lstat, mkdir, mkdtemp, readdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const outputDir = join(root, 'dist-hostinger');
+const optimizedMedia = new Map([
+  ['assets/editorial/wood-hero-cloche.png', 'assets/editorial/wood-hero-cloche.webp'],
+  ['assets/editorial/wood-campaign-collage.png', 'assets/editorial/wood-campaign-collage.webp'],
+  ['assets/editorial/wood-drop-studio.png', 'assets/editorial/wood-drop-studio.webp'],
+  ['assets/editorial/wood-jar-detail.png', 'assets/editorial/wood-jar-detail.webp'],
+  ['assets/editorial/wood-texture-dome.png', 'assets/editorial/wood-texture-dome.webp'],
+]);
+const rewriteOptimizedMedia = (html) => [...optimizedMedia.entries()].reduce(
+  (result, [source, optimized]) => result.replaceAll(source, optimized),
+  html,
+);
 
 // Explicit allow-list: a future file is not published accidentally without a
 // deliberate review of this deployment boundary.
@@ -158,7 +169,11 @@ try {
   for (const file of PUBLIC_FILES) {
     const destination = join(stagingDir, file);
     await mkdir(dirname(destination), { recursive: true });
-    await cp(join(root, file), destination);
+    if (file.endsWith('.html')) {
+      await writeFile(destination, rewriteOptimizedMedia(await readFile(join(root, file), 'utf8')), 'utf8');
+    } else {
+      await cp(join(root, file), destination);
+    }
   }
 
   const stagedFiles = new Set(await collectFiles(stagingDir));

@@ -35,6 +35,7 @@ test('les cartes catalogue exposent un chrome media honnête', () => {
   assert.match(prepare, /wood-motion\.css/);
   assert.match(prepare, /wood-motion\.js/);
   assert.match(prepare, /wood-runway\.css/);
+  assert.match(prepare, /rewriteOptimizedMedia/);
   assert.match(prepare, /wood-drop-studio\.webp/);
   assert.match(prepare, /assets\/editorial\/wood-hero-cloche\.webp/);
   assert.match(prepare, /assets\/editorial\/wood-campaign-collage\.webp/);
