@@ -57,18 +57,29 @@ await mkdir(baseRoot, { recursive: true });
 for (const file of demoFiles) {
   if (!gitFileExists(file)) continue;
   const content = file.endsWith('.html') ? injectSwitcher(gitFile(file).toString('utf8')) : gitFile(file);
-  for (const destinationRoot of [output, baseRoot]) {
-    const destination = join(destinationRoot, file);
-    await mkdir(dirname(destination), { recursive: true });
-    await writeFile(destination, content);
-  }
+  const destination = join(output, file);
+  await mkdir(dirname(destination), { recursive: true });
+  await writeFile(destination, content);
 }
 
 await cp(join(demoRoot, switchScript), join(output, switchScript));
-await cp(join(demoRoot, switchScript), join(baseRoot, switchScript));
 await cp(join(demoRoot, switchStyles), join(output, switchStyles));
-await cp(join(demoRoot, switchStyles), join(baseRoot, switchStyles));
+
+await writeFile(join(baseRoot, 'index.html'), `<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="refresh" content="0;url=../">
+  <title>WOOD — version de base</title>
+</head>
+<body>
+  <p>Redirection vers la <a href="../">version de base de WOOD</a>.</p>
+</body>
+</html>
+`, 'utf8');
+await writeFile(join(baseRoot, 'README.md'), '# WOOD base\n\nAlias léger vers la version de base servie à la racine.\n', 'utf8');
 
 await writeFile(join(output, '.nojekyll'), '', 'utf8');
-await writeFile(join(output, 'README.md'), '# WOOD GitHub Pages\n\nLa racine sert la version de base. La démo est disponible dans `demo/`.\n', 'utf8');
+await writeFile(join(output, 'README.md'), '# WOOD GitHub Pages\n\nLa racine sert la version de base. La démo complète est disponible dans `demo/`.\nLe chemin `base/` reste un alias léger vers la racine.\n', 'utf8');
 console.log(`GitHub Pages préparé dans ${relative(root, output)} : base ${await collectFiles(output).then(files => files.length)} fichiers, démo ${demoFiles.length} fichiers, alias base ${await collectFiles(baseRoot).then(files => files.length)} fichiers.`);

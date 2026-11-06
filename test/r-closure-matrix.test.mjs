@@ -44,7 +44,7 @@ test('la preuve de clôture R et les guides de passation existent', () => {
 });
 
 test('la feuille de route expose le jalon 4 119 / 4 528', () => {
-  assert.match(roadmap, /4 119 \/ 4 528 = 90,97 %/u);
+  assert.match(roadmap, /4 120 \/ 4 528 = 90,99 %/u);
   assert.match(responsiveReference, /4 119 \/ 4 528/u);
   assert.match(responsiveReference, /Chromium, Firefox et WebKit/u);
   assert.match(responsiveReference, /Safari iOS\/macOS/u);

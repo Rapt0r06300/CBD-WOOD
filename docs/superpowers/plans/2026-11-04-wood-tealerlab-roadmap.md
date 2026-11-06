@@ -137,8 +137,8 @@ Cette séparation ne change pas le périmètre sécurisé : aucun paiement réel
 
 ## État de vérification locale — 5 novembre 2026
 
-- `npm run check` passe avec **333 tests**, la syntaxe JavaScript contrôlée sur 48 fichiers source et l’audit statique sans erreur ; `dist-hostinger` est une sortie générée et exclue de ce comptage.
-- `npm run hostinger:preflight` reconstruit un paquet de **57 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
+- `npm run check` passe avec **355 tests**, la syntaxe JavaScript contrôlée sur 175 fichiers source et l’audit statique sans erreur ; `dist-hostinger` est une sortie générée et exclue de ce comptage.
+- `npm run hostinger:preflight` reconstruit un paquet de **101 fichiers** depuis une sortie nettoyée ; aucun `admin.html`, `admin.js` ou `admin.css` n’est publié.
 - La publication GitHub Pages est maintenant déclarée dans `.github/workflows/pages.yml` : elle réutilise ce paquet public contrôlé et évite de publier le dépôt complet.
 - Les workflows GitHub Pages et de qualité ont été vérifiés avec succès ; le dernier commit de code poussé est `c5ad198` et le dernier alignement documentaire est `c5ad198`. Les pages publiques et l’image WebP répondent en HTTP 200, tandis que `/admin.html` répond 404. Cette preuve concerne uniquement la prévisualisation GitHub Pages, pas l’ouverture commerciale.
 - Le contrôle responsive Playwright confirme l’absence de débordement inattendu sur les **40 combinaisons** récentes (10 routes publiques × `320`, `390`, `768`, `1440`), avec des titres non vides et la navigation mobile chargée sur les vues étroites.
