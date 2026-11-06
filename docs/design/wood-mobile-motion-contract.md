@@ -17,11 +17,11 @@ Le shell ne capture pas `wheel`, `touchmove` ou `scroll` pour fabriquer un scrol
 ## Motion mobile et bornes
 
 - Les transitions restent composées (`transform`, `opacity`, couleur ou bordure) et sont courtes ; elles ne déplacent pas le document ni les barres système.
-- Les seuils d'intersection sont explicites et chaque cible est désabonnée après sa première révélation pour éviter les boucles et les coûts répétés.
+- Les seuils d'intersection sont explicites et chaque cible est désabonnée après sa première révélation pour éviter les boucles et les coûts répétés. Un délai global ne révèle pas les éléments hors écran avant que le client ne les fasse défiler ; le focus clavier et l’impression ont leur propre repli.
 - La barre basse reste fixe dans la safe area, conserve ses libellés et utilise `touch-action: manipulation` pour limiter les délais de geste sans bloquer le défilement de la page.
 - Les états actifs et focus fournissent un signal visuel complémentaire au mouvement et ne reposent pas sur la couleur seule.
 
-Les animations d'image produit restent bornées à une légère mise à l'échelle ; les cartes désactivent l'effet de survol lorsque le périphérique ne propose pas de hover. Aucune animation ne doit provoquer de clignotement, de zoom plein écran ou de modification persistante du layout.
+Les animations d'image produit restent bornées à une mise à l'échelle courte et visible ; les cartes désactivent l'effet de survol lorsque le périphérique ne propose pas de hover et fournissent un retour à l'activation tactile. Les stickers dessinés WOOD apparaissent avec leur bloc au scroll. Aucune animation ne doit provoquer de clignotement, de zoom plein écran ou de modification persistante du layout.
 
 ## Reduced-motion, faible donnée et fallback
 

@@ -33,7 +33,7 @@ html.wood-motion-ready .nav { transition: background .28s ease, border-color .28
 .hero-copy .sub { animation-delay: .25s; }
 .hero-copy .buttons { animation-delay: .34s; }
 .hero-copy .hero-proof-rail { animation-delay: .43s; }
-@keyframes woodHeroIn { from { opacity: 1; transform: translate3d(0, 18px, 0); } to { opacity: 1; transform: none; } }
+@keyframes woodHeroIn { from { opacity: 0; transform: translate3d(0, 28px, 0) scale(.985); } to { opacity: 1; transform: none; } }
 
 .hero-art > img:first-child { transform: translate3d(calc(var(--wood-hero-x, 0) * 1px), calc(var(--wood-hero-y, 0) * 1px), 0) scale(1.04); transition: transform .25s ease-out; }
 .hero-product-card { transform: translate3d(calc(var(--wood-hero-x, 0) * -.45px), calc(var(--wood-hero-y, 0) * -.45px), 0) rotate(3deg); animation: woodClocheFloat 5.2s ease-in-out infinite; }
@@ -200,3 +200,46 @@ html.wood-motion-ready .nav { transition: background .28s ease, border-color .28
 }
 html.wood-low-data .wood-reveal-v2, html.wood-low-data .hero-copy > * { opacity: 1; transform: none; animation: none!important; transition: none!important; }
 html.wood-low-data .hero-product-card, html.wood-low-data .hero-scroll { animation: none!important; }
+
+@media(max-width:800px) and (hover:none) {
+  :root { --wood-motion-duration: .72s; }
+  .wood-reveal-v2 { transform: translate3d(0, 38px, 0) scale(.97); }
+  .wood-reveal-v2[data-reveal-from="left"], .wood-reveal-v2[data-reveal-from="right"] { transform: translate3d(0, 38px, 0) scale(.97); }
+  .hero-copy .eyebrow { animation-delay: .04s; }
+  .hero-copy h1 { animation-delay: .13s; }
+  .hero-copy .sub { animation-delay: .22s; }
+  .hero-copy .buttons { animation-delay: .31s; }
+  .hero-copy .hero-proof-rail { animation-delay: .4s; }
+  .wood-runway-card.is-visible .wood-runway-card__media img:first-child,
+  .wood-campaign__media.is-visible > img:first-child { animation: woodMobilePhotoArrive .82s var(--wood-spring) both; }
+  .wood-runway-card:active { transform: scale(.985); border-color: #39714a; }
+  .wood-runway-card:active .wood-runway-card__media img:first-child,
+  .wood-drop-card:active img,
+  .wood-community__wall article:active img { transform: scale(1.06); }
+  .btn:active, .nav-cta:active, .add-to-cart:active, .cart-trigger:active,
+  .wood-rail-controls button:active:not(:disabled), .wood-mood__tabs button:active { transform: scale(.96); }
+  .wood-service:active .wood-service__mark { transform: rotate(-8deg) scale(1.2); }
+  .wood-reveal-v2.is-visible .wood-comic-doodle,
+  .wood-reveal-v2.is-visible .wood-service__mark { animation: woodDoodleArrive .64s var(--wood-spring) both; }
+  @keyframes woodMobilePhotoArrive {
+    from { filter: brightness(.72) saturate(.75); transform: scale(1.13); }
+    to { filter: brightness(1) saturate(1); transform: scale(1); }
+  }
+  @keyframes woodDoodleArrive {
+    0% { opacity: 0; filter: blur(3px); }
+    68% { opacity: 1; filter: blur(0); }
+    100% { filter: none; }
+  }
+}
+@media(max-width:800px) and (hover:none) and (prefers-reduced-motion:reduce) {
+  .wood-runway-card.is-visible .wood-runway-card__media img:first-child,
+  .wood-campaign__media.is-visible > img:first-child,
+  .wood-reveal-v2.is-visible .wood-comic-doodle,
+  .wood-reveal-v2.is-visible .wood-service__mark { animation: none!important; }
+}
+@media(max-width:800px) and (hover:none) {
+  html.wood-low-data .wood-runway-card.is-visible .wood-runway-card__media img:first-child,
+  html.wood-low-data .wood-campaign__media.is-visible > img:first-child,
+  html.wood-low-data .wood-reveal-v2.is-visible .wood-comic-doodle,
+  html.wood-low-data .wood-reveal-v2.is-visible .wood-service__mark { animation: none!important; }
+}

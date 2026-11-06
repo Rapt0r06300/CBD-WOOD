@@ -1,6 +1,8 @@
 # Pack graffiti WOOD
 
-Le pack est une bibliothèque de vingt accents vectoriels originaux. Ils servent à donner du rythme aux blocs éditoriaux WOOD ; ils ne remplacent ni une photo, ni un titre, ni une information d’achat.
+Le pack contient vingt accents vectoriels originaux et une planche transparente de six dessins BD faits main (`assets/graffiti/wood-comic-sprite.webp`). Cette planche reprend l’énergie peinte de la carte WOOD envoyée par la propriétaire, avec un vocabulaire permanent : tag WOOD, sourire botanique, feuille, cloche, GOOD et flèche. Elle n'utilise pas les codes saisonniers de l'affiche Halloween.
+
+Les stickers BD sont des éléments décoratifs recadrés depuis une grille 3 × 2. Le fichier WebP 1024 × 683 conserve l’alpha et pèse environ 243 ko, après réduction depuis la première version de 1,45 Mo. Les composants HTML portent `aria-hidden="true"` et restent en dehors du flux.
 
 ## Inventaire
 
@@ -26,6 +28,7 @@ Le pack est une bibliothèque de vingt accents vectoriels originaux. Ils servent
 | Check | `wood-check.svg` | souligner une preuve de présentation |
 | Soleil | `wood-sun.svg` | éclairer une campagne photo ou un drop |
 | Soulignement | `wood-underline.svg` | guider le regard vers un rail produit |
+| Planche BD WOOD | `wood-comic-sprite.webp` | signer le hero, la cloche, les services et les cartes de drop avec le trait peint de la maison |
 
 ## Règles
 
@@ -35,6 +38,7 @@ Le pack est une bibliothèque de vingt accents vectoriels originaux. Ils servent
 - Les variantes utilisent les tokens WOOD ; le pack ne copie pas TealerLab ou une autre marque.
 - En `prefers-reduced-motion: reduce`, les accents restent statiques ou sont masqués ; le contenu demeure dans le même ordre.
 - Sur mobile et à l’impression, une décoration peut disparaître sans perte d’information.
+- Les animations du sprite sont déclenchées à l’entrée dans le viewport ; une pression tactile donne un retour bref sur les cartes et boutons.
 
 ## Revue
 
