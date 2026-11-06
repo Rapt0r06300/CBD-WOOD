@@ -15,6 +15,7 @@ test('la carte de contraintes couvre les routes publiques et leurs frontières',
     'produit.html',
     'compte.html',
     'checkout.html',
+    'contact.html',
     'confirmation.html',
     '404.html'
   ]) {

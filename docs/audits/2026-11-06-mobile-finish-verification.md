@@ -46,7 +46,7 @@ section d’avis ne contient ni bouton de sélection ni compteur d’avis.
 - `node --test test/mobile-finish-contract.test.mjs` : 4/4.
 - `npm run check:js` : OK, 174 fichiers JavaScript.
 - `npm run audit` : OK.
-- `npm run readiness` : OK, 11 pages, 403 références, 31 ancres.
+- `npm run readiness` : OK, 12 pages, 436 références, 35 ancres.
 - `npm test -- --test-reporter=dot` : 354/354.
 
 Les contrats historiques réconciliés dans cette passe couvrent également le

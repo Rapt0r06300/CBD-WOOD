@@ -15,6 +15,7 @@ const publicPages = [
   'produit.html',
   'compte.html',
   'checkout.html',
+  'contact.html',
   'confirmation.html',
   '404.html',
 ];

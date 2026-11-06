@@ -6,7 +6,7 @@ test('checkout section keeps the shared container gutters', async () => {
   const stylesheet = await readFile(new URL('../boutique.css', import.meta.url), 'utf8');
   const homepage = await readFile(new URL('../index.html', import.meta.url), 'utf8');
   const ownerStylesheet = await readFile(new URL('../owner-dashboard.css', import.meta.url), 'utf8');
-  for (const page of ['bien-etre.html', 'compte.html', 'confirmation.html', 'fleur.html', 'fleurs.html', 'resines.html', 'wood-shop.html', 'checkout.html']) {
+  for (const page of ['bien-etre.html', 'compte.html', 'confirmation.html', 'fleur.html', 'fleurs.html', 'resines.html', 'wood-shop.html', 'checkout.html', 'contact.html']) {
     const html = await readFile(new URL(`../${page}`, import.meta.url), 'utf8');
     assert.match(
       html,

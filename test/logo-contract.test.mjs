@@ -12,6 +12,7 @@ const publicPages = [
   'produit.html',
   'compte.html',
   'checkout.html',
+  'contact.html',
   'confirmation.html',
   '404.html'
 ];
@@ -28,7 +29,7 @@ test('le contrat logo relie le fichier original aux variantes autorisées', asyn
   assert.match(contract, /aucun logo externe|aucune branche inventée/u);
 
   for (const [index, page] of pages.entries()) {
-    if (page === pages[10]) continue;
+    if (['confirmation.html', '404.html'].includes(publicPages[index])) continue;
     assert.match(page, /assets\/wood-mark\.svg\?v=wood-logo-original-exact-20261103/iu, `${publicPages[index]} doit utiliser le logo versionné`);
     assert.match(page, /aria-label="WOOD CBD Nice, accueil"/u, `${publicPages[index]} doit nommer le lien de marque`);
     assert.match(page, /alt="" aria-hidden="true"/u, `${publicPages[index]} doit garder le mark décoratif hors du doublon vocal`);

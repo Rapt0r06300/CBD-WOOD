@@ -12,6 +12,7 @@ Ce document décrit uniquement les routes publiques du site statique. Les rôles
 | `fleur.html` | Fiche détaillée d’une fleur | `fleurs.html`, `checkout.html` |
 | `produit.html` | Fiche générique résines, bien-être et WOOD Shop | retour vers l’univers, `checkout.html` |
 | `checkout.html` | Récapitulatif, identité et livraison à domicile | `confirmation.html`, `compte.html?return=checkout.html` |
+| `contact.html` | Aide structurée par sujet, numéro de commande facultatif et contact direct | `index.html#questions`, téléphone, e-mail |
 | `confirmation.html` | Confirmation d’une commande enregistrée | `index.html`, `fleurs.html`, `compte.html` |
 | `compte.html` | Connexion, création de compte et historique client | espace propriétaire intégré après rôle `owner_users` confirmé |
 | `404.html` | Secours pour une route inexistante | retour vers `index.html` |

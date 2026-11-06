@@ -19,7 +19,7 @@ test('le menu mobile conserve le focus et son état accessible', () => {
 });
 
 test('le menu public expose les quatre univers et les accès rapides sans administration', async () => {
-  const pages = ['index.html', 'fleurs.html', 'resines.html', 'bien-etre.html', 'wood-shop.html', 'fleur.html', 'checkout.html', 'confirmation.html', 'compte.html'];
+const pages = ['index.html', 'fleurs.html', 'resines.html', 'bien-etre.html', 'wood-shop.html', 'fleur.html', 'checkout.html', 'contact.html', 'confirmation.html', 'compte.html'];
   for (const page of pages) {
     const html = await readFile(new URL(`../${page}`, import.meta.url), 'utf8');
     assert.match(html, /nav-menu-label/);

@@ -25,6 +25,9 @@ test('le contrat délimite un paquet public explicite et reproductible', () => {
   assert.match(prepare, /checkout-required\.js/);
   assert.match(prepare, /wood-mobile-finish\.css/);
   assert.match(prepare, /wood-mobile-finish\.js/);
+  assert.match(prepare, /'contact\.html'/);
+  assert.match(prepare, /wood-contact\.css/);
+  assert.match(prepare, /wood-detail-accents\.css/);
   assert.match(checkJs, /dist-hostinger/);
   assert.doesNotMatch(prepare, /'admin\.html'|'admin\.js'|'admin\.css'/);
   assert.match(hostingerGuide, /contenu[\s\S]*dist-hostinger[\s\S]*public_html/iu);

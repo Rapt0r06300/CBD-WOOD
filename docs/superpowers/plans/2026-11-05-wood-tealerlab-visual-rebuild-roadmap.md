@@ -2,6 +2,10 @@
 
 > Plan révisé le 5 novembre 2026 après audit local du site WOOD, vérification responsive Playwright et lecture des patterns éditoriaux publics de TealerLab.
 
+> État complémentaire du 6 novembre 2026 : la checklist des 109 tâches actives,
+> les portes externes et les preuves associées sont suivies dans
+> `docs/validation/2026-11-06-109-task-status.md`.
+
 ## Objectif
 
 Faire évoluer WOOD vers une expérience éditoriale premium, riche en photos, séquences, offres, preuves et animations, dans l’esprit de présentation de TealerLab, sans copier son identité, ses textes, ses promotions, ses avis ni ses visuels.
@@ -11,6 +15,7 @@ Le périmètre couvre uniquement ce qui est implémentable dans le dépôt actue
 ## État constaté
 
 - Le socle WOOD est fonctionnel et responsive : la suite locale passe à 333/333 tests et la largeur mobile reste à 390 px sans débordement observé.
+- La démo possède maintenant une page d’aide `contact.html`, un jeu d’icônes SVG cohérent et des annotations manuscrites optionnelles, sans collecte ni paiement réel.
 - La page d’accueil actuelle possède déjà une direction sombre, une accroche, des CTA, une illustration botanique, un ticker, des sections narratives, une FAQ et une navigation mobile.
 - Le catalogue contient des produits et des images de démonstration, mais l’expérience visible n’a pas encore la densité éditoriale observée chez TealerLab : rails photos, badges honnêtes, choix par humeur, blocs d’offres, séquences sociales, galerie produit et animations de récit.
 - Les graffitis originaux demandés ne sont pas encore livrés comme un pack visuel intégré et vérifiable.

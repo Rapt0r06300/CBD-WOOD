@@ -17,6 +17,7 @@ Les 11 routes ci-dessous sont déclarées dans `scripts/site-readiness.mjs`. Ell
 | `produit.html` | Fiche générique des trois autres univers | `product-detail.js`, `order-api.js`, `order-options.js` |
 | `compte.html` | Session client et espace propriétaire conditionnel | `account.js`, `owner-dashboard.js`, `owner-dashboard.css`, `owner-media.mjs`, `owner-product-validation.mjs` |
 | `checkout.html` | Récapitulatif, livraison, coordonnées corrigeables | `checkout-required.js`, `order-api.js`, `order-options.js` |
+| `contact.html` | Aide par sujet et contact direct, sans envoi réel en démo | `boutique.js`, `mobile-shell.js`, `wood-contact.css` |
 | `confirmation.html` | Confirmation d'une commande réellement persistée | `confirmation.js`, `order-api.js` |
 | `404.html` | Repli lisible et retour vers l'accueil | CSS local et repli mobile intégré |
 
