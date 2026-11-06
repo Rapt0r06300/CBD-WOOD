@@ -16,4 +16,6 @@ test('le switch GitHub Pages relie toujours les versions démo et base', () => {
   assert.match(prepareScript, /baseRoot/u);
   assert.match(prepareScript, /origin\/main/u);
   assert.match(prepareScript, /injectSwitcher/u);
+  assert.match(prepareScript, /optimizedMedia/u);
+  assert.match(prepareScript, /rewriteOptimizedMedia/u);
 });

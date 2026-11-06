@@ -10,6 +10,13 @@ const demoRoot = join(output, 'demo');
 const baseRoot = join(output, 'base');
 const switchScript = 'github-pages-switch.js';
 const switchStyles = 'github-pages-switch.css';
+const optimizedMedia = new Map([
+  ['assets/editorial/wood-hero-cloche.png', 'assets/editorial/wood-hero-cloche.webp'],
+  ['assets/editorial/wood-campaign-collage.png', 'assets/editorial/wood-campaign-collage.webp'],
+  ['assets/editorial/wood-drop-studio.png', 'assets/editorial/wood-drop-studio.webp'],
+  ['assets/editorial/wood-jar-detail.png', 'assets/editorial/wood-jar-detail.webp'],
+  ['assets/editorial/wood-texture-dome.png', 'assets/editorial/wood-texture-dome.webp'],
+]);
 
 const collectFiles = async (directory, prefix = '') => {
   const entries = await readdir(directory, { withFileTypes: true });
@@ -41,6 +48,10 @@ const gitFile = (path) => execFileSync('git', ['show', `origin/main:${path}`], {
 // The demo remains reachable through its dedicated /demo/ URL, but the
 // Base/Demo switcher is intentionally hidden from the storefront header.
 const injectSwitcher = (html) => html;
+const rewriteOptimizedMedia = (html) => [...optimizedMedia.entries()].reduce(
+  (result, [source, optimized]) => result.replaceAll(source, optimized),
+  html,
+);
 
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
@@ -50,13 +61,15 @@ const demoFiles = await collectFiles(demoRoot);
 for (const file of demoFiles) {
   if (!file.endsWith('.html')) continue;
   const path = join(demoRoot, file);
-  await writeFile(path, injectSwitcher(await readFile(path, 'utf8')), 'utf8');
+  await writeFile(path, rewriteOptimizedMedia(injectSwitcher(await readFile(path, 'utf8'))), 'utf8');
 }
 
 await mkdir(baseRoot, { recursive: true });
 for (const file of demoFiles) {
   if (!gitFileExists(file)) continue;
-  const content = file.endsWith('.html') ? injectSwitcher(gitFile(file).toString('utf8')) : gitFile(file);
+  const content = file.endsWith('.html')
+    ? rewriteOptimizedMedia(injectSwitcher(gitFile(file).toString('utf8')))
+    : gitFile(file);
   const destination = join(output, file);
   await mkdir(dirname(destination), { recursive: true });
   await writeFile(destination, content);
