@@ -107,6 +107,8 @@ async function getValidatedUser() {
 }
 
 async function showAccount(user) {
+  const passwordUsername = document.getElementById('passwordUsername');
+  if (passwordUsername) passwordUsername.value = user?.email || '';
   const [{ data: profile }, { data: orders, error: ordersError }, { data: documents, error: documentsError }, { data: owner, error: ownerError }] = await Promise.all([
     supabase.from('customer_profiles').select('full_name, phone').eq('id', user.id).maybeSingle(),
     supabase.from('orders').select('id, order_number, fulfillment_mode, status, total_cents, created_at').eq('customer_id', user.id).order('created_at', { ascending: false }).limit(50),

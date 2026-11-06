@@ -4,7 +4,7 @@
   const category = params.get('categorie') || 'wood-shop';
   const fallbackName = params.get('nom') || 'Référence WOOD';
   const labels = {
-    resines: { title: 'Résines CBD', image: 'assets/resines.svg', back: 'resines.html', copy: 'Une sélection de textures choisies avec attention. Les informations définitives seront renseignées avec la boutique.' },
+    resines: { title: 'Résines CBD', image: 'assets/editorial/wood-resin-concept-03.webp', back: 'resines.html', copy: 'Mise en scène conceptuelle sous cloche pour la démo WOOD. La photo, la référence et les informations du produit réel restent à confirmer par la boutique.' },
     'bien-etre': { title: 'Cosmétiques & huiles', image: 'assets/cosmetiques.svg', back: 'bien-etre.html', copy: 'Un produit bien-être autour du chanvre, présenté avec les informations et précautions validées par WOOD.' },
     'wood-shop': { title: 'WOOD Shop', image: '', back: 'wood-shop.html', copy: 'Une pièce de l’univers WOOD, à découvrir lorsque le modèle, la taille, le prix et la disponibilité seront confirmés.' },
   };
@@ -14,8 +14,40 @@
 
   const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
   const imageMarkup = (image, name) => image
-    ? `<img src="${escapeHtml(image)}" alt="Visuel de démonstration de ${escapeHtml(name)}">`
+    ? `<img src="${escapeHtml(image)}" alt="Visuel de démonstration pour ${escapeHtml(name)}" width="1024" height="1024" loading="eager" decoding="async">`
     : '<div class="product-art--type">WOOD.<small>WOOD SHOP / VISUEL À VENIR</small></div>';
+
+  const detailGalleryMarkup = (image, name) => {
+    const visual = imageMarkup(image, name);
+    if (!image) return `<div class="product-detail__gallery" data-product-gallery>${visual}<p class="product-detail__media-note">Visuel à venir · photo réelle à valider</p></div>`;
+    return `<div class="product-detail__gallery" data-product-gallery><button class="product-detail__zoom" type="button" data-product-zoom aria-controls="productLightbox" aria-label="Agrandir le visuel de ${escapeHtml(name)}">${visual}<span aria-hidden="true">Agrandir ↗</span></button><p class="product-detail__media-note">Visuel de démonstration · photo réelle à valider</p><dialog class="product-lightbox" id="productLightbox" data-product-lightbox aria-labelledby="productLightboxTitle"><div class="product-lightbox__top"><strong id="productLightboxTitle">${escapeHtml(name)}</strong><button type="button" data-product-lightbox-close aria-label="Fermer le visuel">Fermer ×</button></div>${visual}</dialog></div>`;
+  };
+
+  const qualityProofMarkup = (proofs = []) => {
+    const verified = Array.isArray(proofs)
+      ? proofs
+        .filter(proof => proof && proof.status === 'verified' && proof.source && proof.label && proof.value)
+        .slice(0, 3)
+      : [];
+    if (!verified.length) {
+      return '<div class="quality-proof__empty"><p>Aucune preuve qualité validée à afficher.</p><span>À fournir</span></div>';
+    }
+    return `<div class="quality-proof__grid">${verified.map(proof => `<article class="quality-proof__card"><h3>${escapeHtml(proof.label)}</h3><p>${escapeHtml(proof.value)}</p><span>${escapeHtml(proof.source)}</span></article>`).join('')}</div>`;
+  };
+
+  const renderQualityProof = (proofs = []) => {
+    const section = document.querySelector('.quality-proof');
+    if (!section) return;
+    const hasVerifiedProof = Array.isArray(proofs) && proofs.some(proof => proof && proof.status === 'verified' && proof.source && proof.label && proof.value);
+    section.dataset.qualityState = hasVerifiedProof ? 'verified' : 'empty';
+    section.querySelector('.quality-proof__dynamic')?.remove();
+    if (!hasVerifiedProof) return;
+    section.querySelector(':scope > .quality-proof__grid')?.remove();
+    const dynamic = document.createElement('div');
+    dynamic.className = 'quality-proof__dynamic';
+    dynamic.innerHTML = qualityProofMarkup(proofs);
+    section.appendChild(dynamic);
+  };
 
   const priceTableMarkup = (product, name) => {
     const tiers = Array.isArray(product.pricing_tiers)
@@ -26,7 +58,8 @@
     if (!tiers.length) return '';
     const headers = tiers.map(tier => `<th scope="col">${tier.grams} g</th>`).join('');
     const prices = tiers.map(tier => `<td>${(tier.priceCents / 100).toFixed(2).replace('.', ',')} €</td>`).join('');
-    return `<details class="flower-detail__prices"><summary>Voir les tarifs par grammage</summary><div class="flower-detail__prices-scroll"><table><caption>Tarifs affichés pour ${escapeHtml(name)}</caption><thead><tr>${headers}</tr></thead><tbody><tr>${prices}</tr></tbody></table></div></details>`;
+    const pricePerGram = tiers.map(tier => `<td>${(tier.priceCents / 100 / tier.grams).toFixed(2).replace('.', ',')} € / g</td>`).join('');
+    return `<details class="flower-detail__prices"><summary>Voir les tarifs par grammage</summary><div class="flower-detail__prices-scroll"><table><caption>Tarifs affichés pour ${escapeHtml(name)}</caption><thead><tr>${headers}</tr></thead><tbody><tr><th scope="row">Prix total</th>${prices}</tr><tr><th scope="row">Prix au gramme</th>${pricePerGram}</tr></tbody></table></div></details>`;
   };
 
   function renderRelated(relatedProducts = []) {
@@ -37,7 +70,7 @@
     section.className = 'product-related';
     section.setAttribute('aria-labelledby', 'related-title');
     section.innerHTML = `
-      <div class="product-related__heading"><div><div class="kicker">Même univers</div><h2 id="related-title">À DÉCOUVRIR<br><span>CHEZ WOOD.</span></h2></div><p>Quelques références publiées dans le même univers, sans promotion ni recommandation automatique.</p></div>
+      <div class="product-related__heading"><div><div class="kicker">Même univers</div><h2 id="related-title">À DÉCOUVRIR <span>CHEZ WOOD.</span></h2></div><p>Quelques références publiées dans le même univers, sans promotion ni recommandation automatique.</p></div>
       <div class="product-related__grid">
         ${relatedProducts.map((related) => {
           const relatedName = related.name || 'Référence WOOD';
@@ -78,7 +111,7 @@
           <p class="product-detail__note">Les références, prix et disponibilités sont confirmés par la boutique avant toute commande.</p>
         </div>
         <article class="product-card product-detail-card" data-product-id="${escapeHtml(product.id || requestedId)}" data-product-slug="${escapeHtml(product.slug || requestedId)}" data-product-name="${escapeHtml(name)}" data-product-category="${escapeHtml(context.title)}" data-product-price="${hasPrice ? price / 100 : ''}" data-availability-state="${escapeHtml(product.availability_state || 'incomplete')}"${available ? '' : ' data-product-unavailable="true"'}>
-          <div class="product-art">${imageMarkup(image, name)}</div>
+          ${detailGalleryMarkup(image, name)}
           <div class="product-body">
             <span class="product-index">01 / WOOD CATALOGUE</span>
             <h3>${escapeHtml(name)}</h3>
@@ -88,7 +121,16 @@
         </article>
       </div>
       <div class="product-detail__back"><a class="btn secondary" href="${escapeHtml(context.back)}">← Retour à ${escapeHtml(context.title)}</a></div>`;
+    const zoom = root.querySelector('[data-product-zoom]');
+    const lightbox = root.querySelector('[data-product-lightbox]');
+    const closeLightbox = root.querySelector('[data-product-lightbox-close]');
+    zoom?.addEventListener('click', () => {
+      if (typeof lightbox?.showModal === 'function') lightbox.showModal();
+      else lightbox?.setAttribute('open', '');
+    });
+    closeLightbox?.addEventListener('click', () => lightbox?.close?.());
     document.dispatchEvent(new CustomEvent('wood:detail-rendered'));
+    renderQualityProof(product.quality_proofs);
   }
 
   render();

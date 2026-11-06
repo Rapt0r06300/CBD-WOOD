@@ -71,7 +71,7 @@
       </article>
     </div>
     <section class="product-related" aria-labelledby="related-title">
-      <div class="product-related__heading"><div><div class="kicker">Même univers</div><h2 id="related-title">À DÉCOUVRIR<br><span>CHEZ WOOD.</span></h2></div><p>Trois autres fleurs de la sélection, à consulter sans quitter l’univers WOOD.</p></div>
+      <div class="product-related__heading"><div><div class="kicker">Même univers</div><h2 id="related-title">À DÉCOUVRIR <span>CHEZ WOOD.</span></h2></div><p>Trois autres fleurs de la sélection, à consulter sans quitter l’univers WOOD.</p></div>
       <div class="product-related__grid">
         ${relatedProducts.map(([id, related]) => {
           const relatedPresentation = window.WoodFlowerPresentation?.get(id);

@@ -1,0 +1,30 @@
+.wood-resin-demo .page-hero__art { position: relative; }
+.wood-resin-demo .page-hero__art > img:first-child { object-position: center 53%; }
+.wood-resin-hero-label { position: absolute; z-index: 4; top: 18px; left: 18px; padding: 8px 11px; border: 1px solid rgba(221, 238, 202, .54); background: rgba(14, 25, 16, .78); color: #e3efcf; font-size: 9px; font-weight: 900; letter-spacing: 1.2px; }
+.wood-resin-hero-doodle { top: 13%; right: 8%; width: clamp(76px, 10vw, 128px); height: auto; transform: rotate(11deg); }
+.wood-resin-section-heading { position: relative; }
+.wood-resin-title-sticker { right: -34px; top: -46px; width: 112px; opacity: .9; transform: rotate(8deg); }
+.wood-resin-card .product-art { height: clamp(270px, 29vw, 390px); background: #122016; }
+.wood-resin-card .product-art img { object-fit: cover; }
+.wood-resin-card .product-art__chrome { inset: 13px; }
+.wood-resin-card .product-art__status { border-color: rgba(203, 240, 150, .72); }
+
+@media (max-width: 800px) {
+  .wood-resin-hero-label { top: 12px; left: 12px; font-size: 8px; }
+  .wood-resin-hero-doodle { top: 12%; right: 4%; width: 82px; }
+  .wood-resin-title-sticker { right: -8px; top: -35px; width: 76px; }
+  .wood-resin-card .product-art { height: clamp(255px, 72vw, 330px); }
+  .wood-resin-card .product-art__chrome { inset: 9px; }
+}
+
+@media (max-width: 500px) {
+  .wood-resin-demo .product-grid { grid-template-columns: 1fr; }
+  .wood-resin-demo .product-grid .product-art { height: clamp(255px, 78vw, 330px); }
+  .wood-resin-demo .product-card .product-body { padding: 18px 17px 20px; }
+  .wood-resin-demo .product-card h3 { font-size: 24px; }
+  .wood-resin-demo .product-card p { display: block; min-height: 0; margin: 4px 0; font-size: 13px; line-height: 1.5; }
+}
+
+@media (prefers-reduced-motion: reduce), print {
+  .wood-resin-demo .wood-graffiti, .wood-resin-demo .wood-comic-doodle { animation: none !important; }
+}
