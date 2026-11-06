@@ -243,3 +243,113 @@ html.wood-low-data .hero-product-card, html.wood-low-data .hero-scroll { animati
   html.wood-low-data .wood-reveal-v2.is-visible .wood-comic-doodle,
   html.wood-low-data .wood-reveal-v2.is-visible .wood-service__mark { animation: none!important; }
 }
+
+/* Small trust rail: TealerLab uses a compact benefits strip to keep the
+   shopping rhythm alive. WOOD uses only verified brand cues here. */
+.wood-detail-strip {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #344338;
+  background: #17251a;
+  color: #e7efdc;
+}
+.wood-detail-strip::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .35;
+  background: linear-gradient(90deg, transparent, rgba(203, 240, 150, .08), transparent);
+  transform: translateX(-100%);
+  animation: woodDetailSweep 8s var(--wood-ease) infinite;
+}
+.wood-detail-strip__inner {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 5.4vw, 90px);
+}
+.wood-detail-strip__item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  align-items: center;
+  gap: 11px;
+  min-height: 78px;
+  padding: 13px 18px;
+  border-right: 1px solid rgba(203, 240, 150, .15);
+  transition: background .25s ease, transform .28s var(--wood-ease);
+}
+.wood-detail-strip__item:first-child { border-left: 1px solid rgba(203, 240, 150, .15); }
+.wood-detail-strip__item:hover,
+.wood-detail-strip__item:focus-within { background: rgba(203, 240, 150, .07); transform: translateY(-2px); }
+.wood-detail-strip__mark {
+  display: grid;
+  place-items: center;
+  width: 31px;
+  height: 31px;
+  border: 1px solid #9bb27f;
+  border-radius: 50%;
+  color: #cbf096;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  transform: rotate(-8deg);
+}
+.wood-detail-strip__item:nth-child(2) .wood-detail-strip__mark { border-radius: 45% 55% 48% 52%; transform: rotate(8deg); }
+.wood-detail-strip__item:nth-child(3) .wood-detail-strip__mark { border-radius: 55% 45% 52% 48%; transform: rotate(-4deg); }
+.wood-detail-strip__item:nth-child(4) .wood-detail-strip__mark { border-radius: 48% 52% 42% 58%; transform: rotate(11deg); }
+.wood-detail-strip__item strong,
+.wood-detail-strip__item small { display: block; }
+.wood-detail-strip__item strong { color: #cbf096; font-size: 9px; font-weight: 900; letter-spacing: 1.4px; }
+.wood-detail-strip__item small { margin-top: 5px; color: #aebcab; font-size: 11px; line-height: 1.25; }
+@keyframes woodDetailSweep { 0%, 58% { transform: translateX(-100%); } 72%, 100% { transform: translateX(100%); } }
+
+.product-art__chrome { overflow: hidden; }
+.product-art__chrome::after {
+  content: "";
+  position: absolute;
+  top: -40%;
+  bottom: -40%;
+  left: -55%;
+  width: 34%;
+  background: linear-gradient(90deg, transparent, rgba(240, 255, 227, .24), transparent);
+  opacity: 0;
+  transform: skewX(-18deg);
+  pointer-events: none;
+}
+.product-card:hover .product-art__chrome::after,
+.product-card:focus-within .product-art__chrome::after,
+.product-card:active .product-art__chrome::after { animation: woodProductGlint .78s var(--wood-ease) both; }
+@keyframes woodProductGlint {
+  from { left: -55%; opacity: 0; }
+  22% { opacity: 1; }
+  to { left: 135%; opacity: 0; }
+}
+
+@media(max-width:900px) {
+  .wood-detail-strip__inner {
+    display: flex;
+    overflow-x: auto;
+    padding: 0 20px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .wood-detail-strip__inner::-webkit-scrollbar { display: none; }
+  .wood-detail-strip__item {
+    flex: 0 0 min(76vw, 260px);
+    scroll-snap-align: start;
+  }
+}
+@media(max-width:500px) {
+  .wood-detail-strip__item { min-height: 70px; padding: 11px 15px; }
+  .wood-detail-strip__item small { font-size: 10px; }
+}
+@media(max-width:800px) and (hover:none) {
+  .wood-detail-strip__item:active { background: rgba(203, 240, 150, .11); transform: scale(.98); }
+}
+@media(prefers-reduced-motion:reduce) {
+  .wood-detail-strip::before { animation: none; }
+  .wood-detail-strip__item, .product-art__chrome::after { transition: none; animation: none!important; }
+}
