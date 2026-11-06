@@ -4,7 +4,7 @@
   const category = params.get('categorie') || 'wood-shop';
   const fallbackName = params.get('nom') || 'Référence WOOD';
   const labels = {
-    resines: { title: 'Résines CBD', image: 'assets/resines.svg', back: 'resines.html', copy: 'Une sélection de textures choisies avec attention. Les informations définitives seront renseignées avec la boutique.' },
+    resines: { title: 'Résines CBD', image: 'assets/editorial/wood-resin-concept-03.webp', back: 'resines.html', copy: 'Mise en scène conceptuelle sous cloche pour la démo WOOD. La photo, la référence et les informations du produit réel restent à confirmer par la boutique.' },
     'bien-etre': { title: 'Cosmétiques & huiles', image: 'assets/cosmetiques.svg', back: 'bien-etre.html', copy: 'Un produit bien-être autour du chanvre, présenté avec les informations et précautions validées par WOOD.' },
     'wood-shop': { title: 'WOOD Shop', image: '', back: 'wood-shop.html', copy: 'Une pièce de l’univers WOOD, à découvrir lorsque le modèle, la taille, le prix et la disponibilité seront confirmés.' },
   };
@@ -14,7 +14,7 @@
 
   const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
   const imageMarkup = (image, name) => image
-    ? `<img src="${escapeHtml(image)}" alt="Visuel de démonstration de ${escapeHtml(name)}">`
+    ? `<img src="${escapeHtml(image)}" alt="Visuel de démonstration pour ${escapeHtml(name)}" width="1024" height="1024" loading="eager" decoding="async">`
     : '<div class="product-art--type">WOOD.<small>WOOD SHOP / VISUEL À VENIR</small></div>';
 
   const detailGalleryMarkup = (image, name) => {

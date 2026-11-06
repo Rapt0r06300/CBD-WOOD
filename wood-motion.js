@@ -98,7 +98,7 @@
 
   function initReveals() {
     const targets = qsa([
-      '.hero-proof-rail figure', '.cards .category', '.wood-service', '.wood-campaign__media', '.wood-campaign__copy', '.wood-runway-card', '.wood-selection__card', '.wood-mood__copy',
+      '.hero-proof-rail figure', '.page-hero__copy > *', '.page-hero__art', '.shop-section > .section-heading', '.cards .category', '.wood-service', '.wood-campaign__media', '.wood-campaign__copy', '.wood-runway-card', '.wood-selection__card', '.wood-mood__copy',
       '.wood-mood__card', '.wood-photo-rail figure', '.wood-pack__card', '.wood-proof__empty',
       '.story-image', '.story-text', '.value', '.location-card', '.wood-community__inner',
       '.faq-items details', '.product-card', '.product-related__card', '.product-detail__copy',
