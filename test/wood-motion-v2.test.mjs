@@ -34,6 +34,8 @@ test('les cartes catalogue exposent un chrome media honnête', () => {
   assert.match(storefront, /PHOTO DÉMO/);
   assert.match(prepare, /wood-motion\.css/);
   assert.match(prepare, /wood-motion\.js/);
+  assert.match(prepare, /wood-runway\.css/);
+  assert.match(prepare, /wood-drop-studio\.png/);
   assert.match(prepare, /assets\/editorial\/wood-hero-cloche\.png/);
   assert.match(prepare, /assets\/editorial\/wood-campaign-collage\.png/);
   assert.match(prepare, /assets\/graffiti\/wood-sticker-good\.svg/);

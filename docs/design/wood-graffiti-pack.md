@@ -1,6 +1,6 @@
 # Pack graffiti WOOD
 
-Le pack est une bibliothèque de seize accents vectoriels originaux. Ils servent à donner du rythme aux blocs éditoriaux WOOD ; ils ne remplacent ni une photo, ni un titre, ni une information d’achat.
+Le pack est une bibliothèque de vingt accents vectoriels originaux. Ils servent à donner du rythme aux blocs éditoriaux WOOD ; ils ne remplacent ni une photo, ni un titre, ni une information d’achat.
 
 ## Inventaire
 
@@ -22,6 +22,10 @@ Le pack est une bibliothèque de seize accents vectoriels originaux. Ils servent
 | Splash | `wood-splash.svg` | habiller une carte sans masquer son contenu |
 | Flèche en boucle | `wood-loop-arrow.svg` | guider la lecture d’un rail |
 | Sticker GOOD MOOD | `wood-sticker-good.svg` | signer une zone éditoriale avec humour |
+| Éclair | `wood-lightning.svg` | donner une impulsion à un engagement WOOD |
+| Check | `wood-check.svg` | souligner une preuve de présentation |
+| Soleil | `wood-sun.svg` | éclairer une campagne photo ou un drop |
+| Soulignement | `wood-underline.svg` | guider le regard vers un rail produit |
 
 ## Règles
 

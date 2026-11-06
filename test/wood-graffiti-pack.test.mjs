@@ -19,6 +19,10 @@ const assetNames = [
   'wood-splash.svg',
   'wood-loop-arrow.svg',
   'wood-sticker-good.svg',
+  'wood-lightning.svg',
+  'wood-check.svg',
+  'wood-sun.svg',
+  'wood-underline.svg',
 ];
 
 const [homepage, graffitiCss] = await Promise.all([
@@ -26,9 +30,9 @@ const [homepage, graffitiCss] = await Promise.all([
   readFile(new URL('../wood-graffiti.css', import.meta.url), 'utf8'),
 ]);
 
-test('le pack graffiti WOOD contient seize SVG décoratifs vérifiables', async () => {
+test('le pack graffiti WOOD contient vingt SVG décoratifs vérifiables', async () => {
   const contract = await readFile(new URL('../docs/design/wood-graffiti-pack.md', import.meta.url), 'utf8');
-  for (const heading of ['Flèche', 'Étoile', 'Halo', 'Tag', 'Ligne de vitesse', 'Sticker botanique', 'Tampon de section', 'Accent de carte', 'Burst', 'Scribble', 'Zigzag', 'Smiley', 'Couronne', 'Splash', 'Flèche en boucle', 'Sticker GOOD MOOD']) {
+  for (const heading of ['Flèche', 'Étoile', 'Halo', 'Tag', 'Ligne de vitesse', 'Sticker botanique', 'Tampon de section', 'Accent de carte', 'Burst', 'Scribble', 'Zigzag', 'Smiley', 'Couronne', 'Splash', 'Flèche en boucle', 'Sticker GOOD MOOD', 'Éclair', 'Check', 'Soleil', 'Soulignement']) {
     assert.match(contract, new RegExp(heading, 'iu'));
   }
   for (const assetName of assetNames) {
@@ -53,8 +57,8 @@ test('les graffitis sont intégrés par zone sans entrer dans le parcours commer
   for (const assetName of assetNames) {
     assert.match(homepage, new RegExp(`assets/graffiti/${assetName.replace('.', '\\.')}`));
   }
-  assert.equal((homepage.match(/class="wood-graffiti/g) || []).length, 26);
-  assert.equal((homepage.match(/class="wood-graffiti[^>]*aria-hidden="true"/g) || []).length, 26);
+  assert.equal((homepage.match(/class="wood-graffiti/g) || []).length, 33);
+  assert.equal((homepage.match(/class="wood-graffiti[^>]*aria-hidden="true"/g) || []).length, 33);
   assert.match(graffitiCss, /pointer-events:none/);
   assert.match(graffitiCss, /\.wood-selection \.wood-graffiti--botanical\{[^}]*width:/u);
   assert.match(graffitiCss, /@media\s+print/);
