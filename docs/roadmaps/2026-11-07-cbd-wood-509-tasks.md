@@ -1228,7 +1228,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Comparaison poids et qualité réelle sur mobile.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-115 — Réduire scripts non indispensables**   
+- [x] **CRO-115 — Réduire scripts non indispensables** — budget des modules locaux, absence de scripts promo/social/analytics tiers et verrouillage démo conservés ; preuve : docs/validation/2026-11-07-script-budget.md, test/script-budget.test.mjs.
   - **Livrable :** Désactiver modules promo, sociale ou animation inactifs qui ralentissent le choix.  
   - **Critère de validation :** Mesure bundle et absence de régression fonctionnelle.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
