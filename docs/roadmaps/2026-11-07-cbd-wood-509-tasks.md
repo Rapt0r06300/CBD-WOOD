@@ -892,7 +892,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** La cloche sublime sans masquer la matière ni changer sa couleur.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-051 — Ajouter image d'échelle réaliste**   
+- [ ] **CRO-051 — Ajouter image d'échelle réaliste** — emplacement d’échelle neutre `pending` et repli mobile préparés dans `flower-detail.js`, `boutique.css` et `docs/validation/2026-11-07-cro-051-scale-reference.md`; clôture bloquée jusqu’à une photo authentique, une référence physique et l’accord WOOD.
   - **Livrable :** Prévoir repère physique neutre autorisé pour volume/taille quand pertinent.  
   - **Critère de validation :** Échelle authentique, produit non grossi artificiellement.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.

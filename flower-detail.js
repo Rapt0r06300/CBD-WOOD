@@ -77,6 +77,12 @@
             <span class="product-art__status">Visuel de démonstration · photo réelle à venir</span>
           </button>
         </div>
+        <aside class="flower-detail__scale-reference" data-scale-reference-state="pending" aria-label="Repère d’échelle à valider">
+          <span>ÉCHELLE · À RENSEIGNER</span>
+          <strong>Repère physique neutre</strong>
+          <p>Une référence de taille sera ajoutée avec une photo WOOD autorisée.</p>
+          <small>Aucune mesure publiée · en attente de validation</small>
+        </aside>
         <div class="product-body">
           <span class="product-index">${product.index} / ${profileTag}</span>
           <h3>${product.name}</h3>
