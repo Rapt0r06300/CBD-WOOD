@@ -630,37 +630,37 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
 
 ### 01 — Comprendre les visiteurs et les décisions d'achat — P1, complément de TXW-082, TXW-112
 
-- [ ] **CRO-001 — Définir quatre intentions client**   
+- [x] **CRO-001 — Définir quatre intentions client**   
   - **Livrable :** Décrire première découverte, connaisseur, achat cadeau non réglementé et visite locale sans supposer les préférences de santé.  
   - **Critère de validation :** Tableau intention → questions → page → action ; aucune catégorie médicale.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-002 — Lister les dix objections avant achat**   
+- [x] **CRO-002 — Lister les dix objections avant achat**   
   - **Livrable :** Construire les interrogations prix, qualité, authenticité, disponibilité, usage autorisé, visite, retour, photos, confidentialité et conseils.  
   - **Critère de validation :** Chaque objection pointe vers une réponse sourcée ou un état « information indisponible ».  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-003 — Créer une carte des décisions par étape**   
+- [x] **CRO-003 — Créer une carte des décisions par étape**   
   - **Livrable :** Documenter Accueil → Univers → Liste → Fiche → Contact ou visite ; prévoir panier fictif séparé.  
   - **Critère de validation :** Aucune étape ne force inscription ou paiement ; liens contrôlés.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-004 — Fixer cinq missions testables**   
+- [x] **CRO-004 — Fixer cinq missions testables**   
   - **Livrable :** Scénarios : identifier marque en 5 s, retrouver une fleur, comprendre un format, trouver Barla et appeler la boutique.  
   - **Critère de validation :** Tâches observables sur mobile sans aide ni explication orale.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-005 — Définir les preuves de confiance nécessaires**   
+- [x] **CRO-005 — Définir les preuves de confiance nécessaires**   
   - **Livrable :** Associer à chaque hésitation une preuve : photo autorisée, source publique, donnée validée, conseil ou adresse.  
   - **Critère de validation :** Matrice preuve/source/date/propriétaire ; les trous sont signalés.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-006 — Dessiner le parcours local versus catalogue**   
+- [x] **CRO-006 — Dessiner le parcours local versus catalogue**   
   - **Livrable :** Préparer parcours visite immédiate et parcours exploration produit, chacun avec un CTA clair.  
   - **Critère de validation :** Sur chaque page une action naturelle sans incitation trompeuse.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-007 — Construire un inventaire des frictions**   
+- [x] **CRO-007 — Construire un inventaire des frictions**   
   - **Livrable :** Comparer le parcours réel actuel aux cinq missions ; identifier défilement excessif, redondance, écrans vides.  
   - **Critère de validation :** Rapport priorisé avec captures avant correction et risque business.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
