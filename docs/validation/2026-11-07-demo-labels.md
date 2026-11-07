@@ -2,7 +2,7 @@
 
 La page d’accueil et les cartes catalogue utilisent désormais `MAQUETTE WOOD`
 comme repère court pour les médias de démonstration. La mention plus explicite
-`DROP 01 · PHOTO DÉMO` reste une fois dans le hero afin que le statut de la
+`SCÈNE HERO · PHOTO DÉMO` reste une fois dans le hero afin que le statut de la
 démo soit impossible à confondre avec une photo commerciale.
 
 ## Vérification

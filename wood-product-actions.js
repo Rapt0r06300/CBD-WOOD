@@ -226,7 +226,8 @@
       preview.dataset.woodPreview = 'true';
       preview.textContent = 'Aperçu';
       const meta = card.querySelector('.product-meta');
-      (meta || card.querySelector('.product-body'))?.insertBefore(preview, meta || null);
+      if (meta) meta.prepend(preview);
+      else card.querySelector('.product-body')?.appendChild(preview);
       preview.addEventListener('click', event => { event.preventDefault(); event.stopPropagation(); openPreview(card, preview); });
     }
     let storeButton = card.querySelector('[data-wood-store-list]');

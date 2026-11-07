@@ -32,6 +32,12 @@ test('les fiches proposent un partage natif ou une copie sans envoi serveur', as
   for (const page of detailPages) assert.match(await read(page), /wood-product-actions\.js/);
 });
 
+test('le bouton aperçu s’insère dans son hôte sans double branchement DOM', async () => {
+  const source = await read('wood-product-actions.js');
+  assert.match(source, /if \(meta\) meta\.prepend\(preview\);/u);
+  assert.doesNotMatch(source, /insertBefore\(preview, meta \|\| null\)/u);
+});
+
 test('les quatre catalogues publient le module et sa feuille de style', async () => {
   for (const page of cataloguePages) {
     const html = await read(page);

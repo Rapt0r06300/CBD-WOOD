@@ -8,7 +8,7 @@ const storefront = await readFile(new URL('../storefront.js', import.meta.url), 
 test('les médias de démonstration utilisent un repère court sans masquer la transparence', () => {
   assert.match(homepage, />MAQUETTE WOOD</u);
   assert.match(storefront, /MAQUETTE WOOD/u);
-  assert.match(homepage, /DROP 01 · PHOTO DÉMO/u);
+  assert.match(homepage, /SCÈNE HERO · PHOTO DÉMO/u);
   const repeatedVisibleLabels = homepage.match(/>PHOTO DÉMO(?:<| ·)/gu) || [];
   assert.ok(repeatedVisibleLabels.length <= 1, 'le libellé technique ne doit pas se répéter sur chaque carte');
   assert.match(homepage, /PHOTOS RÉELLES, PRIX ET STOCKS À VALIDER/u);

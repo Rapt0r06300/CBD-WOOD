@@ -443,7 +443,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [x] **TXW-098 — Rationaliser les CSS ajoutées.** Ordre des couches documenté, déclaration graffiti dupliquée nettoyée et attribut HTML invalide retiré du CSS ; preuve : `docs/validation/2026-11-07-css-rationalisation.md` et `test/css-rationalisation.test.mjs`.    
   **Acceptation :** Cascade documentée sans casser les composants.
 
-- [ ] **TXW-099 — Optimiser les scripts d'interaction.** Éviter doubles écouteurs, rerenders inutiles, animations globales et importations réseau non essentielles.    
+- [x] **TXW-099 — Optimiser les scripts d'interaction.** Éviter doubles écouteurs, rerenders inutiles, animations globales et importations réseau non essentielles. Preuve : `wood-product-actions.js`, `wood-motion.js`, `docs/validation/2026-11-07-interaction-runtime.md` et matrice Chromium 12 routes.    
   **Acceptation :** Pas de warning/error console et interactions fluides.
 
 - [x] **TXW-100 — Limiter les effets GPU.** Utiliser transform/opacity pour micro-mouvements, pas d'effets continus gourmands.    
