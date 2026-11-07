@@ -155,8 +155,9 @@
 
   function initClocheReveal() {
     const hero = qs('.hero-art');
+    if (!hero || hero.dataset.woodClocheRevealWired === 'true') return;
     const card = qs('.hero-product-card', hero);
-    if (!hero || !card || hero.dataset.woodClocheRevealWired === 'true') return;
+    if (!card) return;
     hero.dataset.woodClocheRevealWired = 'true';
     const reveal = () => {
       if (hero.dataset.woodClocheRevealed === 'true') return;
@@ -180,9 +181,10 @@
 
   function initHeroFallback() {
     const hero = qs('.hero-art');
+    if (!hero) return;
     const image = qs('[data-hero-image]', hero);
     const fallback = qs('.hero-art__fallback', hero);
-    if (!hero || !image || !fallback || image.dataset.woodFallbackWired === 'true') return;
+    if (!image || !fallback || image.dataset.woodFallbackWired === 'true') return;
     image.dataset.woodFallbackWired = 'true';
     const showFallback = () => {
       hero.classList.add('is-media-fallback');

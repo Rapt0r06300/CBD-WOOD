@@ -823,7 +823,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Aucun 'aucun produit' sans action alternative.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-038 — Ajouter recherche par caractéristiques validées**   
+- [x] **CRO-038 — Ajouter recherche par caractéristiques validées**
   - **Livrable :** Champs texture/arôme/type uniquement si métadonnées sourcées ; pas de suggestions d'effet médical.  
   - **Critère de validation :** Champs manquants non filtrables, zéro caractéristique inventée.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.

@@ -60,6 +60,12 @@ La mesure du premier viewport `CRO-014` est vérifiée par
 devient **288 / 509 — 56,58 %**, avec **83** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Le filtre par caractéristiques validées `CRO-038` est maintenant implémenté et
+testé par `docs/validation/2026-11-07-cro-validated-characteristics.md`. Les
+filtres type/texture/arôme restent invisibles tant qu'aucune carte ne porte une
+source WOOD validée ; le compteur courant devient **289 / 509 — 56,78 %**, avec
+**82** tickets actifs encore ouverts et **138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

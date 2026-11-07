@@ -77,8 +77,33 @@
 
   function matchesFilters(card, filters = {}) {
     const state = stateFor(card);
+    const characteristics = readCharacteristics(card);
     return (!filters.media || state.media === filters.media)
-      && (!filters.state || state.availability === filters.state);
+      && (!filters.state || state.availability === filters.state)
+      && Object.entries(filters.characteristics || {}).every(([key, value]) => !value || characteristics[key].includes(value));
+  }
+
+  const characteristicKeys = Object.freeze([
+    ['type', 'Type'],
+    ['texture', 'Texture'],
+    ['aroma', 'Arôme'],
+  ]);
+
+  function readCharacteristics(card) {
+    return Object.fromEntries(characteristicKeys.map(([key]) => [
+      key,
+      String(card?.dataset?.[`woodCharacteristic${key[0].toUpperCase()}${key.slice(1)}`] || '')
+        .split('|')
+        .map((value) => normalize(value))
+        .filter(Boolean),
+    ]));
+  }
+
+  function collectCharacteristicValues(cards) {
+    return Object.fromEntries(characteristicKeys.map(([key]) => [
+      key,
+      [...new Set(cards.flatMap((card) => readCharacteristics(card)[key]))].sort(),
+    ]));
   }
 
   function filterCards(cards, query = '', filters = {}) {
@@ -127,6 +152,23 @@
       ['available', 'Consultable'],
       ['incomplete', 'À compléter'],
     ]);
+    const cardsAtInit = Array.from(grid.querySelectorAll('.product-card'));
+    const characteristicValues = collectCharacteristicValues(cardsAtInit);
+    const characteristicFilters = Object.fromEntries(characteristicKeys.map(([key, label]) => {
+      const values = characteristicValues[key];
+      if (!values.length) return [key, null];
+      return [key, addFilterControl(filterRoot, label, `characteristic${key[0].toUpperCase()}${key.slice(1)}`, [
+        ['', `Tous les ${label.toLowerCase()}s`],
+        ...values.map((value) => [value, value]),
+      ])];
+    }));
+    if (!characteristicKeys.some(([key]) => characteristicValues[key].length)) {
+      const note = document.createElement('p');
+      note.className = 'wood-catalog-search__characteristics-note';
+      note.textContent = 'Filtres de profil en attente de caractéristiques WOOD sourcées.';
+      note.dataset.woodCharacteristicsEmpty = 'true';
+      filterRoot.appendChild(note);
+    }
     const activeRoot = document.createElement('div');
     activeRoot.className = 'wood-catalog-search__active';
     activeRoot.dataset.woodCatalogActiveFilters = 'true';
@@ -179,6 +221,11 @@
     sort.value = params.get('sort') === 'name' ? 'name' : 'wood';
     mediaFilter.value = ['demo', 'approved'].includes(params.get('media')) ? params.get('media') : '';
     stateFilter.value = ['available', 'incomplete'].includes(params.get('state')) ? params.get('state') : '';
+    Object.entries(characteristicFilters).forEach(([key, select]) => {
+      if (select) select.value = characteristicValues[key].includes(normalize(params.get(`characteristic-${key}`)))
+        ? normalize(params.get(`characteristic-${key}`))
+        : '';
+    });
 
     const updateUrl = () => {
       if (!global.history?.replaceState || !global.location?.href) return;
@@ -191,6 +238,11 @@
       else url.searchParams.delete('media');
       if (stateFilter.value) url.searchParams.set('state', stateFilter.value);
       else url.searchParams.delete('state');
+      Object.entries(characteristicFilters).forEach(([key, select]) => {
+        const param = `characteristic-${key}`;
+        if (select?.value) url.searchParams.set(param, select.value);
+        else url.searchParams.delete(param);
+      });
       global.history.replaceState({}, '', url);
     };
 
@@ -199,6 +251,7 @@
       const values = [
         [mediaFilter, { demo: 'Illustration démo', approved: 'Photo approuvée' }],
         [stateFilter, { available: 'Consultable', incomplete: 'À compléter' }],
+        ...Object.entries(characteristicFilters).filter(([, select]) => select).map(([key, select]) => [select, Object.fromEntries(characteristicValues[key].map((value) => [value, value]))]),
       ];
       values.forEach(([select, labels]) => {
         if (!select.value) return;
@@ -235,14 +288,20 @@
       const cards = Array.from(grid.querySelectorAll('.product-card'));
       orderCards(cards);
       const query = input.value;
-      const filters = { media: mediaFilter.value, state: stateFilter.value };
+      const filters = {
+        media: mediaFilter.value,
+        state: stateFilter.value,
+        characteristics: Object.fromEntries(Object.entries(characteristicFilters)
+          .filter(([, select]) => select?.value)
+          .map(([key, select]) => [key, select.value])),
+      };
       const visible = filterCards(cards, query, filters);
       cards.forEach((card) => {
         const visibleCard = visible.includes(card);
         card.hidden = !visibleCard;
       });
       renderActiveFilters();
-      if (!tokens(query).length && !filters.media && !filters.state) {
+      if (!tokens(query).length && !filters.media && !filters.state && !Object.keys(filters.characteristics).length) {
         status.textContent = `${cards.length} référence${cards.length > 1 ? 's' : ''} dans cet univers.`;
       } else if (!visible.length) {
         status.textContent = `Aucune référence ne correspond à cette recherche et à ces filtres. Effacez un filtre ou explorez un autre univers.`;
@@ -257,12 +316,13 @@
     sort.addEventListener('change', apply);
     mediaFilter.addEventListener('change', apply);
     stateFilter.addEventListener('change', apply);
+    Object.values(characteristicFilters).forEach((select) => select?.addEventListener('change', apply));
     form.addEventListener('reset', () => global.requestAnimationFrame(apply));
     document.addEventListener('wood:catalog-rendered', () => apply(false));
     apply(false);
   }
 
-  const api = { normalize, tokens, matches, stateFor, matchesFilters, filterCards };
+  const api = { normalize, tokens, matches, stateFor, readCharacteristics, collectCharacteristicValues, matchesFilters, filterCards };
   global.WoodCatalogSearch = api;
   if (global.document) {
     if (global.document.readyState === 'loading') global.document.addEventListener('DOMContentLoaded', () => init(global.document), { once: true });

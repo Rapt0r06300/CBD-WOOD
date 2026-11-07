@@ -50,6 +50,19 @@ test('les filtres combinables restent limités aux états réellement présents'
   assert.equal(JSON.stringify(api.filterCards([availableDemo, incompleteDemo, approved], '', { media: 'approved' }).map(card => card.dataset.productName)), '["Photo"]');
 });
 
+test('les caractéristiques ne deviennent filtrables que lorsqu’elles sont sourcées sur les cartes', async () => {
+  const api = await loadApi();
+  const cards = [
+    { dataset: { productName: 'Nimbus', productCategory: 'Fleurs', woodCharacteristicType: 'Fleur', woodCharacteristicAroma: 'Fruité|Boisé' }, textContent: '' },
+    { dataset: { productName: 'Ivory', productCategory: 'Fleurs', woodCharacteristicType: 'Fleur', woodCharacteristicTexture: 'Dense' }, textContent: '' },
+    { dataset: { productName: 'Huile', productCategory: 'Bien-être' }, textContent: '' },
+  ];
+  assert.equal(JSON.stringify(api.readCharacteristics(cards[0])), JSON.stringify({ type: ['fleur'], texture: [], aroma: ['fruite', 'boise'] }));
+  assert.equal(JSON.stringify(api.collectCharacteristicValues(cards)), JSON.stringify({ type: ['fleur'], texture: ['dense'], aroma: ['boise', 'fruite'] }));
+  assert.equal(JSON.stringify(api.filterCards(cards, '', { characteristics: { aroma: 'fruite' } }).map((card) => card.dataset.productName)), JSON.stringify(['Nimbus']));
+  assert.equal(JSON.stringify(api.filterCards(cards, '', { characteristics: { texture: 'dense' } }).map((card) => card.dataset.productName)), JSON.stringify(['Ivory']));
+});
+
 test('la recherche ne partage que les états publics dans l’URL', async () => {
   const source = await readFile(new URL('../wood-catalog-search.js', import.meta.url), 'utf8');
   assert.match(source, /URLSearchParams/);
@@ -58,5 +71,7 @@ test('la recherche ne partage que les états publics dans l’URL', async () => 
   assert.match(source, /searchParams\.set\('sort'/);
   assert.match(source, /searchParams\.set\('media'/);
   assert.match(source, /searchParams\.set\('state'/);
+  assert.match(source, /characteristic-\$\{key\}/);
+  assert.match(source, /Filtres de profil en attente de caractéristiques WOOD sourcées/u);
   assert.match(source, /wood-catalog-search__chip/);
 });

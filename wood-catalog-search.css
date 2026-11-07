@@ -151,6 +151,14 @@
   text-underline-offset: .2em;
 }
 
+.wood-catalog-search__characteristics-note {
+  flex: 1 1 100%;
+  margin: .15rem 0 0;
+  color: rgba(241, 240, 230, .56);
+  font-size: .76rem;
+  letter-spacing: .01em;
+}
+
 .product-grid > .product-card[hidden] {
   display: none;
 }
