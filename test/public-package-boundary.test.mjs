@@ -20,6 +20,24 @@ test('public package uses the integrated owner dashboard and excludes the legacy
   assert.doesNotMatch(prepareSource, /'admin\.css'/);
 });
 
+test('public package includes every local visual dependency referenced by the demo shell', () => {
+  for (const file of [
+    'wood-card-views.css',
+    'wood-card-views.js',
+    'wood-demo-price-hydration.js',
+    'wood-guide.css',
+    'wood-home-variants.css',
+    'wood-home-variants.js',
+    'wood-price-source.js',
+    'wood-sticker-wall.css',
+    'wood-transitions.css',
+    'wood-why.css',
+    'wood-campaigns.js',
+  ]) {
+    assert.match(prepareSource, new RegExp(`'${file.replace('.', '\\.')}'`), `${file} absent de l'allowlist`);
+  }
+});
+
 test('hostinger preflight rejects any public admin route if one is reintroduced', () => {
   assert.match(preflightSource, /admin/i);
   assert.match(preflightSource, /Route admin publique interdite/i);
