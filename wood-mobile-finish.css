@@ -158,6 +158,27 @@
 
   /* Keep mobile actions readable and in flow: the bottom navigation reserves
      its safe-area space instead of being compensated by a hidden sticky CTA. */
+  .hero-copy .buttons {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    position: relative;
+    top: -4px;
+  }
+
+  .hero-copy .buttons .btn {
+    width: 100%;
+    padding-inline: 8px;
+    font-size: 9px;
+    letter-spacing: 1.15px;
+  }
+
+  @media (max-width: 340px) {
+    .hero-copy .buttons {
+      margin-top: 24px;
+    }
+  }
+
   .buttons,
   .location-card__actions .buttons,
   .wood-proof__panel-actions {

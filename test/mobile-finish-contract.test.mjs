@@ -9,7 +9,7 @@ const [homepage, finishCss, finishJs] = await Promise.all([
 ]);
 
 test('la finition mobile est chargée après le motion existant', () => {
-  assert.match(homepage, /wood-mobile-finish\.css\?v=wood-mobile-finish-v1/);
+  assert.match(homepage, /wood-mobile-finish\.css\?v=wood-mobile-finish-v2/);
   assert.match(homepage, /wood-mobile-finish\.js\?v=wood-mobile-finish-v1/);
   assert.ok(homepage.indexOf('wood-mobile-finish.css') > homepage.indexOf('wood-motion.css'));
   assert.ok(homepage.indexOf('wood-mobile-finish.js') > homepage.indexOf('wood-motion.js'));
