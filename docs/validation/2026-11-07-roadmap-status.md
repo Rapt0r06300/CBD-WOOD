@@ -80,6 +80,12 @@ trois preuves bornées — adresses, univers et accueil — dans
 courant devient **291 / 509 — 57,17 %**, avec **80** tickets actifs encore
 ouverts et **138 tâches différées**.
 
+Le guide non médical `CRO-077` est livré dans la démo avec trois accordéons
+éditoriaux : présentation fleur/résine, lecture d'une carte WOOD et préparation
+d'une visite. La preuve locale est `test/cro-wood-guide.test.mjs` et le rendu
+mobile est documenté par `wood-guide.css` ; le compteur courant devient **292 / 509
+— 57,37 %**, avec **79** tickets actifs encore ouverts et **138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

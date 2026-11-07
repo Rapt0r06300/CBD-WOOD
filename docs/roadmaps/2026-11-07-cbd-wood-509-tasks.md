@@ -1028,7 +1028,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Texte marqué 'à valider' hors page jusqu'à autorisation.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-077 — Créer contenu pédagogique non médical**   
+- [x] **CRO-077 — Créer contenu pédagogique non médical**
   - **Livrable :** Petits guides sur différences de présentations, étiquetage et critères d'achat vérifiables.  
   - **Critère de validation :** Aucune promesse d'effet, traitement ou recommandation de dosage.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
