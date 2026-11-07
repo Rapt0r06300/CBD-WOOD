@@ -223,6 +223,14 @@ la version WOOD permanente reste affichée. Preuve :
 devient **315 / 509 — 61,89 %**, avec **56** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+La galerie boutique `TXW-044` est maintenant structurée dans la démo avec trois
+emplacements stables pour la façade, les plantes et les étagères en bois. Les
+visuels actuels sont explicitement des fallbacks démo et pourront être remplacés
+sans changer la mise en page dès réception des photos autorisées. Preuve :
+`docs/validation/2026-11-07-txw-044-store-gallery.md`. Le compteur courant
+devient **316 / 509 — 62,08 %**, avec **55** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

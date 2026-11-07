@@ -268,7 +268,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [x] **TXW-043 — Inventorier les photos déjà disponibles.** Recenser assets du repo, photos de démo, photos boutique source et leurs droits ; ne pas supposer que les photos de la conversation sont automatiquement dans Codex.    
   **Acceptation :** Manifest clair source / titulaire / autorisation / statut.
 
-- [ ] **TXW-044 — Prévoir une galerie boutique authentique.** Réserver des emplacements pour façade noire 'Wood', plantes et étagères en bois, avec fallback démo en attendant des fichiers réutilisables.    
+- [x] **TXW-044 — Prévoir une galerie boutique authentique.** Réserver des emplacements pour façade noire 'Wood', plantes et étagères en bois, avec fallback démo en attendant des fichiers réutilisables ; preuve : `docs/validation/2026-11-07-txw-044-store-gallery.md` et `test/store-gallery-contract.test.mjs`.    
   **Acceptation :** Même mise en page avant/après substitution d'image autorisée.
 
 - [x] **TXW-045 — Valoriser la cloche de verre.** Créer une mise en scène photo éditoriale pour fleurs et résines sous cloche, souhaitée par la propriétaire ; distinguer photo réelle et rendu conceptuel. Preuve démo : scène `wood-cloche`, étiquettes d’état et contrat `demo-cloche`/`approved-real-photo`.    
