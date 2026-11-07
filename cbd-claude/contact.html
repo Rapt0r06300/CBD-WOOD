@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Contact — WOOD · Nice</title>
+<meta name="theme-color" content="#0f140f">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=7"><link rel="stylesheet" href="styles2.css?v=7">
+</head>
+<body data-page="contact">
+<header data-chrome="header"></header>
+<section class="subhero"><div class="container"><span class="eyebrow">On est là</span><h1>Parle-nous <span class="serif" style="font-style:italic;color:var(--lime)">en vrai.</span></h1><p>Une question sur un produit, ta commande, ou juste envie de dire coucou ? On répond vite — et sans pression.</p></div></section>
+<main class="section container">
+  <div class="checkout-grid">
+    <form class="checkout-form" onsubmit="this.querySelector('.ok').hidden=false;return false;">
+      <h3 class="serif">Écris-nous</h3>
+      <div class="field"><label>Ton nom</label><input name="nom" autocomplete="name"></div>
+      <div class="field"><label>E-mail</label><input type="email" name="email" autocomplete="email"></div>
+      <div class="field"><label>Message</label><input name="msg" style="padding-block:1.2em"></div>
+      <button class="btn btn-primary" type="submit" style="width:100%;justify-content:center">Envoyer →</button>
+      <p class="ok muted" hidden style="margin-top:.8rem;color:var(--lime)">Message envoyé (démo — rien n'est réellement transmis) 🌿</p>
+    </form>
+    <aside>
+      <div class="shop" style="margin-bottom:1rem"><span class="q">Quartier du Port</span><h3>WOOD · Barla</h3><p class="meta">7 rue Barla, 06300 Nice</p><div class="acts"><a class="chip" href="tel:+33422163570">📞 04 22 16 35 70</a><a class="chip" href="https://maps.google.com/?q=7+rue+Barla+Nice" target="_blank" rel="noopener">📍 Itinéraire</a></div></div>
+      <div class="shop"><span class="q">Quartier Libération</span><h3>WOOD · Borriglione</h3><p class="meta">16 av. Alfred Borriglione, 06100 Nice</p><div class="acts"><a class="chip" href="tel:+33423130305">📞 04 23 13 03 05</a><a class="chip" href="https://maps.google.com/?q=16+avenue+Alfred+Borriglione+Nice" target="_blank" rel="noopener">📍 Itinéraire</a></div></div>
+      <p class="muted" style="margin-top:1rem">E-mail : info@woodcbdshop.com<br>Insta : <a href="https://instagram.com/wood.cbdshop" target="_blank" rel="noopener" style="color:var(--cyan)">@wood.cbdshop</a></p>
+    </aside>
+  </div>
+</main>
+<footer data-chrome="footer"></footer><div data-chrome="advisor"></div><nav data-chrome="botnav"></nav>
+<script src="app.js?v=6"></script>
+</body>
+</html>

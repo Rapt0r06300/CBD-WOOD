@@ -1,0 +1,117 @@
+/* ============================================================ WOOD V2 — richesse & âme */
+/* Barre promo */
+.announce{background:#0b0f0b;border-bottom:1px solid var(--line);overflow:hidden;white-space:nowrap}
+.announce-track{display:inline-flex;gap:2.6rem;padding:.55rem 0;font-size:.76rem;font-weight:700;letter-spacing:.06em;color:var(--lime);animation:marquee 32s linear infinite}
+.announce-track span{display:inline-flex;align-items:center;gap:.5rem}
+
+/* Graffiti underline sous les .script des titres */
+h2 .script{position:relative;display:inline-block}
+h2 .script::after{content:"";position:absolute;left:-2%;right:-2%;bottom:-.16em;height:.4em;
+  background:no-repeat center/100% 100% url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 12'%3E%3Cpath d='M2 8 Q25 2 50 7 T100 7 T150 7 T198 6' stroke='%23cbf096' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");opacity:.85}
+
+/* Stickers sur cartes */
+.sticker{font-size:.62rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:.32em .6em;border-radius:6px;transform:rotate(-4deg);box-shadow:0 4px 12px rgba(0,0,0,.4);border:1.5px solid rgba(0,0,0,.2)}
+.st-top{background:var(--lime);color:#14210f}
+.st-new{background:var(--cyan);color:#06201f}
+.card-view{position:absolute;left:0;right:0;bottom:0;padding:.7rem;text-align:center;font-weight:700;font-size:.82rem;color:#14210f;background:linear-gradient(transparent,var(--lime));transform:translateY(100%);transition:transform var(--t) var(--ease);z-index:2}
+.card:hover .card-view{transform:translateY(0)}
+.card-rate{display:flex;align-items:center;gap:.35rem;font-size:.8rem}
+.card-rate .stars{color:var(--lime);letter-spacing:1px}
+.card-rate b{font-weight:800}
+.card-rate .rate-c{color:var(--muted)}
+
+/* Pourquoi WOOD */
+.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2.4rem}
+.why-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:1.6rem;transition:transform var(--t) var(--ease),border-color var(--t)}
+.why-card:hover{transform:translateY(-6px);border-color:var(--cyan)}
+.why-i{font-size:2rem;display:block;margin-bottom:.8rem}
+.why-card h3{font-size:1.2rem;margin-bottom:.4rem}
+
+/* Packs */
+.packs{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:2.4rem}
+.pack{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:1.8rem;display:flex;flex-direction:column;gap:.5rem;position:relative;transition:transform var(--t) var(--ease),border-color var(--t)}
+.pack:hover{transform:translateY(-6px)}
+.pack.feat{border-color:var(--cyan);box-shadow:var(--glow-cyan)}
+.pack-tag{align-self:flex-start;font-size:.66rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--cyan);background:rgba(63,227,234,.1);border:1px solid rgba(63,227,234,.25);padding:.3em .7em;border-radius:var(--r-pill)}
+.pack h3{margin:.4rem 0 0}
+.pack-price{display:flex;align-items:baseline;gap:.6rem;margin:.4rem 0 1rem}
+.pack-price s{color:var(--muted)}
+.pack-price b{font-size:1.6rem;font-family:var(--serif)}
+.pack .btn{margin-top:auto}
+
+/* Avis fondu */
+.avis{background:radial-gradient(800px 400px at 50% 0%,rgba(203,240,150,.06),transparent 60%)}
+.avis-stage{position:relative;min-height:230px;margin-top:2rem;display:grid;place-items:center}
+.avis-card{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:1rem;opacity:0;transform:translateY(14px) scale(.98);transition:opacity .6s var(--ease),transform .6s var(--ease);pointer-events:none;padding:0 1rem}
+.avis-card.on{opacity:1;transform:none;pointer-events:auto}
+.avis-stars{color:var(--lime);letter-spacing:3px;font-size:1.1rem}
+.avis-card blockquote{font-family:var(--serif);font-size:clamp(1.3rem,2.6vw,2rem);line-height:1.3;max-width:24ch;margin:0}
+.avis-card figcaption{color:var(--muted);font-weight:600}
+.avis-dots{position:absolute;bottom:-6px;display:flex;gap:.5rem}
+.avis-dot{width:9px;height:9px;border-radius:50%;background:var(--line);border:none;padding:0;cursor:pointer}
+.avis-dot.on{background:var(--lime);width:22px;border-radius:5px}
+.avis-note{text-align:center;margin-top:2.6rem}
+
+/* Chiffres */
+.stats{border-block:1px solid var(--line);background:var(--card)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;padding-block:2.4rem;text-align:center}
+.stats-grid b{display:block;font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.8rem);color:var(--lime)}
+.stats-grid span{color:var(--muted);font-size:.85rem}
+
+/* Instagram */
+.insta-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:.6rem;margin-top:1.4rem}
+.insta-cell{position:relative;aspect-ratio:1;border-radius:var(--r-md);overflow:hidden;border:1px solid var(--line)}
+.insta-cell img{width:100%;height:100%;object-fit:cover;transition:transform var(--t) var(--ease)}
+.insta-cell:hover img{transform:scale(1.08)}
+.insta-ic{position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.35);color:#fff;font-size:1.4rem;opacity:0;transition:opacity var(--t)}
+.insta-cell:hover .insta-ic{opacity:1}
+
+/* Footer enrichi */
+.footer-cta{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;padding-bottom:2.5rem;margin-bottom:2.5rem;border-bottom:1px solid var(--line)}
+.footer-cta h3{font-size:1.6rem}
+.footer-cta .newsletter{margin:0;min-width:300px;flex:1;max-width:420px}
+.socials{display:flex;gap:1rem}
+.socials a{color:var(--soft);font-weight:600;font-size:.9rem}
+.socials a:hover{color:var(--cyan)}
+.footer-pay{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--line)}
+.pay-ic{font-size:.7rem;font-weight:700;color:var(--muted);border:1px solid var(--line);border-radius:5px;padding:.3em .6em;background:rgba(255,255,255,.03)}
+
+/* Checkout */
+.checkout-grid{display:grid;grid-template-columns:1.4fr .9fr;gap:2rem;margin-top:1.6rem;align-items:start}
+.checkout-form h3{font-size:1.2rem;margin:1.4rem 0 .8rem}
+.checkout-form h3:first-child{margin-top:0}
+.field{margin-bottom:.8rem}
+.field label{display:block;font-size:.82rem;color:var(--muted);margin-bottom:.3rem;font-weight:600}
+.field input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:var(--r-md);padding:.8em 1em;color:var(--ink);font-size:1rem;font-family:inherit}
+.field input:focus{outline:none;border-color:var(--cyan)}
+.field.two{display:grid;grid-template-columns:1fr 1.5fr;gap:.8rem}
+.radios{display:grid;gap:.6rem;margin-bottom:1rem}
+.radio{display:flex;align-items:center;gap:.6rem;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:var(--r-md);padding:.9em 1em;cursor:pointer;font-weight:600}
+.radio:has(input:checked){border-color:var(--cyan);background:rgba(63,227,234,.08)}
+.pay-demo{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:var(--r-md);padding:1em;margin-bottom:1rem}
+.checkbox{display:flex;gap:.6rem;align-items:flex-start;font-size:.9rem;color:var(--soft);cursor:pointer}
+.checkbox a{color:var(--cyan)}
+
+/* Confirmation */
+.confirm-box{text-align:center;padding:3rem 1rem;max-width:560px;margin-inline:auto}
+.confirm-box .ava-big{font-size:3.4rem;margin-bottom:.5rem}
+
+/* Pages de contenu (légal, contact, faq) */
+.doc{max-width:760px;margin-inline:auto}
+.doc h1{margin-bottom:.4rem}
+.doc h2{font-size:1.4rem;margin:2rem 0 .6rem}
+.doc p,.doc li{color:var(--soft);margin-bottom:.7rem}
+.doc ul{padding-left:1.2rem}
+.doc .muted{color:var(--muted)}
+.doc a{color:var(--cyan)}
+
+@media(max-width:900px){
+  .why-grid{grid-template-columns:1fr 1fr}
+  .packs{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:1fr 1fr;gap:1.6rem}
+  .insta-grid{grid-template-columns:repeat(3,1fr)}
+  .checkout-grid{grid-template-columns:1fr}
+  .footer-cta{flex-direction:column;align-items:flex-start}
+  .footer-cta .newsletter{width:100%;max-width:none}
+}
+@media(max-width:560px){.why-grid{grid-template-columns:1fr}}
