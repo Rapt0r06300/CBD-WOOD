@@ -353,7 +353,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [ ] **TXW-070 — Préparer les variantes vêtement.** Afficher tailles et coloris seulement s'ils sont confirmés ; les choix fictifs restent inactifs/locaux.    
   **Acceptation :** Aucun stock, variante ou prix inventé.
 
-- [ ] **TXW-071 — Uniformiser catégories et pieds de page.** Associer pictogrammes, labels, CTA et retours au catalogue sur toutes les pages secondaires.    
+- [x] **TXW-071 — Uniformiser catégories et pieds de page.** Les quatre univers partagent navigation mobile, retours, footer et recherche locale, avec leurs labels propres ; preuve : `docs/validation/2026-11-07-catalog-footer-uniformity.md` et `test/catalog-footer-uniformity.test.mjs`.    
   **Acceptation :** Identité cohérente malgré différences de produits.
 
 - [x] **TXW-072 — Créer une matrice de contenus approuvables.** Les univers, données manquantes, fallbacks et portes de publication sont listés dans `docs/validation/2026-11-07-content-approval-matrix.md`; aucune donnée commerciale n’est validée par défaut.    
