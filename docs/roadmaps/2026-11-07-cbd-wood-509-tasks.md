@@ -959,7 +959,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Pas de badge qualité automatique sans pièce justificative.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [x] **CRO-064 — Contrôler la proximité des actions** — contrat mobile ajouté dans `wood-mobile-finish.css`, avec réserve de la navigation basse, cibles 44/48 px, espacements et preuve dédiée. `test/mobile-action-proximity.test.mjs` passe ; les validations physiques restent externes.  
+- [x] **CRO-064 — Contrôler la proximité des actions** — contrat mobile ajouté dans `wood-mobile-finish.css`, avec réserve de la navigation basse, cibles 44/48 px, espacements et preuve dédiée. `test/mobile-action-proximity.test.mjs` passe ; les validations physiques restent externes.
   - **Livrable :** Sur mobile, accès à la fiche et au contact sans sticky obstruant ; démo ne propose pas vente réelle.  
   - **Critère de validation :** Vérifié clavier, tactile, zoom et écran compact.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -1176,7 +1176,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
 
 ### 14 — Mobile-first, accessibilité et interaction rassurante — P1, complément de TXW-083 à TXW-094
 
-- [ ] **CRO-105 — Définir premier viewport mobile cible**   
+- [x] **CRO-105 — Définir premier viewport mobile cible** — hero compact contrôlé à 320/360/375/390/430 px, avec promesse WOOD, graffiti et CTA dans le flux ; captures Playwright conservées et correctif `<360px` documenté. Les appareils physiques restent externes.
   - **Livrable :** Vérifier logo, marque, promesse, visuel et au moins une action avant ou juste après pli.  
   - **Critère de validation :** Captures 320/360/375/390/430 sans chevauchement.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.

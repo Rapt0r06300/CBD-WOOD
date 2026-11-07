@@ -115,6 +115,37 @@ video {
   }
 }
 
+@media (max-width: 360px) {
+  /* The smallest viewport still needs one clear action just after the hero
+     promise; keep the WOOD headline bold without pushing both CTAs away. */
+  .hero-copy {
+    padding-top: 46px;
+    padding-right: 18px;
+    padding-bottom: 42px;
+    padding-left: 18px;
+  }
+
+  .hero h1 {
+    margin-top: 24px;
+    margin-bottom: 18px;
+    font-size: clamp(64px, 21vw, 74px);
+    letter-spacing: -.09em;
+  }
+
+  .hero h1 span {
+    white-space: nowrap;
+  }
+
+  .hero .sub {
+    font-size: 15px;
+    line-height: 1.45;
+  }
+
+  .hero-copy .buttons {
+    margin-top: 24px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .wood-sticker {
     transform: none;
