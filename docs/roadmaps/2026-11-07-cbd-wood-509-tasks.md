@@ -1181,7 +1181,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Captures 320/360/375/390/430 sans chevauchement.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-106 — Tester les miniatures au toucher**   
+- [x] **CRO-106 — Tester les miniatures au toucher** — galerie fleur activable au clic/clavier et au balayage horizontal tactile contrôlé, avec `touch-action: pan-y`, libellé live et repli reduced-motion. `test/flower-touch-gallery.test.mjs` passe ; les appareils physiques restent externes.
   - **Livrable :** Geste swipe contrôlé et boutons accessibles ; carrousel sans scroll horizontal capturé.  
   - **Critère de validation :** iOS/Android avec touch, clavier et reduced-motion.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.

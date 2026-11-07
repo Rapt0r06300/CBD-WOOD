@@ -95,6 +95,8 @@
   const galleryViews = [...root.querySelectorAll('[data-flower-view]')];
   const galleryLabel = root.querySelector('.flower-detail__view-label');
   let galleryIndex = 0;
+  let pointerStartX = null;
+  let swiped = false;
   const showGalleryView = (index) => {
     galleryIndex = index % galleryViews.length;
     galleryViews.forEach((image, imageIndex) => { image.hidden = imageIndex !== galleryIndex; });
@@ -103,5 +105,25 @@
       ? `Afficher la vue détail de ${product.name}`
       : `Afficher la vue scène de ${product.name}`);
   };
-  galleryToggle.addEventListener('click', () => showGalleryView(galleryIndex + 1));
+  galleryToggle.addEventListener('pointerdown', (event) => {
+    if (event.pointerType === 'mouse') return;
+    pointerStartX = event.clientX;
+    swiped = false;
+  }, { passive: true });
+  galleryToggle.addEventListener('pointerup', (event) => {
+    if (pointerStartX === null || event.pointerType === 'mouse') return;
+    const deltaX = event.clientX - pointerStartX;
+    pointerStartX = null;
+    if (Math.abs(deltaX) < 42) return;
+    swiped = true;
+    showGalleryView(galleryIndex + (deltaX < 0 ? 1 : galleryViews.length - 1));
+  }, { passive: true });
+  galleryToggle.addEventListener('pointercancel', () => { pointerStartX = null; });
+  galleryToggle.addEventListener('click', () => {
+    if (swiped) {
+      swiped = false;
+      return;
+    }
+    showGalleryView(galleryIndex + 1);
+  });
 })();
