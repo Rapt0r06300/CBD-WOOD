@@ -426,7 +426,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [x] **TXW-093 — Garantir le mouvement réduit.** Les reveals, stickers, rails et navigation sont fonctionnels avec prefers-reduced-motion ou Save-Data.    
   **Acceptation :** Le contenu reste immédiatement visible sans animation.
 
-- [ ] **TXW-094 — Faire une double revue après reflow.** Captures avant/après par appareil, y compris lignes de texte très longues, menu ouvert et panier vide.    
+- [x] **TXW-094 — Faire une double revue après reflow.** Captures avant/après par appareil, y compris lignes de texte très longues, menu ouvert et panier vide. Preuve : `docs/validation/2026-11-07-txw-094-reflow-review.md` et `test/txw-094-reflow-review.test.mjs`.
   **Acceptation :** Les régressions sont capturées et corrigées.
 
 ### P9 — Animation, performance et stabilité — 10 tickets

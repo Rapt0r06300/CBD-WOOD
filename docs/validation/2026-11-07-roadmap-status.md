@@ -301,6 +301,15 @@ ne remplace pas les contrôles Safari/Dynamic Type sur appareil réel. Preuve :
 **329 / 509 — 64,64 %**, avec **42** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Le ticket `TXW-094` est validé par une double revue avant/après après reflow :
+accueil, page visite et contact à texte long en `390 × 844` et `1440 × 900`,
+avec menu mobile ouvert et panier vide. Les captures confirment que le
+`scrollWidth` reste égal au viewport et qu'aucune action critique n'est coupée.
+Preuve : `docs/validation/2026-11-07-txw-094-reflow-review.md` et
+`test/txw-094-reflow-review.test.mjs`. Le compteur courant devient
+**330 / 509 — 64,83 %**, avec **41** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
