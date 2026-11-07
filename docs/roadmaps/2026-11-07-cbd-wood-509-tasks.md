@@ -458,7 +458,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [x] **TXW-103 — Contrôler réseau lent et déconnecté.** DOM initial ralenti, rechargement avec panier local et retour navigateur hors ligne validés en Chromium ; preuve : `docs/validation/2026-11-07-network-resilience.md` et `test/network-resilience.test.mjs`.    
   **Acceptation :** Site lisible même si médias tardifs ; pas de faux succès distant.
 
-- [ ] **TXW-104 — Comparer mesures avant/après.** Collecter Lighthouse/Playwright si disponibles, résultats de tests, taille de paquet et captures ; consigner les écarts.    
+- [x] **TXW-104 — Comparer mesures avant/après.** Comparaison `47360de` → `a0ce769` des tests, octets publics, budget média, mesure UX et captures ; Lighthouse/appareils réels restent explicitement hors validation locale ; preuve : `docs/validation/2026-11-07-performance-comparison.md` et `test/performance-comparison.test.mjs`.    
   **Acceptation :** Aucune dégradation majeure d'accessibilité/performance sans justification.
 
 ### P10 — Textes, confiance et conformité de la démo — 8 tickets
