@@ -1191,7 +1191,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Test clavier virtuel, safe area et zoom.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-108 — Améliorer affichage des prix et poids**   
+- [x] **CRO-108 — Améliorer affichage des prix et poids** — prix, statuts, grammages et actions ont un repli mobile documenté pour 320/390 px et le texte grossi ; aucune promotion ou valeur nouvelle n’est ajoutée. Contrat `test/mobile-price-weight.test.mjs`.
   - **Livrable :** Taille et contraste adaptés, sans casser unités ou cacher CTA.  
   - **Critère de validation :** Audits largeur 320 et grossissement texte.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
