@@ -687,7 +687,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Test parcours jusqu'à la catégorie et l'itinéraire en un petit nombre de gestes.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-012 — Composer un hero photo + signature**   
+- [x] **CRO-012 — Composer un hero photo + signature**
   - **Livrable :** Prévoir la façade, l'ambiance bois/stickers ou un rendu démo déclaré, en complément du logo authentique.  
   - **Critère de validation :** Pas de ressemblance avec un hero TealerLab ni de fausse photo réelle.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -714,7 +714,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
 
 ### 03 — Récit de marque plutôt qu'empilement de sections — P1, complément de TXW-024 à TXW-032
 
-- [ ] **CRO-017 — Définir cinq séquences maximales d'accueil**   
+- [x] **CRO-017 — Définir cinq séquences maximales d'accueil**
   - **Livrable :** Scénario : signature → univers → sélection → vie WOOD → visite/contact, avec FAQ et footer secondaires.  
   - **Critère de validation :** Chaque séquence répond à une question différente.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -724,7 +724,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Un produit ne se répète que pour une intention explicitement différente.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-019 — Donner un rôle à chaque image**   
+- [x] **CRO-019 — Donner un rôle à chaque image**
   - **Livrable :** Classer chaque photo comme ambiance, détail, produit, boutique, preuve ou décor.  
   - **Critère de validation :** Média sans rôle unique remplacé ou retiré.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -734,17 +734,17 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Aucun jargon 'maquette', 'module' ou explication de développement visible.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-021 — Scénariser une introduction à WOOD**   
+- [x] **CRO-021 — Scénariser une introduction à WOOD**
   - **Livrable :** Faire découvrir boutique indépendante, décor, humour et équipe sans biographie imaginée.  
   - **Critère de validation :** Toute information historique attribuée à une source ou réservée à validation.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-022 — Poser une respiration avant le catalogue**   
+- [x] **CRO-022 — Poser une respiration avant le catalogue**
   - **Livrable :** Alternance de zones sombres, éléments lime et photographies avec espace blanc volontaire.  
   - **Critère de validation :** Revue visuelle mobile/desktop sans monotonie ni saturation.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-023 — Concevoir une conclusion avec raison de revenir**   
+- [x] **CRO-023 — Concevoir une conclusion avec raison de revenir**
   - **Livrable :** Finaliser par identité, coordonnées et découverte d'univers, pas promesse de promotions fictives.  
   - **Critère de validation :** Lien/contact fonctionne ; pas d'abonnement actif fictif.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.

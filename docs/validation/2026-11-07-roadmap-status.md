@@ -19,6 +19,11 @@ maintenant vérifié par `docs/validation/2026-11-07-cro-navigation-and-rhythm.m
 et son contrat automatisé. Le compteur courant est donc **264 / 509 — 51,87 %**,
 avec **107** tickets actifs encore ouverts et **138 tâches différées**.
 
+Le lot récit d’accueil `CRO-012`, `CRO-017`, `CRO-019` et `CRO-021` à
+`CRO-023` est maintenant vérifié par `docs/validation/2026-11-07-cro-home-narrative.md`
+et son contrat automatisé. Le compteur courant devient **270 / 509 — 53,05 %**,
+avec **101** tickets actifs encore ouverts et **138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
