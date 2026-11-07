@@ -440,7 +440,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [x] **TXW-097 — Réduire les décalages de mise en page.** Réserver dimensions des médias et des éléments sticky, chargement police et placeholders.    
   **Acceptation :** CLS faible et absence de saut gênant.
 
-- [ ] **TXW-098 — Rationaliser les CSS ajoutées.** Examiner wood-graffiti.css, wood-editorial.css, wood-motion.css et mobile finish ; éviter règles contradictoires et surcharges historiques inutiles.    
+- [x] **TXW-098 — Rationaliser les CSS ajoutées.** Ordre des couches documenté, déclaration graffiti dupliquée nettoyée et attribut HTML invalide retiré du CSS ; preuve : `docs/validation/2026-11-07-css-rationalisation.md` et `test/css-rationalisation.test.mjs`.    
   **Acceptation :** Cascade documentée sans casser les composants.
 
 - [ ] **TXW-099 — Optimiser les scripts d'interaction.** Éviter doubles écouteurs, rerenders inutiles, animations globales et importations réseau non essentielles.    
