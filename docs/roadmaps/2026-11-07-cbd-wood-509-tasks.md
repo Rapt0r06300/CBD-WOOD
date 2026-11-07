@@ -1912,7 +1912,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Le score n'utilise pas un indice non vérifié.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-223 — Optimiser toutes les combinaisons utilisateur.**  
+- [x] **CRO-223 — Optimiser toutes les combinaisons utilisateur.** — la matrice locale couvre découverte, univers, notes, intensités, négations, ambiguïtés et demandes interdites ; résultats bornés à deux alternatives et références du catalogue. Preuve : `docs/validation/2026-11-07-cro-223-advisor-combinations.md` et `test/cro-223-advisor-combinations.test.mjs`.
   - **Livrable :** Tests génératifs : préférences, rejets, toutes réponses facultatives, aucun match, boutique et variantes.  
   - **Recette :** Aucune boucle, aucun faux produit et aucune classification fictive.  
   - **Statut :** TODO (non implémenté).

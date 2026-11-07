@@ -137,6 +137,14 @@ leur source, uniquement à partir de faits vérifiés. Preuve :
 **302 / 509 — 59,33 %**, avec **69** tickets actifs encore ouverts et **138
 tâches différées**.
 
+La matrice de combinaisons `CRO-223` est livrée : découverte, catégories,
+notes, intensités, négations, ambiguïtés et demandes interdites restent
+déterministes, bornées et limitées aux produits fournis. Preuve :
+`docs/validation/2026-11-07-cro-223-advisor-combinations.md` et
+`test/cro-223-advisor-combinations.test.mjs`. Le compteur courant devient
+**303 / 509 — 59,53 %**, avec **68** tickets actifs encore ouverts et **138
+tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
