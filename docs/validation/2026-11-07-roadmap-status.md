@@ -494,6 +494,13 @@ ligne « Sources WOOD » compacte sur les fiches. Les contrats CRO-078 et de
 présentation produit ont été rejoués ; aucune preuve non validée n’est
 réintroduite et le compteur reste 347 / 509.
 
+La confirmation écrite d’EasyHoster du 4 novembre 2026 a été archivée dans
+`docs/validation/2026-11-07-easyhoster-confirmation.md`. Elle confirme la
+compatibilité technique d’un frontend statique avec Supabase et Viva.com, sous
+réserve de la légalité et de la responsabilité de l’exploitant. Elle ne valide
+ni compte, domaine, DNS, HTTPS, paiement, production ou publication WOOD ; le
+compteur reste donc 347 / 509 et les portes externes restent inchangées.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
