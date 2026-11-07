@@ -91,3 +91,8 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
 - https://developers.cloudflare.com/d1/platform/limits/
 - https://developers.cloudflare.com/workers/platform/limits/
 - https://developers.cloudflare.com/agent-setup/prompt.md
+
+
+## Spécification auto-enrichissement et badge (7 novembre 2026)
+
+[Spécification WOOD du conseiller](../../architecture/wood-conseiller-intelligent-spec.md) et [roadmap globale](2026-11-07-wood-roadmap-integrale.md). Les migrations D1 doivent soutenir faits normalisés et sourcés, lexique versionné, règles de badges, statuts validé/ambigu/inconnu et une file de vérification par exception. Aucune saisie manuelle de toutes les catégories, aucune API LLM payante, aucune information de santé inventée, aucune sauvegarde des choix visiteurs. Le frontend reste utilisable hors ligne Cloudflare et interdit toute commande réelle.

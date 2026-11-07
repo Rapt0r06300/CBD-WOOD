@@ -775,3 +775,8 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
 ## Rapport Codex obligatoire
 
 Chaque groupe livré doit produire une matrice `CRO ID / parent TXW / état / commit / test / screenshot / éventuel besoin de validation propriétaire`, des captures avant/après, une preuve réseau « pas d'écriture de commande », un budget média comparé, puis la prochaine tâche non bloquée. Aucune approbation propriétaire présumée.
+
+
+## Mise à jour et continuation — 7 novembre 2026
+
+**Feuille complète et canonique :** [WOOD roadmap intégrale 371 tickets actifs + 138 différés](2026-11-07-wood-roadmap-integrale.md). Elle ajoute **CRO-129 à CRO-226** : 30 améliorations acceptées, 20 tâches auto-enrichissement/conseiller et 48 tâches de mascotte fixe BD, analyse lexicale (léger/fort/goût), badges auto et validation. Ce fichier CRO initial reste inchangé dans ses CRO-001…128 et les preuves doivent éviter les doublons.

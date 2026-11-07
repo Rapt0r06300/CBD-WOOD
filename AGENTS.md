@@ -27,3 +27,8 @@ Improve the independent **CBD WOOD demonstration website** at https://rapt0r0630
 - Generate any missing D1 kit source and tests **inside this GitHub repository**, not from the user's downloaded ZIP, so no manual file copying is required. Do not assume that conversation sandbox files are mounted in Codex.
 
 - **Client-first conversion / UX :** `docs/superpowers/plans/2026-11-06-wood-cro-client-first-128-taches.md` (CRO-001…CRO-128, 16 groupes). Complementary to TXW and D1: execute P0 demo safety, then P1 buyer journey/brand, then P2 optimizations. No real sale, no invented product claims or proofs. Track actual task completion and owner validation distinctly.
+
+
+## CANONICAL MASTER ROADMAP — 7 NOV 2026
+
+Read **`docs/superpowers/plans/2026-11-07-wood-roadmap-integrale.md`** FIRST: it consolidates all 371 unique planned TXW/CRO/D1 tasks, 138 deferred tasks, and historical 109 status. It includes 30 accepted ideas, 20 free question-only assistant/database tasks, and 48 widget, semantic-understanding, badge, visual and QA tasks. The 2026-11-07 mascot image is a stylistic reference shown in the user's ChatGPT conversation, not yet an uploaded repo asset. Keep the exact WOOD logo and no Halloween or sexualized imagery. No medical effect claims, real sales, services bills or human approvals impersonated. One question at a time, explain verified matches or honestly no exact match. Versioned automatic D1 catalogue extraction, minimal manual verification, no paid AI.

@@ -518,3 +518,8 @@ La migration gratuite Cloudflare D1 et l'automatisation Codex se trouvent dans [
 ## Extension conversion et parcours client (128 tickets)
 
 La feuille de route [CRO-001 à CRO-128](2026-11-06-wood-cro-client-first-128-taches.md) approfondit les parcours d'achat, la navigation produit, la recherche, les filtres, les fiches, la confiance, les deux boutiques, la conformité et les tests de décision. **Ne pas recompter comme nouvelles tâches les contrôles TXW déjà faits.** P0 sécurité en premier, démo sans vente, approbation propriétaire exigée pour vrais produits et données.
+
+
+## Référence intégrale finale du 7 novembre 2026
+
+**[WOOD — feuille de route totale 371 tâches actives + 138 différées](2026-11-07-wood-roadmap-integrale.md)**. Ce document initial TXW garde 120 tâches et n'est pas renuméroté. Les développements nouveaux couvrent l'illustration/mascotte approuvée, bulle BD fixe en bas à droite, conseiller uniquement par questions, mots fort/léger/goût interprétés avec contexte, trois familles de badges auto par faits sourcés, D1 Free et checklist de validation propriétaire.
