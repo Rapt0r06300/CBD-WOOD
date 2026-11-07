@@ -18,6 +18,9 @@
 .wood-advisor__categories{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:19px}
 .wood-advisor__choice{min-height:44px;padding:11px 12px;border:1px solid #526951;background:#17271b;color:#f1f0e6;text-align:left;font-size:12px;font-weight:800;cursor:pointer;transition:background .2s,border-color .2s,transform .2s}
 .wood-advisor__choice:hover,.wood-advisor__choice:focus-visible{background:#2d482f;border-color:#cbf096;transform:translateY(-1px)}
+.wood-advisor__step-controls{display:flex;gap:12px;margin:-8px 0 17px}
+.wood-advisor__step-controls button{border:0;padding:0;background:transparent;color:#a9bcaa;text-decoration:underline;text-underline-offset:3px;font-size:11px;cursor:pointer}
+.wood-advisor__step-controls button:disabled{opacity:.38;cursor:default;text-decoration:none}
 .wood-advisor__form{display:grid;gap:8px;margin-top:4px}
 .wood-advisor__form label{font-size:11px;color:#bdcdb9}
 .wood-advisor__input{width:100%;min-height:44px;padding:10px 12px;border:1px solid #526951;background:#0e1811;color:#f1f0e6;font:inherit;font-size:13px}

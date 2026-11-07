@@ -1580,12 +1580,12 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
 
 ## SECTION F — 20 tâches d'architecture du conseiller (CRO-159 à CRO-178)
 
-- [ ] **CRO-159 — Inventaire automatique des sources produits.**  
+- [x] **CRO-159 — Inventaire automatique des sources produits.**  
   - **Livrable :** Extraire les noms/visuels/variants attestés des sources WOOD existantes, dédupliquer par slug.  
   - **Recette :** Import idempotent; aucun vrai client ou donnée Supabase copiée.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-160 — Schéma D1 de faits extensibles.**  
+- [x] **CRO-160 — Schéma D1 de faits extensibles.**  
   - **Livrable :** Tables product_facts, fact_sources, normalized_values, question_rules, import_runs, review_queue.  
   - **Recette :** Migrations SQLite testées; aucun profil de visiteur.  
   - **Statut :** TODO (non implémenté).
@@ -1605,17 +1605,17 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Un fait non confirmé n'est jamais affirmé comme certain.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-164 — File de contrôle des ambiguïtés.**  
+- [x] **CRO-164 — File de contrôle des ambiguïtés.**  
   - **Livrable :** Signaler uniquement conflits, informations manquantes critiques et contenus non prouvés.  
   - **Recette :** Aucune obligation de classifier chaque produit manuellement.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-165 — Questions générées depuis les données.**  
+- [x] **CRO-165 — Questions générées depuis les données.**  
   - **Livrable :** Sélectionner les questions parmi les propriétés réellement utiles et discriminantes.  
   - **Recette :** Aucune question sur critère absent; pas de question médicale.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-166 — Dialogue adaptatif déterministe.**  
+- [x] **CRO-166 — Dialogue adaptatif déterministe.**  
   - **Livrable :** Poser question suivante selon réponses et candidats restant; gérer Passer, Peu importe, Retour.  
   - **Recette :** Nombre de questions borné, pas de boucle ni tunnel bloquant.  
   - **Statut :** TODO (non implémenté).
@@ -1665,7 +1665,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Pas d'exception SQL/JS; score n'invente pas.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-176 — Tests combinatoires exhaustifs raisonnables.**  
+- [x] **CRO-176 — Tests combinatoires exhaustifs raisonnables.**  
   - **Livrable :** Générer fixtures de réponses, conflits, égalités, aucun résultat et refus de critères.  
   - **Recette :** Invariants vérifiés : aucun faux match, scores stables.  
   - **Statut :** TODO (non implémenté).
@@ -1675,7 +1675,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Même UX et zero abonnement nécessaire.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-178 — Recette finale conseiller.**  
+- [x] **CRO-178 — Recette finale conseiller.**  
   - **Livrable :** Tester novice, connaisseur, aucune préférence, cas impossible, mobile et offline.  
   - **Recette :** Preuves commits/tests/captures et blocages externes séparés.  
   - **Statut :** TODO (non implémenté).

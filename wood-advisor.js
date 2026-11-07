@@ -7,7 +7,7 @@
   const engine = root.WoodAdvisorEngine;
   const data = root.WoodAdvisorData;
   const products = data.products;
-  const sessionState = { lastQuestion: '', lastResult: null };
+  const sessionState = { lastQuestion: '', lastResult: null, answers: {}, history: [] };
   let lastFocus = null;
 
   const escapeHtml = (value) => String(value ?? '').replace(/[&<>'"]/g, (character) => ({
@@ -31,6 +31,7 @@
       <p class="wood-advisor__notice">Démo locale : aucune donnée n’est envoyée et rien n’est enregistré. Les caractéristiques produit apparaîtront seulement avec une source validée par WOOD.</p>
       <p class="wood-advisor__question">Tu regardes quoi aujourd’hui&nbsp;?</p>
       <div class="wood-advisor__categories" data-advisor-categories></div>
+      <div class="wood-advisor__step-controls" aria-label="Navigation des questions"><button type="button" data-advisor-skip>Passer</button><button type="button" data-advisor-back disabled>Retour</button></div>
       <form class="wood-advisor__form" data-advisor-form>
         <label for="woodAdvisorQuestion">Ou décris ton idée en quelques mots</label>
         <input class="wood-advisor__input" id="woodAdvisorQuestion" name="question" type="text" autocomplete="off" placeholder="Ex. un goût fruité et marqué">
@@ -49,9 +50,16 @@
   const input = widget.querySelector('#woodAdvisorQuestion');
   const resultRoot = widget.querySelector('[data-advisor-result]');
   const status = widget.querySelector('[data-advisor-status]');
+  const questionLabel = widget.querySelector('.wood-advisor__question');
+  const skipButton = widget.querySelector('[data-advisor-skip]');
+  const backButton = widget.querySelector('[data-advisor-back]');
+  const questionPlan = engine.buildQuestionPlan(products);
+  const firstQuestion = engine.nextQuestion(products, engine.extractPreferences(''), {});
+  if (firstQuestion?.text) questionLabel.textContent = firstQuestion.text;
 
   const categoryQuestion = (category) => `Je cherche des ${category.slug === 'bien-etre' ? 'produits bien-être' : category.label.toLowerCase()}`;
-  categoryRoot.innerHTML = data.categories.map((category) => `<button class="wood-advisor__choice" type="button" data-advisor-category="${escapeHtml(category.slug)}">${escapeHtml(category.label)}</button>`).join('');
+  const categoryPlan = questionPlan.find((question) => question.key === 'category');
+  categoryRoot.innerHTML = (categoryPlan?.choices || []).map((slug, index) => `<button class="wood-advisor__choice" type="button" data-advisor-category="${escapeHtml(slug)}">${escapeHtml(categoryPlan.labels[index] || slug)}</button>`).join('');
 
   const findCategory = (slug) => data.categories.find((category) => category.slug === slug);
   const renderResult = (result) => {
@@ -70,9 +78,12 @@
     resultRoot.innerHTML = `<span class="wood-advisor__result-kicker">${result.status === 'discovery' ? 'Une première piste' : 'Le meilleur raccord'}</span><h3>${escapeHtml(best.name)}</h3><p>${escapeHtml(result.best.explanation || result.reason)}</p><a href="${escapeHtml(best.href)}">Voir la sélection ↗</a>${alternatives}<button class="wood-advisor__clear" type="button" data-advisor-clear>Recommencer</button>`;
   };
 
-  const run = (question) => {
+  const run = (question, answerKey = 'free-text') => {
     const text = String(question || '').trim();
     sessionState.lastQuestion = text;
+    sessionState.answers[answerKey] = text;
+    sessionState.history.push({ answerKey, text });
+    backButton.disabled = sessionState.history.length === 0;
     status.textContent = text ? 'WOOD regarde les critères descriptifs disponibles…' : '';
     const preferences = engine.extractPreferences(text);
     const result = engine.recommend(products, preferences);
@@ -93,9 +104,12 @@
     bubble.setAttribute('aria-expanded', 'false');
     sessionState.lastQuestion = '';
     sessionState.lastResult = null;
+    sessionState.answers = {};
+    sessionState.history = [];
     resultRoot.hidden = true;
     resultRoot.textContent = '';
     input.value = '';
+    backButton.disabled = true;
     if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
   };
 
@@ -107,8 +121,19 @@
       const category = findCategory(choice.dataset.advisorCategory);
       if (category) {
         input.value = categoryQuestion(category);
-        run(input.value);
+        run(input.value, 'category');
       }
+    }
+    if (event.target.closest('[data-advisor-skip]')) run('', 'skip');
+    if (event.target.closest('[data-advisor-back]')) {
+      sessionState.history.pop();
+      const previous = sessionState.history.at(-1);
+      sessionState.answers = Object.fromEntries(sessionState.history.map((item) => [item.answerKey, item.text]));
+      input.value = previous?.text || '';
+      resultRoot.hidden = true;
+      resultRoot.textContent = '';
+      backButton.disabled = sessionState.history.length === 0;
+      input.focus();
     }
     if (event.target.closest('[data-advisor-clear]')) {
       resultRoot.hidden = true;
@@ -118,7 +143,7 @@
   });
   form.addEventListener('submit', (event) => {
     event.preventDefault();
-    run(input.value);
+    run(input.value, 'free-text');
   });
   documentRef.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && !panel.hidden) close();

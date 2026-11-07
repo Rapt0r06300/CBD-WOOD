@@ -93,6 +93,71 @@
   const valuesFor = (facts, key) => facts.filter((fact) => fact.key === key).map((fact) => normalizeText(fact.value));
   const factEvidence = (facts, key, value) => facts.find((fact) => fact.key === key && normalizeText(fact.value) === normalizeText(value));
 
+  const categoryLabels = new Map([
+    ['fleurs', 'Fleurs'],
+    ['resines', 'Résines'],
+    ['bien-etre', 'Bien-être'],
+    ['wood-shop', 'WOOD Shop'],
+  ]);
+  const questionLabels = new Map([
+    ['notes', 'Quel univers aromatique te parle le plus ?'],
+    ['aromaIntensity', 'Tu préfères un profil discret ou marqué ?'],
+  ]);
+  const questionChoices = (products, key) => [...new Set(products.flatMap((product) => verifiedFacts(product)
+    .filter((fact) => fact.key === key)
+    .map((fact) => normalizeText(fact.value))))].sort();
+
+  const buildQuestionPlan = (products) => {
+    const list = Array.isArray(products) ? products : [];
+    const categories = [...new Set(list.map((product) => normalizeText(product.category)).filter(Boolean))]
+      .filter((category) => categoryLabels.has(category))
+      .sort((left, right) => [...categoryLabels.keys()].indexOf(left) - [...categoryLabels.keys()].indexOf(right));
+    const plan = [];
+    if (categories.length) plan.push({
+      id: 'category',
+      key: 'category',
+      text: 'Tu regardes quel univers aujourd’hui ?',
+      choices: categories,
+      labels: categories.map((category) => categoryLabels.get(category)),
+    });
+    for (const key of ['notes', 'aromaIntensity']) {
+      const choices = questionChoices(list, key);
+      if (choices.length > 1) plan.push({ id: key, key, text: questionLabels.get(key), choices });
+    }
+    return plan;
+  };
+
+  const nextQuestion = (products, preferences = extractPreferences(''), answers = {}) => {
+    const plan = buildQuestionPlan(products);
+    return plan.find((question) => {
+      if (answers[question.key] !== undefined && answers[question.key] !== null && answers[question.key] !== '') return false;
+      if (question.key === 'category' && preferences.desiredCategory) return false;
+      if (question.key === 'notes' && (preferences.desiredNotes.length || preferences.excludeNotes.length)) return false;
+      if (question.key === 'aromaIntensity' && (preferences.aromaIntensity || preferences.aromaIntensityMax)) return false;
+      return true;
+    }) || null;
+  };
+
+  const collectAmbiguities = (products) => {
+    const issues = [];
+    for (const product of Array.isArray(products) ? products : []) {
+      const facts = Array.isArray(product?.facts) ? product.facts.filter(Boolean) : [];
+      const verified = verifiedFacts(product);
+      if (!verified.length) issues.push({ entityKind: 'product', entityId: product.id, reason: 'missing-critical', field: 'facts' });
+      const groups = new Map();
+      for (const fact of facts) {
+        if (!fact.verified || !fact.source) issues.push({ entityKind: 'fact', entityId: product.id, reason: 'unproven', field: fact.key });
+        if (fact.verified === true && fact.source && fact.key && fact.value !== null && fact.value !== undefined) {
+          const values = groups.get(fact.key) || new Set();
+          values.add(normalizeText(fact.value));
+          groups.set(fact.key, values);
+        }
+      }
+      for (const [field, values] of groups) if (values.size > 1) issues.push({ entityKind: 'fact', entityId: product.id, reason: 'conflict', field });
+    }
+    return issues;
+  };
+
   const recommend = (products, preferences = extractPreferences('')) => {
     const list = Array.isArray(products) ? products : [];
     if (preferences.blockedTopics?.length) return {
@@ -152,5 +217,5 @@
     };
   };
 
-  return Object.freeze({ normalizeText, extractPreferences, recommend });
+  return Object.freeze({ normalizeText, extractPreferences, buildQuestionPlan, nextQuestion, collectAmbiguities, recommend });
 }));

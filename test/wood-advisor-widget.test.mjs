@@ -24,7 +24,10 @@ test('le catalogue conseiller reste local, vérifiable et sans profil persistant
 test('le moteur et le widget se parlent sans fabriquer une promesse', () => {
   assert.match(widget, /WoodAdvisorEngine/);
   assert.match(widget, /WoodAdvisorData/);
+  assert.match(widget, /buildQuestionPlan|nextQuestion/);
   assert.match(widget, /Besoin d’aide pour choisir/u);
+  assert.match(widget, /Passer/);
+  assert.match(widget, /Retour/);
   assert.match(widget, /aria-modal="true"/u);
   assert.match(widget, /sessionState/);
   assert.doesNotMatch(widget, /localStorage|sessionStorage|fetch\s*\(/iu);

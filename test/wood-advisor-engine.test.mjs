@@ -57,3 +57,64 @@ test('aucun match produit ne devient une promesse : la sortie reste utile', () =
   assert.equal(result.best, null);
   assert.match(result.reason, /contact|correspond/i);
 });
+
+test('les questions sont générées uniquement depuis les candidats et faits vérifiés', () => {
+  const engine = loadEngine();
+  const withoutFacts = [
+    { id: 'fleur-1', category: 'fleurs', facts: [] },
+    { id: 'resine-1', category: 'resines', facts: [] },
+  ];
+  const categoryPlan = engine.buildQuestionPlan(withoutFacts);
+  assert.equal(categoryPlan[0].key, 'category');
+  assert.deepEqual(Array.from(categoryPlan[0].choices), ['fleurs', 'resines']);
+  assert.doesNotMatch(JSON.stringify(categoryPlan), /effet|sommeil|douleur|médic/iu);
+
+  const withFacts = [
+    {
+      id: 'fleur-1',
+      category: 'fleurs',
+      facts: [{ key: 'notes', value: 'fruite', verified: true, source: 'owner-approved:demo-1' }],
+    },
+    {
+      id: 'fleur-2',
+      category: 'fleurs',
+      facts: [{ key: 'notes', value: 'terreux', verified: true, source: 'owner-approved:demo-2' }],
+    },
+  ];
+  const plan = engine.buildQuestionPlan(withFacts);
+  assert.ok(plan.some((question) => question.key === 'notes'));
+  assert.equal(engine.nextQuestion(withFacts, engine.extractPreferences(''), {}).key, 'category');
+  assert.equal(engine.nextQuestion(withFacts, engine.extractPreferences('fleurs'), { category: 'fleurs' }).key, 'notes');
+});
+
+test('les ambiguïtés et conflits deviennent une file de contrôle lisible', () => {
+  const engine = loadEngine();
+  const ambiguities = engine.collectAmbiguities([
+    { id: 'missing', category: 'fleurs', facts: [] },
+    { id: 'conflict', category: 'fleurs', facts: [
+      { key: 'notes', value: 'fruite', verified: true, source: 'owner-approved:a' },
+      { key: 'notes', value: 'terreux', verified: true, source: 'owner-approved:b' },
+    ] },
+    { id: 'unproven', category: 'fleurs', facts: [{ key: 'aromaIntensity', value: 'high', verified: false, source: null }] },
+  ]);
+  assert.ok(ambiguities.some((item) => item.reason === 'missing-critical' && item.entityId === 'missing'));
+  assert.ok(ambiguities.some((item) => item.reason === 'conflict' && item.entityId === 'conflict'));
+  assert.ok(ambiguities.some((item) => item.reason === 'unproven' && item.entityId === 'unproven'));
+});
+
+test('les combinaisons usuelles restent bornées et déterministes', () => {
+  const engine = loadEngine();
+  const products = [
+    { id: 'a', category: 'fleurs', facts: [{ key: 'notes', value: 'fruite', verified: true, source: 'owner:a' }] },
+    { id: 'b', category: 'resines', facts: [{ key: 'notes', value: 'terreux', verified: true, source: 'owner:b' }] },
+  ];
+  const questions = ['fleurs', 'résines', 'je ne sais pas', 'un goût fruité', 'pas fruité', 'puissant', 'effet relaxant', ''];
+  for (const question of questions) {
+    const preferences = engine.extractPreferences(question);
+    const first = engine.recommend(products, preferences);
+    const second = engine.recommend(products, preferences);
+    assert.deepEqual(first, second);
+    assert.ok(['match', 'discovery', 'no-match', 'clarify'].includes(first.status));
+    assert.ok((first.alternatives || []).length <= 2);
+  }
+});
