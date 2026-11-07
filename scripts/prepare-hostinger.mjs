@@ -59,6 +59,7 @@ const PUBLIC_FILES = [
   'wood-catalog-search.css',
   'wood-catalog-search.js',
   'wood-demo-price-hydration.js',
+  'wood-demo-catalog.js',
   'wood-guide.css',
   'wood-home-variants.css',
   'wood-home-variants.js',

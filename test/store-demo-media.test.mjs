@@ -1,7 +1,11 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import { createRequire } from 'node:module';
 import { test } from 'node:test';
 import { getOwnerMediaPreview } from '../owner-media.mjs';
+
+const require = createRequire(import.meta.url);
+const demoCatalog = require('../wood-demo-catalog.js');
 
 const flowerSlugs = [
   'nimbus-3000', 'ivory', 'velvet-kush', 'pastraweed', 'euphoria', 'purple',
@@ -12,7 +16,7 @@ test('la boutique fleurs utilise les mêmes illustrations que l’espace propri�
   const html = await readFile(new URL('../fleurs.html', import.meta.url), 'utf8');
   const presentationScript = await readFile(new URL('../flower-presentation.js', import.meta.url), 'utf8');
   const hydrationScript = await readFile(new URL('../catalog-demo-hydration.js', import.meta.url), 'utf8');
-  const sources = [...presentationScript.matchAll(/image:\s*'([^']+)'/gu)].map(match => match[1]);
+  const sources = demoCatalog.all().map((product) => product.image);
 
   assert.equal(sources.length, flowerSlugs.length);
   assert.equal(new Set(sources).size, flowerSlugs.length);
@@ -25,6 +29,7 @@ test('la boutique fleurs utilise les mêmes illustrations que l’espace propri�
       isDemo: true,
     });
   }
+  assert.match(presentationScript, /WoodDemoCatalog/u);
   assert.match(presentationScript, /demoDescription/gu);
   assert.match(hydrationScript, /mouseenter/u);
   assert.match(hydrationScript, /assets\/fleurs\.svg/u);

@@ -1544,7 +1544,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Compte rendu avec captures, appareil testé ou preuve manquante.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-153 — Catalogue éditable sans toucher au HTML.**  
+- [x] **CRO-153 — Catalogue éditable sans toucher au HTML** — source structurée unique pour les fiches fleurs, les paliers démo et les références de la graine SQLite/D1, avec test de cohérence et statut commercial inactif. Preuve : `docs/validation/2026-11-07-cro-153-demo-catalog.md` et `test/cro-153-demo-catalog.test.mjs`.
   - **Livrable :** Fichiers source structurés + import SQLite/D1 et rendu unique de fiches.  
   - **Recette :** Une modification de source se répercute sur toutes vues sans double saisie.  
   - **Statut :** TODO (non implémenté).
