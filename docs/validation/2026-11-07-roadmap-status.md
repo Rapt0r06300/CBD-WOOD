@@ -184,6 +184,14 @@ publication. Preuve : `docs/validation/2026-11-07-cro-219-advisor-import-pipelin
 Le compteur courant devient **310 / 509 — 60,90 %**, avec **61** tickets
 actifs encore ouverts et **138 tâches différées**.
 
+Le parcours visuel du conseiller `CRO-190` est documenté par quatre captures
+locales : accueil compact/ouvert, fiche produit desktop après défilement et
+fiche mobile 390×844. Le manifeste conserve les routes, états et viewports ;
+la validation artistique propriétaire reste séparée. Preuve :
+`docs/validation/2026-11-07-cro-190-widget-captures.md` et son manifeste. Le
+compteur courant devient **311 / 509 — 61,10 %**, avec **60** tickets actifs
+encore ouverts et **138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

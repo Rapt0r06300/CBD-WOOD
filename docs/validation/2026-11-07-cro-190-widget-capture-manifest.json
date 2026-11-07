@@ -1,0 +1,11 @@
+{
+  "format": "wood-widget-capture-manifest-v1",
+  "capturedAt": "2026-11-07",
+  "source": "Playwright local demo bundle",
+  "entries": [
+    { "id": "home-desktop-minified", "route": "/demo/index.html", "viewport": "1440x900", "state": "minified", "file": "output/playwright/cro190-home-desktop-minified.png" },
+    { "id": "home-desktop-open", "route": "/demo/index.html", "viewport": "1440x900", "state": "open", "file": "output/playwright/cro190-home-desktop-open.png" },
+    { "id": "product-desktop-open", "route": "/demo/fleur.html?produit=fleurs-nimbus-3000", "viewport": "1440x900", "state": "product-scroll-open", "file": "output/playwright/cro190-product-desktop-open.png" },
+    { "id": "product-mobile-open", "route": "/demo/fleur.html?produit=fleurs-nimbus-3000", "viewport": "390x844", "state": "product-scroll-open", "file": "output/playwright/cro190-product-mobile-open.png" }
+  ]
+}

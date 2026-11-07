@@ -1739,7 +1739,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Tactile, clavier, Escape, retour focus, aucune page bloquée.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-190 — Parcours de présentation visuelle.**  
+- [x] **CRO-190 — Parcours de présentation visuelle.** — quatre captures Playwright locales : accueil compact/ouvert, fiche desktop après scroll et fiche mobile 390×844 ; manifeste versionné, validation propriétaire séparée. Preuve : `docs/validation/2026-11-07-cro-190-widget-captures.md`, `docs/validation/2026-11-07-cro-190-widget-capture-manifest.json` et `test/cro-190-widget-captures.test.mjs`.
   - **Livrable :** Capturer widget minifié/étendu/ouvert, section produit et scroll aux viewports principaux.  
   - **Recette :** Preuve visuelle des états et validation conformité à l'image approuvée.  
   - **Statut :** TODO (non implémenté).
