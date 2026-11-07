@@ -115,3 +115,26 @@ h2 .script::after{content:"";position:absolute;left:-2%;right:-2%;bottom:-.16em;
   .footer-cta .newsletter{width:100%;max-width:none}
 }
 @media(max-width:560px){.why-grid{grid-template-columns:1fr}}
+
+/* ===== Catalogue tot (rail accueil) ===== */
+.rail-sub{margin:.2rem 0 1.4rem;max-width:58ch;font-size:.98rem}
+
+/* ===== Recherche overlay ===== */
+.search-ov{position:fixed;inset:0;z-index:120;background:rgba(6,10,7,.72);opacity:0;pointer-events:none;transition:opacity .25s;display:flex;justify-content:center;align-items:flex-start;padding:max(10vh,3rem) 16px 2rem}
+.search-ov.open{opacity:1;pointer-events:auto}
+.search-panel{width:min(640px,100%);background:#141a14;border:1px solid rgba(255,255,255,.1);border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.5);overflow:hidden;transform:translateY(-12px);transition:transform .25s}
+.search-ov.open .search-panel{transform:none}
+.search-top{display:flex;align-items:center;gap:.6rem;padding:.9rem 1rem;border-bottom:1px solid rgba(255,255,255,.08)}
+.search-ic{font-size:1.1rem;opacity:.7}
+#searchInput{flex:1;background:transparent;border:0;outline:0;color:#fff;font:600 1.05rem/1.2 Inter,sans-serif;padding:.4rem 0}
+.search-close{background:rgba(255,255,255,.08);border:0;color:#fff;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:.9rem;flex:none}
+.search-res{max-height:60vh;overflow:auto;padding:.6rem}
+.search-hint,.search-empty{padding:.6rem .8rem;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em}
+.search-grid{display:flex;flex-direction:column;gap:.3rem}
+.search-row{display:flex;align-items:center;gap:.9rem;padding:.6rem .7rem;border-radius:14px;text-decoration:none;color:#fff;transition:background .15s}
+.search-row:hover{background:rgba(255,255,255,.06)}
+.search-row img{width:52px;height:52px;border-radius:12px;object-fit:cover;background:#0c110c;flex:none}
+.search-info{flex:1;display:flex;flex-direction:column;gap:.15rem;min-width:0}
+.search-info b{font-size:1rem}
+.search-info span{font-size:.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.search-price{color:var(--lime);font-weight:700;white-space:nowrap}

@@ -371,4 +371,41 @@ document.addEventListener("DOMContentLoaded",()=>{
   if(burger)burger.addEventListener("click",()=>location.href="fleurs.html");
   const adv=document.getElementById("advisor");
   if(adv)adv.addEventListener("click",openAdvisor);
+  document.querySelectorAll(".icon-btn.search").forEach(b=>b.addEventListener("click",openSearch));
 });
+
+/* ===================== RECHERCHE (overlay live) ===================== */
+function openSearch(){
+  let ov=document.getElementById("searchOv");
+  if(!ov){
+    ov=document.createElement("div"); ov.id="searchOv"; ov.className="search-ov";
+    ov.innerHTML=`<div class="search-panel" role="dialog" aria-label="Recherche">
+      <div class="search-top">
+        <span class="search-ic">🔎</span>
+        <input id="searchInput" type="search" placeholder="Rechercher une fleur, un goût…" autocomplete="off" aria-label="Rechercher">
+        <button class="search-close" aria-label="Fermer">✕</button>
+      </div>
+      <div class="search-res" id="searchRes"></div>
+    </div>`;
+    document.body.appendChild(ov);
+    const close=()=>{ov.classList.remove("open");document.body.style.overflow="";};
+    ov.addEventListener("click",e=>{if(e.target===ov||e.target.closest(".search-close"))close();});
+    document.addEventListener("keydown",e=>{if(e.key==="Escape"&&ov.classList.contains("open"))close();});
+    const inp=ov.querySelector("#searchInput");
+    inp.addEventListener("input",()=>searchDraw(inp.value));
+  }
+  ov.classList.add("open"); document.body.style.overflow="hidden";
+  searchDraw(""); setTimeout(()=>ov.querySelector("#searchInput").focus(),60);
+}
+function searchDraw(q){
+  const res=document.getElementById("searchRes"); if(!res)return;
+  q=(q||"").trim().toLowerCase();
+  let list=FLEURS;
+  if(q) list=FLEURS.filter(f=>(f.nom+" "+f.desc+" "+f.tier+" "+((PROFILE[f.slug]&&PROFILE[f.slug].a)||"")).toLowerCase().includes(q));
+  if(!list.length){res.innerHTML=`<p class="search-empty muted">Aucun résultat pour « ${q} ». Essaie « fruité », « boosté », « doux »…</p>`;return;}
+  res.innerHTML=`${q?"":'<p class="search-hint muted">Suggestions populaires</p>'}<div class="search-grid">`+list.slice(0,8).map(f=>{
+    const m=META[f.slug]||{}; return `<a class="search-row" href="produit.html?f=${f.slug}">
+      <img src="assets/products/${f.slug}.jpg${IMGV}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
+      <div class="search-info"><b>${f.nom}</b><span class="muted">${f.desc} · ${TIER[f.tier]?TIER[f.tier].label:f.tier}</span></div>
+      <span class="search-price">dès ${f.p[0]} €</span></a>`;}).join("")+`</div>`;
+}

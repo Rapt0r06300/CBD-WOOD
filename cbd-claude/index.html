@@ -9,8 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=7">
-<link rel="stylesheet" href="styles2.css?v=7">
+<link rel="stylesheet" href="styles.css?v=8">
+<link rel="stylesheet" href="styles2.css?v=8">
 </head>
 <body data-page="home">
 
@@ -45,9 +45,22 @@
   </div>
 </div>
 
+<!-- ============ FLEURS (catalogue tôt — rempli par JS) ============ -->
+<section class="section container" id="fleurs">
+  <div class="rail-head">
+    <div>
+      <span class="eyebrow reveal">01 · La sélection WOOD</span>
+      <h2 class="reveal d1">Direct au <span class="script">catalogue.</span></h2>
+    </div>
+    <a href="fleurs.html" class="btn btn-ghost reveal d1">Tout voir <span class="arr">→</span></a>
+  </div>
+  <p class="rail-sub muted reveal d1">Nos variétés préférées du moment — ajoute ton pochon en un clic. 🚚 Livraison offerte dès 60 €.</p>
+  <div class="rail" id="fleursRail" aria-label="Sélection de fleurs CBD"></div>
+</section>
+
 <!-- ============ UNIVERS / CATEGORIES ============ -->
 <section class="section container" id="univers">
-  <span class="eyebrow reveal">01 · À découvrir</span>
+  <span class="eyebrow reveal">02 · Toutes nos gammes</span>
   <h2 class="reveal d1">Le bon univers.</h2>
   <div class="cat-grid">
     <a href="fleurs.html" class="cat big reveal d1"><div class="cat-art" data-art="fleurs"></div><h3>Fleurs CBD</h3><span class="go">Découvrir →</span></a>
@@ -56,18 +69,6 @@
     <a href="bientot.html?cat=huiles" class="cat reveal d2"><div class="cat-art" data-art="huiles"></div><h3>Huiles & infusions</h3><span class="go">Voir →</span></a>
     <a href="bientot.html?cat=accessoires" class="cat reveal d3"><div class="cat-art" data-art="accessoires"></div><h3>Accessoires</h3><span class="go">Voir →</span></a>
   </div>
-</section>
-
-<!-- ============ FLEURS (rail rempli par JS) ============ -->
-<section class="section container" id="fleurs">
-  <div class="rail-head">
-    <div>
-      <span class="eyebrow reveal">02 · La sélection WOOD</span>
-      <h2 class="reveal d1">Les fleurs, sous cloche.</h2>
-    </div>
-    <a href="fleurs.html" class="btn btn-ghost reveal d1">Tout voir <span class="arr">→</span></a>
-  </div>
-  <div class="rail" id="fleursRail" aria-label="Sélection de fleurs CBD"></div>
 </section>
 
 <!-- ============ POURQUOI WOOD ============ -->
@@ -168,6 +169,6 @@
 <div data-chrome="advisor"></div>
 <nav data-chrome="botnav"></nav>
 
-<script src="app.js?v=8"></script>
+<script src="app.js?v=9"></script>
 </body>
 </html>
