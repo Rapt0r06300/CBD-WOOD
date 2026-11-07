@@ -907,7 +907,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Chaque slot possède état prêt/attente, responsable et fallback non mensonger.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-054 — Préparer variantes de recadrage responsive**   
+- [x] **CRO-054 — Préparer variantes de recadrage responsive** — cadres `1:1`, `4:5`, `3:2`, point focal par bloc et recette 320–430 px dans `wood-photo-crops.css`. Preuve : `docs/validation/2026-11-07-cro-054-responsive-crops.md` et `test/cro-054-responsive-crops.test.mjs`.
   - **Livrable :** Cadrages 1:1, 4:5, 3:2 validés par photo, object-position documenté.  
   - **Critère de validation :** Aucun crop de logo, prix sur étiquette ou sujet essentiel à 320px.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.

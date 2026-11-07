@@ -21,6 +21,19 @@ Ce document prépare la production des vraies photos demandées par la propriét
 | Fiche desktop | `3:2` ou `4:5` | image nette dans le cadre réservé sans modifier la hauteur du bloc |
 | Fallback | WebP + JPEG/PNG | état `demo`/`approved` explicite, alt text associé |
 
+## Matrice de recadrage responsive
+
+Les cadres sont ancrés au bloc média, jamais au viewport. La valeur par défaut
+est `object-position: 50% 50%`, avec une variable locale par image lorsqu'un
+point focal réel impose un léger décalage. Les cartes carrées restent centrées ;
+les fiches portrait utilisent `50% 42%` sur mobile si le sujet est plus haut ;
+les cadres desktop `3:2` restent à `50% 50%` sauf preuve contraire.
+
+La recette est relue à `320`, `375`, `390` et `430 px`. La zone sûre conserve
+au moins 8 % de marge autour du sujet essentiel. Aucun logo, prix, texte
+d'étiquette ou bouton ne doit être placé dans l'image recadrée ; ces informations
+restent dans le HTML voisin et ne dépendent jamais du crop.
+
 ## Nommage et remplacement
 
 `<univers>-<slug>-<usage>-<version>-<statut>.<format>`

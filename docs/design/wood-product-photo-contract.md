@@ -22,6 +22,12 @@ pour la fiche desktop, avec export WebP et fallback JPEG/PNG.
 
 Les exports conservent l'original haute définition à part, la source, l'autorisation, la date, les dimensions, le poids, le ratio, le statut et l'alt text. Le nommage et le registre permettent un remplacement fichier par fichier. Une photo ne change jamais le HTML d'achat, le nom, le prix, le grammage, le stock ou le lien de fiche.
 
+Le contrat CSS des cadres est porté par `wood-photo-crops.css` : variantes
+`1:1`, `4:5` et `3:2`, ancrage `object-position` par bloc et décalage portrait
+mobile limité à `50% 42%` par défaut. Les images de démonstration existantes
+restent centrées ; la propriétaire pourra définir un point focal par asset lors
+du remplacement par une photo approuvée.
+
 ## Raccordement et états de secours
 
 Le registre de présentation est consommé avant le rendu des cartes et fiches ; la même référence peut donc recevoir une scène `demo-cloche`, une vue `demo-clean-view`, puis une photo `approved-real-photo`, sans changer son identifiant. Une image absente, lente ou en erreur masque le média cassé, affiche le fallback WOOD et conserve le nom, le statut, le texte alternatif et l'action applicable. La seconde vue ne dépend jamais d'un hover.

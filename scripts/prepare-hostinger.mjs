@@ -24,6 +24,7 @@ const PUBLIC_FILES = [
   'account.js',
   'bien-etre.html',
   'boutique.css',
+  'wood-photo-crops.css',
   'boutique.js',
   'catalog-demo-hydration.js',
   'checkout.html',

@@ -329,6 +329,15 @@ avec des fallbacks honnêtes. Preuve :
 **332 / 509 — 65,23 %**, avec **39** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Le ticket `CRO-054` est validé : les variantes `1:1`, `4:5` et `3:2` sont
+préparées dans le contrat CSS avec un `object-position` ancré au média, une
+recette 320–430 px et une zone sûre ; aucune donnée commerciale n'est embarquée
+dans les images. Preuve :
+`docs/validation/2026-11-07-cro-054-responsive-crops.md` et
+`test/cro-054-responsive-crops.test.mjs`. Le compteur courant devient
+**333 / 509 — 65,42 %**, avec **38** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
