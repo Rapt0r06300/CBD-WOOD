@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "viewports": {
+    "mobile": { "width": 390, "height": 844 },
+    "desktop": { "width": 1440, "height": 900 }
+  },
+  "captures": [
+    { "route": "404", "viewport": "mobile", "file": "404--mobile-390x844.jpg" },
+    { "route": "404", "viewport": "desktop", "file": "404--desktop-1440x900.jpg" },
+    { "route": "bien-etre", "viewport": "mobile", "file": "bien-etre--mobile-390x844.jpg" },
+    { "route": "bien-etre", "viewport": "desktop", "file": "bien-etre--desktop-1440x900.jpg" },
+    { "route": "checkout", "viewport": "mobile", "file": "checkout--mobile-390x844.jpg" },
+    { "route": "checkout", "viewport": "desktop", "file": "checkout--desktop-1440x900.jpg" },
+    { "route": "compte", "viewport": "mobile", "file": "compte--mobile-390x844.jpg" },
+    { "route": "compte", "viewport": "desktop", "file": "compte--desktop-1440x900.jpg" },
+    { "route": "confirmation", "viewport": "mobile", "file": "confirmation--mobile-390x844.jpg" },
+    { "route": "confirmation", "viewport": "desktop", "file": "confirmation--desktop-1440x900.jpg" },
+    { "route": "contact", "viewport": "mobile", "file": "contact--mobile-390x844.jpg" },
+    { "route": "contact", "viewport": "desktop", "file": "contact--desktop-1440x900.jpg" },
+    { "route": "fleur", "viewport": "mobile", "file": "fleur--mobile-390x844.jpg" },
+    { "route": "fleur", "viewport": "desktop", "file": "fleur--desktop-1440x900.jpg" },
+    { "route": "fleurs", "viewport": "mobile", "file": "fleurs--mobile-390x844.jpg" },
+    { "route": "fleurs", "viewport": "desktop", "file": "fleurs--desktop-1440x900.jpg" },
+    { "route": "index", "viewport": "mobile", "file": "index--mobile-390x844.jpg" },
+    { "route": "index", "viewport": "desktop", "file": "index--desktop-1440x900.jpg" },
+    { "route": "produit", "viewport": "mobile", "file": "produit--mobile-390x844.jpg" },
+    { "route": "produit", "viewport": "desktop", "file": "produit--desktop-1440x900.jpg" },
+    { "route": "resines", "viewport": "mobile", "file": "resines--mobile-390x844.jpg" },
+    { "route": "resines", "viewport": "desktop", "file": "resines--desktop-1440x900.jpg" },
+    { "route": "wood-shop", "viewport": "mobile", "file": "wood-shop--mobile-390x844.jpg" },
+    { "route": "wood-shop", "viewport": "desktop", "file": "wood-shop--desktop-1440x900.jpg" }
+  ]
+}

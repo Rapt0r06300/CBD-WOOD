@@ -1559,7 +1559,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Diff et rollback accessibles sans secret.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-156 — Régression visuelle automatisée.**  
+- [x] **CRO-156 — Régression visuelle automatisée.** — manifeste des 24 vues, comparateur SHA-256 et états interactifs renvoyés aux contrats navigateur ; preuve : `docs/validation/2026-11-07-cro-156-visual-regression.md`, `docs/validation/2026-11-07-cro-156-visual-regression-manifest.json` et `scripts/compare-visual-captures.mjs`.
   - **Livrable :** Capturer et comparer toutes pages/états sur mobile et desktop.  
   - **Recette :** Contrôle des ruptures visuelles, CTA et Safe Area.  
   - **Statut :** TODO (non implémenté).

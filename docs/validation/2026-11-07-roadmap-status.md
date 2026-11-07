@@ -113,6 +113,13 @@ Preuve : `test/cro-046-card-views.test.mjs`. Le compteur courant devient
 **299 / 509 — 58,74 %**, avec **72** tickets actifs encore ouverts et **138
 tâches différées**.
 
+La comparaison visuelle `CRO-156` est livrée avec un manifeste de 24 vues
+mobile/desktop, un comparateur SHA-256 et un renvoi explicite aux états
+interactifs vérifiés séparément. Preuve : `docs/validation/2026-11-07-cro-156-visual-regression.md`
+et `scripts/compare-visual-captures.mjs`. Le compteur courant devient
+**300 / 509 — 58,94 %**, avec **71** tickets actifs encore ouverts et **138
+tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
