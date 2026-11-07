@@ -1080,12 +1080,12 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Action contact ne prétend pas réserver le produit.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [x] **CRO-087 — Concevoir page rendez-vous WOOD** — page `rendez-vous.html` livrée pour la démo, avec ambiance WOOD, deux adresses, appels, itinéraires et contact sans géolocalisation forcée. Preuve : `docs/validation/2026-11-07-cro-087-088-visite.md` et `test/cro-087-088-visit-page.test.mjs`.  
+- [x] **CRO-087 — Concevoir page rendez-vous WOOD** — page `rendez-vous.html` livrée pour la démo, avec ambiance WOOD, deux adresses, appels, itinéraires et contact sans géolocalisation forcée. Preuve : `docs/validation/2026-11-07-cro-087-088-visite.md` et `test/cro-087-088-visit-page.test.mjs`.
   - **Livrable :** Une vue immersive courte : ambiance, accès, deux adresses, CTA itinéraire et contact.  
   - **Critère de validation :** Utilisable sans API cartographique payante ni géolocalisation forcée.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [x] **CRO-088 — Tester deux scénarios de visite** — parcours accueil → rendez-vous → téléphone et fiche → rendez-vous → téléphone mesurés sur mobile et desktop. Preuve : `docs/validation/2026-11-07-cro-087-088-visite.md` et `test/cro-087-088-visit-page.test.mjs`.  
+- [x] **CRO-088 — Tester deux scénarios de visite** — parcours accueil → rendez-vous → téléphone et fiche → rendez-vous → téléphone mesurés sur mobile et desktop. Preuve : `docs/validation/2026-11-07-cro-087-088-visite.md` et `test/cro-087-088-visit-page.test.mjs`.
   - **Livrable :** Depuis l'accueil et depuis une fiche, atteindre le bon magasin et son téléphone.  
   - **Critère de validation :** Temps/clics mesurés pour les deux établissements.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
