@@ -1248,7 +1248,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Aucun tracking production activé sans conformité CNIL.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-119 — Définir entonnoir de découverte**   
+- [x] **CRO-119 — Définir entonnoir de découverte** — parcours `entrée → univers → fiche → téléphone/itinéraire` vérifié sur les liens locaux, sans événement d'achat ; preuve : `docs/validation/2026-11-07-discovery-funnel.md`, `test/discovery-funnel.test.mjs`.
   - **Livrable :** Événements théoriques entrée → catégorie → fiche → téléphone/itinéraire ; pas de 'achat' enregistré.  
   - **Critère de validation :** Rapport de test sur fixtures sans donnée personnelle.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
