@@ -63,3 +63,17 @@ et le compteur reste **347 / 509 — 68,17 %**.
   D1-005/D1-016 à D1-020 restent `BLOCKED-EXTERNAL` conformément au plan.
 - Cette vérification ne modifie ni le compteur global ni les données de la
   démo.
+
+## Vérification additionnelle après contrôle de l’état externe
+
+- La recherche Gmail relancée avec `from:woodcbdshop@gmail.com
+  after:2026/11/05 -in:spam -in:trash` retourne encore zéro message. Aucune
+  nouvelle photo, autorisation, formulation ou validation propriétaire ne peut
+  donc être attribuée à WOOD.
+- `codex mcp list` confirme que l’environnement ne fournit toujours pas de
+  connexion Cloudflare exploitable : le seul service Codex App Tools est
+  désactivé/non supporté et aucun endpoint Cloudflare n’est présent. D1-004
+  reste `PARTIAL`, tandis que D1-005 et D1-016 à D1-020 restent
+  `BLOCKED-EXTERNAL`.
+- Le compteur reste **347 / 509 — 68,17 %**. Aucun ticket externe n’est
+  crédité sur la base de cette absence de nouvelle preuve.
