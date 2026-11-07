@@ -21,6 +21,18 @@ const decodeHtml = (value) => value
   .replaceAll('&#39;', "'")
   .replaceAll('&nbsp;', ' ');
 
+const textFromMarkup = (markup) => decodeHtml(markup
+  .replace(/<[^>]+>/gu, ' ')
+  .replace(/\s+/gu, ' ')
+  .trim());
+
+const fact = (key, value, sourceFile, productId, excerpt = value) => ({
+  key,
+  value,
+  status: 'verified',
+  source: { file: sourceFile, selector: `[data-product-id="${productId}"]`, excerpt },
+});
+
 const cardsFromPage = (html, sourceFile, category) => {
   const cards = [];
   const cardPattern = /<article\b[^>]*data-product-id="[^"]+"[\s\S]*?<\/article>/gu;
@@ -38,7 +50,20 @@ const cardsFromPage = (html, sourceFile, category) => {
       label: decodeHtml(option[1]),
       price: option[2],
     }));
-    cards.push({ id, slug, name, category, sourceFile, media: images, variants });
+    const profile = textFromMarkup(card.match(/<span\b[^>]*class="product-index"[^>]*>([\s\S]*?)<\/span>/u)?.[1] || '');
+    const description = textFromMarkup(card.match(/<div\b[^>]*class="product-body"[^>]*>[\s\S]*?<p>([\s\S]*?)<\/p>/u)?.[1] || '');
+    const availability = textFromMarkup(card.match(/<span\b[^>]*class="product-status"[^>]*>([\s\S]*?)<\/span>/u)?.[1] || '');
+    const mediaState = decodeHtml(attribute(card, 'data-media-state')) || (images.length ? 'demo' : 'prepared');
+    const facts = [
+      fact('name', name, sourceFile, id),
+      fact('category', category, sourceFile, id),
+      profile ? fact('profile', profile, sourceFile, id, profile) : null,
+      description ? fact('description', description, sourceFile, id, description) : null,
+      availability ? fact('availability', availability, sourceFile, id, availability) : null,
+      fact('media_state', mediaState, sourceFile, id, mediaState),
+      ...variants.map(variant => fact('price_variant', `${variant.label} · ${variant.price}`, sourceFile, id, `${variant.label} · ${variant.price}`)),
+    ].filter(Boolean);
+    cards.push({ id, slug, name, category, sourceFile, media: images, variants, facts });
   }
   return cards;
 };

@@ -1590,7 +1590,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Migrations SQLite testées; aucun profil de visiteur.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-161 — Extraction factuelle des fiches.**  
+- [x] **CRO-161 — Extraction factuelle des fiches.**  
   - **Livrable :** Parser titres et descriptifs pour faits littéralement attestés, avec extrait exact.  
   - **Recette :** Aucune propriété non explicitée inventée.  
   - **Statut :** TODO (non implémenté).
