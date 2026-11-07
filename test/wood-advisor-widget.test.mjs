@@ -28,6 +28,8 @@ test('le moteur et le widget se parlent sans fabriquer une promesse', () => {
   assert.match(widget, /buildQuestionPlan|nextQuestion/);
   assert.match(widget, /Besoin d’aide pour choisir/u);
   assert.match(widget, /Passer/);
+  assert.match(widget, /Je ne sais pas/);
+  assert.match(widget, /Peu importe/);
   assert.match(widget, /Retour/);
   assert.match(widget, /aria-modal="true"/u);
   assert.match(widget, /sessionState/);

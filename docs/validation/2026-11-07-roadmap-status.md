@@ -45,6 +45,11 @@ Le lot bibliothèque visuelle `CRO-130` à `CRO-133` est livré et vérifié par
 **285 / 509 — 55,99 %**, avec **86** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Le guide démo `CRO-141` est complété dans
+`docs/validation/2026-11-07-demo-advisor-recipe.md`. Le compteur courant devient
+**286 / 509 — 56,19 %**, avec **85** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

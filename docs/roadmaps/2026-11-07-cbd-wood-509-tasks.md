@@ -1484,7 +1484,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** L'URL ne contient aucune donnée privée, état exact après reload.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-141 — Guide client seulement par questions.**  
+- [x] **CRO-141 — Guide client seulement par questions.** — le conseiller démo propose maintenant `Je ne sais pas`, `Peu importe`, `Passer`, `Retour` et `Recommencer`, sans profil persistant ; preuve `docs/validation/2026-11-07-demo-advisor-recipe.md`.
   - **Livrable :** Offrir un conseiller en langage naturel par questions successives sans imposer de taxonomie.  
   - **Recette :** Je ne sais pas/Peu importe/Passer/Retour/Recommencer accessibles.  
   - **Statut :** TODO (non implémenté).

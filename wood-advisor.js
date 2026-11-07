@@ -32,7 +32,7 @@
       <p class="wood-advisor__notice">Démo locale : aucune donnée n’est envoyée et rien n’est enregistré. Les caractéristiques produit apparaîtront seulement avec une source validée par WOOD.</p>
       <p class="wood-advisor__question">Tu regardes quoi aujourd’hui&nbsp;?</p>
       <div class="wood-advisor__categories" data-advisor-categories></div>
-      <div class="wood-advisor__step-controls" aria-label="Navigation des questions"><button type="button" data-advisor-skip>Passer</button><button type="button" data-advisor-back disabled>Retour</button></div>
+      <div class="wood-advisor__step-controls" aria-label="Navigation des questions"><button type="button" data-advisor-discovery>Je ne sais pas</button><button type="button" data-advisor-any>Peu importe</button><button type="button" data-advisor-skip>Passer</button><button type="button" data-advisor-back disabled>Retour</button></div>
       <form class="wood-advisor__form" data-advisor-form>
         <label for="woodAdvisorQuestion">Ou décris ton idée en quelques mots</label>
         <input class="wood-advisor__input" id="woodAdvisorQuestion" name="question" type="text" autocomplete="off" placeholder="Ex. un goût fruité et marqué">
@@ -138,6 +138,8 @@
         run(input.value, 'category');
       }
     }
+    if (event.target.closest('[data-advisor-discovery]')) run('Je ne sais pas', 'discovery');
+    if (event.target.closest('[data-advisor-any]')) run('', 'discovery');
     if (event.target.closest('[data-advisor-skip]')) run('', 'skip');
     if (event.target.closest('[data-advisor-back]')) {
       sessionState.history.pop();
