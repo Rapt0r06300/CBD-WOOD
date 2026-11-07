@@ -1514,7 +1514,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Explanations exactes, pas d'origine, prix, arôme ou effet inventés.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-147 — Visite photographique WOOD.**  
+- [ ] **CRO-147 — Visite photographique WOOD.** — séquence statique de trois scènes démo, labels de remplacement, fallback et reflow mobile dans `rendez-vous.html`, `wood-visit.css`, `docs/validation/2026-11-07-cro-147-visit-tour.md` et `test/cro-147-visit-tour.test.mjs`; photos authentiques et droits restent à valider.
   - **Livrable :** Parcours dans la boutique via photos autorisées et zones d'intérêt.  
   - **Recette :** Fallback statique et vérification des droits.  
   - **Statut :** TODO (non implémenté).
