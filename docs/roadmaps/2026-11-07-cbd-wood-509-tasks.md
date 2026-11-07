@@ -1008,7 +1008,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
 
 ### 10 — Réassurance par vraies preuves WOOD — P1, complément de TXW-028, TXW-031, TXW-109
 
-- [x] **CRO-073 — Créer une matrice des preuves autorisées**   
+- [x] **CRO-073 — Créer une matrice des preuves autorisées**
   - **Livrable :** Pour chaque preuve : origine, date, consentement, périmètre, expiration, affichage autorisé.  
   - **Critère de validation :** Preuve sans source non rendue.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
