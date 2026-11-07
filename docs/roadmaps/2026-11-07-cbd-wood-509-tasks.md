@@ -1524,7 +1524,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Chaque QR pointe au bon slug, pas d'accès admin.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-149 — Conseil lié à une fiche.**  
+- [x] **CRO-149 — Conseil lié à une fiche.**  
   - **Livrable :** Préparer message de contact contenant uniquement le nom public du produit.  
   - **Recette :** Aucun envoi automatique ni collecte de coordonnées.  
   - **Statut :** TODO (non implémenté).

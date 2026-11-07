@@ -210,6 +210,11 @@
       status.setAttribute('aria-live', 'polite');
       copyTarget.insertAdjacentElement('afterend', share);
       share.insertAdjacentElement('afterend', status);
+      const contact = document.createElement('a');
+      contact.className = 'wood-product-contact-link';
+      contact.href = `contact.html?produit=${encodeURIComponent(product.name)}`;
+      contact.textContent = 'Poser une question sur cette référence ↗';
+      status.insertAdjacentElement('afterend', contact);
       share.addEventListener('click', async () => {
         const url = window.location.href;
         try {

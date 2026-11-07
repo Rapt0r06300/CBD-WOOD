@@ -32,6 +32,8 @@
 .wood-share-button{margin-top:14px;padding:10px 12px;border:1px solid #5d7657;background:transparent;color:#e6f1df;font:900 10px/1.2 boutique,sans-serif;letter-spacing:1.2px;text-transform:uppercase;cursor:pointer}
 .wood-share-button:hover,.wood-share-button:focus-visible{border-color:var(--lime);color:var(--lime)}
 .wood-share-status{display:block;min-height:18px;margin-top:8px;color:var(--lime);font-size:11px}
+.wood-product-contact-link{display:inline-block;margin-top:12px;color:#cfe5c7;font-size:11px;text-decoration:underline;text-underline-offset:3px}
+.wood-product-contact-link:hover,.wood-product-contact-link:focus-visible{color:var(--lime)}
 @media(max-width:600px){
   .wood-card-favorite{top:8px;right:8px;min-width:34px;justify-content:center;padding:7px}
   .wood-local-collection{padding:14px 13px}
