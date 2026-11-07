@@ -1243,7 +1243,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Validation schéma sans erreurs ni information non confirmée.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-118 — Ajouter plan de mesure UX sans cookies**   
+- [x] **CRO-118 — Ajouter plan de mesure UX sans cookies** — simulateur local borné, sans stockage ni envoi réseau, couvrant entrée, univers, fiche, téléphone et itinéraire ; preuve : `docs/validation/2026-11-07-ux-measurement-plan.md`, `test/ux-measurement-plan.test.mjs`.
   - **Livrable :** Tester scripts locaux de simulation d'événements ou métriques agrégées non envoyées.  
   - **Critère de validation :** Aucun tracking production activé sans conformité CNIL.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
