@@ -16,6 +16,7 @@
     "site:snapshot": "node scripts/create-site-snapshots.mjs",
     "prepare:hostinger": "node scripts/prepare-hostinger.mjs",
     "prepare:github-pages": "npm run prepare:hostinger && node scripts/prepare-github-pages.mjs",
+    "verify:pages-package": "node scripts/verify-github-pages-package.mjs",
     "hostinger:preflight": "npm run check && npm run prepare:hostinger && node scripts/hostinger-preflight.mjs"
   }
 }

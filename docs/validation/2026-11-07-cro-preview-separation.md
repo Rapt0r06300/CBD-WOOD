@@ -7,3 +7,5 @@ Le script `npm run prepare:github-pages` construit deux arbres distincts :
 - `base/` reste un alias de lecture vers la racine.
 
 Cette séparation est locale et réversible par commit. Elle ne signifie pas que le déploiement public actuel a déjà été remplacé : la publication GitHub Pages reste une étape externe finale à vérifier sur les deux URLs.
+
+Après chaque préparation, `npm run verify:pages-package` refuse un paquet où la racine contient les scripts démo, où `/demo/` les perd, ou où les deux pages redeviennent identiques.
