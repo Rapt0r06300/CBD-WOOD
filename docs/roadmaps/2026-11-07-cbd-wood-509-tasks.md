@@ -1218,12 +1218,12 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
 
 ### 15 — Visibilité, rapidité et mesure honnête — P2, complément de TXW-095 à TXW-104, D1-015
 
-- [ ] **CRO-113 — Documenter les objectifs Core Web Vitals**   
+- [x] **CRO-113 — Documenter les objectifs Core Web Vitals** — seuils LCP/CLS/INP et limites de mesure consignés dans `docs/validation/2026-11-07-performance-budget.md`.   
   - **Livrable :** Cibles publiques LCP ≤2,5 s, INP ≤200 ms, CLS ≤0,1 au p75 terrain si données disponibles.  
   - **Critère de validation :** Labo vs terrain différenciés ; pas de score inventé.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-114 — Fixer un budget images par page**   
+- [x] **CRO-114 — Fixer un budget images par page** — rapport public WebP avec 52 références résolues, 0 PNG et 0 chemin manquant ; objectifs et limites consignés dans `docs/validation/2026-11-07-performance-budget.md`.   
   - **Livrable :** Lister et réduire médias coûteux à leur nécessité commerciale, galerie facultative lazy.  
   - **Critère de validation :** Comparaison poids et qualité réelle sur mobile.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
