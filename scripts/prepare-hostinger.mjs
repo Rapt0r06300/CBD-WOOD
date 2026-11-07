@@ -74,6 +74,7 @@ const PUBLIC_FILES = [
   'mobile-shell.js',
   'wood-engagement.js',
   'wood-motion.js',
+  'wood-campaigns.js',
   'wood-mobile-finish.js',
   'order-api.js',
   'order-options.js',
