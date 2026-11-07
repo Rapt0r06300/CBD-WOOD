@@ -15,9 +15,8 @@ test('la matrice de preuves distingue source, établissement, date et autorisati
 
 test('la preuve visible reste bornée à un établissement revalidable', () => {
   const proof = homepage.match(/<section[^>]+id="preuve"[\s\S]*?<\/section>/u)?.[0] || '';
-  assert.match(proof, /AVIS GOOGLE · EXTRAITS À REVALIDER/u);
-  assert.match(proof, /Barla · Google/u);
-  assert.match(proof, /google\.com\/maps\/search/iu);
-  assert.doesNotMatch(proof, /Borriglione · Google/iu);
-  assert.match(proof, /validation WOOD en attente/iu);
+  assert.match(proof, /AVIS GOOGLE · À REVALIDER/u);
+  assert.match(proof, /Fiche Google · source à confirmer/u);
+  assert.doesNotMatch(proof, /Borriglione|Barla · Google|google\.com\/maps\/search|Lou Z\.|Dede F\.|Gabriel G\.|Fabienne/iu);
+  assert.match(proof, /En attente de validation WOOD/iu);
 });

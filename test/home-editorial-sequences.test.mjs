@@ -48,7 +48,7 @@ test('le sélecteur humeur est partageable, clavier-compatible et neutre', () =>
 
 test('les blocs sociaux et commerciaux ne fabriquent pas de preuve ni de promotion', () => {
   assert.match(homepage, /data-proof-reviews/iu);
-  assert.match(homepage, /rotation automatique/iu);
+  assert.match(homepage, /fondu doux dès que la fiche/iu);
   assert.match(homepage, /offre active/iu);
   assert.match(homepage, /PHOTO DÉMO/gu);
   assert.doesNotMatch(homepage, /(?:prix|offre)[^<]{0,120}-\d+%/iu);

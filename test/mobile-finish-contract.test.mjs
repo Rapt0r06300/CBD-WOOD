@@ -38,5 +38,5 @@ test('le module mobile fournit un rail tactile et une barre directionnelle', () 
 test('la preuve Google reste automatique sans contrôle visible', () => {
   assert.doesNotMatch(homepage, /data-proof-review-(?:prev|next|count)/);
   assert.match(homepage, /data-proof-reviews/);
-  assert.match(homepage, /rotation automatique/iu);
+  assert.match(homepage, /fondu doux dès que la fiche/iu);
 });

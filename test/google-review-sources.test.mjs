@@ -25,10 +25,11 @@ test('Google review source manifest rejects an unqualified 5/5 publication claim
   assert.match(manifest, /aucun extrait Borriglione n’est affiché/u);
 });
 
-test('demo proof does not publish an unqualified global rating or unverified Borriglione excerpts', () => {
+test('demo proof keeps Google evidence pending until the source is revalidated', () => {
   const proof = homepage.match(/<section[^>]+id="preuve"[\s\S]*?<\/section>/u)?.[0] ?? '';
-  assert.match(proof, /AVIS GOOGLE · EXTRAITS À REVALIDER/u);
-  assert.doesNotMatch(proof, /5,0|Cinq étoiles sur cinq|Borriglione/u);
-  assert.match(proof, /validation WOOD en attente/u);
+  assert.match(proof, /AVIS GOOGLE · À REVALIDER/u);
+  assert.doesNotMatch(proof, /5,0|Cinq étoiles sur cinq|Borriglione|Lou Z\.|Dede F\.|Gabriel G\.|Fabienne|14 mai 2026|29 mai 2026|22 avril 2026|10 mars 2026/u);
+  assert.match(proof, /En attente de validation WOOD/u);
+  assert.match(proof, /Source à confirmer/u);
   assert.match(proof, /data-proof-reviews/u);
 });
