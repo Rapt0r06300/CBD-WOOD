@@ -50,6 +50,11 @@ Le guide démo `CRO-141` est complété dans
 **286 / 509 — 56,19 %**, avec **85** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+La cartographie des collections `CRO-143` est vérifiée par
+`docs/validation/2026-11-07-cro-editorial-collections.md`. Le compteur courant
+devient **287 / 509 — 56,39 %**, avec **84** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

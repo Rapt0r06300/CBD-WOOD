@@ -1494,7 +1494,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Aucune fausse sélection attribuée à la propriétaire.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-143 — Collections éditoriales WOOD.**  
+- [x] **CRO-143 — Collections éditoriales WOOD.** — chemins `selection-wood`, `mood-wood` et `runway-wood` documentés dans `docs/design/wood-editorial-collections.md`, sans promotion, stock ni prix inventés.  
   - **Livrable :** Créer sélections thématiques descriptives de produits présents dans le catalogue.  
   - **Recette :** Pas de bénéfice médical ou de collection fictive annoncée comme vente.  
   - **Statut :** TODO (non implémenté).
