@@ -87,6 +87,25 @@
     root.appendChild(section);
   }
 
+  function renderMobileDetailActions(productName) {
+    document.querySelector('[data-wood-detail-actions]')?.remove();
+    document.body.classList.remove('has-wood-detail-actions');
+    if (!isDemoPage()) return;
+    const bar = document.createElement('nav');
+    bar.className = 'wood-detail-actions';
+    bar.dataset.woodDetailActions = 'true';
+    bar.setAttribute('aria-label', 'Actions rapides de la fiche produit');
+    const contact = document.createElement('a');
+    contact.href = `contact.html?produit=${encodeURIComponent(productName)}`;
+    contact.textContent = 'Poser une question';
+    const store = document.createElement('a');
+    store.href = 'index.html#boutique';
+    store.textContent = 'Voir en boutique';
+    bar.append(contact, store);
+    document.body.appendChild(bar);
+    document.body.classList.add('has-wood-detail-actions');
+  }
+
   function render(product = {}) {
     const name = product.name || fallbackName;
     const description = product.description || context.copy;
@@ -122,6 +141,7 @@
         </article>
       </div>
       <div class="product-detail__back"><a class="btn secondary" href="${escapeHtml(context.back)}">← Retour à ${escapeHtml(context.title)}</a></div>`;
+    renderMobileDetailActions(name);
     const zoom = root.querySelector('[data-product-zoom]');
     const lightbox = root.querySelector('[data-product-lightbox]');
     const closeLightbox = root.querySelector('[data-product-lightbox-close]');

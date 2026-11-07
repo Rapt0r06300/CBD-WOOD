@@ -192,6 +192,16 @@ la validation artistique propriétaire reste séparée. Preuve :
 compteur courant devient **311 / 509 — 61,10 %**, avec **60** tickets actifs
 encore ouverts et **138 tâches différées**.
 
+La barre d’action de fiche `CRO-107` est livrée dans la démo uniquement :
+« Poser une question » et « Voir en boutique » restent au-dessus de la
+navigation basse, avec safe areas et espace réservé. Les largeurs 320, 375,
+390 et 430 px ont été vérifiées sans débordement ni recouvrement ; la
+validation sur appareil physique reste séparée. Preuve :
+`docs/validation/2026-11-07-cro-107-mobile-detail-action-bar.md` et
+`test/cro-107-mobile-detail-action-bar.test.mjs`. Le compteur courant devient
+**312 / 509 — 61,30 %**, avec **59** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

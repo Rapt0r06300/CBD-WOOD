@@ -1186,10 +1186,10 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** iOS/Android avec touch, clavier et reduced-motion.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-107 — Créer barre d'action fiche non intrusive**   
+- [x] **CRO-107 — Créer barre d'action fiche non intrusive** — la démo ajoute une barre mobile « Poser une question » / « Voir en boutique », uniquement au-dessus de la navigation basse et avec safe area ; recette locale 320/390/430 px dans `docs/validation/2026-11-07-cro-107-mobile-detail-action-bar.md`. La validation iOS/Android physique reste externe.
   - **Livrable :** Sur fiche, contact/découverte accessible sans couvrir contenu ni navigation système.  
   - **Critère de validation :** Test clavier virtuel, safe area et zoom.  
-  - **Statut initial :** TODO ; preuve : à renseigner par Codex.
+  - **Statut initial :** TODO ; preuve : recette locale validée, validation physique restante explicitement séparée.
 
 - [x] **CRO-108 — Améliorer affichage des prix et poids** — prix, statuts, grammages et actions ont un repli mobile documenté pour 320/390 px et le texte grossi ; aucune promotion ou valeur nouvelle n’est ajoutée. Contrat `test/mobile-price-weight.test.mjs`.
   - **Livrable :** Taille et contraste adaptés, sans casser unités ou cacher CTA.  
