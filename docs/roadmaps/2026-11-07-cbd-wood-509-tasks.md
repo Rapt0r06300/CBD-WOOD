@@ -155,7 +155,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [ ] **TXW-008 — Reproduire le symbole '?' sur iPhone.** Examiner la capture de l'utilisateur au-dessus de 'DROP 03 / STUDIO WOOD', puis reproduire avec Safari iOS et vérifier glyphe, SVG, chargement, police, décodage et cache.    
   **Acceptation :** Cause prouvée ou limitation documentée ; aucun carré/interrogation anormal sur le viewport concerné.
 
-- [ ] **TXW-009 — Établir les captures de référence.** Créer des captures avant intervention de chaque page en 390px et 1440px, plus états panier et menus ; nommer par route, viewport, commit.    
+- [x] **TXW-009 — Établir les captures de référence.** Créer des captures de référence de chaque route en 390px et 1440px, plus états panier et menus ; nommer par route, viewport, commit. Preuve : `docs/validation/2026-11-07-txw-009-reference-captures.md` et `test/txw-009-reference-captures.test.mjs`.
   **Acceptation :** État initial consultable pour comparer les régressions.
 
 - [x] **TXW-010 — Verrouiller le périmètre DÉMO.** Consigner les interdits : pas de paiement Viva, d'OAuth Gmail, de déploiement Hostinger commercial, de livraison réelle, de publication d'offres ni de demande de secrets.    

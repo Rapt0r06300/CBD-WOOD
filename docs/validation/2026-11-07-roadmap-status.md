@@ -282,6 +282,16 @@ géolocalisation forcée ni API cartographique intégrée. Preuve :
 **327 / 509 — 64,24 %**, avec **44** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Le ticket `TXW-009` est validé : une baseline locale complète est conservée
+pour les 13 routes de démo en `390 × 844` et `1440 × 900`, avec des états menu
+ouvert et panier vide. Elle est rattachée au commit `17a3c42` et distingue
+explicitement la recette Chromium locale des validations Safari iOS, Android
+réel et Firefox. Preuve :
+`docs/validation/2026-11-07-txw-009-reference-captures.md` et
+`test/txw-009-reference-captures.test.mjs`. Le compteur courant devient
+**328 / 509 — 64,44 %**, avec **43** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
