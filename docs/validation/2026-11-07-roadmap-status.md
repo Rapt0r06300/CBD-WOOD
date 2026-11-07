@@ -487,6 +487,13 @@ avec la barre basse et zéro débordement de texte. La preuve automatisée est
 commit `2919598`. Cette vérification améliore une tâche déjà validée et ne
 ferme aucune porte externe ni n'augmente le compteur 347 / 509.
 
+La demande de retrait des deux blocs visuels provisoires a également été
+appliquée dans la démo : la grille « L’esprit maison » a disparu de l’accueil
+et les grands placeholders « Qualité & preuves » ont été remplacés par une
+ligne « Sources WOOD » compacte sur les fiches. Les contrats CRO-078 et de
+présentation produit ont été rejoués ; aucune preuve non validée n’est
+réintroduite et le compteur reste 347 / 509.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

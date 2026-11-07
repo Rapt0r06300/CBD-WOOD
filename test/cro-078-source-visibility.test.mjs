@@ -10,7 +10,7 @@ const control = await readFile(new URL('../docs/validation/2026-11-07-cro-078-so
 
 test('CRO-078 rend la source visible sans fabriquer de preuve laboratoire', () => {
   for (const [page, html] of detailPages) {
-    assert.match(html, /quality-proof/iu, `${page} doit conserver la zone de preuve`);
+    assert.match(html, /product-source-note/iu, `${page} doit conserver la ligne de source`);
     assert.match(html, /Aucune source vérifiée à afficher/iu, `${page} doit afficher l’état source manquante`);
     assert.doesNotMatch(html, /lab tested|laboratory tested|COA|certificat laboratoire/iu, `${page} ne doit pas publier une preuve non sourcée`);
   }

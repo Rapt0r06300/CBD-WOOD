@@ -26,6 +26,6 @@ test('la fiche possède une galerie, un zoom accessible et un tableau de grammag
   assert.match(detail, /data-product-lightbox/u);
   assert.match(detail, /pricing_tiers/u);
   assert.match(detail, /Prix au gramme|€\s*\/\s*g/u);
-  assert.match(detailHtml, /quality-proof/iu);
+  assert.match(detailHtml, /product-source-note/iu);
   assert.match(css, /product-lightbox/u);
 });

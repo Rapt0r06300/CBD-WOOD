@@ -36,9 +36,10 @@ test('la page d’accueil garde le shell éditorial WOOD complet et dans le bon 
     assert.match(homepage, new RegExp(`href="${route}"`), `l’univers ${route} doit être accessible depuis l’accueil`);
   }
 
-  for (const primitive of ['class="eyebrow"', 'class="kicker"', 'class="big-title"', 'class="section-aside"', 'class="story"', 'class="value-grid"', 'class="faq-layout"']) {
+  for (const primitive of ['class="eyebrow"', 'class="kicker"', 'class="big-title"', 'class="section-aside"', 'class="story"', 'class="faq-layout"']) {
     assert.match(homepage, new RegExp(primitive.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
   }
+  assert.doesNotMatch(homepage, /value-grid|L'esprit maison/iu);
   assert.match(homepage, /<h3>BARLA<\/h3>/);
   assert.match(homepage, /<h3>BORRIGLIONE<\/h3>/);
   assert.match(homepage, /<details><summary>/);

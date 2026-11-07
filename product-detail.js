@@ -31,23 +31,17 @@
         .slice(0, 3)
       : [];
     if (!verified.length) {
-      return '<div class="quality-proof__empty"><p>Aucune preuve qualité validée à afficher.</p><span>À fournir</span></div>';
+      return '<div class="product-source-note__empty"><strong>Aucune source vérifiée à afficher.</strong><span>À fournir</span></div>';
     }
-    return `<div class="quality-proof__grid">${verified.map(proof => `<article class="quality-proof__card"><h3>${escapeHtml(proof.label)}</h3><p>${escapeHtml(proof.value)}</p><span>${escapeHtml(proof.source)}</span></article>`).join('')}</div>`;
+    return `<div class="product-source-note__verified"><span class="product-source-note__kicker">Sources WOOD</span><div class="product-source-note__grid">${verified.map(proof => `<article><strong>${escapeHtml(proof.label)}</strong><span>${escapeHtml(proof.value)}</span><small>${escapeHtml(proof.source)}</small></article>`).join('')}</div></div>`;
   };
 
   const renderQualityProof = (proofs = []) => {
-    const section = document.querySelector('.quality-proof');
+    const section = document.querySelector('.product-source-note');
     if (!section) return;
     const hasVerifiedProof = Array.isArray(proofs) && proofs.some(proof => proof && proof.status === 'verified' && proof.source && proof.label && proof.value);
     section.dataset.qualityState = hasVerifiedProof ? 'verified' : 'empty';
-    section.querySelector('.quality-proof__dynamic')?.remove();
-    if (!hasVerifiedProof) return;
-    section.querySelector(':scope > .quality-proof__grid')?.remove();
-    const dynamic = document.createElement('div');
-    dynamic.className = 'quality-proof__dynamic';
-    dynamic.innerHTML = qualityProofMarkup(proofs);
-    section.appendChild(dynamic);
+    section.innerHTML = qualityProofMarkup(proofs);
   };
 
   const priceTableMarkup = (product, name) => {
