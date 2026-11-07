@@ -8,6 +8,15 @@ Le périmètre couvre `wood-shop.html`, `storefront.js`, `boutique.js`, `product
 
 Les trois entrées actuelles sont `T-shirt WOOD`, `Vêtement WOOD` et `Produit dérivé`. Les libellés `T-SHIRT / À VALIDER`, `APPAREL / À VALIDER` et `GOODS / À VALIDER` signalent un périmètre de présentation, pas des articles disponibles. Aucun modèle, logo imprimé, matière, taille, fournisseur ou usage ne doit être déduit de l'illustration conceptuelle.
 
+## Familles visibles dans la démo
+
+La démo regroupe ces cartes en deux familles éditoriales explicites :
+`TEXTILE WOOD` pour les vêtements et `OBJETS & ACCESSOIRES` pour les goods.
+Cette séparation clarifie le parcours sans créer de nouvelles références. Les
+trois cartes restent des placeholders non achetables et conservent leurs états
+« à valider » ; une future sous-catégorie ne sera publiée qu'avec une donnée
+WOOD approuvée.
+
 ## Références et données manquantes
 
 Chaque carte expose un nom, une description neutre, un statut et un CTA désactivé. Les tailles, coupes, matières, couleurs, photos réelles, prix, stocks, délais et conditions de commande restent à renseigner avant publication. `Prix à renseigner`, `Disponibilité boutique` et `Fiche à compléter` sont des états lisibles, non des variantes commerciales.

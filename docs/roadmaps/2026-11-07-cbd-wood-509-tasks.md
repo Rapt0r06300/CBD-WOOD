@@ -692,7 +692,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Pas de ressemblance avec un hero TealerLab ni de fausse photo réelle.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-013 — Préparer variantes éditoriales A/B hors ligne**   
+- [x] **CRO-013 — Préparer variantes éditoriales A/B hors ligne** — variantes `?wood-variant=a|b`, grille propriétaire et captures 390/1440 dans `docs/design/cro-home-variants.md` et `docs/validation/cro-home-variants/`; aucune collecte ni offre active.   
   - **Livrable :** Créer deux variantes de composition seulement, pas deux offres ni des expériences collectant des données.  
   - **Critère de validation :** Comparatif captures et grille de sélection propriétaire.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -729,7 +729,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Média sans rôle unique remplacé ou retiré.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-020 — Écrire des transitions narratives**   
+- [x] **CRO-020 — Écrire des transitions narratives** — trois transitions visibles entre univers, sélection, mood et boutique dans `index.html`, avec contrat responsive `wood-transitions.css` et test `test/cro-demo-detail-batch.test.mjs`.   
   - **Livrable :** Créer de très courts textes entre univers produit, savoir-faire éditorial et boutique physique.  
   - **Critère de validation :** Aucun jargon 'maquette', 'module' ou explication de développement visible.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -761,7 +761,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Chaque entrée mène à un contenu effectif ou état de maquette compréhensible.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-026 — Corriger les catégories ambiguës**   
+- [x] **CRO-026 — Corriger les catégories ambiguës** — WOOD Shop sépare maintenant `TEXTILE WOOD` et `OBJETS & ACCESSOIRES` dans `wood-shop.html`, avec vérification des deux familles et des trois cartes.   
   - **Livrable :** Distinguer accessoires et vêtements si tous deux sont contenus actuellement dans WOOD Shop.  
   - **Critère de validation :** Plan de navigation validé par le catalogue et les photos.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -929,12 +929,12 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** L'essentiel visible sans accordéons imposés sur smartphone.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-058 — Créer une grille de faits vérifiés**   
+- [x] **CRO-058 — Créer une grille de faits vérifiés** — faits source, format et lot avec états `demo`/`unknown` dans `flower-detail.js`, style responsive et test dédié.   
   - **Livrable :** Taxonomie source/provenance/format/matière/profil descriptif/lot ; aucun champ obligé fictif.  
   - **Critère de validation :** Les données inconnues restent absentes ou signalées honnêtement.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-059 — Présenter la texture et l'aspect**   
+- [x] **CRO-059 — Présenter la texture et l'aspect** — zone d'aspect explicitement démonstrative, sans promesse ni analyse de laboratoire, dans `flower-detail.js` et `boutique.css`.   
   - **Livrable :** Proposer macro, couleur, coupe et observations descriptives sans allégation thérapeutique.  
   - **Critère de validation :** Chaque phrase rattachée à une photo/donnée authentifiée ou marquée démo.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -944,7 +944,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Test cohérence par référence et sélection.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-061 — Créer une FAQ contextuelle par famille**   
+- [x] **CRO-061 — Créer une FAQ contextuelle par famille** — FAQ de fiche avec disponibilité, lot et remplacement par photo authentifiée; réponses prudentes et accessibles testées.   
   - **Livrable :** Questions récurrentes réellement pertinentes pour fleurs, résines, huiles, vêtements et accessoires.  
   - **Critère de validation :** Réponses non médicales et sourcées ou validation requise.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -1424,7 +1424,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
 
 ## SECTION E — 30 fonctionnalités acceptées (CRO-129 à CRO-158)
 
-- [ ] **CRO-129 — Expérience WOOD animée unique.**  
+- [x] **CRO-129 — Expérience WOOD animée unique.** — animation originale graffiti → cloche sous observation au scroll/toucher, fallback statique et reduced-motion dans `wood-motion.js`/`wood-motion.css`; preuve dans `docs/validation/2026-11-07-cro-demo-detail-batch.md`.  
   - **Livrable :** Animation originale graffiti → verre sous cloche, subtile, optionnelle et sans ralentir l'accès aux produits.  
   - **Recette :** Version statique si reduced-motion; LCP/CLS contrôlés; marque intacte.  
   - **Statut :** TODO (non implémenté).

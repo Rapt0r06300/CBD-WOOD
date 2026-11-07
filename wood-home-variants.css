@@ -1,0 +1,6 @@
+/* Offline review only: the public demo remains the B/drop composition by default. */
+body.wood-home-variant-a .wood-drop-showcase,
+body.wood-home-variant-a .wood-campaign{display:none}
+body.wood-home-variant-a .wood-services{margin-bottom:12px}
+body.wood-home-variant-b .wood-drop-showcase{outline:1px solid rgba(203,240,150,.16);outline-offset:-1px}
+@media print{body.wood-home-variant-a .wood-drop-showcase,body.wood-home-variant-a .wood-campaign{display:block}}

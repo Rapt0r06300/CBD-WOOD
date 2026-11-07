@@ -29,6 +29,12 @@ Le repli du hero `CRO-016` est livré et testé par
 **271 / 509 — 53,24 %**, avec **100** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Le lot démo `CRO-013`, `CRO-020`, `CRO-026`, `CRO-058`, `CRO-059`, `CRO-061`
+et `CRO-129` est livré et vérifié par
+`docs/validation/2026-11-07-cro-demo-detail-batch.md`. Le compteur courant devient
+**278 / 509 — 54,62 %**, avec **93** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

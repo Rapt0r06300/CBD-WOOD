@@ -153,6 +153,31 @@
     });
   }
 
+  function initClocheReveal() {
+    const hero = qs('.hero-art');
+    const card = qs('.hero-product-card', hero);
+    if (!hero || !card || hero.dataset.woodClocheRevealWired === 'true') return;
+    hero.dataset.woodClocheRevealWired = 'true';
+    const reveal = () => {
+      if (hero.dataset.woodClocheRevealed === 'true') return;
+      hero.dataset.woodClocheRevealed = 'true';
+      hero.classList.add('wood-cloche-reveal');
+    };
+    if (reduced || lowData || !('IntersectionObserver' in window)) {
+      hero.classList.add('wood-cloche-static');
+      return;
+    }
+    const observer = new IntersectionObserver(entries => {
+      if (!entries.some(entry => entry.isIntersecting)) return;
+      reveal();
+      observer.disconnect();
+    }, { threshold: .35 });
+    observer.observe(hero);
+    hero.addEventListener('pointerup', event => {
+      if (event.pointerType === 'touch') reveal();
+    }, { passive: true });
+  }
+
   function initHeroFallback() {
     const hero = qs('.hero-art');
     const image = qs('[data-hero-image]', hero);
@@ -320,6 +345,7 @@
   initDetailStrip();
   initReveals();
   initHeroMotion();
+  initClocheReveal();
   initHeroFallback();
   initRails();
   initProofReviews();

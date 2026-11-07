@@ -50,11 +50,19 @@
           <div><span>Profil</span><strong>${product.profile}</strong></div>
           <div><span>Grammages</span><strong>1 g à 25 g</strong></div>
         </div>
+        <div class="flower-detail__verified-facts" aria-label="Faits vérifiés ou à confirmer">
+          <div data-fact-state="demo"><span>Source</span><strong>Fiche WOOD · démo</strong></div>
+          <div data-fact-state="demo"><span>Format</span><strong>1 g à 25 g · à confirmer</strong></div>
+          <div data-fact-state="unknown"><span>Lot</span><strong>Non renseigné</strong></div>
+        </div>
+        <div class="flower-detail__texture" data-fact-state="demo"><span class="flower-detail__texture-label">Aspect · démonstration</span><p>La photographie et les observations de texture seront remplacées par des éléments authentifiés par WOOD. Rien ici ne remplace pas un conseil professionnel et ne constitue une promesse d'effet ou une analyse de laboratoire.</p></div>
+        <div class="flower-detail__texture-note">Cette zone ne remplace pas un conseil professionnel et ne constitue pas une promesse d'effet ni une analyse de laboratoire.</div>
         <details class="flower-detail__prices">
           <summary>Voir les tarifs par grammage</summary>
           <div class="flower-detail__prices-scroll"><table><caption>Tarifs affichés pour ${product.name}</caption><thead><tr>${priceHeaders}</tr></thead><tbody><tr>${priceCells}</tr></tbody></table></div>
         </details>
         <p class="flower-detail__note">La sélection, les disponibilités et les tarifs sont à confirmer avec la boutique avant toute commande.</p>
+        <section class="flower-detail__faq" aria-labelledby="flower-faq-title"><h2 id="flower-faq-title">FAQ de cette fiche</h2><details><summary>Comment confirmer la disponibilité ?</summary><p>Contactez la boutique avant de vous déplacer : la fiche démo ne publie pas de stock en temps réel.</p></details><details><summary>Les informations de lot sont-elles affichées ?</summary><p>Non, le lot reste indiqué comme non renseigné jusqu'à réception d'une source validée.</p></details><details><summary>La photographie montre-t-elle le produit réel ?</summary><p>Non. Le visuel est identifié comme démonstration tant qu'une photo WOOD autorisée n'a pas été reliée à cette référence.</p></details></section>
       </div>
       <article class="product-card flower-detail-card" data-product-id="${productId}" data-product-name="${product.name}" data-product-category="Fleurs CBD">
         <div class="flower-detail__gallery" data-flower-gallery>
@@ -91,6 +99,9 @@
     </section>
     <div class="flower-detail__back"><a class="btn secondary" href="fleurs.html">← Retour aux fleurs</a></div>`;
 
+  const textureCopy = root.querySelector('.flower-detail__texture p');
+  if (textureCopy) textureCopy.textContent = "La photographie et les observations de texture seront remplacées par des éléments authentifiés par WOOD. Cette zone ne remplace pas un conseil professionnel et ne constitue pas une promesse d'effet ni une analyse de laboratoire.";
+  root.querySelector('.flower-detail__texture-note')?.remove();
   const galleryToggle = root.querySelector('[data-flower-view-toggle]');
   const galleryViews = [...root.querySelectorAll('[data-flower-view]')];
   const galleryLabel = root.querySelector('.flower-detail__view-label');
