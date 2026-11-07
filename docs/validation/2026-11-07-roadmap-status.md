@@ -427,6 +427,16 @@ sans paiement, commande commerciale ni e-mail réel. Preuve :
 **342 / 509 — 67,19 %**, avec **29** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Le ticket `CRO-102` est validé pour la préparation locale : une matrice couvre
+les fleurs, résines, huiles, cosmétiques, comestibles et accessoires, avec un
+état `pending`, une règle de non-recours au simple pop-up et une validation
+finale réservée au conseil juridique et à la propriétaire. Aucun contrôle d’âge
+de production n’est prétendu actif dans la démo. Preuve :
+`docs/validation/2026-11-07-cro-102-age-information.md` et
+`test/cro-102-age-information.test.mjs`. Le compteur courant devient
+**343 / 509 — 67,39 %**, avec **28** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

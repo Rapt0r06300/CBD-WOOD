@@ -1159,7 +1159,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Checklist anti-tromperie avec tests de chaînes et capture.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-102 — Concevoir information âge adaptée**   
+- [x] **CRO-102 — Concevoir information âge adaptée** — matrice par catégorie, état `pending`, règle de non-recours au simple pop-up et contrôle final juridique dans `docs/validation/2026-11-07-cro-102-age-information.md` et `test/cro-102-age-information.test.mjs`; aucun contrôle de production n’est prétendu actif.
   - **Livrable :** Documenter contrôle d'âge pertinent par produit/réglementation, sans prétendre qu'un simple pop-up suffit.  
   - **Critère de validation :** Âge et vérification finale déterminés par conseil juridique avant commercialisation.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
