@@ -12,6 +12,10 @@ Date : 7 novembre 2026
 - Fallback catalogue local lorsque D1 est absent, vide, indisponible ou en erreur.
 - Export JSON checksumé et restauration SQLite locale :
   `node scripts/export-wood-d1-demo.mjs --output .\test-results\wood-d1-demo-export.json --restore`
+- Non-régression et rollback local validés dans
+  `docs/validation/2026-11-07-d1-024-rollback.md` : la bascule reste off par
+  défaut, le fallback local est conservé, et la désactivation du Worker ne
+  demande ni suppression de D1 ni suppression de Supabase.
 
 ## Vérification
 

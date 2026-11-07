@@ -245,6 +245,15 @@ Preuve : `docs/validation/2026-11-07-txw-066-070-care-shop.md`. Le compteur
 courant devient **322 / 509 — 63,26 %**, avec **49** tickets actifs encore
 ouverts et **138 tâches différées**.
 
+La non-régression et le rollback local de `D1-024` sont maintenant validés :
+`npm run check`, préparation GitHub Pages, vérification d'isolation base/démo,
+bascule D1 désactivée par défaut et scénario d'arrêt du Worker sans suppression
+de D1 ni de Supabase. Preuve :
+`docs/validation/2026-11-07-d1-024-rollback.md` et
+`test/d1-024-rollback.test.mjs`. Le compteur courant devient
+**323 / 509 — 63,46 %**, avec **48** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
