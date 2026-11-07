@@ -52,6 +52,8 @@ const PUBLIC_FILES = [
   'wood-faq-search.js',
   'wood-motion.css',
   'wood-catalog-demo.css',
+  'wood-catalog-search.css',
+  'wood-catalog-search.js',
   'wood-runway.css',
   'wood-mobile-finish.css',
   'wood-contact.css',

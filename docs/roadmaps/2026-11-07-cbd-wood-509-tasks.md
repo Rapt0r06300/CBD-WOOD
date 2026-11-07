@@ -798,17 +798,17 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
 
 ### 05 — Recherche catalogue et exploration assistée — P1, complément de TXW-053 à TXW-064, TXW-077
 
-- [ ] **CRO-033 — Ajouter une recherche produits locale**   
+- [x] **CRO-033 — Ajouter une recherche produits locale**   
   - **Livrable :** Chercher dans noms et familles du catalogue WOOD de démo sans service payant.  
   - **Critère de validation :** Résultats testés sur les 13 références connues et états vides.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-034 — Gérer variantes de formulation**   
+- [x] **CRO-034 — Gérer variantes de formulation**   
   - **Livrable :** Index de synonymes prudents : fleurs/fleur, résine/hash, boutique/shop, sans inventer familles.  
   - **Critère de validation :** Test des synonymes, accents, casse et apostrophes.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-035 — Afficher un résumé de résultats**   
+- [x] **CRO-035 — Afficher un résumé de résultats**   
   - **Livrable :** Nombre réel de fiches trouvées, catégorie et requête, sans faux compteurs.  
   - **Critère de validation :** Résultat stable et exact pour chaque jeu de test.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -818,7 +818,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Tests clavier et petit iPhone ; aucune barrière tactile.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-037 — Fournir une issue à zéro résultat**   
+- [x] **CRO-037 — Fournir une issue à zéro résultat**   
   - **Livrable :** Proposer catégories existantes, effacer filtre et contacter WOOD.  
   - **Critère de validation :** Aucun 'aucun produit' sans action alternative.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -828,7 +828,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Champs manquants non filtrables, zéro caractéristique inventée.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-039 — Préserver le parcours sans JS**   
+- [x] **CRO-039 — Préserver le parcours sans JS**   
   - **Livrable :** Pages catégorie et liens restent consultables si l'index JS est bloqué.  
   - **Critère de validation :** Simulation JS disabled et navigation vérifiée.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
