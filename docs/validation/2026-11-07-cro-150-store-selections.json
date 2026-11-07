@@ -1,0 +1,26 @@
+{
+  "version": "wood-store-selections-v1",
+  "status": "pending-owner-confirmation",
+  "stores": [
+    {
+      "id": "barla",
+      "label": "WOOD Barla",
+      "address": "7 rue Barla, 06300 Nice",
+      "selectionStatus": "pending",
+      "universes": ["fleurs", "resines", "bien-etre", "wood-shop"],
+      "products": [],
+      "stock": null,
+      "prices": null
+    },
+    {
+      "id": "borriglione",
+      "label": "WOOD Borriglione",
+      "address": "16 avenue Alfred Borriglione, 06100 Nice",
+      "selectionStatus": "pending",
+      "universes": ["fleurs", "resines", "bien-etre", "wood-shop"],
+      "products": [],
+      "stock": null,
+      "prices": null
+    }
+  ]
+}

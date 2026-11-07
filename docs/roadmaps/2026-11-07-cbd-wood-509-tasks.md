@@ -1529,7 +1529,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Aucun envoi automatique ni collecte de coordonnées.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-150 — Sélections propres à chaque boutique.**  
+- [ ] **CRO-150 — Sélections propres à chaque boutique.** — contrat Barla/Borriglione avec univers réservés, produits vides, stock/prix `null` et état `pending` dans `docs/validation/2026-11-07-cro-150-store-selections.json`, `docs/validation/2026-11-07-cro-150-store-selections.md` et `test/cro-150-store-selections.test.mjs`; clôture après confirmation propriétaire.
   - **Livrable :** Préparer affichage différencié des univers Barla et Borriglione.  
   - **Recette :** Aucun stock local inventé, adresse/horaires vérifiés.  
   - **Statut :** TODO (non implémenté).
