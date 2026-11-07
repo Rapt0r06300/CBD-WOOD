@@ -33,6 +33,7 @@ test('le contrat délimite un paquet public explicite et reproductible', () => {
   assert.match(hostingerGuide, /contenu[\s\S]*dist-hostinger[\s\S]*public_html/iu);
   assert.match(pagesWorkflow, /upload-pages-artifact/);
   assert.match(pagesWorkflow, /path: \.github-pages/);
+  assert.match(pagesWorkflow, /verify:pages-package/);
   assert.match(productionChecklist, /prévisualisation GitHub Pages/iu);
   assert.match(productionChecklist, /source \*\*GitHub Actions\*\*/u);
   assert.match(productionChecklist, /workflow `\.github\/workflows\/pages\.yml` prépare puis publie uniquement `\.github-pages`/u);

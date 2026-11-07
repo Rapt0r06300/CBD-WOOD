@@ -32,6 +32,9 @@ jobs:
       - name: Prepare the demo and base switcher bundle
         run: npm run prepare:github-pages
 
+      - name: Verify base/demo isolation
+        run: npm run verify:pages-package
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 

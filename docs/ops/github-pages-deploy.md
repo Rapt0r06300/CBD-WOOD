@@ -9,7 +9,7 @@ sont donc pas publiés dans le site public.
 ## Réglage à conserver dans GitHub
 
 Dans **Settings → Pages → Build and deployment**, la source doit être
-**GitHub Actions**. Le workflow se déclenche ensuite à chaque push sur `main`.
+**GitHub Actions**. Le workflow actuel est déclenché manuellement (`workflow_dispatch`) afin de ne pas publier une branche de travail par accident. Le paquet est contrôlé par `npm run verify:pages-package` avant l'upload.
 
 ## Contrôle local
 
