@@ -272,6 +272,10 @@
       contact.href = `contact.html?produit=${encodeURIComponent(product.name)}`;
       contact.textContent = 'Poser une question sur cette référence ↗';
       status.insertAdjacentElement('afterend', contact);
+      const stores = document.createElement('div');
+      stores.className = 'wood-detail-stores';
+      stores.innerHTML = '<strong>Voir en boutique</strong><span>Choisis l’adresse qui t’arrange.</span><div><a href="https://www.google.com/maps/dir/?api=1&destination=7+Rue+Barla%2C+06300+Nice" target="_blank" rel="noopener noreferrer">Barla · itinéraire ↗</a><a href="https://www.google.com/maps/dir/?api=1&destination=16+Avenue+Borriglione%2C+06100+Nice" target="_blank" rel="noopener noreferrer">Borriglione · itinéraire ↗</a></div>';
+      contact.insertAdjacentElement('afterend', stores);
       share.addEventListener('click', async () => {
         const url = window.location.href;
         try {

@@ -1534,7 +1534,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Aucun stock local inventé, adresse/horaires vérifiés.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-151 — Itinéraire depuis fiche produit.**  
+- [x] **CRO-151 — Itinéraire depuis fiche produit.**  
   - **Livrable :** Laisser choisir la boutique et ouvrir l'itinéraire adapté.  
   - **Recette :** Aucun statut ouvert/en stock non confirmé.  
   - **Statut :** TODO (non implémenté).

@@ -39,6 +39,12 @@
 .wood-share-status{display:block;min-height:18px;margin-top:8px;color:var(--lime);font-size:11px}
 .wood-product-contact-link{display:inline-block;margin-top:12px;color:#cfe5c7;font-size:11px;text-decoration:underline;text-underline-offset:3px}
 .wood-product-contact-link:hover,.wood-product-contact-link:focus-visible{color:var(--lime)}
+.wood-detail-stores{display:grid;gap:7px;margin-top:18px;padding:12px 14px;border-left:2px solid var(--lime);background:#18261b}
+.wood-detail-stores strong{font-size:10px;letter-spacing:1.1px;text-transform:uppercase}
+.wood-detail-stores>span{color:#b9c9b3;font-size:11px}
+.wood-detail-stores>div{display:flex;flex-wrap:wrap;gap:12px;margin-top:2px}
+.wood-detail-stores a{color:var(--lime);font-size:10px;font-weight:900;letter-spacing:.8px;text-decoration:none;text-transform:uppercase}
+.wood-detail-stores a:hover,.wood-detail-stores a:focus-visible{text-decoration:underline;text-underline-offset:3px}
 @media(max-width:600px){
   .wood-card-favorite{top:8px;right:8px;min-width:34px;justify-content:center;padding:7px}
   .wood-local-collection{padding:14px 13px}
