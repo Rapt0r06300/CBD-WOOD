@@ -865,7 +865,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Un slug produit par référence, variantes internes.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-046 — Afficher vues miniatures sur les cartes**   
+- [x] **CRO-046 — Afficher vues miniatures sur les cartes** — module conditionnel `wood-card-views.js` avec déduplication, contrôles tactile/clavier et alt text ; il reste invisible tant que trois visuels WOOD distincts et autorisés ne sont pas fournis. Preuve : `docs/validation/2026-11-07-cro-046-card-views.md` et `test/cro-046-card-views.test.mjs`.
   - **Livrable :** Prévoir vues principale, macro, contexte si 3 visuels autorisés existent ; sinon ne pas dupliquer.  
   - **Critère de validation :** Contrôles tactile/clavier, pas d'image artificiellement répétée.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -1001,7 +1001,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Tous les superlatifs factuels exigent preuve datée.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-072 — Contrôler mises à jour multi-pages**   
+- [x] **CRO-072 — Contrôler mises à jour multi-pages** — cartes, fiches, fixture et panier démo sont comparés par `test/cro-072-price-integrity.test.mjs` ; preuve : `docs/validation/2026-11-07-cro-072-price-integrity.md`.
   - **Livrable :** Après changement de prix fictif en fixture, catalogue/fiche/panier démo affichent même somme.  
   - **Critère de validation :** Test d'intégrité unitaire et calculs arrondis.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -1127,7 +1127,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Aucune connexion Viva ni option livraison activée.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-096 — Tester refus d'accès hors démo**   
+- [x] **CRO-096 — Tester refus d'accès hors démo** — frontière racine/`/demo/`, injection des garde-fous et refus des actions réelles contrôlés par `test/cro-096-demo-boundary.test.mjs` ; preuve : `docs/validation/2026-11-07-cro-096-demo-boundary.md`.
   - **Livrable :** Tests frontières entre Pages /demo et domaine commercial, scripts et endpoints.  
   - **Critère de validation :** Relecture de sécurité consignée avant publication.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.

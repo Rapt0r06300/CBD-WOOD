@@ -99,6 +99,20 @@ valeurs et les références inconnues restent à confirmer. Le compteur courant
 devient **296 / 509 — 58,15 %**, avec **75** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Les contrôles multi-pages `CRO-072` et frontière démo `CRO-096` sont livrés
+dans `test/cro-072-price-integrity.test.mjs` et
+`test/cro-096-demo-boundary.test.mjs`, avec leurs preuves documentées. Les prix
+restent cohérents entre carte/fiche/panier démo et la racine GitHub Pages reste
+séparée de `/demo/`. Le compteur courant devient **298 / 509 — 58,55 %**, avec
+**73** tickets actifs encore ouverts et **138 tâches différées**.
+
+La capacité de mini-vues conditionnelles `CRO-046` est livrée dans
+`wood-card-views.js` : les boutons n'apparaissent que pour des chemins WOOD
+distincts et autorisés, donc aucun visuel démo n'est répété artificiellement.
+Preuve : `test/cro-046-card-views.test.mjs`. Le compteur courant devient
+**299 / 509 — 58,74 %**, avec **72** tickets actifs encore ouverts et **138
+tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
