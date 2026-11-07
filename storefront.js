@@ -83,7 +83,7 @@ function renderProducts(grid, products, category) {
     const level = isFlower ? productLevel(product.description) : '';
     const badgeMarkup = `<div class="product-badges"><span class="product-badge">${escapeHtml(labels[category] || category)}</span>${level ? `<span class="product-badge product-badge--level">${escapeHtml(level)}</span>` : ''}</div>`;
     return `<article class="product-card" data-product-id="${escapeHtml(product.id)}" data-product-slug="${escapeHtml(product.slug || product.id)}" data-product-name="${escapeHtml(product.name)}" data-product-category="${escapeHtml(labels[category] || category)}" data-product-price="${price}" data-availability-state="${availabilityState}" data-media-state="demo" data-media-label="Photo démo"${purchasable ? '' : ' data-product-unavailable="true"'}>
-      <div class="product-art product-art--cloche">${productVisual(product, category)}<div class="product-art__chrome" aria-hidden="true"><span class="product-art__status">PHOTO DÉMO</span><span class="product-art__quick">Voir</span></div></div>
+      <div class="product-art product-art--cloche">${productVisual(product, category)}<div class="product-art__chrome" aria-hidden="true"><span class="product-art__status">MAQUETTE WOOD</span><span class="product-art__quick">Voir</span></div></div>
       <div class="product-body">
         <span class="product-index">${String(index + 1).padStart(2, '0')} / WOOD CATALOGUE</span>
         ${badgeMarkup}

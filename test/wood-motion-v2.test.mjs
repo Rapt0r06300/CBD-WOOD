@@ -31,7 +31,7 @@ test('l’accueil expose une hiérarchie drop, rails et pack builder sans donné
 
 test('les cartes catalogue exposent un chrome media honnête', () => {
   assert.match(storefront, /product-art__chrome/);
-  assert.match(storefront, /PHOTO DÉMO/);
+  assert.match(storefront, /MAQUETTE WOOD/);
   assert.match(prepare, /wood-motion\.css/);
   assert.match(prepare, /wood-motion\.js/);
   assert.match(prepare, /wood-runway\.css/);

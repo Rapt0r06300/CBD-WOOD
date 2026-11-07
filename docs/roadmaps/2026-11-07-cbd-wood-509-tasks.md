@@ -466,7 +466,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [x] **TXW-105 — Écrire une voix WOOD originale.** Ton chaleureux, direct, premium avec petites phrases amusantes ; bannir le jargon 'placeholder' et les emprunts de slogans concurrents.    
   **Acceptation :** Chaque section reste intelligible sans humour.
 
-- [ ] **TXW-106 — Réduire les labels techniques visibles.** Remplacer les répétitions 'PHOTO DÉMO' et 'à confirmer' par un repère de maquette clair, non ambigu et plus discret.    
+- [x] **TXW-106 — Réduire les labels techniques visibles.** Les répétitions `PHOTO DÉMO` des cartes sont devenues `MAQUETTE WOOD`, avec une seule mention explicite dans le hero ; les états commerciaux « à confirmer » restent inchangés car ils informent réellement le client. Preuve : `docs/validation/2026-11-07-demo-labels.md`, `test/demo-labels.test.mjs`.    
   **Acceptation :** Toutes les images fictives restent identifiables sans saturer l'interface.
 
 - [x] **TXW-107 — Vérifier les affirmations commerciales.** Aucune livraison 24h, prix barré, réduction, code promo, laboratoire ou promesse de stock sans approbation ; données de référence non supposées actuelles.    

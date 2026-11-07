@@ -10,7 +10,7 @@ Les cartes utilisent les mêmes illustrations WebP que la boutique fleurs, mais 
 
 ## Carte et parcours
 
-Chaque carte expose une image, la mention `PHOTO DÉMO`, des badges WOOD, un nom lisible, une courte description et un lien vers la fiche. La sélection sert à découvrir un univers et à rejoindre la fiche ; elle ne crée pas un bouton d'achat autonome ni une fausse quantité en stock. Le client peut ensuite revenir au catalogue complet, au panier ou au checkout selon les données réellement publiées.
+Chaque carte expose une image, le repère court `MAQUETTE WOOD` (et une mention explicite de démo dans le hero), des badges WOOD, un nom lisible, une courte description et un lien vers la fiche. La sélection sert à découvrir un univers et à rejoindre la fiche ; elle ne crée pas un bouton d'achat autonome ni une fausse quantité en stock. Le client peut ensuite revenir au catalogue complet, au panier ou au checkout selon les données réellement publiées.
 
 L'identité de la carte reste WOOD : palette existante, logo officiel, typographie système, surfaces et bordures déjà livrées. Les inspirations de menu affiché, de rythme et de densité ne deviennent pas une affiche promotionnelle, un code promo ou une preuve sociale.
 
