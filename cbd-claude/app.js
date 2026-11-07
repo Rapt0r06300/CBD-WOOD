@@ -201,7 +201,7 @@ function renderProduct(){
         <span class="badge ${t.cls}">${t.label}</span>
         <h1>${f.nom}</h1>
         <p class="p-desc">${f.desc} · Fleur CBD · <span class="muted">profil de goût</span></p>
-        <div class="p-price"><span id="pPrice" class="p">${euro(f.p[gi])}</span><span id="pPerG" class="pg">${f.p[gi]/GRAMS[gi]} €/g · ${GRAMS[gi]} g</span></div>
+        <div class="p-price"><span id="pPrice" class="p">${euro(f.p[gi])}</span><span id="pPerG" class="pg">${Math.round(f.p[gi]/GRAMS[gi]*10)/10} €/g · ${GRAMS[gi]} g</span></div>
         <div class="p-grams" id="pGrams">${GRAMS.map((g,i)=>`<button class="gram${i===gi?' on':''}" data-g="${i}">${g} g<small>${f.p[i]} €</small></button>`).join("")}</div>
         <button class="btn btn-primary p-add" id="pAdd">+ Ajouter au pochon</button>
         <div class="p-reassure"><span>🚚 Livraison discrète 24-48h</span><span>🔒 Paiement sécurisé</span><span>🔞 Réservé aux +18 ans</span></div>
