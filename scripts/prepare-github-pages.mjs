@@ -105,6 +105,14 @@ for (const file of demoFiles) {
   await writeFile(destination, content);
 }
 
+// Keep the shared 404 safe under the project sub-path even while the base
+// snapshot is sourced from origin/main. A root-relative href would escape
+// /CBD-WOOD/ on GitHub Pages; the current prepared public file is the source
+// of truth for this small hosting fix in both base and demo packages.
+for (const file of ['404.html']) {
+  await cp(join(source, file), join(output, file));
+}
+
 await cp(join(demoRoot, switchScript), join(output, switchScript));
 await cp(join(demoRoot, switchStyles), join(output, switchStyles));
 

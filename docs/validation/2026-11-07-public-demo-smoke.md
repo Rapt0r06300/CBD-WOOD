@@ -29,6 +29,11 @@ Les 12 routes du paquet démo ont répondu en HTTP 200 et contiennent chacune un
 `checkout.html`, `contact.html`, `confirmation.html` et `404.html`. Aucune
 route n'a été signalée en échec lors de cette passe.
 
+Une référence absolue `/` détectée sur la page 404 a été corrigée en
+`index.html`, puis protégée dans le générateur Pages pour les deux paquets.
+Le test local des références et la vérification du paquet passent ; la
+publication correspondante est `af70c0b`.
+
 ## Limites
 
 Ce smoke test ne remplace pas Safari iOS réel, Chromium Android réel, une

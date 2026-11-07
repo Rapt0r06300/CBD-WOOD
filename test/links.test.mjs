@@ -62,4 +62,6 @@ test('la page 404 reste lisible sur un téléphone étroit', async () => {
   const notFound = await readFile(join(root, '404.html'), 'utf8');
   assert.match(notFound, /@media\s*\(max-width:\s*400px\)/);
   assert.match(notFound, /overflow-wrap:\s*anywhere/);
+  assert.match(notFound, /href=["']index\.html["']/);
+  assert.doesNotMatch(notFound, /href=["']\/["']/);
 });
