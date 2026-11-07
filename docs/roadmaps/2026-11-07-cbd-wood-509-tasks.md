@@ -1469,7 +1469,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Pas de tracking externe, respect désactivation/effacement.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-138 — Comparaison partageable.**  
+- [x] **CRO-138 — Comparaison partageable.**  
   - **Livrable :** Créer un comparateur sur les attributs vérifiés de 2 ou 3 références avec lien partageable.  
   - **Recette :** Comparaison reproductible, inconnu explicite, pas de fausse correspondance.  
   - **Statut :** TODO (non implémenté).
