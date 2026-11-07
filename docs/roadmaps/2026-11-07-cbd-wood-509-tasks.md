@@ -1253,10 +1253,10 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Rapport de test sur fixtures sans donnée personnelle.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-120 — Éviter quotas facturables et fragilité cloud**   
+- [x] **CRO-120 — Éviter quotas facturables et fragilité cloud** — D1/Workers restent opt-in, lecture seule, limite 50, cache 60 s et repli local 503 dans `docs/validation/2026-11-07-cro-120-cloud-cost-fallback.md`; aucune dépense ni activation distante.
   - **Livrable :** Cloudflare D1/Workers Free en opt-in, cache/limites/fallback, aucune dépense.  
   - **Critère de validation :** Site fonctionne sans D1 ; zéro upgrade automatique.  
-  - **Statut initial :** TODO ; preuve : à renseigner par Codex.
+  - **Statut initial :** TODO ; preuve : garde-fous locaux validés, opérations distantes explicitement BLOCKED-EXTERNAL.
 
 ### 16 — Contrôles de goût, validation propriétaire et livraison — P1, complément de TXW-112 à TXW-120
 

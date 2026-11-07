@@ -208,6 +208,13 @@ commit de retour, séparation GitHub Pages et portes externes listées sans les
 clôturer. Le compteur courant devient **313 / 509 — 61,49 %**, avec **58**
 tickets actifs encore ouverts et **138 tâches différées**.
 
+Le garde-fou cloud `CRO-120` est vérifié localement : D1 reste opt-in, le
+Worker est en lecture seule, borné, cacheable et repliable sur le catalogue
+local. OAuth, offre Free réelle et déploiement distant restent externes. Preuve :
+`docs/validation/2026-11-07-cro-120-cloud-cost-fallback.md`. Le compteur
+courant devient **314 / 509 — 61,69 %**, avec **57** tickets actifs encore
+ouverts et **138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
