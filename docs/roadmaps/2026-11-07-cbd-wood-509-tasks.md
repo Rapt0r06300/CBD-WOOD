@@ -719,7 +719,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Chaque séquence répond à une question différente.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-018 — Supprimer les répétitions de produits**   
+- [x] **CRO-018 — Supprimer les répétitions de produits** — rôles et reprises documentés dans `docs/design/wood-product-repetition-map.md`; runway distinct de la sélection et test `test/cro-photo-repetition.test.mjs`.   
   - **Livrable :** Cartographier chaque occurrence d'une référence et limiter ses réapparitions éditoriales.  
   - **Critère de validation :** Un produit ne se répète que pour une intention explicitement différente.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -882,12 +882,12 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
 
 ### 07 — Studio produit WOOD : cloches et détails — P1, complément de TXW-043 à TXW-052
 
-- [ ] **CRO-049 — Établir le storyboard photo par catégorie**   
+- [x] **CRO-049 — Établir le storyboard photo par catégorie** — matrice fleurs/résines/textile/soins et besoins hero, macro, échelle dans `docs/design/wood-photo-storyboard.md`.   
   - **Livrable :** Fleurs/résines : hero sous cloche, macro produit et vue de taille ; textile : porté/détail ; soins : emballage.  
   - **Critère de validation :** Trois besoins informationnels documentés sans prétendre avoir les photos.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-050 — Définir la signature photo sous cloche**   
+- [x] **CRO-050 — Définir la signature photo sous cloche** — verre, reflets, fond, lumière, couleur et seconde vue hors cloche documentés dans `docs/design/wood-photo-storyboard.md`.   
   - **Livrable :** Spécifier verre transparent, reflets contrôlés, fond vert profond, lumière et sujet fidèle.  
   - **Critère de validation :** La cloche sublime sans masquer la matière ni changer sa couleur.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.

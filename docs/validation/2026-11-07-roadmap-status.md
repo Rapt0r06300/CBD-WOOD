@@ -35,6 +35,11 @@ et `CRO-129` est livré et vérifié par
 **278 / 509 — 54,62 %**, avec **93** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Le lot photo/répétition `CRO-018`, `CRO-049` et `CRO-050` est livré et vérifié
+par `docs/validation/2026-11-07-cro-photo-storyboard.md`. Le compteur courant
+devient **281 / 509 — 55,21 %**, avec **90** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
