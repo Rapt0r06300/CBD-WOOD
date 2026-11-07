@@ -346,6 +346,17 @@ profil individuel n'est inventé. Preuve :
 **334 / 509 — 65,62 %**, avec **37** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Le ticket `TXW-088` est validé par une recette Chromium locale de taille de
+texte simulée à 125 %, 150 % et 200 % sur l'accueil et la page rendez-vous,
+en mobile et bureau. Le reflow garde le `scrollWidth` égal au viewport et
+n'expose aucun texte coupé dans les conteneurs à overflow. Les cartes
+« Pourquoi WOOD » passent en colonne sous 430 px pour préserver la largeur
+de lecture. La preuve ne remplace pas Dynamic Type sur iPhone ou Android
+réel. Preuve : `docs/validation/2026-11-07-txw-088-text-scaling.md` et
+`test/txw-088-text-scaling.test.mjs`. Le compteur courant devient
+**335 / 509 — 65,82 %**, avec **36** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

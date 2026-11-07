@@ -8,9 +8,9 @@ const status = await readFile(new URL('../docs/validation/2026-11-07-roadmap-sta
 test('l’état de route est cohérent avec les cases de la feuille active', () => {
   const rows = [...roadmap.matchAll(/^- \[(x| )\] \*\*([A-Z0-9]+-\d+)/gmu)];
   assert.equal(rows.length, 371);
-  assert.equal(rows.filter(row => row[1] === 'x').length, 334);
-  assert.equal(rows.filter(row => row[1] === ' ').length, 37);
-  assert.match(status, /334 \/ 509/u);
+  assert.equal(rows.filter(row => row[1] === 'x').length, 335);
+  assert.equal(rows.filter(row => row[1] === ' ').length, 36);
+  assert.match(status, /335 \/ 509/u);
   assert.match(status, /197b485.*249/isu);
   assert.match(status, /138.*tâches différées/iu);
   assert.match(status, /deux validations.*non rattachées/iu);

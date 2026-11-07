@@ -408,7 +408,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [x] **TXW-087 — Contrôler le zoom 200 et 400 %.** Vérifier libellés, titres massifs, menus, boutons, cartes, tableaux et footer dans la recette locale de reflow. Preuve : `docs/validation/2026-11-07-txw-087-zoom.md` et `test/txw-087-zoom.test.mjs`.
   **Acceptation :** Aucun blocage de lecture ou d'action.
 
-- [ ] **TXW-088 — Tester textes système agrandis.** Vérifier Dynamic Type / text scaling, line-height et titres fragmentés sur mobile.    
+- [x] **TXW-088 — Tester textes système agrandis** — recette Chromium locale à 125 %, 150 % et 200 % sur accueil et rendez-vous, sans overflow global ni texte coupé ; Dynamic Type réel reste externe. Preuve : `docs/validation/2026-11-07-txw-088-text-scaling.md` et `test/txw-088-text-scaling.test.mjs`.
   **Acceptation :** Texte jamais tronqué ni chevauché.
 
 - [x] **TXW-089 — Corriger les contrastes.** Mesurer texte crème, anis, vert secondaire et textes sur fonds clairs ; repérer polices trop petites.    
