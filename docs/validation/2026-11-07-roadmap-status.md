@@ -272,6 +272,16 @@ ouvertes et aucun coût réel n'est déclaré confirmé. Preuve :
 **325 / 509 — 63,85 %**, avec **46** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Les tickets `CRO-087` et `CRO-088` sont validés pour la démo : la page
+`rendez-vous.html` reprend l'ambiance WOOD, les deux adresses, les téléphones,
+les itinéraires et le contact, avec un média explicitement marqué comme démo.
+La recette couvre les deux entrées accueil → visite et fiche → visite, sans
+géolocalisation forcée ni API cartographique intégrée. Preuve :
+`docs/validation/2026-11-07-cro-087-088-visite.md` et
+`test/cro-087-088-visit-page.test.mjs`. Le compteur courant devient
+**327 / 509 — 64,24 %**, avec **44** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
