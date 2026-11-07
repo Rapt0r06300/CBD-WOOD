@@ -18,3 +18,11 @@ Les captures Chromium associées sont conservées dans `.playwright-cli` et le
 contrôle structurel est verrouillé par `test/cro-first-viewport.test.mjs`.
 Cette preuve mesure la compréhension fonctionnelle de l'écran, pas une étude
 utilisateur statistique ; la relecture artistique WOOD reste séparée.
+
+## Hiérarchie de valeur et destinations
+
+Le hero porte une seule phrase de valeur : une autre vision du chanvre, une
+sélection de caractère et de vrais conseils à Nice. `Découvrir WOOD` est le CTA
+principal anis vers `#univers`; `Nous trouver` est le CTA secondaire bordé vers
+`#boutique`. À 390 px, les deux gardent une hauteur tactile minimale de 48 px.
+Ils ne présentent ni la même destination ni le même poids visuel.

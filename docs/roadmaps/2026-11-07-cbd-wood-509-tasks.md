@@ -677,12 +677,12 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Test sans scroller à 375/390/1440 px et capture.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-010 — Hiérarchiser la proposition de valeur**   
+- [x] **CRO-010 — Hiérarchiser la proposition de valeur.** Preuve : hero WOOD, `docs/validation/2026-11-07-cro-first-viewport.md` et `test/cro-hero-hierarchy.test.mjs`.   
   - **Livrable :** Intégrer une phrase compacte expliquant l'univers indépendant WOOD sans promesse d'effet ni argument inventé.  
   - **Critère de validation :** Un titre, une phrase, une action principale par variante.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-011 — Séparer explorer et venir en boutique**   
+- [x] **CRO-011 — Séparer explorer et venir en boutique.** Preuve : CTA `#univers` / `#boutique`, styles principal/secondaire, contrôle tactile 390 px et `test/cro-hero-hierarchy.test.mjs`.   
   - **Livrable :** Deux intentions distinctes : découvrir les univers et localiser WOOD ; empêcher deux boutons de même poids.  
   - **Critère de validation :** Test parcours jusqu'à la catégorie et l'itinéraire en un petit nombre de gestes.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.

@@ -5,11 +5,11 @@
 Au commit `197b485`, l'inventaire source contient 371 tickets actifs :
 
 - **249** cases `[x]` traçables avant ce ticket ;
-- **117** cases `[ ]` encore ouvertes après le marquage de CRO-009 ;
+- **115** cases `[ ]` encore ouvertes après le marquage de CRO-010 et CRO-011 ;
 - **138** tâches différées conservées hors exécution active ;
 - **509** tâches dans l'inventaire global.
 
-Le compteur global vérifié après ce ticket est donc **254 / 509 — 49,90 %**.
+Le compteur global vérifié après ces deux tickets est donc **256 / 509 — 50,29 %**.
 Les deux validations précédemment présentes dans le ledger mais non rattachées
 à une case ou à un identifiant de la feuille ne sont pas comptées. Elles restent
 à réconcilier avant toute nouvelle progression créditée.
