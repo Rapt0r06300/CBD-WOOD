@@ -393,7 +393,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 
 ### P8 — Mobile, accessibilité et ergonomie — 12 tickets
 
-- [ ] **TXW-083 — Établir la matrice viewport.** Tester 320/360/375/390/430/768/1024/1440px, portrait/paysage et petites hauteurs.    
+- [x] **TXW-083 — Établir la matrice viewport.** Les six routes publiques de la démo ont été testées à 320/360/375/390/430/768/1024/1440px, portrait et paysage, avec 60/60 contrôles racine sans débordement ; preuve : `docs/validation/2026-11-07-viewport-matrix.md` et `test/viewport-matrix.test.mjs`.    
   **Acceptation :** Aucun débordement racine et pas de zone invisible.
 
 - [ ] **TXW-084 — Vérifier Safari iOS réel.** Reproduire captures utilisateur, barre Safari inférieure, safe area, titres, images, menu sticky et liens.    
