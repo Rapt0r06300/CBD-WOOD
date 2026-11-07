@@ -190,7 +190,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [x] **TXW-019 — Corriger le brief de photographie.** Résoudre la contradiction des documents disant 'sans cloche' alors que la propriétaire demande une présentation qualitative sous cloche en verre ; autoriser une deuxième vue nette hors cloche.    
   **Acceptation :** Tous les docs de design cohérents avec la demande récente et l'état démo.
 
-- [ ] **TXW-020 — Créer une planche de direction à faire valider.** Rassembler palette, typographies, hero, sticker, cartes fleurs/résines et photo boutique avec statuts 'proposé / approuvé'.    
+- [x] **TXW-020 — Créer une planche de direction à faire valider.** Palette, typographies, hero, stickers, cartes fleurs/résines et photo boutique sont rassemblés avec statuts « proposé / approuvé — brief » dans `docs/design/wood-visual-direction-board-2026-11-07.md`, sans prétendre à une validation finale.    
   **Acceptation :** Aucun changement de charte définitif prétendument approuvé sans retour propriétaire.
 
 ### P2 — Accueil : impact visuel et histoire — 12 tickets
@@ -356,7 +356,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [ ] **TXW-071 — Uniformiser catégories et pieds de page.** Associer pictogrammes, labels, CTA et retours au catalogue sur toutes les pages secondaires.    
   **Acceptation :** Identité cohérente malgré différences de produits.
 
-- [ ] **TXW-072 — Créer une matrice de contenus approuvables.** Pour chaque univers, lister données encore manquantes : photos, produits, textes, prix, stocks, preuves ; les conserver dans le registre externe si besoin.    
+- [x] **TXW-072 — Créer une matrice de contenus approuvables.** Les univers, données manquantes, fallbacks et portes de publication sont listés dans `docs/validation/2026-11-07-content-approval-matrix.md`; aucune donnée commerciale n’est validée par défaut.    
   **Acceptation :** Le code avance sans déclencher de demande d'identifiants.
 
 ### P7 — Navigation et expérience utilisateur — 10 tickets
