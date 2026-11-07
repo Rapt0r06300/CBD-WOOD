@@ -11,6 +11,11 @@ sont donc pas publiés dans le site public.
 Dans **Settings → Pages → Build and deployment**, la source doit être
 **GitHub Actions**. Le workflow actuel est déclenché manuellement (`workflow_dispatch`) afin de ne pas publier une branche de travail par accident. Le paquet est contrôlé par `npm run verify:pages-package` avant l'upload.
 
+Après la fin du workflow, exécuter `npm run verify:pages-live` avec l'URL du
+projet pour vérifier que la racine et `/demo/` ne renvoient pas le même HTML.
+Le contrôle échoue si la racine contient le runtime démo, si `/demo/` n'est
+pas marqué démo, ou si les deux réponses sont identiques.
+
 ## Contrôle local
 
 ```text
