@@ -292,6 +292,15 @@ réel et Firefox. Preuve :
 **328 / 509 — 64,44 %**, avec **43** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Le ticket `TXW-087` est validé par une recette Chromium locale de reflow à
+200 % et 400 % sur l'accueil et la page rendez-vous : le `scrollWidth` reste
+égal au viewport CSS, avec menus, boutons, cartes et footer rendus. La preuve
+ne remplace pas les contrôles Safari/Dynamic Type sur appareil réel. Preuve :
+`docs/validation/2026-11-07-txw-087-zoom.md` et
+`test/txw-087-zoom.test.mjs`. Le compteur courant devient
+**329 / 509 — 64,64 %**, avec **42** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
