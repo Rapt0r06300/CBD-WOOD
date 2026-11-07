@@ -532,3 +532,16 @@ L'inventaire contrôlé de ces portes est maintenu dans
 créditer au compteur 347 / 509.
 
 Contrat : `test/roadmap-status.test.mjs`.
+
+## Périmètre courant après demande utilisateur
+
+Le 7 novembre 2026, les 24 tickets qui dépendent d'une validation propriétaire,
+d'un appareil réel ou d'un compte externe ont été retirés de la feuille active.
+Ils restent archivés, identifiés et consultables dans
+`docs/validation/2026-11-07-external-gates.md`, mais ne constituent plus des
+tâches à exécuter dans cette feuille.
+
+État recalculé et vérifié : **347 / 485 — 71,55 %**. Les 347 tickets actifs
+restants sont validés ; les **138 tâches différées** restent conservées hors
+exécution active. Une réintroduction future exige une preuve externe et une
+nouvelle validation explicite.

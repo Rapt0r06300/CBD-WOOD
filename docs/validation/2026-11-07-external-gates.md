@@ -1,9 +1,10 @@
 # Portes externes encore ouvertes — feuille de route WOOD
 
-Statut global : **24 tâches `BLOCKED-EXTERNAL` sur 509**, sans nouvelle tâche
-créditée dans le compteur. Les préparations locales, les fallbacks et les tests
-ne remplacent pas une preuve fournie par la propriétaire, un appareil réel ou
-un compte externe autorisé.
+Statut global : **24 tâches `BLOCKED-EXTERNAL` retirées de la feuille active**.
+Elles sont conservées ici comme registre externe de référence, hors du compteur
+de la feuille actuelle (**347 actives + 138 différées = 485 tickets**). Les
+préparations locales, les fallbacks et les tests ne remplacent pas une preuve
+fournie par la propriétaire, un appareil réel ou un compte externe autorisé.
 
 ## Tâches et preuve attendue
 
@@ -48,10 +49,10 @@ un compte externe autorisé.
 
 ## Règle de clôture
 
-Une tâche passe à `DONE` seulement lorsque sa preuve externe est archivée dans
-`docs/validation/`, que le test ou la recette correspondante passe, puis que le
-compteur est recalculé. Tant qu’une porte manque, elle reste `BLOCKED-EXTERNAL`
-et le compteur reste **347 / 509 — 68,17 %**.
+Une tâche ne peut être réintroduite dans la feuille active qu’après archivage de
+sa preuve externe dans `docs/validation/`, puis passage du test ou de la recette
+correspondante. Tant qu’une porte manque, elle reste dans ce registre séparé et
+le compteur de la feuille actuelle reste **347 / 485 — 71,55 %**.
 
 ## Vérification du 7 novembre 2026
 
@@ -75,5 +76,5 @@ et le compteur reste **347 / 509 — 68,17 %**.
   désactivé/non supporté et aucun endpoint Cloudflare n’est présent. D1-004
   reste `PARTIAL`, tandis que D1-005 et D1-016 à D1-020 restent
   `BLOCKED-EXTERNAL`.
-- Le compteur reste **347 / 509 — 68,17 %**. Aucun ticket externe n’est
-  crédité sur la base de cette absence de nouvelle preuve.
+- Le compteur de la feuille actuelle reste **347 / 485 — 71,55 %**. Aucun ticket
+  externe n’est réintroduit sur la base de cette absence de nouvelle preuve.

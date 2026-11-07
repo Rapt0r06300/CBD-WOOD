@@ -15,7 +15,7 @@
 
 **Cloudflare** : utiliser D1 + Workers **Free**, setup Codex avec skills/MCP déjà préparés, déclencher OAuth si disponible, **le titulaire doit consentir** ; aucun coût/upgrade automatique, aucun secret Git ; données fictives en démo, pas de vraie commande. Supabase existant intact. Aucun Shopify. Hébergement statique GitHub Pages conservé. Ne pas envoyer d'email/newsletter réel. Les comptes, paiements et ventes restent interdits dans la démo.
 
-**Méthode Codex** : commencer par auditer l'existant, ne pas refaire les tâches déjà testées, isoler la démo, exécuter les tâches faisables en autonomie, tests à chaque groupe, % d'avancement authentique et captures mobile/desktop ; validations propriétaire et connexions externes marquées BLOCKED-EXTERNAL. Ne pas toucher au registre des **138 tâches différées**, ci-dessous reproduit en annexe.
+**Méthode Codex** : commencer par auditer l'existant, ne pas refaire les tâches déjà testées, isoler la démo, exécuter les tâches faisables en autonomie, tests à chaque groupe, % d'avancement authentique et captures mobile/desktop. Les 24 portes nécessitant propriétaire, appareil réel ou compte externe sont retirées de la feuille active et conservées uniquement dans `docs/validation/2026-11-07-external-gates.md`. Ne pas toucher au registre des **138 tâches différées**, ci-dessous reproduit en annexe.
 
 ## INVENTAIRE COMPLET ET COMPTAGE
 
@@ -27,9 +27,9 @@
 | Conseiller / base automatique | CRO-159–CRO-178 | 20 | Conversation |  
 | Widget BD, langage, 3 badges, validation | CRO-179–CRO-226 | 48 | Conversation, spécifications supplémentaires |  
 | Cloudflare D1 gratuit | D1-001–D1-025 | 25 | Plan D1 existant, reproduit intégralement |  
-| **Total actif planifié** | | **371** | Aucun statut DONE déduit |  
+| **Total actif planifié** | | **347** | 24 portes externes retirées de la feuille active |
 | Tâches archivées en attente | registre A / externe | 138 | Archive originale reproduite, hors % actif |  
-| **Total des tickets recensés** | | **509** | 371 actifs + 138 en attente |
+| **Total des tickets de la feuille actuelle** | | **485** | 347 actifs + 138 en attente ; 24 portes externes hors feuille |
 
 **Attention :** les 109 anciennes tâches actives du dépôt sont un **historique de statut**, pas 109 tickets supplémentaires à recompter ; leur état est reproduit en annexe. Le très grand plan source 2026-11-04 est conservé inchangé à l'adresse : https://github.com/Rapt0r06300/CBD-WOOD/blob/main/docs/superpowers/plans/2026-11-04-wood-tealerlab-roadmap.md (archive historique volumineuse, ne pas l'effacer). Le plan `2026-11-05-wood-tealerlab-visual-rebuild-roadmap.md` et l'existence des 138 tâches archivées priment pour l'absence de perte d'historique.
 
@@ -41,7 +41,7 @@
 
 Les numéros expriment l'identité des tickets, pas une obligation de travailler dans l'ordre numérique si les dépendances l'interdisent. Maintenir un journal de correspondances pour éviter les doublons entre sections anciennes et nouvelles. Bloquer la publication commerciale tant que la propriétaire n'a pas validé les sources et la conformité.
 
-**Pourcentage actif** \= `100 × (tickets réellement DONE et vérifiés) / 371` ; documenter séparément les 138 différés, les blocages OAuth, les tests non faits et les approbations manquantes. Ne jamais marquer DONE sur l'unique base de la présence d'une checklist.
+**Pourcentage global de la feuille actuelle** \= `100 × (tickets réellement DONE et vérifiés) / 485` ; documenter séparément les 138 différés. Les 24 portes externes sont hors feuille et ne sont pas des tâches à exécuter dans ce cycle. Ne jamais marquer DONE sur l'unique base de la présence d'une checklist.
 
 ---
 
@@ -152,8 +152,6 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [x] **TXW-007 — Interdire tous les envois réels.** Vérifier contact, newsletter, notifications, mails de commande, comptes et éventuelles intégrations ; aucune action utilisateur en /demo/ ne doit envoyer de message réel.    
   **Acceptation :** Tests négatifs et absence d'appels d'expédition dans le réseau de démo.
 
-- [ ] **TXW-008 — Reproduire le symbole '?' sur iPhone.** Repli local de la scène Studio WOOD et contrôle d'asset préparés dans `index.html`, `wood-motion.js`, `wood-runway.css`, `docs/validation/2026-11-07-txw-008-symbol-check.md` et `test/txw-008-symbol-fallback.test.mjs`; validation Safari iOS réelle encore externe.
-  **Acceptation :** Cause prouvée ou limitation documentée ; aucun carré/interrogation anormal sur le viewport concerné.
 
 - [x] **TXW-009 — Établir les captures de référence.** Créer des captures de référence de chaque route en 390px et 1440px, plus états panier et menus ; nommer par route, viewport, commit. Preuve : `docs/validation/2026-11-07-txw-009-reference-captures.md` et `test/txw-009-reference-captures.test.mjs`.
   **Acceptation :** État initial consultable pour comparer les régressions.
@@ -216,8 +214,6 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [x] **TXW-027 — Conserver un choix par mood non médical.** Mettre en scène les intentions éditoriales sans laisser entendre des effets physiologiques garantis ni inventer disponibilité.    
   **Acceptation :** Composant utile au clavier, au tactile et au lecteur d'écran.
 
-- [ ] **TXW-028 — Créer une scène 'Maison WOOD'.** Placer une section boutique authentique : façade noire à typographie blanche, végétation, mobilier bois, mur de stickers, présentation sous cloche (photos autorisées uniquement).    
-  **Acceptation :** WOOD reconnu comme boutique réelle, sans images de banque génériques.
 
 - [x] **TXW-029 — Recomposer 'sélection en images'.** Transformer le rail en micro-récit : matière, geste, lieu, ambiance ; supprimer les images répétitives sans rôle éditorial.    
   **Acceptation :** Un seul rail photo pertinent, contrasté et facile à parcourir.
@@ -260,8 +256,6 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [x] **TXW-041 — Préparer un pack exportable.** Versionner sources SVG, exports WebP/PNG si nécessaires, fichiers de manifeste et usages autorisés.    
   **Acceptation :** Pack réutilisable, léger, avec source et statut 'demo'.
 
-- [ ] **TXW-042 — Obtenir la validation artistique ultérieure.** Produire la planche garder/adapter/exclure sans suspendre les développements indépendants ; ne pas marquer 'approved' sans l'accord WOOD.    
-  **Acceptation :** Décision propriétaire clairement distinguée des tests techniques.
 
 ### P4 — Photographie, supports et médias — 10 tickets
 
@@ -396,11 +390,6 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [x] **TXW-083 — Établir la matrice viewport.** Les six routes publiques de la démo ont été testées à 320/360/375/390/430/768/1024/1440px, portrait et paysage, avec 60/60 contrôles racine sans débordement ; preuve : `docs/validation/2026-11-07-viewport-matrix.md` et `test/viewport-matrix.test.mjs`.    
   **Acceptation :** Aucun débordement racine et pas de zone invisible.
 
-- [ ] **TXW-084 — Vérifier Safari iOS réel.** Reproduire captures utilisateur, barre Safari inférieure, safe area, titres, images, menu sticky et liens.    
-  **Acceptation :** Écrans comparables à la capture, sans '?' ni masque d'action.
-
-- [ ] **TXW-085 — Contrôler Chromium Android.** Tester interactions tactiles, rails scroll-snap, menu, boutons, clavier virtuel et chargement d'images.    
-  **Acceptation :** Fonctions accessibles sans hover.
 
 - [x] **TXW-086 — Contrôler Firefox desktop.** Tester grid, images, pictogrammes, transitions, formulaires et polices fallback dans `docs/validation/2026-11-07-txw-086-firefox.md`, avec captures locales et test `test/txw-086-firefox.test.mjs`.
   **Acceptation :** Pas de différence bloquante avec Chromium.
@@ -475,8 +464,6 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [x] **TXW-108 — Vérifier les allégations CBD.** Supprimer ou neutraliser promesses thérapeutiques, slogans médicaux et catégories d'effets garantis ; garder un discours descriptif prudent.    
   **Acceptation :** Aucune promesse de soin non étayée.
 
-- [ ] **TXW-109 — Vérifier avis et notes.** N'utiliser que des extraits publics autorisés avec source précise, date et établissement ; pas de faux témoignage ou note globale forgée.    
-  **Acceptation :** Chaque preuve est retracée ou masquée.
 
 - [x] **TXW-110 — Clarifier marque et Instagram.** Examiner www.woodcbdshop.com et compte social @wood.cbdshop identifié publiquement, mais ne modifier le lien officiel qu'après confirmation propriétaire. Preuve : `docs/validation/2026-11-07-txw-110-brand-register.md` et `test/txw-110-brand-register.test.mjs`.
   **Acceptation :** Compte cible validé ou marqué 'à confirmer' dans le registre externe.
@@ -665,10 +652,6 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Rapport priorisé avec captures avant correction et risque business.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-008 — Faire valider la promesse WOOD**   
-  - **Livrable :** Proposer deux formulations originales courtes, compatibles avec les slogans WOOD et le ton confirmé.  
-  - **Critère de validation :** Relecture propriétaire requise avant marquage « approuvé ».  
-  - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
 ### 02 — Premier écran convaincant — P1, complément de TXW-021 à TXW-024
 
@@ -892,10 +875,6 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** La cloche sublime sans masquer la matière ni changer sa couleur.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-051 — Ajouter image d'échelle réaliste** — emplacement d’échelle neutre `pending` et repli mobile préparés dans `flower-detail.js`, `boutique.css` et `docs/validation/2026-11-07-cro-051-scale-reference.md`; clôture bloquée jusqu’à une photo authentique, une référence physique et l’accord WOOD.
-  - **Livrable :** Prévoir repère physique neutre autorisé pour volume/taille quand pertinent.  
-  - **Critère de validation :** Échelle authentique, produit non grossi artificiellement.  
-  - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
 - [x] **CRO-052 — Séparer images conceptuelles et réelles**   
   - **Livrable :** Registre statut, source, consentement et rendu ; distinguer visuels IA de photos boutiques.  
@@ -1055,10 +1034,6 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Aucune confusion adresse/téléphone/horaires.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-082 — Préparer photos de localisation vérifiées** — slots `barla` et `borriglione`, fallbacks responsives et états `pending` préparés dans `rendez-vous.html`, `wood-visit.css` et `docs/validation/2026-11-07-cro-082-location-photos.md`; clôture bloquée jusqu’aux photos, droits et accord WOOD.
-  - **Livrable :** Façades avec angle d'arrivée, enseigne lisible et droits ; proposer fallback sans photo.  
-  - **Critère de validation :** Image d'établissement correcte pour chaque boutique.  
-  - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
 - [x] **CRO-083 — Créer boutons d'itinéraire directs**   
   - **Livrable :** Générer itinéraire Google/Apple Maps depuis adresse validée ; pas de position de l'utilisateur collectée.  
@@ -1206,10 +1181,6 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Test Playwright accessible.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-111 — Tester lecteur d'écran sur parcours client** — protocole local et repères sémantiques préparés dans `docs/validation/2026-11-07-cro-111-screen-reader.md` et `test/cro-111-screen-reader.test.mjs`; clôture `BLOCKED-EXTERNAL` jusqu'à une session VoiceOver/NVDA réelle.
-  - **Livrable :** VoiceOver/NVDA ou équivalent sur liste, fiche, menu, contact et panier fictif.  
-  - **Critère de validation :** Aucune action uniquement visuelle.  
-  - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
 - [x] **CRO-112 — Tester sans animations ni réseau rapide** — reduced-motion, faible donnée, cache froid, image en erreur et D1 indisponible couverts par `docs/validation/2026-11-07-cro-112-resilience.md` et `test/cro-112-resilience.test.mjs` ; appareil physique et lecteurs d'écran restent externes.
   - **Livrable :** reduced-motion, Save-Data, cache froid, image erreur et API D1 indisponible.  
@@ -1369,8 +1340,6 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
 - [x] **D1-001 — Audit du dépôt.** Repérer l'architecture HTML/CSS/JS, le catalogue de 13 références démonstration, le flux de commandes actuel, les dépendances et la suite `npm run check`. Preuve : inventaire daté, sans modification distante.  
 - [x] **D1-002 — Contrat de non-facturation.** Vérifier les plafonds `Workers Free`/`D1 Free` directement sur la documentation officielle, horodater l'examen et écrire une procédure de refus de service payant. Preuve : liens officiels et règle fail-closed.  
 - [x] **D1-003 — Détection outils Codex.** Identifier OS, `node`, `npm`, `npx`, `codex`, `wrangler` et droits d'exécution. Utiliser l'environnement de l'agent, sans prétendre accéder au PC si non connecté. Preuve : commandes disponibles.  
-- [ ] **D1-004 — Skills Cloudflare et MCP.** Vérifier `.codex/config.toml`, puis installer les Skills officiels dans l'environnement Codex s'ils manquent ; vérifier les endpoints MCP (API, docs, bindings, builds, observability) sans en créer en double. Le script `scripts/setup-cloudflare-codex.ps1` est utilisable sur Windows seulement si Codex y tourne. Preuve : `codex mcp list` ou diagnostic équivalent.  
-- [ ] **D1-005 — OAuth Cloudflare.** Déclencher `codex mcp login cloudflare` ou l'authentification native adéquate. L'utilisateur doit consentir sur le site officiel ; sinon noter `BLOCKED-EXTERNAL`. Preuve : état de connexion vérifié sans divulguer de token.
 
 ## Phase B — Base portable SQLite et sécurité locale
 
@@ -1390,11 +1359,6 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
 
 ## Phase D — Création et tests distants (uniquement après OAuth)
 
-- [ ] **D1-016 — Vérifier l'offre du compte.** Lire l'offre Cloudflare réelle via outil officiel. Si `Free` non disponible ou coût requis : STOP sur opérations distantes, consigner `BLOCKED-EXTERNAL`. Preuve : offre vérifiée à 0 €.  
-- [ ] **D1-017 — Créer D1 `wood-cbd-demo`.** Exécuter dans le compte approuvé uniquement, sans base payante ni import de données réelles. Capturer l'UUID de la base dans le fichier Wrangler (identifiant non secret) et un journal. Preuve : base D1 existante dans l'offre Free.  
-- [ ] **D1-018 — Appliquer les migrations D1 distantes.** Exécuter dans le compte autorisé ; vérifier 4 catégories et 13 références synthétiques, aucun client, aucune commande, aucun paiement. Preuve : requêtes de contrôle en lecture seule.  
-- [ ] **D1-019 — Déployer Worker gratuit.** Déployer sur sous-domaine `workers.dev`, uniquement après validation des frais nuls. Pas de domaine commercial, pas d'automatisation d'envoi. Preuve : URL de test et HTTP 200.  
-- [ ] **D1-020 — Recette API distante.** Valider schémas JSON, CORS, pagination, erreurs de quotas, 404, refus des mutations et aucune réponse contenant des secrets. Preuve : rapport sans aucune écriture dans la démo.
 
 ## Phase E — Intégration progressive et finition Codex
 
@@ -1449,10 +1413,6 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Aucune citation attribuée sans accord et source.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-134 — Contrôle fidélité à la vraie boutique.**  
-  - **Livrable :** Comparer chaque écran clé à la vraie identité visuelle, façade, déco, cloches et affiches.  
-  - **Recette :** Dossier avant/après avec provenance des photos.  
-  - **Statut :** TODO (non implémenté).
 
 - [x] **CRO-135 — Aperçu rapide produit.**  
   - **Livrable :** Fiche condensée ouvrable depuis liste pour voir les visuels/faits sans perdre le contexte.  
@@ -1489,10 +1449,6 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Je ne sais pas/Peu importe/Passer/Retour/Recommencer accessibles.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-142 — Sélection de la patronne authentique.**  
-  - **Livrable :** Mettre à l'honneur ses vrais coups de cœur et ses mots après approbation.  
-  - **Recette :** Aucune fausse sélection attribuée à la propriétaire.  
-  - **Statut :** TODO (non implémenté).
 
 - [x] **CRO-143 — Collections éditoriales WOOD.** — chemins `selection-wood`, `mood-wood` et `runway-wood` documentés dans `docs/design/wood-editorial-collections.md`, sans promotion, stock ni prix inventés.  
   - **Livrable :** Créer sélections thématiques descriptives de produits présents dans le catalogue.  
@@ -1514,35 +1470,19 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Explanations exactes, pas d'origine, prix, arôme ou effet inventés.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-147 — Visite photographique WOOD.** — séquence statique de trois scènes démo, labels de remplacement, fallback et reflow mobile dans `rendez-vous.html`, `wood-visit.css`, `docs/validation/2026-11-07-cro-147-visit-tour.md` et `test/cro-147-visit-tour.test.mjs`; photos authentiques et droits restent à valider.
-  - **Livrable :** Parcours dans la boutique via photos autorisées et zones d'intérêt.  
-  - **Recette :** Fallback statique et vérification des droits.  
-  - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-148 — QR codes produit pour vitrine.** — manifeste local des treize slugs et liens publics contrôlés dans `docs/validation/2026-11-07-cro-148-qr-manifest.json`, `docs/validation/2026-11-07-cro-148-qr-links.md` et `test/cro-148-qr-manifest.test.mjs`; génération imprimable et approbation WOOD restent externes.
-  - **Livrable :** Générer des liens QR vers fiches publiques utilisables physiquement après approbation.  
-  - **Recette :** Chaque QR pointe au bon slug, pas d'accès admin.  
-  - **Statut :** TODO (non implémenté).
 
 - [x] **CRO-149 — Conseil lié à une fiche.**  
   - **Livrable :** Préparer message de contact contenant uniquement le nom public du produit.  
   - **Recette :** Aucun envoi automatique ni collecte de coordonnées.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-150 — Sélections propres à chaque boutique.** — contrat Barla/Borriglione avec univers réservés, produits vides, stock/prix `null` et état `pending` dans `docs/validation/2026-11-07-cro-150-store-selections.json`, `docs/validation/2026-11-07-cro-150-store-selections.md` et `test/cro-150-store-selections.test.mjs`; clôture après confirmation propriétaire.
-  - **Livrable :** Préparer affichage différencié des univers Barla et Borriglione.  
-  - **Recette :** Aucun stock local inventé, adresse/horaires vérifiés.  
-  - **Statut :** TODO (non implémenté).
 
 - [x] **CRO-151 — Itinéraire depuis fiche produit.**  
   - **Livrable :** Laisser choisir la boutique et ouvrir l'itinéraire adapté.  
   - **Recette :** Aucun statut ouvert/en stock non confirmé.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-152 — Test mobile en situation réelle.**  
-  - **Livrable :** Scénarios devant vitrine : forte luminosité, réseau lent, navigation d'une main.  
-  - **Recette :** Compte rendu avec captures, appareil testé ou preuve manquante.  
-  - **Statut :** TODO (non implémenté).
 
 - [x] **CRO-153 — Catalogue éditable sans toucher au HTML** — source structurée unique pour les fiches fleurs, les paliers démo et les références de la graine SQLite/D1, avec test de cohérence et statut commercial inactif. Preuve : `docs/validation/2026-11-07-cro-153-demo-catalog.md` et `test/cro-153-demo-catalog.test.mjs`.
   - **Livrable :** Fichiers source structurés + import SQLite/D1 et rendu unique de fiches.  
@@ -1922,10 +1862,6 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Suite automatique verte, réseau commercial coupé, captures incluses.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-225 — Recette propriétaire et validation des créations.**  
-  - **Livrable :** Présenter mascotte finale, badges, ton, cloches et FAQ avec variantes de décision.  
-  - **Recette :** Ne pas marquer « approuvé » sans preuve de validation.  
-  - **Statut :** TODO (non implémenté).
 
 - [x] **CRO-226 — Rapport et rollback exhaustifs.** — rapport local ID/état/tests/commit/risque et procédure de retour arrière par commit ; D1 reste désactivé par défaut et la démo reste isolée. Preuve : `docs/validation/2026-11-07-cro-226-report-rollback.md` et `test/cro-226-report-rollback.test.mjs`.
   - **Livrable :** Suivi ID/état/test/commit/risque, mode local si D1 absent, rollback si performance ou sécurité régressent.  

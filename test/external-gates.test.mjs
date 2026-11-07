@@ -15,12 +15,12 @@ const expectedIds = [
 ];
 
 test('external roadmap gates are explicit and do not increase the done count', () => {
-  assert.match(document, /24 tâches `BLOCKED-EXTERNAL` sur 509/u);
-  assert.match(document, /347 \/ 509 — 68,17 %/u);
+  assert.match(document, /24 tâches `BLOCKED-EXTERNAL` retirées de la feuille active/u);
+  assert.match(document, /347 \/ 485 — 71,55 %/u);
   assert.match(document, /Aucune opération Cloudflare distante, paiement réel, e-mail commercial ou/u);
 
   const foundIds = [...document.matchAll(/^\| ((?:TXW|CRO|D1)-\d{3}) \|/gmu)].map((match) => match[1]);
   assert.deepEqual(foundIds, expectedIds);
   assert.equal(new Set(foundIds).size, expectedIds.length);
-  assert.match(document, /Une tâche passe à `DONE` seulement lorsque sa preuve externe est archivée/u);
+  assert.match(document, /Une tâche ne peut être réintroduite dans la feuille active/u);
 });
