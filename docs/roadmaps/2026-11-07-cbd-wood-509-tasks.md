@@ -1927,7 +1927,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Ne pas marquer « approuvé » sans preuve de validation.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-226 — Rapport et rollback exhaustifs.**  
+- [x] **CRO-226 — Rapport et rollback exhaustifs.** — rapport local ID/état/tests/commit/risque et procédure de retour arrière par commit ; D1 reste désactivé par défaut et la démo reste isolée. Preuve : `docs/validation/2026-11-07-cro-226-report-rollback.md` et `test/cro-226-report-rollback.test.mjs`.
   - **Livrable :** Suivi ID/état/test/commit/risque, mode local si D1 absent, rollback si performance ou sécurité régressent.  
   - **Recette :** Démo réversible sans données client et coût confirmé nul.  
   - **Statut :** TODO (non implémenté).

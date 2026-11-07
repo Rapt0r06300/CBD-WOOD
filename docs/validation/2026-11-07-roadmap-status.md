@@ -145,6 +145,13 @@ déterministes, bornées et limitées aux produits fournis. Preuve :
 **303 / 509 — 59,53 %**, avec **68** tickets actifs encore ouverts et **138
 tâches différées**.
 
+Le rapport/rollback `CRO-226` est livré avec le suivi ID/état/tests/commit/
+risque, les retours par commit et la frontière D1 désactivée par défaut.
+Preuve : `docs/validation/2026-11-07-cro-226-report-rollback.md` et
+`test/cro-226-report-rollback.test.mjs`. Le compteur courant devient
+**304 / 509 — 59,72 %**, avec **67** tickets actifs encore ouverts et **138
+tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
