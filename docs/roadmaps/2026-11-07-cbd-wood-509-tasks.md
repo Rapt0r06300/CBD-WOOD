@@ -1260,12 +1260,12 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
 
 ### 16 — Contrôles de goût, validation propriétaire et livraison — P1, complément de TXW-112 à TXW-120
 
-- [ ] **CRO-121 — Créer une grille qualité commerciale WOOD**   
+- [x] **CRO-121 — Créer une grille qualité commerciale WOOD** — grille provisoire motivée sur clarté, désir, authenticité, lisibilité, confiance et visite ; preuve : `docs/validation/2026-11-07-commercial-quality-grid.md`, `test/commercial-quality-grid.test.mjs`.
   - **Livrable :** Évaluer clarté, désir de découvrir, authenticité, lisibilité, confiance et invitation à visiter (1–5).  
   - **Critère de validation :** Scores motivés par captures et tâches, pas une note auto-proclamée.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-122 — Construire planche avant/après client**   
+- [x] **CRO-122 — Construire planche avant/après client** — six scènes documentées, recommandation de présentation et limites de validation propriétaire ; preuve : `docs/validation/2026-11-07-demo-before-after.md`, `test/demo-before-after.test.mjs`.
   - **Livrable :** Cinq scènes : hero, produit sous cloche, liste, univers boutique, footer/localisation.  
   - **Critère de validation :** Deux variantes et une recommandation documentées.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.

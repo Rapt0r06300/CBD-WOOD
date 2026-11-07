@@ -40,3 +40,12 @@ une validation artistique de la propriétaire.
   restent à valider par WOOD.
 - La comparaison n’est pas une preuve de conversion : elle documente les
   changements et les choix de composition avant la revue propriétaire.
+
+## Recommandation client
+
+Conserver la version démo actuelle comme base de présentation, puis faire
+valider les photos, le ton, les graffitis et les textes par WOOD dans le cadre
+de la validation propriétaire avant d'ajouter
+une donnée commerciale ou de publier la version réelle.
+
+Contrat : `test/demo-before-after.test.mjs`.
