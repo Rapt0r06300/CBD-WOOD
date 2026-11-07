@@ -902,7 +902,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Aucune image conceptuelle déclarée 'photo du produit réel'.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-053 — Photographier l'univers boutique en séquences**   
+- [x] **CRO-053 — Photographier l'univers boutique en séquences** — cinq slots façade, plantes, étagères, mur de stickers et accueil, avec fallback démo, responsable, statut d'attente et garde-fous de droits dans `docs/validation/2026-11-07-cro-053-store-sequence.md` et `test/cro-053-store-sequence.test.mjs`. Les photos réelles restent à fournir et autoriser.   
   - **Livrable :** Préparer slots façade, plantes, étagères, mur stickers et accueil ; demander droits de publication.  
   - **Critère de validation :** Chaque slot possède état prêt/attente, responsable et fallback non mensonger.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.

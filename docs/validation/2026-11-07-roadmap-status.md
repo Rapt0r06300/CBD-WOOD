@@ -397,6 +397,16 @@ observée. La limite appareil réel reste explicitement ouverte. Preuve :
 **339 / 509 — 66,60 %**, avec **32** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Le ticket `CRO-053` est validé pour la préparation locale : la galerie
+boutique possède maintenant cinq slots distincts — façade, plantes, étagères,
+mur de stickers et accueil — chacun avec un état d'attente, un responsable,
+un fallback démo et un garde-fou de droits. Les photos réelles restent à
+fournir et autoriser par WOOD. Preuve :
+`docs/validation/2026-11-07-cro-053-store-sequence.md` et
+`test/cro-053-store-sequence.test.mjs`. Le compteur courant devient
+**340 / 509 — 66,80 %**, avec **31** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
