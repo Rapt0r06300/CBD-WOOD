@@ -9,6 +9,18 @@
     --wood-mobile-gutter: max(18px, var(--wood-safe-left, 0px));
   }
 
+  /* Mobile reveals keep their motion vertical: a horizontal entrance can
+     widen the document before the block reaches the viewport. */
+  .wood-reveal-v2[data-reveal-from="left"],
+  .wood-reveal-v2[data-reveal-from="right"] {
+    transform: translate3d(0, 26px, 0) scale(.985);
+  }
+
+  .wood-reveal-v2[data-reveal-from="left"].is-visible,
+  .wood-reveal-v2[data-reveal-from="right"].is-visible {
+    transform: none;
+  }
+
   html {
     scroll-padding-bottom: calc(var(--wood-mobile-bar-height) + var(--wood-safe-bottom) + 24px);
   }
