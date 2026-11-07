@@ -34,6 +34,7 @@ test('la recherche normalise accents et synonymes sans service distant', async (
   const card = { dataset: { productName: 'Nimbus 3000', productCategory: 'Fleurs CBD' }, textContent: 'profil botanique' };
   assert.equal(api.matches(card, 'fleur'), true);
   assert.equal(api.matches(card, 'nimbus'), true);
+  assert.equal(api.matches(card, 'nimbuz'), true);
   assert.equal(api.matches(card, 'résine'), false);
   assert.equal(api.matches(card, ''), true);
 });

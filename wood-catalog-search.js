@@ -30,6 +30,29 @@
     return group || [token];
   }
 
+  function editDistance(left, right) {
+    const previous = Array.from({ length: right.length + 1 }, (_, index) => index);
+    for (let row = 1; row <= left.length; row += 1) {
+      const current = [row];
+      for (let column = 1; column <= right.length; column += 1) {
+        current[column] = Math.min(
+          current[column - 1] + 1,
+          previous[column] + 1,
+          previous[column - 1] + (left[row - 1] === right[column - 1] ? 0 : 1),
+        );
+      }
+      for (let column = 0; column <= right.length; column += 1) previous[column] = current[column];
+    }
+    return previous[right.length];
+  }
+
+  function fuzzyWordMatch(word, candidate) {
+    if (word === candidate || word.startsWith(candidate) || candidate.startsWith(word)) return true;
+    if (candidate.length < 4 || word.length < 4) return false;
+    const threshold = candidate.length >= 7 ? 2 : 1;
+    return editDistance(word, candidate) <= threshold;
+  }
+
   function matches(card, query) {
     const queryTokens = tokens(query);
     if (!queryTokens.length) return true;
@@ -38,7 +61,10 @@
       card?.dataset?.productCategory,
       card?.textContent,
     ].filter(Boolean).join(' '));
-    return queryTokens.every((token) => equivalentTokens(token).some((candidate) => haystack.includes(candidate)));
+    const words = haystack.split(/\s+/).filter(Boolean);
+    return queryTokens.every((token) => equivalentTokens(token).some((candidate) => (
+      haystack.includes(candidate) || words.some((word) => fuzzyWordMatch(word, candidate))
+    )));
   }
 
   function init(document) {

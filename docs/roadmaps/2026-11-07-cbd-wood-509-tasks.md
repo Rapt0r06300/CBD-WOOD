@@ -833,7 +833,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Simulation JS disabled et navigation vérifiée.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-040 — Garder la recherche locale par défaut**   
+- [x] **CRO-040 — Garder la recherche locale par défaut**   
   - **Livrable :** Éviter service de recherche externe ou API payante ; D1 facultatif, non bloquant.  
   - **Critère de validation :** La démo rend des résultats identiques sans réseau Cloudflare.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -1474,7 +1474,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Comparaison reproductible, inconnu explicite, pas de fausse correspondance.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-139 — Recherche tolérante aux fautes.**  
+- [x] **CRO-139 — Recherche tolérante aux fautes.**  
   - **Livrable :** Corriger légères fautes et accents dans les noms et requêtes produits.  
   - **Recette :** Test orthographe, accents, casse et aucun résultat fictif.  
   - **Statut :** TODO (non implémenté).
@@ -1509,7 +1509,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Mobile et desktop, pas d'envoi serveur automatique.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-146 — Suggestions expliquées.**  
+- [x] **CRO-146 — Suggestions expliquées.**  
   - **Livrable :** Présenter les références proches avec pourquoi (famille, format, goût descriptif sourcé).  
   - **Recette :** Explanations exactes, pas d'origine, prix, arôme ou effet inventés.  
   - **Statut :** TODO (non implémenté).
@@ -1815,7 +1815,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Tests de désambiguïsation, zéro revendication d'effets.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-204 — Discerner souhait et description.**  
+- [x] **CRO-204 — Discerner souhait et description.**  
   - **Livrable :** Séparer « je veux du fruité » de « je n'aime pas fruité » et « pas sûr du goût ».  
   - **Recette :** Le scoring respecte exclusions et incertitudes.  
   - **Statut :** TODO (non implémenté).
@@ -1825,7 +1825,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Aucune inférence proposée comme fait mesuré ou vérité commerciale.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-206 — Réviser automatiquement les collisions.**  
+- [x] **CRO-206 — Réviser automatiquement les collisions.**  
   - **Livrable :** Si descriptions disent léger ET puissant sans contexte, remonter en file de vérification.  
   - **Recette :** Pas de badge public contradictoire.  
   - **Statut :** TODO (non implémenté).
