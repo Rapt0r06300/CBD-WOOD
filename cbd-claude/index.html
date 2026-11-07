@@ -9,15 +9,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=10">
-<link rel="stylesheet" href="styles2.css?v=10">
+<link rel="stylesheet" href="styles.css?v=11">
+<link rel="stylesheet" href="styles2.css?v=11">
 </head>
 <body data-page="home">
 
 <header data-chrome="header"></header>
 
 <!-- ============ HERO ============ -->
-<section class="hero">
+<section class="hero has-stickers">
   <div class="hero-bg" aria-hidden="true">
     <img class="hero-img" src="assets/scenes/hero.jpg" alt="" fetchpriority="high">
     <div class="hero-overlay"></div>
@@ -35,6 +35,8 @@
     </div>
     <div class="hero-stage" aria-hidden="true"></div>
   </div>
+  <span class="sticker dark corner-sticker tr" aria-hidden="true">Si c'est WOOD c'est GOOD</span>
+  <span class="sticker alt corner-sticker bl" aria-hidden="true">Nice · depuis 2020</span>
 </section>
 
 <!-- ============ TICKER ============ -->
@@ -81,6 +83,11 @@
     <div class="why-card reveal d3"><span class="why-i">📍</span><h3>2 boutiques à Nice</h3><p class="muted">Depuis 2020. Un vrai conseil humain, sans pression.</p></div>
     <div class="why-card reveal d4"><span class="why-i">🚚</span><h3>Livraison discrète</h3><p class="muted">Expédiée sous 24-48h, paquet neutre. Offerte dès 60 €.</p></div>
   </div>
+</section>
+
+<!-- ============ MUR DE STICKERS ============ -->
+<section class="stickers-sec" aria-hidden="true">
+  <div class="stickers-wall"><div class="sw-track" id="stickersWall"></div></div>
 </section>
 
 <!-- ============ PACKS ============ -->
@@ -169,6 +176,6 @@
 <div data-chrome="advisor"></div>
 <nav data-chrome="botnav"></nav>
 
-<script src="app.js?v=12"></script>
+<script src="app.js?v=13"></script>
 </body>
 </html>

@@ -216,3 +216,37 @@ h2 .script::after{content:"";position:absolute;left:-2%;right:-2%;bottom:-.16em;
 .promo-msg.ok{color:var(--lime)}
 .promo-msg.err{color:#e0574d}
 .sum-line.promo b{color:var(--lime)}
+
+/* ============================================================
+   ADN WOOD — stickers, graffiti, stamps
+   ============================================================ */
+/* Sticker générique (pastille autocollant) */
+.sticker{display:inline-flex;align-items:center;justify-content:center;text-align:center;font-weight:800;text-transform:uppercase;letter-spacing:.01em;line-height:1.05;border-radius:50%;background:var(--lime);color:#10160f;border:3px solid #0c110c;box-shadow:0 7px 18px rgba(0,0,0,.4),inset 0 0 0 2px rgba(255,255,255,.25);padding:.4em;transform:rotate(-7deg)}
+.sticker.alt{background:#3fe3ea}
+.sticker.pink{background:#ff8a5b;color:#1a0f0a}
+.sticker.dark{background:#10160f;color:var(--lime);border-color:var(--lime)}
+.sticker.white{background:#f0efe6;color:#14331f}
+.sticker.r6{transform:rotate(6deg)}
+.sticker.r10{transform:rotate(10deg)}
+.sticker.rn3{transform:rotate(-3deg)}
+.sticker.badge{border-radius:14px}
+
+/* Mur de stickers défilant */
+.stickers-sec{padding-block:clamp(1.6rem,4vw,3rem);overflow:hidden}
+.stickers-wall{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.sw-track{display:flex;gap:1.5rem;width:max-content;animation:swmarq 42s linear infinite}
+.stickers-wall:hover .sw-track{animation-play-state:paused}
+.sw-track .sticker{width:98px;height:98px;font-size:.62rem;flex:none}
+@keyframes swmarq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.sw-track{animation:none}}
+
+/* Stickers d'angle (collés sur une section) */
+.has-stickers{position:relative}
+.corner-sticker{position:absolute;z-index:3;width:92px;height:92px;font-size:.6rem;pointer-events:none}
+.corner-sticker.tr{top:-18px;right:16px}
+.corner-sticker.bl{bottom:-16px;left:14px}
+@media(max-width:720px){.corner-sticker{width:70px;height:70px;font-size:.5rem}.corner-sticker.tr{right:6px}}
+
+/* Accent graffiti (tag bombe) */
+.graff-tag{font-family:var(--serif);font-style:italic;color:var(--lime);position:relative;display:inline-block}
+.spray{position:absolute;pointer-events:none;opacity:.5;color:var(--lime)}

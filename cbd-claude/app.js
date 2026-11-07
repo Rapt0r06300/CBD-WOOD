@@ -144,7 +144,7 @@ function cdDel(slug,g){cart=cart.filter(i=>!(i.slug===slug&&i.g===g));saveCart()
 function renderCartDrawer(){
   const items=document.getElementById("cdItems"); if(!items)return;
   const ship=document.getElementById("cdShip"),foot=document.getElementById("cdFoot");
-  if(!cart.length){items.innerHTML=`<div class="cd-empty"><div class="ava-big">🛒</div><p class="muted">Ton pochon est vide pour l'instant.</p><a href="fleurs.html" class="btn btn-primary">Voir les fleurs →</a></div>`;ship.innerHTML="";foot.innerHTML="";return;}
+  if(!cart.length){items.innerHTML=`<div class="cd-empty"><div class="ava-big">🛒</div><p class="muted">Ton pochon est vide… c'est pas une vie ça. 🌿</p><a href="fleurs.html" class="btn btn-primary">Remplir le pochon →</a></div>`;ship.innerHTML="";foot.innerHTML="";return;}
   const sub=cartSubtotal(),rem=Math.max(0,FREE_SHIP-sub),pct=Math.min(100,Math.round(sub/FREE_SHIP*100));
   ship.innerHTML=rem>0
     ?`<p class="cd-ship-t">Plus que <b>${rem.toFixed(2)} €</b> pour la <b>livraison offerte</b> 🚚</p><div class="cd-bar"><i style="width:${pct}%"></i></div>`
@@ -388,6 +388,19 @@ function renderInsta(){
   g.innerHTML=["euphoria","purple","orange-bud","rainbow","velvet-kush","nimbus-3000"].map(s=>`<a class="insta-cell reveal" href="https://instagram.com/wood.cbdshop" target="_blank" rel="noopener"><img src="assets/products/${s}.jpg${IMGV}" alt="" loading="lazy"><span class="insta-ic">◎</span></a>`).join("");
 }
 
+/* ===================== STICKERS (mur défilant) ===================== */
+const STICKERS=[
+  {t:"Si c'est WOOD c'est GOOD",c:""},{t:"100% légal",c:"alt"},{t:"THC &lt; 0,3%",c:"dark"},
+  {t:"Nice · 06",c:"pink r6"},{t:"Testé labo 🔬",c:"white rn3"},{t:"Chill ✌️",c:"alt r10"},
+  {t:"Premium",c:"r6"},{t:"Depuis 2020",c:"dark rn3"},{t:"Sans pression",c:"pink"},
+  {t:"Graffiti lover",c:"white r6"},{t:"Good vibes ☘",c:"alt rn3"},{t:"New drop 🔥",c:"pink r10"}
+];
+function renderStickers(){
+  const w=document.getElementById("stickersWall"); if(!w)return;
+  const one=STICKERS.map(s=>`<span class="sticker ${s.c}">${s.t}</span>`).join("");
+  w.innerHTML=one+one;
+}
+
 /* ===================== CONSEILLER WOOD ===================== */
 // Profils sensoriels (goût/arôme + intensité) — JAMAIS un effet. a=arôme, i=intensité.
 const PROFILE={
@@ -448,7 +461,7 @@ document.addEventListener("DOMContentLoaded",()=>{
   document.querySelectorAll("[data-art]").forEach(el=>el.innerHTML=catArt(el.dataset.art));
   const rail=document.getElementById("fleursRail");
   if(rail){const order=["nimbus-3000","purple","euphoria","orange-bud","velvet-kush","rainbow","cosmic-cbg","fanta-hazy"];rail.innerHTML=order.map((s,i)=>cardHTML(byId(s),i)).join("");}
-  renderFleurs(); renderProduct(); renderCart(); renderCheckout(); renderConfirm(); renderAvis(); renderInsta(); renderBientot();
+  renderFleurs(); renderProduct(); renderCart(); renderCheckout(); renderConfirm(); renderAvis(); renderInsta(); renderBientot(); renderStickers();
   updateCartBadges();
 
   document.body.addEventListener("click",e=>{
