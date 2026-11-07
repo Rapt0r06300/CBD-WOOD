@@ -966,17 +966,17 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
 
 ### 09 — Prix, choix et valeur perçue sans tromperie — P1, complément de TXW-053, TXW-060, TXW-107
 
-- [ ] **CRO-065 — Construire une source unique des prix**   
+- [x] **CRO-065 — Construire une source unique des prix** — fixture démo canonique `wood-price-source.js` branchée sur les cartes et fiches fleurs ; Supabase reste la source commerciale future après validation. Preuve : `docs/validation/2026-11-07-cro-price-source.md` et `test/cro-price-source.test.mjs`.
   - **Livrable :** Définir fichier/contrat prix unique, statut approbation, date effet, format TTC.  
   - **Critère de validation :** Chaque prix sur carte et fiche provient de la même donnée.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-066 — Gérer prix inconnus sans invention**   
+- [x] **CRO-066 — Gérer prix inconnus sans invention** — référence absente ou valeur manquante reste vide/à confirmer ; aucun `0 €`, prix barré ou fourchette n'est créé. Preuve : `docs/validation/2026-11-07-cro-price-source.md` et `test/cro-price-source.test.mjs`.
   - **Livrable :** Affichage 'Prix et disponibilité en boutique' si nécessaire, sans fourchette inventée.  
   - **Critère de validation :** Aucun 0 €, prix barré ou faux chiffre affiché en production.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-067 — Clarifier le format avant la valeur**   
+- [x] **CRO-067 — Clarifier le format avant la valeur** — chaque palier démo conserve grammes, unité et prix dans le même contrôle avant le panier local. Preuve : `docs/validation/2026-11-07-cro-price-source.md` et `test/cro-price-source.test.mjs`.
   - **Livrable :** Associer chaque tarif validé à sa quantité, unité et conditionnement exact.  
   - **Critère de validation :** Tests €/g et cohérence variante.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.

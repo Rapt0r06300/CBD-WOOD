@@ -92,6 +92,13 @@ froid, image en erreur et indisponibilité D1 gardent un parcours local explicit
 Le compteur courant devient **293 / 509 — 57,56 %**, avec **78** tickets actifs
 encore ouverts et **138 tâches différées**.
 
+Le contrat prix démo `CRO-065` à `CRO-067` est livré dans
+`wood-price-source.js` et contrôlé par `test/cro-price-source.test.mjs` : les
+cartes et fiches fleurs utilisent la même fixture, les formats précèdent les
+valeurs et les références inconnues restent à confirmer. Le compteur courant
+devient **296 / 509 — 58,15 %**, avec **75** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

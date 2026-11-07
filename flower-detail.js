@@ -18,6 +18,10 @@
 
   const requestedId = new URLSearchParams(window.location.search).get('produit') || 'fleurs-nimbus-3000';
   const productId = Object.hasOwn(products, requestedId) ? requestedId : 'fleurs-nimbus-3000';
+  Object.entries(products).forEach(([id, entry]) => {
+    const sourceTiers = window.WoodPriceSource?.getTiers(id) || [];
+    if (sourceTiers.length) entry.prices = sourceTiers;
+  });
   const product = products[productId];
   const relatedProducts = Object.entries(products)
     .filter(([id]) => id !== productId)
