@@ -64,8 +64,9 @@ function cardHTML(f,i){
 }
 
 /* ===================== CHROME (header / footer / botnav / advisor) ===================== */
+function markSVG(){return `<svg class="mark" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="round" aria-hidden="true"><path d="M50 42 V12 M14 42 H86 M24 20 L76 64 M76 20 L24 64"/><circle cx="50" cy="80" r="6.5" fill="currentColor" stroke="none"/></svg>`;}
 function headerHTML(){return `<div class="container header-in">
-  <a class="logo" href="index.html" aria-label="WOOD accueil"><span class="star">✳</span>Wood <small>CBD · Nice</small></a>
+  <a class="logo" href="index.html" aria-label="WOOD accueil"><span class="star">${markSVG()}</span>Wood <small>CBD · Nice</small></a>
   <nav class="nav" aria-label="Navigation principale">
     <a href="fleurs.html">Fleurs</a><a href="bientot.html?cat=resines">Résines</a>
     <a href="fleurs.html?tier=boostes">Boostés</a><a href="index.html#boutiques">Boutiques</a><a href="index.html#histoire">L'histoire</a>
@@ -81,7 +82,7 @@ function footerHTML(){return `<div class="container">
     <form class="newsletter" onsubmit="return false"><input type="email" placeholder="Ton e-mail" aria-label="E-mail"><button class="btn btn-primary" type="submit">OK →</button></form>
   </div>
   <div class="footer-top">
-    <div><div class="big-logo"><span style="color:var(--lime)">✳</span> Wood</div>
+    <div><div class="big-logo"><span class="star" style="color:var(--lime)">${markSVG()}</span> Wood</div>
       <p class="muted" style="margin:.6rem 0 1rem;max-width:30ch">La Maison du chanvre, à Nice. Si c'est WOOD, c'est GOOD.</p>
       <div class="socials"><a href="https://instagram.com/wood.cbdshop" target="_blank" rel="noopener">◎ Instagram</a><a href="https://facebook.com/Woodcbdshopnice" target="_blank" rel="noopener">ƒ Facebook</a></div></div>
     <div><h4>Boutique</h4><ul><li><a href="fleurs.html">Fleurs</a></li><li><a href="bientot.html?cat=resines">Résines</a></li><li><a href="fleurs.html?tier=boostes">Boostés</a></li><li><a href="index.html">Accueil</a></li></ul></div>
@@ -165,25 +166,48 @@ function closeCartDrawer(){const ov=document.getElementById("cartDrawer");if(ov)
 function renderFleurs(){
   const grid=document.getElementById("fleursGrid"); if(!grid)return;
   const params=new URLSearchParams(location.search);
-  let tier=params.get("tier")||"all", sort="pop";
+  let tier=params.get("tier")||"all", aroma=params.get("aroma")||"all", sort="pop";
   const bar=document.getElementById("filterBar");
   const tiers=[["all","Tout"],["boostes","Boostés"],["soft","Soft"],["classique","Classique"]];
+  const aromas=[["all","Tous les goûts"],["fruite","🍓 Fruité"],["agrumes","🍊 Agrumes"],["terreux","🌲 Boisé"],["frais","🌿 Frais"],["sucre","🍯 Gourmand"],["floral","🌸 Floral"],["classique","✦ Classique"]];
   bar.innerHTML=`<div class="filters">${tiers.map(([k,l])=>`<button class="chip filt${tier===k?' on':''}" data-tier="${k}">${l}</button>`).join("")}
-    <select id="sortSel" class="sortsel"><option value="pop">Populaire</option><option value="asc">Prix ↑</option><option value="desc">Prix ↓</option></select></div>`;
+    <select id="sortSel" class="sortsel"><option value="pop">Populaire</option><option value="asc">Prix ↑</option><option value="desc">Prix ↓</option></select></div>
+    <div class="filters filters-aroma">${aromas.map(([k,l])=>`<button class="chip filt-a${aroma===k?' on':''}" data-aroma="${k}">${l}</button>`).join("")}</div>`;
   function draw(){
-    let list=FLEURS.filter(f=>tier==="all"||f.tier===tier);
+    let list=FLEURS.filter(f=>(tier==="all"||f.tier===tier)&&(aroma==="all"||(PROFILE[f.slug]&&PROFILE[f.slug].a===aroma)));
     if(sort==="asc")list=[...list].sort((a,b)=>a.p[0]-b.p[0]);
     if(sort==="desc")list=[...list].sort((a,b)=>b.p[0]-a.p[0]);
     document.getElementById("resCount").textContent=`${list.length} variété${list.length>1?"s":""}`;
-    grid.innerHTML=list.map((f,i)=>cardHTML(f,i)).join("");
+    grid.innerHTML=list.length?list.map((f,i)=>cardHTML(f,i)).join(""):`<p class="muted" style="grid-column:1/-1;padding:2rem 0">Aucune variété pour ce goût. <button class="linklike" id="resetFilt">Tout afficher →</button></p>`;
+    const rs=document.getElementById("resetFilt");if(rs)rs.addEventListener("click",()=>{tier="all";aroma="all";bar.querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));bar.querySelector('[data-tier="all"]').classList.add("on");bar.querySelector('[data-aroma="all"]').classList.add("on");draw();});
     observeReveal();
   }
-  bar.addEventListener("click",e=>{const b=e.target.closest("[data-tier]");if(!b)return;tier=b.dataset.tier;bar.querySelectorAll(".filt").forEach(x=>x.classList.toggle("on",x.dataset.tier===tier));draw();});
+  bar.addEventListener("click",e=>{
+    const t=e.target.closest("[data-tier]"),a=e.target.closest("[data-aroma]");
+    if(t){tier=t.dataset.tier;bar.querySelectorAll(".filt").forEach(x=>x.classList.toggle("on",x.dataset.tier===tier));draw();}
+    if(a){aroma=a.dataset.aroma;bar.querySelectorAll(".filt-a").forEach(x=>x.classList.toggle("on",x.dataset.aroma===aroma));draw();}
+  });
   bar.addEventListener("change",e=>{if(e.target.id==="sortSel"){sort=e.target.value;draw();}});
   draw();
 }
 
 /* ===================== PAGE : PRODUIT ===================== */
+function productReviewsHTML(f){
+  const m=META[f.slug]||{n:"4,8",c:40};
+  const POOL=[
+    ["Léa M.","Parfum au top, exactement la description. Emballage soigné 🙌"],
+    ["Karim B.","Livraison rapide et discrète. Je recommande les yeux fermés."],
+    ["Sophie R.","Super accueil en boutique, de très bons conseils sans pression."],
+    ["Tom G.","Qualité au rendez-vous, je reprendrai c'est sûr."],
+    ["Inès D.","Le goût est vraiment bon, conforme à ce qui est annoncé."],
+    ["Marc L.","Rapport qualité/prix excellent — et la présentation sous cloche, classe."]
+  ];
+  let h=0; for(const c of f.slug) h=(h*31+c.charCodeAt(0))>>>0;
+  const a=POOL[h%POOL.length], b=POOL[(h+3)%POOL.length];
+  const card=(r)=>`<div class="pr-card"><div class="pr-top"><span class="pr-ava">${r[0][0]}</span><div><b>${r[0]}</b><span class="stars sm">★★★★★</span></div><span class="pr-ok">✓ Achat vérifié</span></div><p>${r[1]}</p></div>`;
+  return `<section class="section container p-reviews"><div class="rail-head"><div><span class="eyebrow">Avis clients</span><h2 class="serif">Ils ont aimé.</h2></div><div class="pr-score"><span class="stars">★★★★★</span> <b>${m.n}</b>/5 · ${m.c} avis <span class="tag tag-maquette">exemple · démo</span></div></div>
+    <div class="pr-grid">${card(a)}${card(b)}</div></section>`;
+}
 function renderProduct(){
   const root=document.getElementById("product"); if(!root)return;
   const slug=new URLSearchParams(location.search).get("f")||"nimbus-3000";
@@ -212,6 +236,7 @@ function renderProduct(){
         </div>
       </div>
     </div>
+    ${productReviewsHTML(f)}
     <section class="section"><div class="rail-head"><h2 class="serif">Dans le même esprit</h2></div><div class="rail" id="relRail"></div></section>
     <div class="p-sticky" id="pSticky"><div class="ps-in"><div class="ps-info"><b>${f.nom}</b><span id="pStickyPrice">${euro(f.p[gi])}</span></div><button class="btn btn-primary" id="pStickyAdd">+ Ajouter au pochon</button></div></div>`;
   // grams
@@ -298,13 +323,35 @@ function renderCheckout(){
       <aside class="cart-sum">
         <h3 class="serif">Résumé</h3>
         ${cart.map(x=>`<div class="sum-row"><span>${x.nom} ×${x.q} <small class="muted">(${x.g} g)</small></span><strong>${euro(x.unit*x.q)}</strong></div>`).join("")}
-        <div class="sum-row"><span>Livraison</span><span>${ship?euro(ship):"Offerte"}</span></div>
-        <div class="sum-row" style="font-size:1.15rem"><span>Total</span><strong>${euro(sub+ship)}</strong></div>
+        <div class="promo-row"><input id="promoInput" placeholder="Code promo" autocomplete="off"><button type="button" class="btn btn-ghost" id="promoBtn">Appliquer</button></div>
+        <p class="promo-msg" id="promoMsg" hidden></p>
+        <div id="sumTotals"></div>
+        <p class="muted" style="font-size:.72rem;margin-top:.5rem">Codes d'essai : WOOD10 · BIENVENUE · LIVRAISON <span class="tag tag-maquette">démo</span></p>
       </aside>
     </div>`;
+  const PROMOS={WOOD10:{t:"pct",v:10,l:"−10 %"},BIENVENUE:{t:"pct",v:15,l:"−15 %"},LIVRAISON:{t:"ship",l:"livraison offerte"}};
+  let promo=null, promoCode="";
+  function renderTotals(){
+    let ship2=sub>=60?0:4.9, disc=0;
+    if(promo){ if(promo.t==="pct")disc=sub*promo.v/100; else if(promo.t==="ship")ship2=0; }
+    const total=Math.max(0,sub-disc)+ship2;
+    document.getElementById("sumTotals").innerHTML=
+      (disc>0?`<div class="sum-row promo"><span>Code ${promoCode}</span><b>−${euro(disc)}</b></div>`:"")
+      +`<div class="sum-row"><span>Livraison</span><span>${ship2?euro(ship2):"Offerte"}</span></div>`
+      +`<div class="sum-row" style="font-size:1.15rem"><span>Total</span><strong>${euro(total)}</strong></div>`;
+    window.__coTotal=total;
+  }
+  renderTotals();
+  document.getElementById("promoBtn").addEventListener("click",()=>{
+    const code=(document.getElementById("promoInput").value||"").trim().toUpperCase();
+    const msg=document.getElementById("promoMsg"), p=PROMOS[code];
+    if(p){promo=p;promoCode=code;msg.textContent=`Code « ${code} » appliqué ✓ (${p.l})`;msg.className="promo-msg ok";}
+    else{promo=null;promoCode="";msg.textContent="Code promo invalide.";msg.className="promo-msg err";}
+    msg.hidden=false; renderTotals();
+  });
   document.getElementById("coForm").addEventListener("submit",e=>{e.preventDefault();
     const d=Object.fromEntries(new FormData(e.target));
-    sessionStorage.setItem("wood_lastorder",JSON.stringify({nom:d.nom||"",total:sub+ship,num:"WD-"+String(Date.now()).slice(-6),n:cartCount()}));
+    sessionStorage.setItem("wood_lastorder",JSON.stringify({nom:d.nom||"",total:(window.__coTotal!=null?window.__coTotal:sub+ship),num:"WD-"+String(Date.now()).slice(-6),n:cartCount()}));
     cart=[];saveCart();updateCartBadges();location.href="confirmation.html";
   });
 }
@@ -459,3 +506,17 @@ function searchDraw(q){
       <div class="search-info"><b>${f.nom}</b><span class="muted">${f.desc} · ${TIER[f.tier]?TIER[f.tier].label:f.tier}</span></div>
       <span class="search-price">dès ${f.p[0]} €</span></a>`;}).join("")+`</div>`;
 }
+
+/* ===================== PWA (manifest, meta iOS, service worker) ===================== */
+(function(){
+  try{
+    var head=document.head;
+    if(!document.querySelector('link[rel="manifest"]')){var l=document.createElement('link');l.rel='manifest';l.href='manifest.webmanifest';head.appendChild(l);}
+    [['apple-mobile-web-app-capable','yes'],['mobile-web-app-capable','yes'],['apple-mobile-web-app-status-bar-style','black-translucent'],['apple-mobile-web-app-title','WOOD']].forEach(function(p){
+      if(!document.querySelector('meta[name="'+p[0]+'"]')){var m=document.createElement('meta');m.name=p[0];m.content=p[1];head.appendChild(m);}
+    });
+    if(!document.querySelector('link[rel="apple-touch-icon"]')){var a=document.createElement('link');a.rel='apple-touch-icon';a.href='assets/icons/apple-touch.png';head.appendChild(a);}
+    if(!document.querySelector('link[rel="icon"]')){var ic=document.createElement('link');ic.rel='icon';ic.type='image/png';ic.href='assets/icons/favicon.png';head.appendChild(ic);}
+  }catch(e){}
+  if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
+})();

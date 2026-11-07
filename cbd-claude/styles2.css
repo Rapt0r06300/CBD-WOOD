@@ -180,3 +180,39 @@ h2 .script::after{content:"";position:absolute;left:-2%;right:-2%;bottom:-.16em;
   .ps-in .btn{margin-left:auto;white-space:nowrap;padding:.7rem 1.1rem}
   body[data-page="product"]{padding-bottom:130px}
 }
+
+/* ===== Logo mark (vraie forme WOOD : astérisque + point) ===== */
+.logo{align-items:center}
+.logo .star{display:inline-flex;align-items:center;color:var(--lime)}
+.star .mark{width:1.25em;height:1.25em;display:block}
+.big-logo{display:inline-flex;align-items:center;gap:.35rem}
+.big-logo .star .mark{width:1em;height:1em}
+.botnav .bn-cart .cart-count{z-index:2}
+
+/* ===== Filtres arôme (page Fleurs) ===== */
+.filters-aroma{margin-top:.6rem;flex-wrap:wrap}
+.chip.filt-a{font-size:.82rem}
+.chip.filt-a.on{background:var(--lime);color:#10160f;border-color:var(--lime)}
+.linklike{background:none;border:0;color:var(--lime);cursor:pointer;font:inherit;text-decoration:underline}
+
+/* ===== Avis produit ===== */
+.p-reviews .pr-score{font-size:.9rem;color:var(--muted);display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.p-reviews .pr-score b{color:#fff}
+.pr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:1rem}
+.pr-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:1.1rem}
+.pr-top{display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem}
+.pr-ava{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#2f6b45,#1a3a28);display:flex;align-items:center;justify-content:center;font-weight:800;color:#d7ff8f;flex:none}
+.pr-top>div{display:flex;flex-direction:column;line-height:1.15}
+.pr-top>div b{font-size:.92rem}
+.stars.sm{font-size:.75rem}
+.pr-ok{margin-left:auto;font-size:.7rem;color:var(--lime)}
+.pr-card p{font-size:.92rem;color:#d8e0d6;margin:0}
+
+/* ===== Code promo (checkout) ===== */
+.promo-row{display:flex;gap:.5rem;margin:.6rem 0}
+.promo-row input{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:.7em .9em;color:#fff;text-transform:uppercase}
+.promo-row button{white-space:nowrap}
+.promo-msg{font-size:.85rem;margin:.3rem 0 0}
+.promo-msg.ok{color:var(--lime)}
+.promo-msg.err{color:#e0574d}
+.sum-line.promo b{color:var(--lime)}
