@@ -501,6 +501,13 @@ réserve de la légalité et de la responsabilité de l’exploitant. Elle ne va
 ni compte, domaine, DNS, HTTPS, paiement, production ou publication WOOD ; le
 compteur reste donc 347 / 509 et les portes externes restent inchangées.
 
+Le paquet démo a ensuite été resynchronisé sur la branche `gh-pages` par le
+commit `8efc212`. La racine de sauvegarde n’a pas été remplacée : seule la
+zone `/demo/` a reçu les 136 fichiers du paquet contrôlé. Les quatre URL de
+contrôle (`/`, `/demo/`, `/demo/demo-mode.js` et `/demo/wood-advisor.js`)
+répondent en HTTP 200 après propagation. Cette publication ne ferme aucune
+validation propriétaire ou appareil réel et ne modifie pas le compteur.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
