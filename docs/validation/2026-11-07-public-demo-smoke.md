@@ -34,6 +34,10 @@ Une référence absolue `/` détectée sur la page 404 a été corrigée en
 Le test local des références et la vérification du paquet passent ; la
 publication correspondante est `af70c0b`.
 
+Après propagation, les deux chemins 404 publics renvoient bien HTTP 404 avec
+un retour `index.html`. Le contrôle des ressources de la démo a aussi vérifié
+133 références locales (scripts, styles, images et pages) avec **0 erreur**.
+
 ## Limites
 
 Ce smoke test ne remplace pas Safari iOS réel, Chromium Android réel, une
