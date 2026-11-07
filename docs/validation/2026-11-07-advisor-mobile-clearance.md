@@ -25,3 +25,14 @@ du conseiller ni son accès clavier.
 
 Cette finition ne clôture aucune porte externe et ne modifie pas le compteur
 global, qui reste **347 / 509 — 68,17 %**.
+
+## Publication démo
+
+- Le paquet `/demo/` a été publié sur la branche `gh-pages` avec le commit
+  `19f565a` ; la racine de sauvegarde n’a pas été modifiée.
+- Après propagation, le fichier public `demo/wood-advisor.css` contient bien
+  la règle de dégagement. La recette navigateur publique à 390 × 844 px,
+  effectuée avec un cache-bust du CSS pour neutraliser le cache CDN, confirme
+  `wood-nav-hidden = true` et `bottom = 18px`.
+- La console publique reste à zéro erreur et zéro avertissement sur cette
+  recette.
