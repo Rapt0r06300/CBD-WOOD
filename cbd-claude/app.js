@@ -92,7 +92,7 @@ function footerHTML(){return `<div class="container">
   <div class="legal"><span>© 2026 WOOD CBD — JM BULLY · SIRET 888 112 836 00018 · THC &lt; 0,3 % · Vente interdite aux mineurs (18+).</span><span class="tag tag-maquette">Site de démonstration · aucune vraie commande</span></div></div>`;}
 function botnavHTML(active){const I={home:'<path d="M3 10 12 3l9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1Z"/>',fleurs:'<path d="M12 2s5 4 5 10a5 5 0 0 1-10 0c0-6 5-10 5-10Z"/>',search:'<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>',cart:'<path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/>',shop:'<path d="M12 21s7-6 7-12a7 7 0 1 0-14 0c0 6 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/>'};
   const a=(k,href,lbl,cls="")=>`<a href="${href}" class="${cls}${active===k?' active':''}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${I[k]}</svg>${lbl}</a>`;
-  return a('home','index.html','Accueil')+a('fleurs','fleurs.html','Fleurs')+a('search','fleurs.html','Explorer')+`<a href="panier.html" class="bn-cart${active==='cart'?' active':''}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${I.cart}</svg><span class="cart-count" id="cartCountM">0</span>Pochon</a>`+a('shop','index.html#boutiques','Boutiques');}
+  return a('home','index.html','Accueil')+a('fleurs','fleurs.html','Fleurs')+a('search','fleurs.html','Explorer')+`<a href="panier.html" data-cart-open class="bn-cart${active==='cart'?' active':''}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${I.cart}</svg><span class="cart-count" id="cartCountM">0</span>Pochon</a>`+a('shop','index.html#boutiques','Boutiques');}
 function advisorHTML(){return `<span class="ava">🌿</span><span class="txt">Besoin d'aide pour choisir ?<small>On te met bien 😉</small></span>`;}
 
 function injectChrome(page){
@@ -113,7 +113,53 @@ let cart=JSON.parse(localStorage.getItem("wood_cart")||"[]");
 function saveCart(){localStorage.setItem("wood_cart",JSON.stringify(cart));}
 function cartCount(){return cart.reduce((s,x)=>s+x.q,0);}
 function updateCartBadges(){document.querySelectorAll("#cartCount,#cartCountM").forEach(e=>e.textContent=cartCount());}
-function addToCart(slug,g){const f=byId(slug);if(!f)return;g=g||1;const gi=GRAMS.indexOf(g);const unit=f.p[gi>=0?gi:0];const ex=cart.find(x=>x.slug===slug&&x.g===g);if(ex)ex.q++;else cart.push({slug,nom:f.nom,g,unit,q:1});saveCart();updateCartBadges();if(navigator.vibrate)navigator.vibrate(12);const b=document.getElementById("cartBtn");if(b)b.animate([{transform:"scale(1)"},{transform:"scale(1.25)"},{transform:"scale(1)"}],{duration:380,easing:"cubic-bezier(.16,1,.3,1)"});toast(`${f.nom} (${g} g) ajouté au pochon 🌿`);if(window.__renderCart)window.__renderCart();}
+function addToCart(slug,g){const f=byId(slug);if(!f)return;g=g||1;const gi=GRAMS.indexOf(g);const unit=f.p[gi>=0?gi:0];const ex=cart.find(x=>x.slug===slug&&x.g===g);if(ex)ex.q++;else cart.push({slug,nom:f.nom,g,unit,q:1});saveCart();updateCartBadges();if(navigator.vibrate)navigator.vibrate(12);const b=document.getElementById("cartBtn");if(b)b.animate([{transform:"scale(1)"},{transform:"scale(1.25)"},{transform:"scale(1)"}],{duration:380,easing:"cubic-bezier(.16,1,.3,1)"});if(window.__renderCart)window.__renderCart();openCartDrawer();}
+
+/* ===================== PANIER TIROIR (drawer) ===================== */
+const FREE_SHIP=60;
+function cartSubtotal(){return cart.reduce((s,x)=>s+x.unit*x.q,0);}
+function ensureCartDrawer(){
+  let ov=document.getElementById("cartDrawer"); if(ov)return ov;
+  ov=document.createElement("div"); ov.id="cartDrawer"; ov.className="cd-ov";
+  ov.innerHTML=`<aside class="cd-panel" role="dialog" aria-label="Panier">
+    <div class="cd-head"><b>Ton pochon 🌿</b><button class="cd-close" aria-label="Fermer">✕</button></div>
+    <div class="cd-ship" id="cdShip"></div>
+    <div class="cd-items" id="cdItems"></div>
+    <div class="cd-foot" id="cdFoot"></div>
+  </aside>`;
+  document.body.appendChild(ov);
+  ov.addEventListener("click",e=>{
+    if(e.target===ov||e.target.closest(".cd-close")){closeCartDrawer();return;}
+    const inc=e.target.closest("[data-cd-inc]"),dec=e.target.closest("[data-cd-dec]"),del=e.target.closest("[data-cd-del]");
+    if(inc)cdQty(inc.dataset.cdInc,+inc.dataset.g,1);
+    if(dec)cdQty(dec.dataset.cdDec,+dec.dataset.g,-1);
+    if(del)cdDel(del.dataset.cdDel,+del.dataset.g);
+  });
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&ov.classList.contains("open"))closeCartDrawer();});
+  return ov;
+}
+function cdQty(slug,g,d){const x=cart.find(i=>i.slug===slug&&i.g===g);if(!x)return;x.q+=d;if(x.q<1)cart=cart.filter(i=>i!==x);saveCart();updateCartBadges();renderCartDrawer();if(window.__renderCart)window.__renderCart();}
+function cdDel(slug,g){cart=cart.filter(i=>!(i.slug===slug&&i.g===g));saveCart();updateCartBadges();renderCartDrawer();if(window.__renderCart)window.__renderCart();}
+function renderCartDrawer(){
+  const items=document.getElementById("cdItems"); if(!items)return;
+  const ship=document.getElementById("cdShip"),foot=document.getElementById("cdFoot");
+  if(!cart.length){items.innerHTML=`<div class="cd-empty"><div class="ava-big">🛒</div><p class="muted">Ton pochon est vide pour l'instant.</p><a href="fleurs.html" class="btn btn-primary">Voir les fleurs →</a></div>`;ship.innerHTML="";foot.innerHTML="";return;}
+  const sub=cartSubtotal(),rem=Math.max(0,FREE_SHIP-sub),pct=Math.min(100,Math.round(sub/FREE_SHIP*100));
+  ship.innerHTML=rem>0
+    ?`<p class="cd-ship-t">Plus que <b>${rem.toFixed(2)} €</b> pour la <b>livraison offerte</b> 🚚</p><div class="cd-bar"><i style="width:${pct}%"></i></div>`
+    :`<p class="cd-ship-t ok">🎉 Livraison offerte débloquée !</p><div class="cd-bar"><i style="width:100%"></i></div>`;
+  items.innerHTML=cart.map(x=>`<div class="cd-item">
+    <img src="assets/products/${x.slug}.jpg${IMGV}" alt="" onerror="this.style.visibility='hidden'">
+    <div class="cd-it-info"><b>${x.nom}</b><span class="muted">${x.g} g · ${x.unit.toFixed(2)} €</span>
+      <div class="cd-qty"><button data-cd-dec="${x.slug}" data-g="${x.g}" aria-label="Moins">−</button><span>${x.q}</span><button data-cd-inc="${x.slug}" data-g="${x.g}" aria-label="Plus">+</button></div></div>
+    <div class="cd-it-side"><b>${(x.unit*x.q).toFixed(2)} €</b><button class="cd-del" data-cd-del="${x.slug}" data-g="${x.g}" aria-label="Retirer">🗑</button></div>
+  </div>`).join("");
+  foot.innerHTML=`<div class="cd-sub"><span>Sous-total</span><b>${sub.toFixed(2)} €</b></div>
+    <a href="checkout.html" class="btn btn-primary cd-go">Commander →</a>
+    <a href="panier.html" class="cd-link">Voir le panier complet</a>`;
+}
+function openCartDrawer(){ensureCartDrawer();renderCartDrawer();const ov=document.getElementById("cartDrawer");requestAnimationFrame(()=>{ov.classList.add("open");document.body.style.overflow="hidden";});}
+function closeCartDrawer(){const ov=document.getElementById("cartDrawer");if(ov){ov.classList.remove("open");document.body.style.overflow="";}}
 
 /* ===================== PAGE : FLEURS ===================== */
 function renderFleurs(){
@@ -166,12 +212,15 @@ function renderProduct(){
         </div>
       </div>
     </div>
-    <section class="section"><div class="rail-head"><h2 class="serif">Dans le même esprit</h2></div><div class="rail" id="relRail"></div></section>`;
+    <section class="section"><div class="rail-head"><h2 class="serif">Dans le même esprit</h2></div><div class="rail" id="relRail"></div></section>
+    <div class="p-sticky" id="pSticky"><div class="ps-in"><div class="ps-info"><b>${f.nom}</b><span id="pStickyPrice">${euro(f.p[gi])}</span></div><button class="btn btn-primary" id="pStickyAdd">+ Ajouter au pochon</button></div></div>`;
   // grams
   document.getElementById("pGrams").addEventListener("click",e=>{const b=e.target.closest("[data-g]");if(!b)return;gi=+b.dataset.g;document.querySelectorAll("#pGrams .gram").forEach(x=>x.classList.toggle("on",+x.dataset.g===gi));
     const el=priceEl();el.textContent=euro(f.p[gi]);el.animate([{opacity:.3,transform:"translateY(-4px)"},{opacity:1,transform:"none"}],{duration:300,easing:"cubic-bezier(.16,1,.3,1)"});
-    pgEl().textContent=`${Math.round(f.p[gi]/GRAMS[gi]*10)/10} €/g · ${GRAMS[gi]} g`;});
+    pgEl().textContent=`${Math.round(f.p[gi]/GRAMS[gi]*10)/10} €/g · ${GRAMS[gi]} g`;
+    const sp=document.getElementById("pStickyPrice");if(sp)sp.textContent=euro(f.p[gi]);});
   document.getElementById("pAdd").addEventListener("click",()=>addToCart(f.slug,GRAMS[gi]));
+  document.getElementById("pStickyAdd").addEventListener("click",()=>addToCart(f.slug,GRAMS[gi]));
   // related
   const rel=FLEURS.filter(x=>x.tier===f.tier&&x.slug!==f.slug).slice(0,4);
   const relRail=document.getElementById("relRail"); relRail.innerHTML=(rel.length?rel:FLEURS.slice(0,4)).map((x,i)=>cardHTML(x,i)).join("");
@@ -372,6 +421,7 @@ document.addEventListener("DOMContentLoaded",()=>{
   const adv=document.getElementById("advisor");
   if(adv)adv.addEventListener("click",openAdvisor);
   document.querySelectorAll(".icon-btn.search").forEach(b=>b.addEventListener("click",openSearch));
+  document.querySelectorAll("#cartBtn,[data-cart-open]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();openCartDrawer();}));
 });
 
 /* ===================== RECHERCHE (overlay live) ===================== */
