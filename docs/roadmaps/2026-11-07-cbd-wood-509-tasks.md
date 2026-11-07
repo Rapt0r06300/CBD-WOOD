@@ -507,7 +507,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [x] **TXW-118 — Préparer un avant / après décisionnel.** Comparer hero, galerie fleur, résines, boutique physique et mobile ; citer modifications et captures. Preuve : `docs/validation/2026-11-07-demo-before-after.md`. Les validations appareil réel et propriétaire restent séparées.    
   **Acceptation :** La propriétaire et son conjoint visualisent le gain et reconnaissent WOOD.
 
-- [ ] **TXW-119 — Produire un état d'avancement sincère.** Pour chaque ticket, consigner statut DONE/PARTIAL/BLOCKED, commit, test et risque ; ne pas inclure les tâches externes dans le pourcentage livrable.    
+- [x] **TXW-119 — Produire un état d'avancement sincère.** Inventaire réconcilié : 250/509 global, 371 actifs, 138 différés, 121 cases actives ouvertes après ce ticket ; deux validations non rattachées retirées du crédit ; preuve : `docs/validation/2026-11-07-roadmap-status.md` et `test/roadmap-status.test.mjs`.    
   **Acceptation :** Pourcentage \= tickets réellement validés / 120, avec catégories distinctes.
 
 - [x] **TXW-120 — Livrer une démonstration réversible.** Publier sur GitHub Pages uniquement après tests et sans activer production ; garder rollback et registre des tâches externes séparé.
