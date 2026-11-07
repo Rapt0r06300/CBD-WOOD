@@ -1055,7 +1055,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Aucune confusion adresse/téléphone/horaires.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-082 — Préparer photos de localisation vérifiées**   
+- [ ] **CRO-082 — Préparer photos de localisation vérifiées** — slots `barla` et `borriglione`, fallbacks responsives et états `pending` préparés dans `rendez-vous.html`, `wood-visit.css` et `docs/validation/2026-11-07-cro-082-location-photos.md`; clôture bloquée jusqu’aux photos, droits et accord WOOD.
   - **Livrable :** Façades avec angle d'arrivée, enseigne lisible et droits ; proposer fallback sans photo.  
   - **Critère de validation :** Image d'établissement correcte pour chaque boutique.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
