@@ -1201,7 +1201,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Protocole manuel et absence de cibles \<44px.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-110 — Rendre filtres manipulables au clavier**   
+- [x] **CRO-110 — Rendre filtres manipulables au clavier** — panneau mobile avec focus initial, boutons appliquer/effacer, Échap et retour du focus validés à 390 px ; preuve dans `docs/validation/2026-11-07-catalog-filter-keyboard.md` et `test/catalog-filter-keyboard.test.mjs`.  
   - **Livrable :** Focus initial dans panneau, boutons effacer/appliquer, Escape, retour focus.  
   - **Critère de validation :** Test Playwright accessible.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.

@@ -132,8 +132,47 @@
     activeRoot.dataset.woodCatalogActiveFilters = 'true';
     activeRoot.setAttribute('aria-live', 'polite');
     filterRoot.appendChild(activeRoot);
+    const filtersToggle = document.createElement('button');
+    filtersToggle.type = 'button';
+    filtersToggle.className = 'wood-catalog-search__filters-toggle';
+    filtersToggle.textContent = 'Filtres';
+    filtersToggle.setAttribute('aria-expanded', 'false');
+    filtersToggle.setAttribute('aria-controls', 'wood-catalog-search-filters');
+    const filtersPanel = document.createElement('div');
+    filtersPanel.id = 'wood-catalog-search-filters';
+    filtersPanel.className = 'wood-catalog-search__filters-panel';
+    const applyFilters = document.createElement('button');
+    applyFilters.type = 'button';
+    applyFilters.className = 'wood-catalog-search__apply-filters';
+    applyFilters.textContent = 'Appliquer les filtres';
+    filterRoot.appendChild(applyFilters);
+    filtersPanel.appendChild(filterRoot);
     const control = form.querySelector('.wood-catalog-search__control');
-    control?.insertAdjacentElement('afterend', filterRoot);
+    control?.insertAdjacentElement('afterend', filtersToggle);
+    filtersToggle.insertAdjacentElement('afterend', filtersPanel);
+
+    const setFiltersOpen = (open, restoreFocus = false) => {
+      filtersPanel.classList.toggle('is-open', open);
+      filtersToggle.setAttribute('aria-expanded', String(open));
+      if (open) {
+        const firstFilter = filterRoot.querySelector('select, button');
+        firstFilter?.focus();
+      } else if (restoreFocus) {
+        filtersToggle.focus();
+      }
+    };
+    filtersToggle.addEventListener('click', () => {
+      setFiltersOpen(filtersToggle.getAttribute('aria-expanded') !== 'true');
+    });
+    applyFilters.addEventListener('click', () => {
+      apply();
+      setFiltersOpen(false, true);
+    });
+    form.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape' || filtersToggle.getAttribute('aria-expanded') !== 'true') return;
+      event.preventDefault();
+      setFiltersOpen(false, true);
+    });
 
     const params = new URLSearchParams(global.location?.search || '');
     input.value = params.get('q') || '';
