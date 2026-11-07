@@ -1290,7 +1290,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Feedback de la propriétaire explicitement séparé des suppositions.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-127 — Démontrer parcours complet sécurisé**   
+- [x] **CRO-127 — Démontrer parcours complet sécurisé** — smoke test démo documenté de l'accueil au catalogue, filtre/recherche, fiche, itinéraire et checkout fictif ; preuve : `docs/validation/2026-11-07-demo-e2e-smoke.md`, `test/demo-e2e-smoke.test.mjs`.
   - **Livrable :** Playwright : accueil → catalogue → filtre/recherche → fiche → conseil/itinéraire ; checkout fictif isolé.  
   - **Critère de validation :** Zéro lien cassé, zéro réseau commercial, capture par étape.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
