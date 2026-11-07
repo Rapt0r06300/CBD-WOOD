@@ -19,5 +19,7 @@ pour être réintroduites uniquement avec une preuve nouvelle.
 
 Le compteur est calculé à partir des cases réellement présentes dans la feuille
 active et des 138 tâches différées conservées dans l'inventaire ; les 24 portes
-externes sont hors dénominateur. Le test `test/roadmap-status.test.mjs` vérifie
-347 lignes actives, 347 cases cochées et aucune case ouverte.
+externes sont hors dénominateur. Les tests `test/roadmap-status.test.mjs`,
+`test/external-gates.test.mjs` et `test/deferred-register.test.mjs` vérifient
+347 lignes actives, 347 cases cochées, aucune case ouverte et les 138 cases de
+l'archive.
