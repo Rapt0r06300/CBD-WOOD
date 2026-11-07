@@ -153,6 +153,21 @@
     });
   }
 
+  function initHeroFallback() {
+    const hero = qs('.hero-art');
+    const image = qs('[data-hero-image]', hero);
+    const fallback = qs('.hero-art__fallback', hero);
+    if (!hero || !image || !fallback || image.dataset.woodFallbackWired === 'true') return;
+    image.dataset.woodFallbackWired = 'true';
+    const showFallback = () => {
+      hero.classList.add('is-media-fallback');
+      fallback.hidden = false;
+      image.setAttribute('aria-hidden', 'true');
+    };
+    image.addEventListener('error', showFallback, { once: true });
+    if (image.complete && image.naturalWidth === 0) showFallback();
+  }
+
   function updateRail(rail, controls) {
     const items = [...rail.children].filter(item => !item.hidden);
     const max = Math.max(0, rail.scrollWidth - rail.clientWidth);
@@ -305,6 +320,7 @@
   initDetailStrip();
   initReveals();
   initHeroMotion();
+  initHeroFallback();
   initRails();
   initProofReviews();
   initPointerHints();

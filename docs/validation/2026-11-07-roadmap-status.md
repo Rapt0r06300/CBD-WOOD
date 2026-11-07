@@ -24,6 +24,11 @@ Le lot récit d’accueil `CRO-012`, `CRO-017`, `CRO-019` et `CRO-021` à
 et son contrat automatisé. Le compteur courant devient **270 / 509 — 53,05 %**,
 avec **101** tickets actifs encore ouverts et **138 tâches différées**.
 
+Le repli du hero `CRO-016` est livré et testé par
+`docs/validation/2026-11-07-cro-hero-fallback.md`. Le compteur courant devient
+**271 / 509 — 53,24 %**, avec **100** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

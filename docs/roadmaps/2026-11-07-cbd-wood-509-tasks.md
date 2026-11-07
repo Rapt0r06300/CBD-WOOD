@@ -707,7 +707,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** L'emplacement n'affiche ni source absente ni adresse non vérifiée.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-016 — Soigner état dégradé du hero**   
+- [x] **CRO-016 — Soigner état dégradé du hero**
   - **Livrable :** Tester image absente, cache périmé, police fallback, réseau lent et zoom iPhone.  
   - **Critère de validation :** Aucun symbole cassé ni texte tronqué, CTA toujours accessible.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
