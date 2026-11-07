@@ -238,6 +238,13 @@ fallback explicite sont réunis sans allégation médicale. Preuve :
 devient **317 / 509 — 62,28 %**, avec **54** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Le lot `TXW-066` à `TXW-070` est maintenant couvert dans la démo : familles
+Bien-être navigables, accessoires séparés, scène lifestyle WOOD Shop, galerie
+textile et variantes taille/coloris désactivées tant que les données manquent.
+Preuve : `docs/validation/2026-11-07-txw-066-070-care-shop.md`. Le compteur
+courant devient **322 / 509 — 63,26 %**, avec **49** tickets actifs encore
+ouverts et **138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

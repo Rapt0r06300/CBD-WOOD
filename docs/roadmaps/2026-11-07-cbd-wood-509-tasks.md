@@ -338,19 +338,19 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [x] **TXW-065 — Refaire les scènes bien-être.** S'inspirer des véritables étagères bois, huiles, cosmétiques et plantes pour des scènes éditoriales de démo ; preuve : `docs/validation/2026-11-07-txw-065-wellbeing-scene.md` et `test/wellbeing-scene.test.mjs`.    
   **Acceptation :** Page qualitative, sans promesse médicale.
 
-- [ ] **TXW-066 — Structurer les familles bien-être.** Différencier soins, cosmétiques, huiles et produits divers uniquement si leur présence est attestée ; sinon placeholders neutres.    
+- [x] **TXW-066 — Structurer les familles bien-être.** Différencier soins, cosmétiques, huiles et produits divers uniquement si leur présence est attestée ; sinon placeholders neutres ; preuve : `docs/validation/2026-11-07-txw-066-070-care-shop.md` et `test/care-and-shop-scenes.test.mjs`.    
   **Acceptation :** Navigation par type compréhensible et extensible.
 
-- [ ] **TXW-067 — Valoriser les accessoires.** Créer une présentation spécifique aux accessoires visibles en boutique (feuilles, grinders, briquets), sans prix ni stock non validé.    
+- [x] **TXW-067 — Valoriser les accessoires.** Créer une présentation spécifique aux accessoires visibles en boutique (feuilles, grinders, briquets), sans prix ni stock non validé ; preuve : `docs/validation/2026-11-07-txw-066-070-care-shop.md` et `test/care-and-shop-scenes.test.mjs`.    
   **Acceptation :** Les accessoires ne sont pas confondus avec le textile.
 
-- [ ] **TXW-068 — Développer WOOD Shop lifestyle.** Mettre en scène vêtements, sacs et objets dans un univers street plus expressif, ancré dans la vraie boutique.    
+- [x] **TXW-068 — Développer WOOD Shop lifestyle.** Mettre en scène vêtements, sacs et objets dans un univers street plus expressif, ancré dans la vraie boutique ; preuve : `docs/validation/2026-11-07-txw-066-070-care-shop.md` et `test/care-and-shop-scenes.test.mjs`.    
   **Acceptation :** Page à identité WOOD, pas catalogue générique.
 
-- [ ] **TXW-069 — Prévoir galerie textile.** Faire place à une photo autorisée du t-shirt et des détails de marquage, avec fallback conceptuel.    
+- [x] **TXW-069 — Prévoir galerie textile.** Faire place à une photo autorisée du t-shirt et des détails de marquage, avec fallback conceptuel ; preuve : `docs/validation/2026-11-07-txw-066-070-care-shop.md` et `test/care-and-shop-scenes.test.mjs`.    
   **Acceptation :** Visuel adapté mobile/desktop et crédit image maîtrisé.
 
-- [ ] **TXW-070 — Préparer les variantes vêtement.** Afficher tailles et coloris seulement s'ils sont confirmés ; les choix fictifs restent inactifs/locaux.    
+- [x] **TXW-070 — Préparer les variantes vêtement.** Afficher tailles et coloris seulement s'ils sont confirmés ; les choix fictifs restent inactifs/locaux ; preuve : `docs/validation/2026-11-07-txw-066-070-care-shop.md` et `test/care-and-shop-scenes.test.mjs`.    
   **Acceptation :** Aucun stock, variante ou prix inventé.
 
 - [x] **TXW-071 — Uniformiser catégories et pieds de page.** Les quatre univers partagent navigation mobile, retours, footer et recherche locale, avec leurs labels propres ; preuve : `docs/validation/2026-11-07-catalog-footer-uniformity.md` et `test/catalog-footer-uniformity.test.mjs`.    

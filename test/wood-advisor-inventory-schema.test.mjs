@@ -13,7 +13,7 @@ test('l’inventaire WOOD est idempotent, dédupliqué et limité aux sources pu
   const first = await collectAdvisorInventory();
   const second = await collectAdvisorInventory();
   assert.deepEqual(first, second);
-  assert.equal(first.length, 22);
+  assert.equal(first.length, 24);
   assert.equal(new Set(first.map((item) => item.slug)).size, first.length);
   assert.ok(first.every((item) => item.sourceFile && item.name && item.category && Array.isArray(item.media) && Array.isArray(item.variants)));
   assert.ok(first.some((item) => item.name === 'Nimbus 3000' && item.variants.length === 5));

@@ -46,7 +46,7 @@ test('les contraintes commerciales publiques restent sans retrait, QR code ou pr
 
 test('les placeholders WOOD Shop ne simulent ni prix ni disponibilité', () => {
   const shop = pages.find(([page]) => page === 'wood-shop.html')[1];
-  for (const name of ['T-shirt WOOD', 'Vêtement WOOD', 'Produit dérivé']) {
+  for (const name of ['T-shirt WOOD', 'Vêtement WOOD', 'Feuilles', 'Grinders', 'Briquets']) {
     assert.match(shop, new RegExp(`data-product-name="${name.replace(' ', '\\s+')}"`));
   }
   assert.match(shop, /T-SHIRT \/ À VALIDER/);

@@ -18,11 +18,13 @@ test('le contrat WOOD Shop garde textile et goods visibles mais non achetables',
     assert.match(contract, new RegExp(`## ${heading}`));
   }
   assert.match(page, /data-catalog-category="wood-shop"/);
-  assert.equal((page.match(/class="product-card"/g) || []).length, 3);
-  assert.equal((page.match(/class="add-to-cart"[^>]*disabled/g) || []).length, 3);
+  assert.equal((page.match(/class="product-card"/g) || []).length, 5);
+  assert.equal((page.match(/class="add-to-cart"[^>]*disabled/g) || []).length, 5);
   assert.match(page, /T-SHIRT \/ À VALIDER/);
   assert.match(page, /APPAREL \/ À VALIDER/);
-  assert.match(page, /GOODS \/ À VALIDER/);
+  assert.match(page, /FEUILLES \/ À VALIDER/);
+  assert.match(page, /GRINDERS \/ À VALIDER/);
+  assert.match(page, /BRIQUETS \/ À VALIDER/);
   assert.match(page, /Prix à renseigner/);
   assert.match(page, /Disponibilité boutique/);
   assert.match(page, /Fiche à compléter/);
