@@ -52,3 +52,14 @@ Une tâche passe à `DONE` seulement lorsque sa preuve externe est archivée dan
 `docs/validation/`, que le test ou la recette correspondante passe, puis que le
 compteur est recalculé. Tant qu’une porte manque, elle reste `BLOCKED-EXTERNAL`
 et le compteur reste **347 / 509 — 68,17 %**.
+
+## Vérification du 7 novembre 2026
+
+- La recherche Gmail `from:woodcbdshop@gmail.com after:2026/11/05` ne renvoie
+  aucun nouveau message de la propriétaire ; les visuels et validations
+  reçus précédemment restent donc soumis à relecture.
+- `codex mcp list` ne présente aucun endpoint Cloudflare et `wrangler` n'est
+  pas disponible dans l'environnement courant. D1-004 reste `PARTIAL` et
+  D1-005/D1-016 à D1-020 restent `BLOCKED-EXTERNAL` conformément au plan.
+- Cette vérification ne modifie ni le compteur global ni les données de la
+  démo.
