@@ -1149,7 +1149,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Revue juridique humaine des catégories concernées requise.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-100 — Préparer conformité consommation**   
+- [x] **CRO-100 — Préparer conformité consommation** — porte vendeur, prix TTC, CGV, rétractation, livraison et politique de confidentialité dans `docs/validation/2026-11-07-cro-100-consumer-compliance-gate.md` et `test/cro-100-consumer-compliance.test.mjs`; l’achat reste bloqué tant que les sources et validations manquent.
   - **Livrable :** Maquette des mentions vendeur, prix TTC, CGV, rétractation, livraison, politique données avant vente réelle.  
   - **Critère de validation :** Ne pas activer achat sans informations légales complètes validées.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.

@@ -417,6 +417,16 @@ Preuve : `docs/validation/2026-11-07-cro-097-regulatory-category-matrix.md` et
 **341 / 509 — 67,00 %**, avec **30** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Le ticket `CRO-100` est validé pour la préparation de la démo : la porte de
+conformité consommation recense vendeur, prix TTC, CGV, rétractation, livraison
+et politique de confidentialité, tous en `pending` jusqu'aux sources et
+validations requises. Le checkout reste explicitement une simulation locale,
+sans paiement, commande commerciale ni e-mail réel. Preuve :
+`docs/validation/2026-11-07-cro-100-consumer-compliance-gate.md` et
+`test/cro-100-consumer-compliance.test.mjs`. Le compteur courant devient
+**342 / 509 — 67,19 %**, avec **29** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
