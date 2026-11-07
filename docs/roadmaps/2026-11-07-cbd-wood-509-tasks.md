@@ -210,7 +210,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [x] **TXW-025 — Clarifier les quatre catégories.** Rendre Fleurs, Résines, Accessoires, Bien-être immédiats et cliquables, en cohérence avec les vraies familles de la boutique.    
   **Acceptation :** Un visiteur retrouve sa catégorie en un seul choix évident.
 
-- [ ] **TXW-026 — Donner une place unique à la sélection de fleurs.** Supprimer les duplications Nimbus/Ivory/Velvet Kush/Pastraweed entre carrousels et cartes ; distinguer coup de projecteur vs exploration.    
+- [x] **TXW-026 — Donner une place unique à la sélection de fleurs.** Le runway explore Euphoria, Purple, Bloody Mary et Orange Bud tandis que le coup de projecteur garde Nimbus, Ivory, Velvet Kush et Pastraweed ; preuve : docs/validation/2026-11-07-selection-rhythm.md, test/home-selection-rhythm.test.mjs.
   **Acceptation :** Aucune même grille produit répétée à l'identique dans l'accueil.
 
 - [x] **TXW-027 — Conserver un choix par mood non médical.** Mettre en scène les intentions éditoriales sans laisser entendre des effets physiologiques garantis ni inventer disponibilité.    
