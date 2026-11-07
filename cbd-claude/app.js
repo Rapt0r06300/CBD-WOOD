@@ -3,6 +3,7 @@
    Données fleurs RÉELLES (prix proprio). Profils = goût, jamais d'effet.
    =========================================================== */
 
+const IMGV = "?v=2"; /* cache-buster images (bump si régénération) */
 const FLEURS = [
   { slug:"nimbus-3000", nom:"Nimbus 3000", tier:"boostes", desc:"Givrée ❄️", c:["#eafce0","#8fd08a"], p:[15,42,70,130,260] },
   { slug:"ivory", nom:"Ivory", tier:"boostes", desc:"Douce 🤍", c:["#f3f1dd","#b7cf9a"], p:[15,42,70,130,260] },
@@ -29,7 +30,7 @@ window.__cloche = s => { const f=byId(s); return clocheSVG(f?f.c:["#8fd08a","#24
 
 function catArtSVG(kind){const m={fleurs:["#2f9e57","#0e3b26"],resines:["#c98a3a","#5a3410"],boostes:["#10b6cf","#063b45"],huiles:["#cbf096","#3a5a1e"],accessoires:["#9fb0a0","#2c3a30"]};const c=m[kind]||m.fleurs;return `<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" width="100%" height="100%"><rect width="400" height="300" fill="#141c16"/><path d="M-20 320C60 240 20 150 120 60c40-36 120 0 120 0s-30 120-120 170C60 270 20 300-20 320Z" fill="${c[0]}" opacity=".5"/></svg>`;}
 window.__catSVG = catArtSVG;
-function catArt(kind){return `<img src="assets/scenes/cat-${kind}.jpg" alt="" loading="lazy" onerror="this.outerHTML=window.__catSVG('${kind}')">`;}
+function catArt(kind){return `<img src="assets/scenes/cat-${kind}.jpg${IMGV}" alt="" loading="lazy" onerror="this.outerHTML=window.__catSVG('${kind}')">`;}
 
 /* ---- Méta démo (note/avis/sticker) — à remplacer par les vrais avis Google ---- */
 const META={
@@ -46,7 +47,7 @@ function cardHTML(f,i){
   return `<article class="card reveal ${['d1','d2','d3','d4'][i%4]}">
     <a class="card-media" href="produit.html?f=${f.slug}" aria-label="${f.nom}">
       <div class="halo" style="background:radial-gradient(circle,${f.c[0]}66,transparent 70%)"></div><div class="shine"></div>
-      <img class="cloche" src="assets/products/${f.slug}.jpg" alt="Fleur CBD ${f.nom} sous cloche" loading="lazy"
+      <img class="cloche" src="assets/products/${f.slug}.jpg${IMGV}" alt="Fleur CBD ${f.nom} sous cloche" loading="lazy"
         onerror="this.outerHTML='<div class=&quot;cloche&quot;>'+window.__cloche('${f.slug}')+'</div>'">
       <div class="card-badges"><span class="badge ${t.cls}">${t.label}</span>${m.tag?`<span class="sticker st-${m.tag}">${STICK[m.tag]}</span>`:""}</div>
       <span class="card-view">Voir le produit →</span>
@@ -66,7 +67,7 @@ function cardHTML(f,i){
 function headerHTML(){return `<div class="container header-in">
   <a class="logo" href="index.html" aria-label="WOOD accueil"><span class="star">✳</span>Wood <small>CBD · Nice</small></a>
   <nav class="nav" aria-label="Navigation principale">
-    <a href="fleurs.html">Fleurs</a><a href="fleurs.html">Résines</a>
+    <a href="fleurs.html">Fleurs</a><a href="bientot.html?cat=resines">Résines</a>
     <a href="fleurs.html?tier=boostes">Boostés</a><a href="index.html#boutiques">Boutiques</a><a href="index.html#histoire">L'histoire</a>
   </nav>
   <div class="header-cta">
@@ -83,7 +84,7 @@ function footerHTML(){return `<div class="container">
     <div><div class="big-logo"><span style="color:var(--lime)">✳</span> Wood</div>
       <p class="muted" style="margin:.6rem 0 1rem;max-width:30ch">La Maison du chanvre, à Nice. Si c'est WOOD, c'est GOOD.</p>
       <div class="socials"><a href="https://instagram.com/wood.cbdshop" target="_blank" rel="noopener">◎ Instagram</a><a href="https://facebook.com/Woodcbdshopnice" target="_blank" rel="noopener">ƒ Facebook</a></div></div>
-    <div><h4>Boutique</h4><ul><li><a href="fleurs.html">Fleurs</a></li><li><a href="fleurs.html">Résines</a></li><li><a href="fleurs.html?tier=boostes">Boostés</a></li><li><a href="index.html">Accueil</a></li></ul></div>
+    <div><h4>Boutique</h4><ul><li><a href="fleurs.html">Fleurs</a></li><li><a href="bientot.html?cat=resines">Résines</a></li><li><a href="fleurs.html?tier=boostes">Boostés</a></li><li><a href="index.html">Accueil</a></li></ul></div>
     <div><h4>Infos</h4><ul><li><a href="index.html#boutiques">Nos boutiques</a></li><li><a href="contact.html">Contact</a></li><li><a href="faq.html">FAQ</a></li><li><a href="index.html#histoire">L'histoire</a></li></ul></div>
     <div><h4>Légal</h4><ul><li><a href="mentions-legales.html">Mentions légales</a></li><li><a href="cgv.html">CGV</a></li><li><a href="confidentialite.html">Confidentialité</a></li><li><a href="confidentialite.html#cookies">Cookies</a></li></ul></div>
   </div>
@@ -148,7 +149,7 @@ function renderProduct(){
     <div class="product">
       <div class="product-media">
         <div class="halo" style="background:radial-gradient(circle,${f.c[0]}55,transparent 70%)"></div>
-        <img src="assets/products/${f.slug}.jpg" alt="Fleur CBD ${f.nom} sous cloche" onerror="this.outerHTML='<div class=&quot;cloche big&quot;>'+window.__cloche('${f.slug}')+'</div>'">
+        <img src="assets/products/${f.slug}.jpg${IMGV}" alt="Fleur CBD ${f.nom} sous cloche" onerror="this.outerHTML='<div class=&quot;cloche big&quot;>'+window.__cloche('${f.slug}')+'</div>'">
       </div>
       <div class="product-info">
         <span class="badge ${t.cls}">${t.label}</span>
@@ -186,7 +187,7 @@ function renderCart(){
   const free=60, left=Math.max(0,free-sub);
   root.innerHTML=`<h1 class="serif">Ton pochon</h1>
     <div class="cart-grid">
-      <div class="cart-items">${cart.map((x,i)=>`<div class="cart-item"><div class="ci-media"><img src="assets/products/${x.slug}.jpg" alt="" onerror="this.outerHTML='<div>'+window.__cloche('${x.slug}')+'</div>'"></div>
+      <div class="cart-items">${cart.map((x,i)=>`<div class="cart-item"><div class="ci-media"><img src="assets/products/${x.slug}.jpg${IMGV}" alt="" onerror="this.outerHTML='<div>'+window.__cloche('${x.slug}')+'</div>'"></div>
         <div class="ci-info"><div class="ci-name">${x.nom}</div><div class="muted">${x.g} g · ${euro(x.unit)}</div></div>
         <div class="ci-qty"><button data-dec="${i}">−</button><span>${x.q}</span><button data-inc="${i}">+</button></div>
         <div class="ci-line">${euro(x.unit*x.q)}</div><button class="ci-del" data-del="${i}" aria-label="Retirer">✕</button></div>`).join("")}</div>
@@ -198,6 +199,25 @@ function renderCart(){
         <a class="btn btn-primary" href="checkout.html" style="width:100%;justify-content:center;margin-top:1rem">Passer commande →</a>
         <p class="muted" style="font-size:.78rem;text-align:center;margin-top:.8rem">Démo : aucune vraie commande ni paiement.</p>
       </aside></div>`;
+}
+
+/* ===================== PAGE : BIENTÔT (gammes à venir) ===================== */
+function renderBientot(){
+  const root=document.getElementById("bientot"); if(!root)return;
+  const cat=new URLSearchParams(location.search).get("cat")||"resines";
+  const T={resines:["Les résines","Hash & résines CBD de la boutique — bientôt en ligne. En attendant, viens les découvrir dans nos boutiques à Nice."],
+    huiles:["Huiles & infusions","Huiles, tisanes et infusions CBD — bientôt disponibles sur le site."],
+    accessoires:["Accessoires","Grinders, feuilles, briquets et petits essentiels — bientôt en ligne."]}[cat]||["Bientôt chez WOOD","Cette gamme arrive très vite."];
+  root.innerHTML=`<a class="breadcrumb" href="index.html">← Accueil</a>
+    <div class="product">
+      <div class="product-media"><div class="halo" style="background:radial-gradient(circle,#3fe3ea55,transparent 70%)"></div><img src="assets/scenes/cat-${cat}.jpg${IMGV}" alt="${T[0]}" onerror="this.style.display='none'"></div>
+      <div class="product-info"><span class="eyebrow">Bientôt chez WOOD</span><h1>${T[0]}</h1>
+        <p class="p-desc">${T[1]}</p>
+        <div class="hero-cta" style="margin-top:1rem"><a href="fleurs.html" class="btn btn-primary">Voir les fleurs →</a><a href="index.html#boutiques" class="btn btn-ghost">Venir en boutique</a></div>
+        <p class="muted" style="margin-top:1.4rem"><span class="tag tag-maquette">Démo</span> Cette gamme existe en boutique ; sa mise en ligne arrive.</p>
+      </div>
+    </div>`;
+  document.title=T[0]+" — WOOD";
 }
 
 /* ===================== PAGE : CHECKOUT (démo) ===================== */
@@ -269,7 +289,7 @@ function renderAvis(){
 }
 function renderInsta(){
   const g=document.getElementById("instaGrid"); if(!g)return;
-  g.innerHTML=["euphoria","purple","orange-bud","rainbow","velvet-kush","nimbus-3000"].map(s=>`<a class="insta-cell reveal" href="https://instagram.com/wood.cbdshop" target="_blank" rel="noopener"><img src="assets/products/${s}.jpg" alt="" loading="lazy"><span class="insta-ic">◎</span></a>`).join("");
+  g.innerHTML=["euphoria","purple","orange-bud","rainbow","velvet-kush","nimbus-3000"].map(s=>`<a class="insta-cell reveal" href="https://instagram.com/wood.cbdshop" target="_blank" rel="noopener"><img src="assets/products/${s}.jpg${IMGV}" alt="" loading="lazy"><span class="insta-ic">◎</span></a>`).join("");
 }
 
 /* ===================== CONSEILLER WOOD ===================== */
@@ -332,7 +352,7 @@ document.addEventListener("DOMContentLoaded",()=>{
   document.querySelectorAll("[data-art]").forEach(el=>el.innerHTML=catArt(el.dataset.art));
   const rail=document.getElementById("fleursRail");
   if(rail){const order=["nimbus-3000","purple","euphoria","orange-bud","velvet-kush","rainbow","cosmic-cbg","fanta-hazy"];rail.innerHTML=order.map((s,i)=>cardHTML(byId(s),i)).join("");}
-  renderFleurs(); renderProduct(); renderCart(); renderCheckout(); renderConfirm(); renderAvis(); renderInsta();
+  renderFleurs(); renderProduct(); renderCart(); renderCheckout(); renderConfirm(); renderAvis(); renderInsta(); renderBientot();
   updateCartBadges();
 
   document.body.addEventListener("click",e=>{
