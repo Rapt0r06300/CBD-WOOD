@@ -1023,7 +1023,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Page comprend toujours sans avis chargés.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-076 — Valoriser conseils humains**   
+- [x] **CRO-076 — Valoriser conseils humains** — bloc de conseil générique, téléphone, visite et état nominatif « à valider », sans titre ni biographie inventés. Preuve : `test/cro-076-human-advice.test.mjs`.
   - **Livrable :** Présentation équipe, expertise de service, téléphone et visite, sans inventer titres ou biographies.  
   - **Critère de validation :** Texte marqué 'à valider' hors page jusqu'à autorisation.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.

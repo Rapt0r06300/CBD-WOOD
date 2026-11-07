@@ -338,6 +338,14 @@ dans les images. Preuve :
 **333 / 509 — 65,42 %**, avec **38** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Le ticket `CRO-076` est validé : la page contact présente l'aide humaine,
+trois usages concrets, le téléphone et la préparation de visite, tout en
+laissant les noms et biographies dans un état « à valider ». Aucun titre ou
+profil individuel n'est inventé. Preuve :
+`test/cro-076-human-advice.test.mjs`. Le compteur courant devient
+**334 / 509 — 65,62 %**, avec **37** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
