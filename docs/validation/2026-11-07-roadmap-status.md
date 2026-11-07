@@ -456,6 +456,15 @@ et `test/cro-099-sensitive-usage.test.mjs`. Le compteur courant devient
 **345 / 509 — 67,78 %**, avec **26** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Le ticket `CRO-078` est validé pour la démo : les fiches rendent la zone de
+source visible, affichent un état « source à fournir » et bloquent tout badge
+ou résultat laboratoire tant qu’un document vérifié, un lot, une date et une
+source consultable ne sont pas associés. Aucun COA générique n’est inventé.
+Preuve : `docs/validation/2026-11-07-cro-078-source-visibility.md` et
+`test/cro-078-source-visibility.test.mjs`. Le compteur courant devient
+**346 / 509 — 67,98 %**, avec **25** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

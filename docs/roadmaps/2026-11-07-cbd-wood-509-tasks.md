@@ -1033,7 +1033,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Aucune promesse d'effet, traitement ou recommandation de dosage.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-078 — Rendre la source d'information visible**   
+- [x] **CRO-078 — Rendre la source d'information visible** — zone de preuve visible sur les fiches, état « source à fournir » et porte document/lot/date dans `docs/validation/2026-11-07-cro-078-source-visibility.md` et `test/cro-078-source-visibility.test.mjs`; aucun badge laboratoire n’est publié sans source vérifiée.
   - **Livrable :** Lien vers analyses/étiquettes si autorisées et existantes ; sinon ne pas afficher badge 'lab tested'.  
   - **Critère de validation :** Document vérifié, pas de COA générique inventé.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
