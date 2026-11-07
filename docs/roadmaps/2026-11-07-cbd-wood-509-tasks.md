@@ -1519,7 +1519,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Fallback statique et vérification des droits.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-148 — QR codes produit pour vitrine.**  
+- [ ] **CRO-148 — QR codes produit pour vitrine.** — manifeste local des treize slugs et liens publics contrôlés dans `docs/validation/2026-11-07-cro-148-qr-manifest.json`, `docs/validation/2026-11-07-cro-148-qr-links.md` et `test/cro-148-qr-manifest.test.mjs`; génération imprimable et approbation WOOD restent externes.
   - **Livrable :** Générer des liens QR vers fiches publiques utilisables physiquement après approbation.  
   - **Recette :** Chaque QR pointe au bon slug, pas d'accès admin.  
   - **Statut :** TODO (non implémenté).

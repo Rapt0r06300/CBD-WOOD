@@ -1,0 +1,20 @@
+{
+  "version": "wood-qr-manifest-v1",
+  "status": "pending-owner-approval",
+  "basePath": "fleur.html?produit=",
+  "items": [
+    { "slug": "fleurs-nimbus-3000", "path": "fleur.html?produit=fleurs-nimbus-3000", "name": "Nimbus 3000" },
+    { "slug": "fleurs-ivory", "path": "fleur.html?produit=fleurs-ivory", "name": "Ivory" },
+    { "slug": "fleurs-velvet-kush", "path": "fleur.html?produit=fleurs-velvet-kush", "name": "Velvet Kush" },
+    { "slug": "fleurs-pastraweed", "path": "fleur.html?produit=fleurs-pastraweed", "name": "Pastraweed" },
+    { "slug": "fleurs-euphoria", "path": "fleur.html?produit=fleurs-euphoria", "name": "Euphoria" },
+    { "slug": "fleurs-purple", "path": "fleur.html?produit=fleurs-purple", "name": "Purple" },
+    { "slug": "fleurs-bloody-mary", "path": "fleur.html?produit=fleurs-bloody-mary", "name": "Bloody Mary" },
+    { "slug": "fleurs-cosmic-cbg", "path": "fleur.html?produit=fleurs-cosmic-cbg", "name": "Cosmic CBG" },
+    { "slug": "fleurs-charlotte", "path": "fleur.html?produit=fleurs-charlotte", "name": "Charlotte" },
+    { "slug": "fleurs-rainbow", "path": "fleur.html?produit=fleurs-rainbow", "name": "Rainbow" },
+    { "slug": "fleurs-orange-bud", "path": "fleur.html?produit=fleurs-orange-bud", "name": "Orange Bud" },
+    { "slug": "fleurs-plutonium", "path": "fleur.html?produit=fleurs-plutonium", "name": "Plutonium" },
+    { "slug": "fleurs-fanta-hazy", "path": "fleur.html?produit=fleurs-fanta-hazy", "name": "Fanta Hazy" }
+  ]
+}
