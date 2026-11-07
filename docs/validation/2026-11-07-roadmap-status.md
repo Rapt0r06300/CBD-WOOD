@@ -254,6 +254,15 @@ de D1 ni de Supabase. Preuve :
 **323 / 509 — 63,46 %**, avec **48** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+La recette locale cross-device de `D1-023` est validée avec Playwright sur les
+huit largeurs prévues, sans débordement, CLS mesuré à zéro, fallback d'image,
+clavier, pointer tactile, focus et reduced-motion. Preuve :
+`docs/validation/2026-11-07-d1-023-cross-device.md`, ses huit captures dans
+`output/playwright/` et `test/d1-023-cross-device.test.mjs`. Les appareils
+Safari iOS et Android réels restent explicitement séparés. Le compteur courant
+devient **324 / 509 — 63,65 %**, avec **47** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

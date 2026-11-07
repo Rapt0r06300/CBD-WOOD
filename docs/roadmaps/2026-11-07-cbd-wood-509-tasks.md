@@ -1400,7 +1400,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
 
 - [x] **D1-021 — Adaptateur frontend opt-in.** Lire le catalogue D1 uniquement lorsque `WOOD_D1_DEMO_ENABLED` est explicitement activé dans une configuration démo non secrète. **Valeur par défaut \= désactivé**. Même HTML, mêmes catégories, aucun prix ou stock inventé. Preuve : comparaison snapshot.  
 - [x] **D1-022 — Fallback sûr.** En erreur réseau, quota ou Worker absent, afficher le catalogue local existant sans écran vide. Ne jamais permettre à un click de créer une commande Supabase ni d'envoyer un email depuis la démo. Preuve : tests navigateur et mocks réseau.  
-- [ ] **D1-023 — Recette cross-device.** Tester mobile (320, 360, 375, 390, 430), tablette et desktop (768, 1024, 1440), clavier, tactile, focus, zoom, image manquante, a11y, reduced-motion, CLS. Preuve : captures datées et rapport Playwright si disponible.  
+- [x] **D1-023 — Recette cross-device.** Tester mobile (320, 360, 375, 390, 430), tablette et desktop (768, 1024, 1440), clavier, tactile, focus, zoom, image manquante, a11y, reduced-motion, CLS. Preuve : captures datées et rapport Playwright si disponible.
 - [x] **D1-024 — Non-régression et rollback.** Exécuter `npm run check`, comparer captures/pages avant-après, garder la bascule off et documenter la désactivation immédiate du Worker sans supprimer D1 ou Supabase. Preuve : journal de test et scénario rollback validé.
 - [ ] **D1-025 — Compte rendu et handoff.** Mettre à jour `docs/validation/wood-d1-free-progress.md` avec 25 statuts exacts, coûts réels (0 € si confirmé), commits, URL si déployée, blockers OAuth et prochaine tâche automatique. Ne pas cocher les validations owner ou secrets. Preuve : bilan final traçable.
 
