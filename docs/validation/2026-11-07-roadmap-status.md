@@ -215,6 +215,14 @@ local. OAuth, offre Free réelle et déploiement distant restent externes. Preuv
 courant devient **314 / 509 — 61,69 %**, avec **57** tickets actifs encore
 ouverts et **138 tâches différées**.
 
+La présentation saisonnière `TXW-051` est maintenant préparée dans la démo :
+`?wood-season=halloween` et `?wood-season=summer` activent une couche visuelle
+réversible, sans toucher au catalogue ni publier de promotion. Sans paramètre,
+la version WOOD permanente reste affichée. Preuve :
+`docs/validation/2026-11-07-txw-051-seasonal-layer.md`. Le compteur courant
+devient **315 / 509 — 61,89 %**, avec **56** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

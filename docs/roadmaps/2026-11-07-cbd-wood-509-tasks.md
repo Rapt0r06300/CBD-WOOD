@@ -289,7 +289,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [x] **TXW-050 — Rendre les états vides élégants.** Si photo ou donnée propriétaire manque, afficher une vignette de direction éditoriale sobre, sans 'photo à confirmer' répété partout.    
   **Acceptation :** Aucune confusion entre illustration et image réelle.
 
-- [ ] **TXW-051 — Préparer une présentation des illustrations de saison.** Prévoir une couche activable pour les campagnes Halloween/été ; aucun sticker à thème ni prix temporaires automatiquement publiés.    
+- [x] **TXW-051 — Préparer une présentation des illustrations de saison.** Couche activable par `?wood-season=halloween|summer`, indépendante du catalogue et inactive par défaut ; preuve : `docs/validation/2026-11-07-txw-051-seasonal-layer.md`.
   **Acceptation :** Revenir à la version permanente sans toucher aux données de produits.
 
 - [x] **TXW-052 — Préparer le circuit d'approbation média.** Définir l'emplacement et le protocole de remplacement des images avec droits, date et statut ; aucun compte extérieur requis à ce stade. Preuve : `docs/design/wood-supabase-media-contract.md` et `test/wood-supabase-media-contract.test.mjs`. L’upload Storage réel reste externe.    
