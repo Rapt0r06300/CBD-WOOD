@@ -41,7 +41,10 @@
 @keyframes woodAdvisorIn{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
 /* The mobile offset keeps the helper above WOOD's bottom-nav layer. */
 @media(max-width:800px){
-  .wood-advisor{right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 86px);transition:opacity .24s ease,transform .24s ease}
+  .wood-advisor{right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 86px);transition:opacity .24s ease,transform .24s ease,bottom .34s var(--wood-ease, cubic-bezier(.22,.75,.2,1))}
+  /* When the bottom navigation hides, let the helper descend instead of leaving
+     a large gap that makes it float over the editorial reading flow. */
+  .wood-nav-hidden .wood-advisor{bottom:calc(env(safe-area-inset-bottom,0px) + 18px)}
   .wood-advisor.is-hero-clear:not(.is-open){opacity:0;transform:translate3d(0,calc(100% + 20px),0);pointer-events:none}
   .wood-advisor.is-hero-clear:not(.is-open) .wood-advisor__bubble{pointer-events:none}
   .wood-advisor__bubble{padding:8px 11px 8px 8px}
