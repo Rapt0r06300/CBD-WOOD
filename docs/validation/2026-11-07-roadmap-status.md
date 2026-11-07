@@ -160,6 +160,14 @@ matrice de précision sensorielle. Preuve :
 **307 / 509 — 60,31 %**, avec **64** tickets actifs encore ouverts et **138
 tâches différées**.
 
+La migration D1 de labels et lexique `CRO-220` est livrée et rejouée sur une
+base SQLite fictive. Elle prépare les tables de termes, preuves, règles et
+affectations avec versions, provenance et modes `hidden`/`demo`/`approved`.
+Preuve : `docs/validation/2026-11-07-cro-220-advisor-label-migration.md` et
+`test/cro-220-advisor-label-migration.test.mjs`. Le compteur courant devient
+**308 / 509 — 60,51 %**, avec **63** tickets actifs encore ouverts et **138
+tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

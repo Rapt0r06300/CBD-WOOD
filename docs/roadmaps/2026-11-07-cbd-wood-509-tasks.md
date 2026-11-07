@@ -1897,7 +1897,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Pas de double saisie manuelle et test d'import idempotent.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-220 — Migrations D1 de labels et lexique.**  
+- [x] **CRO-220 — Migrations D1 de labels et lexique.** — migration locale additive `0003_advisor_labels.sql` pour lexique, preuves d’attributs, règles et affectations de badges avec versions, provenance et états de publication ; rejouée en SQLite, sans mutation Supabase. Preuve : `docs/validation/2026-11-07-cro-220-advisor-label-migration.md` et `test/cro-220-advisor-label-migration.test.mjs`.
   - **Livrable :** Définir lexicon_terms, attribute_evidence, badge_rules, badge_assignments avec versions/provenance et règles de publication.  
   - **Recette :** Tables SQLite migrations testées sur base fictive, pas de mutation Supabase.  
   - **Statut :** TODO (non implémenté).
