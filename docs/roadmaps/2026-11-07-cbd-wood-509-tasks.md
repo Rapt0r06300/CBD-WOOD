@@ -1295,10 +1295,10 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Zéro lien cassé, zéro réseau commercial, capture par étape.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-128 — Livrer un bilan mesurable et réversible**   
+- [x] **CRO-128 — Livrer un bilan mesurable et réversible** — bilan des statuts, preuves, `npm run check` (521 tests), commit de retour et portes externes dans `docs/validation/2026-11-07-cro-128-measurable-reversible-report.md`; aucune tâche propriétaire ou source non reçue n'est clôturée.
   - **Livrable :** Statuts CRO, preuves tests, changements git, gains/pertes de performance, recommandations restantes.  
   - **Critère de validation :** Aucune tâche owner ou source non reçue cochée DONE.  
-  - **Statut initial :** TODO ; preuve : à renseigner par Codex.
+  - **Statut initial :** TODO ; preuve : bilan réversible validé, portes externes conservées séparément.
 
 ## Traçabilité et dépendances
 

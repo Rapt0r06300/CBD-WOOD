@@ -202,6 +202,12 @@ validation sur appareil physique reste séparée. Preuve :
 **312 / 509 — 61,30 %**, avec **59** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Le bilan mesurable et réversible `CRO-128` est consigné dans
+`docs/validation/2026-11-07-cro-128-measurable-reversible-report.md` : 521 tests,
+commit de retour, séparation GitHub Pages et portes externes listées sans les
+clôturer. Le compteur courant devient **313 / 509 — 61,49 %**, avec **58**
+tickets actifs encore ouverts et **138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
