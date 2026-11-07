@@ -367,6 +367,16 @@ et noms sans prix ni stock persistés. Preuve :
 **336 / 509 — 66,01 %**, avec **35** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Le ticket `TXW-110` est validé : le site WOOD communiqué par la propriétaire,
+le compte `@wood.cbdshop` et les variantes de logo reçues par Gmail sont
+référencés avec leur source et leur statut. Le compte social reste `à
+confirmer` et aucun lien officiel n'est activé automatiquement ; les visuels
+transmis restent hors publication tant que leur approbation n'est pas
+confirmée. Preuve : `docs/validation/2026-11-07-txw-110-brand-register.md` et
+`test/txw-110-brand-register.test.mjs`. Le compteur courant devient
+**337 / 509 — 66,21 %**, avec **34** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

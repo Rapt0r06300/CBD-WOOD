@@ -478,7 +478,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [ ] **TXW-109 — Vérifier avis et notes.** N'utiliser que des extraits publics autorisés avec source précise, date et établissement ; pas de faux témoignage ou note globale forgée.    
   **Acceptation :** Chaque preuve est retracée ou masquée.
 
-- [ ] **TXW-110 — Clarifier marque et Instagram.** Examiner www.woodcbdshop.com et compte social @wood.cbdshop identifié publiquement, mais ne modifier le lien officiel qu'après confirmation propriétaire.    
+- [x] **TXW-110 — Clarifier marque et Instagram.** Examiner www.woodcbdshop.com et compte social @wood.cbdshop identifié publiquement, mais ne modifier le lien officiel qu'après confirmation propriétaire. Preuve : `docs/validation/2026-11-07-txw-110-brand-register.md` et `test/txw-110-brand-register.test.mjs`.
   **Acceptation :** Compte cible validé ou marqué 'à confirmer' dans le registre externe.
 
 - [x] **TXW-111 — Écarter les sources tiers non autorisées.** Ne pas copier les stickers d'autres marques, les créations TealerLab ou les photos de site tiers sans droits explicites. Preuve : `docs/validation/2026-11-07-txw-111-third-party-sources.md` et `test/txw-111-third-party-sources.test.mjs`.
