@@ -1,0 +1,20 @@
+# CRO-009 — Compréhension du premier écran — 7 novembre 2026
+
+## Contrôle local sans défilement
+
+Le premier écran de la démo a été contrôlé en Chromium à 375×844, 390×844 et
+1440×900. À chaque largeur, le nom WOOD, l'accroche `LE CBD AUTREMENT`, le
+texte de différenciation et le média botanique sont présents. Les deux actions
+ont des destinations distinctes : `Découvrir WOOD` vers les univers et `Nous
+trouver` vers les boutiques.
+
+Résultats mesurés :
+
+- 375×844 : largeur document 375, bas des CTA à 828 px ;
+- 390×844 : largeur document 390, bas des CTA à 828 px ;
+- 1440×900 : largeur document 1440, hero et CTA présents sans débordement.
+
+Les captures Chromium associées sont conservées dans `.playwright-cli` et le
+contrôle structurel est verrouillé par `test/cro-first-viewport.test.mjs`.
+Cette preuve mesure la compréhension fonctionnelle de l'écran, pas une étude
+utilisateur statistique ; la relecture artistique WOOD reste séparée.

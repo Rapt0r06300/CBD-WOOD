@@ -672,7 +672,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
 
 ### 02 — Premier écran convaincant — P1, complément de TXW-021 à TXW-024
 
-- [ ] **CRO-009 — Tester la compréhension en cinq secondes**   
+- [x] **CRO-009 — Tester la compréhension en cinq secondes.** Preuve : `docs/validation/2026-11-07-cro-first-viewport.md`, `test/cro-first-viewport.test.mjs` et contrôle Chromium 375/390/1440 px.   
   - **Livrable :** Le premier écran doit donner nom WOOD, type de boutique, différence visuelle et destination du prochain clic.  
   - **Critère de validation :** Test sans scroller à 375/390/1440 px et capture.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
