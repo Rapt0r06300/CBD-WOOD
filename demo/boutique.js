@@ -2,6 +2,7 @@
   const STORAGE_KEY = 'wood-cart-v1';
   const ORDER_MODE_KEY = 'wood-order-mode-v1';
   const MAX_CART_QUANTITY = 99;
+  const isDemoPage = () => /(?:^|\/)demo(?:\/|$)/i.test(String(window.location?.pathname || '')) || document.documentElement?.dataset?.woodMode === 'demo';
   const escapeHtml = value => String(value ?? '').replace(/[&<>\"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
   const normalizeCartItem = item => {
     if (!item || typeof item !== 'object' || Array.isArray(item)) return null;
@@ -388,7 +389,7 @@
     if (summary) summary.textContent = mode ? `Mode choisi : ${mode.label}${mode.address ? ` · ${mode.address}` : ''}` : 'Livraison à domicile.';
     const payment = document.getElementById('prepareViva');
     const createOrderButton = document.getElementById('createOrderButton') || payment;
-    if (createOrderButton) createOrderButton.disabled = !mode || cart.length === 0;
+    if (createOrderButton) createOrderButton.disabled = isDemoPage() || !mode || cart.length === 0;
     const addressField = document.getElementById('deliveryAddressField');
     if (addressField) addressField.classList.toggle('hidden', id !== 'delivery');
     document.querySelectorAll('#deliveryAddressField [data-address-required], #deliveryAddressField input[required], #deliveryAddressField select[required]').forEach(field => {

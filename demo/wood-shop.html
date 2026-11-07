@@ -7,11 +7,25 @@
   <meta name="theme-color" content="#101610">
   <title>WOOD Shop — Vêtements et produits dérivés</title>
   <meta name="description" content="L'univers WOOD Shop : t-shirts, vêtements et produits dérivés à découvrir dans la boutique WOOD à Nice.">
+  <meta property="og:title" content="WOOD Shop — Vêtements et produits dérivés">
+  <meta property="og:description" content="L'univers WOOD Shop : t-shirts, vêtements et produits dérivés à découvrir dans la boutique WOOD à Nice.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="./wood-shop.html">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="canonical" href="./wood-shop.html">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="boutique.css?v=wood-responsive-v8-20261105">
+  <link rel="stylesheet" href="wood-photo-crops.css?v=wood-photo-crops-v1-20261107">
   <link rel="stylesheet" href="responsive.css?v=wood-logo-20261103">
   <link rel="stylesheet" href="mobile.css?v=wood-mobile-app-v6-20261104">
   <link rel="stylesheet" href="wood-motion.css?v=wood-motion-v1-20261106">
+  <link rel="stylesheet" href="wood-catalog-search.css?v=wood-catalog-search-v1-20261107">
+  <link rel="stylesheet" href="wood-product-actions.css?v=wood-product-actions-v1-20261107">
+  <link rel="stylesheet" href="wood-compare.css?v=wood-compare-v1-20261107">
+  <script src="demo-mode.js?v=wood-demo-lock-v1-20261107"></script>
+  <script src="wood-d1-adapter.js?v=wood-d1-adapter-v1-20261107"></script>
+  <link rel="stylesheet" href="wood-advisor.css?v=wood-advisor-v1-20261107">
+  <link rel="stylesheet" href="wood-badges.css?v=wood-badges-v1-20261107">
 </head>
 <body>
   <a class="skip" href="#contenu">Aller au contenu</a>
@@ -28,22 +42,48 @@
       <div class="page-hero__art"><div class="page-mark" aria-hidden="true">WOOD<span>SHOP</span></div><span class="vertical-label">WOOD — GOODS EDITION</span><span class="hero-counter">04 / 04 — WOOD SHOP</span></div>
     </section>
     <div class="crumbs"><a href="index.html">Accueil</a><span aria-hidden="true"> &nbsp;/&nbsp; </span>WOOD Shop</div>
+    <section class="wood-shop-scene container" aria-labelledby="shop-scene-title" data-state="demo">
+      <div class="wood-shop-scene__media">
+        <img src="assets/editorial/wood-campaign-collage.webp" alt="Scène lifestyle de démonstration WOOD pour vêtements et objets" loading="eager" width="1536" height="1024">
+        <span class="wood-shop-scene__label">SCÈNE DÉMO · LIFESTYLE WOOD</span>
+        <img class="wood-shop-scene__sticker" src="assets/graffiti/wood-sticker-good.svg" alt="" aria-hidden="true" loading="lazy">
+      </div>
+      <div class="wood-shop-scene__copy">
+        <span class="kicker">STUDIO WOOD · EVERYDAY</span>
+        <h2 id="shop-scene-title">PORTE-LE, <em>POSE-LE.</em></h2>
+        <p>Un espace plus street pour les pièces et objets WOOD : une identité qui se vit, avec le même soin graphique que la sélection botanique.</p>
+        <small>CONCEPT DÉMO · MODÈLES, PHOTOS, TAILLES ET PRIX À VALIDER</small>
+      </div>
+    </section>
     <section class="shop-section container" aria-labelledby="selection-title">
       <div class="section-heading"><div><div class="kicker">Les pièces WOOD</div><h2 id="selection-title" class="section-title">GOOD <span>GOODS.</span></h2></div><p class="section-aside">Une première structure de catalogue. Les modèles, tailles, photos, prix et disponibilités seront renseignés après validation de la propriétaire.</p></div>
-      <div class="product-grid">
-        <article class="product-card" data-product-id="woodshop-tshirt" data-product-name="T-shirt WOOD" data-product-category="WOOD Shop"><div class="product-art"><div class="product-art--type">W.<small>T-SHIRT / À VALIDER</small></div></div><div class="product-body"><span class="product-index">01 / TEXTILE</span><h3>T-shirt WOOD</h3><p>Une carte produit pour présenter le modèle, les tailles disponibles et la matière.</p><div class="product-meta"><span class="product-status">Prix à renseigner</span><button class="add-to-cart" type="button" disabled aria-disabled="true" data-product-unavailable>Indisponible</button></div></div></article>
-        <article class="product-card" data-product-id="woodshop-apparel" data-product-name="Vêtement WOOD" data-product-category="WOOD Shop"><div class="product-art"><div class="product-art--type">GOOD.<small>APPAREL / À VALIDER</small></div></div><div class="product-body"><span class="product-index">02 / APPAREL</span><h3>Vêtement WOOD</h3><p>Une entrée dédiée aux sweats, casquettes ou autres pièces de la collection.</p><div class="product-meta"><span class="product-status">Disponibilité boutique</span><button class="add-to-cart" type="button" disabled aria-disabled="true" data-product-unavailable>Indisponible</button></div></div></article>
-        <article class="product-card" data-product-id="woodshop-goods" data-product-name="Produit dérivé" data-product-category="WOOD Shop"><div class="product-art"><div class="product-art--type">NICE.<small>GOODS / À VALIDER</small></div></div><div class="product-body"><span class="product-index">03 / GOODS</span><h3>Produit dérivé</h3><p>Une troisième entrée pour les objets et accessoires portant l'identité de WOOD.</p><div class="product-meta"><span class="product-status">Fiche à compléter</span><button class="add-to-cart" type="button" disabled aria-disabled="true" data-product-unavailable>Indisponible</button></div></div></article>
-      </div>
+      <form class="wood-catalog-search" data-wood-catalog-search role="search" autocomplete="off"><label class="wood-catalog-search__label" for="wood-catalog-query">Chercher dans la sélection</label><div class="wood-catalog-search__control"><input id="wood-catalog-query" name="q" type="search" placeholder="Textile, objet, good…" enterkeyhint="search" aria-describedby="wood-catalog-search-status"><select name="sort" data-wood-catalog-sort aria-label="Trier la sélection"><option value="wood">Ordre WOOD</option><option value="name">Nom A–Z</option></select><button type="reset">Effacer</button></div><p class="wood-catalog-search__status" id="wood-catalog-search-status" data-wood-catalog-search-status role="status" aria-live="polite"></p><p class="wood-catalog-search__alternatives">Explorer aussi : <a href="fleurs.html">Fleurs</a> · <a href="resines.html">Résines</a> · <a href="bien-etre.html">Bien-être</a> · <a href="contact.html">Contacter WOOD</a></p></form>
+      <section class="wood-textile-gallery" aria-labelledby="textile-gallery-title" data-state="demo">
+        <div class="wood-textile-gallery__heading"><span class="kicker">PHOTO TEXTILE · FALLBACK DÉMO</span><h2 id="textile-gallery-title">LA PIÈCE <em>DE PRÈS.</em></h2><p>Deux cadres sont prêts pour le t-shirt WOOD : vue portée et détail du marquage. Le remplacement gardera la même mise en page.</p></div>
+        <div class="wood-textile-gallery__grid">
+          <figure data-textile-slot="tshirt-front"><div><img src="assets/editorial/wood-drop-studio.webp" alt="Fallback conceptuel pour la vue portée du t-shirt WOOD" loading="lazy" width="1672" height="941"><span>PHOTO TEXTILE À REMPLACER</span></div><figcaption><small>01 · VUE PORTÉE</small><strong>Le vêtement dans son décor.</strong></figcaption></figure>
+          <figure data-textile-slot="marking-detail"><div><img src="assets/editorial/wood-jar-detail.webp" alt="Fallback conceptuel pour le détail du marquage textile WOOD" loading="lazy" width="1122" height="1402"><span>PHOTO TEXTILE À REMPLACER</span></div><figcaption><small>02 · MARQUAGE</small><strong>Le détail qui signe WOOD.</strong></figcaption></figure>
+        </div>
+      </section>
+      <section class="wood-shop-family" data-family="textile" aria-labelledby="wood-shop-textile-title"><div class="wood-shop-family__heading"><span>01 / PORTER WOOD</span><h2 id="wood-shop-textile-title">TEXTILE WOOD.</h2><p>Les pièces à porter restent séparées des objets : tailles, matières et visuels seront ajoutés uniquement après validation.</p></div><div class="product-grid"><article class="product-card" data-product-id="woodshop-tshirt" data-product-name="T-shirt WOOD" data-product-category="WOOD Shop"><div class="product-art"><div class="product-art--type">W.<small>T-SHIRT / À VALIDER</small></div></div><div class="product-body"><span class="product-index">01 / TEXTILE</span><h3>T-shirt WOOD</h3><p>Une carte produit pour présenter le modèle, les tailles disponibles et la matière.</p><div class="wood-variant-fields" aria-label="Variantes démo inactives"><label>Taille<select name="size" disabled><option>Taille à confirmer</option></select></label><label>Coloris<select name="color" disabled><option>Coloris à confirmer</option></select></label></div><div class="product-meta"><span class="product-status">Prix à renseigner</span><button class="add-to-cart" type="button" disabled aria-disabled="true" data-product-unavailable>Indisponible</button></div></div></article><article class="product-card" data-product-id="woodshop-apparel" data-product-name="Vêtement WOOD" data-product-category="WOOD Shop"><div class="product-art"><div class="product-art--type">GOOD.<small>APPAREL / À VALIDER</small></div></div><div class="product-body"><span class="product-index">02 / APPAREL</span><h3>Vêtement WOOD</h3><p>Une entrée dédiée aux sweats, casquettes ou autres pièces de la collection.</p><div class="product-meta"><span class="product-status">Disponibilité boutique</span><button class="add-to-cart" type="button" disabled aria-disabled="true" data-product-unavailable>Indisponible</button></div></div></article></div></section>
+      <section class="wood-shop-family" data-family="accessoires" aria-labelledby="wood-shop-accessoires-title"><div class="wood-shop-family__heading"><span>02 / LES OBJETS</span><h2 id="wood-shop-accessoires-title">OBJETS &amp; ACCESSOIRES.</h2><p>Une famille distincte pour les objets et petits essentiels WOOD, sans les confondre avec les vêtements. Les références ci-dessous restent des emplacements de démo.</p></div><div class="product-grid"><article class="product-card" data-product-id="woodshop-feuilles" data-product-name="Feuilles" data-product-category="WOOD Shop"><div class="product-art"><div class="product-art--type">ROLL.<small>FEUILLES / À VALIDER</small></div></div><div class="product-body"><span class="product-index">03 / FEUILLES</span><h3>Feuilles</h3><p>Un emplacement pour les feuilles visibles en boutique, avec fiche et origine à confirmer.</p><div class="product-meta"><span class="product-status">Fiche à compléter</span><button class="add-to-cart" type="button" disabled aria-disabled="true" data-product-unavailable>Indisponible</button></div></div></article><article class="product-card" data-product-id="woodshop-grinders" data-product-name="Grinders" data-product-category="WOOD Shop"><div class="product-art"><div class="product-art--type">GRIND.<small>GRINDERS / À VALIDER</small></div></div><div class="product-body"><span class="product-index">04 / GRINDERS</span><h3>Grinders</h3><p>Un emplacement dédié aux grinders, sans modèle, prix ou stock supposé.</p><div class="product-meta"><span class="product-status">Disponibilité boutique</span><button class="add-to-cart" type="button" disabled aria-disabled="true" data-product-unavailable>Indisponible</button></div></div></article><article class="product-card" data-product-id="woodshop-briquets" data-product-name="Briquets" data-product-category="WOOD Shop"><div class="product-art"><div class="product-art--type">FIRE.<small>BRIQUETS / À VALIDER</small></div></div><div class="product-body"><span class="product-index">05 / BRIQUETS</span><h3>Briquets</h3><p>Une entrée séparée pour les briquets réellement proposés par la boutique.</p><div class="product-meta"><span class="product-status">Fiche à compléter</span><button class="add-to-cart" type="button" disabled aria-disabled="true" data-product-unavailable>Indisponible</button></div></div></article></div></section>
       <div class="notice"><div><h2>Porter l'univers WOOD.</h2><p>Cette page pourra accueillir les modèles réellement disponibles, les tailles, les prix et les modalités de commande et de livraison.</p></div><a class="btn" href="index.html#boutique">Contacter WOOD <span aria-hidden="true">↗</span></a></div>
     </section>
   </main>
   <footer class="footer"><div class="container"><div class="footer-top"><div class="footer-brand"><div class="footer-logo">WOOD.</div><div class="footer-slogan">Si c'est WOOD, c'est GOOD.</div></div><div><h3>La boutique</h3><div class="footer-links"><a href="fleurs.html">Fleurs CBD</a><a href="resines.html">Résines</a><a href="bien-etre.html">Bien-être</a><a href="wood-shop.html">WOOD Shop</a></div></div><div><h3>Rester en contact</h3><div class="footer-links"><a href="tel:+33422163570">04 22 16 35 70</a><a href="mailto:woodcbdshop@gmail.com">woodcbdshop@gmail.com</a><a href="index.html#boutique">7 rue Barla, 06300 Nice</a></div></div></div><div class="footer-bottom"><span>© <span id="year">2026</span> WOOD — <strong>Maquette de démonstration non officielle.</strong></span><span>Informations, produits et mentions légales à valider.</span></div></div></footer>
   <script src="supabase-config.js"></script>
   <script type="module" src="storefront.js"></script>
+  <script src="wood-catalog-search.js?v=wood-catalog-search-v1-20261107"></script>
+  <script src="wood-product-actions.js?v=wood-product-actions-v1-20261107"></script>
+  <script src="wood-compare.js?v=wood-compare-v1-20261107"></script>
   <script src="order-options.js"></script>
   <script src="boutique.js?v=wood-availability-v1-20261104"></script>
   <script src="mobile-shell.js?v=wood-mobile-app-v5-20261105"></script>
   <script src="wood-motion.js?v=wood-motion-v1-20261106"></script>
+  <script src="wood-advisor-data.js?v=wood-advisor-data-v1-20261107"></script>
+  <script src="wood-advisor-lexicon.js?v=wood-advisor-lexicon-v1-20261107"></script>
+  <script src="wood-advisor-engine.js?v=wood-advisor-engine-v1-20261107"></script>
+  <script src="wood-badge-engine.js?v=wood-badge-engine-v1-20261107"></script>
+  <script src="wood-advisor.js?v=wood-advisor-v1-20261107"></script>
 </body>
 </html>

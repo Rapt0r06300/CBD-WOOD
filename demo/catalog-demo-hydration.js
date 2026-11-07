@@ -52,6 +52,10 @@
         });
       }
       if (description) description.textContent = entry.demoDescription;
+      const title = card.querySelector('.product-body h3');
+      if (title) title.textContent = entry.name;
+      card.dataset.productName = entry.name;
+      card.setAttribute('aria-label', `Voir la présentation démo de ${entry.name}`);
       card.dataset.demoVisual = 'true';
     });
   };

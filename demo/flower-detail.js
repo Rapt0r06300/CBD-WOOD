@@ -18,6 +18,10 @@
 
   const requestedId = new URLSearchParams(window.location.search).get('produit') || 'fleurs-nimbus-3000';
   const productId = Object.hasOwn(products, requestedId) ? requestedId : 'fleurs-nimbus-3000';
+  Object.entries(products).forEach(([id, entry]) => {
+    const sourceTiers = window.WoodPriceSource?.getTiers(id) || [];
+    if (sourceTiers.length) entry.prices = sourceTiers;
+  });
   const product = products[productId];
   const relatedProducts = Object.entries(products)
     .filter(([id]) => id !== productId)
@@ -31,6 +35,8 @@
     ? `Cette fiche de démonstration présente ${product.name} dans l’univers WOOD. La photographie réelle et les informations détaillées de la boutique remplaceront ce contenu après validation.`
     : product.description;
   const presentationImage = presentation?.image || 'assets/fleurs.svg';
+  const presentationAltImage = presentation?.altImage || 'assets/editorial/wood-jar-detail.webp';
+  const presentationAltDescription = presentation?.altDescription || `Vue détail de démonstration de ${product.name} sous cloche`;
   const profileTag = product.profile.includes('STRONG') ? 'STRONG' : product.profile.includes('MEDIUM') ? 'MEDIUM' : 'FLEURS CBD';
   const priceHeaders = product.prices.map(tier => `<th scope="col">${tier.grams} g</th>`).join('');
   const priceCells = product.prices.map(tier => `<td>${tier.price.toFixed(2).replace('.', ',')} €</td>`).join('');
@@ -48,14 +54,35 @@
           <div><span>Profil</span><strong>${product.profile}</strong></div>
           <div><span>Grammages</span><strong>1 g à 25 g</strong></div>
         </div>
+        <div class="flower-detail__verified-facts" aria-label="Faits vérifiés ou à confirmer">
+          <div data-fact-state="demo"><span>Source</span><strong>Fiche WOOD · démo</strong></div>
+          <div data-fact-state="demo"><span>Format</span><strong>1 g à 25 g · à confirmer</strong></div>
+          <div data-fact-state="unknown"><span>Lot</span><strong>Non renseigné</strong></div>
+        </div>
+        <div class="flower-detail__texture" data-fact-state="demo"><span class="flower-detail__texture-label">Aspect · démonstration</span><p>La photographie et les observations de texture seront remplacées par des éléments authentifiés par WOOD. Rien ici ne remplace pas un conseil professionnel et ne constitue une promesse d'effet ou une analyse de laboratoire.</p></div>
+        <div class="flower-detail__texture-note">Cette zone ne remplace pas un conseil professionnel et ne constitue pas une promesse d'effet ni une analyse de laboratoire.</div>
         <details class="flower-detail__prices">
           <summary>Voir les tarifs par grammage</summary>
           <div class="flower-detail__prices-scroll"><table><caption>Tarifs affichés pour ${product.name}</caption><thead><tr>${priceHeaders}</tr></thead><tbody><tr>${priceCells}</tr></tbody></table></div>
         </details>
         <p class="flower-detail__note">La sélection, les disponibilités et les tarifs sont à confirmer avec la boutique avant toute commande.</p>
+        <section class="flower-detail__faq" aria-labelledby="flower-faq-title"><h2 id="flower-faq-title">FAQ de cette fiche</h2><details><summary>Comment confirmer la disponibilité ?</summary><p>Contactez la boutique avant de vous déplacer : la fiche démo ne publie pas de stock en temps réel.</p></details><details><summary>Les informations de lot sont-elles affichées ?</summary><p>Non, le lot reste indiqué comme non renseigné jusqu'à réception d'une source validée.</p></details><details><summary>La photographie montre-t-elle le produit réel ?</summary><p>Non. Le visuel est identifié comme démonstration tant qu'une photo WOOD autorisée n'a pas été reliée à cette référence.</p></details></section>
       </div>
       <article class="product-card flower-detail-card" data-product-id="${productId}" data-product-name="${product.name}" data-product-category="Fleurs CBD">
-        <div class="product-art"><img src="${presentationImage}" alt="Visuel de démonstration de la fleur ${product.name}"><span class="product-art__status">Visuel de démonstration · photo réelle à venir</span></div>
+        <div class="flower-detail__gallery" data-flower-gallery>
+          <button class="flower-detail__view-toggle" type="button" data-flower-view-toggle aria-label="Afficher la vue détail de ${product.name}">
+            <img data-flower-view="primary" src="${presentationImage}" alt="Visuel de démonstration de la fleur ${product.name}">
+            <img data-flower-view="detail" src="${presentationAltImage}" alt="${presentationAltDescription}" hidden>
+            <span class="flower-detail__view-label" aria-live="polite">Vue 1 / 2 · scène</span>
+            <span class="product-art__status">Visuel de démonstration · photo réelle à venir</span>
+          </button>
+        </div>
+        <aside class="flower-detail__scale-reference" data-scale-reference-state="pending" aria-label="Repère d’échelle à valider">
+          <span>ÉCHELLE · À RENSEIGNER</span>
+          <strong>Repère physique neutre</strong>
+          <p>Une référence de taille sera ajoutée avec une photo WOOD autorisée.</p>
+          <small>Aucune mesure publiée · en attente de validation</small>
+        </aside>
         <div class="product-body">
           <span class="product-index">${product.index} / ${profileTag}</span>
           <h3>${product.name}</h3>
@@ -81,4 +108,43 @@
       </div>
     </section>
     <div class="flower-detail__back"><a class="btn secondary" href="fleurs.html">← Retour aux fleurs</a></div>`;
+
+  const textureCopy = root.querySelector('.flower-detail__texture p');
+  if (textureCopy) textureCopy.textContent = "La photographie et les observations de texture seront remplacées par des éléments authentifiés par WOOD. Cette zone ne remplace pas un conseil professionnel et ne constitue pas une promesse d'effet ni une analyse de laboratoire.";
+  root.querySelector('.flower-detail__texture-note')?.remove();
+  const galleryToggle = root.querySelector('[data-flower-view-toggle]');
+  const galleryViews = [...root.querySelectorAll('[data-flower-view]')];
+  const galleryLabel = root.querySelector('.flower-detail__view-label');
+  let galleryIndex = 0;
+  let pointerStartX = null;
+  let swiped = false;
+  const showGalleryView = (index) => {
+    galleryIndex = index % galleryViews.length;
+    galleryViews.forEach((image, imageIndex) => { image.hidden = imageIndex !== galleryIndex; });
+    galleryLabel.textContent = galleryIndex === 0 ? 'Vue 1 / 2 · scène' : 'Vue 2 / 2 · détail';
+    galleryToggle.setAttribute('aria-label', galleryIndex === 0
+      ? `Afficher la vue détail de ${product.name}`
+      : `Afficher la vue scène de ${product.name}`);
+  };
+  galleryToggle.addEventListener('pointerdown', (event) => {
+    if (event.pointerType === 'mouse') return;
+    pointerStartX = event.clientX;
+    swiped = false;
+  }, { passive: true });
+  galleryToggle.addEventListener('pointerup', (event) => {
+    if (pointerStartX === null || event.pointerType === 'mouse') return;
+    const deltaX = event.clientX - pointerStartX;
+    pointerStartX = null;
+    if (Math.abs(deltaX) < 42) return;
+    swiped = true;
+    showGalleryView(galleryIndex + (deltaX < 0 ? 1 : galleryViews.length - 1));
+  }, { passive: true });
+  galleryToggle.addEventListener('pointercancel', () => { pointerStartX = null; });
+  galleryToggle.addEventListener('click', () => {
+    if (swiped) {
+      swiped = false;
+      return;
+    }
+    showGalleryView(galleryIndex + 1);
+  });
 })();

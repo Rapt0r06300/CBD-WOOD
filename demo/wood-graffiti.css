@@ -1,5 +1,4 @@
-.wood-graffiti{position:absolute;z-index:3;display:block;max-width:none;pointer-events:none;user-select:none;aria-hidden:true}
-.wood-graffiti{filter:drop-shadow(4px 5px 0 rgba(7,17,9,.22));animation:woodGraffitiInk 6.5s ease-in-out infinite}
+.wood-graffiti{position:absolute;z-index:3;display:block;max-width:none;pointer-events:none;user-select:none;filter:drop-shadow(4px 5px 0 rgba(7,17,9,.22));animation:woodGraffitiInk 6.5s ease-in-out infinite}
 .wood-comic-doodle{position:absolute;z-index:4;display:block;aspect-ratio:1/1;background-image:url('assets/graffiti/wood-comic-sprite.webp');background-repeat:no-repeat;background-size:300% 200%;pointer-events:none;user-select:none;filter:drop-shadow(3px 4px 0 rgba(7,17,9,.2));}
 .wood-comic-doodle--wood{background-position:0 0}
 .wood-comic-doodle--smile{background-position:50% 0}

@@ -100,7 +100,7 @@
     const targets = qsa([
       '.hero-proof-rail figure', '.page-hero__copy > *', '.page-hero__art', '.shop-section > .section-heading', '.cards .category', '.wood-service', '.wood-campaign__media', '.wood-campaign__copy', '.wood-runway-card', '.wood-selection__card', '.wood-mood__copy',
       '.wood-mood__card', '.wood-photo-rail figure', '.wood-pack__card', '.wood-proof__empty', '.wood-proof__panel', '.wood-proof__trust-row > div',
-      '.story-image', '.story-text', '.value', '.location-card', '.wood-community__inner', '.wood-detail-strip__item',
+      '.story-image', '.story-text', '.value', '.wood-why__card', '.wood-guide__item', '.location-card', '.wood-community__inner', '.wood-detail-strip__item',
       '.faq-items details', '.product-card', '.product-related__card', '.product-detail__copy',
       '.product-detail__gallery', '.flower-detail__copy', '.flower-detail-card', '.notice'
     ].join(','));
@@ -151,6 +151,64 @@
       hero.style.setProperty('--wood-hero-x', '0');
       hero.style.setProperty('--wood-hero-y', '0');
     });
+  }
+
+  function initClocheReveal() {
+    const hero = qs('.hero-art');
+    if (!hero || hero.dataset.woodClocheRevealWired === 'true') return;
+    const card = qs('.hero-product-card', hero);
+    if (!card) return;
+    hero.dataset.woodClocheRevealWired = 'true';
+    const reveal = () => {
+      if (hero.dataset.woodClocheRevealed === 'true') return;
+      hero.dataset.woodClocheRevealed = 'true';
+      hero.classList.add('wood-cloche-reveal');
+    };
+    if (reduced || lowData || !('IntersectionObserver' in window)) {
+      hero.classList.add('wood-cloche-static');
+      return;
+    }
+    const observer = new IntersectionObserver(entries => {
+      if (!entries.some(entry => entry.isIntersecting)) return;
+      reveal();
+      observer.disconnect();
+    }, { threshold: .35 });
+    observer.observe(hero);
+    hero.addEventListener('pointerup', event => {
+      if (event.pointerType === 'touch') reveal();
+    }, { passive: true });
+  }
+
+  function initHeroFallback() {
+    const hero = qs('.hero-art');
+    if (!hero) return;
+    const image = qs('[data-hero-image]', hero);
+    const fallback = qs('.hero-art__fallback', hero);
+    if (!image || !fallback || image.dataset.woodFallbackWired === 'true') return;
+    image.dataset.woodFallbackWired = 'true';
+    const showFallback = () => {
+      hero.classList.add('is-media-fallback');
+      fallback.hidden = false;
+      image.setAttribute('aria-hidden', 'true');
+    };
+    image.addEventListener('error', showFallback, { once: true });
+    if (image.complete && image.naturalWidth === 0) showFallback();
+  }
+
+  function initCampaignFallback() {
+    const media = qs('.wood-campaign__media');
+    if (!media) return;
+    const image = qs('[data-campaign-image]', media);
+    const fallback = qs('.wood-campaign__fallback', media);
+    if (!image || !fallback || image.dataset.woodFallbackWired === 'true') return;
+    image.dataset.woodFallbackWired = 'true';
+    const showFallback = () => {
+      media.classList.add('is-media-fallback');
+      fallback.hidden = false;
+      image.setAttribute('aria-hidden', 'true');
+    };
+    image.addEventListener('error', showFallback, { once: true });
+    if (image.complete && image.naturalWidth === 0) showFallback();
   }
 
   function updateRail(rail, controls) {
@@ -305,6 +363,9 @@
   initDetailStrip();
   initReveals();
   initHeroMotion();
+  initClocheReveal();
+  initHeroFallback();
+  initCampaignFallback();
   initRails();
   initProofReviews();
   initPointerHints();

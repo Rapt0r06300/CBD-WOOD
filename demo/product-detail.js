@@ -3,6 +3,7 @@
   const requestedId = params.get('produit') || '';
   const category = params.get('categorie') || 'wood-shop';
   const fallbackName = params.get('nom') || 'Référence WOOD';
+  const isDemoPage = () => /(?:^|\/)demo(?:\/|$)/i.test(String(window.location?.pathname || '')) || document.documentElement?.dataset?.woodMode === 'demo';
   const labels = {
     resines: { title: 'Résines CBD', image: 'assets/editorial/wood-resin-concept-03.webp', back: 'resines.html', copy: 'Mise en scène conceptuelle sous cloche pour la démo WOOD. La photo, la référence et les informations du produit réel restent à confirmer par la boutique.' },
     'bien-etre': { title: 'Cosmétiques & huiles', image: 'assets/cosmetiques.svg', back: 'bien-etre.html', copy: 'Un produit bien-être autour du chanvre, présenté avec les informations et précautions validées par WOOD.' },
@@ -30,23 +31,17 @@
         .slice(0, 3)
       : [];
     if (!verified.length) {
-      return '<div class="quality-proof__empty"><p>Aucune preuve qualité validée à afficher.</p><span>À fournir</span></div>';
+      return '<div class="product-source-note__empty"><strong>Aucune source vérifiée à afficher.</strong><span>À fournir</span></div>';
     }
-    return `<div class="quality-proof__grid">${verified.map(proof => `<article class="quality-proof__card"><h3>${escapeHtml(proof.label)}</h3><p>${escapeHtml(proof.value)}</p><span>${escapeHtml(proof.source)}</span></article>`).join('')}</div>`;
+    return `<div class="product-source-note__verified"><span class="product-source-note__kicker">Sources WOOD</span><div class="product-source-note__grid">${verified.map(proof => `<article><strong>${escapeHtml(proof.label)}</strong><span>${escapeHtml(proof.value)}</span><small>${escapeHtml(proof.source)}</small></article>`).join('')}</div></div>`;
   };
 
   const renderQualityProof = (proofs = []) => {
-    const section = document.querySelector('.quality-proof');
+    const section = document.querySelector('.product-source-note');
     if (!section) return;
     const hasVerifiedProof = Array.isArray(proofs) && proofs.some(proof => proof && proof.status === 'verified' && proof.source && proof.label && proof.value);
     section.dataset.qualityState = hasVerifiedProof ? 'verified' : 'empty';
-    section.querySelector('.quality-proof__dynamic')?.remove();
-    if (!hasVerifiedProof) return;
-    section.querySelector(':scope > .quality-proof__grid')?.remove();
-    const dynamic = document.createElement('div');
-    dynamic.className = 'quality-proof__dynamic';
-    dynamic.innerHTML = qualityProofMarkup(proofs);
-    section.appendChild(dynamic);
+    section.innerHTML = qualityProofMarkup(proofs);
   };
 
   const priceTableMarkup = (product, name) => {
@@ -86,6 +81,25 @@
     root.appendChild(section);
   }
 
+  function renderMobileDetailActions(productName) {
+    document.querySelector('[data-wood-detail-actions]')?.remove();
+    document.body.classList.remove('has-wood-detail-actions');
+    if (!isDemoPage()) return;
+    const bar = document.createElement('nav');
+    bar.className = 'wood-detail-actions';
+    bar.dataset.woodDetailActions = 'true';
+    bar.setAttribute('aria-label', 'Actions rapides de la fiche produit');
+    const contact = document.createElement('a');
+    contact.href = `contact.html?produit=${encodeURIComponent(productName)}`;
+    contact.textContent = 'Poser une question';
+    const store = document.createElement('a');
+    store.href = 'index.html#boutique';
+    store.textContent = 'Voir en boutique';
+    bar.append(contact, store);
+    document.body.appendChild(bar);
+    document.body.classList.add('has-wood-detail-actions');
+  }
+
   function render(product = {}) {
     const name = product.name || fallbackName;
     const description = product.description || context.copy;
@@ -121,6 +135,7 @@
         </article>
       </div>
       <div class="product-detail__back"><a class="btn secondary" href="${escapeHtml(context.back)}">← Retour à ${escapeHtml(context.title)}</a></div>`;
+    renderMobileDetailActions(name);
     const zoom = root.querySelector('[data-product-zoom]');
     const lightbox = root.querySelector('[data-product-lightbox]');
     const closeLightbox = root.querySelector('[data-product-lightbox-close]');
@@ -135,7 +150,7 @@
 
   render();
   const config = window.WOOD_SUPABASE_CONFIG;
-  if (!config || !requestedId) return;
+  if (!config || !requestedId || isDemoPage()) return;
   import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/+esm').then(({ createClient }) => {
     const client = createClient(config.url, config.publishableKey);
     const query = client.from('products').select('id, slug, name, description, price_cents, image_path, stock_quantity, availability_state, status, category').eq('status', 'published');

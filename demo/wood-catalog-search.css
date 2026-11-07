@@ -1,0 +1,221 @@
+.wood-catalog-search {
+  display: grid;
+  gap: .6rem;
+  margin: 1.5rem 0 1.8rem;
+  max-width: 44rem;
+}
+
+.wood-catalog-search__label {
+  color: var(--wood-lime, #cbf096);
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.wood-catalog-search__control {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(8rem, auto) auto;
+  gap: .65rem;
+}
+
+.wood-catalog-search input {
+  min-width: 0;
+  min-height: 3rem;
+  border: 1px solid rgba(216, 212, 189, .42);
+  border-radius: 999px;
+  padding: .75rem 1.1rem;
+  color: var(--wood-cream, #f1f0e6);
+  background: rgba(27, 44, 32, .74);
+  font: inherit;
+}
+
+.wood-catalog-search input::placeholder {
+  color: rgba(241, 240, 230, .64);
+}
+
+.wood-catalog-search input:focus-visible,
+.wood-catalog-search select:focus-visible,
+.wood-catalog-search button:focus-visible {
+  outline: 3px solid rgba(203, 240, 150, .68);
+  outline-offset: 3px;
+}
+
+.wood-catalog-search select {
+  min-height: 3rem;
+  border: 1px solid rgba(216, 212, 189, .42);
+  border-radius: 999px;
+  padding: .7rem 2rem .7rem 1rem;
+  color: var(--wood-cream, #f1f0e6);
+  background: rgba(27, 44, 32, .74);
+  font: inherit;
+}
+
+.wood-catalog-search button {
+  min-height: 3rem;
+  border: 1px solid rgba(203, 240, 150, .7);
+  border-radius: 999px;
+  padding: .7rem 1rem;
+  color: #101610;
+  background: var(--wood-lime, #cbf096);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+}
+
+.wood-catalog-search__status {
+  min-height: 1.4em;
+  color: rgba(241, 240, 230, .72);
+  font-size: .9rem;
+}
+
+.wood-catalog-search__filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: .65rem;
+  margin-top: .15rem;
+}
+
+.wood-catalog-search__filters-toggle {
+  display: none;
+}
+
+.wood-catalog-search__filters-panel {
+  display: block;
+}
+
+.wood-catalog-search__apply-filters {
+  display: none;
+}
+
+.wood-catalog-search__filter {
+  display: grid;
+  gap: .3rem;
+  color: rgba(241, 240, 230, .64);
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.wood-catalog-search__filter select {
+  min-height: 2.55rem;
+  padding: .55rem 2rem .55rem .8rem;
+  font-size: .82rem;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.wood-catalog-search__active {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem;
+  min-height: 1.8rem;
+}
+
+.wood-catalog-search__chip,
+.wood-catalog-search__clear-filters {
+  min-height: 2rem;
+  border: 1px solid rgba(203, 240, 150, .6);
+  border-radius: 999px;
+  padding: .35rem .7rem;
+  color: var(--wood-lime, #cbf096);
+  background: rgba(27, 44, 32, .86);
+  cursor: pointer;
+  font: inherit;
+  font-size: .76rem;
+}
+
+.wood-catalog-search__clear-filters {
+  border-color: rgba(241, 240, 230, .35);
+  color: rgba(241, 240, 230, .76);
+}
+
+.wood-catalog-search__chip:hover,
+.wood-catalog-search__chip:focus-visible,
+.wood-catalog-search__clear-filters:hover,
+.wood-catalog-search__clear-filters:focus-visible {
+  background: var(--wood-lime, #cbf096);
+  color: #101610;
+}
+
+.wood-catalog-search__alternatives {
+  margin: 0;
+  color: rgba(241, 240, 230, .62);
+  font-size: .82rem;
+}
+
+.wood-catalog-search__alternatives a {
+  color: var(--wood-lime, #cbf096);
+  text-underline-offset: .2em;
+}
+
+.wood-catalog-search__characteristics-note {
+  flex: 1 1 100%;
+  margin: .15rem 0 0;
+  color: rgba(241, 240, 230, .56);
+  font-size: .76rem;
+  letter-spacing: .01em;
+}
+
+.product-grid > .product-card[hidden] {
+  display: none;
+}
+
+@media (max-width: 520px) {
+  .wood-catalog-search__control {
+    grid-template-columns: 1fr;
+  }
+
+  .wood-catalog-search button {
+    justify-self: start;
+  }
+
+  .wood-catalog-search__filters {
+    align-items: stretch;
+  }
+
+  .wood-catalog-search__filters-toggle {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    margin-top: .15rem;
+    padding: .65rem 1rem;
+  }
+
+  .wood-catalog-search__filters-panel {
+    display: none;
+    margin-top: .2rem;
+  }
+
+  .wood-catalog-search__filters-panel.is-open {
+    display: block;
+  }
+
+  .wood-catalog-search__apply-filters {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    margin-top: .15rem;
+  }
+
+  .wood-catalog-search__filter {
+    flex: 1 1 10rem;
+  }
+
+  .wood-catalog-search__filter select {
+    width: 100%;
+    min-height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wood-catalog-search input,
+  .wood-catalog-search button {
+    transition: none;
+  }
+}

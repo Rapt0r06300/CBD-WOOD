@@ -1,6 +1,7 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/+esm';
 
 const config = window.WOOD_SUPABASE_CONFIG;
+const isDemoPage = () => /(?:^|\/)demo(?:\/|$)/i.test(String(window.location?.pathname || '')) || document.documentElement?.dataset?.woodMode === 'demo';
 const defaults = {
   fleurs: 'assets/fleurs.svg',
   resines: 'assets/resines.svg',
@@ -48,6 +49,26 @@ function productVisual(product, category) {
   return `<div class="product-art--type">WOOD.<small>WOOD SHOP / À DÉCOUVRIR</small></div>`;
 }
 
+function wireProductImageFallbacks(grid, category) {
+  const fallbackSource = defaults[category];
+  if (!fallbackSource) return;
+  grid.querySelectorAll('.product-art img').forEach((image) => {
+    if (image.dataset.woodFallbackWired === 'true') return;
+    image.dataset.woodFallbackWired = 'true';
+    const originalAlt = image.alt || `Visuel de démonstration ${labels[category] || category}`;
+    const showFallback = () => {
+      if (image.dataset.woodFallbackApplied === 'true') return;
+      image.dataset.woodFallbackApplied = 'true';
+      image.src = fallbackSource;
+      image.alt = `Illustration botanique de repli pour ${labels[category] || category}`;
+      image.classList.add('product-art__image--fallback');
+    };
+    image.addEventListener('error', showFallback, { once: true });
+    if (image.complete && image.naturalWidth === 0 && image.src && !image.src.endsWith(fallbackSource)) showFallback();
+    image.dataset.woodOriginalAlt = originalAlt;
+  });
+}
+
 function renderProducts(grid, products, category) {
   const isFlower = category === 'fleurs';
   grid.innerHTML = products.map((product, index) => {
@@ -82,7 +103,7 @@ function renderProducts(grid, products, category) {
     const level = isFlower ? productLevel(product.description) : '';
     const badgeMarkup = `<div class="product-badges"><span class="product-badge">${escapeHtml(labels[category] || category)}</span>${level ? `<span class="product-badge product-badge--level">${escapeHtml(level)}</span>` : ''}</div>`;
     return `<article class="product-card" data-product-id="${escapeHtml(product.id)}" data-product-slug="${escapeHtml(product.slug || product.id)}" data-product-name="${escapeHtml(product.name)}" data-product-category="${escapeHtml(labels[category] || category)}" data-product-price="${price}" data-availability-state="${availabilityState}" data-media-state="demo" data-media-label="Photo démo"${purchasable ? '' : ' data-product-unavailable="true"'}>
-      <div class="product-art product-art--cloche">${productVisual(product, category)}<div class="product-art__chrome" aria-hidden="true"><span class="product-art__status">PHOTO DÉMO</span><span class="product-art__quick">Voir</span></div></div>
+      <div class="product-art product-art--cloche">${productVisual(product, category)}<div class="product-art__chrome" aria-hidden="true"><span class="product-art__status">MAQUETTE WOOD</span><span class="product-art__quick">Voir</span></div></div>
       <div class="product-body">
         <span class="product-index">${String(index + 1).padStart(2, '0')} / WOOD CATALOGUE</span>
         ${badgeMarkup}
@@ -93,13 +114,28 @@ function renderProducts(grid, products, category) {
       </div>
     </article>`;
   }).join('');
+  wireProductImageFallbacks(grid, category);
 }
 
 async function loadCatalog() {
   const main = document.querySelector('main[data-catalog-category]');
   const grid = main?.querySelector('.product-grid');
   const category = main?.dataset.catalogCategory;
-  if (!grid || !category || !config) return;
+  if (!grid || !category) return;
+  if (isDemoPage()) {
+    const d1 = window.WoodD1Demo;
+    if (!d1?.enabled) return;
+    const payload = await d1.products({ limit: 50 });
+    const remoteProducts = Array.isArray(payload?.data)
+      ? payload.data.filter((product) => product.category_slug === category)
+      : [];
+    // Fallback: keep the pre-rendered local catalogue when D1 is absent, down or empty.
+    if (!remoteProducts.length) return;
+    renderProducts(grid, remoteProducts, category);
+    document.dispatchEvent(new CustomEvent('wood:catalog-rendered'));
+    return;
+  }
+  if (!config) return;
   const supabase = createClient(config.url, config.publishableKey);
   const { data, error } = await supabase.from('products').select('id, slug, name, description, price_cents, image_path, stock_quantity, availability_state, created_at').eq('category', category).eq('status', 'published').order('created_at', { ascending: false });
   if (error || !data?.length) return;
