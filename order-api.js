@@ -31,8 +31,17 @@ const getTurnstileToken = () => {
   return input instanceof HTMLInputElement ? input.value : '';
 };
 
+const isDemoRuntime = () => {
+  const pathname = String(globalThis.window?.location?.pathname || '');
+  const mode = globalThis.document?.documentElement?.dataset?.woodMode;
+  return /(?:^|\/)demo(?:\/|$)/i.test(pathname) || mode === 'demo';
+};
+
 window.WoodOrderApi = Object.freeze({
   async createPendingOrder(payload) {
+    if (isDemoRuntime()) {
+      throw new Error('La démo WOOD est en simulation : aucune commande réelle n’est possible.');
+    }
     const config = window.WOOD_SUPABASE_CONFIG;
     if (!config) throw new Error('La configuration Supabase est absente.');
     const idempotencyKey = payload?.idempotency_key || getOrderIdempotencyKey();

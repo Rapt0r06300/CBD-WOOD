@@ -2,7 +2,8 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 import { mountOwnerDashboard } from './owner-dashboard.js?v=wood-owner-dashboard-v1-20261104';
 
 const config = window.WOOD_SUPABASE_CONFIG;
-const supabase = config ? createClient(config.url, config.publishableKey, {
+const isDemoPage = () => /(?:^|\/)demo(?:\/|$)/i.test(String(window.location?.pathname || '')) || document.documentElement?.dataset?.woodMode === 'demo';
+const supabase = isDemoPage() ? null : config ? createClient(config.url, config.publishableKey, {
   auth: {
     persistSession: true,
     autoRefreshToken: true,

@@ -3,6 +3,7 @@
   const requestedId = params.get('produit') || '';
   const category = params.get('categorie') || 'wood-shop';
   const fallbackName = params.get('nom') || 'Référence WOOD';
+  const isDemoPage = () => /(?:^|\/)demo(?:\/|$)/i.test(String(window.location?.pathname || '')) || document.documentElement?.dataset?.woodMode === 'demo';
   const labels = {
     resines: { title: 'Résines CBD', image: 'assets/editorial/wood-resin-concept-03.webp', back: 'resines.html', copy: 'Mise en scène conceptuelle sous cloche pour la démo WOOD. La photo, la référence et les informations du produit réel restent à confirmer par la boutique.' },
     'bien-etre': { title: 'Cosmétiques & huiles', image: 'assets/cosmetiques.svg', back: 'bien-etre.html', copy: 'Un produit bien-être autour du chanvre, présenté avec les informations et précautions validées par WOOD.' },
@@ -135,7 +136,7 @@
 
   render();
   const config = window.WOOD_SUPABASE_CONFIG;
-  if (!config || !requestedId) return;
+  if (!config || !requestedId || isDemoPage()) return;
   import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/+esm').then(({ createClient }) => {
     const client = createClient(config.url, config.publishableKey);
     const query = client.from('products').select('id, slug, name, description, price_cents, image_path, stock_quantity, availability_state, status, category').eq('status', 'published');

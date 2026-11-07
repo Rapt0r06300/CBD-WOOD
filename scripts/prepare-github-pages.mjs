@@ -48,6 +48,16 @@ const gitFile = (path) => execFileSync('git', ['show', `origin/main:${path}`], {
 // The demo remains reachable through its dedicated /demo/ URL, but the
 // Base/Demo switcher is intentionally hidden from the storefront header.
 const injectSwitcher = (html) => html;
+const injectDemoMode = (html) => {
+  let result = html;
+  if (!result.includes('demo-mode.js')) {
+    result = result.replace('</head>', '  <script src="demo-mode.js?v=wood-demo-lock-v1-20261107"></script>\n</head>');
+  }
+  if (!result.includes('wood-d1-adapter.js')) {
+    result = result.replace('</head>', '  <script src="wood-d1-adapter.js?v=wood-d1-adapter-v1-20261107"></script>\n</head>');
+  }
+  return result;
+};
 const rewriteOptimizedMedia = (html) => [...optimizedMedia.entries()].reduce(
   (result, [source, optimized]) => result.replaceAll(source, optimized),
   html,
@@ -61,7 +71,7 @@ const demoFiles = await collectFiles(demoRoot);
 for (const file of demoFiles) {
   if (!file.endsWith('.html')) continue;
   const path = join(demoRoot, file);
-  await writeFile(path, rewriteOptimizedMedia(injectSwitcher(await readFile(path, 'utf8'))), 'utf8');
+  await writeFile(path, rewriteOptimizedMedia(injectDemoMode(injectSwitcher(await readFile(path, 'utf8')))), 'utf8');
 }
 
 await mkdir(baseRoot, { recursive: true });

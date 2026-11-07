@@ -1,6 +1,7 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/+esm';
 
 const config = window.WOOD_SUPABASE_CONFIG;
+const isDemoPage = () => /(?:^|\/)demo(?:\/|$)/i.test(String(window.location?.pathname || '')) || document.documentElement?.dataset?.woodMode === 'demo';
 const defaults = {
   fleurs: 'assets/fleurs.svg',
   resines: 'assets/resines.svg',
@@ -99,7 +100,21 @@ async function loadCatalog() {
   const main = document.querySelector('main[data-catalog-category]');
   const grid = main?.querySelector('.product-grid');
   const category = main?.dataset.catalogCategory;
-  if (!grid || !category || !config) return;
+  if (!grid || !category) return;
+  if (isDemoPage()) {
+    const d1 = window.WoodD1Demo;
+    if (!d1?.enabled) return;
+    const payload = await d1.products({ limit: 50 });
+    const remoteProducts = Array.isArray(payload?.data)
+      ? payload.data.filter((product) => product.category_slug === category)
+      : [];
+    // Fallback: keep the pre-rendered local catalogue when D1 is absent, down or empty.
+    if (!remoteProducts.length) return;
+    renderProducts(grid, remoteProducts, category);
+    document.dispatchEvent(new CustomEvent('wood:catalog-rendered'));
+    return;
+  }
+  if (!config) return;
   const supabase = createClient(config.url, config.publishableKey);
   const { data, error } = await supabase.from('products').select('id, slug, name, description, price_cents, image_path, stock_quantity, availability_state, created_at').eq('category', category).eq('status', 'published').order('created_at', { ascending: false });
   if (error || !data?.length) return;

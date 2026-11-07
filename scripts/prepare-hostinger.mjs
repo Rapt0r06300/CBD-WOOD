@@ -27,6 +27,8 @@ const PUBLIC_FILES = [
   'boutique.js',
   'catalog-demo-hydration.js',
   'checkout.html',
+  'demo-mode.js',
+  'wood-d1-adapter.js',
   'contact.html',
   'checkout-required.js',
   'compte.html',
