@@ -437,6 +437,16 @@ de production n’est prétendu actif dans la démo. Preuve :
 **343 / 509 — 67,39 %**, avec **28** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Le ticket `CRO-104` est validé pour le contrôle local de confidentialité : la
+démo n'active aucun traceur non essentiel et ne transmet pas d'email, d'IP ou
+d'identifiant à un service de mesure. Un registre des analytics futurs reste en
+`pending` jusqu'à l'analyse CNIL, la preuve d'une base légale ou d'une
+exemption, la décision de consentement et la procédure de suppression. Preuve :
+`docs/validation/2026-11-07-cro-104-privacy-control.md` et
+`test/cro-104-privacy-control.test.mjs`. Le compteur courant devient
+**344 / 509 — 67,58 %**, avec **27** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

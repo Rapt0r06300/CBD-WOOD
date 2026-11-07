@@ -1169,7 +1169,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Registre des droits et attribution archivée.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-104 — Contrôler politique confidentialité**   
+- [x] **CRO-104 — Contrôler politique confidentialité** — contrôle démo sans traceur non essentiel et registre des mesures futures dans `docs/validation/2026-11-07-cro-104-privacy-control.md` et `test/cro-104-privacy-control.test.mjs`; aucune mesure n’est activée avant analyse CNIL et validation de la base légale.
   - **Livrable :** Aucun email/IP de suivi ou identifiant transmis sans base légale ; analyse CNIL des analytics futurs.  
   - **Critère de validation :** Consentement ou exemption correctement prouvé, sinon aucun traceur.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
