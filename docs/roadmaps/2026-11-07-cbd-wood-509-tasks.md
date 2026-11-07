@@ -1275,17 +1275,17 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Taux d'achèvement sur participants réels seulement si test réalisé.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-124 — Faire une passe 'anti-générique'**   
+- [x] **CRO-124 — Faire une passe 'anti-générique'** — marqueurs WOOD inventoriés sur les écrans importants et éléments génériques limités aux fonctions utiles ; preuve : `docs/validation/2026-11-07-anti-generic-review.md`, `test/anti-generic-copy.test.mjs`.
   - **Livrable :** Identifier blocs pouvant figurer sur n'importe quel site CBD et les remplacer par WOOD authentique.  
   - **Critère de validation :** Chaque écran important contient un marqueur de marque justifié.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-125 — Faire une passe 'anti-TealerLab-copie'**   
+- [x] **CRO-125 — Faire une passe 'anti-TealerLab-copie'** — mécanismes e-commerce adaptés, contenus, assets, campagnes, métriques et partenariat tiers exclus ; preuve : `docs/validation/2026-11-07-anti-tealer-copy.md`, `test/anti-generic-copy.test.mjs`.
   - **Livrable :** Contrôler illustrations, slogan, grilles signatures, couleurs et appels à l'action copiés.  
   - **Critère de validation :** Adaptation fonctionnelle originale, aucune publicité de partenariat.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-126 — Préparer validation propriétaire en 10 minutes**   
+- [x] **CRO-126 — Préparer validation propriétaire en 10 minutes** — checklist fermée identité, ambiance, médias, graffitis, produits, mobile, texte et limites, sans approbation présumée ; preuve : `docs/validation/2026-11-07-owner-validation-checklist.md`, `test/owner-validation-checklist.test.mjs`.
   - **Livrable :** Questions fermées sur ambiance, tons, photos, cloches, produits, mobile et texte.  
   - **Critère de validation :** Feedback de la propriétaire explicitement séparé des suppositions.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
