@@ -6,7 +6,7 @@ Statut : **contrôle local validé pour la démo ; publication de preuve `pendin
 
 Les fiches `fleur.html` et `produit.html` conservent une ligne de source
 compacte et identifiable. Tant qu’aucun document vérifié n’est fourni, elles
-affichent « Aucune source vérifiée à afficher » et « À fournir ». Aucun badge
+affichent « Aucune source vérifiée à afficher » et « Source à fournir ». Aucun badge
 « lab tested » ou résultat de laboratoire n’est publié.
 
 ## Porte de publication
