@@ -507,6 +507,8 @@ zone `/demo/` a reçu les 136 fichiers du paquet contrôlé. Les quatre URL de
 contrôle (`/`, `/demo/`, `/demo/demo-mode.js` et `/demo/wood-advisor.js`)
 répondent en HTTP 200 après propagation. Cette publication ne ferme aucune
 validation propriétaire ou appareil réel et ne modifie pas le compteur.
+La recette interactive publique est détaillée dans
+`docs/validation/2026-11-07-public-demo-smoke.md`.
 
 ## Ce qui est prouvé
 
