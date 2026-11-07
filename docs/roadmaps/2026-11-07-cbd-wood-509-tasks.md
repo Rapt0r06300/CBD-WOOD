@@ -1564,7 +1564,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Contrôle des ruptures visuelles, CTA et Safe Area.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-157 — Registre des droits graphiques.**  
+- [x] **CRO-157 — Registre des droits graphiques.** — registre versionné des stickers et illustrations, avec source, autorisation, statut et mode de publication ; les éléments soumis à la propriétaire restent `pending` et ne sont pas `official`. Preuve : `docs/validation/2026-11-07-cro-157-graphic-rights-registry.json` et `test/cro-157-graphic-rights.test.mjs`.
   - **Livrable :** Tracer autorisations et sources pour photos, stickers, citations et affiches.  
   - **Recette :** Un média non validé ne peut apparaître comme réel/official.  
   - **Statut :** TODO (non implémenté).

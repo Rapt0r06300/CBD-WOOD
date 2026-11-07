@@ -120,6 +120,15 @@ et `scripts/compare-visual-captures.mjs`. Le compteur courant devient
 **300 / 509 — 58,94 %**, avec **71** tickets actifs encore ouverts et **138
 tâches différées**.
 
+Le registre des droits graphiques `CRO-157` est livré : chaque sticker ou
+illustration dispose d'une source, d'un statut et d'une autorisation explicite.
+Les références nécessitant la propriétaire restent `pending` et ne peuvent
+pas être publiées comme officielles. Preuve :
+`docs/validation/2026-11-07-cro-157-graphic-rights-registry.json` et
+`test/cro-157-graphic-rights.test.mjs`. Le compteur courant devient
+**301 / 509 — 59,14 %**, avec **70** tickets actifs encore ouverts et **138
+tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

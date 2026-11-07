@@ -1,0 +1,23 @@
+[
+  { "id": "graffiti-arrow", "type": "sticker", "source": "assets/graffiti/wood-arrow.svg", "authorization": "created-in-repository", "status": "demo-only", "publishAs": "decorative-demo" },
+  { "id": "graffiti-badge-aroma", "type": "sticker", "source": "assets/graffiti/wood-badge-aroma.svg", "authorization": "created-in-repository", "status": "demo-only", "publishAs": "decorative-demo" },
+  { "id": "graffiti-badge-intense", "type": "sticker", "source": "assets/graffiti/wood-badge-intense.svg", "authorization": "created-in-repository", "status": "demo-only", "publishAs": "decorative-demo" },
+  { "id": "graffiti-badge-soft", "type": "sticker", "source": "assets/graffiti/wood-badge-soft.svg", "authorization": "created-in-repository", "status": "demo-only", "publishAs": "decorative-demo" },
+  { "id": "graffiti-botanical", "type": "sticker", "source": "assets/graffiti/wood-botanical-sticker.svg", "authorization": "created-in-repository", "status": "demo-only", "publishAs": "decorative-demo" },
+  { "id": "graffiti-burst", "type": "sticker", "source": "assets/graffiti/wood-burst.svg", "authorization": "created-in-repository", "status": "demo-only", "publishAs": "decorative-demo" },
+  { "id": "graffiti-card-accent", "type": "sticker", "source": "assets/graffiti/wood-card-accent.svg", "authorization": "created-in-repository", "status": "demo-only", "publishAs": "decorative-demo" },
+  { "id": "graffiti-crown", "type": "sticker", "source": "assets/graffiti/wood-crown.svg", "authorization": "created-in-repository", "status": "demo-only", "publishAs": "decorative-demo" },
+  { "id": "graffiti-halo", "type": "sticker", "source": "assets/graffiti/wood-halo.svg", "authorization": "created-in-repository", "status": "demo-only", "publishAs": "decorative-demo" },
+  { "id": "graffiti-lightning", "type": "sticker", "source": "assets/graffiti/wood-lightning.svg", "authorization": "created-in-repository", "status": "demo-only", "publishAs": "decorative-demo" },
+  { "id": "graffiti-loop-arrow", "type": "sticker", "source": "assets/graffiti/wood-loop-arrow.svg", "authorization": "created-in-repository", "status": "demo-only", "publishAs": "decorative-demo" },
+  { "id": "graffiti-scribble", "type": "sticker", "source": "assets/graffiti/wood-scribble.svg", "authorization": "created-in-repository", "status": "demo-only", "publishAs": "decorative-demo" },
+  { "id": "graffiti-section-stamp", "type": "sticker", "source": "assets/graffiti/wood-section-stamp.svg", "authorization": "created-in-repository", "status": "demo-only", "publishAs": "decorative-demo" },
+  { "id": "graffiti-smiley", "type": "sticker", "source": "assets/graffiti/wood-smiley.svg", "authorization": "created-in-repository", "status": "demo-only", "publishAs": "decorative-demo" },
+  { "id": "graffiti-speed-line", "type": "sticker", "source": "assets/graffiti/wood-speed-line.svg", "authorization": "created-in-repository", "status": "demo-only", "publishAs": "decorative-demo" },
+  { "id": "graffiti-splash", "type": "sticker", "source": "assets/graffiti/wood-splash.svg", "authorization": "created-in-repository", "status": "demo-only", "publishAs": "decorative-demo" },
+  { "id": "graffiti-star", "type": "sticker", "source": "assets/graffiti/wood-star.svg", "authorization": "created-in-repository", "status": "demo-only", "publishAs": "decorative-demo" },
+  { "id": "graffiti-good", "type": "sticker", "source": "assets/graffiti/wood-sticker-good.svg", "authorization": "created-in-repository", "status": "demo-only", "publishAs": "decorative-demo" },
+  { "id": "graffiti-sun", "type": "sticker", "source": "assets/graffiti/wood-sun.svg", "authorization": "created-in-repository", "status": "demo-only", "publishAs": "decorative-demo" },
+  { "id": "graffiti-tag", "type": "sticker", "source": "assets/graffiti/wood-tag.svg", "authorization": "created-in-repository", "status": "demo-only", "publishAs": "decorative-demo" },
+  { "id": "graffiti-comic-sprite", "type": "illustration", "source": "assets/graffiti/wood-comic-sprite.webp", "authorization": "owner-validation-required", "status": "pending", "publishAs": "demo" }
+]
