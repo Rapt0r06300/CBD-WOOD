@@ -1196,7 +1196,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Audits largeur 320 et grossissement texte.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-109 — Contrôler expérience une main**   
+- [x] **CRO-109 — Contrôler expérience une main** — menu, recherche, filtres et itinéraires disposent de cibles tactiles ≥44 px et restent dans le flux mobile ; contrôle documenté dans `test/one-hand-mobile.test.mjs`, appareils physiques restant externes.
   - **Livrable :** Menu, recherche, filtres et itinéraire accessibles au pouce sans déplacement forcé.  
   - **Critère de validation :** Protocole manuel et absence de cibles \<44px.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.

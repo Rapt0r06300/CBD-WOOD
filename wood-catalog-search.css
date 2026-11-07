@@ -162,6 +162,7 @@
 
   .wood-catalog-search__filter select {
     width: 100%;
+    min-height: 44px;
   }
 }
 
