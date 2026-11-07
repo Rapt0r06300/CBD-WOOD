@@ -1270,7 +1270,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Deux variantes et une recommandation documentées.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-123 — Tester sur profils de visiteur distincts**   
+- [x] **CRO-123 — Tester sur profils de visiteur distincts** — simulations novice et habitué vérifient les parcours locaux sans inventer de participants, taux ou conversion ; preuve : `docs/validation/2026-11-07-visitor-profiles.md`, `test/visitor-profiles.test.mjs`.
   - **Livrable :** Simuler novice et habitué en tâches sans collecte réelle ; observer obstacles.  
   - **Critère de validation :** Taux d'achèvement sur participants réels seulement si test réalisé.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
