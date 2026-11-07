@@ -3,7 +3,7 @@
    Données fleurs RÉELLES (prix proprio). Profils = goût, jamais d'effet.
    =========================================================== */
 
-const IMGV = "?v=2"; /* cache-buster images (bump si régénération) */
+const IMGV = "?v=3"; /* cache-buster images (bump si régénération) */
 const FLEURS = [
   { slug:"nimbus-3000", nom:"Nimbus 3000", tier:"boostes", desc:"Givrée ❄️", c:["#eafce0","#8fd08a"], p:[15,42,70,130,260] },
   { slug:"ivory", nom:"Ivory", tier:"boostes", desc:"Douce 🤍", c:["#f3f1dd","#b7cf9a"], p:[15,42,70,130,260] },
