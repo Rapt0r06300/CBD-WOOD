@@ -263,6 +263,15 @@ Safari iOS et Android réels restent explicitement séparés. Le compteur couran
 devient **324 / 509 — 63,65 %**, avec **47** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Le handoff local `D1-025` est terminé avec les 25 statuts exacts, le bilan
+**18 / 25 — 72,00 %** côté D1, les commits, les URLs Pages, les blocages OAuth
+et la prochaine tâche automatique. Les validations Cloudflare distantes restent
+ouvertes et aucun coût réel n'est déclaré confirmé. Preuve :
+`docs/validation/wood-d1-free-progress.md` et
+`test/d1-025-handoff.test.mjs`. Le compteur courant devient
+**325 / 509 — 63,85 %**, avec **46** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
