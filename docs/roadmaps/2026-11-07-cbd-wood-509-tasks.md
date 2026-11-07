@@ -484,7 +484,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [ ] **TXW-111 — Écarter les sources tiers non autorisées.** Ne pas copier les stickers d'autres marques, les créations TealerLab ou les photos de site tiers sans droits explicites.    
   **Acceptation :** Registre des droits par asset ; aucun élément litigieux diffusé.
 
-- [ ] **TXW-112 — Préparer la validation propriétaire.** Créer une synthèse courte des propositions, une checklist oui/non pour logo, palette, photos, ton, pages et messages.    
+- [x] **TXW-112 — Préparer la validation propriétaire.** Checklist oui/non pour identité, contraste, chic/premium, chill/graffiti, humour, cloche, photos, rythme inspiré de TealerLab et revue mobile ; preuve : `docs/validation/2026-11-07-owner-approval-checklist.md` et `test/owner-approval-checklist.test.mjs`.    
   **Acceptation :** Les décisions externes restent non cochées jusqu'au retour de la propriétaire.
 
 ### P11 — Recette, preuve et livraison de la DÉMO — 8 tickets
