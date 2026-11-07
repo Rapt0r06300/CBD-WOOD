@@ -447,6 +447,15 @@ exemption, la décision de consentement et la procédure de suppression. Preuve 
 **344 / 509 — 67,58 %**, avec **27** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Le ticket `CRO-099` est validé pour le contrôle local de la démo : les pages
+publiques ne contiennent ni encouragement à un usage interdit ni garantie de
+sécurité absolue. La revue juridique humaine des fleurs, résines, huiles,
+cosmétiques, comestibles et accessoires reste `pending` avant toute publication
+commerciale. Preuve : `docs/validation/2026-11-07-cro-099-sensitive-usage.md`
+et `test/cro-099-sensitive-usage.test.mjs`. Le compteur courant devient
+**345 / 509 — 67,78 %**, avec **26** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

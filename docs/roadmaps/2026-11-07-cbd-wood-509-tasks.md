@@ -1144,7 +1144,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Aucune affirmation santé non autorisée en page publique.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-099 — Vérifier contenu sensible d'usage**   
+- [x] **CRO-099 — Vérifier contenu sensible d'usage** — contrôle des pages publiques contre les encouragements à un usage interdit et les affirmations de sécurité absolue dans `docs/validation/2026-11-07-cro-099-sensitive-usage.md` et `test/cro-099-sensitive-usage.test.mjs`; la revue juridique humaine reste `pending` par catégorie.
   - **Livrable :** Supprimer encouragement explicite à usages interdits ou affirmations de sécurité absolue.  
   - **Critère de validation :** Revue juridique humaine des catégories concernées requise.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
