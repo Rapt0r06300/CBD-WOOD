@@ -146,10 +146,10 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [ ] **TXW-005 — Auditer la séparation démo / données réelles.** Tracer les importations JS, configuration Supabase, appels HTTP, comptes, panier et page confirmation ; repérer tout effet de bord réel.    
   **Acceptation :** Carte exhaustive des appels distants et de leurs risques.
 
-- [ ] **TXW-006 — Interdire les commandes réelles dans la démo.** Isoler ou neutraliser côté démo les appels tels que create-pending-order ; implémenter une simulation locale explicite, sans créer de commande dans Supabase ni déclencher de transaction.    
+- [x] **TXW-006 — Interdire les commandes réelles dans la démo.** Isoler ou neutraliser côté démo les appels tels que create-pending-order ; implémenter une simulation locale explicite, sans créer de commande dans Supabase ni déclencher de transaction.    
   **Acceptation :** Test de bout en bout : aucune écriture distante, aucune commande commerciale ; retour explicite 'simulation'.
 
-- [ ] **TXW-007 — Interdire tous les envois réels.** Vérifier contact, newsletter, notifications, mails de commande, comptes et éventuelles intégrations ; aucune action utilisateur en /demo/ ne doit envoyer de message réel.    
+- [x] **TXW-007 — Interdire tous les envois réels.** Vérifier contact, newsletter, notifications, mails de commande, comptes et éventuelles intégrations ; aucune action utilisateur en /demo/ ne doit envoyer de message réel.    
   **Acceptation :** Tests négatifs et absence d'appels d'expédition dans le réseau de démo.
 
 - [ ] **TXW-008 — Reproduire le symbole '?' sur iPhone.** Examiner la capture de l'utilisateur au-dessus de 'DROP 03 / STUDIO WOOD', puis reproduire avec Safari iOS et vérifier glyphe, SVG, chargement, police, décodage et cache.    
@@ -1097,7 +1097,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Journal et test prouvent 0 écriture/commande/email/paiement externe.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-090 — Neutraliser API de commande côté démo**   
+- [x] **CRO-090 — Neutraliser API de commande côté démo**   
   - **Livrable :** Refuser create-pending-order même si élément HTML redevient actif.  
   - **Critère de validation :** Test E2E: aucun POST vers production, même formulaire forcé.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -1366,27 +1366,27 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
 
 ## Phase A — Préflight et agent Cloudflare
 
-- [ ] **D1-001 — Audit du dépôt.** Repérer l'architecture HTML/CSS/JS, le catalogue de 13 références démonstration, le flux de commandes actuel, les dépendances et la suite `npm run check`. Preuve : inventaire daté, sans modification distante.  
-- [ ] **D1-002 — Contrat de non-facturation.** Vérifier les plafonds `Workers Free`/`D1 Free` directement sur la documentation officielle, horodater l'examen et écrire une procédure de refus de service payant. Preuve : liens officiels et règle fail-closed.  
-- [ ] **D1-003 — Détection outils Codex.** Identifier OS, `node`, `npm`, `npx`, `codex`, `wrangler` et droits d'exécution. Utiliser l'environnement de l'agent, sans prétendre accéder au PC si non connecté. Preuve : commandes disponibles.  
+- [x] **D1-001 — Audit du dépôt.** Repérer l'architecture HTML/CSS/JS, le catalogue de 13 références démonstration, le flux de commandes actuel, les dépendances et la suite `npm run check`. Preuve : inventaire daté, sans modification distante.  
+- [x] **D1-002 — Contrat de non-facturation.** Vérifier les plafonds `Workers Free`/`D1 Free` directement sur la documentation officielle, horodater l'examen et écrire une procédure de refus de service payant. Preuve : liens officiels et règle fail-closed.  
+- [x] **D1-003 — Détection outils Codex.** Identifier OS, `node`, `npm`, `npx`, `codex`, `wrangler` et droits d'exécution. Utiliser l'environnement de l'agent, sans prétendre accéder au PC si non connecté. Preuve : commandes disponibles.  
 - [ ] **D1-004 — Skills Cloudflare et MCP.** Vérifier `.codex/config.toml`, puis installer les Skills officiels dans l'environnement Codex s'ils manquent ; vérifier les endpoints MCP (API, docs, bindings, builds, observability) sans en créer en double. Le script `scripts/setup-cloudflare-codex.ps1` est utilisable sur Windows seulement si Codex y tourne. Preuve : `codex mcp list` ou diagnostic équivalent.  
 - [ ] **D1-005 — OAuth Cloudflare.** Déclencher `codex mcp login cloudflare` ou l'authentification native adéquate. L'utilisateur doit consentir sur le site officiel ; sinon noter `BLOCKED-EXTERNAL`. Preuve : état de connexion vérifié sans divulguer de token.
 
 ## Phase B — Base portable SQLite et sécurité locale
 
-- [ ] **D1-006 — Inventaire du modèle.** Définir schéma `categories`, `products`, `product_media`, `product_variants`, `site_content` et `schema_migrations`. Les tables de commande/paiement/clients/newsletter sont **hors périmètre** de la démo. Preuve : dictionnaire de données.  
-- [ ] **D1-007 — Migrations D1.** Créer `backend/cloudflare-d1/migrations/0001_initial_schema.sql` et migrations ultérieures sûres (SQLite D1, clés, unicité, index, timestamps, statuts `demo`/`approved`). Preuve : migrations rejouables localement.  
-- [ ] **D1-008 — Seed WOOD honnête.** Créer un seed SQL reproductible de **4 catégories** et **13 références fleurs de maquette** basées uniquement sur le registre local `flower-presentation.js`. Pour produits indisponibles, utiliser des états de démo ; prix, stock et allégations inconnus restent `NULL`, jamais inventés. Preuve : comptages et audit des champs.  
-- [ ] **D1-009 — Tests de base.** Écrire et exécuter des tests SQLite de clés étrangères, contraintes d'unicité, validité des slugs, indices, réexécution idempotente, et absence de données personnelles et commerciales. Preuve : rapport reproductible.  
-- [ ] **D1-010 — Export et restauration.** Produire une commande d'export des seules données fictives et démontrer une restauration locale. Exclure jetons et données réelles. Preuve : comparaison du nombre de lignes et checksums.
+- [x] **D1-006 — Inventaire du modèle.** Définir schéma `categories`, `products`, `product_media`, `product_variants`, `site_content` et `schema_migrations`. Les tables de commande/paiement/clients/newsletter sont **hors périmètre** de la démo. Preuve : dictionnaire de données.  
+- [x] **D1-007 — Migrations D1.** Créer `backend/cloudflare-d1/migrations/0001_initial_schema.sql` et migrations ultérieures sûres (SQLite D1, clés, unicité, index, timestamps, statuts `demo`/`approved`). Preuve : migrations rejouables localement.  
+- [x] **D1-008 — Seed WOOD honnête.** Créer un seed SQL reproductible de **4 catégories** et **13 références fleurs de maquette** basées uniquement sur le registre local `flower-presentation.js`. Pour produits indisponibles, utiliser des états de démo ; prix, stock et allégations inconnus restent `NULL`, jamais inventés. Preuve : comptages et audit des champs.  
+- [x] **D1-009 — Tests de base.** Écrire et exécuter des tests SQLite de clés étrangères, contraintes d'unicité, validité des slugs, indices, réexécution idempotente, et absence de données personnelles et commerciales. Preuve : rapport reproductible.  
+- [x] **D1-010 — Export et restauration.** Produire une commande d'export des seules données fictives et démontrer une restauration locale. Exclure jetons et données réelles. Preuve : comparaison du nombre de lignes et checksums.
 
 ## Phase C — Worker D1 Free, lecture seule
 
-- [ ] **D1-011 — Structure Worker.** Créer `backend/cloudflare-d1/wrangler.jsonc`, `src/index.mjs`, `README.md`, `.gitignore`; `database_id` reste un placeholder avant création réelle. `workers_dev` activé pour test, sans domaine payant. Preuve : configuration valide.  
-- [ ] **D1-012 — API catalog.** Fournir seulement `GET /health`, `GET /v1/categories`, `GET /v1/products`, `GET /v1/products/:slug` et éventuellement `HEAD/OPTIONS`. Réponses JSON stables, limite de résultats et pagination. Preuve : contrats et tests.  
-- [ ] **D1-013 — Méthodes interdites.** `POST`, `PUT`, `PATCH`, `DELETE` doivent être refusés sans écritures, y compris quand l'API est sollicitée par un client malveillant. Preuve : tests négatifs.  
-- [ ] **D1-014 — Origines, validation et headers.** CORS limité à GitHub Pages WOOD et localhost de développement ; aucune wildcard avec credentials, aucune clé d'admin côté navigateur, requêtes préparées, pagination bornée, no-store/ETag lorsque pertinent. Preuve : tests d'origines permises/refusées, erreurs 400/404/503.  
-- [ ] **D1-015 — Performance Free.** Indexer les recherches publiques, limiter les scans et le nombre d'appels Worker, proposer le cache pour les pages de catalogue et un fallback lors d'une panne ou d'une limite de quota. Preuve : tests quota simulé et lecture sans régression.
+- [x] **D1-011 — Structure Worker.** Créer `backend/cloudflare-d1/wrangler.jsonc`, `src/index.mjs`, `README.md`, `.gitignore`; `database_id` reste un placeholder avant création réelle. `workers_dev` activé pour test, sans domaine payant. Preuve : configuration valide.  
+- [x] **D1-012 — API catalog.** Fournir seulement `GET /health`, `GET /v1/categories`, `GET /v1/products`, `GET /v1/products/:slug` et éventuellement `HEAD/OPTIONS`. Réponses JSON stables, limite de résultats et pagination. Preuve : contrats et tests.  
+- [x] **D1-013 — Méthodes interdites.** `POST`, `PUT`, `PATCH`, `DELETE` doivent être refusés sans écritures, y compris quand l'API est sollicitée par un client malveillant. Preuve : tests négatifs.  
+- [x] **D1-014 — Origines, validation et headers.** CORS limité à GitHub Pages WOOD et localhost de développement ; aucune wildcard avec credentials, aucune clé d'admin côté navigateur, requêtes préparées, pagination bornée, no-store/ETag lorsque pertinent. Preuve : tests d'origines permises/refusées, erreurs 400/404/503.  
+- [x] **D1-015 — Performance Free.** Indexer les recherches publiques, limiter les scans et le nombre d'appels Worker, proposer le cache pour les pages de catalogue et un fallback lors d'une panne ou d'une limite de quota. Preuve : tests quota simulé et lecture sans régression.
 
 ## Phase D — Création et tests distants (uniquement après OAuth)
 
@@ -1398,8 +1398,8 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
 
 ## Phase E — Intégration progressive et finition Codex
 
-- [ ] **D1-021 — Adaptateur frontend opt-in.** Lire le catalogue D1 uniquement lorsque `WOOD_D1_DEMO_ENABLED` est explicitement activé dans une configuration démo non secrète. **Valeur par défaut \= désactivé**. Même HTML, mêmes catégories, aucun prix ou stock inventé. Preuve : comparaison snapshot.  
-- [ ] **D1-022 — Fallback sûr.** En erreur réseau, quota ou Worker absent, afficher le catalogue local existant sans écran vide. Ne jamais permettre à un click de créer une commande Supabase ni d'envoyer un email depuis la démo. Preuve : tests navigateur et mocks réseau.  
+- [x] **D1-021 — Adaptateur frontend opt-in.** Lire le catalogue D1 uniquement lorsque `WOOD_D1_DEMO_ENABLED` est explicitement activé dans une configuration démo non secrète. **Valeur par défaut \= désactivé**. Même HTML, mêmes catégories, aucun prix ou stock inventé. Preuve : comparaison snapshot.  
+- [x] **D1-022 — Fallback sûr.** En erreur réseau, quota ou Worker absent, afficher le catalogue local existant sans écran vide. Ne jamais permettre à un click de créer une commande Supabase ni d'envoyer un email depuis la démo. Preuve : tests navigateur et mocks réseau.  
 - [ ] **D1-023 — Recette cross-device.** Tester mobile (320, 360, 375, 390, 430), tablette et desktop (768, 1024, 1440), clavier, tactile, focus, zoom, image manquante, a11y, reduced-motion, CLS. Preuve : captures datées et rapport Playwright si disponible.  
 - [ ] **D1-024 — Non-régression et rollback.** Exécuter `npm run check`, comparer captures/pages avant-après, garder la bascule off et documenter la désactivation immédiate du Worker sans supprimer D1 ou Supabase. Preuve : journal de test et scénario rollback validé.  
 - [ ] **D1-025 — Compte rendu et handoff.** Mettre à jour `docs/validation/wood-d1-free-progress.md` avec 25 statuts exacts, coûts réels (0 € si confirmé), commits, URL si déployée, blockers OAuth et prochaine tâche automatique. Ne pas cocher les validations owner ou secrets. Preuve : bilan final traçable.

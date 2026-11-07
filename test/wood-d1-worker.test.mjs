@@ -65,3 +65,16 @@ test('le Worker refuse une origine inconnue et conserve le fallback local possib
   assert.equal(response.headers.get('access-control-allow-origin'), null);
 });
 
+test('le catalogue public est cacheable, borné et garde un fallback 503 sans D1', async () => {
+  const { db } = makeDb();
+  const response = await worker.default.fetch(new Request('https://wood-demo.workers.dev/v1/products?limit=999&offset=0'), { DB: db });
+  assert.equal(response.status, 200);
+  assert.equal(response.headers.get('cache-control'), 'public, max-age=60');
+  assert.equal((await response.json()).pagination.limit, 50);
+
+  const unavailable = await worker.default.fetch(new Request('https://wood-demo.workers.dev/v1/products'), {});
+  assert.equal(unavailable.status, 503);
+  assert.equal(unavailable.headers.get('cache-control'), 'no-store');
+  assert.equal((await unavailable.json()).fallback, 'local');
+});
+
