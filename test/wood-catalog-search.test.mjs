@@ -40,10 +40,23 @@ test('la recherche normalise accents et synonymes sans service distant', async (
   assert.equal(api.matches(card, ''), true);
 });
 
-test('la recherche ne partage que q et le tri public dans l’URL', async () => {
+test('les filtres combinables restent limités aux états réellement présents', async () => {
+  const api = await loadApi();
+  const availableDemo = { dataset: { productName: 'Nimbus', productCategory: 'Fleurs', mediaState: 'demo' }, querySelector: () => null, textContent: '' };
+  const incompleteDemo = { dataset: { productName: 'Huile', productCategory: 'Bien-être', mediaState: 'demo', productUnavailable: 'true' }, querySelector: () => ({}) , textContent: '' };
+  const approved = { dataset: { productName: 'Photo', productCategory: 'Fleurs', mediaState: 'approved', availabilityState: 'available' }, querySelector: () => null, textContent: '' };
+  assert.equal(JSON.stringify(api.filterCards([availableDemo, incompleteDemo, approved], '', { media: 'demo', state: 'available' }).map(card => card.dataset.productName)), '["Nimbus"]');
+  assert.equal(JSON.stringify(api.filterCards([availableDemo, incompleteDemo, approved], '', { state: 'incomplete' }).map(card => card.dataset.productName)), '["Huile"]');
+  assert.equal(JSON.stringify(api.filterCards([availableDemo, incompleteDemo, approved], '', { media: 'approved' }).map(card => card.dataset.productName)), '["Photo"]');
+});
+
+test('la recherche ne partage que les états publics dans l’URL', async () => {
   const source = await readFile(new URL('../wood-catalog-search.js', import.meta.url), 'utf8');
   assert.match(source, /URLSearchParams/);
   assert.match(source, /replaceState/);
   assert.match(source, /searchParams\.set\('q'/);
   assert.match(source, /searchParams\.set\('sort'/);
+  assert.match(source, /searchParams\.set\('media'/);
+  assert.match(source, /searchParams\.set\('state'/);
+  assert.match(source, /wood-catalog-search__chip/);
 });

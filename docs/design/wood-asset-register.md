@@ -24,16 +24,19 @@ une promesse sur un produit.
 
 ## Règles de remplacement
 
-1. Une photo réelle sans bocal ni cloche remplace uniquement le fichier ou
-   l’entrée approuvée correspondant au nom exact.
-2. Le format, le poids, le cadrage, la source et l’autorisation sont ajoutés au
+1. Une photo réelle approuvée sans bocal ni cloche remplace uniquement le
+   fichier ou l’entrée approuvée correspondant au nom exact.
+2. Une scène démo sous cloche peut rester dans le registre comme média
+   éditorial `demo-cloche`, à condition d’être étiquetée et accompagnée d’une
+   vue `demo-clean-view` hors cloche.
+3. Le format, le poids, le cadrage, la source et l’autorisation sont ajoutés au
    registre avant publication.
-3. Le statut passe de `demo` à `approved` seulement après validation de la
+4. Le statut passe de `demo` à `approved` seulement après validation de la
    propriétaire ; un rollback doit rester possible fichier par fichier.
-4. Notre équipe crée et classe les futurs stickers, graffiti et illustrations
+5. Notre équipe crée et classe les futurs stickers, graffiti et illustrations
    des univers en statut `demo` à partir du brief reçu. La propriétaire valide
    les versions finales ; les photos réelles des produits restent distinctes.
-5. Un chemin renseigné ne prouve ni une origine photographique réelle ni une
+6. Un chemin renseigné ne prouve ni une origine photographique réelle ni une
    approbation. Le futur contrat média doit porter explicitement ces statuts
    et alimenter les mêmes images dans boutique, fiche, accueil et gestion.
 

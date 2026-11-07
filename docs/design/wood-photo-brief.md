@@ -4,7 +4,9 @@ Ce document prépare la production des vraies photos demandées par la propriét
 
 ## Direction commune
 
-- Produit réel seul, sans bocal, cloche, sachet ou accessoire qui ferait croire à un autre produit.
+- Pour une photo produit approuvée : produit réel seul, sans bocal, cloche, sachet ou accessoire qui ferait croire à un autre produit.
+- Pour la démo et les séquences éditoriales WOOD : une composition sous cloche en verre est autorisée quand elle sert la présentation qualitative demandée par la propriétaire. Elle doit porter l’état `demo` et ne doit pas être présentée comme une photo commerciale actuelle.
+- Chaque présentation sous cloche doit prévoir une deuxième vue nette hors cloche (macro ou vue matière) afin que le produit reste compréhensible sans l’accessoire de mise en scène.
 - Sujet lisible, propre et isolé ; angle de photographe, profondeur de champ légère et détails nets.
 - Lumière douce mais directionnelle, sans surexposition ni dominante qui change les couleurs WOOD.
 - Fond cohérent avec les surfaces WOOD existantes : sombre botanique, vert profond ou neutre texturé ; aucune nouvelle palette de marque.
@@ -31,6 +33,16 @@ Les exports attendus sont l'original haute définition séparé, l'export web
 moderne, une miniature lorsque nécessaire, un fallback JPEG/PNG et son alt text.
 Le statut `demo`/`approved` reste attaché à chaque fichier ; un fichier sans
 source ou autorisation est refusé avant publication.
+
+## Règle cloche WOOD
+
+La cloche est un élément de direction artistique pour le mode démo : elle
+exprime le soin, la rareté et le côté galerie de la boutique sans fabriquer une
+preuve produit. Elle est donc séparée du média `approved` utilisé pour une
+fiche commerciale. Le registre doit distinguer `demo-cloche`, `demo-clean-view`
+et `approved-real-photo`. Une carte ou une fiche peut montrer la scène sous
+cloche, mais son label d’état reste visible et sa deuxième vue hors cloche doit
+rester accessible au toucher, au clavier et sans animation.
 
 ## Contrôles avant approbation
 

@@ -6,10 +6,10 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const outputDir = join(root, 'dist-hostinger');
 const optimizedMedia = new Map([
   ['assets/editorial/wood-hero-cloche.png', 'assets/editorial/wood-hero-cloche.webp'],
-  ['assets/editorial/wood-campaign-collage.png', 'assets/editorial/wood-campaign-collage.webp'],
-  ['assets/editorial/wood-drop-studio.png', 'assets/editorial/wood-drop-studio.webp'],
-  ['assets/editorial/wood-jar-detail.png', 'assets/editorial/wood-jar-detail.webp'],
-  ['assets/editorial/wood-texture-dome.png', 'assets/editorial/wood-texture-dome.webp'],
+  ['assets/editorial/wood-campaign-collage.webp', 'assets/editorial/wood-campaign-collage.webp'],
+  ['assets/editorial/wood-drop-studio.webp', 'assets/editorial/wood-drop-studio.webp'],
+  ['assets/editorial/wood-jar-detail.webp', 'assets/editorial/wood-jar-detail.webp'],
+  ['assets/editorial/wood-texture-dome.webp', 'assets/editorial/wood-texture-dome.webp'],
 ]);
 const rewriteOptimizedMedia = (html) => [...optimizedMedia.entries()].reduce(
   (result, [source, optimized]) => result.replaceAll(source, optimized),

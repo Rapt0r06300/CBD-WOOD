@@ -56,10 +56,10 @@ test('l’accueil montre une sélection WOOD cohérente avec la boutique', async
   const sources = [...html.matchAll(/class="wood-selection__visual(?:\s[^"]*)?"[\s\S]*?<img src="([^"]+)"/gu)].map(match => match[1]);
 
   assert.deepEqual(sources, [
-    'assets/editorial/wood-jar-detail.png',
-    'assets/editorial/wood-texture-dome.png',
+    'assets/editorial/wood-jar-detail.webp',
+    'assets/editorial/wood-texture-dome.webp',
     'assets/flowers/fleurs-velvet-kush.webp',
-    'assets/editorial/wood-jar-detail.png',
+    'assets/editorial/wood-jar-detail.webp',
   ]);
   assert.match(html, /illustrations de démonstration/iu);
   assert.match(html, /home-selection\.css\?v=wood-home-selection-v1-20261105/u);

@@ -3,7 +3,7 @@ import { join, relative } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
 const root = process.cwd();
-const ignored = new Set(['.git', '.fallow', '.superpowers', 'dist-hostinger', 'node_modules', 'test-results']);
+const ignored = new Set(['.git', '.fallow', '.superpowers', '.headless-public-runway-final', '.github-pages', 'dist-hostinger', 'node_modules', 'site-versions', 'test-results']);
 
 async function collect(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
@@ -23,7 +23,12 @@ for (const file of files) {
   const source = await readFile(file, 'utf8');
   const isModule = /^\s*(?:import|export)\b/m.test(source);
   const args = isModule ? ['--check', '--input-type=module'] : ['--check', file];
-  const result = spawnSync(process.execPath, args, { encoding: 'utf8', input: isModule ? source : undefined });
+  const result = spawnSync(process.execPath, args, {
+    encoding: 'utf8',
+    input: isModule ? source : undefined,
+    timeout: 5000,
+    killSignal: 'SIGTERM',
+  });
   if (result.status !== 0) failures.push({ file: relative(root, file), output: result.stderr.trim() });
 }
 

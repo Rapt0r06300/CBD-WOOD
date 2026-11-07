@@ -25,7 +25,7 @@ Les routes et ancres sont inventoriées dans `docs/ops/public-routes.md` et vér
 
 ## TXW-113 / TXW-116 — recette de build
 
-- `npm run check` : 383 tests, syntaxe JavaScript OK (177 fichiers), audit statique OK, readiness OK, continuité OK.
+- `npm test` : 413/413 tests, syntaxe JavaScript OK (34 fichiers source), audit statique OK, readiness OK, continuité OK.
 - `npm run prepare:github-pages` : paquet Hostinger 113 fichiers, arbres GitHub Pages base et demo présents.
 - Aucun dossier utilisateur non suivi n'a été ajouté au commit.
 
@@ -38,4 +38,7 @@ Les routes et ancres sont inventoriées dans `docs/ops/public-routes.md` et vér
 - TXW-010 : `DONE`
 - TXW-113 : `DONE`
 - TXW-116 : `DONE`
-- TXW-002 reste `PARTIAL` : les plans historiques absents de ce checkout ne sont pas recréés.
+- TXW-002 : `DONE` — la table de réconciliation est conservée dans
+  `docs/validation/2026-11-07-roadmap-reconciliation.md`. Les plans et statuts
+  historiques disponibles ont été lus ; les validations externes restent
+  explicitement séparées et ne sont pas transformées en tâches terminées.

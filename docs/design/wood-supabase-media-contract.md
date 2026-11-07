@@ -6,13 +6,33 @@ Statut : contrat local vérifiable ; aucun upload ou bucket de production n’es
 
 Le contrat distingue quatre états qui ne doivent jamais être confondus : illustration `demo`, média préparé ou brouillon, média `approved` validé par la propriétaire, et photo réelle du produit. Un chemin de fichier, une image WebP ou une ligne de catalogue ne suffit pas à déclarer une photo réelle, son origine, ses droits ou son approbation.
 
-Le registre `docs/design/wood-asset-register.md` est la source de vérité locale des treize visuels de fleurs actuels. Ils sont tous marqués `demo`, avec un nom exact, un fichier, un usage et un alt text. Les futurs vrais visuels doivent être photographiés sans bocal ni cloche, décrits, autorisés et validés avant de passer à `approved`.
+Le registre `docs/design/wood-asset-register.md` est la source de vérité locale des treize visuels de fleurs actuels. Ils sont tous marqués `demo`, avec un nom exact, un fichier, un usage et un alt text. Une scène sous cloche peut être conservée comme `demo-cloche` si elle possède une vue `demo-clean-view` associée ; les futurs vrais visuels `approved` doivent être photographiés sans bocal ni cloche, décrits, autorisés et validés avant publication.
 
 ## Source de vérité et fallback
 
 Le produit conserve son `image_path` comme référence de catalogue, tandis que `owner-media.mjs` détermine le statut lisible et le preview. Un chemin relatif sûr peut afficher une photo renseignée ; un chemin vide ou invalide revient à une illustration WOOD de catégorie ou à un visuel de démonstration déterministe. Le fallback reste marqué comme illustration de démonstration et n’active ni prix, ni stock, ni achat.
 
 Les chemins distants, schémas arbitraires, fragments HTML et données fournies par un navigateur sont rejetés. La résolution d’un média absent ne doit pas interrompre le rendu de la carte, de la fiche, de l’accueil ou du dashboard owner.
+
+## Fiche minimale avant remplacement
+
+Tout remplacement futur est préparé dans une fiche réversible avant d’entrer
+dans le catalogue :
+
+| Champ | Règle |
+| --- | --- |
+| `media_id` / entrée | nom exact du produit ou de la scène concernée |
+| `source` | fichier maître ou origine explicitement fournie par WOOD |
+| `source_date` | date de réception ou de prise de vue connue |
+| `authorization` | autorisation WOOD ou statut `pending` |
+| `status` | `demo`, `prepared`, `approved` ou `real-photo` |
+| `alt` / usage | texte alternatif et emplacements publics prévus |
+| `replacement_commit` | point de retour permettant le rollback fichier par fichier |
+
+Une fiche sans source, date ou autorisation reste `pending` et ne peut pas
+passer le média en `approved`. Le même `media_id` doit alimenter l’accueil,
+les cartes, la fiche produit et le dashboard sans changer le prix, le stock ou
+la disponibilité.
 
 ## Alt text, responsive et accessibilité
 

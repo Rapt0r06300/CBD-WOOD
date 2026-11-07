@@ -67,6 +67,42 @@
     )));
   }
 
+  function stateFor(card) {
+    const media = String(card?.dataset?.mediaState || 'demo').toLowerCase();
+    const unavailable = card?.dataset?.productUnavailable === 'true'
+      || Boolean(card?.querySelector?.('[data-product-unavailable], button[disabled]'));
+    const availability = String(card?.dataset?.availabilityState || (unavailable ? 'incomplete' : 'available')).toLowerCase();
+    return { media, availability };
+  }
+
+  function matchesFilters(card, filters = {}) {
+    const state = stateFor(card);
+    return (!filters.media || state.media === filters.media)
+      && (!filters.state || state.availability === filters.state);
+  }
+
+  function filterCards(cards, query = '', filters = {}) {
+    return [...cards].filter((card) => matches(card, query) && matchesFilters(card, filters));
+  }
+
+  function addFilterControl(root, label, name, options) {
+    const wrap = document.createElement('label');
+    wrap.className = 'wood-catalog-search__filter';
+    wrap.textContent = label;
+    const select = document.createElement('select');
+    select.name = name;
+    select.dataset[`woodCatalog${name[0].toUpperCase()}${name.slice(1)}Filter`] = 'true';
+    options.forEach(([value, text]) => {
+      const option = document.createElement('option');
+      option.value = value;
+      option.textContent = text;
+      select.appendChild(option);
+    });
+    wrap.appendChild(select);
+    root.appendChild(wrap);
+    return select;
+  }
+
   function init(document) {
     const form = document.querySelector('[data-wood-catalog-search]');
     const main = document.querySelector('main[data-catalog-category]');
@@ -78,9 +114,32 @@
     const status = form.querySelector('[data-wood-catalog-search-status]');
     if (!input || !sort || !status) return;
 
+    const filterRoot = document.createElement('div');
+    filterRoot.className = 'wood-catalog-search__filters';
+    filterRoot.setAttribute('aria-label', 'Filtres de la sélection');
+    const mediaFilter = addFilterControl(filterRoot, 'Média', 'media', [
+      ['', 'Tous les médias'],
+      ['demo', 'Illustration démo'],
+      ['approved', 'Photo approuvée'],
+    ]);
+    const stateFilter = addFilterControl(filterRoot, 'État', 'state', [
+      ['', 'Tous les états'],
+      ['available', 'Consultable'],
+      ['incomplete', 'À compléter'],
+    ]);
+    const activeRoot = document.createElement('div');
+    activeRoot.className = 'wood-catalog-search__active';
+    activeRoot.dataset.woodCatalogActiveFilters = 'true';
+    activeRoot.setAttribute('aria-live', 'polite');
+    filterRoot.appendChild(activeRoot);
+    const control = form.querySelector('.wood-catalog-search__control');
+    control?.insertAdjacentElement('afterend', filterRoot);
+
     const params = new URLSearchParams(global.location?.search || '');
     input.value = params.get('q') || '';
     sort.value = params.get('sort') === 'name' ? 'name' : 'wood';
+    mediaFilter.value = ['demo', 'approved'].includes(params.get('media')) ? params.get('media') : '';
+    stateFilter.value = ['available', 'incomplete'].includes(params.get('state')) ? params.get('state') : '';
 
     const updateUrl = () => {
       if (!global.history?.replaceState || !global.location?.href) return;
@@ -89,7 +148,37 @@
       else url.searchParams.delete('q');
       if (sort.value === 'name') url.searchParams.set('sort', 'name');
       else url.searchParams.delete('sort');
+      if (mediaFilter.value) url.searchParams.set('media', mediaFilter.value);
+      else url.searchParams.delete('media');
+      if (stateFilter.value) url.searchParams.set('state', stateFilter.value);
+      else url.searchParams.delete('state');
       global.history.replaceState({}, '', url);
+    };
+
+    const renderActiveFilters = () => {
+      activeRoot.replaceChildren();
+      const values = [
+        [mediaFilter, { demo: 'Illustration démo', approved: 'Photo approuvée' }],
+        [stateFilter, { available: 'Consultable', incomplete: 'À compléter' }],
+      ];
+      values.forEach(([select, labels]) => {
+        if (!select.value) return;
+        const chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'wood-catalog-search__chip';
+        chip.textContent = `${labels[select.value]} ×`;
+        chip.setAttribute('aria-label', `Retirer le filtre ${labels[select.value]}`);
+        chip.addEventListener('click', () => { select.value = ''; apply(); });
+        activeRoot.appendChild(chip);
+      });
+      if (activeRoot.childElementCount) {
+        const clear = document.createElement('button');
+        clear.type = 'button';
+        clear.className = 'wood-catalog-search__clear-filters';
+        clear.textContent = 'Tout effacer';
+        clear.addEventListener('click', () => { mediaFilter.value = ''; stateFilter.value = ''; apply(); });
+        activeRoot.appendChild(clear);
+      }
     };
 
     const orderCards = (cards) => {
@@ -107,29 +196,34 @@
       const cards = Array.from(grid.querySelectorAll('.product-card'));
       orderCards(cards);
       const query = input.value;
-      const visible = cards.filter((card) => {
-        const visibleCard = matches(card, query);
+      const filters = { media: mediaFilter.value, state: stateFilter.value };
+      const visible = filterCards(cards, query, filters);
+      cards.forEach((card) => {
+        const visibleCard = visible.includes(card);
         card.hidden = !visibleCard;
-        return visibleCard;
       });
-      if (!tokens(query).length) {
+      renderActiveFilters();
+      if (!tokens(query).length && !filters.media && !filters.state) {
         status.textContent = `${cards.length} référence${cards.length > 1 ? 's' : ''} dans cet univers.`;
       } else if (!visible.length) {
-        status.textContent = `Aucune référence pour « ${query.trim()} ». Effacez la recherche ou explorez un autre univers.`;
+        status.textContent = `Aucune référence ne correspond à cette recherche et à ces filtres. Effacez un filtre ou explorez un autre univers.`;
       } else {
-        status.textContent = `${visible.length} référence${visible.length > 1 ? 's' : ''} trouvée${visible.length > 1 ? 's' : ''} pour « ${query.trim()} ».`;
+        const suffix = query.trim() ? ` pour « ${query.trim()} »` : '';
+        status.textContent = `${visible.length} référence${visible.length > 1 ? 's' : ''} trouvée${visible.length > 1 ? 's' : ''}${suffix}.`;
       }
       if (shouldUpdateUrl) updateUrl();
     };
 
     input.addEventListener('input', apply);
     sort.addEventListener('change', apply);
+    mediaFilter.addEventListener('change', apply);
+    stateFilter.addEventListener('change', apply);
     form.addEventListener('reset', () => global.requestAnimationFrame(apply));
     document.addEventListener('wood:catalog-rendered', () => apply(false));
     apply(false);
   }
 
-  const api = { normalize, tokens, matches };
+  const api = { normalize, tokens, matches, stateFor, matchesFilters, filterCards };
   global.WoodCatalogSearch = api;
   if (global.document) {
     if (global.document.readyState === 'loading') global.document.addEventListener('DOMContentLoaded', () => init(global.document), { once: true });

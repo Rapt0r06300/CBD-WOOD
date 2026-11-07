@@ -53,3 +53,11 @@ test('le contrat documente preuve, validation humaine et rollback fichier par fi
   assert.match(contract, /Supabase production|Storage réel/iu);
   assert.match(register, /rollback doit rester possible fichier par fichier/iu);
 });
+
+test('le circuit média fixe source, date, autorisation, statut et point de retour', () => {
+  for (const field of ['media_id', 'source_date', 'authorization', 'status', 'replacement_commit']) {
+    assert.match(contract, new RegExp(`\\\`${field}\\\``));
+  }
+  assert.match(contract, /reste `pending`/iu);
+  assert.match(contract, /sans changer le prix, le stock ou\s+la disponibilité/iu);
+});

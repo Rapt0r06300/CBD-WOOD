@@ -134,7 +134,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [x] **TXW-001 — Relever l'état GitHub.** Inspecter main, la branche de publication gh-pages et les commits récents ; consigner le SHA de départ et la procédure de publication réellement utilisée.    
   **Acceptation :** Référence exacte enregistrée ; aucune hypothèse sur le déploiement.
 
-- [ ] **TXW-002 — Réconcilier les plans existants.** Lire les feuilles de route 2026-11-04 et 2026-11-05, le statut des 109 tâches, les tests et le registre des 138 tâches différées ; dresser la table 'déjà livré / partiel / absent'.    
+- [x] **TXW-002 — Réconcilier les plans existants.** Lire les feuilles de route 2026-11-04 et 2026-11-05, le statut des 109 tâches, les tests et le registre des 138 tâches différées ; dresser la table 'déjà livré / partiel / absent'.    
   **Acceptation :** Aucun chantier déjà achevé n'est recréé ni compté deux fois.
 
 - [x] **TXW-003 — Créer un point de retour.** Produire un instantané réversible de la démo et noter les fichiers touchés ; ne pas réécrire le site de base ni les documents d'attente.    
@@ -163,31 +163,31 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 
 ### P1 — Identité WOOD et direction artistique — 10 tickets
 
-- [ ] **TXW-011 — Figer le véritable logo WOOD.** Réutiliser l'asset officiel du dépôt et le lettrage existant, sans régénérer ni redessiner un symbole approximatif.    
+- [x] **TXW-011 — Figer le véritable logo WOOD.** Réutiliser l'asset officiel du dépôt et le lettrage existant, sans régénérer ni redessiner un symbole approximatif.    
   **Acceptation :** Logo identique sur desktop, mobile, fiches et favicon ; origine tracée.
 
-- [ ] **TXW-012 — Figer les slogans officiels.** Garder 'LE CBD AUTREMENT' et 'SI C'EST WOOD, C'EST GOOD', sans appropriation d'expressions TealerLab.    
+- [x] **TXW-012 — Figer les slogans officiels.** Garder 'LE CBD AUTREMENT' et 'SI C'EST WOOD, C'EST GOOD', sans appropriation d'expressions TealerLab.    
   **Acceptation :** Textes cohérents et sans slogan tiers dans l'interface publique.
 
-- [ ] **TXW-013 — Consolider les couleurs principales.** Centraliser #101610, #1B2C20, #CBF096, #F1F0E6, #D8D4BD, #E8E7D7, #1D281E en tokens existants.    
+- [x] **TXW-013 — Consolider les couleurs principales.** Centraliser #101610, #1B2C20, #CBF096, #F1F0E6, #D8D4BD, #E8E7D7, #1D281E en tokens existants.    
   **Acceptation :** Les composants consomment des tokens plutôt que des couleurs arbitraires.
 
-- [ ] **TXW-014 — Définir le dosage premium / street.** Fixer un repère de composition ~75 % sobre et 25 % accents, ajustable visuellement ; réserver le street aux scènes et détails, jamais aux formulaires ou prix.    
+- [x] **TXW-014 — Définir le dosage premium / street.** Fixer un repère de composition ~75 % sobre et 25 % accents, ajustable visuellement ; réserver le street aux scènes et détails, jamais aux formulaires ou prix.    
   **Acceptation :** Trois exemples documentés : calme, sélection, impact.
 
-- [ ] **TXW-015 — Créer une palette d'accents NON officielle.** Documenter rose #DC5AA3, violet #8B52B7, turquoise #5BCAC5, jaune #E9BD54, rouge #B44839 comme PROPOSITIONS facultatives issues des photos.    
+- [x] **TXW-015 — Créer une palette d'accents NON officielle.** Documenter rose #DC5AA3, violet #8B52B7, turquoise #5BCAC5, jaune #E9BD54, rouge #B44839 comme PROPOSITIONS facultatives issues des photos.    
   **Acceptation :** Aucune teinte secondaire n'est considérée validée par la propriétaire ni généralisée.
 
-- [ ] **TXW-016 — Établir la grille typographique.** Titres massifs, paragraphes lisibles, annotations manuscrites ponctuelles ; corriger coupes forcées et interlignages ; aucun texte essentiel en police décorative.    
+- [x] **TXW-016 — Établir la grille typographique.** Titres massifs, paragraphes lisibles, annotations manuscrites ponctuelles ; corriger coupes forcées et interlignages ; aucun texte essentiel en police décorative.    
   **Acceptation :** Titres non tronqués de 320 à 1440px, y compris zoom navigateur.
 
-- [ ] **TXW-017 — Définir les trois rythmes éditoriaux.** Établir les compositions impact (hero), produit (grille), confiance (histoire/contact) ; varier les blancs et fonds pour éviter la mosaïque monotone.    
+- [x] **TXW-017 — Définir les trois rythmes éditoriaux.** Établir les compositions impact (hero), produit (grille), confiance (histoire/contact) ; varier les blancs et fonds pour éviter la mosaïque monotone.    
   **Acceptation :** Page longue mais hiérarchisée, sans trois scènes visuellement équivalentes consécutives.
 
-- [ ] **TXW-018 — Adapter l'inspiration TealerLab sans copier.** Répertorier ce qui est transférable : densité maîtrisée, rails, angles de prise de vue, CTA, réassurance et interaction. Exclure graphismes, campagnes, personnages, slogans et ordre exact.    
+- [x] **TXW-018 — Adapter l'inspiration TealerLab sans copier.** Répertorier ce qui est transférable : densité maîtrisée, rails, angles de prise de vue, CTA, réassurance et interaction. Exclure graphismes, campagnes, personnages, slogans et ordre exact.    
   **Acceptation :** Matrice 'mécanisme / adaptation WOOD / exclusion' rédigée.
 
-- [ ] **TXW-019 — Corriger le brief de photographie.** Résoudre la contradiction des documents disant 'sans cloche' alors que la propriétaire demande une présentation qualitative sous cloche en verre ; autoriser une deuxième vue nette hors cloche.    
+- [x] **TXW-019 — Corriger le brief de photographie.** Résoudre la contradiction des documents disant 'sans cloche' alors que la propriétaire demande une présentation qualitative sous cloche en verre ; autoriser une deuxième vue nette hors cloche.    
   **Acceptation :** Tous les docs de design cohérents avec la demande récente et l'état démo.
 
 - [ ] **TXW-020 — Créer une planche de direction à faire valider.** Rassembler palette, typographies, hero, sticker, cartes fleurs/résines et photo boutique avec statuts 'proposé / approuvé'.    
@@ -195,10 +195,10 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 
 ### P2 — Accueil : impact visuel et histoire — 12 tickets
 
-- [ ] **TXW-021 — Recomposer le premier écran.** Garder WOOD lisible et prominent, 'LE CBD AUTREMENT', média botanique fort, message court et CTA Découvrir / Nous trouver.    
+- [x] **TXW-021 — Recomposer le premier écran.** Garder WOOD lisible et prominent, 'LE CBD AUTREMENT', média botanique fort, message court et CTA Découvrir / Nous trouver.    
   **Acceptation :** Marque et proposition de valeur lisibles sans scroller en mobile.
 
-- [ ] **TXW-022 — Affiner le hero mobile.** Équilibrer photo, texte et sticker à 320–430px, sans rectangle vide ni élément coincé sous la barre navigateur.    
+- [x] **TXW-022 — Affiner le hero mobile.** Équilibrer photo, texte et sticker à 320–430px, sans rectangle vide ni élément coincé sous la barre navigateur.    
   **Acceptation :** Hero fluide et lisible sur iPhone et Android.
 
 - [ ] **TXW-023 — Limiter les grands panneaux anis.** Conserver un panneau signature si utile, réduire sa hauteur excessive et son poids visuel ; préserver contraste et repère de lecture.    
@@ -207,57 +207,57 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [ ] **TXW-024 — Rationaliser les 'drops'.** Fusionner le surplus d'introductions DROP 01/02/03 lorsque leurs messages se recoupent ; une scène forte vaut mieux que trois prétextes.    
   **Acceptation :** Chaque drop conservé a un contenu unique et un CTA utile.
 
-- [ ] **TXW-025 — Clarifier les quatre catégories.** Rendre Fleurs, Résines, Accessoires, Bien-être immédiats et cliquables, en cohérence avec les vraies familles de la boutique.    
+- [x] **TXW-025 — Clarifier les quatre catégories.** Rendre Fleurs, Résines, Accessoires, Bien-être immédiats et cliquables, en cohérence avec les vraies familles de la boutique.    
   **Acceptation :** Un visiteur retrouve sa catégorie en un seul choix évident.
 
 - [ ] **TXW-026 — Donner une place unique à la sélection de fleurs.** Supprimer les duplications Nimbus/Ivory/Velvet Kush/Pastraweed entre carrousels et cartes ; distinguer coup de projecteur vs exploration.    
   **Acceptation :** Aucune même grille produit répétée à l'identique dans l'accueil.
 
-- [ ] **TXW-027 — Conserver un choix par mood non médical.** Mettre en scène les intentions éditoriales sans laisser entendre des effets physiologiques garantis ni inventer disponibilité.    
+- [x] **TXW-027 — Conserver un choix par mood non médical.** Mettre en scène les intentions éditoriales sans laisser entendre des effets physiologiques garantis ni inventer disponibilité.    
   **Acceptation :** Composant utile au clavier, au tactile et au lecteur d'écran.
 
 - [ ] **TXW-028 — Créer une scène 'Maison WOOD'.** Placer une section boutique authentique : façade noire à typographie blanche, végétation, mobilier bois, mur de stickers, présentation sous cloche (photos autorisées uniquement).    
   **Acceptation :** WOOD reconnu comme boutique réelle, sans images de banque génériques.
 
-- [ ] **TXW-029 — Recomposer 'sélection en images'.** Transformer le rail en micro-récit : matière, geste, lieu, ambiance ; supprimer les images répétitives sans rôle éditorial.    
+- [x] **TXW-029 — Recomposer 'sélection en images'.** Transformer le rail en micro-récit : matière, geste, lieu, ambiance ; supprimer les images répétitives sans rôle éditorial.    
   **Acceptation :** Un seul rail photo pertinent, contrasté et facile à parcourir.
 
-- [ ] **TXW-030 — Réduire le bruit des packs fictifs.** Garder au besoin un aperçu de composant désactivé mais retirer tout récit ambigu sur offres, '24h', réductions ou pack actuellement vendable.    
+- [x] **TXW-030 — Réduire le bruit des packs fictifs.** Garder au besoin un aperçu de composant désactivé mais retirer tout récit ambigu sur offres, '24h', réductions ou pack actuellement vendable.    
   **Acceptation :** Aucun pack/offre non validé n'apparaît comme actif.
 
-- [ ] **TXW-031 — Recomposer preuve sociale et confiance.** Afficher seulement les extraits Google vérifiables avec établissement/date/source ; pas de nombre '5.0' non sourcé ni compteur inventé.    
+- [x] **TXW-031 — Recomposer preuve sociale et confiance.** Afficher seulement les extraits Google vérifiables avec établissement/date/source ; pas de nombre '5.0' non sourcé ni compteur inventé. Preuve démo : `index.html`, `docs/validation/2026-11-07-google-review-sources.md`, fondu sans flèches ni compteur. La revalidation propriétaire reste dans TXW-109.    
   **Acceptation :** Preuves sourcées, actualisables ou état vide propre.
 
-- [ ] **TXW-032 — Faire un final d'accueil mémorable.** Clore sur 'SI C'EST WOOD, C'EST GOOD', deux boutiques, contact, carte/itinéraire et FAQ, sans multiplier des formulaires inactifs.    
+- [x] **TXW-032 — Faire un final d'accueil mémorable.** Clore sur 'SI C'EST WOOD, C'EST GOOD', deux boutiques, contact, carte/itinéraire et FAQ, sans multiplier des formulaires inactifs.    
   **Acceptation :** Fin de page orientée visite/contact et perception WOOD.
 
 ### P3 — Stickers, graffiti et micro-identité — 10 tickets
 
-- [ ] **TXW-033 — Inventorier les stickers déjà présents.** Réutiliser les SVG du dossier assets/graffiti et éliminer ceux qui se répètent inutilement.    
+- [x] **TXW-033 — Inventorier les stickers déjà présents.** Réutiliser les SVG du dossier assets/graffiti et éliminer ceux qui se répètent inutilement.    
   **Acceptation :** Catalogue daté, identifiable et sans doublons cachés.
 
-- [ ] **TXW-034 — Créer une grammaire de stickers WOOD.** Prévoir tags, éclairs, étoiles, bulles, tampons, soulignements et griffonnages originaux inspirés de la boutique.    
+- [x] **TXW-034 — Créer une grammaire de stickers WOOD.** Prévoir tags, éclairs, étoiles, bulles, tampons, soulignements et griffonnages originaux inspirés de la boutique.    
   **Acceptation :** Une famille cohérente avec tailles d'usage définies.
 
-- [ ] **TXW-035 — Créer un sticker 'WOOD / GOOD' signature.** Concevoir une illustration originale compatible avec le logo authentique et le style des affiches en boutique, sans reproduire un sticker de marque tierce.    
+- [x] **TXW-035 — Créer un sticker 'WOOD / GOOD' signature.** Concevoir une illustration originale compatible avec le logo authentique et le style des affiches en boutique, sans reproduire un sticker de marque tierce.    
   **Acceptation :** Sticker reconnaissable et lisible en faible taille.
 
-- [ ] **TXW-036 — Créer un langage rétro/comics ponctuel.** Préparer textures imprimées, bordures irrégulières et illustrations conceptuelles de campagne, sans recopier les affiches Transylvania/Halloween.    
+- [x] **TXW-036 — Créer un langage rétro/comics ponctuel.** Préparer textures imprimées, bordures irrégulières et illustrations conceptuelles de campagne, sans recopier les affiches Transylvania/Halloween.    
   **Acceptation :** Graphismes distinctifs et propriété intellectuelle respectée.
 
-- [ ] **TXW-037 — Créer des accents végétaux.** Motifs feuilles/bois/botanique comme complément au street, cohérents avec la façade et les plantes de la boutique.    
+- [x] **TXW-037 — Créer des accents végétaux.** Motifs feuilles/bois/botanique comme complément au street, cohérents avec la façade et les plantes de la boutique.    
   **Acceptation :** Les motifs ne couvrent jamais une légende ou un produit.
 
-- [ ] **TXW-038 — Associer stickers aux sections.** Ancrer les accents au bloc qui les contient, jamais au viewport ; utiliser positions responsives stables.    
+- [x] **TXW-038 — Associer stickers aux sections.** Ancrer les accents au bloc qui les contient, jamais au viewport ; utiliser positions responsives stables.    
   **Acceptation :** Aucun débordement horizontal ni chevauchement CTA/prix.
 
-- [ ] **TXW-039 — Limiter le nombre de stickers simultanés.** Instaurer une densité maximum par scène et des zones de respiration ; privilégier les moments de marque.    
+- [x] **TXW-039 — Limiter le nombre de stickers simultanés.** Instaurer une densité maximum par scène et des zones de respiration ; privilégier les moments de marque.    
   **Acceptation :** L'interface reste premium et pas une reproduction du mur entier.
 
-- [ ] **TXW-040 — Créer variations clair/sombre.** Prévoir contrastes des assets, arrière-plans et SVG accessibles pour la palette noir/anis/crème.    
+- [x] **TXW-040 — Créer variations clair/sombre.** Prévoir contrastes des assets, arrière-plans et SVG accessibles pour la palette noir/anis/crème.    
   **Acceptation :** Chaque asset fonctionne sur toutes les surfaces autorisées.
 
-- [ ] **TXW-041 — Préparer un pack exportable.** Versionner sources SVG, exports WebP/PNG si nécessaires, fichiers de manifeste et usages autorisés.    
+- [x] **TXW-041 — Préparer un pack exportable.** Versionner sources SVG, exports WebP/PNG si nécessaires, fichiers de manifeste et usages autorisés.    
   **Acceptation :** Pack réutilisable, léger, avec source et statut 'demo'.
 
 - [ ] **TXW-042 — Obtenir la validation artistique ultérieure.** Produire la planche garder/adapter/exclure sans suspendre les développements indépendants ; ne pas marquer 'approved' sans l'accord WOOD.    
@@ -265,72 +265,72 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 
 ### P4 — Photographie, supports et médias — 10 tickets
 
-- [ ] **TXW-043 — Inventorier les photos déjà disponibles.** Recenser assets du repo, photos de démo, photos boutique source et leurs droits ; ne pas supposer que les photos de la conversation sont automatiquement dans Codex.    
+- [x] **TXW-043 — Inventorier les photos déjà disponibles.** Recenser assets du repo, photos de démo, photos boutique source et leurs droits ; ne pas supposer que les photos de la conversation sont automatiquement dans Codex.    
   **Acceptation :** Manifest clair source / titulaire / autorisation / statut.
 
 - [ ] **TXW-044 — Prévoir une galerie boutique authentique.** Réserver des emplacements pour façade noire 'Wood', plantes et étagères en bois, avec fallback démo en attendant des fichiers réutilisables.    
   **Acceptation :** Même mise en page avant/après substitution d'image autorisée.
 
-- [ ] **TXW-045 — Valoriser la cloche de verre.** Créer une mise en scène photo éditoriale pour fleurs et résines sous cloche, souhaitée par la propriétaire ; distinguer photo réelle et rendu conceptuel.    
+- [x] **TXW-045 — Valoriser la cloche de verre.** Créer une mise en scène photo éditoriale pour fleurs et résines sous cloche, souhaitée par la propriétaire ; distinguer photo réelle et rendu conceptuel. Preuve démo : scène `wood-cloche`, étiquettes d’état et contrat `demo-cloche`/`approved-real-photo`.    
   **Acceptation :** Étiquette état démo et produit visible sans effet trompeur.
 
-- [ ] **TXW-046 — Prévoir une seconde vue détaillée.** En complément du visuel sous cloche, cadrage macro qui montre texture et couleur sans filtre trompeur.    
+- [x] **TXW-046 — Prévoir une seconde vue détaillée.** En complément du visuel sous cloche, cadrage macro qui montre texture et couleur sans filtre trompeur. Preuve démo : double média sur les cartes runway, comportement inspectable au toucher et test de contrat photo.    
   **Acceptation :** L'utilisateur peut inspecter la matière sur mobile.
 
-- [ ] **TXW-047 — Créer des gabarits média cohérents.** Ratios 1:1 produits, 4:5 mobile, 3:2 ou 4:5 hero desktop, cadrage réservé au sujet.    
+- [x] **TXW-047 — Créer des gabarits média cohérents.** Ratios 1:1 produits, 4:5 mobile, 3:2 ou 4:5 hero desktop, cadrage réservé au sujet.    
   **Acceptation :** Pas de découpe de textes/produits à toutes tailles.
 
-- [ ] **TXW-048 — Créer un système de qualité d'image.** Contrôler finesse, artefacts IA, inscriptions, alt, contraste et faux emballages ; ne pas présenter une image IA comme vraie photo WOOD.    
+- [x] **TXW-048 — Créer un système de qualité d'image.** Contrôler finesse, artefacts IA, inscriptions, alt, contraste et faux emballages ; ne pas présenter une image IA comme vraie photo WOOD.    
   **Acceptation :** Chaque image est identifiée et traçable.
 
 - [ ] **TXW-049 — Optimiser les médias lourds.** WebP/AVIF appropriés, attributs width/height, lazy loading raisonné, hero prioritaire ; préserver originaux hors paquet public.    
   **Acceptation :** LCP/CLS non dégradés par la refonte.
 
-- [ ] **TXW-050 — Rendre les états vides élégants.** Si photo ou donnée propriétaire manque, afficher une vignette de direction éditoriale sobre, sans 'photo à confirmer' répété partout.    
+- [x] **TXW-050 — Rendre les états vides élégants.** Si photo ou donnée propriétaire manque, afficher une vignette de direction éditoriale sobre, sans 'photo à confirmer' répété partout.    
   **Acceptation :** Aucune confusion entre illustration et image réelle.
 
 - [ ] **TXW-051 — Préparer une présentation des illustrations de saison.** Prévoir une couche activable pour les campagnes Halloween/été ; aucun sticker à thème ni prix temporaires automatiquement publiés.    
   **Acceptation :** Revenir à la version permanente sans toucher aux données de produits.
 
-- [ ] **TXW-052 — Préparer le circuit d'approbation média.** Définir l'emplacement et le protocole de remplacement des images avec droits, date et statut ; aucun compte extérieur requis à ce stade.    
+- [x] **TXW-052 — Préparer le circuit d'approbation média.** Définir l'emplacement et le protocole de remplacement des images avec droits, date et statut ; aucun compte extérieur requis à ce stade. Preuve : `docs/design/wood-supabase-media-contract.md` et `test/wood-supabase-media-contract.test.mjs`. L’upload Storage réel reste externe.    
   **Acceptation :** Un media approuvé se remplace sans refonte de page ni fuite de fichier sensible.
 
 ### P5 — Fleurs et résines : vitrines premium — 12 tickets
 
-- [ ] **TXW-053 — Auditer la carte fleurs actuelle.** Comparer noms, grammages, boutons et prix affichés aux seules données déjà autorisées ; ne pas inventer de nouveaux prix.    
+- [x] **TXW-053 — Auditer la carte fleurs actuelle.** Comparer noms, grammages, boutons et prix affichés aux seules données déjà autorisées ; ne pas inventer de nouveaux prix.    
   **Acceptation :** Aucune fausse disponibilité ni prix non sourcé.
 
-- [ ] **TXW-054 — Unifier le design des cartes fleurs.** Média sous cloche, nom lisible, profil court, détails accessibles et CTA de fiche ; même grille sur écran large et mobile.    
+- [x] **TXW-054 — Unifier le design des cartes fleurs.** Média sous cloche, nom lisible, profil court, détails accessibles et CTA de fiche ; même grille sur écran large et mobile.    
   **Acceptation :** Cartes homogènes et jamais illisibles.
 
 - [ ] **TXW-055 — Améliorer la fiche fleur.** Grand visuel, deuxième vue, description courte, faits neutres et choix de grammage visible, même si l'achat est désactivé.    
   **Acceptation :** Parcours fiche autonome, sans information commerciale fictive.
 
-- [ ] **TXW-056 — Refaire les états indisponibles.** Distinguer 'fiche démo' de 'rupture de stock réelle' ; bloquer achats non autorisés sans afficher 'indisponible' partout.    
+- [x] **TXW-056 — Refaire les états indisponibles.** Distinguer 'fiche démo' de 'rupture de stock réelle' ; bloquer achats non autorisés sans afficher 'indisponible' partout.    
   **Acceptation :** Aucun statut trompeur.
 
-- [ ] **TXW-057 — Assurer les liens entre accueil et fiches.** Tester les quatre liens fleurs et leurs éventuels paramètres d'URL, ainsi que le retour catalogue.    
+- [x] **TXW-057 — Assurer les liens entre accueil et fiches.** Tester les quatre liens fleurs et leurs éventuels paramètres d'URL, ainsi que le retour catalogue.    
   **Acceptation :** Zéro route cassée et état précédent restauré.
 
-- [ ] **TXW-058 — Mettre en scène les résines.** Créer une galerie de résines aussi qualitative que les fleurs, cohérente avec les cloches et la matière.    
+- [x] **TXW-058 — Mettre en scène les résines.** Créer une galerie de résines aussi qualitative que les fleurs, cohérente avec les cloches et la matière.    
   **Acceptation :** La page résines ne paraît plus vide malgré l'absence de données définitives.
 
-- [ ] **TXW-059 — Clarifier les cartes résines non validées.** Prévoir noms génériques seulement comme maquettes, sans prix/taux/origine inventés et avec un discret statut 'démo'.    
+- [x] **TXW-059 — Clarifier les cartes résines non validées.** Prévoir noms génériques seulement comme maquettes, sans prix/taux/origine inventés et avec un discret statut 'démo'.    
   **Acceptation :** Aucun produit fictif présentable comme réel.
 
-- [ ] **TXW-060 — Préparer des composants variantes.** Sélecteurs grammages/quantités en lecture seule ou simulation locale, jamais liés au paiement ni à un stock distant en mode démo.    
+- [x] **TXW-060 — Préparer des composants variantes.** Sélecteurs grammages/quantités en lecture seule ou simulation locale, jamais liés au paiement ni à un stock distant en mode démo.    
   **Acceptation :** Interaction sans commande réelle et sans incohérence de prix.
 
-- [ ] **TXW-061 — Renforcer les galeries accessibles.** Lightbox, fermeture Escape, retour focus, images alternatives, zoom tactile sans capturer le scroll de page.    
+- [x] **TXW-061 — Renforcer les galeries accessibles.** Lightbox, fermeture Escape, retour focus, images alternatives, zoom tactile sans capturer le scroll de page.    
   **Acceptation :** Interaction complète clavier/touch, sans piège.
 
-- [ ] **TXW-062 — Introduire un récit produit WOOD.** De petites notes d'humour, profils visuels et badges originaux mais sans affirmations de santé ni notation inventée.    
+- [x] **TXW-062 — Introduire un récit produit WOOD.** De petites notes d'humour, profils visuels et badges originaux mais sans affirmations de santé ni notation inventée.    
   **Acceptation :** Identité WOOD perceptible en fiche sans brouiller données.
 
-- [ ] **TXW-063 — Tester les cartes et choix mobiles.** Viewport 320/360/375/390/430, menus, boutons, zoom, claviers et petits textes ; adapter les hauteurs sans cacher les actions.    
+- [x] **TXW-063 — Tester les cartes et choix mobiles.** Viewport 320/360/375/390/430, menus, boutons, zoom, claviers et petits textes ; adapter les hauteurs sans cacher les actions.    
   **Acceptation :** Aucun prix/grammage/CTA coupé et aucun débordement horizontal.
 
-- [ ] **TXW-064 — Créer une recette catalogue de démonstration.** Du hero à la catégorie, à la fiche, au panier fictif et au retour, inclure états vides et erreurs.    
+- [x] **TXW-064 — Créer une recette catalogue de démonstration.** Du hero à la catégorie, à la fiche, au panier fictif et au retour, inclure états vides et erreurs.    
   **Acceptation :** Scénario manuel et automatisé reproductible sans backend de production.
 
 ### P6 — Bien-être, accessoires et WOOD Shop — 8 tickets
@@ -361,34 +361,34 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 
 ### P7 — Navigation et expérience utilisateur — 10 tickets
 
-- [ ] **TXW-073 — Revoir menu principal mobile.** Logo WOOD, menu, accès univers, compte et panier fictif cohérents ; réduire la densité de liens.    
+- [x] **TXW-073 — Revoir menu principal mobile.** Logo WOOD, menu, accès univers, compte et panier fictif cohérents ; réduire la densité de liens.    
   **Acceptation :** Tactile accessible et sortie de menu évidente.
 
-- [ ] **TXW-074 — Auditer la barre basse iPhone.** Corriger safe area, position fixe et disparition à la descente ; ne jamais masquer bouton ni contenu.    
+- [x] **TXW-074 — Auditer la barre basse iPhone.** Corriger safe area, position fixe et disparition à la descente ; ne jamais masquer bouton ni contenu.    
   **Acceptation :** Barre utilisable sous Safari réel et lors du clavier virtuel.
 
-- [ ] **TXW-075 — Harmoniser pictogrammes.** Réutiliser la bibliothèque SVG existante (panier, localisation, compte, téléphone, catalogue), mêmes épaisseurs et textes associés.    
+- [x] **TXW-075 — Harmoniser pictogrammes.** Réutiliser la bibliothèque SVG existante (panier, localisation, compte, téléphone, catalogue), mêmes épaisseurs et textes associés.    
   **Acceptation :** Un seul système iconographique accessible.
 
-- [ ] **TXW-076 — Clarifier les appels à l'action.** Un CTA principal par zone ; action de visite/contact réelle, action d'achat clairement démo si simulée.    
+- [x] **TXW-076 — Clarifier les appels à l'action.** Un CTA principal par zone ; action de visite/contact réelle, action d'achat clairement démo si simulée.    
   **Acceptation :** Aucun bouton n'annonce une fonctionnalité non disponible.
 
-- [ ] **TXW-077 — Améliorer recherche et FAQ.** Garder recherche FAQ utile et sans backend ; créer états vide, réinitialisation, focus et navigation clavier fiables.    
+- [x] **TXW-077 — Améliorer recherche et FAQ.** Garder recherche FAQ utile et sans backend ; créer états vide, réinitialisation, focus et navigation clavier fiables.    
   **Acceptation :** Questions retrouvables et lien de contact direct.
 
-- [ ] **TXW-078 — Simplifier les formulaires inactifs.** Remplacer les formulaires newsletter/contact non envoyés par une démo explicite ou liens e-mail/téléphone, sans collecte.    
+- [x] **TXW-078 — Simplifier les formulaires inactifs.** Remplacer les formulaires newsletter/contact non envoyés par une démo explicite ou liens e-mail/téléphone, sans collecte.    
   **Acceptation :** Un visiteur n'entre pas ses coordonnées en croyant envoyer un message réel.
 
-- [ ] **TXW-079 — Améliorer la visite de boutique.** Deux adresses présentées clairement, téléphones et itinéraires cliquables ; éviter la formulation 'Port de Nice' et vérifier les horaires avant publication.    
+- [x] **TXW-079 — Améliorer la visite de boutique.** Deux adresses présentées clairement, téléphones et itinéraires cliquables ; éviter la formulation 'Port de Nice' et vérifier les horaires avant publication.    
   **Acceptation :** Accès à chaque boutique en un geste, pas d'informations inférées.
 
-- [ ] **TXW-080 — Rendre le panier 100 % local.** Si panier conservé dans la démo, le présenter comme simulation sans enregistrement ni paiement distant.    
+- [x] **TXW-080 — Rendre le panier 100 % local.** Si panier conservé dans la démo, le présenter comme simulation sans enregistrement ni paiement distant.    
   **Acceptation :** Les tests réseau constatent zéro écriture distante.
 
-- [ ] **TXW-081 — Soigner le retour arrière et les ancres.** Corriger histoire navigateur, ancres avec header sticky, liens base/demo et page 404, en évitant les boucles.    
+- [x] **TXW-081 — Soigner le retour arrière et les ancres.** Corriger histoire navigateur, ancres avec header sticky, liens base/demo et page 404, en évitant les boucles.    
   **Acceptation :** Navigation stable avec clavier, rechargement et liens profonds.
 
-- [ ] **TXW-082 — Définir un parcours de visite 3 minutes.** Accueil → personnalité WOOD → fleurs/résines → WOOD Shop → boutique physique → contact ; signaler les zones fictives discrètement.    
+- [x] **TXW-082 — Définir un parcours de visite 3 minutes.** Accueil → personnalité WOOD → fleurs/résines → WOOD Shop → boutique physique → contact ; signaler les zones fictives discrètement.    
   **Acceptation :** La propriétaire peut tout comprendre sans compte ni mot de passe.
 
 ### P8 — Mobile, accessibilité et ergonomie — 12 tickets
@@ -411,19 +411,19 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [ ] **TXW-088 — Tester textes système agrandis.** Vérifier Dynamic Type / text scaling, line-height et titres fragmentés sur mobile.    
   **Acceptation :** Texte jamais tronqué ni chevauché.
 
-- [ ] **TXW-089 — Corriger les contrastes.** Mesurer texte crème, anis, vert secondaire et textes sur fonds clairs ; repérer polices trop petites.    
+- [x] **TXW-089 — Corriger les contrastes.** Mesurer texte crème, anis, vert secondaire et textes sur fonds clairs ; repérer polices trop petites.    
   **Acceptation :** Contraste adapté au niveau AA quand applicable.
 
-- [ ] **TXW-090 — Vérifier clavier et focus.** Tab, Shift+Tab, Escape, activation Enter/Espace, focus restauré, noms accessibles et ordre DOM.    
+- [x] **TXW-090 — Vérifier clavier et focus.** Tab, Shift+Tab, Escape, activation Enter/Espace, focus restauré, noms accessibles et ordre DOM.    
   **Acceptation :** Aucune zone réservée à la souris ou au tactile.
 
-- [ ] **TXW-091 — Vérifier VoiceOver et les images.** Alt des photos produit ; SVG décoratifs non lus ; annonces de statut de formulaire ; titres hiérarchisés.    
+- [x] **TXW-091 — Vérifier VoiceOver et les images.** Alt des photos produit ; SVG décoratifs non lus ; annonces de statut de formulaire ; titres hiérarchisés.    
   **Acceptation :** Parcours compréhensible sans vision des décorations.
 
-- [ ] **TXW-092 — Vérifier tous les targets tactiles.** Boutons, liens, croix, flèches et onglets de navigation : viser 44x44 CSS px, espaces de sécurité et aucun recouvrement.    
+- [x] **TXW-092 — Vérifier tous les targets tactiles.** Boutons, liens, croix, flèches et onglets de navigation : viser 44x44 CSS px, espaces de sécurité et aucun recouvrement.    
   **Acceptation :** Aucune cible critique difficile à toucher.
 
-- [ ] **TXW-093 — Garantir le mouvement réduit.** Les reveals, stickers, rails et navigation sont fonctionnels avec prefers-reduced-motion ou Save-Data.    
+- [x] **TXW-093 — Garantir le mouvement réduit.** Les reveals, stickers, rails et navigation sont fonctionnels avec prefers-reduced-motion ou Save-Data.    
   **Acceptation :** Le contenu reste immédiatement visible sans animation.
 
 - [ ] **TXW-094 — Faire une double revue après reflow.** Captures avant/après par appareil, y compris lignes de texte très longues, menu ouvert et panier vide.    
@@ -431,13 +431,13 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 
 ### P9 — Animation, performance et stabilité — 10 tickets
 
-- [ ] **TXW-095 — Auditer le budget média.** Lister les images les plus lourdes de la page accueil et des fiches ; prioriser optimisation sans perte visible.    
+- [x] **TXW-095 — Auditer le budget média.** Lister les images les plus lourdes de la page accueil et des fiches ; prioriser optimisation sans perte visible.    
   **Acceptation :** Budget et tableau avant/après documentés.
 
-- [ ] **TXW-096 — Optimiser la première image visible.** Prioriser hero avec dimensions/fetchpriority corrects et éviter les autres images eager trop nombreuses.    
+- [x] **TXW-096 — Optimiser la première image visible.** Prioriser hero avec dimensions/fetchpriority corrects et éviter les autres images eager trop nombreuses.    
   **Acceptation :** Temps d'affichage du premier écran amélioré ou non dégradé.
 
-- [ ] **TXW-097 — Réduire les décalages de mise en page.** Réserver dimensions des médias et des éléments sticky, chargement police et placeholders.    
+- [x] **TXW-097 — Réduire les décalages de mise en page.** Réserver dimensions des médias et des éléments sticky, chargement police et placeholders.    
   **Acceptation :** CLS faible et absence de saut gênant.
 
 - [ ] **TXW-098 — Rationaliser les CSS ajoutées.** Examiner wood-graffiti.css, wood-editorial.css, wood-motion.css et mobile finish ; éviter règles contradictoires et surcharges historiques inutiles.    
@@ -446,13 +446,13 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [ ] **TXW-099 — Optimiser les scripts d'interaction.** Éviter doubles écouteurs, rerenders inutiles, animations globales et importations réseau non essentielles.    
   **Acceptation :** Pas de warning/error console et interactions fluides.
 
-- [ ] **TXW-100 — Limiter les effets GPU.** Utiliser transform/opacity pour micro-mouvements, pas d'effets continus gourmands.    
+- [x] **TXW-100 — Limiter les effets GPU.** Utiliser transform/opacity pour micro-mouvements, pas d'effets continus gourmands.    
   **Acceptation :** Pas de saccade perceptible sur appareil moyen.
 
-- [ ] **TXW-101 — Améliorer les rails média.** Scroll-snap naturel, indices si plusieurs éléments, navigation clavier, arrêt réduit.    
+- [x] **TXW-101 — Améliorer les rails média.** Scroll-snap naturel, indices si plusieurs éléments, navigation clavier, arrêt réduit.    
   **Acceptation :** Aucun rail piégé ou silencieusement tronqué.
 
-- [ ] **TXW-102 — Assainir les images cassées.** Tester décodage, formats, fallbacks, caches et vrais liens d'assets depuis /demo/.    
+- [x] **TXW-102 — Assainir les images cassées.** Tester décodage, formats, fallbacks, caches et vrais liens d'assets depuis /demo/.    
   **Acceptation :** Aucun symbole de police brisée ou média disparu sur toutes pages.
 
 - [ ] **TXW-103 — Contrôler réseau lent et déconnecté.** Tester interruptions, 3G/4G simulée, recharge et retour arrière avec données locales.    
@@ -463,16 +463,16 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 
 ### P10 — Textes, confiance et conformité de la démo — 8 tickets
 
-- [ ] **TXW-105 — Écrire une voix WOOD originale.** Ton chaleureux, direct, premium avec petites phrases amusantes ; bannir le jargon 'placeholder' et les emprunts de slogans concurrents.    
+- [x] **TXW-105 — Écrire une voix WOOD originale.** Ton chaleureux, direct, premium avec petites phrases amusantes ; bannir le jargon 'placeholder' et les emprunts de slogans concurrents.    
   **Acceptation :** Chaque section reste intelligible sans humour.
 
 - [ ] **TXW-106 — Réduire les labels techniques visibles.** Remplacer les répétitions 'PHOTO DÉMO' et 'à confirmer' par un repère de maquette clair, non ambigu et plus discret.    
   **Acceptation :** Toutes les images fictives restent identifiables sans saturer l'interface.
 
-- [ ] **TXW-107 — Vérifier les affirmations commerciales.** Aucune livraison 24h, prix barré, réduction, code promo, laboratoire ou promesse de stock sans approbation ; données de référence non supposées actuelles.    
+- [x] **TXW-107 — Vérifier les affirmations commerciales.** Aucune livraison 24h, prix barré, réduction, code promo, laboratoire ou promesse de stock sans approbation ; données de référence non supposées actuelles.    
   **Acceptation :** Zéro promesse non sourcée dans la démo.
 
-- [ ] **TXW-108 — Vérifier les allégations CBD.** Supprimer ou neutraliser promesses thérapeutiques, slogans médicaux et catégories d'effets garantis ; garder un discours descriptif prudent.    
+- [x] **TXW-108 — Vérifier les allégations CBD.** Supprimer ou neutraliser promesses thérapeutiques, slogans médicaux et catégories d'effets garantis ; garder un discours descriptif prudent.    
   **Acceptation :** Aucune promesse de soin non étayée.
 
 - [ ] **TXW-109 — Vérifier avis et notes.** N'utiliser que des extraits publics autorisés avec source précise, date et établissement ; pas de faux témoignage ou note globale forgée.    
@@ -492,10 +492,10 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [x] **TXW-113 — Exécuter la suite existante.** Lancer npm run check, documenter les résultats exacts et corriger sans supprimer des tests qui échouent.    
   **Acceptation :** Suite verte ou échecs expliqués, avec preuve.
 
-- [ ] **TXW-114 — Ajouter les tests de contrat identité.** Tester noms WOOD, couleurs de base, absence de scripts TealerLab/branding concurrent et usage correct du vrai logo.    
+- [x] **TXW-114 — Ajouter les tests de contrat identité.** Tester noms WOOD, couleurs de base, absence de scripts TealerLab/branding concurrent et usage correct du vrai logo.    
   **Acceptation :** Nouvelle identité verrouillée sans écrasement visuel.
 
-- [ ] **TXW-115 — Ajouter les tests de sécurité démo.** Intercept/spy les appels API des parcours compte/contact/checkout ; prouver qu'aucune commande, e-mail ou paiement réel ne part de /demo/.    
+- [x] **TXW-115 — Ajouter les tests de sécurité démo.** Intercept/spy les appels API des parcours compte/contact/checkout ; prouver qu'aucune commande, e-mail ou paiement réel ne part de /demo/.    
   **Acceptation :** Tests négatifs reproductibles et réussis.
 
 - [x] **TXW-116 — Contrôler le paquet Pages.** Exécuter npm run prepare:github-pages ; vérifier /demo/, les chemins d'assets, l'absence de secrets, les images et les routes générées.    
@@ -504,7 +504,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [ ] **TXW-117 — Inspecter le rendu réel.** Capture responsive complète de chaque page ; contrôles manuels Safari/Android si appareils accessibles, sinon signaler ces preuves comme manquantes.    
   **Acceptation :** Pas de déclaration 'testé sur iPhone' sans vraie preuve correspondante.
 
-- [ ] **TXW-118 — Préparer un avant / après décisionnel.** Comparer hero, galerie fleur, résines, boutique physique et mobile ; citer modifications et captures.    
+- [x] **TXW-118 — Préparer un avant / après décisionnel.** Comparer hero, galerie fleur, résines, boutique physique et mobile ; citer modifications et captures. Preuve : `docs/validation/2026-11-07-demo-before-after.md`. Les validations appareil réel et propriétaire restent séparées.    
   **Acceptation :** La propriétaire et son conjoint visualisent le gain et reconnaissent WOOD.
 
 - [ ] **TXW-119 — Produire un état d'avancement sincère.** Pour chaque ticket, consigner statut DONE/PARTIAL/BLOCKED, commit, test et risque ; ne pas inclure les tâches externes dans le pourcentage livrable.    
@@ -813,7 +813,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Résultat stable et exact pour chaque jeu de test.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-036 — Assurer recherche accessible sur mobile**   
+- [x] **CRO-036 — Assurer recherche accessible sur mobile**   
   - **Livrable :** Icône, libellé visible, clavier 'search', bouton effacer, focus et Escape.  
   - **Critère de validation :** Tests clavier et petit iPhone ; aucune barrière tactile.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -845,12 +845,12 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Aucun filtre 'CBD %' ou origine si preuve manquante.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-042 — Permettre la combinaison de filtres**   
+- [x] **CRO-042 — Permettre la combinaison de filtres**   
   - **Livrable :** Implémenter ET entre catégories de critères et OU entre valeurs d'un même critère.  
   - **Critère de validation :** Unit tests sur combinaisons et zéro résultat.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-043 — Visualiser les filtres actifs**   
+- [x] **CRO-043 — Visualiser les filtres actifs**   
   - **Livrable :** Afficher puces appliquées et bouton 'Tout effacer', aussi sur petit écran.  
   - **Critère de validation :** Le résultat correspond toujours aux puces affichées.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -870,7 +870,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Contrôles tactile/clavier, pas d'image artificiellement répétée.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-047 — Créer un comparateur 2–3 références**   
+- [x] **CRO-047 — Créer un comparateur 2–3 références**   
   - **Livrable :** Comparer côte à côte propriétés descriptives confirmées et liens fiches.  
   - **Critère de validation :** Case inconnue \= 'Non renseigné' ; aucun profil inventé.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -897,7 +897,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Échelle authentique, produit non grossi artificiellement.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-052 — Séparer images conceptuelles et réelles**   
+- [x] **CRO-052 — Séparer images conceptuelles et réelles**   
   - **Livrable :** Registre statut, source, consentement et rendu ; distinguer visuels IA de photos boutiques.  
   - **Critère de validation :** Aucune image conceptuelle déclarée 'photo du produit réel'.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -917,7 +917,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Checklist des droits, photo origine et validation conservée.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-056 — Tester chargement dégradé de galerie**   
+- [x] **CRO-056 — Tester chargement dégradé de galerie**   
   - **Livrable :** Prévoir placeholder lisible, alt exact, skeleton non permanent et repli image en cas d'erreur.  
   - **Critère de validation :** 0 case vide ou motif '❓' au réseau lent.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -949,12 +949,12 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Réponses non médicales et sourcées ou validation requise.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-062 — Offrir contact conseil depuis fiche**   
+- [x] **CRO-062 — Offrir contact conseil depuis fiche**   
   - **Livrable :** Lien téléphone ou page contact avec contexte produit non personnel, sans transmettre de donnée à un tiers.  
   - **Critère de validation :** Action fonctionne et reste explicite sur les horaires.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-063 — Afficher informations absentes clairement**   
+- [x] **CRO-063 — Afficher informations absentes clairement**   
   - **Livrable :** Disponibilité, analyse, composition ou provenance inconnue ne devient pas une promesse de qualité.  
   - **Critère de validation :** Pas de badge qualité automatique sans pièce justificative.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -981,22 +981,22 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Tests €/g et cohérence variante.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-068 — Différencier sélection et vente**   
+- [x] **CRO-068 — Différencier sélection et vente**   
   - **Livrable :** CTA 'Découvrir' ou 'Nous contacter' en démo ; boutons 'Acheter' désactivés ou fictifs explicitement.  
   - **Critère de validation :** Aucun CTA ne crée de commande réelle via Supabase.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-069 — Écarter urgence commerciale fictive**   
+- [x] **CRO-069 — Écarter urgence commerciale fictive**   
   - **Livrable :** Supprimer compteurs visiteurs, timers, rupture artificielle, dernières pièces et remises non prouvées.  
   - **Critère de validation :** Audit automatisé des chaînes interdites.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-070 — Préparer information coûts de vente future**   
+- [x] **CRO-070 — Préparer information coûts de vente future**   
   - **Livrable :** Créer slots frais de livraison, taxes, seuils, retrait ou retours mais désactivés sans règles approuvées.  
   - **Critère de validation :** Aucune promesse logistique publiée par défaut.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-071 — Préparer comparaisons de valeur honnêtes**   
+- [x] **CRO-071 — Préparer comparaisons de valeur honnêtes**   
   - **Livrable :** Valeur \= qualité visuelle, informations et service humain ; pas de 'le moins cher' invérifiable.  
   - **Critère de validation :** Tous les superlatifs factuels exigent preuve datée.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -1018,7 +1018,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Lien direct source, zéro mélange d'établissements.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-075 — Améliorer section témoignages existante**   
+- [x] **CRO-075 — Améliorer section témoignages existante** — extraits courts contextualisés, source accessible, fondu automatique sans flèches ni compteur et état compréhensible si la source est retirée ; les citations restent à revalider par WOOD avant publication finale.   
   - **Livrable :** Afficher extrait court vérifié et contexte, pas de synthèse inventée ni rafale de faux avis.  
   - **Critère de validation :** Page comprend toujours sans avis chargés.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -1038,7 +1038,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Document vérifié, pas de COA générique inventé.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-079 — Garantir accessibilité des coordonnées**   
+- [x] **CRO-079 — Garantir accessibilité des coordonnées**   
   - **Livrable :** Numéro et itinéraire à proximité des fiches et à la fin du catalogue.  
   - **Critère de validation :** Tests liens tel: / cartes, deux boutiques distinguées.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -1050,7 +1050,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
 
 ### 11 — Du site vers la boutique physique — P1, complément de TXW-028, TXW-079, TXW-082
 
-- [ ] **CRO-081 — Créer deux fiches boutique distinctes**   
+- [x] **CRO-081 — Créer deux fiches boutique distinctes**   
   - **Livrable :** Barla et Borriglione avec identité WOOD, adresse, coordonnées et statut de vérification.  
   - **Critère de validation :** Aucune confusion adresse/téléphone/horaires.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -1060,22 +1060,22 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Image d'établissement correcte pour chaque boutique.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-083 — Créer boutons d'itinéraire directs**   
+- [x] **CRO-083 — Créer boutons d'itinéraire directs**   
   - **Livrable :** Générer itinéraire Google/Apple Maps depuis adresse validée ; pas de position de l'utilisateur collectée.  
   - **Critère de validation :** Lien testé sur iPhone/Android.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-084 — Créer lien téléphonique par magasin**   
+- [x] **CRO-084 — Créer lien téléphonique par magasin**   
   - **Livrable :** Affichage humain et href tel: propres à chaque lieu.  
   - **Critère de validation :** Aucune inversion des numéros, tests format E.164 quand pertinent.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-085 — Établir horaire source et fraîcheur**   
+- [x] **CRO-085 — Établir horaire source et fraîcheur**   
   - **Livrable :** Le statut 'horaires à confirmer' reste honnête tant qu'aucune validation propriétaire.  
   - **Critère de validation :** Ne jamais déclarer 'ouvert maintenant' sans calendrier fiable.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-086 — Préparer catalogue vers visite**   
+- [x] **CRO-086 — Préparer catalogue vers visite**   
   - **Livrable :** Sur fiche, un bloc 'Voir en boutique / demander conseil' sans inventer du stock local.  
   - **Critère de validation :** Action contact ne prétend pas réserver le produit.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -1092,7 +1092,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
 
 ### 12 — Panier fictif et préparation d'une commande honnête — P0, complément de TXW-005 à TXW-010, TXW-080
 
-- [ ] **CRO-089 — Tracer chaque effet réseau de démo**   
+- [x] **CRO-089 — Tracer chaque effet réseau de démo**   
   - **Livrable :** Inspecter appels Supabase, Workers, Gmail, Viva, formulaires et liens de checkout.  
   - **Critère de validation :** Journal et test prouvent 0 écriture/commande/email/paiement externe.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -1102,27 +1102,27 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Test E2E: aucun POST vers production, même formulaire forcé.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-091 — Séparer panier conceptuel et production**   
+- [x] **CRO-091 — Séparer panier conceptuel et production**   
   - **Livrable :** Adapter panier démo local sans authentification ni prix/stock réels supposés.  
   - **Critère de validation :** Panier peut être effacé sans appel serveur ni fuite de données.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-092 — Informer clairement avant confirmation**   
+- [x] **CRO-092 — Informer clairement avant confirmation**   
   - **Livrable :** Aucune page 'Commande enregistrée' si aucun backend de vente démo n'existe.  
   - **Critère de validation :** État 'simulation terminée' sans numéro de vraie commande.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-093 — Préparer récapitulatif transparent**   
+- [x] **CRO-093 — Préparer récapitulatif transparent**   
   - **Livrable :** Afficher uniquement articles démo et sommes si tarif de simulation affiché comme fictif.  
   - **Critère de validation :** Total \= sous-totaux testés, sinon total absent.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-094 — Auditer tout lien d'achat caché**   
+- [x] **CRO-094 — Auditer tout lien d'achat caché**   
   - **Livrable :** Scanner liens, événements JS, raccourcis clavier, boutons, redirects et form submit.  
   - **Critère de validation :** 0 chemin déclenchant effet commercial réel en /demo/.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-095 — Préparer futur parcours sans engagement**   
+- [x] **CRO-095 — Préparer futur parcours sans engagement**   
   - **Livrable :** Documenter livraison, paiement, conditions et identité commerçant comme schéma non activé.  
   - **Critère de validation :** Aucune connexion Viva ni option livraison activée.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -1139,7 +1139,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Matrice catégorie → statut légal à vérifier → bloqueur publication.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-098 — Bloquer allégations thérapeutiques**   
+- [x] **CRO-098 — Bloquer allégations thérapeutiques**   
   - **Livrable :** Scanner noms, descriptions, FAQ, alt et métadonnées contre formulations de soin/guérison sans justification.  
   - **Critère de validation :** Aucune affirmation santé non autorisée en page publique.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -1154,7 +1154,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Ne pas activer achat sans informations légales complètes validées.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-101 — Interdire dark patterns**   
+- [x] **CRO-101 — Interdire dark patterns**   
   - **Livrable :** Contrôler urgence, faux avis, chiffres non prouvés, cases précochées, consentement asymétrique.  
   - **Critère de validation :** Checklist anti-tromperie avec tests de chaînes et capture.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -1164,7 +1164,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Âge et vérification finale déterminés par conseil juridique avant commercialisation.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-103 — Sécuriser images et marques tierces**   
+- [x] **CRO-103 — Sécuriser images et marques tierces**   
   - **Livrable :** Photos WOOD autorisées, pas de logos concurrents repris depuis le mur stickers ; vérifier licences.  
   - **Critère de validation :** Registre des droits et attribution archivée.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -1574,8 +1574,6 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Checklist propriétaire, choix et décisions en attente signalés.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] 
-
 ---
 
 ## SECTION F — 20 tâches d'architecture du conseiller (CRO-159 à CRO-178)
@@ -1691,7 +1689,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Brief visuel officiel écrit, distinction entre style approuvé et image commerciale finale.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-180 — Respecter le vrai logo WOOD.**  
+- [x] **CRO-180 — Respecter le vrai logo WOOD.**  
   - **Livrable :** Maintenir le lettrage authentique existant plutôt que la typographie simulée dans l'illustration.  
   - **Recette :** Contrôle de l'asset officiel sur maquettes desktop et mobile.  
   - **Statut :** TODO (non implémenté).
@@ -1763,7 +1761,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Parcours VoiceOver/NVDA, tabulation et Escape.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-194 — Animation réduite et autonomie batterie.**  
+- [x] **CRO-194 — Animation réduite et autonomie batterie.**  
   - **Livrable :** Pas de clignotement, rebond continu ou GPU gourmand ; reduced-motion et Save-Data.  
   - **Recette :** Tests de fluidité et capture statique.  
   - **Statut :** TODO (non implémenté).
@@ -2012,7 +2010,7 @@ Le périmètre couvre uniquement ce qui est implémentable dans le dépôt actue
 
 ## État constaté
 
-- Le socle WOOD est fonctionnel et responsive : la suite locale passe à 333/333 tests et la largeur mobile reste à 390 px sans débordement observé.  
+- Le socle WOOD est fonctionnel et responsive : la suite locale passe à 413/413 tests et la largeur mobile reste à 390 px sans débordement observé.  
 - La démo possède maintenant une page d’aide `contact.html`, un jeu d’icônes SVG cohérent et des annotations manuscrites optionnelles, sans collecte ni paiement réel.  
 - La page d’accueil actuelle possède déjà une direction sombre, une accroche, des CTA, une illustration botanique, un ticker, des sections narratives, une FAQ et une navigation mobile.  
 - Le catalogue contient des produits et des images de démonstration, mais l’expérience visible n’a pas encore la densité éditoriale observée chez TealerLab : rails photos, badges honnêtes, choix par humeur, blocs d’offres, séquences sociales, galerie produit et animations de récit.  
