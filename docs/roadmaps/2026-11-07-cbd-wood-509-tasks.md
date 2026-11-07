@@ -335,7 +335,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 
 ### P6 — Bien-être, accessoires et WOOD Shop — 8 tickets
 
-- [ ] **TXW-065 — Refaire les scènes bien-être.** S'inspirer des véritables étagères bois, huiles, cosmétiques et plantes pour des scènes éditoriales de démo.    
+- [x] **TXW-065 — Refaire les scènes bien-être.** S'inspirer des véritables étagères bois, huiles, cosmétiques et plantes pour des scènes éditoriales de démo ; preuve : `docs/validation/2026-11-07-txw-065-wellbeing-scene.md` et `test/wellbeing-scene.test.mjs`.    
   **Acceptation :** Page qualitative, sans promesse médicale.
 
 - [ ] **TXW-066 — Structurer les familles bien-être.** Différencier soins, cosmétiques, huiles et produits divers uniquement si leur présence est attestée ; sinon placeholders neutres.    

@@ -231,6 +231,13 @@ sans changer la mise en page dès réception des photos autorisées. Preuve :
 devient **316 / 509 — 62,08 %**, avec **55** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+La page bien-être reçoit une vraie scène éditoriale de démo pour les huiles,
+cosmétiques et soins : matière, plantes suggérées, repères de conseil et
+fallback explicite sont réunis sans allégation médicale. Preuve :
+`docs/validation/2026-11-07-txw-065-wellbeing-scene.md`. Le compteur courant
+devient **317 / 509 — 62,28 %**, avec **54** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
