@@ -1454,17 +1454,17 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Dossier avant/après avec provenance des photos.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-135 — Aperçu rapide produit.**  
+- [x] **CRO-135 — Aperçu rapide produit.**  
   - **Livrable :** Fiche condensée ouvrable depuis liste pour voir les visuels/faits sans perdre le contexte.  
   - **Recette :** Accessibilité, fermeture Escape, retour du focus et lien fiche.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-136 — Favoris WOOD personnels locaux.**  
+- [x] **CRO-136 — Favoris WOOD personnels locaux.**  
   - **Livrable :** Ajouter/supprimer localement les références à retrouver plus tard.  
   - **Recette :** Sans compte, sans serveur, suppression accessible.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-137 — Produits récemment consultés.**  
+- [x] **CRO-137 — Produits récemment consultés.**  
   - **Livrable :** Historique facultatif local et effaçable des pages produit consultées.  
   - **Recette :** Pas de tracking externe, respect désactivation/effacement.  
   - **Statut :** TODO (non implémenté).
@@ -1504,7 +1504,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Pas de réservation ou commande; liste partageable/effaçable.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-145 — Partage natif d'une fiche.**  
+- [x] **CRO-145 — Partage natif d'une fiche.**  
   - **Livrable :** Partager lien et nom de référence par bouton natif/fallback copie.  
   - **Recette :** Mobile et desktop, pas d'envoi serveur automatique.  
   - **Statut :** TODO (non implémenté).
