@@ -54,6 +54,18 @@
   const questionLabel = widget.querySelector('.wood-advisor__question');
   const skipButton = widget.querySelector('[data-advisor-skip]');
   const backButton = widget.querySelector('[data-advisor-back]');
+  const hero = documentRef.querySelector('.hero, .page-hero');
+  const setHeroClear = (isClear) => {
+    widget.classList.toggle('is-hero-clear', isClear);
+    if (!widget.classList.contains('is-open')) {
+      bubble.tabIndex = isClear ? -1 : 0;
+      bubble.setAttribute('aria-hidden', isClear ? 'true' : 'false');
+    }
+  };
+  if (hero && typeof root.IntersectionObserver === 'function') {
+    const heroObserver = new root.IntersectionObserver(([entry]) => setHeroClear(entry.isIntersecting), { threshold: 0.12 });
+    heroObserver.observe(hero);
+  }
   const questionPlan = engine.buildQuestionPlan(products);
   const firstQuestion = engine.nextQuestion(products, engine.extractPreferences(''), {});
   if (firstQuestion?.text) questionLabel.textContent = firstQuestion.text;

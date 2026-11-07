@@ -41,7 +41,9 @@
 @keyframes woodAdvisorIn{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
 /* The mobile offset keeps the helper above WOOD's bottom-nav layer. */
 @media(max-width:800px){
-  .wood-advisor{right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 86px)}
+  .wood-advisor{right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 86px);transition:opacity .24s ease,transform .24s ease}
+  .wood-advisor.is-hero-clear:not(.is-open){opacity:0;transform:translate3d(0,calc(100% + 20px),0);pointer-events:none}
+  .wood-advisor.is-hero-clear:not(.is-open) .wood-advisor__bubble{pointer-events:none}
   .wood-advisor__bubble{padding:8px 11px 8px 8px}
   .wood-advisor__bubble img{width:52px;height:52px;flex-basis:52px}
   .wood-advisor__panel{max-height:calc(100dvh - 148px);padding:20px}
