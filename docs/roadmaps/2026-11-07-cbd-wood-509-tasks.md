@@ -1013,7 +1013,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Preuve sans source non rendue.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-074 — Distinguer établissement et note Google**   
+- [x] **CRO-074 — Distinguer établissement et note Google** — matrice Barla/Borriglione, adresses, sources directes et porte `needs-owner-revalidation` dans `docs/validation/2026-11-07-cro-074-establishment-review-separation.md`; aucune citation, note ou nombre d’avis n’est publié tant que la propriétaire n’a pas revalidé chaque fiche.
   - **Livrable :** Associer avis exact à Barla ou Borriglione, vérifier adresse et auteur public avant citation.  
   - **Critère de validation :** Lien direct source, zéro mélange d'établissements.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.

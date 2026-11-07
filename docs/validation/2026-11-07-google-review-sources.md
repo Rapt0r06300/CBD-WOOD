@@ -13,6 +13,7 @@ La démo peut montrer une mise en scène de preuve sociale, mais aucun avis ne d
 - Fiche publique consultée : [CBD Nice — Wood Shop CBD Nice Barla](https://magasin.tel/f/cbd-nice-wood-shop-cbd-nice-barla-14353109/)
 - Nature : miroir éditorial d’informations publiques, pas une API Google officielle.
 - Établissement : Barla.
+- Adresse à vérifier sur la fiche source : 7 rue Barla, 06300 Nice.
 - Extraits courts repérés avec auteur et date :
   - « Meilleure CBD de Nice, toujours ultra accueillant et de qualité ! Je recommande. » — Lou Ziad, 14 mai 2026.
   - « niveau qualité prix c’est parfait » — Dede06100 Frolon, 29 mai 2026.
@@ -23,6 +24,7 @@ La démo peut montrer une mise en scène de preuve sociale, mais aucun avis ne d
 ### Borriglione
 
 - Fiche publique consultée : [CBD Nice — Wood Shop CBD Nice Borriglione](https://magasin-de-cannabis.autour-de-moi.com/f/cbd-nice-wood-shop-cbd-nice-borriglione-14353446/)
+- Adresse à vérifier sur la fiche source : 16 avenue Alfred Borriglione, 06100 Nice.
 - La page consultée expose une note agrégée mais ne fournit pas les textes, auteurs et dates nécessaires à une citation sûre.
 - Conséquence : aucun extrait Borriglione n’est affiché dans la démo avant réception d’une capture, d’un export ou d’une confirmation exploitable par la propriétaire.
 

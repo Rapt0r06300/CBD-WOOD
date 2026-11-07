@@ -465,6 +465,17 @@ Preuve : `docs/validation/2026-11-07-cro-078-source-visibility.md` et
 **346 / 509 — 67,98 %**, avec **25** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Le ticket `CRO-074` est validé pour la séparation locale des établissements :
+la matrice rattache séparément Barla et Borriglione à leur adresse et à leur
+lien source, sans publier de note, d'auteur ou d'extrait non revalidé. La
+preuve publique reste `pending` jusqu'à la confirmation de la fiche, de la
+date, de l'auteur public et de l'autorisation de citation par WOOD. Preuve :
+`docs/validation/2026-11-07-cro-074-establishment-review-separation.md`,
+`docs/validation/2026-11-07-google-review-sources.md` et
+`test/cro-074-establishment-review-separation.test.mjs`. Le compteur courant
+devient **347 / 509 — 68,17 %**, avec **24** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
