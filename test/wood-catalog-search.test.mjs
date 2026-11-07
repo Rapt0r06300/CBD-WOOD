@@ -25,6 +25,7 @@ test('les quatre catalogues exposent une recherche locale accessible', async () 
     assert.match(page, /wood-catalog-search__alternatives/);
     assert.match(page, /contact\.html/);
     assert.match(page, /class="product-card(?:\s|\")/);
+    assert.match(page, /data-wood-catalog-sort/);
   }
 });
 
@@ -37,4 +38,12 @@ test('la recherche normalise accents et synonymes sans service distant', async (
   assert.equal(api.matches(card, 'nimbuz'), true);
   assert.equal(api.matches(card, 'résine'), false);
   assert.equal(api.matches(card, ''), true);
+});
+
+test('la recherche ne partage que q et le tri public dans l’URL', async () => {
+  const source = await readFile(new URL('../wood-catalog-search.js', import.meta.url), 'utf8');
+  assert.match(source, /URLSearchParams/);
+  assert.match(source, /replaceState/);
+  assert.match(source, /searchParams\.set\('q'/);
+  assert.match(source, /searchParams\.set\('sort'/);
 });

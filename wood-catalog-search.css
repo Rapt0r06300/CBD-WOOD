@@ -15,7 +15,7 @@
 
 .wood-catalog-search__control {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) minmax(8rem, auto) auto;
   gap: .65rem;
 }
 
@@ -35,9 +35,20 @@
 }
 
 .wood-catalog-search input:focus-visible,
+.wood-catalog-search select:focus-visible,
 .wood-catalog-search button:focus-visible {
   outline: 3px solid rgba(203, 240, 150, .68);
   outline-offset: 3px;
+}
+
+.wood-catalog-search select {
+  min-height: 3rem;
+  border: 1px solid rgba(216, 212, 189, .42);
+  border-radius: 999px;
+  padding: .7rem 2rem .7rem 1rem;
+  color: var(--wood-cream, #f1f0e6);
+  background: rgba(27, 44, 32, .74);
+  font: inherit;
 }
 
 .wood-catalog-search button {

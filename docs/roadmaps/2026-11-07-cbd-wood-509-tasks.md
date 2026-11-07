@@ -840,7 +840,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
 
 ### 06 — Filtres, comparaisons et cartes décisionnelles — P1, complément de TXW-053 à TXW-064, TXW-060
 
-- [ ] **CRO-041 — Définir les filtres disponibles réellement**   
+- [x] **CRO-041 — Définir les filtres disponibles réellement**   
   - **Livrable :** Créer un inventaire des attributs vérifiés par univers ; masquer un filtre alimenté de valeurs fictives.  
   - **Critère de validation :** Aucun filtre 'CBD %' ou origine si preuve manquante.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -855,12 +855,12 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Le résultat correspond toujours aux puces affichées.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-044 — Créer tris honnêtes**   
+- [x] **CRO-044 — Créer tris honnêtes**   
   - **Livrable :** Nom alphabétique, nouveautés seulement datées, prix seulement quand validés ; pas de best-sellers inventés.  
   - **Critère de validation :** Tri stable et cohérent avec valeurs présentes.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-045 — Consolider les variantes d'un même produit**   
+- [x] **CRO-045 — Consolider les variantes d'un même produit**   
   - **Livrable :** Ne pas créer des doublons de cartes pour chaque grammage ; un produit avec options.  
   - **Critère de validation :** Un slug produit par référence, variantes internes.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -875,7 +875,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Case inconnue \= 'Non renseigné' ; aucun profil inventé.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-048 — Mettre le prix au gramme sous condition**   
+- [x] **CRO-048 — Mettre le prix au gramme sous condition**   
   - **Livrable :** Calculer €/g seulement sur prix TTC et poids approuvés ; aucun arrondi trompeur.  
   - **Critère de validation :** Tests décimaux, formats FR et absence si donnée invalide.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -1479,7 +1479,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Test orthographe, accents, casse et aucun résultat fictif.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-140 — Filtres persistants dans l'URL.**  
+- [x] **CRO-140 — Filtres persistants dans l'URL.**  
   - **Livrable :** Permettre de partager et retrouver une sélection filtrée.  
   - **Recette :** L'URL ne contient aucune donnée privée, état exact après reload.  
   - **Statut :** TODO (non implémenté).

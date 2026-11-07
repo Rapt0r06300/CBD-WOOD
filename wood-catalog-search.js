@@ -74,11 +74,38 @@
     if (!form || !grid || form.dataset.ready === 'true') return;
     form.dataset.ready = 'true';
     const input = form.querySelector('input[type="search"]');
+    const sort = form.querySelector('[data-wood-catalog-sort]');
     const status = form.querySelector('[data-wood-catalog-search-status]');
-    if (!input || !status) return;
+    if (!input || !sort || !status) return;
 
-    const apply = () => {
+    const params = new URLSearchParams(global.location?.search || '');
+    input.value = params.get('q') || '';
+    sort.value = params.get('sort') === 'name' ? 'name' : 'wood';
+
+    const updateUrl = () => {
+      if (!global.history?.replaceState || !global.location?.href) return;
+      const url = new URL(global.location.href);
+      if (input.value.trim()) url.searchParams.set('q', input.value.trim());
+      else url.searchParams.delete('q');
+      if (sort.value === 'name') url.searchParams.set('sort', 'name');
+      else url.searchParams.delete('sort');
+      global.history.replaceState({}, '', url);
+    };
+
+    const orderCards = (cards) => {
+      cards.forEach((card, index) => {
+        if (!card.dataset.catalogOrder) card.dataset.catalogOrder = String(index);
+      });
+      const ordered = [...cards].sort((left, right) => {
+        if (sort.value === 'name') return String(left.dataset.productName || '').localeCompare(String(right.dataset.productName || ''), 'fr', { sensitivity: 'base' });
+        return Number(left.dataset.catalogOrder) - Number(right.dataset.catalogOrder);
+      });
+      ordered.forEach((card) => grid.appendChild(card));
+    };
+
+    const apply = (shouldUpdateUrl = true) => {
       const cards = Array.from(grid.querySelectorAll('.product-card'));
+      orderCards(cards);
       const query = input.value;
       const visible = cards.filter((card) => {
         const visibleCard = matches(card, query);
@@ -92,12 +119,14 @@
       } else {
         status.textContent = `${visible.length} référence${visible.length > 1 ? 's' : ''} trouvée${visible.length > 1 ? 's' : ''} pour « ${query.trim()} ».`;
       }
+      if (shouldUpdateUrl) updateUrl();
     };
 
     input.addEventListener('input', apply);
+    sort.addEventListener('change', apply);
     form.addEventListener('reset', () => global.requestAnimationFrame(apply));
-    document.addEventListener('wood:catalog-rendered', apply);
-    apply();
+    document.addEventListener('wood:catalog-rendered', () => apply(false));
+    apply(false);
   }
 
   const api = { normalize, tokens, matches };
