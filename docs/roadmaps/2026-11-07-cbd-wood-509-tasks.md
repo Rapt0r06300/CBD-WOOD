@@ -912,7 +912,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Aucun crop de logo, prix sur étiquette ou sujet essentiel à 320px.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-055 — Contrôler identité des visuels**   
+- [x] **CRO-055 — Contrôler identité des visuels** — checklist des sources, statuts et frontières de publication dans `docs/validation/2026-11-07-cro-055-visual-identity.md`, avec test `test/cro-055-visual-identity.test.mjs`.
   - **Livrable :** Écarter marques tierces, produits non WOOD, emballages fictifs et reconstitutions confondues avec le réel.  
   - **Critère de validation :** Checklist des droits, photo origine et validation conservée.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.

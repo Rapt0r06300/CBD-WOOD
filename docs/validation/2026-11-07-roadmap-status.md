@@ -377,6 +377,16 @@ confirmée. Preuve : `docs/validation/2026-11-07-txw-110-brand-register.md` et
 **337 / 509 — 66,21 %**, avec **34** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Le ticket `CRO-055` est validé : les médias publics, les illustrations démo et
+les pièces jointes propriétaires sont séparés par origine et statut. Le
+registre conserve la source WOOD, interdit les médias tiers et exclut le
+dossier local d'attente de la liste blanche GitHub Pages ; aucune photo reçue
+n'est présentée comme approuvée. Preuve :
+`docs/validation/2026-11-07-cro-055-visual-identity.md` et
+`test/cro-055-visual-identity.test.mjs`. Le compteur courant devient
+**338 / 509 — 66,41 %**, avec **33** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
