@@ -58,6 +58,21 @@ const injectDemoMode = (html) => {
   }
   return result;
 };
+const advisorExcludedPages = new Set(['checkout.html', 'compte.html', 'confirmation.html', 'contact.html']);
+const injectAdvisor = (html, file) => {
+  if (advisorExcludedPages.has(file) || html.includes('wood-advisor.js')) return html;
+  let result = html;
+  if (!result.includes('wood-advisor.css')) {
+    result = result.replace('</head>', '  <link rel="stylesheet" href="wood-advisor.css?v=wood-advisor-v1-20261107">\n</head>');
+  }
+  const scripts = [
+    'wood-advisor-data.js?v=wood-advisor-data-v1-20261107',
+    'wood-advisor-engine.js?v=wood-advisor-engine-v1-20261107',
+    'wood-advisor.js?v=wood-advisor-v1-20261107',
+  ];
+  const tags = scripts.map((script) => `  <script src="${script}"></script>`).join('\n');
+  return result.replace('</body>', `${tags}\n</body>`);
+};
 const rewriteOptimizedMedia = (html) => [...optimizedMedia.entries()].reduce(
   (result, [source, optimized]) => result.replaceAll(source, optimized),
   html,
@@ -71,7 +86,7 @@ const demoFiles = await collectFiles(demoRoot);
 for (const file of demoFiles) {
   if (!file.endsWith('.html')) continue;
   const path = join(demoRoot, file);
-  await writeFile(path, rewriteOptimizedMedia(injectDemoMode(injectSwitcher(await readFile(path, 'utf8')))), 'utf8');
+  await writeFile(path, rewriteOptimizedMedia(injectAdvisor(injectDemoMode(injectSwitcher(await readFile(path, 'utf8'))), file)), 'utf8');
 }
 
 await mkdir(baseRoot, { recursive: true });

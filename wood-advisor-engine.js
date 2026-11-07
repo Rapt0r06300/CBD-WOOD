@@ -1,0 +1,156 @@
+(function attachAdvisorEngine(root, factory) {
+  const api = factory();
+  if (root) root.WoodAdvisorEngine = api;
+  if (typeof module === 'object' && module.exports) module.exports = api;
+}(typeof window !== 'undefined' ? window : globalThis, function createAdvisorEngine() {
+  const intensityRank = { low: 1, medium: 2, high: 3 };
+  const noteAliases = new Map([
+    ['fruite', 'fruite'], ['fruites', 'fruite'], ['fruit', 'fruite'],
+    ['terreux', 'terreux'], ['terreuse', 'terreux'],
+    ['boise', 'boise'], ['boisee', 'boise'],
+    ['agrumes', 'agrumes'], ['sucre', 'sucre'], ['sucree', 'sucre'],
+  ]);
+
+  const normalizeText = (value) => String(value ?? '')
+    .toLowerCase()
+    .replace(/œ/g, 'oe')
+    .replace(/æ/g, 'ae')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim()
+    .replace(/\s+/g, ' ');
+
+  const isNegated = (text, index) => {
+    const before = text.slice(Math.max(0, index - 28), index);
+    return /\b(?:pas|sans|ni|aucun|aucune|jamais)\b/.test(before)
+      || /\bne\b[^.!?]{0,20}\bpas\b/.test(before);
+  };
+
+  const hasContext = (text, index) => {
+    const before = text.slice(Math.max(0, index - 32), index);
+    return /\b(?:gout|arome|aromes|note|notes|profil|saveur)\b/.test(before);
+  };
+
+  const extractPreferences = (input) => {
+    const text = normalizeText(input);
+    const preferences = {
+      raw: String(input ?? ''),
+      normalized: text,
+      desiredCategory: null,
+      aromaIntensity: null,
+      aromaIntensityMax: null,
+      desiredNotes: [],
+      excludeNotes: [],
+      blockedTopics: [],
+      needsClarification: false,
+      discovery: false,
+    };
+
+    const blockedPatterns = [
+      ['medical-effect', /\b(?:effet|relax|relaxant|dormi|sommeil|stress|douleur|traitement|medic|planer|defonce)\w*/],
+    ];
+    blockedPatterns.forEach(([name, pattern]) => {
+      if (pattern.test(text)) preferences.blockedTopics.push(name);
+    });
+
+    if (/\b(?:fleur|fleurs)\b/.test(text)) preferences.desiredCategory = 'fleurs';
+    else if (/\b(?:resine|resines)\b/.test(text)) preferences.desiredCategory = 'resines';
+    else if (/\b(?:bien etre|cosmetique|cosmetiques|huile|huiles|soin|soins)\b/.test(text)) preferences.desiredCategory = 'bien-etre';
+    else if (/\b(?:accessoire|accessoires|textile|vetement|vetements|wood shop)\b/.test(text)) preferences.desiredCategory = 'wood-shop';
+
+    const intensityHigh = /\b(?:fort|intense|marque|puissant)\w*/g;
+    let match;
+    while ((match = intensityHigh.exec(text))) {
+      if (isNegated(text, match.index)) continue;
+      if (hasContext(text, match.index)) preferences.aromaIntensity = 'high';
+      else if (/\b(?:puissant|puissance)\w*/.test(match[0])) preferences.needsClarification = true;
+    }
+    if (!preferences.aromaIntensity && /\b(?:leger|dou[xc]|subtil|soft)\w*/.test(text) && !/\b(?:pas|sans)\s+(?:trop\s+)?(?:leger|doux|subtil|soft)/.test(text)) {
+      preferences.aromaIntensity = 'low';
+    }
+    if (/\bpas\s+trop\s+(?:fort|intense|puissant|marque)\w*/.test(text)) preferences.aromaIntensityMax = 'medium';
+    if (/\b(?:plutot|un peu|legerement)\s+(?:doux|leger|subtil|soft)\b/.test(text)) preferences.aromaIntensity = 'low';
+
+    noteAliases.forEach((canonical, alias) => {
+      let noteIndex = text.indexOf(alias);
+      while (noteIndex >= 0) {
+        if (isNegated(text, noteIndex)) preferences.excludeNotes.push(canonical);
+        else preferences.desiredNotes.push(canonical);
+        noteIndex = text.indexOf(alias, noteIndex + alias.length);
+      }
+    });
+
+    if (/\b(?:je ne sais pas|aucune idee|sans idee|pour decouvrir|decouverte)\b/.test(text) || !text) preferences.discovery = true;
+    preferences.desiredNotes = [...new Set(preferences.desiredNotes)].sort();
+    preferences.excludeNotes = [...new Set(preferences.excludeNotes)].sort();
+    preferences.blockedTopics = [...new Set(preferences.blockedTopics)].sort();
+    return preferences;
+  };
+
+  const verifiedFacts = (product) => (Array.isArray(product?.facts) ? product.facts : [])
+    .filter((fact) => fact && fact.verified === true && fact.source && fact.key && fact.value !== null && fact.value !== undefined);
+  const valuesFor = (facts, key) => facts.filter((fact) => fact.key === key).map((fact) => normalizeText(fact.value));
+  const factEvidence = (facts, key, value) => facts.find((fact) => fact.key === key && normalizeText(fact.value) === normalizeText(value));
+
+  const recommend = (products, preferences = extractPreferences('')) => {
+    const list = Array.isArray(products) ? products : [];
+    if (preferences.blockedTopics?.length) return {
+      status: 'clarify', best: null, alternatives: [],
+      reason: 'Je peux aider à comparer des descriptions de goût et de format, pas à conseiller un effet ou une utilisation médicale. Pour ce point, contacte directement WOOD.',
+    };
+
+    const scored = list.map((product, index) => {
+      const facts = verifiedFacts(product);
+      const notes = valuesFor(facts, 'notes');
+      const intensities = valuesFor(facts, 'aromaIntensity');
+      const hardExcluded = (preferences.desiredCategory && product.category !== preferences.desiredCategory)
+        || preferences.excludeNotes.some((note) => notes.includes(note))
+        || (preferences.aromaIntensityMax && intensities.some((value) => intensityRank[value] > intensityRank[preferences.aromaIntensityMax]));
+      let score = 0;
+      const evidence = [];
+      if (preferences.aromaIntensity && intensities.includes(preferences.aromaIntensity)) {
+        score += 3;
+        evidence.push(factEvidence(facts, 'aromaIntensity', preferences.aromaIntensity));
+      }
+      preferences.desiredNotes.forEach((note) => {
+        if (notes.includes(note)) {
+          score += 3;
+          evidence.push(factEvidence(facts, 'notes', note));
+        }
+      });
+      if (preferences.desiredCategory && product.category === preferences.desiredCategory) score += 1;
+      return { product, index, facts, score, evidence: evidence.filter(Boolean), hardExcluded };
+    }).filter((entry) => !entry.hardExcluded)
+      .sort((left, right) => right.score - left.score || left.index - right.index);
+
+    const hasSpecificPreference = Boolean(preferences.desiredCategory || preferences.aromaIntensity || preferences.aromaIntensityMax || preferences.desiredNotes.length || preferences.excludeNotes.length);
+    if (!scored.length || (hasSpecificPreference && scored[0].score === 0)) return {
+      status: 'no-match', best: null, alternatives: [],
+      reason: 'Aucune référence de démonstration ne correspond à tous ces critères avec des faits vérifiés. Tu peux assouplir un critère ou demander directement conseil à WOOD.',
+    };
+    if (!hasSpecificPreference || preferences.discovery) return {
+      status: 'discovery',
+      best: scored[0] ? { product: scored[0].product, score: 0, explanation: 'Sélection de découverte non personnalisée : les caractéristiques détaillées restent à valider par WOOD.' } : null,
+      alternatives: scored.slice(1, 3).map((entry) => ({ product: entry.product, score: 0, explanation: 'Alternative de découverte, sans classement de goût inventé.' })),
+      reason: 'Voici une porte d’entrée dans la sélection WOOD. Les informations détaillées apparaîtront uniquement avec une source validée.',
+    };
+
+    const describe = (entry) => {
+      const details = entry.evidence.map((fact) => `${fact.key} « ${fact.value} » — source : ${fact.source}`).join(' · ');
+      return details || 'Aucun fait vérifié ne justifie une préférence supplémentaire.';
+    };
+    const alternatives = scored.slice(1)
+      .filter((entry) => entry.score > 0)
+      .slice(0, 2)
+      .map((entry) => ({ product: entry.product, score: entry.score, explanation: describe(entry) }));
+    return {
+      status: 'match',
+      best: { product: scored[0].product, score: scored[0].score, explanation: `Correspondance fondée sur un fait vérifié : ${describe(scored[0])}` },
+      alternatives,
+      reason: 'Cette proposition reste descriptive : elle ne prédit aucun effet et ne remplace pas un conseil professionnel.',
+    };
+  };
+
+  return Object.freeze({ normalizeText, extractPreferences, recommend });
+}));

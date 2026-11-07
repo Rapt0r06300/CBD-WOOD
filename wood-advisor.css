@@ -1,0 +1,54 @@
+.wood-advisor{position:fixed;right:clamp(16px,3vw,42px);bottom:clamp(18px,3vw,34px);z-index:36;display:grid;justify-items:end;gap:10px;pointer-events:none;font-family:Arial,Helvetica,sans-serif}
+.wood-advisor__bubble,.wood-advisor__panel{pointer-events:auto}
+.wood-advisor.is-open .wood-advisor__bubble{display:none}
+.wood-advisor__bubble{display:inline-flex;align-items:center;gap:10px;max-width:min(290px,calc(100vw - 32px));padding:11px 13px 11px 10px;border:1px solid rgba(203,240,150,.52);border-radius:999px;background:#e8efd9;color:#142217;box-shadow:0 14px 45px rgba(0,0,0,.27);font-size:12px;font-weight:900;letter-spacing:.5px;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
+.wood-advisor__bubble:hover,.wood-advisor__bubble:focus-visible{transform:translateY(-3px);background:#cbf096;box-shadow:0 18px 48px rgba(0,0,0,.34)}
+.wood-advisor__bubble img{width:42px;height:42px;flex:0 0 42px}
+.wood-advisor__bubble span{line-height:1.25;text-align:left}
+.wood-advisor__panel{width:min(410px,calc(100vw - 28px));max-height:min(690px,calc(100dvh - 132px));overflow:auto;padding:24px;background:#122018;color:#f1f0e6;border:1px solid #5b7458;box-shadow:0 24px 70px rgba(0,0,0,.47);transform-origin:bottom right;animation:woodAdvisorIn .28s cubic-bezier(.2,.8,.2,1) both}
+.wood-advisor__panel[hidden]{display:none}
+.wood-advisor__top{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;border-bottom:1px solid #3a513e;padding-bottom:17px;margin-bottom:18px}
+.wood-advisor__eyebrow{display:block;color:#cbf096;font-size:10px;font-weight:900;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:8px}
+.wood-advisor__title{margin:0;font-size:26px;line-height:.98;letter-spacing:-1.2px;text-transform:uppercase}
+.wood-advisor__close{border:1px solid #667b66;background:transparent;color:#f1f0e6;min-width:38px;min-height:38px;cursor:pointer;font-size:19px;line-height:1}
+.wood-advisor__close:hover,.wood-advisor__close:focus-visible{border-color:#cbf096;color:#cbf096}
+.wood-advisor__intro{margin:0 0 18px;color:#c2cfbd;font-size:14px;line-height:1.55}
+.wood-advisor__notice{padding:10px 12px;border-left:3px solid #cbf096;background:#1d3021;color:#dce8d5;font-size:11px;line-height:1.45;margin:0 0 17px}
+.wood-advisor__question{margin:0 0 10px;font-size:12px;font-weight:900;letter-spacing:1.1px;text-transform:uppercase;color:#cbf096}
+.wood-advisor__categories{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:19px}
+.wood-advisor__choice{min-height:44px;padding:11px 12px;border:1px solid #526951;background:#17271b;color:#f1f0e6;text-align:left;font-size:12px;font-weight:800;cursor:pointer;transition:background .2s,border-color .2s,transform .2s}
+.wood-advisor__choice:hover,.wood-advisor__choice:focus-visible{background:#2d482f;border-color:#cbf096;transform:translateY(-1px)}
+.wood-advisor__form{display:grid;gap:8px;margin-top:4px}
+.wood-advisor__form label{font-size:11px;color:#bdcdb9}
+.wood-advisor__input{width:100%;min-height:44px;padding:10px 12px;border:1px solid #526951;background:#0e1811;color:#f1f0e6;font:inherit;font-size:13px}
+.wood-advisor__input::placeholder{color:#819281}
+.wood-advisor__submit{justify-self:start;min-height:43px;padding:0 16px;border:1px solid #cbf096;background:#cbf096;color:#172519;font-size:11px;font-weight:900;letter-spacing:1.4px;text-transform:uppercase;cursor:pointer}
+.wood-advisor__submit:hover,.wood-advisor__submit:focus-visible{background:#e5f9bd}
+.wood-advisor__result{margin-top:20px;padding-top:18px;border-top:1px solid #3a513e}
+.wood-advisor__result[hidden]{display:none}
+.wood-advisor__result-kicker{display:block;margin-bottom:7px;color:#cbf096;font-size:10px;font-weight:900;letter-spacing:2px;text-transform:uppercase}
+.wood-advisor__result h3{margin:0 0 7px;font-size:24px;line-height:1;text-transform:uppercase;letter-spacing:-.8px}
+.wood-advisor__result p{margin:0;color:#c3d1be;font-size:13px;line-height:1.55}
+.wood-advisor__result a{display:inline-flex;margin-top:12px;color:#cbf096;font-size:11px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase}
+.wood-advisor__alternatives{display:grid;gap:7px;margin:16px 0 0;padding:0;list-style:none}
+.wood-advisor__alternatives li{padding:9px 10px;background:#1a2c1d;border:1px solid #304a34;font-size:12px}
+.wood-advisor__alternatives a{margin:0;color:#f1f0e6;font-size:12px;letter-spacing:.5px;text-transform:none}
+.wood-advisor__clear{display:inline-flex;margin-top:17px;border:0;background:transparent;color:#a9bcaa;text-decoration:underline;text-underline-offset:3px;font-size:11px;cursor:pointer}
+.wood-advisor__status{min-height:18px;margin-top:10px;color:#c4d0c0;font-size:11px}
+@keyframes woodAdvisorIn{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+/* The mobile offset keeps the helper above WOOD's bottom-nav layer. */
+@media(max-width:800px){
+  .wood-advisor{right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 86px)}
+  .wood-advisor__bubble{padding:8px 11px 8px 8px}
+  .wood-advisor__bubble img{width:52px;height:52px;flex-basis:52px}
+  .wood-advisor__panel{max-height:calc(100dvh - 148px);padding:20px}
+}
+@media(max-width:420px){
+  .wood-advisor{right:10px}
+  .wood-advisor__bubble{max-width:calc(100vw - 20px)}
+  .wood-advisor__panel{width:calc(100vw - 20px);padding:17px}
+}
+@media(prefers-reduced-motion:reduce){
+  .wood-advisor__panel{animation:none}
+  .wood-advisor__bubble,.wood-advisor__choice{transition:none}
+}

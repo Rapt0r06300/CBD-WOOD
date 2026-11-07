@@ -1595,12 +1595,12 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Aucune propriété non explicitée inventée.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-162 — Normalisation et synonymes.**  
+- [x] **CRO-162 — Normalisation et synonymes.**  
   - **Livrable :** Normaliser fleurs/résines, grammes, millilitres, attributs sensoriels sans confondre effets.  
   - **Recette :** Tests de catégories ambiguës et d'unités.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-163 — Source/fiabilité par attribut.**  
+- [x] **CRO-163 — Source/fiabilité par attribut.**  
   - **Livrable :** Conserver provenance, version, statut verified/needs_review/unknown et date.  
   - **Recette :** Un fait non confirmé n'est jamais affirmé comme certain.  
   - **Statut :** TODO (non implémenté).
@@ -1620,47 +1620,47 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Nombre de questions borné, pas de boucle ni tunnel bloquant.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-167 — Contraintes dures et préférences souples.**  
+- [x] **CRO-167 — Contraintes dures et préférences souples.**  
   - **Livrable :** Distinguer exclusions non négociables des souhaits secondaires et du flou.  
   - **Recette :** Un candidat hors contrainte dure n'est pas annoncé compatible.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-168 — Score gratuit et explicable.**  
+- [x] **CRO-168 — Score gratuit et explicable.**  
   - **Livrable :** Algorithme déterministe JS/SQLite sans API LLM payante, tie-break stable.  
   - **Recette :** Même base/choix \= même ordre, aucune faveur au prix ou promo.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-169 — Une recommandation et deux alternatives.**  
+- [x] **CRO-169 — Une recommandation et deux alternatives.**  
   - **Livrable :** Afficher classement transparent et faits qui justifient chaque suggestion.  
   - **Recette :** Références existantes, explanations sourcées, pas de faux avis.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-170 — Aucun match exact : aide honnête.**  
+- [x] **CRO-170 — Aucun match exact : aide honnête.**  
   - **Livrable :** Expliquer contraintes incompatibles et proposer assouplissement volontaire, fiches découvertes ou contact.  
   - **Recette :** Ne jamais dire « parfait » si produit ne répond pas.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-171 — Visiteur sans idée précise.**  
+- [x] **CRO-171 — Visiteur sans idée précise.**  
   - **Livrable :** Réponses 'Je ne sais pas' et sélection de découverte clairement non personnalisée.  
   - **Recette :** Toujours une issue utile, pas de produit inventé.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-172 — Disponibilité et données inconnues.**  
+- [x] **CRO-172 — Disponibilité et données inconnues.**  
   - **Livrable :** Distinguer référence visible en démo d'un produit réellement en stock/à vendre.  
   - **Recette :** Aucun stock/prix/garantie déduits par le moteur.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-173 — Correction des conseils.**  
+- [x] **CRO-173 — Correction des conseils.**  
   - **Livrable :** Bouton 'Pas mon choix' suivi d'une question utile de départage, retour/edit de réponse.  
   - **Recette :** Pas de répétition infinie des mêmes produits.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-174 — Confidentialité des réponses.**  
+- [x] **CRO-174 — Confidentialité des réponses.**  
   - **Livrable :** Conserver session en mémoire volatile et permettre effacement; ne pas demander santé/médicaments.  
   - **Recette :** Aucune donnée client, cookie de profil ou log personnel envoyé.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-175 — Résilience aux fiches incomplètes.**  
+- [x] **CRO-175 — Résilience aux fiches incomplètes.**  
   - **Livrable :** Gérer NULL, valeurs contradictoires et catégories sans données.  
   - **Recette :** Pas d'exception SQL/JS; score n'invente pas.  
   - **Statut :** TODO (non implémenté).
@@ -1670,7 +1670,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Invariants vérifiés : aucun faux match, scores stables.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-177 — Mode local sans Cloudflare.**  
+- [x] **CRO-177 — Mode local sans Cloudflare.**  
   - **Livrable :** Exécuter le conseiller en frontend avec données statiques si Worker/D1 indisponible.  
   - **Recette :** Même UX et zero abonnement nécessaire.  
   - **Statut :** TODO (non implémenté).
@@ -1686,7 +1686,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
 
 ### Assistant flottant — design approuvé (12 tâches)
 
-- [ ] **CRO-179 — Direction artistique issue de l'image approuvée.**  
+- [x] **CRO-179 — Direction artistique issue de l'image approuvée.**  
   - **Livrable :** Mascotte souriante type fleur/bourgeon illustré, casquette WOOD, lunettes, esprit sticker BD, graffiti maîtrisé, luxe/chill, verre et bois. Pas de pin-up, Halloween ou style sexuel.  
   - **Recette :** Brief visuel officiel écrit, distinction entre style approuvé et image commerciale finale.  
   - **Statut :** TODO (non implémenté).
@@ -1696,47 +1696,47 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Contrôle de l'asset officiel sur maquettes desktop et mobile.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-181 — Distinguer la référence d'un visuel publiable.**  
+- [x] **CRO-181 — Distinguer la référence d'un visuel publiable.**  
   - **Livrable :** Conserver l'image approuvée comme inspiration; régénérer l'actif final propre, retirer les allégations et textes médicaux présents dans la maquette.  
   - **Recette :** Validation qualité, copyright, textes et allégations avant usage.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-182 — Mascotte SVG/WEBP responsive.**  
+- [x] **CRO-182 — Mascotte SVG/WEBP responsive.**  
   - **Livrable :** Produire une version nette détourée légère, une miniature 1:1 et une variante panneau.  
   - **Recette :** Fichiers optimisés, alt et dimensions stables, fallback.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-183 — Bulle BD 'Besoin d’aide pour choisir ?'.**  
+- [x] **CRO-183 — Bulle BD 'Besoin d’aide pour choisir ?'.**  
   - **Livrable :** Concevoir la bulle à queue fine, texte exact et une action distincte pour ouvrir l'assistant.  
   - **Recette :** Lisibilité 320px, contraste, aucune phrase qui masque la page.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-184 — Ancrage fixe bas-droite.**  
+- [x] **CRO-184 — Ancrage fixe bas-droite.**  
   - **Livrable :** Position fixed bottom/right avec calcul safe-area, z-index maîtrisé et offsets selon barres de navigation.  
   - **Recette :** Le widget reste visible en montant/descendant et sans couvrir CTA.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-185 — Taille discrète sans devenir invisible.**  
+- [x] **CRO-185 — Taille discrète sans devenir invisible.**  
   - **Livrable :** Définir taille réduite/bulle et positions par breakpoint ; privilégier 52–72px de mascotte mobile, bulle compacte.  
   - **Recette :** Test iPhone, Android, desktop et zoom sans obstacle.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-186 — Trois états du widget.**  
+- [x] **CRO-186 — Trois états du widget.**  
   - **Livrable :** Réduit, bulle + avatar, assistant ouvert ; conserver transition sans sollicitation intempestive.  
   - **Recette :** Chaque état atteignable en un clic et fermé par action claire.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-187 — Respecter rejet et réduction.**  
+- [x] **CRO-187 — Respecter rejet et réduction.**  
   - **Livrable :** Si le client ferme/réduit, ne pas rouvrir en boucle ni au scroll.  
   - **Recette :** Préférence locale discrète et réinitialisation possible sans suivi.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-188 — Ne pas masquer le bas de page.**  
+- [x] **CRO-188 — Ne pas masquer le bas de page.**  
   - **Livrable :** Repositionner au-dessus de nav, cookies, safe-area, panier local ou clavier virtuel.  
   - **Recette :** Tests de collision sur petits écrans et orientation paysage.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-189 — Ouverture panneau adapté.**  
+- [x] **CRO-189 — Ouverture panneau adapté.**  
   - **Livrable :** Drawer mobile, dialog ou panneau desktop bien dimensionné, focus trap et état de fermeture.  
   - **Recette :** Tactile, clavier, Escape, retour focus, aucune page bloquée.  
   - **Statut :** TODO (non implémenté).
@@ -1748,17 +1748,17 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
 
 ### Assistant accessible et volontaire (8 tâches)
 
-- [ ] **CRO-191 — Visibilité sur toutes les routes utiles.**  
+- [x] **CRO-191 — Visibilité sur toutes les routes utiles.**  
   - **Livrable :** Contrôler présence de l'aide sur accueil, fleurs, résines, fiches, WOOD Shop sans écran parasite.  
   - **Recette :** Comportement cohérent par route; pas sur processus sensibles.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-192 — Non-dépendance au cloud.**  
+- [x] **CRO-192 — Non-dépendance au cloud.**  
   - **Livrable :** L'avatar et le dialogue rendent sans D1 connecté.  
   - **Recette :** Couper réseau sans casser le bouton d'ouverture.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-193 — Accessible lecteur d'écran.**  
+- [x] **CRO-193 — Accessible lecteur d'écran.**  
   - **Livrable :** Noms et rôles corrects, ARIA et annonces de changements sans spam.  
   - **Recette :** Parcours VoiceOver/NVDA, tabulation et Escape.  
   - **Statut :** TODO (non implémenté).
@@ -1768,17 +1768,17 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Tests de fluidité et capture statique.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-195 — Gestion clavier mobile.**  
+- [x] **CRO-195 — Gestion clavier mobile.**  
   - **Livrable :** Le clavier virtuel ne cache ni questions ni bouton passer/retour.  
   - **Recette :** Tests iOS Safari/Android paysage/portrait.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-196 — Bulle intelligible sans impression de chat humain réel.**  
+- [x] **CRO-196 — Bulle intelligible sans impression de chat humain réel.**  
   - **Livrable :** Expliquer que c'est un guide automatisé, non un conseiller humain derrière l'écran.  
   - **Recette :** Aucune confusion support live, pas de faux temps de réponse.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-197 — Invitation contextuelle douce.**  
+- [x] **CRO-197 — Invitation contextuelle douce.**  
   - **Livrable :** La bulle est discrète et explicite; pas de pop-up forcée, compte à rebours ni pressions.  
   - **Recette :** Aucun affichage modal automatiquement déclenché au scroll.  
   - **Statut :** TODO (non implémenté).
@@ -1795,22 +1795,22 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Synonymes modifiables sans recompilation du site.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-200 — Normaliser orthographe et variantes.**  
+- [x] **CRO-200 — Normaliser orthographe et variantes.**  
   - **Livrable :** Accents, pluriels, apostrophes, casse, tirets, fautes fréquentes et formes linguistiques.  
   - **Recette :** Test de 50 formulations anonymes de fixtures.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-201 — Détecter les négations.**  
+- [x] **CRO-201 — Détecter les négations.**  
   - **Livrable :** Exemple : « pas fort », « sans goût sucré », « je ne veux pas du lourd ».  
   - **Recette :** Interprétation inverse vérifiée; ne pas attribuer positivement une propriété rejetée.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-202 — Comprendre intensificateurs et atténuateurs.**  
+- [x] **CRO-202 — Comprendre intensificateurs et atténuateurs.**  
   - **Livrable :** « Très doux », « plutôt léger », « légèrement fruité », « trop puissant ».  
   - **Recette :** Niveau de préférence ajusté seulement avec confiance suffisante.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-203 — Distinguer contexte et sens de « fort ».**  
+- [x] **CRO-203 — Distinguer contexte et sens de « fort ».**  
   - **Livrable :** Ne pas assimiler « goût fort » à puissance de cannabinoïdes ou effet psychoactif ; demander « tu parles du goût ? » si ambigu.  
   - **Recette :** Tests de désambiguïsation, zéro revendication d'effets.  
   - **Statut :** TODO (non implémenté).
@@ -1830,7 +1830,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Pas de badge public contradictoire.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-207 — Lexique sensoriel non médical.**  
+- [x] **CRO-207 — Lexique sensoriel non médical.**  
   - **Livrable :** Séparer intensité aromatique, texture, format, provenance, force alléguée; exclure labels médicaux et effets de relaxation.  
   - **Recette :** Les attributs non autorisés n'entrent pas dans score.  
   - **Statut :** TODO (non implémenté).
@@ -1862,7 +1862,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Une fiche vide n'affiche pas automatiquement « fort » ou « léger ».  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-213 — Explications courtes et contextualisées.**  
+- [x] **CRO-213 — Explications courtes et contextualisées.**  
   - **Livrable :** Sous chaque badge, expliquer 'arômes doux décrits dans la fiche' ou 'notes fruitées déclarées', pas 'effet relaxant'.  
   - **Recette :** Chaque mot est justifiable et non médical.  
   - **Statut :** TODO (non implémenté).
@@ -1877,12 +1877,12 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Le visiteur peut voir la donnée d'origine/qualification.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-216 — Compatibilité fleurs/résines et variantes.**  
+- [x] **CRO-216 — Compatibilité fleurs/résines et variantes.**  
   - **Livrable :** Même pipeline d'icônes sur cartes, fiches, conseiller et comparateur.  
   - **Recette :** Aucune incohérence des libellés entre écrans.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-217 — Contrastes et états incomplets.**  
+- [x] **CRO-217 — Contrastes et états incomplets.**  
   - **Livrable :** Badges lisibles en mode sombre/clair, sans couleur seule comme information.  
   - **Recette :** WCAG, alt/texte visible, placeholder propre.  
   - **Statut :** TODO (non implémenté).
@@ -1904,7 +1904,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Tables SQLite migrations testées sur base fictive, pas de mutation Supabase.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-221 — Moteur de questions piloté par les mots.**  
+- [x] **CRO-221 — Moteur de questions piloté par les mots.**  
   - **Livrable :** Les questions sur « goût », « léger », « fort » apparaissent uniquement si elles sont pertinentes et non ambiguës pour les fiches.  
   - **Recette :** Ne demande pas un attribut que le catalogue ne connaît pas.  
   - **Statut :** TODO (non implémenté).
@@ -1919,7 +1919,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Aucune boucle, aucun faux produit et aucune classification fictive.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-224 — Écriture des tests de données et UI.**  
+- [x] **CRO-224 — Écriture des tests de données et UI.**  
   - **Livrable :** Scénarios end-to-end incluant importer fleur, générer badges, poser questions, conseiller et partager.  
   - **Recette :** Suite automatique verte, réseau commercial coupé, captures incluses.  
   - **Statut :** TODO (non implémenté).
