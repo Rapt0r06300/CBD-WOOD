@@ -1238,7 +1238,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** La démo garde noindex pour ne pas indexer des contenus provisoires.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-117 — Préparer données structurées honnêtes**   
+- [x] **CRO-117 — Préparer données structurées honnêtes** — objet `Store` limité aux coordonnées Barla confirmées, sans horaires non confirmés, note globale ni avis ; preuve : `docs/validation/2026-11-07-structured-data.md`, `test/structured-data-contract.test.mjs`.
   - **Livrable :** Organization/LocalBusiness/Store seulement sur champs exacts approuvés, jamais Note aggregateRating inventée.  
   - **Critère de validation :** Validation schéma sans erreurs ni information non confirmée.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
