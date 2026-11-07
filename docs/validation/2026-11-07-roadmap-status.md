@@ -55,6 +55,11 @@ La cartographie des collections `CRO-143` est vérifiée par
 devient **287 / 509 — 56,39 %**, avec **84** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+La mesure du premier viewport `CRO-014` est vérifiée par
+`docs/validation/2026-11-07-cro-first-viewport-noise.md`. Le compteur courant
+devient **288 / 509 — 56,58 %**, avec **83** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

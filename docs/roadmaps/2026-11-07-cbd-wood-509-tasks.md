@@ -697,7 +697,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Comparatif captures et grille de sélection propriétaire.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-014 — Éliminer bruit visuel initial**   
+- [x] **CRO-014 — Éliminer bruit visuel initial** — mesure 390/1440 et décision de conserver les graffitis WOOD tout en isolant les CTA dans `docs/validation/2026-11-07-cro-first-viewport-noise.md`.
   - **Livrable :** Compter visuels, tags, badges et CTA du premier viewport et supprimer ce qui concurrence la marque.  
   - **Critère de validation :** Révision : la lecture WOOD → message → CTA reste immédiate.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
