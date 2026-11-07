@@ -1429,22 +1429,22 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Version statique si reduced-motion; LCP/CLS contrôlés; marque intacte.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-130 — Mur de stickers vivant.**  
+- [x] **CRO-130 — Mur de stickers vivant.** — galerie de quatre accents WOOD dans `#sticker-wall`, responsive, masquable et réduite sans mouvement ; preuve `docs/validation/2026-11-07-cro-visual-library.md`.
   - **Livrable :** Galerie ludique des créations WOOD originales et des motifs autorisés visibles en boutique.  
   - **Recette :** Aucun sticker de tiers copié, navigation tactile/clavier accessible.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-131 — Matières de marque numériques.**  
+- [x] **CRO-131 — Matières de marque numériques.** — bibliothèque verre/bois/papier/encre dans `wood-sticker-wall.css`, décorative et non bloquante.
   - **Livrable :** Créer une bibliothèque sobre de textures verre, bois, papier et encre.  
   - **Recette :** Lisibilité, contraste et poids médias contrôlés.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-132 — Mini-campagnes éditoriales.**  
+- [x] **CRO-132 — Mini-campagnes éditoriales.** — campagne `studio-wood` isolée par identifiant et désactivable localement par `?wood-campaign=off`, sans données commerciales.
   - **Livrable :** Prévoir emplacements de campagnes temporaires activables indépendamment.  
   - **Recette :** Aucune fausse promo, faux stock ou tarif ajouté.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-133 — Les petits mots de la propriétaire.**  
+- [x] **CRO-133 — Les petits mots de la propriétaire.** — emplacement `data-owner-note-state="pending"` avec microcopie d'attente, aucune citation attribuée avant validation.
   - **Livrable :** Emplacements pour ses vrais commentaires, son ton drôle et ses préférences validées.  
   - **Recette :** Aucune citation attribuée sans accord et source.  
   - **Statut :** TODO (non implémenté).
