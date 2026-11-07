@@ -310,6 +310,16 @@ Preuve : `docs/validation/2026-11-07-txw-094-reflow-review.md` et
 **330 / 509 — 64,83 %**, avec **41** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Le ticket `TXW-111` est validé : le paquet public est borné par une liste
+blanche, le registre des assets WOOD trace source et autorisation, les images
+distantes sont exclues et les références tierces restent limitées à la
+documentation d'audit. L'asset WOOD encore soumis à validation propriétaire
+reste explicitement `pending`. Preuve :
+`docs/validation/2026-11-07-txw-111-third-party-sources.md` et
+`test/txw-111-third-party-sources.test.mjs`. Le compteur courant devient
+**331 / 509 — 65,03 %**, avec **40** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

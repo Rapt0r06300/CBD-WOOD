@@ -481,7 +481,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [ ] **TXW-110 — Clarifier marque et Instagram.** Examiner www.woodcbdshop.com et compte social @wood.cbdshop identifié publiquement, mais ne modifier le lien officiel qu'après confirmation propriétaire.    
   **Acceptation :** Compte cible validé ou marqué 'à confirmer' dans le registre externe.
 
-- [ ] **TXW-111 — Écarter les sources tiers non autorisées.** Ne pas copier les stickers d'autres marques, les créations TealerLab ou les photos de site tiers sans droits explicites.    
+- [x] **TXW-111 — Écarter les sources tiers non autorisées.** Ne pas copier les stickers d'autres marques, les créations TealerLab ou les photos de site tiers sans droits explicites. Preuve : `docs/validation/2026-11-07-txw-111-third-party-sources.md` et `test/txw-111-third-party-sources.test.mjs`.
   **Acceptation :** Registre des droits par asset ; aucun élément litigieux diffusé.
 
 - [x] **TXW-112 — Préparer la validation propriétaire.** Checklist oui/non pour identité, contraste, chic/premium, chill/graffiti, humour, cloche, photos, rythme inspiré de TealerLab et revue mobile ; preuve : `docs/validation/2026-11-07-owner-approval-checklist.md` et `test/owner-approval-checklist.test.mjs`.    
