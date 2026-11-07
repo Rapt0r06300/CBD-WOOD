@@ -476,6 +476,17 @@ date, de l'auteur public et de l'autorisation de citation par WOOD. Preuve :
 devient **347 / 509 — 68,17 %**, avec **24** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+## Vérification additionnelle post-347
+
+La finition mobile du hero a été renforcée après la dernière clôture : les deux
+CTA passent maintenant en grille tactile sur les petits écrans et restent au-
+dessus de la navigation basse fixe. La recette Chromium locale à 320, 360, 390
+et 430 px sur 844 px confirme une hauteur de 48 px par CTA, zéro chevauchement
+avec la barre basse et zéro débordement de texte. La preuve automatisée est
+`test/mobile-hero-nav-clearance.test.mjs`; le correctif est livré dans le
+commit `2919598`. Cette vérification améliore une tâche déjà validée et ne
+ferme aucune porte externe ni n'augmente le compteur 347 / 509.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
