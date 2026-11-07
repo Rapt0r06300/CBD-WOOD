@@ -402,7 +402,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [ ] **TXW-085 — Contrôler Chromium Android.** Tester interactions tactiles, rails scroll-snap, menu, boutons, clavier virtuel et chargement d'images.    
   **Acceptation :** Fonctions accessibles sans hover.
 
-- [ ] **TXW-086 — Contrôler Firefox desktop.** Tester grid, images, pictogrammes, transitions, formulaires et polices fallback.    
+- [x] **TXW-086 — Contrôler Firefox desktop.** Tester grid, images, pictogrammes, transitions, formulaires et polices fallback dans `docs/validation/2026-11-07-txw-086-firefox.md`, avec captures locales et test `test/txw-086-firefox.test.mjs`.
   **Acceptation :** Pas de différence bloquante avec Chromium.
 
 - [x] **TXW-087 — Contrôler le zoom 200 et 400 %.** Vérifier libellés, titres massifs, menus, boutons, cartes, tableaux et footer dans la recette locale de reflow. Preuve : `docs/validation/2026-11-07-txw-087-zoom.md` et `test/txw-087-zoom.test.mjs`.

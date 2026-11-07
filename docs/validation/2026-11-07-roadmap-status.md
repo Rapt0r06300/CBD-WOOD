@@ -387,6 +387,16 @@ n'est présentée comme approuvée. Preuve :
 **338 / 509 — 66,41 %**, avec **33** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Le ticket `TXW-086` est validé par une recette Firefox desktop locale à
+1 440 × 900 sur le catalogue, la fiche fleur, le contact et l'accueil. Les
+grilles, images, galerie, actions et formulaire restent contenus ; aucune
+erreur console ou différence bloquante avec la recette Chromium n'a été
+observée. La limite appareil réel reste explicitement ouverte. Preuve :
+`docs/validation/2026-11-07-txw-086-firefox.md` et
+`test/txw-086-firefox.test.mjs`. Le compteur courant devient
+**339 / 509 — 66,60 %**, avec **32** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
