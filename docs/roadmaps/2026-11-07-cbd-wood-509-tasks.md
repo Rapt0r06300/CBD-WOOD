@@ -510,7 +510,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [ ] **TXW-119 — Produire un état d'avancement sincère.** Pour chaque ticket, consigner statut DONE/PARTIAL/BLOCKED, commit, test et risque ; ne pas inclure les tâches externes dans le pourcentage livrable.    
   **Acceptation :** Pourcentage \= tickets réellement validés / 120, avec catégories distinctes.
 
-- [ ] **TXW-120 — Livrer une démonstration réversible.** Publier sur GitHub Pages uniquement après tests et sans activer production ; garder rollback et registre des tâches externes séparé.    
+- [x] **TXW-120 — Livrer une démonstration réversible.** Publier sur GitHub Pages uniquement après tests et sans activer production ; garder rollback et registre des tâches externes séparé.
   **Acceptation :** Démo visitable, stable et présentable sans service commercial actif.
 
 ---
