@@ -156,6 +156,37 @@
     padding: 15px 14px 14px;
   }
 
+  /* Keep mobile actions readable and in flow: the bottom navigation reserves
+     its safe-area space instead of being compensated by a hidden sticky CTA. */
+  .buttons,
+  .location-card__actions .buttons,
+  .wood-proof__panel-actions {
+    gap: 10px;
+  }
+
+  .buttons .btn,
+  .location-card__actions .btn,
+  .wood-proof__panel-actions .btn,
+  .wood-mood__copy .btn,
+  .wood-pack__hero-copy .btn {
+    min-width: 0;
+    min-height: 48px;
+  }
+
+  .product-meta,
+  .product-buy-row {
+    gap: 10px;
+  }
+
+  .product-meta > *,
+  .product-buy-row > * {
+    min-width: 0;
+  }
+
+  .wood-runway-card__footer {
+    min-height: 44px;
+  }
+
   .wood-runway-card h3 {
     margin: 13px 0 7px;
     font-size: 21px;

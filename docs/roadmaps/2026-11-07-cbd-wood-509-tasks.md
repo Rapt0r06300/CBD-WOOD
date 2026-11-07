@@ -959,7 +959,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Pas de badge qualité automatique sans pièce justificative.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-064 — Contrôler la proximité des actions**   
+- [x] **CRO-064 — Contrôler la proximité des actions** — contrat mobile ajouté dans `wood-mobile-finish.css`, avec réserve de la navigation basse, cibles 44/48 px, espacements et preuve dédiée. `test/mobile-action-proximity.test.mjs` passe ; les validations physiques restent externes.  
   - **Livrable :** Sur mobile, accès à la fiche et au contact sans sticky obstruant ; démo ne propose pas vente réelle.  
   - **Critère de validation :** Vérifié clavier, tactile, zoom et écran compact.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
