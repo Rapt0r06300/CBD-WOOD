@@ -1549,7 +1549,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Une modification de source se répercute sur toutes vues sans double saisie.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-154 — Contrôles automatiques de qualité contenu.**  
+- [x] **CRO-154 — Contrôles automatiques de qualité contenu.**  
   - **Livrable :** Vérifier incohérences prix/poids, photos cassées, droits, allégations et titres.  
   - **Recette :** Fixture incorrecte échoue dans CI; pas de contenu fictif en réel.  
   - **Statut :** TODO (non implémenté).
