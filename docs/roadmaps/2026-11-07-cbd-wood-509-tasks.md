@@ -131,19 +131,19 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 
 ### P0 — État réel, garde-fous et diagnostic — 10 tickets
 
-- [ ] **TXW-001 — Relever l'état GitHub.** Inspecter main, la branche de publication gh-pages et les commits récents ; consigner le SHA de départ et la procédure de publication réellement utilisée.    
+- [x] **TXW-001 — Relever l'état GitHub.** Inspecter main, la branche de publication gh-pages et les commits récents ; consigner le SHA de départ et la procédure de publication réellement utilisée.    
   **Acceptation :** Référence exacte enregistrée ; aucune hypothèse sur le déploiement.
 
 - [ ] **TXW-002 — Réconcilier les plans existants.** Lire les feuilles de route 2026-11-04 et 2026-11-05, le statut des 109 tâches, les tests et le registre des 138 tâches différées ; dresser la table 'déjà livré / partiel / absent'.    
   **Acceptation :** Aucun chantier déjà achevé n'est recréé ni compté deux fois.
 
-- [ ] **TXW-003 — Créer un point de retour.** Produire un instantané réversible de la démo et noter les fichiers touchés ; ne pas réécrire le site de base ni les documents d'attente.    
+- [x] **TXW-003 — Créer un point de retour.** Produire un instantané réversible de la démo et noter les fichiers touchés ; ne pas réécrire le site de base ni les documents d'attente.    
   **Acceptation :** Rollback documenté et reproductible sans intervention commerciale.
 
-- [ ] **TXW-004 — Auditer toutes les routes de démonstration.** Lister accueil, fleurs, résines, bien-être, WOOD Shop, fiche fleur, contact, compte, panier et confirmation ; vérifier routes et liens à partir de /CBD-WOOD/demo/.    
+- [x] **TXW-004 — Auditer toutes les routes de démonstration.** Lister accueil, fleurs, résines, bien-être, WOOD Shop, fiche fleur, contact, compte, panier et confirmation ; vérifier routes et liens à partir de /CBD-WOOD/demo/.    
   **Acceptation :** Toutes les routes attendues s'ouvrent, liens relatifs compris.
 
-- [ ] **TXW-005 — Auditer la séparation démo / données réelles.** Tracer les importations JS, configuration Supabase, appels HTTP, comptes, panier et page confirmation ; repérer tout effet de bord réel.    
+- [x] **TXW-005 — Auditer la séparation démo / données réelles.** Tracer les importations JS, configuration Supabase, appels HTTP, comptes, panier et page confirmation ; repérer tout effet de bord réel.    
   **Acceptation :** Carte exhaustive des appels distants et de leurs risques.
 
 - [x] **TXW-006 — Interdire les commandes réelles dans la démo.** Isoler ou neutraliser côté démo les appels tels que create-pending-order ; implémenter une simulation locale explicite, sans créer de commande dans Supabase ni déclencher de transaction.    
@@ -158,7 +158,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [ ] **TXW-009 — Établir les captures de référence.** Créer des captures avant intervention de chaque page en 390px et 1440px, plus états panier et menus ; nommer par route, viewport, commit.    
   **Acceptation :** État initial consultable pour comparer les régressions.
 
-- [ ] **TXW-010 — Verrouiller le périmètre DÉMO.** Consigner les interdits : pas de paiement Viva, d'OAuth Gmail, de déploiement Hostinger commercial, de livraison réelle, de publication d'offres ni de demande de secrets.    
+- [x] **TXW-010 — Verrouiller le périmètre DÉMO.** Consigner les interdits : pas de paiement Viva, d'OAuth Gmail, de déploiement Hostinger commercial, de livraison réelle, de publication d'offres ni de demande de secrets.    
   **Acceptation :** Un test ou une règle de vérification bloque toute activation commerciale non autorisée.
 
 ### P1 — Identité WOOD et direction artistique — 10 tickets
@@ -489,7 +489,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 
 ### P11 — Recette, preuve et livraison de la DÉMO — 8 tickets
 
-- [ ] **TXW-113 — Exécuter la suite existante.** Lancer npm run check, documenter les résultats exacts et corriger sans supprimer des tests qui échouent.    
+- [x] **TXW-113 — Exécuter la suite existante.** Lancer npm run check, documenter les résultats exacts et corriger sans supprimer des tests qui échouent.    
   **Acceptation :** Suite verte ou échecs expliqués, avec preuve.
 
 - [ ] **TXW-114 — Ajouter les tests de contrat identité.** Tester noms WOOD, couleurs de base, absence de scripts TealerLab/branding concurrent et usage correct du vrai logo.    
@@ -498,7 +498,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [ ] **TXW-115 — Ajouter les tests de sécurité démo.** Intercept/spy les appels API des parcours compte/contact/checkout ; prouver qu'aucune commande, e-mail ou paiement réel ne part de /demo/.    
   **Acceptation :** Tests négatifs reproductibles et réussis.
 
-- [ ] **TXW-116 — Contrôler le paquet Pages.** Exécuter npm run prepare:github-pages ; vérifier /demo/, les chemins d'assets, l'absence de secrets, les images et les routes générées.    
+- [x] **TXW-116 — Contrôler le paquet Pages.** Exécuter npm run prepare:github-pages ; vérifier /demo/, les chemins d'assets, l'absence de secrets, les images et les routes générées.    
   **Acceptation :** Artefact complet et aucune fuite de fichier interne.
 
 - [ ] **TXW-117 — Inspecter le rendu réel.** Capture responsive complète de chaque page ; contrôles manuels Safari/Android si appareils accessibles, sinon signaler ces preuves comme manquantes.    
