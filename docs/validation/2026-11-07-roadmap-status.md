@@ -357,6 +357,16 @@ réel. Preuve : `docs/validation/2026-11-07-txw-088-text-scaling.md` et
 **335 / 509 — 65,82 %**, avec **36** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Le ticket `CRO-153` est validé : `wood-demo-catalog.js` devient la source
+unique des 13 fleurs de démonstration, de leurs visuels, descriptions et
+paliers inactifs. Les vues catalogue et fiche chargent ce registre avant leurs
+hydrateurs, et la graine SQLite/D1 est contrôlée contre les mêmes identifiants
+et noms sans prix ni stock persistés. Preuve :
+`docs/validation/2026-11-07-cro-153-demo-catalog.md` et
+`test/cro-153-demo-catalog.test.mjs`. Le compteur courant devient
+**336 / 509 — 66,01 %**, avec **35** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
