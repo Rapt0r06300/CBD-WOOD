@@ -176,6 +176,14 @@ résultat et défilement restent utilisables. Preuve :
 compteur courant devient **309 / 509 — 60,71 %**, avec **62** tickets actifs
 encore ouverts et **138 tâches différées**.
 
+Le pipeline d’import conseiller `CRO-219` est livré et rejoué sur l’inventaire
+local : déduplication, extraction, contrôle de source, règles de badges et
+index questions restent bornés à la démo, avec revue obligatoire avant toute
+publication. Preuve : `docs/validation/2026-11-07-cro-219-advisor-import-pipeline.md`,
+`scripts/build-wood-advisor-index.mjs` et `test/cro-219-advisor-import-pipeline.test.mjs`.
+Le compteur courant devient **310 / 509 — 60,90 %**, avec **61** tickets
+actifs encore ouverts et **138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

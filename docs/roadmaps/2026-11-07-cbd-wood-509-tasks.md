@@ -1892,7 +1892,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
 
 ### D1, automatisation et validation bout en bout (8 tâches)
 
-- [ ] **CRO-219 — Pipeline nouvel article automatique.**  
+- [x] **CRO-219 — Pipeline nouvel article automatique.** — pipeline local inventaire → déduplication → extraction lexicale → source → règles de badges/questions ; les extractions restent `needs_review`/`hidden`, checksum stable et aucune écriture commerciale. Preuve : `docs/validation/2026-11-07-cro-219-advisor-import-pipeline.md`, `scripts/build-wood-advisor-index.mjs` et `test/cro-219-advisor-import-pipeline.test.mjs`.
   - **Livrable :** Entrée unique produit → extraction → analyse lexicale → contrôle source → badges et index questions.  
   - **Recette :** Pas de double saisie manuelle et test d'import idempotent.  
   - **Statut :** TODO (non implémenté).
