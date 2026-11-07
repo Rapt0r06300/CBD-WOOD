@@ -66,6 +66,13 @@ filtres type/texture/arôme restent invisibles tant qu'aucune carte ne porte une
 source WOOD validée ; le compteur courant devient **289 / 509 — 56,78 %**, avec
 **82** tickets actifs encore ouverts et **138 tâches différées**.
 
+La matrice des preuves autorisées `CRO-073` est versionnée dans
+`docs/design/wood-proof-evidence-matrix.md` et contrôlée par
+`test/cro-proof-evidence.test.mjs`. Elle borne les avis Google, les photos et
+les documents qualité sans les inventer ; le compteur courant devient **290 / 509
+— 56,97 %**, avec **81** tickets actifs encore ouverts et **138 tâches
+différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
