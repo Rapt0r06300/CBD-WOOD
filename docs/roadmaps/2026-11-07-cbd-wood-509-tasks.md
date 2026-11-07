@@ -283,7 +283,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [x] **TXW-048 — Créer un système de qualité d'image.** Contrôler finesse, artefacts IA, inscriptions, alt, contraste et faux emballages ; ne pas présenter une image IA comme vraie photo WOOD.    
   **Acceptation :** Chaque image est identifiée et traçable.
 
-- [ ] **TXW-049 — Optimiser les médias lourds.** WebP/AVIF appropriés, attributs width/height, lazy loading raisonné, hero prioritaire ; préserver originaux hors paquet public.    
+- [x] **TXW-049 — Optimiser les médias lourds.** WebP publics, dimensions natives, lazy loading raisonné et hero prioritaire ; preuve : docs/validation/2026-11-07-media-budget.md, scripts/add-media-dimensions.mjs, test/media-dimensions.test.mjs.
   **Acceptation :** LCP/CLS non dégradés par la refonte.
 
 - [x] **TXW-050 — Rendre les états vides élégants.** Si photo ou donnée propriétaire manque, afficher une vignette de direction éditoriale sobre, sans 'photo à confirmer' répété partout.    

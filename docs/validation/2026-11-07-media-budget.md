@@ -35,5 +35,9 @@ Scope : références publiques du dépôt avant génération du paquet GitHub Pa
 
 ## Limites
 
+Les médias raster locaux déclarent désormais leurs dimensions natives via
+`npm run media:dimensions`, ce qui réduit les changements de géométrie au
+chargement sans toucher aux SVG décoratifs.
+
 - Ce rapport est un budget statique ; il ne remplace pas une mesure Lighthouse ou appareil réel.
 - Safari iOS, réseau mobile réel, batterie et INP restent des validations externes.

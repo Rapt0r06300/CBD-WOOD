@@ -7,6 +7,7 @@
     "audit": "node scripts/static-audit.mjs",
     "content:check": "node scripts/validate-wood-content.mjs",
     "media:budget": "node scripts/report-media-budget.mjs",
+    "media:dimensions": "node scripts/add-media-dimensions.mjs",
     "ux:measure": "node scripts/ux-measurement-sim.mjs",
     "check:js": "node scripts/check-js.mjs",
     "check": "npm run test && npm run check:js && npm run audit && npm run readiness && npm run continuity",
