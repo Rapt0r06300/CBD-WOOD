@@ -21,6 +21,12 @@
     transform: none;
   }
 
+  /* Editorial rails scroll themselves; the page shell must not inherit their
+     off-canvas width as a one-pixel body overflow on mobile. */
+  main {
+    overflow-x: clip;
+  }
+
   html {
     scroll-padding-bottom: calc(var(--wood-mobile-bar-height) + var(--wood-safe-bottom) + 24px);
   }
