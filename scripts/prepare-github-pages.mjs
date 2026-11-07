@@ -70,6 +70,7 @@ const injectAdvisor = (html, file) => {
   }
   const scripts = [
     'wood-advisor-data.js?v=wood-advisor-data-v1-20261107',
+    'wood-advisor-lexicon.js?v=wood-advisor-lexicon-v1-20261107',
     'wood-advisor-engine.js?v=wood-advisor-engine-v1-20261107',
     'wood-badge-engine.js?v=wood-badge-engine-v1-20261107',
     'wood-advisor.js?v=wood-advisor-v1-20261107',

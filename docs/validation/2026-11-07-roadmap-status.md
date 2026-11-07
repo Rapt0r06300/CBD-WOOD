@@ -152,6 +152,14 @@ Preuve : `docs/validation/2026-11-07-cro-226-report-rollback.md` et
 **304 / 509 — 59,72 %**, avec **67** tickets actifs encore ouverts et **138
 tâches différées**.
 
+Le lot langage du conseiller `CRO-199`, `CRO-205` et `CRO-208` est livré avec
+un lexique séparé, une trace phrase/motif/source/état pour chaque match et une
+matrice de précision sensorielle. Preuve :
+`docs/validation/2026-11-07-cro-199-205-208-advisor-language.md` et
+`test/cro-199-205-208-advisor-lexicon.test.mjs`. Le compteur courant devient
+**307 / 509 — 60,31 %**, avec **64** tickets actifs encore ouverts et **138
+tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

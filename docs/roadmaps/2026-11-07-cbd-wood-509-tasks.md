@@ -1788,7 +1788,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
 
 ### Compréhension intelligente des mots (10 tâches)
 
-- [ ] **CRO-199 — Lexique WOOD versionné.**  
+- [x] **CRO-199 — Lexique WOOD versionné.** — dictionnaire séparé `wood-advisor-lexicon.js`, versionné et chargé avant le moteur ; catégories, intensités, notes et thèmes bloqués sont modifiables sans recompilation. Preuve : `docs/validation/2026-11-07-cro-199-205-208-advisor-language.md` et `test/cro-199-205-208-advisor-lexicon.test.mjs`.
   - **Livrable :** Dictionnaire de termes français connus : puissant, fort, intense, marqué, léger, doux, goût, fruité, terreux, boisé, agrumes, sucré, premium, etc.  
   - **Recette :** Synonymes modifiables sans recompilation du site.  
   - **Statut :** TODO (non implémenté).
@@ -1818,7 +1818,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Le scoring respecte exclusions et incertitudes.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-205 — Appliquer seuil de confiance et traçabilité.**  
+- [x] **CRO-205 — Appliquer seuil de confiance et traçabilité.** — chaque match expose phrase, motif lexical, champ, source et état `verified`/`proposed`; le classement reste limité aux faits vérifiés. Preuve : `docs/validation/2026-11-07-cro-199-205-208-advisor-language.md` et `test/cro-199-205-208-advisor-lexicon.test.mjs`.
   - **Livrable :** Conserver pour chaque match produit la phrase/source, le motif lexical et état vérifié/proposé.  
   - **Recette :** Aucune inférence proposée comme fait mesuré ou vérité commerciale.  
   - **Statut :** TODO (non implémenté).
@@ -1833,7 +1833,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Les attributs non autorisés n'entrent pas dans score.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-208 — Précision/erreurs sur jeux de test.**  
+- [x] **CRO-208 — Précision/erreurs sur jeux de test.** — matrice locale positive, négative, ambiguë et interdite ; tout cas attendu manquant ou toute demande médicale classée fait échouer la recette. Preuve : `docs/validation/2026-11-07-cro-199-205-208-advisor-language.md` et `test/cro-199-205-208-advisor-lexicon.test.mjs`.
   - **Livrable :** Construire jeu de phrases positives/négatives/ambiguës et mesurer les faux positifs.  
   - **Recette :** Mauvais match critique \= blocage publication de l'attribut.  
   - **Statut :** TODO (non implémenté).

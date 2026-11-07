@@ -1,16 +1,9 @@
 (function attachAdvisorEngine(root, factory) {
-  const api = factory();
+  const api = factory(root);
   if (root) root.WoodAdvisorEngine = api;
   if (typeof module === 'object' && module.exports) module.exports = api;
-}(typeof window !== 'undefined' ? window : globalThis, function createAdvisorEngine() {
+}(typeof window !== 'undefined' ? window : globalThis, function createAdvisorEngine(runtimeRoot) {
   const intensityRank = { low: 1, medium: 2, high: 3 };
-  const noteAliases = new Map([
-    ['fruite', 'fruite'], ['fruites', 'fruite'], ['fruit', 'fruite'],
-    ['terreux', 'terreux'], ['terreuse', 'terreux'],
-    ['boise', 'boise'], ['boisee', 'boise'],
-    ['agrumes', 'agrumes'], ['sucre', 'sucre'], ['sucree', 'sucre'],
-  ]);
-
   const normalizeText = (value) => String(value ?? '')
     .toLowerCase()
     .replace(/œ/g, 'oe')
@@ -20,6 +13,39 @@
     .replace(/[^a-z0-9]+/g, ' ')
     .trim()
     .replace(/\s+/g, ' ');
+
+  const fallbackLexicon = {
+    version: 'fallback-2026-11-07',
+    categories: {
+      fleurs: ['fleur', 'fleurs'],
+      resines: ['resine', 'resines'],
+      'bien-etre': ['bien etre', 'cosmetique', 'cosmetiques', 'huile', 'huiles', 'soin', 'soins'],
+      'wood-shop': ['accessoire', 'accessoires', 'textile', 'vetement', 'vetements', 'wood shop'],
+    },
+    intensity: {
+      high: ['fort', 'intense', 'marque', 'puissant'],
+      low: ['leger', 'doux', 'subtil', 'soft'],
+      maxMedium: ['fort', 'intense', 'puissant', 'marque'],
+    },
+    notes: {
+      fruite: ['fruite', 'fruites', 'fruit'],
+      terreux: ['terreux', 'terreuse'],
+      boise: ['boise', 'boisee'],
+      agrumes: ['agrumes'],
+      sucre: ['sucre', 'sucree'],
+    },
+    blockedTopics: ['effet', 'relax', 'relaxant', 'dormi', 'sommeil', 'stress', 'douleur', 'traitement', 'medic', 'planer', 'defonce'],
+  };
+  const lexicon = runtimeRoot?.WoodAdvisorLexicon || fallbackLexicon;
+  const escapeRegExp = (value) => String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const termPattern = (terms, flags = '') => {
+    const source = terms.map((term) => escapeRegExp(normalizeText(term))).filter(Boolean).join('|');
+    return new RegExp(`\\b(?:${source})\\w*`, flags);
+  };
+  const hasAnyTerm = (text, terms) => termPattern(terms).test(text);
+  const noteAliases = new Map(Object.entries(lexicon.notes || {}).flatMap(([canonical, aliases]) => (
+    (Array.isArray(aliases) ? aliases : []).map((alias) => [normalizeText(alias), canonical])
+  )));
 
   const isNegated = (text, index) => {
     const before = text.slice(Math.max(0, index - 28), index);
@@ -47,26 +73,26 @@
       discovery: false,
     };
 
-    const blockedPatterns = [
-      ['medical-effect', /\b(?:effet|relax|relaxant|dormi|sommeil|stress|douleur|traitement|medic|planer|defonce)\w*/],
-    ];
+    const blockedPatterns = (lexicon.blockedTopics || []).map((term) => ['medical-effect', termPattern([term])]);
     blockedPatterns.forEach(([name, pattern]) => {
       if (pattern.test(text)) preferences.blockedTopics.push(name);
     });
 
-    if (/\b(?:fleur|fleurs)\b/.test(text)) preferences.desiredCategory = 'fleurs';
-    else if (/\b(?:resine|resines)\b/.test(text)) preferences.desiredCategory = 'resines';
-    else if (/\b(?:bien etre|cosmetique|cosmetiques|huile|huiles|soin|soins)\b/.test(text)) preferences.desiredCategory = 'bien-etre';
-    else if (/\b(?:accessoire|accessoires|textile|vetement|vetements|wood shop)\b/.test(text)) preferences.desiredCategory = 'wood-shop';
+    for (const category of ['fleurs', 'resines', 'bien-etre', 'wood-shop']) {
+      if (hasAnyTerm(text, lexicon.categories?.[category] || [])) {
+        preferences.desiredCategory = category;
+        break;
+      }
+    }
 
-    const intensityHigh = /\b(?:fort|intense|marque|puissant)\w*/g;
+    const intensityHigh = termPattern(lexicon.intensity?.high || [], 'g');
     let match;
     while ((match = intensityHigh.exec(text))) {
       if (isNegated(text, match.index)) continue;
       if (hasContext(text, match.index)) preferences.aromaIntensity = 'high';
       else if (/\b(?:puissant|puissance)\w*/.test(match[0])) preferences.needsClarification = true;
     }
-    if (!preferences.aromaIntensity && /\b(?:leger|dou[xc]|subtil|soft)\w*/.test(text) && !/\b(?:pas|sans)\s+(?:trop\s+)?(?:leger|doux|subtil|soft)/.test(text)) {
+    if (!preferences.aromaIntensity && hasAnyTerm(text, lexicon.intensity?.low || []) && !/\b(?:pas|sans)\s+(?:trop\s+)?(?:leger|doux|subtil|soft)/.test(text)) {
       preferences.aromaIntensity = 'low';
     }
     if (/\bpas\s+trop\s+(?:fort|intense|puissant|marque)\w*/.test(text)) preferences.aromaIntensityMax = 'medium';
@@ -203,7 +229,15 @@
         }
       });
       if (preferences.desiredCategory && product.category === preferences.desiredCategory) score += 1;
-      return { product, index, facts, score, evidence: evidence.filter(Boolean), hardExcluded };
+      const matchedEvidence = evidence.filter(Boolean);
+      const trace = matchedEvidence.map((fact) => ({
+        phrase: preferences.raw,
+        motif: normalizeText(fact.value),
+        field: fact.key,
+        source: fact.source,
+        state: fact.verified === true ? 'verified' : 'proposed',
+      }));
+      return { product, index, facts, score, evidence: matchedEvidence, trace, hardExcluded };
     }).filter((entry) => !entry.hardExcluded)
       .sort((left, right) => right.score - left.score || left.index - right.index);
 
@@ -214,8 +248,8 @@
     };
     if (!hasSpecificPreference || preferences.discovery) return {
       status: 'discovery',
-      best: scored[0] ? { product: scored[0].product, score: 0, badges: evidenceBadges(scored[0].facts), explanation: 'Sélection de découverte non personnalisée : les caractéristiques détaillées restent à valider par WOOD.' } : null,
-      alternatives: scored.slice(1, 3).map((entry) => ({ product: entry.product, score: 0, badges: evidenceBadges(entry.facts), explanation: 'Alternative de découverte, sans classement de goût inventé.' })),
+      best: scored[0] ? { product: scored[0].product, score: 0, badges: evidenceBadges(scored[0].facts), trace: [], explanation: 'Sélection de découverte non personnalisée : les caractéristiques détaillées restent à valider par WOOD.' } : null,
+      alternatives: scored.slice(1, 3).map((entry) => ({ product: entry.product, score: 0, badges: evidenceBadges(entry.facts), trace: [], explanation: 'Alternative de découverte, sans classement de goût inventé.' })),
       reason: 'Voici une porte d’entrée dans la sélection WOOD. Les informations détaillées apparaîtront uniquement avec une source validée.',
     };
 
@@ -226,14 +260,16 @@
     const alternatives = scored.slice(1)
       .filter((entry) => entry.score > 0)
       .slice(0, 2)
-      .map((entry) => ({ product: entry.product, score: entry.score, badges: evidenceBadges(entry.facts), explanation: describe(entry) }));
+      .map((entry) => ({ product: entry.product, score: entry.score, badges: evidenceBadges(entry.facts), trace: entry.trace, explanation: describe(entry) }));
     return {
       status: 'match',
-      best: { product: scored[0].product, score: scored[0].score, badges: evidenceBadges(scored[0].facts), explanation: `Correspondance fondée sur un fait vérifié : ${describe(scored[0])}` },
+      best: { product: scored[0].product, score: scored[0].score, badges: evidenceBadges(scored[0].facts), trace: scored[0].trace, explanation: `Correspondance fondée sur un fait vérifié : ${describe(scored[0])}` },
       alternatives,
       reason: 'Cette proposition reste descriptive : elle ne prédit aucun effet et ne remplace pas un conseil professionnel.',
     };
   };
 
-  return Object.freeze({ normalizeText, extractPreferences, buildQuestionPlan, nextQuestion, collectAmbiguities, recommend });
+  const lexiconVersion = () => String(lexicon.version || 'unversioned');
+  const getLexicon = () => JSON.parse(JSON.stringify(lexicon));
+  return Object.freeze({ normalizeText, extractPreferences, buildQuestionPlan, nextQuestion, collectAmbiguities, recommend, lexiconVersion, getLexicon });
 }));

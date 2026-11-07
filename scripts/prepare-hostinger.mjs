@@ -30,6 +30,7 @@ const PUBLIC_FILES = [
   'demo-mode.js',
   'wood-d1-adapter.js',
   'wood-advisor-data.js',
+  'wood-advisor-lexicon.js',
   'wood-advisor-engine.js',
   'wood-advisor.js',
   'wood-advisor.css',
