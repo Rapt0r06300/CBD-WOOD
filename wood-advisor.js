@@ -5,6 +5,7 @@
   if (documentRef.querySelector('[data-wood-advisor]')) return;
 
   const engine = root.WoodAdvisorEngine;
+  const badgeEngine = root.WoodBadgeEngine;
   const data = root.WoodAdvisorData;
   const products = data.products;
   const sessionState = { lastQuestion: '', lastResult: null, answers: {}, history: [] };
@@ -74,8 +75,9 @@
       resultRoot.innerHTML = `<span class="wood-advisor__result-kicker">La sélection se prépare</span><h3>On garde la porte ouverte.</h3><p>${escapeHtml(result.reason)}</p><a href="contact.html">Parler à WOOD ↗</a>`;
       return;
     }
+    const badgeMarkup = badgeEngine?.renderBadges(best) || '';
     const alternatives = result.alternatives?.length ? `<ul class="wood-advisor__alternatives" aria-label="Alternatives"><li><a href="${escapeHtml(result.alternatives[0].product.href)}">${escapeHtml(result.alternatives[0].product.name)} ↗</a></li>${result.alternatives[1] ? `<li><a href="${escapeHtml(result.alternatives[1].product.href)}">${escapeHtml(result.alternatives[1].product.name)} ↗</a></li>` : ''}</ul>` : '';
-    resultRoot.innerHTML = `<span class="wood-advisor__result-kicker">${result.status === 'discovery' ? 'Une première piste' : 'Le meilleur raccord'}</span><h3>${escapeHtml(best.name)}</h3><p>${escapeHtml(result.best.explanation || result.reason)}</p><a href="${escapeHtml(best.href)}">Voir la sélection ↗</a>${alternatives}<button class="wood-advisor__clear" type="button" data-advisor-clear>Recommencer</button>`;
+    resultRoot.innerHTML = `<span class="wood-advisor__result-kicker">${result.status === 'discovery' ? 'Une première piste' : 'Le meilleur raccord'}</span><h3>${escapeHtml(best.name)}</h3>${badgeMarkup}<p>${escapeHtml(result.best.explanation || result.reason)}</p><a href="${escapeHtml(best.href)}">Voir la sélection ↗</a>${alternatives}<button class="wood-advisor__clear" type="button" data-advisor-clear>Recommencer</button>`;
   };
 
   const run = (question, answerKey = 'free-text') => {

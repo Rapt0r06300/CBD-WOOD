@@ -1842,22 +1842,22 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
 
 ### Badges/3 logos produits automatiques (10 tâches)
 
-- [ ] **CRO-209 — Grammaire des 3 pictogrammes.**  
+- [x] **CRO-209 — Grammaire des 3 pictogrammes.**  
   - **Livrable :** Définir catégories 'DOUX/LÉGER' (profil descriptif), 'INTENSE/FORT' (intensité aromatique), 'GOÛT/ARÔMES' (notes validées) ; aucun effet médical.  
   - **Recette :** Lexique et sens exact explicites dans documentation.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-210 — Mise en scène premium graffiti.**  
+- [x] **CRO-210 — Mise en scène premium graffiti.**  
   - **Livrable :** Trois badges originaux style sticker, fond transparent et contours premium ; respecter logo et couleurs.  
   - **Recette :** Cohérence avec mascotte approuvée et lisibilité 320px.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-211 — Règle de sélection automatique.**  
+- [x] **CRO-211 — Règle de sélection automatique.**  
   - **Livrable :** Sur ajout/modif de fleur ou résine, calculer badges à partir de faits validés et métadonnées sourcées.  
   - **Recette :** Sans données, aucun badge fictif affiché.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-212 — Ne pas imposer 3 badges sans preuve.**  
+- [x] **CRO-212 — Ne pas imposer 3 badges sans preuve.**  
   - **Livrable :** Prévoir 0,1,2 ou 3 pictogrammes affichés, avec 3 familles graphiques disponibles.  
   - **Recette :** Une fiche vide n'affiche pas automatiquement « fort » ou « léger ».  
   - **Statut :** TODO (non implémenté).
@@ -1867,12 +1867,12 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Chaque mot est justifiable et non médical.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-214 — Conseils contextuels honnêtes.**  
+- [x] **CRO-214 — Conseils contextuels honnêtes.**  
   - **Livrable :** Pour 'Fort', expliquer qu'il s'agit de la description aromatique, non de la puissance médicale; renvoyer vers équipe pour questions de sécurité.  
   - **Recette :** Aucun dosage, consommation ni recommandation médicale.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-215 — Source accessible dans la fiche.**  
+- [x] **CRO-215 — Source accessible dans la fiche.**  
   - **Livrable :** Tooltip ou détail « Sur quelle info s'appuie ce pictogramme ? »  
   - **Recette :** Le visiteur peut voir la donnée d'origine/qualification.  
   - **Statut :** TODO (non implémenté).
@@ -1887,7 +1887,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** WCAG, alt/texte visible, placeholder propre.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-218 — Vérifier faux badges et automatisation.**  
+- [x] **CRO-218 — Vérifier faux badges et automatisation.**  
   - **Livrable :** Cas contradictoires, pièges de mots clés, taux inconnus, attributs NULL et édition de fiche.  
   - **Recette :** Le pipeline retire un badge devenu invalide sans cache obsolète.  
   - **Statut :** TODO (non implémenté).

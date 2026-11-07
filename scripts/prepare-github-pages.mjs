@@ -65,9 +65,13 @@ const injectAdvisor = (html, file) => {
   if (!result.includes('wood-advisor.css')) {
     result = result.replace('</head>', '  <link rel="stylesheet" href="wood-advisor.css?v=wood-advisor-v1-20261107">\n</head>');
   }
+  if (!result.includes('wood-badges.css')) {
+    result = result.replace('</head>', '  <link rel="stylesheet" href="wood-badges.css?v=wood-badges-v1-20261107">\n</head>');
+  }
   const scripts = [
     'wood-advisor-data.js?v=wood-advisor-data-v1-20261107',
     'wood-advisor-engine.js?v=wood-advisor-engine-v1-20261107',
+    'wood-badge-engine.js?v=wood-badge-engine-v1-20261107',
     'wood-advisor.js?v=wood-advisor-v1-20261107',
   ];
   const tags = scripts.map((script) => `  <script src="${script}"></script>`).join('\n');

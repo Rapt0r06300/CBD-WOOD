@@ -23,6 +23,7 @@ test('le catalogue conseiller reste local, vérifiable et sans profil persistant
 
 test('le moteur et le widget se parlent sans fabriquer une promesse', () => {
   assert.match(widget, /WoodAdvisorEngine/);
+  assert.match(widget, /WoodBadgeEngine|renderBadges/);
   assert.match(widget, /WoodAdvisorData/);
   assert.match(widget, /buildQuestionPlan|nextQuestion/);
   assert.match(widget, /Besoin d’aide pour choisir/u);
