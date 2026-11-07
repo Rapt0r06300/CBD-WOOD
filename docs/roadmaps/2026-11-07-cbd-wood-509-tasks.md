@@ -1554,7 +1554,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Fixture incorrecte échoue dans CI; pas de contenu fictif en réel.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-155 — Prévisualisation séparée.**  
+- [x] **CRO-155 — Prévisualisation séparée.**  
   - **Livrable :** Préparer une version preview des futures modifications distincte du site démonstration.  
   - **Recette :** Diff et rollback accessibles sans secret.  
   - **Statut :** TODO (non implémenté).
@@ -1569,7 +1569,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Un média non validé ne peut apparaître comme réel/official.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-158 — Démo scénarisée pour la propriétaire.**  
+- [x] **CRO-158 — Démo scénarisée pour la propriétaire.**  
   - **Livrable :** Créer une revue de 10 min : hero, assistant, produits, magasins, mobile.  
   - **Recette :** Checklist propriétaire, choix et décisions en attente signalés.  
   - **Statut :** TODO (non implémenté).
