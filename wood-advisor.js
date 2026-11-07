@@ -54,7 +54,7 @@
   const questionLabel = widget.querySelector('.wood-advisor__question');
   const skipButton = widget.querySelector('[data-advisor-skip]');
   const backButton = widget.querySelector('[data-advisor-back]');
-  const hero = documentRef.querySelector('.hero, .page-hero');
+  const hero = documentRef.querySelector('.hero, .page-hero, .flower-detail, .product-detail');
   const setHeroClear = (isClear) => {
     widget.classList.toggle('is-hero-clear', isClear);
     if (!widget.classList.contains('is-open')) {

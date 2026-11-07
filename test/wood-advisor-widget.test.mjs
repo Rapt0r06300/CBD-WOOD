@@ -42,6 +42,7 @@ test('le widget est mobile-first, décoratif et compatible reduced motion', () =
   assert.match(styles, /pointer-events:\s*none/iu);
   assert.match(styles, /is-hero-clear:not\(.is-open\)/iu);
   assert.match(widget, /IntersectionObserver/iu);
+  assert.match(widget, /flower-detail, \.product-detail/iu);
   assert.match(widget, /aria-hidden/iu);
   assert.match(styles, /bottom-nav|mobile-nav/iu);
 });
