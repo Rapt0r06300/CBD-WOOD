@@ -1206,7 +1206,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Test Playwright accessible.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-111 — Tester lecteur d'écran sur parcours client**   
+- [ ] **CRO-111 — Tester lecteur d'écran sur parcours client** — protocole local et repères sémantiques préparés dans `docs/validation/2026-11-07-cro-111-screen-reader.md` et `test/cro-111-screen-reader.test.mjs`; clôture `BLOCKED-EXTERNAL` jusqu'à une session VoiceOver/NVDA réelle.
   - **Livrable :** VoiceOver/NVDA ou équivalent sur liste, fiche, menu, contact et panier fictif.  
   - **Critère de validation :** Aucune action uniquement visuelle.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
