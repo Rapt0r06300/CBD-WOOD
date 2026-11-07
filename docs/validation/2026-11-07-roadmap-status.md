@@ -73,6 +73,13 @@ les documents qualité sans les inventer ; le compteur courant devient **290 / 5
 — 56,97 %**, avec **81** tickets actifs encore ouverts et **138 tâches
 différées**.
 
+Le module éditorial `CRO-080` « Pourquoi WOOD ? » est maintenant livré avec
+trois preuves bornées — adresses, univers et accueil — dans
+`index.html`, `wood-why.css`, `docs/validation/2026-11-07-cro-why-wood.md` et
+`test/cro-why-wood.test.mjs`. Les visuels restent explicitement démo et chaque carte mène à une zone existante ; le compteur
+courant devient **291 / 509 — 57,17 %**, avec **80** tickets actifs encore
+ouverts et **138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

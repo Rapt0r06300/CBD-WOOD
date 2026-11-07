@@ -1043,7 +1043,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Tests liens tel: / cartes, deux boutiques distinguées.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-080 — Créer le module 'Pourquoi WOOD ?'**   
+- [x] **CRO-080 — Créer le module 'Pourquoi WOOD ?'**
   - **Livrable :** Trois preuves vraies maximum (boutiques, univers, accueil) avec médias autorisés.  
   - **Critère de validation :** Aucune statistique client ou historique non vérifié.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
