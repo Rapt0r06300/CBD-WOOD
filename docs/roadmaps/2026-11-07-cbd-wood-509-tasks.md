@@ -749,14 +749,14 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Lien/contact fonctionne ; pas d'abonnement actif fictif.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-024 — Comparer longueur et pertinence des sections**   
+- [x] **CRO-024 — Comparer longueur et pertinence des sections**
   - **Livrable :** Mesurer scroll en multiples de viewport et temps de découverte des catégories sur mobile.  
   - **Critère de validation :** Réduction de friction mesurée sans supprimer des informations essentielles.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
 ### 04 — Architecture de l'information et navigation — P1, complément de TXW-025, TXW-073 à TXW-079
 
-- [ ] **CRO-025 — Établir un menu par besoins réels**   
+- [x] **CRO-025 — Établir un menu par besoins réels**
   - **Livrable :** Grouper Fleurs, Résines, Bien-être, Accessoires, WOOD Shop et Nos boutiques ; ne pas inventer de gamme.  
   - **Critère de validation :** Chaque entrée mène à un contenu effectif ou état de maquette compréhensible.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -766,32 +766,32 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Plan de navigation validé par le catalogue et les photos.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-027 — Créer un chemin depuis chaque fiche**   
+- [x] **CRO-027 — Créer un chemin depuis chaque fiche**
   - **Livrable :** Depuis une fiche, montrer la famille, le retour liste et une suggestion pertinente.  
   - **Critère de validation :** Parcours réversible avec liens vers les véritables routes.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-028 — Clarifier menus mobile versus desktop**   
+- [x] **CRO-028 — Clarifier menus mobile versus desktop**
   - **Livrable :** Utiliser des intitulés strictement cohérents, y compris sous-menu et navigation basse.  
   - **Critère de validation :** Aucune destination importante différente selon l'appareil.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-029 — Mettre les deux boutiques dans le menu**   
+- [x] **CRO-029 — Mettre les deux boutiques dans le menu**
   - **Livrable :** Offrir un accès direct aux boutiques et coordonnées sans dépendre du footer.  
   - **Critère de validation :** Deux adresses nommées et testées en mobile.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-030 — Éviter les sous-menus excessifs**   
+- [x] **CRO-030 — Éviter les sous-menus excessifs**
   - **Livrable :** Ne montrer sous-catégories que si elles contiennent effectivement des éléments validés.  
   - **Critère de validation :** Pas de lien vers zéro résultat trompeur.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-031 — Tester chemins de retour**   
+- [x] **CRO-031 — Tester chemins de retour**
   - **Livrable :** Valider liens breadcrumb, historique, ancres et absence de retour vers page 404.  
   - **Critère de validation :** Tests navigation depuis accès direct à un produit.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-032 — Créer une carte des parcours prioritaires**   
+- [x] **CRO-032 — Créer une carte des parcours prioritaires**
   - **Livrable :** Maintenir une table CTA source → destination → état, couvrant toutes les pages.  
   - **Critère de validation :** 0 lien critique cassé au préflight.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.

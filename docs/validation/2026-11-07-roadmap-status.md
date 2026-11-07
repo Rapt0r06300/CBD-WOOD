@@ -9,10 +9,15 @@ Au commit `197b485`, l'inventaire source contient 371 tickets actifs :
 - **138** tâches différées conservées hors exécution active ;
 - **509** tâches dans l'inventaire global.
 
-Le compteur global vérifié après ces deux tickets est donc **256 / 509 — 50,29 %**.
+Le compteur global vérifié après ces deux tickets était **256 / 509 — 50,29 %**.
 Les deux validations précédemment présentes dans le ledger mais non rattachées
 à une case ou à un identifiant de la feuille ne sont pas comptées. Elles restent
 à réconcilier avant toute nouvelle progression créditée.
+
+Le lot navigation/rythme `CRO-024`, `CRO-025`, `CRO-027` à `CRO-032` est
+maintenant vérifié par `docs/validation/2026-11-07-cro-navigation-and-rhythm.md`
+et son contrat automatisé. Le compteur courant est donc **264 / 509 — 51,87 %**,
+avec **107** tickets actifs encore ouverts et **138 tâches différées**.
 
 ## Ce qui est prouvé
 
