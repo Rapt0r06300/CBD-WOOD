@@ -201,10 +201,10 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [x] **TXW-022 — Affiner le hero mobile.** Équilibrer photo, texte et sticker à 320–430px, sans rectangle vide ni élément coincé sous la barre navigateur.    
   **Acceptation :** Hero fluide et lisible sur iPhone et Android.
 
-- [ ] **TXW-023 — Limiter les grands panneaux anis.** Conserver un panneau signature si utile, réduire sa hauteur excessive et son poids visuel ; préserver contraste et repère de lecture.    
+- [x] **TXW-023 — Limiter les grands panneaux anis.** Conserver un panneau signature si utile, réduire sa hauteur excessive et son poids visuel ; préserver contraste et repère de lecture. Preuve : `wood-motion.css`, `docs/validation/2026-11-07-editorial-rhythm.md`, `test/editorial-rhythm-contract.test.mjs` et contrôle Chromium 390 px.    
   **Acceptation :** Le mobile évite deux écrans consécutifs de texte sur fond anis.
 
-- [ ] **TXW-024 — Rationaliser les 'drops'.** Fusionner le surplus d'introductions DROP 01/02/03 lorsque leurs messages se recoupent ; une scène forte vaut mieux que trois prétextes.    
+- [x] **TXW-024 — Rationaliser les 'drops'.** Fusionner le surplus d'introductions DROP 01/02/03 lorsque leurs messages se recoupent ; une scène forte vaut mieux que trois prétextes. Preuve : `index.html`, `docs/validation/2026-11-07-editorial-rhythm.md` et `test/editorial-rhythm-contract.test.mjs`.    
   **Acceptation :** Chaque drop conservé a un contenu unique et un CTA utile.
 
 - [x] **TXW-025 — Clarifier les quatre catégories.** Rendre Fleurs, Résines, Accessoires, Bien-être immédiats et cliquables, en cohérence avec les vraies familles de la boutique.    

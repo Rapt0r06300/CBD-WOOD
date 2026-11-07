@@ -183,6 +183,8 @@ html.wood-motion-ready .nav { transition: background .28s ease, border-color .28
   .wood-community__wall article, .wood-community__wall article:first-child { flex: 0 0 78vw; min-height: 290px; scroll-snap-align: start; }
   .wood-mail__form > div { grid-template-columns: 1fr; }
   .wood-mail__form button { width: 100%; }
+  .wood-pack__hero-media { min-height: 0; aspect-ratio: 16 / 10; }
+  .wood-pack__hero-copy { min-height: 0; }
   .wood-rail-controls { margin-top: 14px; }
   .wood-rail-controls button { width: 38px; height: 38px; }
   .wood-rail-progress { max-width: none; }
