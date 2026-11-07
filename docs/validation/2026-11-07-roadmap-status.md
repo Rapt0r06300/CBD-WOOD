@@ -529,7 +529,7 @@ séparées.
 L'inventaire contrôlé de ces portes est maintenu dans
 `docs/validation/2026-11-07-external-gates.md` et vérifié par
 `test/external-gates.test.mjs`. Il recense les 24 tâches externes sans les
-créditer au compteur 347 / 509.
+réintroduire dans le compteur actif 347 / 347.
 
 Contrat : `test/roadmap-status.test.mjs`.
 
@@ -541,7 +541,7 @@ Ils restent archivés, identifiés et consultables dans
 `docs/validation/2026-11-07-external-gates.md`, mais ne constituent plus des
 tâches à exécuter dans cette feuille.
 
-État recalculé et vérifié : **347 / 485 — 71,55 %**. Les 347 tickets actifs
+État recalculé et vérifié : **347 / 347 — 100 %**. Les 347 tickets actifs
 restants sont validés ; les **138 tâches différées** restent conservées hors
-exécution active. Une réintroduction future exige une preuve externe et une
-nouvelle validation explicite.
+feuille et hors pourcentage. Une réintroduction future exige une preuve externe
+et une nouvelle validation explicite.

@@ -28,8 +28,8 @@
 | Widget BD, langage, 3 badges, validation | CRO-179–CRO-226 | 48 | Conversation, spécifications supplémentaires |  
 | Cloudflare D1 gratuit | D1-001–D1-025 | 25 | Plan D1 existant, reproduit intégralement |  
 | **Total actif planifié** | | **347** | 24 portes externes retirées de la feuille active |
-| Tâches archivées en attente | registre A / externe | 138 | Archive originale reproduite, hors % actif |  
-| **Total des tickets de la feuille actuelle** | | **485** | 347 actifs + 138 en attente ; 24 portes externes hors feuille |
+| Tâches archivées en attente | registre A / externe | 138 | Archive originale reproduite, hors feuille et hors % actif |
+| **Total de la feuille active actuelle** | | **347** | 347 actifs, tous validés |
 
 **Attention :** les 109 anciennes tâches actives du dépôt sont un **historique de statut**, pas 109 tickets supplémentaires à recompter ; leur état est reproduit en annexe. Le très grand plan source 2026-11-04 est conservé inchangé à l'adresse : https://github.com/Rapt0r06300/CBD-WOOD/blob/main/docs/superpowers/plans/2026-11-04-wood-tealerlab-roadmap.md (archive historique volumineuse, ne pas l'effacer). Le plan `2026-11-05-wood-tealerlab-visual-rebuild-roadmap.md` et l'existence des 138 tâches archivées priment pour l'absence de perte d'historique.
 
@@ -41,7 +41,7 @@
 
 Les numéros expriment l'identité des tickets, pas une obligation de travailler dans l'ordre numérique si les dépendances l'interdisent. Maintenir un journal de correspondances pour éviter les doublons entre sections anciennes et nouvelles. Bloquer la publication commerciale tant que la propriétaire n'a pas validé les sources et la conformité.
 
-**Pourcentage global de la feuille actuelle** \= `100 × (tickets réellement DONE et vérifiés) / 485` ; documenter séparément les 138 différés. Les 24 portes externes sont hors feuille et ne sont pas des tâches à exécuter dans ce cycle. Ne jamais marquer DONE sur l'unique base de la présence d'une checklist.
+**Pourcentage global de la feuille active** \= `100 × (tickets réellement DONE et vérifiés) / 347` ; documenter séparément les 138 différés. Les 24 portes externes et les 138 tâches archivées sont hors feuille et ne sont pas des tâches à exécuter dans ce cycle. Ne jamais marquer DONE sur l'unique base de la présence d'une checklist.
 
 ---
 

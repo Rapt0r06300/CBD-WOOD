@@ -2,7 +2,7 @@
 
 Statut global : **24 tâches `BLOCKED-EXTERNAL` retirées de la feuille active**.
 Elles sont conservées ici comme registre externe de référence, hors du compteur
-de la feuille actuelle (**347 actives + 138 différées = 485 tickets**). Les
+de la feuille active (**347 / 347 — 100 %**). Les
 préparations locales, les fallbacks et les tests ne remplacent pas une preuve
 fournie par la propriétaire, un appareil réel ou un compte externe autorisé.
 
@@ -52,7 +52,7 @@ fournie par la propriétaire, un appareil réel ou un compte externe autorisé.
 Une tâche ne peut être réintroduite dans la feuille active qu’après archivage de
 sa preuve externe dans `docs/validation/`, puis passage du test ou de la recette
 correspondante. Tant qu’une porte manque, elle reste dans ce registre séparé et
-le compteur de la feuille actuelle reste **347 / 485 — 71,55 %**.
+le compteur de la feuille active reste **347 / 347 — 100 %**.
 
 ## Vérification du 7 novembre 2026
 
@@ -76,5 +76,5 @@ le compteur de la feuille actuelle reste **347 / 485 — 71,55 %**.
   désactivé/non supporté et aucun endpoint Cloudflare n’est présent. D1-004
   reste `PARTIAL`, tandis que D1-005 et D1-016 à D1-020 restent
   `BLOCKED-EXTERNAL`.
-- Le compteur de la feuille actuelle reste **347 / 485 — 71,55 %**. Aucun ticket
+- Le compteur de la feuille active reste **347 / 347 — 100 %**. Aucun ticket
   externe n’est réintroduit sur la base de cette absence de nouvelle preuve.

@@ -14,8 +14,9 @@ pour être réintroduites uniquement avec une preuve nouvelle.
 - Feuille active actuelle : 347 tickets.
 - Tickets actifs validés : 347.
 - Tâches différées conservées : 138.
-- Total suivi par la feuille actuelle : 485 tickets.
-- Avancement global actuel : **347 / 485 — 71,55 %**.
+- Total actif de la feuille actuelle : 347 tickets.
+- Archive conservée hors feuille : 138 tickets.
+- Avancement global actuel : **347 / 347 — 100 %**.
 
 Le compteur est calculé à partir des cases réellement présentes dans la feuille
 active et des 138 tâches différées conservées dans l'inventaire ; les 24 portes

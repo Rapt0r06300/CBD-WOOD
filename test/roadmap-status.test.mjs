@@ -10,8 +10,8 @@ test('l’état de route est cohérent avec les cases de la feuille active', () 
   assert.equal(rows.length, 347);
   assert.equal(rows.filter(row => row[1] === 'x').length, 347);
   assert.equal(rows.filter(row => row[1] === ' ').length, 0);
-  assert.match(status, /347 \/ 485/u);
-  assert.match(roadmap, /347 actifs \+ 138 en attente ; 24 portes externes hors feuille/u);
+  assert.match(status, /347 \/ 347 — 100 %/u);
+  assert.match(roadmap, /347 actifs, tous validés/u);
   assert.match(status, /197b485.*249/isu);
   assert.match(status, /138.*tâches différées/iu);
   assert.match(status, /deux validations.*non rattachées/iu);

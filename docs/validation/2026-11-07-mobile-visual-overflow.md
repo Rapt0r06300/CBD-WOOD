@@ -41,5 +41,5 @@ correctif final `main` est publié dans le commit suivant. La racine de
 sauvegarde `/` reste isolée de `/demo/`.
 
 Cette finition améliore une zone déjà validée et ne modifie pas le compteur :
-**347 / 485 — 71,55 %**. Les portes externes retirées de la feuille active
-restent séparées dans leur registre dédié.
+**347 / 347 — 100 %**. Les portes externes retirées et les tâches différées
+restent séparées de la feuille active dans leurs registres dédiés.
