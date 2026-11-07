@@ -407,6 +407,16 @@ fournir et autoriser par WOOD. Preuve :
 **340 / 509 — 66,80 %**, avec **31** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Le ticket `CRO-097` est validé pour la préparation de la démo : une matrice
+sépare fleurs, résines, huiles, cosmétiques, comestibles et accessoires,
+attribue l'état `pending`, nomme le bloqueur de publication et conserve la
+validation propriétaire/conseil juridique comme porte de sortie. Aucune
+qualification juridique n'est inventée et aucune catégorie n'est activée.
+Preuve : `docs/validation/2026-11-07-cro-097-regulatory-category-matrix.md` et
+`test/cro-097-regulatory-matrix.test.mjs`. Le compteur courant devient
+**341 / 509 — 67,00 %**, avec **30** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

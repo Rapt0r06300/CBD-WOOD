@@ -1134,7 +1134,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
 
 ### 13 — Marketing responsable et conformité CBD — P0, complément de TXW-105 à TXW-112
 
-- [ ] **CRO-097 — Classifier les produits réglementairement**   
+- [x] **CRO-097 — Classifier les produits réglementairement** — matrice fleurs, résines, huiles, cosmétiques, comestibles et accessoires avec statut `pending`, bloqueur de publication et validation propriétaire/conseil dans `docs/validation/2026-11-07-cro-097-regulatory-category-matrix.md` et `test/cro-097-regulatory-matrix.test.mjs`. La matrice ne constitue pas une approbation juridique.   
   - **Livrable :** Séparer fleurs/résines, huiles, cosmétiques, comestibles et accessoires ; analyse au cas par cas.  
   - **Critère de validation :** Matrice catégorie → statut légal à vérifier → bloqueur publication.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
