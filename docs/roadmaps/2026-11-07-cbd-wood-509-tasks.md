@@ -1781,7 +1781,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Aucun affichage modal automatiquement déclenché au scroll.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-198 — Essais comportementaux widget.**  
+- [x] **CRO-198 — Essais comportementaux widget.** — recette Playwright locale accueil/fiche, ouverture, fermeture, réouverture, double-clic, résultat, défilement et viewport mobile 390×844 ; aucune navigation bloquée. Preuve : `docs/validation/2026-11-07-cro-198-widget-behavior.md`, `test/cro-198-widget-behavior.test.mjs` et `output/playwright/cro198-advisor-mobile-open.png`.
   - **Livrable :** Tests click, double click, fermeture, réouverture, scroll, URL directe, cache lent.  
   - **Recette :** Zéro overlay bloquant la navigation ou boutons inertes.  
   - **Statut :** TODO (non implémenté).

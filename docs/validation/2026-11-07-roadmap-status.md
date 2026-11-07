@@ -168,6 +168,14 @@ Preuve : `docs/validation/2026-11-07-cro-220-advisor-label-migration.md` et
 **308 / 509 — 60,51 %**, avec **63** tickets actifs encore ouverts et **138
 tâches différées**.
 
+La recette comportementale du conseiller `CRO-198` est vérifiée sur accueil et
+fiche produit, en URL directe et à 390×844 : ouverture, fermeture, répétition,
+résultat et défilement restent utilisables. Preuve :
+`docs/validation/2026-11-07-cro-198-widget-behavior.md`,
+`test/cro-198-widget-behavior.test.mjs` et la capture mobile associée. Le
+compteur courant devient **309 / 509 — 60,71 %**, avec **62** tickets actifs
+encore ouverts et **138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
