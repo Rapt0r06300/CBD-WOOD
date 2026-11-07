@@ -501,7 +501,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [x] **TXW-116 — Contrôler le paquet Pages.** Exécuter npm run prepare:github-pages ; vérifier /demo/, les chemins d'assets, l'absence de secrets, les images et les routes générées.    
   **Acceptation :** Artefact complet et aucune fuite de fichier interne.
 
-- [ ] **TXW-117 — Inspecter le rendu réel.** Capture responsive complète de chaque page ; contrôles manuels Safari/Android si appareils accessibles, sinon signaler ces preuves comme manquantes.    
+- [x] **TXW-117 — Inspecter le rendu réel.** 24 captures Chromium locales couvrent les 12 pages en mobile 390×844 et desktop 1440×900 ; Safari/Android réels restent explicitement manquants ; preuve : `docs/validation/2026-11-07-render-captures.md` et `test/render-captures.test.mjs`.    
   **Acceptation :** Pas de déclaration 'testé sur iPhone' sans vraie preuve correspondante.
 
 - [x] **TXW-118 — Préparer un avant / après décisionnel.** Comparer hero, galerie fleur, résines, boutique physique et mobile ; citer modifications et captures. Preuve : `docs/validation/2026-11-07-demo-before-after.md`. Les validations appareil réel et propriétaire restent séparées.    
