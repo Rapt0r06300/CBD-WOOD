@@ -510,4 +510,9 @@ gabarit : validation propriétaire, appareil réel, compte Cloudflare/Gmail,
 secrets, domaine, hébergement commercial et preuves source restent des portes
 séparées.
 
+L'inventaire contrôlé de ces portes est maintenu dans
+`docs/validation/2026-11-07-external-gates.md` et vérifié par
+`test/external-gates.test.mjs`. Il recense les 24 tâches externes sans les
+créditer au compteur 347 / 509.
+
 Contrat : `test/roadmap-status.test.mjs`.
