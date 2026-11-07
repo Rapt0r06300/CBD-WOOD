@@ -455,7 +455,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [x] **TXW-102 — Assainir les images cassées.** Tester décodage, formats, fallbacks, caches et vrais liens d'assets depuis /demo/.    
   **Acceptation :** Aucun symbole de police brisée ou média disparu sur toutes pages.
 
-- [ ] **TXW-103 — Contrôler réseau lent et déconnecté.** Tester interruptions, 3G/4G simulée, recharge et retour arrière avec données locales.    
+- [x] **TXW-103 — Contrôler réseau lent et déconnecté.** DOM initial ralenti, rechargement avec panier local et retour navigateur hors ligne validés en Chromium ; preuve : `docs/validation/2026-11-07-network-resilience.md` et `test/network-resilience.test.mjs`.    
   **Acceptation :** Site lisible même si médias tardifs ; pas de faux succès distant.
 
 - [ ] **TXW-104 — Comparer mesures avant/après.** Collecter Lighthouse/Playwright si disponibles, résultats de tests, taille de paquet et captures ; consigner les écarts.    
