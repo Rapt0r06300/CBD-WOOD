@@ -1,5 +1,6 @@
 (() => {
   const FAVORITES_KEY = 'wood-favorites-v1';
+  const STORE_LIST_KEY = 'wood-store-list-v1';
   const RECENT_KEY = 'wood-recent-v1';
   const MAX_RECENT = 8;
 
@@ -17,6 +18,13 @@
   };
   const writeFavorites = value => {
     try { localStorage.setItem(FAVORITES_KEY, JSON.stringify([...new Set(value)])); } catch {}
+  };
+  const readStoreList = () => {
+    const value = readJson(STORE_LIST_KEY, []);
+    return Array.isArray(value) ? [...new Set(value.filter(item => typeof item === 'string' && item.trim()))] : [];
+  };
+  const writeStoreList = value => {
+    try { localStorage.setItem(STORE_LIST_KEY, JSON.stringify([...new Set(value)].slice(0, 12))); } catch {}
   };
   const readRecent = () => {
     const value = readJson(RECENT_KEY, []);
@@ -109,14 +117,15 @@
       anchor?.insertAdjacentElement('afterend', section);
     }
     const favorites = readFavorites();
+    const storeList = readStoreList();
     const recent = readRecent();
-    const stored = [...recent, ...favorites.map(id => ({ id, name: id, category: 'Favori WOOD', href: '' }))];
+    const stored = [...recent, ...favorites.map(id => ({ id, name: id, category: 'Favori WOOD', href: '' })), ...storeList.map(id => ({ id, name: id, category: 'À montrer en boutique', href: '' }))];
     const known = new Map(stored.map(item => [item.id, item]));
     main.querySelectorAll('.product-card[data-product-id]').forEach(card => {
       const product = productFromCard(card);
       if (known.has(product.id)) known.set(product.id, { ...known.get(product.id), ...product });
     });
-    const items = [...known.values()].filter(item => item.href && (favorites.includes(item.id) || recent.some(recentItem => recentItem.id === item.id)));
+    const items = [...known.values()].filter(item => item.href && (favorites.includes(item.id) || storeList.includes(item.id) || recent.some(recentItem => recentItem.id === item.id)));
     if (!items.length) { section.hidden = true; section.replaceChildren(); return; }
     section.hidden = false;
     section.replaceChildren();
@@ -125,12 +134,31 @@
     const title = document.createElement('h2');
     title.id = 'wood-local-collection-title';
     title.textContent = 'À RETROUVER CHEZ WOOD.';
+    const actions = document.createElement('div');
+    actions.className = 'wood-local-collection__actions';
+    if (storeList.length) {
+      const share = document.createElement('button');
+      share.type = 'button';
+      share.className = 'wood-local-collection__share';
+      share.textContent = 'Partager ma liste';
+      share.addEventListener('click', async () => {
+        const url = new URL(window.location.href);
+        url.searchParams.set('liste', storeList.join(','));
+        try {
+          if (typeof navigator.share === 'function') await navigator.share({ title: 'Ma liste WOOD', text: 'Les références que je veux montrer en boutique.', url: url.href });
+          else await navigator.clipboard.writeText(url.href);
+          announce('Lien de ta liste boutique prêt à partager.');
+        } catch { announce('Le lien de ta liste reste disponible dans la barre d’adresse.'); }
+      });
+      actions.appendChild(share);
+    }
     const clear = document.createElement('button');
     clear.type = 'button';
     clear.className = 'wood-local-collection__clear';
     clear.textContent = 'Effacer mes repères';
-    clear.addEventListener('click', () => { writeFavorites([]); writeRecent([]); renderLocalCollection(); announce('Tes repères locaux ont été effacés.'); });
-    heading.append(title, clear);
+    clear.addEventListener('click', () => { writeFavorites([]); writeStoreList([]); writeRecent([]); renderLocalCollection(); announce('Tes repères locaux ont été effacés.'); });
+    actions.appendChild(clear);
+    heading.append(title, actions);
     const list = document.createElement('div');
     list.className = 'wood-local-collection__list';
     items.slice(0, 6).forEach(item => {
@@ -141,6 +169,21 @@
       list.appendChild(link);
     });
     section.append(heading, list);
+  }
+
+  function toggleStoreList(card, button) {
+    const product = productFromCard(card);
+    if (!product.id) return;
+    const list = readStoreList();
+    const index = list.indexOf(product.id);
+    if (index >= 0) { list.splice(index, 1); announce(`${product.name} retiré de ta liste boutique.`); }
+    else { list.unshift(product.id); announce(`${product.name} ajouté à ta liste à montrer en boutique.`); }
+    writeStoreList(list);
+    const active = readStoreList().includes(product.id);
+    button.setAttribute('aria-pressed', String(active));
+    button.classList.toggle('is-active', active);
+    button.textContent = active ? 'Dans ma liste boutique' : 'À montrer en boutique';
+    renderLocalCollection();
   }
 
   function toggleFavorite(card, button) {
@@ -186,6 +229,20 @@
       (meta || card.querySelector('.product-body'))?.insertBefore(preview, meta || null);
       preview.addEventListener('click', event => { event.preventDefault(); event.stopPropagation(); openPreview(card, preview); });
     }
+    let storeButton = card.querySelector('[data-wood-store-list]');
+    if (!storeButton) {
+      storeButton = document.createElement('button');
+      storeButton.type = 'button';
+      storeButton.className = 'wood-card-store-list';
+      storeButton.dataset.woodStoreList = 'true';
+      const body = card.querySelector('.product-body');
+      body?.appendChild(storeButton);
+      storeButton.addEventListener('click', event => { event.preventDefault(); event.stopPropagation(); toggleStoreList(card, storeButton); });
+    }
+    const inStoreList = readStoreList().includes(product.id);
+    storeButton.setAttribute('aria-pressed', String(inStoreList));
+    storeButton.classList.toggle('is-active', inStoreList);
+    storeButton.textContent = inStoreList ? 'Dans ma liste boutique' : 'À montrer en boutique';
   }
 
   function recordDetail() {
@@ -227,12 +284,15 @@
   }
 
   function wireAll() {
+    const params = new URLSearchParams(window.location.search);
+    const imported = params.get('liste')?.split(',').filter(Boolean).slice(0, 12) || [];
+    if (imported.length) writeStoreList([...readStoreList(), ...imported]);
     document.querySelectorAll('main[data-catalog-category] .product-card[data-product-id]').forEach(wireCard);
     recordDetail();
     renderLocalCollection();
   }
 
-  window.WoodProductActions = Object.freeze({ readFavorites, readRecent });
+  window.WoodProductActions = Object.freeze({ readFavorites, readRecent, readStoreList });
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wireAll, { once: true });
   else wireAll();
   document.addEventListener('wood:catalog-rendered', wireAll);

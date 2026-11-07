@@ -1499,7 +1499,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Pas de bénéfice médical ou de collection fictive annoncée comme vente.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-144 — Liste à montrer en boutique.**  
+- [x] **CRO-144 — Liste à montrer en boutique.**  
   - **Livrable :** Sauvegarder localement des découvertes à demander à l'équipe lors de la visite.  
   - **Recette :** Pas de réservation ou commande; liste partageable/effaçable.  
   - **Statut :** TODO (non implémenté).

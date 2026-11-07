@@ -13,12 +13,15 @@ test('les actions catalogue restent locales et accessibles', async () => {
   const source = await read('wood-product-actions.js');
   assert.match(source, /localStorage/);
   assert.match(source, /wood-favorites-v1/);
+  assert.match(source, /wood-store-list-v1/);
   assert.match(source, /wood-recent-v1/);
   assert.match(source, /aria-pressed/);
   assert.match(source, /data-wood-favorite/);
   assert.match(source, /data-wood-preview/);
   assert.match(source, /showModal/);
   assert.match(source, /data-wood-preview-close/);
+  assert.match(source, /À montrer en boutique/);
+  assert.match(source, /searchParams\.set\('liste'/);
 });
 
 test('les fiches proposent un partage natif ou une copie sans envoi serveur', async () => {
