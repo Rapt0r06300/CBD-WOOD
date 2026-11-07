@@ -1233,7 +1233,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Mesure bundle et absence de régression fonctionnelle.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-116 — Créer métadonnées distinctes par univers**   
+- [x] **CRO-116 — Créer métadonnées distinctes par univers** — titres, descriptions, OpenGraph, canoniques relatives et `noindex,nofollow` ajoutés aux 12 pages HTML ; contrat automatisé dans `test/public-metadata-contract.test.mjs`.   
   - **Livrable :** Titre, description, canonique, OpenGraph pertinents pour vraie mise en ligne ultérieure.  
   - **Critère de validation :** La démo garde noindex pour ne pas indexer des contenus provisoires.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
