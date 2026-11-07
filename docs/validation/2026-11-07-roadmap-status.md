@@ -129,6 +129,14 @@ pas être publiées comme officielles. Preuve :
 **301 / 509 — 59,14 %**, avec **70** tickets actifs encore ouverts et **138
 tâches différées**.
 
+Le conseiller explicable `CRO-222` est livré : la meilleure piste et deux
+alternatives peuvent afficher des badges descriptifs portant leur raison et
+leur source, uniquement à partir de faits vérifiés. Preuve :
+`docs/validation/2026-11-07-cro-222-recommendation-badges.md` et
+`test/cro-222-recommendation-badges.test.mjs`. Le compteur courant devient
+**302 / 509 — 59,33 %**, avec **69** tickets actifs encore ouverts et **138
+tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

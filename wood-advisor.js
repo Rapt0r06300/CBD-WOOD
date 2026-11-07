@@ -88,7 +88,11 @@
       return;
     }
     const badgeMarkup = badgeEngine?.renderBadges(best) || '';
-    const alternatives = result.alternatives?.length ? `<ul class="wood-advisor__alternatives" aria-label="Alternatives"><li><a href="${escapeHtml(result.alternatives[0].product.href)}">${escapeHtml(result.alternatives[0].product.name)} ↗</a></li>${result.alternatives[1] ? `<li><a href="${escapeHtml(result.alternatives[1].product.href)}">${escapeHtml(result.alternatives[1].product.name)} ↗</a></li>` : ''}</ul>` : '';
+    const renderAlternative = (item) => {
+      const badges = (item.badges || []).map((badge) => `${badge.label} — ${badge.reason}`).join(' · ');
+      return `<li data-advisor-badges><a href="${escapeHtml(item.product.href)}">${escapeHtml(item.product.name)} ↗</a>${badges ? `<small>${escapeHtml(badges)}</small>` : ''}<small>${escapeHtml(item.explanation || 'Alternative descriptive.')}</small></li>`;
+    };
+    const alternatives = result.alternatives?.length ? `<ul class="wood-advisor__alternatives" aria-label="Alternatives">${result.alternatives.slice(0, 2).map(renderAlternative).join('')}</ul>` : '';
     resultRoot.innerHTML = `<span class="wood-advisor__result-kicker">${result.status === 'discovery' ? 'Une première piste' : 'Le meilleur raccord'}</span><h3>${escapeHtml(best.name)}</h3>${badgeMarkup}<p>${escapeHtml(result.best.explanation || result.reason)}</p><a href="${escapeHtml(best.href)}">Voir la sélection ↗</a>${alternatives}<button class="wood-advisor__clear" type="button" data-advisor-clear>Recommencer</button>`;
   };
 

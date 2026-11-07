@@ -1907,7 +1907,7 @@ Codex agit **autonomement** sur toute tâche réalisable depuis son environnemen
   - **Recette :** Ne demande pas un attribut que le catalogue ne connaît pas.  
   - **Statut :** TODO (non implémenté).
 
-- [ ] **CRO-222 — Recommandation explicable avec badge.**  
+- [x] **CRO-222 — Recommandation explicable avec badge.** — la meilleure piste et deux alternatives exposent des badges issus de faits vérifiés, avec raison et source ; les faits non vérifiés restent exclus. Preuve : `docs/validation/2026-11-07-cro-222-recommendation-badges.md` et `test/cro-222-recommendation-badges.test.mjs`.
   - **Livrable :** Proposer une référence et deux alternatives avec attributs et badges cohérents, différences justifiées.  
   - **Recette :** Le score n'utilise pas un indice non vérifié.  
   - **Statut :** TODO (non implémenté).

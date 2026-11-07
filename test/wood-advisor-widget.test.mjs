@@ -46,6 +46,7 @@ test('le widget est mobile-first, décoratif et compatible reduced motion', () =
   assert.match(widget, /IntersectionObserver/iu);
   assert.match(widget, /flower-detail, \.product-detail/iu);
   assert.match(widget, /aria-hidden/iu);
+  assert.match(widget, /item\.badges|data-advisor-badges/iu);
   assert.match(styles, /bottom-nav|mobile-nav/iu);
 });
 

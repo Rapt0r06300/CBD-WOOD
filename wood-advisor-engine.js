@@ -92,6 +92,24 @@
     .filter((fact) => fact && fact.verified === true && fact.source && fact.key && fact.value !== null && fact.value !== undefined);
   const valuesFor = (facts, key) => facts.filter((fact) => fact.key === key).map((fact) => normalizeText(fact.value));
   const factEvidence = (facts, key, value) => facts.find((fact) => fact.key === key && normalizeText(fact.value) === normalizeText(value));
+  const evidenceBadges = (facts) => {
+    const badges = [];
+    const intensityFacts = facts.filter((fact) => fact.key === 'aromaIntensity' && ['low', 'high'].includes(normalizeText(fact.value)));
+    const intensityValues = [...new Set(intensityFacts.map((fact) => normalizeText(fact.value)))];
+    if (intensityValues.length === 1) {
+      const fact = intensityFacts[0];
+      const label = intensityValues[0] === 'low' ? 'DOUX / LÉGER' : 'INTENSE / FORT';
+      badges.push({ label, reason: `Profil aromatique ${intensityValues[0] === 'low' ? 'discret' : 'marqué'} décrit dans la fiche.`, source: fact.source });
+    }
+    const noteFacts = facts.filter((fact) => fact.key === 'notes' && noteAliases.has(normalizeText(fact.value)));
+    const notes = [...new Set(noteFacts.map((fact) => noteAliases.get(normalizeText(fact.value))))];
+    if (notes.length) badges.push({
+      label: 'GOÛT / ARÔMES',
+      reason: `Notes déclarées : ${notes.join(', ')}.`,
+      source: noteFacts.map((fact) => fact.source).join(' · '),
+    });
+    return badges.slice(0, 3);
+  };
 
   const categoryLabels = new Map([
     ['fleurs', 'Fleurs'],
@@ -196,8 +214,8 @@
     };
     if (!hasSpecificPreference || preferences.discovery) return {
       status: 'discovery',
-      best: scored[0] ? { product: scored[0].product, score: 0, explanation: 'Sélection de découverte non personnalisée : les caractéristiques détaillées restent à valider par WOOD.' } : null,
-      alternatives: scored.slice(1, 3).map((entry) => ({ product: entry.product, score: 0, explanation: 'Alternative de découverte, sans classement de goût inventé.' })),
+      best: scored[0] ? { product: scored[0].product, score: 0, badges: evidenceBadges(scored[0].facts), explanation: 'Sélection de découverte non personnalisée : les caractéristiques détaillées restent à valider par WOOD.' } : null,
+      alternatives: scored.slice(1, 3).map((entry) => ({ product: entry.product, score: 0, badges: evidenceBadges(entry.facts), explanation: 'Alternative de découverte, sans classement de goût inventé.' })),
       reason: 'Voici une porte d’entrée dans la sélection WOOD. Les informations détaillées apparaîtront uniquement avec une source validée.',
     };
 
@@ -208,10 +226,10 @@
     const alternatives = scored.slice(1)
       .filter((entry) => entry.score > 0)
       .slice(0, 2)
-      .map((entry) => ({ product: entry.product, score: entry.score, explanation: describe(entry) }));
+      .map((entry) => ({ product: entry.product, score: entry.score, badges: evidenceBadges(entry.facts), explanation: describe(entry) }));
     return {
       status: 'match',
-      best: { product: scored[0].product, score: scored[0].score, explanation: `Correspondance fondée sur un fait vérifié : ${describe(scored[0])}` },
+      best: { product: scored[0].product, score: scored[0].score, badges: evidenceBadges(scored[0].facts), explanation: `Correspondance fondée sur un fait vérifié : ${describe(scored[0])}` },
       alternatives,
       reason: 'Cette proposition reste descriptive : elle ne prédit aucun effet et ne remplace pas un conseil professionnel.',
     };
