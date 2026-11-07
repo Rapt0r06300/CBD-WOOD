@@ -702,7 +702,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Révision : la lecture WOOD → message → CTA reste immédiate.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-015 — Contrôler disponibilité de la preuve locale**   
+- [x] **CRO-015 — Contrôler disponibilité de la preuve locale** — scène hero démo explicitement marquée, coordonnées séparées et photos boutique non validées maintenues en fallback. Preuve : `docs/validation/2026-11-07-cro-015-local-proof.md` et `test/cro-015-local-proof.test.mjs`.
   - **Livrable :** Relier le hero à une vraie photo/coordonnée WOOD, si son usage est autorisé ; sinon montrer une scène neutre.  
   - **Critère de validation :** L'emplacement n'affiche ni source absente ni adresse non vérifiée.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.

@@ -320,6 +320,15 @@ reste explicitement `pending`. Preuve :
 **331 / 509 — 65,03 %**, avec **40** tickets actifs encore ouverts et
 **138 tâches différées**.
 
+Le ticket `CRO-015` est validé : le hero utilise une scène locale explicitement
+marquée comme démonstration, sans preuve commerciale non sourcée ; les
+coordonnées et les photos de boutique restent séparées dans leur page dédiée,
+avec des fallbacks honnêtes. Preuve :
+`docs/validation/2026-11-07-cro-015-local-proof.md` et
+`test/cro-015-local-proof.test.mjs`. Le compteur courant devient
+**332 / 509 — 65,23 %**, avec **39** tickets actifs encore ouverts et
+**138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;
