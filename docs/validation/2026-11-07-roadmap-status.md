@@ -86,6 +86,12 @@ d'une visite. La preuve locale est `test/cro-wood-guide.test.mjs` et le rendu
 mobile est documenté par `wood-guide.css` ; le compteur courant devient **292 / 509
 — 57,37 %**, avec **79** tickets actifs encore ouverts et **138 tâches différées**.
 
+La résilience `CRO-112` est vérifiée dans `docs/validation/2026-11-07-cro-112-resilience.md`
+et `test/cro-112-resilience.test.mjs` : reduced-motion, faible donnée, cache
+froid, image en erreur et indisponibilité D1 gardent un parcours local explicite.
+Le compteur courant devient **293 / 509 — 57,56 %**, avec **78** tickets actifs
+encore ouverts et **138 tâches différées**.
+
 ## Ce qui est prouvé
 
 - le mode démo reste local et aucun paiement ou e-mail réel n'est activé ;

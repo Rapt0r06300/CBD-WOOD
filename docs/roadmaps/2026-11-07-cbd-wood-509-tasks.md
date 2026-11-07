@@ -1211,7 +1211,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Aucune action uniquement visuelle.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-112 — Tester sans animations ni réseau rapide**   
+- [x] **CRO-112 — Tester sans animations ni réseau rapide** — reduced-motion, faible donnée, cache froid, image en erreur et D1 indisponible couverts par `docs/validation/2026-11-07-cro-112-resilience.md` et `test/cro-112-resilience.test.mjs` ; appareil physique et lecteurs d'écran restent externes.
   - **Livrable :** reduced-motion, Save-Data, cache froid, image erreur et API D1 indisponible.  
   - **Critère de validation :** Toutes les missions achevables sans dépendance externe.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.

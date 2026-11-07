@@ -49,6 +49,26 @@ function productVisual(product, category) {
   return `<div class="product-art--type">WOOD.<small>WOOD SHOP / À DÉCOUVRIR</small></div>`;
 }
 
+function wireProductImageFallbacks(grid, category) {
+  const fallbackSource = defaults[category];
+  if (!fallbackSource) return;
+  grid.querySelectorAll('.product-art img').forEach((image) => {
+    if (image.dataset.woodFallbackWired === 'true') return;
+    image.dataset.woodFallbackWired = 'true';
+    const originalAlt = image.alt || `Visuel de démonstration ${labels[category] || category}`;
+    const showFallback = () => {
+      if (image.dataset.woodFallbackApplied === 'true') return;
+      image.dataset.woodFallbackApplied = 'true';
+      image.src = fallbackSource;
+      image.alt = `Illustration botanique de repli pour ${labels[category] || category}`;
+      image.classList.add('product-art__image--fallback');
+    };
+    image.addEventListener('error', showFallback, { once: true });
+    if (image.complete && image.naturalWidth === 0 && image.src && !image.src.endsWith(fallbackSource)) showFallback();
+    image.dataset.woodOriginalAlt = originalAlt;
+  });
+}
+
 function renderProducts(grid, products, category) {
   const isFlower = category === 'fleurs';
   grid.innerHTML = products.map((product, index) => {
@@ -94,6 +114,7 @@ function renderProducts(grid, products, category) {
       </div>
     </article>`;
   }).join('');
+  wireProductImageFallbacks(grid, category);
 }
 
 async function loadCatalog() {
