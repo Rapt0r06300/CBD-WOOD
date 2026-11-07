@@ -195,6 +195,22 @@
     if (image.complete && image.naturalWidth === 0) showFallback();
   }
 
+  function initCampaignFallback() {
+    const media = qs('.wood-campaign__media');
+    if (!media) return;
+    const image = qs('[data-campaign-image]', media);
+    const fallback = qs('.wood-campaign__fallback', media);
+    if (!image || !fallback || image.dataset.woodFallbackWired === 'true') return;
+    image.dataset.woodFallbackWired = 'true';
+    const showFallback = () => {
+      media.classList.add('is-media-fallback');
+      fallback.hidden = false;
+      image.setAttribute('aria-hidden', 'true');
+    };
+    image.addEventListener('error', showFallback, { once: true });
+    if (image.complete && image.naturalWidth === 0) showFallback();
+  }
+
   function updateRail(rail, controls) {
     const items = [...rail.children].filter(item => !item.hidden);
     const max = Math.max(0, rail.scrollWidth - rail.clientWidth);
@@ -349,6 +365,7 @@
   initHeroMotion();
   initClocheReveal();
   initHeroFallback();
+  initCampaignFallback();
   initRails();
   initProofReviews();
   initPointerHints();

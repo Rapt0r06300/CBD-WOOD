@@ -152,7 +152,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [x] **TXW-007 — Interdire tous les envois réels.** Vérifier contact, newsletter, notifications, mails de commande, comptes et éventuelles intégrations ; aucune action utilisateur en /demo/ ne doit envoyer de message réel.    
   **Acceptation :** Tests négatifs et absence d'appels d'expédition dans le réseau de démo.
 
-- [ ] **TXW-008 — Reproduire le symbole '?' sur iPhone.** Examiner la capture de l'utilisateur au-dessus de 'DROP 03 / STUDIO WOOD', puis reproduire avec Safari iOS et vérifier glyphe, SVG, chargement, police, décodage et cache.    
+- [ ] **TXW-008 — Reproduire le symbole '?' sur iPhone.** Repli local de la scène Studio WOOD et contrôle d'asset préparés dans `index.html`, `wood-motion.js`, `wood-runway.css`, `docs/validation/2026-11-07-txw-008-symbol-check.md` et `test/txw-008-symbol-fallback.test.mjs`; validation Safari iOS réelle encore externe.
   **Acceptation :** Cause prouvée ou limitation documentée ; aucun carré/interrogation anormal sur le viewport concerné.
 
 - [x] **TXW-009 — Établir les captures de référence.** Créer des captures de référence de chaque route en 390px et 1440px, plus états panier et menus ; nommer par route, viewport, commit. Preuve : `docs/validation/2026-11-07-txw-009-reference-captures.md` et `test/txw-009-reference-captures.test.mjs`.
