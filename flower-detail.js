@@ -31,6 +31,8 @@
     ? `Cette fiche de démonstration présente ${product.name} dans l’univers WOOD. La photographie réelle et les informations détaillées de la boutique remplaceront ce contenu après validation.`
     : product.description;
   const presentationImage = presentation?.image || 'assets/fleurs.svg';
+  const presentationAltImage = presentation?.altImage || 'assets/editorial/wood-jar-detail.webp';
+  const presentationAltDescription = presentation?.altDescription || `Vue détail de démonstration de ${product.name} sous cloche`;
   const profileTag = product.profile.includes('STRONG') ? 'STRONG' : product.profile.includes('MEDIUM') ? 'MEDIUM' : 'FLEURS CBD';
   const priceHeaders = product.prices.map(tier => `<th scope="col">${tier.grams} g</th>`).join('');
   const priceCells = product.prices.map(tier => `<td>${tier.price.toFixed(2).replace('.', ',')} €</td>`).join('');
@@ -55,7 +57,14 @@
         <p class="flower-detail__note">La sélection, les disponibilités et les tarifs sont à confirmer avec la boutique avant toute commande.</p>
       </div>
       <article class="product-card flower-detail-card" data-product-id="${productId}" data-product-name="${product.name}" data-product-category="Fleurs CBD">
-        <div class="product-art"><img src="${presentationImage}" alt="Visuel de démonstration de la fleur ${product.name}"><span class="product-art__status">Visuel de démonstration · photo réelle à venir</span></div>
+        <div class="flower-detail__gallery" data-flower-gallery>
+          <button class="flower-detail__view-toggle" type="button" data-flower-view-toggle aria-label="Afficher la vue détail de ${product.name}">
+            <img data-flower-view="primary" src="${presentationImage}" alt="Visuel de démonstration de la fleur ${product.name}">
+            <img data-flower-view="detail" src="${presentationAltImage}" alt="${presentationAltDescription}" hidden>
+            <span class="flower-detail__view-label" aria-live="polite">Vue 1 / 2 · scène</span>
+            <span class="product-art__status">Visuel de démonstration · photo réelle à venir</span>
+          </button>
+        </div>
         <div class="product-body">
           <span class="product-index">${product.index} / ${profileTag}</span>
           <h3>${product.name}</h3>
@@ -81,4 +90,18 @@
       </div>
     </section>
     <div class="flower-detail__back"><a class="btn secondary" href="fleurs.html">← Retour aux fleurs</a></div>`;
+
+  const galleryToggle = root.querySelector('[data-flower-view-toggle]');
+  const galleryViews = [...root.querySelectorAll('[data-flower-view]')];
+  const galleryLabel = root.querySelector('.flower-detail__view-label');
+  let galleryIndex = 0;
+  const showGalleryView = (index) => {
+    galleryIndex = index % galleryViews.length;
+    galleryViews.forEach((image, imageIndex) => { image.hidden = imageIndex !== galleryIndex; });
+    galleryLabel.textContent = galleryIndex === 0 ? 'Vue 1 / 2 · scène' : 'Vue 2 / 2 · détail';
+    galleryToggle.setAttribute('aria-label', galleryIndex === 0
+      ? `Afficher la vue détail de ${product.name}`
+      : `Afficher la vue scène de ${product.name}`);
+  };
+  galleryToggle.addEventListener('click', () => showGalleryView(galleryIndex + 1));
 })();

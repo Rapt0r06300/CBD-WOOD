@@ -303,7 +303,7 @@ Afficher à chaque groupe de tickets : `Avancement 31/120 \= 25,8 % — DONE:31 
 - [x] **TXW-054 — Unifier le design des cartes fleurs.** Média sous cloche, nom lisible, profil court, détails accessibles et CTA de fiche ; même grille sur écran large et mobile.    
   **Acceptation :** Cartes homogènes et jamais illisibles.
 
-- [ ] **TXW-055 — Améliorer la fiche fleur.** Grand visuel, deuxième vue, description courte, faits neutres et choix de grammage visible, même si l'achat est désactivé.    
+- [x] **TXW-055 — Améliorer la fiche fleur.** Grand visuel, deuxième vue, description courte, faits neutres et choix de grammage visible, même si l'achat est désactivé ; preuve : `docs/validation/2026-11-07-flower-detail-review.md`, `flower-detail.js`, `test/product-detail.test.mjs`.
   **Acceptation :** Parcours fiche autonome, sans information commerciale fictive.
 
 - [x] **TXW-056 — Refaire les états indisponibles.** Distinguer 'fiche démo' de 'rupture de stock réelle' ; bloquer achats non autorisés sans afficher 'indisponible' partout.    
@@ -924,7 +924,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
 
 ### 08 — Fiche produit qui répond à toutes les questions — P1, complément de TXW-055 à TXW-062
 
-- [ ] **CRO-057 — Établir un ordre d'information par fiche**   
+- [x] **CRO-057 — Établir un ordre d'information par fiche** — nom, famille, média démo, description, faits, grammages, tarifs, validation et retour/contact sont ordonnés dans `fleur.html`/`flower-detail.js` ; preuve : `docs/validation/2026-11-07-flower-detail-review.md`.
   - **Livrable :** Nom, média, famille, description vérifiée, format, prix si réel, preuve, contact / action.  
   - **Critère de validation :** L'essentiel visible sans accordéons imposés sur smartphone.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
@@ -939,7 +939,7 @@ Chaque tâche doit être classée `DONE | PARTIAL | BLOCKED-EXTERNAL | TODO | FA
   - **Critère de validation :** Chaque phrase rattachée à une photo/donnée authentifiée ou marquée démo.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.
 
-- [ ] **CRO-060 — Clarifier variations et conditionnement**   
+- [x] **CRO-060 — Clarifier variations et conditionnement** — les cinq grammages de la carte et du sélecteur gardent les mêmes libellés `g`, avec tarifs explicitement associés et simulation locale ; preuve : `flower-detail.js`, `test/product-detail.test.mjs`.
   - **Livrable :** Mêmes libellés de poids et unités sur carte, fiche, comparateur et simulation.  
   - **Critère de validation :** Test cohérence par référence et sélection.  
   - **Statut initial :** TODO ; preuve : à renseigner par Codex.

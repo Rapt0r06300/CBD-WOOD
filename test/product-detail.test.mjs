@@ -24,7 +24,12 @@ test('une carte fleur mène à la fiche dédiée sans supprimer le bloc d’acha
   assert.match(flowerDetailScript, /scope="col"/);
   assert.match(flowerDetailScript, /flower-detail__description/);
   assert.match(flowerDetailScript, /photo réelle à venir/);
+  assert.match(flowerDetailScript, /data-flower-view-toggle/);
+  assert.match(flowerDetailScript, /presentationAltImage/);
+  assert.match(flowerDetailScript, /Vue 2 \/ 2 · détail/);
   assert.match(stylesheet, /product-art__status/);
+  assert.match(stylesheet, /flower-detail__gallery/);
+  assert.match(stylesheet, /flower-detail__view-toggle/);
   assert.match(flowerDetailScript, /À DÉCOUVRIR <span>CHEZ WOOD\.<\/span>/);
   assert.doesNotMatch(flowerDetailScript, /À DÉCOUVRIR<br>/);
 });

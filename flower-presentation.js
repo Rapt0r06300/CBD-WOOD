@@ -71,7 +71,11 @@
   };
 
   const frozenEntries = Object.freeze(Object.fromEntries(
-    Object.entries(entries).map(([id, entry]) => [id, Object.freeze({ ...entry })]),
+    Object.entries(entries).map(([id, entry]) => [id, Object.freeze({
+      ...entry,
+      altImage: entry.altImage || 'assets/editorial/wood-jar-detail.webp',
+      altDescription: entry.altDescription || `Vue détail de démonstration de ${entry.name} sous cloche`,
+    })]),
   ));
   const api = Object.freeze({
     get: (id) => frozenEntries[id] || null,
