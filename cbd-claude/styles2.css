@@ -428,3 +428,10 @@ h2 .script::after{content:"";position:absolute;left:-2%;right:-2%;bottom:-.16em;
 .p-save{font-size:.82rem;color:var(--muted);margin:.1rem 0 .7rem}
 .p-save b{color:#9fe06a}
 .p-add b{font-weight:800}
+
+/* Page panier : compteur d'articles */
+.cart-count-h{display:inline-block;margin-left:.5rem;font-family:var(--sans);font-size:.9rem;font-weight:700;color:var(--lime);vertical-align:middle}
+/* Cibles tactiles footer sur mobile */
+@media(max-width:600px){
+  .footer ul a,.footer-links a{min-height:40px;display:inline-flex;align-items:center}
+}

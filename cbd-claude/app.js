@@ -289,7 +289,8 @@ function renderCart(){
   if(!cart.length){root.innerHTML=`<div class="cart-empty"><div class="ava-big">🌿</div><h2 class="serif">Ton pochon est vide…</h2><p class="muted">On répare ça ?</p><a href="fleurs.html" class="btn btn-primary">Découvrir les fleurs →</a></div>`;return;}
   const sub=cart.reduce((s,x)=>s+x.unit*x.q,0);
   const free=60, left=Math.max(0,free-sub);
-  root.innerHTML=`<h1 class="serif">Ton pochon</h1>
+  const nItems=cart.reduce((s,x)=>s+x.q,0), nGr=cart.reduce((s,x)=>s+x.g*x.q,0);
+  root.innerHTML=`<h1 class="serif">Ton pochon <span class="cart-count-h">${nItems} article${nItems>1?'s':''} · ${nGr} g</span></h1>
     <div class="cart-grid">
       <div class="cart-items">${cart.map((x,i)=>`<div class="cart-item"><div class="ci-media"><img src="assets/products/${x.slug}.jpg${IMGV}" alt="" onerror="this.outerHTML='<div>'+window.__cloche('${x.slug}')+'</div>'"></div>
         <div class="ci-info"><div class="ci-name">${x.nom}</div><div class="muted">${x.g} g · ${euro(x.unit)}</div></div>
