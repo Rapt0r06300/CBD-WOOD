@@ -372,3 +372,8 @@ h2 .script::after{content:"";position:absolute;left:-2%;right:-2%;bottom:-.16em;
 
 /* Identite : mur WOOD (fresque assombrie) en bookend de footer */
 .footer{background-image:linear-gradient(rgba(10,14,10,.93),rgba(10,14,10,.975)),url("assets/scenes/mural.webp");background-size:cover;background-position:center;background-attachment:scroll}
+
+/* Identite full immersif : mur WOOD sur sections editoriales/trust (rythme : alterne avec sections nettes) */
+.edito,.avis,.stats{position:relative;background-color:#0a0e0a;background-image:linear-gradient(rgba(9,13,9,.88),rgba(9,13,9,.95)),url("assets/scenes/mural.webp");background-size:cover;background-position:center}
+.avis{background-image:radial-gradient(760px 380px at 50% 0%,rgba(203,240,150,.07),transparent 60%),linear-gradient(rgba(9,13,9,.9),rgba(9,13,9,.96)),url("assets/scenes/mural.webp")}
+.edito>*,.avis>*,.stats>*{position:relative;z-index:1}
