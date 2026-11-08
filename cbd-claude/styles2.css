@@ -471,3 +471,6 @@ h2 .script::after{content:"";position:absolute;left:-2%;right:-2%;bottom:-.16em;
   .cd-qty button{width:30px;height:30px}
   .ci-qty button{min-width:34px;min-height:34px}
 }
+
+/* Audit : neutralise le halo teal des photos produit -> vert (coherence zero bleu) */
+.card .cloche,.product-media img,.cd-item img,.ci-media img,.cd-x img,.search-row img,.qv-media img{filter:saturate(.82) hue-rotate(-22deg) brightness(1.03)}
