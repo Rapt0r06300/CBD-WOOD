@@ -6,7 +6,7 @@
   const isDemoPage = () => /(?:^|\/)demo(?:\/|$)/i.test(String(window.location?.pathname || '')) || document.documentElement?.dataset?.woodMode === 'demo';
   const labels = {
     resines: { title: 'Résines CBD', image: 'assets/editorial/wood-resin-concept-03.webp', back: 'resines.html', copy: 'Mise en scène conceptuelle sous cloche pour la démo WOOD. La photo, la référence et les informations du produit réel restent à confirmer par la boutique.' },
-    'bien-etre': { title: 'Cosmétiques & huiles', image: 'assets/cosmetiques.svg', back: 'bien-etre.html', copy: 'Un produit bien-être autour du chanvre, présenté avec les informations et précautions validées par WOOD.' },
+    'bien-etre': { title: 'Cosmétiques & huiles', image: 'assets/editorial/wood-care-cosmetique.webp', back: 'bien-etre.html', copy: 'Un produit bien-être autour du chanvre, présenté avec les informations et précautions validées par WOOD.' },
     'wood-shop': { title: 'WOOD Shop', image: '', back: 'wood-shop.html', copy: 'Une pièce de l’univers WOOD, à découvrir lorsque le modèle, la taille, le prix et la disponibilité seront confirmés.' },
   };
   const context = labels[category] || labels['wood-shop'];

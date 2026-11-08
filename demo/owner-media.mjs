@@ -1,7 +1,7 @@
 const categoryFallbacks = {
   fleurs: 'assets/fleurs.svg',
   resines: 'assets/resines.svg',
-  'bien-etre': 'assets/cosmetiques.svg',
+  'bien-etre': 'assets/editorial/wood-care-cosmetique.webp',
   'wood-shop': 'assets/accessoires.svg',
 };
 

@@ -1,4 +1,4 @@
-import { getOwnerMediaPreview, getOwnerMediaStatus } from './owner-media.mjs?v=wood-owner-media-v1-20261105';
+import { getOwnerMediaPreview, getOwnerMediaStatus } from './owner-media.mjs?v=wood-owner-media-v2-20261108';
 import { validateProductDraft } from './owner-product-validation.mjs?v=wood-owner-product-validation-v1-20261105';
 
 const categoryLabels = { fleurs: 'Fleurs CBD', resines: 'Résines', 'bien-etre': 'Bien-être', 'wood-shop': 'WOOD Shop' };
