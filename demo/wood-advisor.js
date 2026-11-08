@@ -135,6 +135,8 @@
   bubble.addEventListener('click', () => (panel.hidden ? open() : close()));
   closeButton.addEventListener('click', close);
   widget.addEventListener('click', (event) => {
+    // Tap sur le fond assombri (mobile) = fermer la feuille.
+    if (widget.classList.contains('is-open') && event.target === widget) { close(); return; }
     const choice = event.target.closest('[data-advisor-category]');
     if (choice) {
       const category = findCategory(choice.dataset.advisorCategory);
