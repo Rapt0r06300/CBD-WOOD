@@ -250,3 +250,88 @@ h2 .script::after{content:"";position:absolute;left:-2%;right:-2%;bottom:-.16em;
 /* Accent graffiti (tag bombe) */
 .graff-tag{font-family:var(--serif);font-style:italic;color:var(--lime);position:relative;display:inline-block}
 .spray{position:absolute;pointer-events:none;opacity:.5;color:var(--lime)}
+
+/* ===================== LOT 2 · apercu rapide + favoris + menu mobile ===================== */
+/* --- Bouton apercu rapide sur la carte --- */
+.card-media{position:relative}
+.card-qv{position:absolute;top:10px;left:10px;z-index:3;display:inline-flex;align-items:center;gap:.4em;padding:.42em .7em .42em .55em;border-radius:999px;background:rgba(10,16,10,.72);backdrop-filter:blur(6px);border:1px solid rgba(203,240,150,.3);color:var(--lime);font-weight:700;font-size:.74rem;opacity:0;transform:translateY(-6px);transition:opacity .25s,transform .25s,background .2s;cursor:pointer}
+.card-qv svg{flex:none}
+.card:hover .card-qv,.card:focus-within .card-qv{opacity:1;transform:none}
+.card-qv:hover{background:var(--lime);color:#14210f;border-color:var(--lime)}
+@media(hover:none){.card-qv{opacity:1;transform:none}}
+/* --- Coeur favori --- */
+.card-fav{position:absolute;top:10px;right:10px;z-index:3;width:38px;height:38px;border-radius:999px;display:grid;place-items:center;background:rgba(10,16,10,.7);backdrop-filter:blur(6px);border:1px solid var(--line);color:var(--ink);font-size:1.15rem;line-height:1;cursor:pointer;transition:transform .2s cubic-bezier(.16,1,.3,1),color .2s,border-color .2s}
+.card-fav:hover{transform:scale(1.12);border-color:var(--lime)}
+.card-fav.on{color:#e0574d;border-color:rgba(224,87,77,.55);background:rgba(224,87,77,.12)}
+.card-fav.on:hover{transform:scale(1.14)}
+/* --- Badge compteur favoris (header) --- */
+.favBtn .fav-count{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:#e0574d;color:#fff;font-size:.66rem;font-weight:800;display:none;place-items:center}
+.favBtn .fav-count.on{display:grid}
+/* --- Lignes du tiroir favoris --- */
+.fav-row{display:flex;gap:.9rem;align-items:center;padding:.85rem 0;border-bottom:1px solid rgba(255,255,255,.07)}
+.fav-media{width:66px;height:66px;flex:none;border-radius:14px;overflow:hidden;background:var(--card);display:block}
+.fav-media img{width:100%;height:100%;object-fit:cover}
+.fav-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:.15rem}
+.fav-name{font-family:var(--serif,Fraunces),serif;font-weight:600;color:var(--ink);font-size:1.02rem;text-decoration:none}
+.fav-info .muted{font-size:.8rem}
+.fav-price{font-weight:800;color:var(--lime);font-size:.86rem;margin-top:.1rem}
+.fav-acts{display:flex;flex-direction:column;align-items:flex-end;gap:.5rem}
+.btn-sm{padding:.5em .9em;font-size:.78rem}
+.fav-x{width:28px;height:28px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;font-size:.8rem;line-height:1}
+.fav-x:hover{color:#e0574d;border-color:rgba(224,87,77,.5)}
+
+/* --- Apercu rapide (modal centre) --- */
+.qv-ov{position:fixed;inset:0;z-index:140;background:rgba(6,10,7,.68);backdrop-filter:blur(4px);display:grid;place-items:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .28s}
+.qv-ov.open{opacity:1;pointer-events:auto}
+.qv-panel{position:relative;width:min(760px,100%);max-height:92vh;overflow:auto;display:grid;grid-template-columns:1fr 1fr;background:#10160f;border:1px solid rgba(203,240,150,.14);border-radius:22px;box-shadow:0 40px 100px rgba(0,0,0,.6);transform:translateY(14px) scale(.98);transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.qv-ov.open .qv-panel{transform:none}
+.qv-close{position:absolute;top:12px;right:12px;z-index:4;width:36px;height:36px;border-radius:999px;border:1px solid var(--line);background:rgba(10,16,10,.7);color:var(--ink);cursor:pointer;font-size:.9rem}
+.qv-close:hover{border-color:var(--lime);color:var(--lime)}
+.qv-media{position:relative;background:linear-gradient(160deg,#17211a,#0d130d);display:grid;place-items:center;overflow:hidden;min-height:260px}
+.qv-media .halo{position:absolute;inset:0;z-index:0}
+.qv-media img,.qv-media .cloche{position:relative;z-index:1;width:100%;height:100%;object-fit:cover}
+.qv-body{padding:1.5rem 1.6rem 1.7rem;display:flex;flex-direction:column;gap:.5rem}
+.qv-top{display:flex;align-items:center;justify-content:space-between;gap:.6rem}
+.qv-top .card-fav{position:static;backdrop-filter:none}
+.qv-name{font-family:var(--serif,Fraunces),serif;font-size:1.7rem;font-weight:600;margin:.1rem 0 0;line-height:1.05}
+.qv-desc{font-size:.9rem;margin:.1rem 0}
+.qv-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin:.2rem 0}
+.qv-tag{font-size:.74rem;font-weight:700;padding:.32em .7em;border-radius:999px;background:rgba(203,240,150,.12);border:1px solid rgba(203,240,150,.25);color:var(--lime);text-transform:capitalize}
+.qv-glabel{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;margin-top:.5rem}
+.qv-grams{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+.qv-g{display:flex;flex-direction:column;align-items:center;gap:.1rem;padding:.55em .3em;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--ink);font-weight:700;font-size:.82rem;cursor:pointer;transition:border-color .2s,background .2s}
+.qv-g span{font-size:.74rem;color:var(--muted);font-weight:600}
+.qv-g:hover{border-color:rgba(203,240,150,.4)}
+.qv-g.on{border-color:var(--lime);background:rgba(203,240,150,.14)}
+.qv-g.on span{color:var(--lime)}
+.qv-actions{display:flex;gap:.6rem;margin-top:.7rem;flex-wrap:wrap}
+.qv-actions .btn{flex:1;min-width:140px;justify-content:center}
+.qv-note{font-size:.76rem;margin-top:.5rem}
+@media(max-width:640px){.qv-panel{grid-template-columns:1fr;max-height:88vh}.qv-media{min-height:180px;max-height:34vh}.qv-name{font-size:1.4rem}}
+
+/* --- Menu mobile (drawer gauche) --- */
+.mnu-ov{position:fixed;inset:0;z-index:150;background:rgba(6,10,7,.6);opacity:0;pointer-events:none;transition:opacity .3s}
+.mnu-ov.open{opacity:1;pointer-events:auto}
+.mnu-panel{position:absolute;top:0;left:0;height:100%;width:min(340px,86%);background:#10160f;border-right:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;transform:translateX(-100%);transition:transform .32s cubic-bezier(.16,1,.3,1);box-shadow:20px 0 60px rgba(0,0,0,.5);overflow-y:auto}
+.mnu-ov.open .mnu-panel{transform:none}
+.mnu-head{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.2rem;border-bottom:1px solid rgba(255,255,255,.07)}
+.mnu-head .logo{font-family:var(--serif,Fraunces),serif;font-size:1.3rem;font-weight:600;color:var(--ink);text-decoration:none;display:inline-flex;align-items:center;gap:.4em}
+.mnu-head .logo .star{color:var(--lime);width:1em;height:1em;display:inline-grid;place-items:center}
+.mnu-head .logo .mark{width:.9em;height:.9em}
+.mnu-close{width:36px;height:36px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.mnu-close:hover{border-color:var(--lime);color:var(--lime)}
+.mnu-nav{display:flex;flex-direction:column;padding:.6rem .7rem}
+.mnu-nav a{display:flex;align-items:center;justify-content:space-between;padding:.95rem .8rem;border-radius:12px;color:var(--ink);text-decoration:none;font-weight:600;font-size:1.02rem;transition:background .2s}
+.mnu-nav a:hover{background:rgba(203,240,150,.08)}
+.mnu-nav a .arr{color:var(--lime);opacity:.6;transition:transform .2s,opacity .2s}
+.mnu-nav a:hover .arr{transform:translateX(3px);opacity:1}
+.mnu-nav a em{font-style:normal;font-size:.64rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#14210f;background:var(--lime);padding:.15em .5em;border-radius:6px;margin-left:.45em;vertical-align:middle}
+.mnu-quick{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;padding:.6rem 1rem 1rem}
+.mnu-q{display:flex;flex-direction:column;align-items:center;gap:.35rem;padding:.8rem .3rem;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--ink);font-size:.72rem;font-weight:700;cursor:pointer;transition:border-color .2s,background .2s}
+.mnu-q svg{color:var(--lime)}
+.mnu-q:hover{border-color:rgba(203,240,150,.4);background:rgba(203,240,150,.07)}
+.mnu-foot{margin-top:auto;padding:1.2rem;border-top:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;gap:.7rem}
+.mnu-tag{font-weight:800;font-size:.8rem;letter-spacing:.04em;color:var(--lime)}
+.mnu-foot .socials{display:flex;gap:1rem}
+.mnu-foot .socials a{color:var(--muted);text-decoration:none;font-size:.85rem}
+.mnu-foot .socials a:hover{color:var(--lime)}

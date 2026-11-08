@@ -51,8 +51,9 @@ function cardHTML(f,i){
         onerror="this.outerHTML='<div class=&quot;cloche&quot;>'+window.__cloche('${f.slug}')+'</div>'">
       <div class="card-badges"><span class="badge ${t.cls}">${t.label}</span>${m.tag?`<span class="sticker st-${m.tag}">${STICK[m.tag]}</span>`:""}</div>
       <span class="card-view">Voir le produit →</span>
+      <button class="card-qv" data-qv="${f.slug}" aria-label="Aperçu rapide" title="Aperçu rapide"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span>Aperçu</span></button>
     </a>
-    <button class="card-fav" aria-label="Favori">♡</button>
+    <button class="card-fav${isFav(f.slug)?' on':''}" data-fav="${f.slug}" aria-label="Ajouter aux favoris">${isFav(f.slug)?'♥':'♡'}</button>
     <div class="card-body">
       <div class="card-rate"><span class="stars">★★★★★</span><b>${m.n}</b><span class="rate-c">(${m.c})</span></div>
       <a class="card-name" href="produit.html?f=${f.slug}">${f.nom}</a>
@@ -73,6 +74,7 @@ function headerHTML(){return `<div class="container header-in">
   </nav>
   <div class="header-cta">
     <button class="icon-btn search" aria-label="Rechercher"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></button>
+    <button class="icon-btn favBtn" id="favBtn" aria-label="Mes coups de cœur"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.5-9.5-9A5.2 5.2 0 0 1 12 6a5.2 5.2 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9Z"/></svg><span class="fav-count" id="favCount">0</span></button>
     <a class="icon-btn" id="cartBtn" href="panier.html" aria-label="Panier"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="cart-count" id="cartCount">0</span></a>
     <button class="icon-btn burger" id="burger" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
   </div></div>`;}
@@ -465,9 +467,11 @@ document.addEventListener("DOMContentLoaded",()=>{
   updateCartBadges();
 
   document.body.addEventListener("click",e=>{
-    const a=e.target.closest("[data-add]"); if(a){e.preventDefault();addToCart(a.dataset.add);}
-    const fav=e.target.closest(".card-fav"); if(fav){fav.textContent=fav.textContent.trim()==="♡"?"♥":"♡";fav.style.color=fav.textContent.trim()==="♥"?"#e0574d":"";}
+    const a=e.target.closest("[data-add]"); if(a){e.preventDefault();addToCart(a.dataset.add);return;}
+    const qv=e.target.closest("[data-qv]"); if(qv){e.preventDefault();openQuickView(qv.dataset.qv);return;}
+    const fav=e.target.closest("[data-fav]"); if(fav){e.preventDefault();toggleFav(fav.dataset.fav);return;}
   });
+  updateFavBadges();
 
   const header=document.getElementById("header");
   const onScroll=()=>header&&header.classList.toggle("scrolled",window.scrollY>20);
@@ -477,11 +481,12 @@ document.addEventListener("DOMContentLoaded",()=>{
   observeReveal();
 
   const burger=document.getElementById("burger");
-  if(burger)burger.addEventListener("click",()=>location.href="fleurs.html");
+  if(burger)burger.addEventListener("click",openMobileMenu);
   const adv=document.getElementById("advisor");
   if(adv)adv.addEventListener("click",openAdvisor);
   document.querySelectorAll(".icon-btn.search").forEach(b=>b.addEventListener("click",openSearch));
   document.querySelectorAll("#cartBtn,[data-cart-open]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();openCartDrawer();}));
+  document.querySelectorAll("#favBtn").forEach(b=>b.addEventListener("click",openFavDrawer));
 });
 
 /* ===================== RECHERCHE (overlay live) ===================== */
@@ -519,6 +524,122 @@ function searchDraw(q){
       <div class="search-info"><b>${f.nom}</b><span class="muted">${f.desc} · ${TIER[f.tier]?TIER[f.tier].label:f.tier}</span></div>
       <span class="search-price">dès ${f.p[0]} €</span></a>`;}).join("")+`</div>`;
 }
+
+/* ===================== FAVORIS (persistants) ===================== */
+let favs=JSON.parse(localStorage.getItem("wood_fav")||"[]");
+function isFav(s){return favs.indexOf(s)>-1;}
+function saveFavs(){localStorage.setItem("wood_fav",JSON.stringify(favs));}
+function updateFavBadges(){document.querySelectorAll("#favCount").forEach(e=>{e.textContent=favs.length;e.classList.toggle("on",favs.length>0);});}
+function toggleFav(slug){
+  const on=isFav(slug);
+  if(on)favs=favs.filter(s=>s!==slug);else favs.push(slug);
+  saveFavs(); updateFavBadges();
+  document.querySelectorAll('[data-fav="'+slug+'"]').forEach(b=>{b.classList.toggle("on",!on);b.textContent=!on?"♥":"♡";});
+  if(navigator.vibrate)navigator.vibrate(10);
+  const f=byId(slug);
+  toast(!on?`${f?f.nom:"Ajouté"} dans tes coups de cœur ❤️`:"Retiré des favoris");
+  if(document.getElementById("favDrawer"))renderFavDrawer();
+}
+/* ---- Tiroir favoris ---- */
+function ensureFavDrawer(){
+  let ov=document.getElementById("favDrawer"); if(ov)return ov;
+  ov=document.createElement("div"); ov.id="favDrawer"; ov.className="cd-ov fav-ov";
+  ov.innerHTML=`<aside class="cd-panel" role="dialog" aria-label="Coups de cœur">
+    <div class="cd-head"><b>Tes coups de cœur ❤️</b><button class="cd-close" aria-label="Fermer">✕</button></div>
+    <div class="cd-items" id="favItems"></div>
+  </aside>`;
+  document.body.appendChild(ov);
+  ov.addEventListener("click",e=>{
+    if(e.target===ov||e.target.closest(".cd-close")){closeFavDrawer();return;}
+    const add=e.target.closest("[data-fav-add]"); if(add){addToCart(add.dataset.favAdd);return;}
+    const del=e.target.closest("[data-fav-del]"); if(del){toggleFav(del.dataset.favDel);return;}
+  });
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&ov.classList.contains("open"))closeFavDrawer();});
+  return ov;
+}
+function renderFavDrawer(){
+  const box=document.getElementById("favItems"); if(!box)return;
+  if(!favs.length){box.innerHTML=`<div class="cd-empty"><div class="ava-big">💚</div><p class="muted">Aucun coup de cœur… pour l'instant. Touche le ❤ sur une fleur pour la garder sous le coude.</p><a href="fleurs.html" class="btn btn-primary">Voir les fleurs →</a></div>`;return;}
+  box.innerHTML=favs.map(s=>{const f=byId(s);if(!f)return"";const m=META[s]||{n:"4,8"};
+    return `<div class="fav-row">
+      <a class="fav-media" href="produit.html?f=${s}"><img src="assets/products/${s}.jpg${IMGV}" alt="${f.nom}" onerror="this.style.visibility='hidden'"></a>
+      <div class="fav-info"><a class="fav-name" href="produit.html?f=${s}">${f.nom}</a><span class="muted">${f.desc} · ★ ${m.n}</span><span class="fav-price">dès ${f.p[0]} €</span></div>
+      <div class="fav-acts"><button class="btn btn-primary btn-sm" data-fav-add="${s}">+ Pochon</button><button class="fav-x" data-fav-del="${s}" aria-label="Retirer">✕</button></div>
+    </div>`;}).join("");
+}
+function openFavDrawer(){const ov=ensureFavDrawer();renderFavDrawer();requestAnimationFrame(()=>ov.classList.add("open"));document.body.style.overflow="hidden";}
+function closeFavDrawer(){const ov=document.getElementById("favDrawer");if(ov){ov.classList.remove("open");document.body.style.overflow="";}}
+
+/* ===================== APERÇU RAPIDE (quick-view) ===================== */
+function openQuickView(slug){
+  const f=byId(slug); if(!f)return;
+  const m=META[slug]||{n:"4,8",c:30}, t=TIER[f.tier], pr=PROFILE[slug]||{};
+  const aroma=pr.a&&LBL.aroma[pr.a]?LBL.aroma[pr.a]:"", inten=pr.i&&LBL.intensity[pr.i]?LBL.intensity[pr.i]:"";
+  let ov=document.getElementById("qvOv");
+  if(!ov){ov=document.createElement("div"); ov.id="qvOv"; ov.className="qv-ov"; document.body.appendChild(ov);
+    ov.addEventListener("click",e=>{
+      if(e.target===ov||e.target.closest(".qv-close")){closeQuickView();return;}
+      const add=e.target.closest("[data-qv-add]"); if(add){addToCart(add.dataset.qvAdd,+add.dataset.g||1);closeQuickView();return;}
+      const fv=e.target.closest("[data-fav]"); if(fv){e.preventDefault();toggleFav(fv.dataset.fav);return;}
+      const g=e.target.closest("[data-qv-g]"); if(g){const grid=ov.querySelector("#qvGrams"),addBtn=ov.querySelector("#qvAdd");
+        grid.querySelectorAll(".qv-g").forEach(b=>b.classList.remove("on"));g.classList.add("on");
+        const i=+g.dataset.qvG;addBtn.dataset.g=GRAMS[i];addBtn.innerHTML="+ Ajouter · <b>"+f.p[i]+" €</b>";}
+    });
+    document.addEventListener("keydown",e=>{if(e.key==="Escape"&&ov.classList.contains("open"))closeQuickView();});
+  }
+  const chips=f.p.map((p,i)=>`<button class="qv-g${i===0?' on':''}" data-qv-g="${i}">${GRAMS[i]} g<span>${p} €</span></button>`).join("");
+  ov.innerHTML=`<div class="qv-panel" role="dialog" aria-label="${f.nom}">
+    <button class="qv-close" aria-label="Fermer">✕</button>
+    <div class="qv-media"><div class="halo" style="background:radial-gradient(circle,${f.c[0]}66,transparent 70%)"></div>
+      <img src="assets/products/${slug}.jpg${IMGV}" alt="Fleur CBD ${f.nom}" onerror="this.outerHTML='<div class=&quot;cloche big&quot;>'+window.__cloche('${slug}')+'</div>'"></div>
+    <div class="qv-body">
+      <div class="qv-top"><span class="badge ${t.cls}">${t.label}</span><button class="card-fav${isFav(slug)?' on':''}" data-fav="${slug}" aria-label="Favori">${isFav(slug)?'♥':'♡'}</button></div>
+      <h3 class="qv-name">${f.nom}</h3>
+      <div class="card-rate"><span class="stars">★★★★★</span><b>${m.n}</b><span class="rate-c">(${m.c} avis)</span></div>
+      <p class="qv-desc muted">${f.desc} — fleur CBD cultivée avec soin, présentée sous cloche.</p>
+      ${(aroma||inten)?`<div class="qv-tags">${aroma?`<span class="qv-tag">🌿 ${aroma}</span>`:""}${inten?`<span class="qv-tag">🔥 ${inten}</span>`:""}</div>`:""}
+      <div class="qv-glabel muted">Choisis ton format</div>
+      <div class="qv-grams" id="qvGrams">${chips}</div>
+      <div class="qv-actions"><button class="btn btn-primary" data-qv-add="${slug}" data-g="1" id="qvAdd">+ Ajouter · <b>${f.p[0]} €</b></button>
+        <a class="btn btn-ghost" href="produit.html?f=${slug}">Fiche complète →</a></div>
+      <p class="qv-note muted">🚚 Livraison offerte dès 60 € · 🔬 testé en labo</p>
+    </div></div>`;
+  requestAnimationFrame(()=>ov.classList.add("open")); document.body.style.overflow="hidden";
+}
+function closeQuickView(){const ov=document.getElementById("qvOv");if(ov){ov.classList.remove("open");document.body.style.overflow="";}}
+
+/* ===================== MENU MOBILE (drawer) ===================== */
+function openMobileMenu(){
+  let ov=document.getElementById("mnuOv");
+  if(!ov){ov=document.createElement("div"); ov.id="mnuOv"; ov.className="mnu-ov";
+    ov.innerHTML=`<aside class="mnu-panel" role="dialog" aria-label="Menu">
+      <div class="mnu-head"><a class="logo" href="index.html"><span class="star">${markSVG()}</span>Wood</a><button class="mnu-close" aria-label="Fermer">✕</button></div>
+      <nav class="mnu-nav">
+        <a href="fleurs.html"><span>🌿 Fleurs CBD</span><span class="arr">→</span></a>
+        <a href="fleurs.html?tier=boostes"><span>⚡ Boostés</span><span class="arr">→</span></a>
+        <a href="bientot.html?cat=resines"><span>🟤 Résines <em>bientôt</em></span><span class="arr">→</span></a>
+        <a href="bientot.html?cat=huiles"><span>💧 Huiles & infusions <em>bientôt</em></span><span class="arr">→</span></a>
+        <a href="index.html#boutiques"><span>📍 Nos boutiques</span><span class="arr">→</span></a>
+        <a href="index.html#histoire"><span>✳ L'histoire WOOD</span><span class="arr">→</span></a>
+      </nav>
+      <div class="mnu-quick">
+        <button class="mnu-q" data-mnu="search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>Rechercher</button>
+        <button class="mnu-q" data-mnu="fav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.5-9.5-9A5.2 5.2 0 0 1 12 6a5.2 5.2 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9Z"/></svg>Coups de cœur</button>
+        <button class="mnu-q" data-mnu="cart"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/></svg>Mon pochon</button>
+      </div>
+      <div class="mnu-foot"><span class="mnu-tag">Si c'est WOOD, c'est GOOD ✳</span><div class="socials"><a href="https://instagram.com/wood.cbdshop" target="_blank" rel="noopener">◎ Instagram</a><a href="https://facebook.com/Woodcbdshopnice" target="_blank" rel="noopener">ƒ Facebook</a></div></div>
+    </aside>`;
+    document.body.appendChild(ov);
+    ov.addEventListener("click",e=>{
+      if(e.target===ov||e.target.closest(".mnu-close")){closeMobileMenu();return;}
+      const q=e.target.closest("[data-mnu]");
+      if(q){closeMobileMenu();const k=q.dataset.mnu;setTimeout(()=>{if(k==="search")openSearch();else if(k==="fav")openFavDrawer();else if(k==="cart")openCartDrawer();},180);}
+    });
+    document.addEventListener("keydown",e=>{if(e.key==="Escape"&&ov.classList.contains("open"))closeMobileMenu();});
+  }
+  requestAnimationFrame(()=>ov.classList.add("open")); document.body.style.overflow="hidden";
+}
+function closeMobileMenu(){const ov=document.getElementById("mnuOv");if(ov){ov.classList.remove("open");document.body.style.overflow="";}}
 
 /* ===================== PWA (manifest, meta iOS, service worker) ===================== */
 (function(){
