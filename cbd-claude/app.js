@@ -48,6 +48,20 @@ function cardStock(slug){
   if(r<4) return `<div class="card-stock">⏳ Stock limité</div>`;
   return "";
 }
+/* ---- Bloc d'achat : choix du grammage + prix + economie ---- */
+function buyBlock(f){
+  const sel=1; // 3 g par defaut (pas 1 g)
+  const base=f.p[0]; // prix du 1 g = reference €/g la plus chere
+  const pills=GRAMS.map((g,gi)=>{
+    const pg=Math.round(f.p[gi]/g*10)/10;
+    return `<button type="button" class="cg${gi===sel?' on':''}" data-cg="${f.slug}" data-gi="${gi}" aria-pressed="${gi===sel?'true':'false'}"><b>${g} g</b><small>${pg} €/g</small></button>`;
+  }).join("");
+  const sv=Math.round((1-(f.p[sel]/GRAMS[sel])/base)*100);
+  const saveTxt=sv>=8?`💚 <b>−${sv} %</b> au gramme vs 1 g`:`Pochon de <b>${GRAMS[sel]} g</b>`;
+  return `<div class="card-grams" role="group" aria-label="Choisir le grammage">${pills}</div>
+    <div class="card-save" data-save="${f.slug}">${saveTxt}</div>
+    <button class="card-add" data-add="${f.slug}" data-gi="${sel}"><span>Ajouter au pochon</span><b class="ca-price">${f.p[sel]} €</b></button>`;
+}
 /* ---- Carte produit ---- */
 function cardHTML(f,i){
   const t=TIER[f.tier], pg=Math.round((f.p[4]/25)*10)/10, m=META[f.slug]||{n:"4,8",c:30,tag:""};
@@ -65,9 +79,8 @@ function cardHTML(f,i){
       <div class="card-rate"><span class="stars">★★★★★</span><b>${m.n}</b><span class="rate-c">(${m.c})</span></div>
       <a class="card-name" href="produit.html?f=${f.slug}">${f.nom}</a>
       <div class="card-desc">${f.desc} · Fleur CBD</div>
-      <div class="card-price"><span class="p">dès ${f.p[0]} €</span><span class="pg">le g dès ${pg} €</span></div>
       ${cardStock(f.slug)}
-      <div class="card-cta"><button class="card-add" data-add="${f.slug}">+ Pochon</button></div>
+      ${buyBlock(f)}
     </div>
   </article>`;
 }
@@ -124,7 +137,7 @@ let cart=JSON.parse(localStorage.getItem("wood_cart")||"[]");
 function saveCart(){localStorage.setItem("wood_cart",JSON.stringify(cart));}
 function cartCount(){return cart.reduce((s,x)=>s+x.q,0);}
 function updateCartBadges(){document.querySelectorAll("#cartCount,#cartCountM").forEach(e=>e.textContent=cartCount());}
-function addToCart(slug,g){const f=byId(slug);if(!f)return;g=g||1;const gi=GRAMS.indexOf(g);const unit=f.p[gi>=0?gi:0];const ex=cart.find(x=>x.slug===slug&&x.g===g);if(ex)ex.q++;else cart.push({slug,nom:f.nom,g,unit,q:1});saveCart();updateCartBadges();if(navigator.vibrate)navigator.vibrate(12);const b=document.getElementById("cartBtn");if(b)b.animate([{transform:"scale(1)"},{transform:"scale(1.25)"},{transform:"scale(1)"}],{duration:380,easing:"cubic-bezier(.16,1,.3,1)"});if(window.__renderCart)window.__renderCart();openCartDrawer();}
+function addToCart(slug,g){const f=byId(slug);if(!f)return;g=g||3;const gi=GRAMS.indexOf(g);const unit=f.p[gi>=0?gi:0];const ex=cart.find(x=>x.slug===slug&&x.g===g);if(ex)ex.q++;else cart.push({slug,nom:f.nom,g,unit,q:1});saveCart();updateCartBadges();if(navigator.vibrate)navigator.vibrate(12);toast(`Ajouté au pochon : ${f.nom} · ${g} g · ${unit.toFixed(2)} € ✓`);const b=document.getElementById("cartBtn");if(b)b.animate([{transform:"scale(1)"},{transform:"scale(1.25)"},{transform:"scale(1)"}],{duration:380,easing:"cubic-bezier(.16,1,.3,1)"});if(window.__renderCart)window.__renderCart();openCartDrawer();}
 
 /* ===================== PANIER TIROIR (drawer) ===================== */
 const FREE_SHIP=60;
@@ -133,7 +146,7 @@ function ensureCartDrawer(){
   let ov=document.getElementById("cartDrawer"); if(ov)return ov;
   ov=document.createElement("div"); ov.id="cartDrawer"; ov.className="cd-ov";
   ov.innerHTML=`<aside class="cd-panel" role="dialog" aria-label="Panier">
-    <div class="cd-head"><b>Ton pochon 🌿</b><button class="cd-close" aria-label="Fermer">✕</button></div>
+    <div class="cd-head"><div class="cd-head-t"><b>Ton pochon 🌿</b><span class="cd-count" id="cdCount"></span></div><button class="cd-close" aria-label="Fermer">✕</button></div>
     <div class="cd-ship" id="cdShip"></div>
     <div class="cd-items" id="cdItems"></div>
     <div class="cd-foot" id="cdFoot"></div>
@@ -156,6 +169,8 @@ function renderCartDrawer(){
   const ship=document.getElementById("cdShip"),foot=document.getElementById("cdFoot");
   if(!cart.length){items.innerHTML=`<div class="cd-empty"><div class="ava-big">🛒</div><p class="muted">Ton pochon est vide… c'est pas une vie ça. 🌿</p><a href="fleurs.html" class="btn btn-primary">Remplir le pochon →</a></div>`;ship.innerHTML="";foot.innerHTML="";return;}
   const sub=cartSubtotal(),rem=Math.max(0,FREE_SHIP-sub),pct=Math.min(100,Math.round(sub/FREE_SHIP*100));
+  const nItems=cart.reduce((s,x)=>s+x.q,0),nGr=cart.reduce((s,x)=>s+x.g*x.q,0);
+  const cnt=document.getElementById("cdCount"); if(cnt)cnt.textContent=`${nItems} article${nItems>1?'s':''} · ${nGr} g`;
   ship.innerHTML=rem>0
     ?`<p class="cd-ship-t">Plus que <b>${rem.toFixed(2)} €</b> pour la <b>livraison offerte</b> 🚚</p><div class="cd-bar"><i style="width:${pct}%"></i></div>`
     :`<p class="cd-ship-t ok">🎉 Livraison offerte débloquée !</p><div class="cd-bar"><i style="width:100%"></i></div>`;
@@ -487,7 +502,16 @@ document.addEventListener("DOMContentLoaded",()=>{
   updateCartBadges();
 
   document.body.addEventListener("click",e=>{
-    const a=e.target.closest("[data-add]"); if(a){e.preventDefault();addToCart(a.dataset.add);return;}
+    const cg=e.target.closest(".cg[data-cg]");
+    if(cg){e.preventDefault();const f=byId(cg.dataset.cg),gi=+cg.dataset.gi,card=cg.closest(".card");
+      if(f&&card){
+        card.querySelectorAll(".cg").forEach(b=>{const on=b===cg;b.classList.toggle("on",on);b.setAttribute("aria-pressed",on?"true":"false");});
+        const add=card.querySelector("[data-add]"); if(add){add.dataset.gi=gi;const pr=add.querySelector(".ca-price"); if(pr)pr.textContent=f.p[gi]+" €";}
+        const sv=Math.round((1-(f.p[gi]/GRAMS[gi])/f.p[0])*100);
+        const save=card.querySelector(".card-save"); if(save)save.innerHTML=sv>=8?`💚 <b>−${sv} %</b> au gramme vs 1 g`:`Pochon de <b>${GRAMS[gi]} g</b>`;
+      }
+      return;}
+    const a=e.target.closest("[data-add]"); if(a){e.preventDefault();const gi=a.dataset.gi!==undefined?+a.dataset.gi:1;addToCart(a.dataset.add,GRAMS[gi]);return;}
     const qv=e.target.closest("[data-qv]"); if(qv){e.preventDefault();openQuickView(qv.dataset.qv);return;}
     const fav=e.target.closest("[data-fav]"); if(fav){e.preventDefault();toggleFav(fav.dataset.fav);return;}
   });

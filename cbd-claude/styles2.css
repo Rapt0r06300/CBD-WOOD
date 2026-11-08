@@ -402,3 +402,20 @@ h2 .script::after{content:"";position:absolute;left:-2%;right:-2%;bottom:-.16em;
 .rail-nav:hover{background:var(--lime);color:#14210f;border-color:var(--lime)}
 .rail-nav.off{opacity:.22;pointer-events:none}
 @media(max-width:760px){.rail-nav{display:none}}
+
+/* ===== Flux d'achat clair : grammages + economie + pochon ===== */
+.card-grams{display:flex;flex-wrap:wrap;gap:5px;margin:.55rem 0 .4rem}
+.cg{flex:1 1 44px;display:flex;flex-direction:column;align-items:center;gap:1px;padding:.42em .2em;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.03);color:var(--ink);cursor:pointer;transition:border-color .15s,background .15s;line-height:1.12}
+.cg b{font-size:.8rem;font-weight:800}
+.cg small{font-size:.6rem;color:var(--muted);white-space:nowrap}
+.cg:hover{border-color:rgba(203,240,150,.5)}
+.cg.on{border-color:var(--lime);background:rgba(203,240,150,.14)}
+.cg.on small{color:var(--lime)}
+.card-save{font-size:.76rem;color:var(--muted);margin:.1rem 0 .55rem;min-height:1.1em}
+.card-save b{color:#9fe06a}
+.card-add{display:flex;align-items:center;justify-content:space-between;gap:.5rem;width:100%;padding:.72em 1.05em;border:none;border-radius:999px;background:var(--lime);color:#14210f;font-weight:800;font-size:.9rem;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.card-add:hover{transform:translateY(-1px);box-shadow:0 10px 26px rgba(203,240,150,.25)}
+.card-add .ca-price{font-size:1.02rem}
+/* Pochon : nombre d'articles clair */
+.cd-head-t{display:flex;flex-direction:column;gap:.12rem}
+.cd-count{font-size:.74rem;color:var(--lime);font-weight:700}
