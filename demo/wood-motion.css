@@ -177,7 +177,7 @@ html.wood-motion-ready .nav { transition: background .28s ease, border-color .28
   .wood-photo-rail[data-wood-rail] > figure { grid-row: auto; }
   .wood-photo-rail[data-wood-rail] > figure img,
   .wood-photo-rail[data-wood-rail] > figure:first-child img,
-  .wood-photo-rail[data-wood-rail] > figure:not(:first-child) img { aspect-ratio: 4 / 5; }
+  .wood-photo-rail[data-wood-rail] > figure:not(:first-child) img { aspect-ratio: 4 / 5; height: auto; }
   .wood-photo-rail[data-wood-rail] figcaption { min-height: 0; }
   .wood-mood__rail[data-wood-rail] > * { flex-basis: min(72vw, 265px); }
 }
