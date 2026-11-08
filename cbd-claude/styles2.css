@@ -377,3 +377,12 @@ h2 .script::after{content:"";position:absolute;left:-2%;right:-2%;bottom:-.16em;
 .edito,.avis,.stats{position:relative;background-color:#0a0e0a;background-image:linear-gradient(rgba(9,13,9,.88),rgba(9,13,9,.95)),url("assets/scenes/mural.webp");background-size:cover;background-position:center}
 .avis{background-image:radial-gradient(760px 380px at 50% 0%,rgba(203,240,150,.07),transparent 60%),linear-gradient(rgba(9,13,9,.9),rgba(9,13,9,.96)),url("assets/scenes/mural.webp")}
 .edito>*,.avis>*,.stats>*{position:relative;z-index:1}
+
+/* Mur de stickers WOOD : image reelle, bande full-width, pan anime + tagline humour */
+.stickers-sec{position:relative;overflow:hidden;min-height:clamp(200px,28vw,340px);display:grid;place-items:center;padding:0}
+.sticker-wall-img{position:absolute;top:0;bottom:0;left:-6%;width:112%;background:url("assets/scenes/stickers-wall.webp") center/cover;animation:stkpan 36s ease-in-out infinite alternate}
+@keyframes stkpan{from{transform:translateX(0)}to{transform:translateX(-5%)}}
+.stickers-sec::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,#0f140f,rgba(15,20,15,0) 14%,rgba(15,20,15,0) 86%,#0f140f),linear-gradient(rgba(15,20,15,.35),rgba(15,20,15,.08) 30%,rgba(15,20,15,.5))}
+.sticker-wall-tag{position:relative;z-index:2;background:rgba(15,20,15,.86);backdrop-filter:blur(3px);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:.7em 1.3em;font-weight:700;font-size:clamp(.8rem,2.3vw,1rem);box-shadow:0 14px 40px rgba(0,0,0,.55);text-align:center;max-width:90vw}
+.sticker-wall-tag b{color:var(--lime)}
+@media(prefers-reduced-motion:reduce){.sticker-wall-img{animation:none}}
