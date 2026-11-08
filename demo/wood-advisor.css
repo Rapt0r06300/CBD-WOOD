@@ -16,8 +16,13 @@
 .wood-advisor__notice{padding:10px 12px;border-left:3px solid #cbf096;background:#1d3021;color:#dce8d5;font-size:11px;line-height:1.45;margin:0 0 17px}
 .wood-advisor__question{margin:0 0 10px;font-size:12px;font-weight:900;letter-spacing:1.1px;text-transform:uppercase;color:#cbf096}
 .wood-advisor__categories{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:19px}
-.wood-advisor__choice{min-height:44px;padding:11px 12px;border:1px solid #526951;background:#17271b;color:#f1f0e6;text-align:left;font-size:12px;font-weight:800;cursor:pointer;transition:background .2s,border-color .2s,transform .2s}
-.wood-advisor__choice:hover,.wood-advisor__choice:focus-visible{background:#2d482f;border-color:#cbf096;transform:translateY(-1px)}
+.wood-advisor__choice{display:flex;flex-direction:column;padding:0;overflow:hidden;border:1px solid #2f4433;border-radius:14px;background:#15241a;color:#f1f0e6;text-align:left;cursor:pointer;transition:border-color .2s,transform .2s,box-shadow .2s}
+.wood-advisor__choice:hover,.wood-advisor__choice:focus-visible{border-color:#cbf096;transform:translateY(-2px);box-shadow:0 10px 26px rgba(0,0,0,.3)}
+.wood-advisor__choice-thumb{display:block;aspect-ratio:16/10;overflow:hidden;background:#0e1811}
+.wood-advisor__choice-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease}
+.wood-advisor__choice:hover .wood-advisor__choice-thumb img{transform:scale(1.06)}
+.wood-advisor__choice-label{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;font-size:13px;font-weight:800}
+.wood-advisor__choice-label span{color:#cbf096}
 .wood-advisor__step-controls{display:flex;gap:12px;margin:-8px 0 17px}
 .wood-advisor__step-controls button{border:0;padding:0;background:transparent;color:#a9bcaa;text-decoration:underline;text-underline-offset:3px;font-size:11px;cursor:pointer}
 .wood-advisor__step-controls button:disabled{opacity:.38;cursor:default;text-decoration:none}
@@ -29,13 +34,26 @@
 .wood-advisor__submit:hover,.wood-advisor__submit:focus-visible{background:#e5f9bd}
 .wood-advisor__result{margin-top:20px;padding-top:18px;border-top:1px solid #3a513e}
 .wood-advisor__result[hidden]{display:none}
-.wood-advisor__result-kicker{display:block;margin-bottom:7px;color:#cbf096;font-size:10px;font-weight:900;letter-spacing:2px;text-transform:uppercase}
-.wood-advisor__result h3{margin:0 0 7px;font-size:24px;line-height:1;text-transform:uppercase;letter-spacing:-.8px}
+.wood-advisor__hero{position:relative;margin:0 0 14px;aspect-ratio:4/3;overflow:hidden;border-radius:16px;border:1px solid #33493a;background:#0e1811}
+.wood-advisor__hero img{width:100%;height:100%;object-fit:cover;display:block}
+.wood-advisor__hero figcaption{position:absolute;inset:auto 0 0 0;padding:18px 16px 14px;background:linear-gradient(transparent,rgba(7,12,8,.92))}
+.wood-advisor__result-kicker{display:block;margin-bottom:5px;color:#cbf096;font-size:10px;font-weight:900;letter-spacing:2px;text-transform:uppercase}
+.wood-advisor__hero h3{margin:0;font-size:28px;line-height:.94;text-transform:uppercase;letter-spacing:-1px;color:#fff}
+.wood-advisor__result>h3{margin:0 0 7px;font-size:24px;line-height:1;text-transform:uppercase;letter-spacing:-.8px}
 .wood-advisor__result p{margin:0;color:#c3d1be;font-size:13px;line-height:1.55}
-.wood-advisor__result a{display:inline-flex;margin-top:12px;color:#cbf096;font-size:11px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase}
-.wood-advisor__alternatives{display:grid;gap:7px;margin:16px 0 0;padding:0;list-style:none}
-.wood-advisor__alternatives li{padding:9px 10px;background:#1a2c1d;border:1px solid #304a34;font-size:12px}
-.wood-advisor__alternatives a{margin:0;color:#f1f0e6;font-size:12px;letter-spacing:.5px;text-transform:none}
+.wood-advisor__cta{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;min-height:50px;padding:0 18px;background:#cbf096;color:#142217;border-radius:999px;font-size:11px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;transition:background .2s,transform .2s,box-shadow .2s}
+.wood-advisor__cta:hover,.wood-advisor__cta:focus-visible{background:#e5f9bd;transform:translateY(-2px);box-shadow:0 12px 30px rgba(203,240,150,.22)}
+.wood-advisor__result a:not(.wood-advisor__cta):not(.wood-advisor__alt){display:inline-flex;margin-top:12px;color:#cbf096;font-size:11px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase}
+.wood-advisor__alt-head{margin:18px 0 9px;color:#9fb393;font-size:10px;font-weight:900;letter-spacing:2px;text-transform:uppercase}
+.wood-advisor__alternatives{display:grid;gap:9px;margin:0;padding:0;list-style:none}
+.wood-advisor__alt{display:flex;align-items:center;gap:12px;padding:8px;border:1px solid #2b4030;border-radius:12px;background:#15241a;transition:border-color .2s,background .2s}
+.wood-advisor__alt:hover,.wood-advisor__alt:focus-visible{border-color:#cbf096;background:#1b2c1f}
+.wood-advisor__alt-thumb{width:54px;height:54px;flex:0 0 54px;border-radius:9px;overflow:hidden;background:#0e1811}
+.wood-advisor__alt-thumb img{width:100%;height:100%;object-fit:cover}
+.wood-advisor__alt-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.wood-advisor__alt-body strong{font-size:13px;letter-spacing:.3px;color:#f1f0e6;text-transform:uppercase}
+.wood-advisor__alt-body small{font-size:11px;line-height:1.4;color:#9fb393;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.wood-advisor__alt-go{flex:none;color:#cbf096;font-weight:900}
 .wood-advisor__clear{display:inline-flex;margin-top:17px;border:0;background:transparent;color:#a9bcaa;text-decoration:underline;text-underline-offset:3px;font-size:11px;cursor:pointer}
 .wood-advisor__status{min-height:18px;margin-top:10px;color:#c4d0c0;font-size:11px}
 @keyframes woodAdvisorIn{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}

@@ -69,11 +69,28 @@
   const firstQuestion = engine.nextQuestion(products, engine.extractPreferences(''), {});
   if (firstQuestion?.text) questionLabel.textContent = firstQuestion.text;
 
+  // Résolution des vraies photos produit (l'id correspond aux fichiers d'assets).
+  const RESIN_IMG = { 'resines-selection': 'assets/editorial/wood-resin-concept-01.webp', 'resines-texture': 'assets/editorial/wood-resin-concept-02.webp', 'resines-decouverte': 'assets/editorial/wood-resin-concept-03.webp' };
+  const CARE_IMG = { 'bienetre-cosmetiques': 'assets/editorial/wood-care-cosmetique.webp', 'bienetre-huiles': 'assets/editorial/wood-care-huile.webp', 'bienetre-soins': 'assets/editorial/wood-care-soins.webp' };
+  const CATEGORY_IMG = { fleurs: 'assets/flowers/fleurs-nimbus-3000.webp', resines: 'assets/editorial/wood-resin-concept-01.webp', 'bien-etre': 'assets/editorial/wood-care-hero.webp', 'wood-shop': 'assets/editorial/wood-campaign-collage.webp' };
+  const productImage = (candidate) => {
+    const id = String(candidate && candidate.id || '');
+    if (id.startsWith('fleurs-')) return `assets/flowers/${id}.webp`;
+    if (RESIN_IMG[id]) return RESIN_IMG[id];
+    if (CARE_IMG[id]) return CARE_IMG[id];
+    return 'assets/editorial/wood-campaign-collage.webp';
+  };
+
   const categoryQuestion = (category) => `Je cherche des ${category.slug === 'bien-etre' ? 'produits bien-être' : category.label.toLowerCase()}`;
   const categoryPlan = questionPlan.find((question) => question.key === 'category');
-  categoryRoot.innerHTML = (categoryPlan?.choices || []).map((slug, index) => `<button class="wood-advisor__choice" type="button" data-advisor-category="${escapeHtml(slug)}">${escapeHtml(categoryPlan.labels[index] || slug)}</button>`).join('');
+  categoryRoot.innerHTML = (categoryPlan?.choices || []).map((slug, index) => {
+    const label = categoryPlan.labels[index] || slug;
+    const image = CATEGORY_IMG[slug] || 'assets/editorial/wood-campaign-collage.webp';
+    return `<button class="wood-advisor__choice" type="button" data-advisor-category="${escapeHtml(slug)}"><span class="wood-advisor__choice-thumb"><img src="${escapeHtml(image)}" alt="" loading="lazy"></span><span class="wood-advisor__choice-label">${escapeHtml(label)}<span aria-hidden="true">→</span></span></button>`;
+  }).join('');
 
   const findCategory = (slug) => data.categories.find((category) => category.slug === slug);
+
   const renderResult = (result) => {
     sessionState.lastResult = result;
     resultRoot.hidden = false;
@@ -88,11 +105,12 @@
     }
     const badgeMarkup = badgeEngine?.renderBadges(best) || '';
     const renderAlternative = (item) => {
-      const badges = (item.badges || []).map((badge) => `${badge.label} — ${badge.reason}`).join(' · ');
-      return `<li data-advisor-badges><a href="${escapeHtml(item.product.href)}">${escapeHtml(item.product.name)} ↗</a>${badges ? `<small>${escapeHtml(badges)}</small>` : ''}<small>${escapeHtml(item.explanation || 'Alternative descriptive.')}</small></li>`;
+      const altImg = productImage(item.product);
+      return `<li><a class="wood-advisor__alt" href="${escapeHtml(item.product.href)}"><span class="wood-advisor__alt-thumb"><img src="${escapeHtml(altImg)}" alt="" loading="lazy"></span><span class="wood-advisor__alt-body"><strong>${escapeHtml(item.product.name)}</strong><small>${escapeHtml(item.explanation || 'Une autre belle piste WOOD.')}</small></span><span class="wood-advisor__alt-go" aria-hidden="true">↗</span></a></li>`;
     };
-    const alternatives = result.alternatives?.length ? `<ul class="wood-advisor__alternatives" aria-label="Alternatives">${result.alternatives.slice(0, 2).map(renderAlternative).join('')}</ul>` : '';
-    resultRoot.innerHTML = `<span class="wood-advisor__result-kicker">${result.status === 'discovery' ? 'Une première piste' : 'Le meilleur raccord'}</span><h3>${escapeHtml(best.name)}</h3>${badgeMarkup}<p>${escapeHtml(result.best.explanation || result.reason)}</p><a href="${escapeHtml(best.href)}">Voir la sélection ↗</a>${alternatives}<button class="wood-advisor__clear" type="button" data-advisor-clear>Recommencer</button>`;
+    const alternatives = result.alternatives?.length ? `<div class="wood-advisor__alt-head">Autres pistes</div><ul class="wood-advisor__alternatives" aria-label="Alternatives">${result.alternatives.slice(0, 2).map(renderAlternative).join('')}</ul>` : '';
+    const kicker = result.status === 'discovery' ? 'Une première piste' : 'Le meilleur raccord';
+    resultRoot.innerHTML = `<figure class="wood-advisor__hero"><img src="${escapeHtml(productImage(best))}" alt="${escapeHtml(best.name)}" loading="lazy"><figcaption><span class="wood-advisor__result-kicker">${kicker}</span><h3>${escapeHtml(best.name)}</h3></figcaption></figure>${badgeMarkup}<p>${escapeHtml(result.best.explanation || result.reason)}</p><a class="wood-advisor__cta" href="${escapeHtml(best.href)}">Voir la sélection <span aria-hidden="true">↗</span></a>${alternatives}<button class="wood-advisor__clear" type="button" data-advisor-clear>Recommencer</button>`;
   };
 
   const run = (question, answerKey = 'free-text') => {
