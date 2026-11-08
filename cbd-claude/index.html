@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=11">
-<link rel="stylesheet" href="styles2.css?v=22">
+<link rel="stylesheet" href="styles2.css?v=23">
 </head>
 <body data-page="home">
 
@@ -57,7 +57,11 @@
     <a href="fleurs.html" class="btn btn-ghost reveal d1">Tout voir <span class="arr">→</span></a>
   </div>
   <p class="rail-sub muted reveal d1">Nos variétés préférées du moment — ajoute ton pochon en un clic. 🚚 Livraison offerte dès 60 €.</p>
-  <div class="rail" id="fleursRail" aria-label="Sélection de fleurs CBD"></div>
+  <div class="rail-wrap">
+    <button class="rail-nav prev" data-rail-prev aria-label="Défiler vers la gauche" type="button">‹</button>
+    <div class="rail" id="fleursRail" aria-label="Sélection de fleurs CBD"></div>
+    <button class="rail-nav next" data-rail-next aria-label="Défiler vers la droite" type="button">›</button>
+  </div>
 </section>
 
 <!-- ============ UNIVERS / CATEGORIES ============ -->
@@ -180,6 +184,6 @@
 <div data-chrome="advisor"></div>
 <nav data-chrome="botnav"></nav>
 
-<script src="app.js?v=15"></script>
+<script src="app.js?v=16"></script>
 </body>
 </html>

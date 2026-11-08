@@ -392,3 +392,13 @@ h2 .script::after{content:"";position:absolute;left:-2%;right:-2%;bottom:-.16em;
 .pack-tag{color:#14210f;background:var(--lime);border:none;padding:.28em .75em;border-radius:999px}
 .pack.feat{border-color:rgba(203,240,150,.5);box-shadow:0 0 0 1px rgba(203,240,150,.28),0 18px 50px rgba(0,0,0,.45)}
 .pack-note{color:var(--muted);font-size:.82rem;font-weight:600;margin:.2rem 0 1rem;display:flex;align-items:center;gap:.3em}
+
+/* Fleches de defilement du rail catalogue */
+.rail-wrap{position:relative}
+.rail-wrap .rail{overflow-y:hidden}
+.rail-nav{position:absolute;top:42%;transform:translateY(-50%);z-index:5;width:46px;height:46px;border-radius:999px;border:1px solid var(--line);background:rgba(15,20,15,.86);backdrop-filter:blur(5px);color:var(--ink);font-size:1.7rem;line-height:1;cursor:pointer;display:grid;place-items:center;box-shadow:0 12px 34px rgba(0,0,0,.5);transition:background .2s,color .2s,border-color .2s,opacity .2s}
+.rail-nav.prev{left:-10px}
+.rail-nav.next{right:-10px}
+.rail-nav:hover{background:var(--lime);color:#14210f;border-color:var(--lime)}
+.rail-nav.off{opacity:.22;pointer-events:none}
+@media(max-width:760px){.rail-nav{display:none}}

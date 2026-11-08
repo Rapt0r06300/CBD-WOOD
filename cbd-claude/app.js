@@ -473,6 +473,16 @@ document.addEventListener("DOMContentLoaded",()=>{
   document.querySelectorAll("[data-art]").forEach(el=>el.innerHTML=catArt(el.dataset.art));
   const rail=document.getElementById("fleursRail");
   if(rail){const order=["nimbus-3000","purple","euphoria","orange-bud","velvet-kush","rainbow","cosmic-cbg","fanta-hazy"];rail.innerHTML=order.map((s,i)=>cardHTML(byId(s),i)).join("");}
+  // Flèches de défilement du rail catalogue
+  document.querySelectorAll(".rail-wrap").forEach(rw=>{
+    const rl=rw.querySelector(".rail"); if(!rl)return;
+    const step=()=>Math.max(240,Math.round(rl.clientWidth*0.82));
+    const prev=rw.querySelector("[data-rail-prev]"),next=rw.querySelector("[data-rail-next]");
+    prev&&prev.addEventListener("click",()=>rl.scrollBy({left:-step(),behavior:"smooth"}));
+    next&&next.addEventListener("click",()=>rl.scrollBy({left:step(),behavior:"smooth"}));
+    const sync=()=>{const max=rl.scrollWidth-rl.clientWidth-2;if(prev)prev.classList.toggle("off",rl.scrollLeft<=2);if(next)next.classList.toggle("off",rl.scrollLeft>=max);};
+    rl.addEventListener("scroll",sync,{passive:true}); sync();
+  });
   renderFleurs(); renderProduct(); renderCart(); renderCheckout(); renderConfirm(); renderAvis(); renderInsta(); renderBientot(); renderStickers();
   updateCartBadges();
 
