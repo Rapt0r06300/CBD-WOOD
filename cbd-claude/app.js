@@ -48,19 +48,35 @@ function cardStock(slug){
   if(r<4) return `<div class="card-stock">⏳ Stock limité</div>`;
   return "";
 }
-/* ---- Bloc d'achat : choix du grammage + prix + economie ---- */
+/* ---- Bloc d'achat : une ligne par grammage, avec + / − et economie ---- */
 function buyBlock(f){
-  const sel=1; // 3 g par defaut (pas 1 g)
   const base=f.p[0]; // prix du 1 g = reference €/g la plus chere
-  const pills=GRAMS.map((g,gi)=>{
+  const rows=GRAMS.map((g,gi)=>{
     const pg=Math.round(f.p[gi]/g*10)/10;
-    return `<button type="button" class="cg${gi===sel?' on':''}" data-cg="${f.slug}" data-gi="${gi}" aria-pressed="${gi===sel?'true':'false'}"><b>${g} g</b><small>${pg} €/g</small></button>`;
+    const sv=Math.round((1-(f.p[gi]/g)/base)*100);
+    return `<div class="cp-row" data-gi="${gi}">
+      <div class="cp-g"><b>${g} g</b><small>${f.p[gi]} € · ${pg} €/g${sv>=8?` · <em>−${sv}%</em>`:''}</small></div>
+      <div class="cp-qty"><button type="button" data-cp-dec aria-label="Enlever un pochon de ${g} g">−</button><span class="cp-n">0</span><button type="button" data-cp-inc aria-label="Ajouter un pochon de ${g} g">+</button></div>
+    </div>`;
   }).join("");
-  const sv=Math.round((1-(f.p[sel]/GRAMS[sel])/base)*100);
-  const saveTxt=sv>=8?`💚 <b>−${sv} %</b> au gramme vs 1 g`:`Pochon de <b>${GRAMS[sel]} g</b>`;
-  return `<div class="card-grams" role="group" aria-label="Choisir le grammage">${pills}</div>
-    <div class="card-save" data-save="${f.slug}">${saveTxt}</div>
-    <button class="card-add" data-add="${f.slug}" data-gi="${sel}"><span>Ajouter au pochon</span><b class="ca-price">${f.p[sel]} €</b></button>`;
+  return `<div class="card-pick" data-pick="${f.slug}" role="group" aria-label="Choisir les grammages et quantités">
+    <div class="cp-head">Choisis tes grammages <span class="cp-hint">(+ / −)</span></div>
+    <div class="cp-rows">${rows}</div>
+    <div class="cp-total" data-cp-total>Rien sélectionné</div>
+    <button class="card-add" data-add-pick="${f.slug}" disabled>Ajouter au pochon</button>
+  </div>`;
+}
+/* ---- Met a jour le total d'un bloc d'achat (prix, poids, bouton) ---- */
+function updatePick(pick){
+  if(!pick)return; const f=byId(pick.dataset.pick); if(!f)return;
+  let tp=0,tg=0,tn=0;
+  pick.querySelectorAll(".cp-row").forEach(row=>{const gi=+row.dataset.gi,q=+row.querySelector(".cp-n").textContent||0;tp+=f.p[gi]*q;tg+=GRAMS[gi]*q;tn+=q;row.classList.toggle("active",q>0);});
+  const tot=pick.querySelector("[data-cp-total]"),add=pick.querySelector("[data-add-pick]");
+  if(tot)tot.innerHTML=tn>0?`<b>${tn}</b> pochon${tn>1?'s':''} · <b>${tg} g</b> · <b>${tp.toFixed(2)} €</b>`:`Rien sélectionné`;
+  if(add){add.disabled=tn<1;add.innerHTML=tn>0?`Ajouter au pochon · <b>${tp.toFixed(2)} €</b>`:`Ajouter au pochon`;}
+  const sp=document.getElementById("pStickyPrice"); if(sp)sp.textContent=tn>0?`${tn} pochon${tn>1?'s':''} · ${tg} g · ${tp.toFixed(2)} €`:"Choisis un grammage";
+  const sa=document.getElementById("pStickyAdd"); if(sa)sa.disabled=tn<1;
+  return {tp,tg,tn};
 }
 /* ---- Carte produit ---- */
 function cardHTML(f,i){
@@ -137,7 +153,9 @@ let cart=JSON.parse(localStorage.getItem("wood_cart")||"[]");
 function saveCart(){localStorage.setItem("wood_cart",JSON.stringify(cart));}
 function cartCount(){return cart.reduce((s,x)=>s+x.q,0);}
 function updateCartBadges(){document.querySelectorAll("#cartCount,#cartCountM").forEach(e=>e.textContent=cartCount());}
-function addToCart(slug,g){const f=byId(slug);if(!f)return;g=g||3;const gi=GRAMS.indexOf(g);const unit=f.p[gi>=0?gi:0];const ex=cart.find(x=>x.slug===slug&&x.g===g);if(ex)ex.q++;else cart.push({slug,nom:f.nom,g,unit,q:1});saveCart();updateCartBadges();if(navigator.vibrate)navigator.vibrate(12);toast(`Ajouté au pochon : ${f.nom} · ${g} g · ${unit.toFixed(2)} € ✓`);const b=document.getElementById("cartBtn");if(b)b.animate([{transform:"scale(1)"},{transform:"scale(1.25)"},{transform:"scale(1)"}],{duration:380,easing:"cubic-bezier(.16,1,.3,1)"});if(window.__renderCart)window.__renderCart();openCartDrawer();}
+function cartAdd(slug,g,qty){const f=byId(slug);if(!f)return 0;g=g||3;qty=qty||1;const gi=GRAMS.indexOf(g);const unit=f.p[gi>=0?gi:0];const ex=cart.find(x=>x.slug===slug&&x.g===g);if(ex)ex.q+=qty;else cart.push({slug,nom:f.nom,g,unit,q:qty});saveCart();updateCartBadges();if(window.__renderCart)window.__renderCart();return qty;}
+function bumpCartBtn(){const b=document.getElementById("cartBtn");if(b)b.animate([{transform:"scale(1)"},{transform:"scale(1.25)"},{transform:"scale(1)"}],{duration:380,easing:"cubic-bezier(.16,1,.3,1)"});if(navigator.vibrate)navigator.vibrate(12);}
+function addToCart(slug,g,qty){const f=byId(slug);if(!f)return;g=g||3;qty=qty||1;cartAdd(slug,g,qty);bumpCartBtn();const unit=f.p[GRAMS.indexOf(g)>=0?GRAMS.indexOf(g):0];toast(`Ajouté au pochon : ${f.nom} · ${g} g${qty>1?` ×${qty}`:''} · ${(unit*qty).toFixed(2)} € ✓`);openCartDrawer();}
 
 /* ===================== PANIER TIROIR (drawer) ===================== */
 const FREE_SHIP=60;
@@ -174,15 +192,16 @@ function renderCartDrawer(){
   ship.innerHTML=rem>0
     ?`<p class="cd-ship-t">Plus que <b>${rem.toFixed(2)} €</b> pour la <b>livraison offerte</b> 🚚</p><div class="cd-bar"><i style="width:${pct}%"></i></div>`
     :`<p class="cd-ship-t ok">🎉 Livraison offerte débloquée !</p><div class="cd-bar"><i style="width:100%"></i></div>`;
-  items.innerHTML=cart.map(x=>`<div class="cd-item">
+  const itemsHtml=cart.map(x=>{const pf=byId(x.slug),base=pf?pf.p[0]:x.unit,sv=Math.round((1-(x.unit/x.g)/base)*100);return `<div class="cd-item">
     <img src="assets/products/${x.slug}.jpg${IMGV}" alt="" onerror="this.style.visibility='hidden'">
-    <div class="cd-it-info"><b>${x.nom}</b><span class="muted">${x.g} g · ${x.unit.toFixed(2)} €</span>
+    <div class="cd-it-info"><b>${x.nom}</b><span class="cd-it-meta"><b>${x.g} g</b> · ${x.unit.toFixed(2)} €${sv>=8?` · <em class="cd-sv">−${sv}%</em>`:''}</span>
       <div class="cd-qty"><button data-cd-dec="${x.slug}" data-g="${x.g}" aria-label="Moins">−</button><span>${x.q}</span><button data-cd-inc="${x.slug}" data-g="${x.g}" aria-label="Plus">+</button></div></div>
-    <div class="cd-it-side"><b>${(x.unit*x.q).toFixed(2)} €</b><button class="cd-del" data-cd-del="${x.slug}" data-g="${x.g}" aria-label="Retirer">🗑</button></div>
-  </div>`).join("");
+    <div class="cd-it-side"><b>${(x.unit*x.q).toFixed(2)} €</b><small class="cd-it-g">${x.g*x.q} g</small><button class="cd-del" data-cd-del="${x.slug}" data-g="${x.g}" aria-label="Retirer">🗑</button></div>
+  </div>`;}).join("");
   const picks=(typeof FLEURS!=="undefined"?FLEURS:[]).filter(f=>!cart.some(x=>x.slug===f.slug)).slice(0,2);
-  const xsell=picks.length?`<div class="cd-xsell"><div class="cd-xsell-h">Souvent pris avec 👀</div>${picks.map(f=>`<div class="cd-x"><img src="assets/products/${f.slug}.jpg${IMGV}" alt="" onerror="this.style.visibility='hidden'"><div class="cd-x-info"><b>${f.nom}</b><span class="muted">dès ${f.p[0]} €</span></div><button class="cd-x-add" data-add="${f.slug}" aria-label="Ajouter ${f.nom} au pochon">+</button></div>`).join("")}</div>`:"";
-  foot.innerHTML=`${xsell}<div class="cd-sub"><span>Sous-total</span><b>${sub.toFixed(2)} €</b></div>
+  const xsell=picks.length?`<div class="cd-xsell"><div class="cd-xsell-h">Souvent pris avec 👀</div>${picks.map(f=>`<div class="cd-x"><img src="assets/products/${f.slug}.jpg${IMGV}" alt="" onerror="this.style.visibility='hidden'"><div class="cd-x-info"><b>${f.nom}</b><span class="muted">dès ${f.p[0]} € · 3 g</span></div><button class="cd-x-add" data-add="${f.slug}" aria-label="Ajouter ${f.nom} au pochon">+</button></div>`).join("")}</div>`:"";
+  items.innerHTML=itemsHtml+xsell;
+  foot.innerHTML=`<div class="cd-sub"><span>Sous-total <small class="muted">· ${nItems} art. · ${nGr} g</small></span><b>${sub.toFixed(2)} €</b></div>
     <a href="checkout.html" class="btn btn-primary cd-go">Commander →</a>
     <a href="panier.html" class="cd-link">Voir le panier complet</a>`;
 }
@@ -252,10 +271,7 @@ function renderProduct(){
         <span class="badge ${t.cls}">${t.label}</span>
         <h1>${f.nom}</h1>
         <p class="p-desc">${f.desc} · Fleur CBD · <span class="muted">profil de goût</span></p>
-        <div class="p-price"><span id="pPrice" class="p">${euro(f.p[gi])}</span><span id="pPerG" class="pg">${Math.round(f.p[gi]/GRAMS[gi]*10)/10} €/g · ${GRAMS[gi]} g</span></div>
-        <div class="p-grams" id="pGrams">${GRAMS.map((g,i)=>{const pg=Math.round(f.p[i]/g*10)/10;return `<button class="gram${i===gi?' on':''}" data-g="${i}"><b>${g} g</b><small>${f.p[i]} € · ${pg} €/g</small></button>`;}).join("")}</div>
-        <div class="p-save" id="pSave">${(()=>{const sv=Math.round((1-(f.p[gi]/GRAMS[gi])/f.p[0])*100);return sv>=8?`💚 <b>−${sv} %</b> au gramme vs 1 g`:`Pochon de <b>${GRAMS[gi]} g</b>`;})()}</div>
-        <button class="btn btn-primary p-add" id="pAdd">+ Ajouter au pochon · <b id="pAddPrice">${euro(f.p[gi])}</b></button>
+        ${buyBlock(f)}
         <div class="p-reassure"><span>🚚 Livraison discrète 24-48h</span><span>🔒 Paiement sécurisé</span><span>🔞 Réservé aux +18 ans</span></div>
         <div class="accordions">
           <details open><summary>Description</summary><p>${f.nom}, une fleur de CBD au profil « ${f.desc.replace(/[^\p{L}\s]/gu,'').trim().toLowerCase()} ». Sélectionnée par WOOD, présentée sous cloche. Visuel de démonstration généré — remplacé par les photos réelles de la boutique.</p></details>
@@ -266,16 +282,11 @@ function renderProduct(){
     </div>
     ${productReviewsHTML(f)}
     <section class="section"><div class="rail-head"><h2 class="serif">Dans le même esprit</h2></div><div class="rail" id="relRail"></div></section>
-    <div class="p-sticky" id="pSticky"><div class="ps-in"><div class="ps-info"><b>${f.nom}</b><span id="pStickyPrice">${euro(f.p[gi])}</span></div><button class="btn btn-primary" id="pStickyAdd">+ Ajouter au pochon</button></div></div>`;
-  // grams
-  document.getElementById("pGrams").addEventListener("click",e=>{const b=e.target.closest("[data-g]");if(!b)return;gi=+b.dataset.g;document.querySelectorAll("#pGrams .gram").forEach(x=>x.classList.toggle("on",+x.dataset.g===gi));
-    const el=priceEl();el.textContent=euro(f.p[gi]);el.animate([{opacity:.3,transform:"translateY(-4px)"},{opacity:1,transform:"none"}],{duration:300,easing:"cubic-bezier(.16,1,.3,1)"});
-    pgEl().textContent=`${Math.round(f.p[gi]/GRAMS[gi]*10)/10} €/g · ${GRAMS[gi]} g`;
-    const sp=document.getElementById("pStickyPrice");if(sp)sp.textContent=euro(f.p[gi]);
-    const ap=document.getElementById("pAddPrice");if(ap)ap.textContent=euro(f.p[gi]);
-    const sv=Math.round((1-(f.p[gi]/GRAMS[gi])/f.p[0])*100),sEl=document.getElementById("pSave");if(sEl)sEl.innerHTML=sv>=8?`💚 <b>−${sv} %</b> au gramme vs 1 g`:`Pochon de <b>${GRAMS[gi]} g</b>`;});
-  document.getElementById("pAdd").addEventListener("click",()=>addToCart(f.slug,GRAMS[gi]));
-  document.getElementById("pStickyAdd").addEventListener("click",()=>addToCart(f.slug,GRAMS[gi]));
+    <div class="p-sticky" id="pSticky"><div class="ps-in"><div class="ps-info"><b>${f.nom}</b><span id="pStickyPrice">Choisis un grammage</span></div><button class="btn btn-primary" id="pStickyAdd" disabled>+ Ajouter au pochon</button></div></div>`;
+  // Picker + sticky
+  document.querySelectorAll("#product .card-pick").forEach(updatePick);
+  const sticky=document.getElementById("pStickyAdd");
+  if(sticky)sticky.addEventListener("click",()=>{const pick=document.querySelector("#product .card-pick");if(!pick)return;let tn=0,tg=0;pick.querySelectorAll(".cp-row").forEach(row=>{const gii=+row.dataset.gi,q=+row.querySelector(".cp-n").textContent||0;if(q>0){cartAdd(f.slug,GRAMS[gii],q);tn+=q;tg+=GRAMS[gii]*q;row.querySelector(".cp-n").textContent="0";}});if(tn>0){updatePick(pick);bumpCartBtn();toast(`Ajouté : ${tn} pochon${tn>1?'s':''} · ${tg} g de ${f.nom} ✓`);openCartDrawer();}});
   // related
   const rel=FLEURS.filter(x=>x.tier===f.tier&&x.slug!==f.slug).slice(0,4);
   const relRail=document.getElementById("relRail"); relRail.innerHTML=(rel.length?rel:FLEURS.slice(0,4)).map((x,i)=>cardHTML(x,i)).join("");
@@ -293,7 +304,7 @@ function renderCart(){
   root.innerHTML=`<h1 class="serif">Ton pochon <span class="cart-count-h">${nItems} article${nItems>1?'s':''} · ${nGr} g</span></h1>
     <div class="cart-grid">
       <div class="cart-items">${cart.map((x,i)=>`<div class="cart-item"><div class="ci-media"><img src="assets/products/${x.slug}.jpg${IMGV}" alt="" onerror="this.outerHTML='<div>'+window.__cloche('${x.slug}')+'</div>'"></div>
-        <div class="ci-info"><div class="ci-name">${x.nom}</div><div class="muted">${x.g} g · ${euro(x.unit)}</div></div>
+        <div class="ci-info"><div class="ci-name">${x.nom}</div><div class="muted ci-meta"><b>${x.g} g</b> · ${euro(x.unit)}${(()=>{const pf=byId(x.slug),base=pf?pf.p[0]:x.unit,sv=Math.round((1-(x.unit/x.g)/base)*100);return sv>=8?` · <span class="ci-sv">−${sv}%</span>`:'';})()} · total <b>${x.g*x.q} g</b></div></div>
         <div class="ci-qty"><button data-dec="${i}">−</button><span>${x.q}</span><button data-inc="${i}">+</button></div>
         <div class="ci-line">${euro(x.unit*x.q)}</div><button class="ci-del" data-del="${i}" aria-label="Retirer">✕</button></div>`).join("")}</div>
       <aside class="cart-sum">
@@ -505,16 +516,18 @@ document.addEventListener("DOMContentLoaded",()=>{
   renderFleurs(); renderProduct(); renderCart(); renderCheckout(); renderConfirm(); renderAvis(); renderInsta(); renderBientot(); renderStickers();
   updateCartBadges();
 
+  document.querySelectorAll(".card-pick").forEach(updatePick);
   document.body.addEventListener("click",e=>{
-    const cg=e.target.closest(".cg[data-cg]");
-    if(cg){e.preventDefault();const f=byId(cg.dataset.cg),gi=+cg.dataset.gi,card=cg.closest(".card");
-      if(f&&card){
-        card.querySelectorAll(".cg").forEach(b=>{const on=b===cg;b.classList.toggle("on",on);b.setAttribute("aria-pressed",on?"true":"false");});
-        const add=card.querySelector("[data-add]"); if(add){add.dataset.gi=gi;const pr=add.querySelector(".ca-price"); if(pr)pr.textContent=f.p[gi]+" €";}
-        const sv=Math.round((1-(f.p[gi]/GRAMS[gi])/f.p[0])*100);
-        const save=card.querySelector(".card-save"); if(save)save.innerHTML=sv>=8?`💚 <b>−${sv} %</b> au gramme vs 1 g`:`Pochon de <b>${GRAMS[gi]} g</b>`;
-      }
+    // + / - par grammage
+    const step=e.target.closest("[data-cp-inc],[data-cp-dec]");
+    if(step){e.preventDefault();const row=step.closest(".cp-row"),n=row.querySelector(".cp-n");let v=(+n.textContent||0)+(step.hasAttribute("data-cp-inc")?1:-1);if(v<0)v=0;if(v>99)v=99;n.textContent=v;updatePick(step.closest(".card-pick"));return;}
+    // Ajouter tout le choix (multi-grammages)
+    const addP=e.target.closest("[data-add-pick]");
+    if(addP){e.preventDefault();const pick=addP.closest(".card-pick"),slug=addP.dataset.addPick,f=byId(slug);if(!pick||!f)return;
+      let tn=0,tg=0;pick.querySelectorAll(".cp-row").forEach(row=>{const gi=+row.dataset.gi,q=+row.querySelector(".cp-n").textContent||0;if(q>0){cartAdd(slug,GRAMS[gi],q);tn+=q;tg+=GRAMS[gi]*q;row.querySelector(".cp-n").textContent="0";}});
+      if(tn>0){updatePick(pick);bumpCartBtn();toast(`Ajouté : ${tn} pochon${tn>1?'s':''} · ${tg} g de ${f.nom} ✓`);openCartDrawer();}
       return;}
+    // ajout simple (ex. cross-sell) : 3 g par defaut
     const a=e.target.closest("[data-add]"); if(a){e.preventDefault();const gi=a.dataset.gi!==undefined?+a.dataset.gi:1;addToCart(a.dataset.add,GRAMS[gi]);return;}
     const qv=e.target.closest("[data-qv]"); if(qv){e.preventDefault();openQuickView(qv.dataset.qv);return;}
     const fav=e.target.closest("[data-fav]"); if(fav){e.preventDefault();toggleFav(fav.dataset.fav);return;}

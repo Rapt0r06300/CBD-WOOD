@@ -435,3 +435,29 @@ h2 .script::after{content:"";position:absolute;left:-2%;right:-2%;bottom:-.16em;
 @media(max-width:600px){
   .footer ul a,.footer-links a{min-height:40px;display:inline-flex;align-items:center}
 }
+
+/* ===== Bloc d'achat v2 : une ligne par grammage avec + / - ===== */
+.card-pick{display:flex;flex-direction:column;gap:6px;margin:.55rem 0 .2rem}
+.cp-head{font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.cp-head .cp-hint{color:var(--lime);font-weight:700}
+.cp-rows{display:flex;flex-direction:column;gap:5px}
+.cp-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:5px 9px;border:1px solid var(--line);border-radius:11px;background:rgba(255,255,255,.02);transition:border-color .15s,background .15s}
+.cp-row.active{border-color:var(--lime);background:rgba(203,240,150,.1)}
+.cp-g{min-width:0;line-height:1.14}
+.cp-g b{font-size:.85rem;font-weight:800}
+.cp-g small{display:block;font-size:.6rem;color:var(--muted);white-space:nowrap}
+.cp-g em{color:#9fe06a;font-style:normal;font-weight:700}
+.cp-qty{display:flex;align-items:center;gap:8px;flex:none}
+.cp-qty button{width:28px;height:28px;border-radius:8px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--ink);font-size:1.15rem;line-height:1;cursor:pointer;display:grid;place-items:center;transition:border-color .15s,background .15s}
+.cp-qty button:hover{border-color:var(--lime);color:var(--lime)}
+.cp-n{min-width:18px;text-align:center;font-weight:800;font-size:.95rem}
+.cp-total{font-size:.82rem;color:var(--muted);margin:.25rem 0 .1rem;min-height:1.1em}
+.cp-total b{color:var(--lime)}
+.card-pick .card-add{justify-content:center;gap:.45em}
+.card-add[disabled]{opacity:.45;cursor:not-allowed;filter:grayscale(.3)}
+/* Pochon / panier : poids + economie par ligne */
+.cd-it-meta{font-size:.8rem;color:var(--muted);display:block}
+.cd-it-meta b{color:var(--ink)}
+.cd-sv,.ci-sv{color:#9fe06a;font-style:normal;font-weight:800}
+.cd-it-g{font-size:.68rem;color:var(--muted)}
+.ci-meta b{color:var(--ink)}
