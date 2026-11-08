@@ -41,6 +41,13 @@ const META={
   "fanta-hazy":{n:"4,6",c:22,tag:""},
 };
 const STICK={top:"★ Top vente",new:"✦ Nouveau"};
+/* ---- Urgence stock (démo, déterministe) ---- */
+function cardStock(slug){
+  const h=[...slug].reduce((a,c)=>a+c.charCodeAt(0),0), r=h%7;
+  if(r<2) return `<div class="card-stock low">🔥 Plus que <b>${3+(h%4)}</b> en stock</div>`;
+  if(r<4) return `<div class="card-stock">⏳ Stock limité</div>`;
+  return "";
+}
 /* ---- Carte produit ---- */
 function cardHTML(f,i){
   const t=TIER[f.tier], pg=Math.round((f.p[4]/25)*10)/10, m=META[f.slug]||{n:"4,8",c:30,tag:""};
@@ -59,6 +66,7 @@ function cardHTML(f,i){
       <a class="card-name" href="produit.html?f=${f.slug}">${f.nom}</a>
       <div class="card-desc">${f.desc} · Fleur CBD</div>
       <div class="card-price"><span class="p">dès ${f.p[0]} €</span><span class="pg">le g dès ${pg} €</span></div>
+      ${cardStock(f.slug)}
       <div class="card-cta"><button class="card-add" data-add="${f.slug}">+ Pochon</button></div>
     </div>
   </article>`;
@@ -157,7 +165,9 @@ function renderCartDrawer(){
       <div class="cd-qty"><button data-cd-dec="${x.slug}" data-g="${x.g}" aria-label="Moins">−</button><span>${x.q}</span><button data-cd-inc="${x.slug}" data-g="${x.g}" aria-label="Plus">+</button></div></div>
     <div class="cd-it-side"><b>${(x.unit*x.q).toFixed(2)} €</b><button class="cd-del" data-cd-del="${x.slug}" data-g="${x.g}" aria-label="Retirer">🗑</button></div>
   </div>`).join("");
-  foot.innerHTML=`<div class="cd-sub"><span>Sous-total</span><b>${sub.toFixed(2)} €</b></div>
+  const picks=(typeof FLEURS!=="undefined"?FLEURS:[]).filter(f=>!cart.some(x=>x.slug===f.slug)).slice(0,2);
+  const xsell=picks.length?`<div class="cd-xsell"><div class="cd-xsell-h">Souvent pris avec 👀</div>${picks.map(f=>`<div class="cd-x"><img src="assets/products/${f.slug}.jpg${IMGV}" alt="" onerror="this.style.visibility='hidden'"><div class="cd-x-info"><b>${f.nom}</b><span class="muted">dès ${f.p[0]} €</span></div><button class="cd-x-add" data-add="${f.slug}" aria-label="Ajouter ${f.nom} au pochon">+</button></div>`).join("")}</div>`:"";
+  foot.innerHTML=`${xsell}<div class="cd-sub"><span>Sous-total</span><b>${sub.toFixed(2)} €</b></div>
     <a href="checkout.html" class="btn btn-primary cd-go">Commander →</a>
     <a href="panier.html" class="cd-link">Voir le panier complet</a>`;
 }
