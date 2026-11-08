@@ -28,7 +28,7 @@ const euro = n => n.toLocaleString("fr-FR")+" €";
 function clocheSVG(c,id){const g=`b${id}`;return `<svg class="cloche-svg" viewBox="0 0 200 250" width="100%" aria-hidden="true"><defs><radialGradient id="${g}" cx="45%" cy="38%" r="70%"><stop offset="0" stop-color="${c[0]}"/><stop offset="1" stop-color="${c[1]}"/></radialGradient></defs><ellipse cx="100" cy="226" rx="66" ry="12" fill="#000" opacity=".4"/><rect x="42" y="214" width="116" height="16" rx="8" fill="#6b5a3a"/><g fill="url(#${g})"><circle cx="100" cy="150" r="30"/><circle cx="78" cy="138" r="20"/><circle cx="122" cy="140" r="20"/><circle cx="90" cy="120" r="18"/><circle cx="112" cy="122" r="17"/><circle cx="100" cy="106" r="15"/><circle cx="74" cy="160" r="15"/><circle cx="126" cy="162" r="15"/><circle cx="100" cy="176" r="18"/></g><path d="M100 42c-40 0-66 30-66 70v86h132v-86c0-40-26-70-66-70Z" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.35)" stroke-width="2"/><ellipse cx="100" cy="44" rx="10" ry="6" fill="rgba(255,255,255,.25)"/></svg>`;}
 window.__cloche = s => { const f=byId(s); return clocheSVG(f?f.c:["#8fd08a","#243a2a"], s); };
 
-function catArtSVG(kind){const m={fleurs:["#2f9e57","#0e3b26"],resines:["#c98a3a","#5a3410"],boostes:["#10b6cf","#063b45"],huiles:["#cbf096","#3a5a1e"],accessoires:["#9fb0a0","#2c3a30"]};const c=m[kind]||m.fleurs;return `<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" width="100%" height="100%"><rect width="400" height="300" fill="#141c16"/><path d="M-20 320C60 240 20 150 120 60c40-36 120 0 120 0s-30 120-120 170C60 270 20 300-20 320Z" fill="${c[0]}" opacity=".5"/></svg>`;}
+function catArtSVG(kind){const m={fleurs:["#2f9e57","#0e3b26"],resines:["#c98a3a","#5a3410"],boostes:["#2f9e6b","#063b45"],huiles:["#cbf096","#3a5a1e"],accessoires:["#9fb0a0","#2c3a30"]};const c=m[kind]||m.fleurs;return `<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" width="100%" height="100%"><rect width="400" height="300" fill="#141c16"/><path d="M-20 320C60 240 20 150 120 60c40-36 120 0 120 0s-30 120-120 170C60 270 20 300-20 320Z" fill="${c[0]}" opacity=".5"/></svg>`;}
 window.__catSVG = catArtSVG;
 function catArt(kind){return `<img src="assets/scenes/cat-${kind}.jpg${IMGV}" alt="" loading="lazy" onerror="this.outerHTML=window.__catSVG('${kind}')">`;}
 
@@ -253,8 +253,9 @@ function renderProduct(){
         <h1>${f.nom}</h1>
         <p class="p-desc">${f.desc} · Fleur CBD · <span class="muted">profil de goût</span></p>
         <div class="p-price"><span id="pPrice" class="p">${euro(f.p[gi])}</span><span id="pPerG" class="pg">${Math.round(f.p[gi]/GRAMS[gi]*10)/10} €/g · ${GRAMS[gi]} g</span></div>
-        <div class="p-grams" id="pGrams">${GRAMS.map((g,i)=>`<button class="gram${i===gi?' on':''}" data-g="${i}">${g} g<small>${f.p[i]} €</small></button>`).join("")}</div>
-        <button class="btn btn-primary p-add" id="pAdd">+ Ajouter au pochon</button>
+        <div class="p-grams" id="pGrams">${GRAMS.map((g,i)=>{const pg=Math.round(f.p[i]/g*10)/10;return `<button class="gram${i===gi?' on':''}" data-g="${i}"><b>${g} g</b><small>${f.p[i]} € · ${pg} €/g</small></button>`;}).join("")}</div>
+        <div class="p-save" id="pSave">${(()=>{const sv=Math.round((1-(f.p[gi]/GRAMS[gi])/f.p[0])*100);return sv>=8?`💚 <b>−${sv} %</b> au gramme vs 1 g`:`Pochon de <b>${GRAMS[gi]} g</b>`;})()}</div>
+        <button class="btn btn-primary p-add" id="pAdd">+ Ajouter au pochon · <b id="pAddPrice">${euro(f.p[gi])}</b></button>
         <div class="p-reassure"><span>🚚 Livraison discrète 24-48h</span><span>🔒 Paiement sécurisé</span><span>🔞 Réservé aux +18 ans</span></div>
         <div class="accordions">
           <details open><summary>Description</summary><p>${f.nom}, une fleur de CBD au profil « ${f.desc.replace(/[^\p{L}\s]/gu,'').trim().toLowerCase()} ». Sélectionnée par WOOD, présentée sous cloche. Visuel de démonstration généré — remplacé par les photos réelles de la boutique.</p></details>
@@ -270,7 +271,9 @@ function renderProduct(){
   document.getElementById("pGrams").addEventListener("click",e=>{const b=e.target.closest("[data-g]");if(!b)return;gi=+b.dataset.g;document.querySelectorAll("#pGrams .gram").forEach(x=>x.classList.toggle("on",+x.dataset.g===gi));
     const el=priceEl();el.textContent=euro(f.p[gi]);el.animate([{opacity:.3,transform:"translateY(-4px)"},{opacity:1,transform:"none"}],{duration:300,easing:"cubic-bezier(.16,1,.3,1)"});
     pgEl().textContent=`${Math.round(f.p[gi]/GRAMS[gi]*10)/10} €/g · ${GRAMS[gi]} g`;
-    const sp=document.getElementById("pStickyPrice");if(sp)sp.textContent=euro(f.p[gi]);});
+    const sp=document.getElementById("pStickyPrice");if(sp)sp.textContent=euro(f.p[gi]);
+    const ap=document.getElementById("pAddPrice");if(ap)ap.textContent=euro(f.p[gi]);
+    const sv=Math.round((1-(f.p[gi]/GRAMS[gi])/f.p[0])*100),sEl=document.getElementById("pSave");if(sEl)sEl.innerHTML=sv>=8?`💚 <b>−${sv} %</b> au gramme vs 1 g`:`Pochon de <b>${GRAMS[gi]} g</b>`;});
   document.getElementById("pAdd").addEventListener("click",()=>addToCart(f.slug,GRAMS[gi]));
   document.getElementById("pStickyAdd").addEventListener("click",()=>addToCart(f.slug,GRAMS[gi]));
   // related
@@ -311,7 +314,7 @@ function renderBientot(){
     accessoires:["Accessoires","Grinders, feuilles, briquets et petits essentiels — bientôt en ligne."]}[cat]||["Bientôt chez WOOD","Cette gamme arrive très vite."];
   root.innerHTML=`<a class="breadcrumb" href="index.html">← Accueil</a>
     <div class="product">
-      <div class="product-media"><div class="halo" style="background:radial-gradient(circle,#3fe3ea55,transparent 70%)"></div><img src="assets/scenes/cat-${cat}.jpg${IMGV}" alt="${T[0]}" onerror="this.style.display='none'"></div>
+      <div class="product-media"><div class="halo" style="background:radial-gradient(circle,#6fd39a55,transparent 70%)"></div><img src="assets/scenes/cat-${cat}.jpg${IMGV}" alt="${T[0]}" onerror="this.style.display='none'"></div>
       <div class="product-info"><span class="eyebrow">Bientôt chez WOOD</span><h1>${T[0]}</h1>
         <p class="p-desc">${T[1]}</p>
         <div class="hero-cta" style="margin-top:1rem"><a href="fleurs.html" class="btn btn-primary">Voir les fleurs →</a><a href="index.html#boutiques" class="btn btn-ghost">Venir en boutique</a></div>
