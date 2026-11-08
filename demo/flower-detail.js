@@ -59,7 +59,7 @@
           <div data-fact-state="demo"><span>Format</span><strong>1 g à 25 g · à confirmer</strong></div>
           <div data-fact-state="unknown"><span>Lot</span><strong>Non renseigné</strong></div>
         </div>
-        <div class="flower-detail__texture" data-fact-state="demo"><span class="flower-detail__texture-label">Aspect · démonstration</span><p>La photographie et les observations de texture seront remplacées par des éléments authentifiés par WOOD. Rien ici ne remplace pas un conseil professionnel et ne constitue une promesse d'effet ou une analyse de laboratoire.</p></div>
+        <div class="flower-detail__texture" data-fact-state="demo"><span class="flower-detail__texture-label">Aspect · démonstration</span><p>La photographie et les observations de texture seront remplacées par des éléments authentifiés par WOOD. Rien ici ne remplace un conseil professionnel, ni ne constitue une promesse d'effet ou une analyse de laboratoire.</p></div>
         <div class="flower-detail__texture-note">Cette zone ne remplace pas un conseil professionnel et ne constitue pas une promesse d'effet ni une analyse de laboratoire.</div>
         <details class="flower-detail__prices">
           <summary>Voir les tarifs par grammage</summary>
