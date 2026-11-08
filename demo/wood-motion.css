@@ -169,9 +169,16 @@ html.wood-motion-ready .nav { transition: background .28s ease, border-color .28
   .wood-community__wall { grid-template-columns: 1fr 1fr; }
   .wood-community__wall article:first-child { grid-row: span 1; min-height: 300px; }
   .wood-mail__inner { grid-template-columns: 1fr; gap: 30px; }
-  .wood-selection__grid[data-wood-rail], .wood-photo-rail[data-wood-rail], .wood-mood__rail[data-wood-rail] { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; padding: 6px 0 10px; overscroll-behavior-inline: contain; }
+  .wood-selection__grid[data-wood-rail], .wood-photo-rail[data-wood-rail], .wood-mood__rail[data-wood-rail] { display: flex; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; gap: 12px; padding: 6px 0 10px; overscroll-behavior-inline: contain; -webkit-overflow-scrolling: touch; }
   .wood-selection__grid[data-wood-rail] > *, .wood-photo-rail[data-wood-rail] > *, .wood-mood__rail[data-wood-rail] > * { flex: 0 0 min(78vw, 310px); scroll-snap-align: start; }
   .wood-selection__grid[data-wood-rail] > * { min-height: 100%; }
+  /* Photo-rail : cartes à hauteur homogène (sinon 1re figure portrait = pavé vide géant) */
+  .wood-photo-rail[data-wood-rail] { align-items: flex-start; }
+  .wood-photo-rail[data-wood-rail] > figure { grid-row: auto; }
+  .wood-photo-rail[data-wood-rail] > figure img,
+  .wood-photo-rail[data-wood-rail] > figure:first-child img,
+  .wood-photo-rail[data-wood-rail] > figure:not(:first-child) img { aspect-ratio: 4 / 5; }
+  .wood-photo-rail[data-wood-rail] figcaption { min-height: 0; }
   .wood-mood__rail[data-wood-rail] > * { flex-basis: min(72vw, 265px); }
 }
 @media(max-width:500px) {
@@ -183,7 +190,7 @@ html.wood-motion-ready .nav { transition: background .28s ease, border-color .28
   .wood-pack__hero-copy { padding: 27px 21px 31px; }
   .wood-pack__hero-copy h3 { font-size: 55px; }
   .wood-pack__stats { gap: 13px; }
-  .wood-community__wall { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 7px; }
+  .wood-community__wall { display: flex; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; padding-bottom: 7px; }
   .wood-community__wall article, .wood-community__wall article:first-child { flex: 0 0 78vw; min-height: 290px; scroll-snap-align: start; }
   .wood-mail__form > div { grid-template-columns: 1fr; }
   .wood-mail__form button { width: 100%; }
