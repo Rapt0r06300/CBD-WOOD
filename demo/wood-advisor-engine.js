@@ -253,17 +253,20 @@
       reason: 'Voici une porte d’entrée dans la sélection WOOD. Les informations détaillées apparaîtront uniquement avec une source validée.',
     };
 
-    const describe = (entry) => {
-      const details = entry.evidence.map((fact) => `${fact.key} « ${fact.value} » — source : ${fact.source}`).join(' · ');
-      return details || 'Aucun fait vérifié ne justifie une préférence supplémentaire.';
+    const describe = (entry) => entry.evidence.map((fact) => `${fact.key} « ${fact.value} » — source : ${fact.source}`).join(' · ');
+    const bestExplanation = (entry) => {
+      const details = describe(entry);
+      return details
+        ? `Correspondance fondée sur un fait vérifié : ${details}.`
+        : 'Une belle porte d’entrée pour ce que tu cherches. Les détails (taux, arômes, lot) seront confirmés avec toi en boutique.';
     };
     const alternatives = scored.slice(1)
       .filter((entry) => entry.score > 0)
       .slice(0, 2)
-      .map((entry) => ({ product: entry.product, score: entry.score, badges: evidenceBadges(entry.facts), trace: entry.trace, explanation: describe(entry) }));
+      .map((entry) => ({ product: entry.product, score: entry.score, badges: evidenceBadges(entry.facts), trace: entry.trace, explanation: describe(entry) || 'Une autre piste cohérente avec ta demande.' }));
     return {
       status: 'match',
-      best: { product: scored[0].product, score: scored[0].score, badges: evidenceBadges(scored[0].facts), trace: scored[0].trace, explanation: `Correspondance fondée sur un fait vérifié : ${describe(scored[0])}` },
+      best: { product: scored[0].product, score: scored[0].score, badges: evidenceBadges(scored[0].facts), trace: scored[0].trace, explanation: bestExplanation(scored[0]) },
       alternatives,
       reason: 'Cette proposition reste descriptive : elle ne prédit aucun effet et ne remplace pas un conseil professionnel.',
     };

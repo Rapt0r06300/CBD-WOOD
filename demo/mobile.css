@@ -426,3 +426,8 @@
     transition: none !important;
   }
 }
+
+/* Audit mobile : cibles tactiles confortables pour les liens de pied de page (44px) */
+@media(max-width:600px){
+  footer .footer-links a,footer .footer-links span{min-height:44px;display:flex;align-items:center}
+}
