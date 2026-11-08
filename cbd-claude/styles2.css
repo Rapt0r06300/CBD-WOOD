@@ -474,3 +474,12 @@ h2 .script::after{content:"";position:absolute;left:-2%;right:-2%;bottom:-.16em;
 
 /* Audit : neutralise le halo teal des photos produit -> vert (coherence zero bleu) */
 .card .cloche,.product-media img,.cd-item img,.ci-media img,.cd-x img,.search-row img,.qv-media img{filter:saturate(.82) hue-rotate(-22deg) brightness(1.03)}
+
+/* Audit : cibles tactiles restantes (nom produit, dots avis, breadcrumb, footer/socials) */
+.avis-dot{position:relative}
+.avis-dot::after{content:"";position:absolute;inset:-10px}
+@media(max-width:600px){
+  .card-name{display:inline-flex;align-items:center;min-height:36px}
+  .breadcrumb{display:inline-flex;align-items:center;min-height:38px}
+  .footer a,.footer .socials a,.footer-bottom a{min-height:38px;display:inline-flex;align-items:center}
+}
