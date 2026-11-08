@@ -335,3 +335,15 @@ h2 .script::after{content:"";position:absolute;left:-2%;right:-2%;bottom:-.16em;
 .mnu-foot .socials{display:flex;gap:1rem}
 .mnu-foot .socials a{color:var(--muted);text-decoration:none;font-size:.85rem}
 .mnu-foot .socials a:hover{color:var(--lime)}
+
+/* ===================== IDENTITE WOOD · Hero fresque murale ===================== */
+.hero-bg--mural .hero-img{object-fit:cover;object-position:center right;filter:saturate(1.06) contrast(1.02)}
+.hero-bg--mural .hero-overlay{background:
+  linear-gradient(90deg,#0a0e0a 0%,rgba(10,14,10,.93) 28%,rgba(10,14,10,.52) 60%,rgba(10,14,10,.7) 100%),
+  radial-gradient(130% 95% at 18% 48%,transparent 38%,rgba(6,9,6,.6) 100%)}
+@media(max-width:760px){
+  .hero-bg--mural .hero-img{object-position:center}
+  .hero-bg--mural .hero-overlay{background:
+    linear-gradient(180deg,rgba(10,14,10,.72) 0%,rgba(10,14,10,.58) 40%,rgba(10,14,10,.82) 100%),
+    radial-gradient(120% 70% at 50% 30%,transparent 30%,rgba(6,9,6,.5) 100%)}
+}
