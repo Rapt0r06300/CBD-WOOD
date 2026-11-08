@@ -369,3 +369,6 @@ h2 .script::after{content:"";position:absolute;left:-2%;right:-2%;bottom:-.16em;
 .cd-x-info .muted{font-size:.74rem}
 .cd-x-add{width:32px;height:32px;border-radius:9px;border:1px solid var(--lime);background:transparent;color:var(--lime);font-weight:900;font-size:1.15rem;line-height:1;cursor:pointer;flex:none;transition:background .2s,color .2s}
 .cd-x-add:hover{background:var(--lime);color:#14210f}
+
+/* Identite : mur WOOD (fresque assombrie) en bookend de footer */
+.footer{background-image:linear-gradient(rgba(10,14,10,.93),rgba(10,14,10,.975)),url("assets/scenes/mural.webp");background-size:cover;background-position:center;background-attachment:scroll}
