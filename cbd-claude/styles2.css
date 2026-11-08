@@ -386,3 +386,9 @@ h2 .script::after{content:"";position:absolute;left:-2%;right:-2%;bottom:-.16em;
 .sticker-wall-tag{position:relative;z-index:2;background:rgba(15,20,15,.86);backdrop-filter:blur(3px);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:.7em 1.3em;font-weight:700;font-size:clamp(.8rem,2.3vw,1rem);box-shadow:0 14px 40px rgba(0,0,0,.55);text-align:center;max-width:90vw}
 .sticker-wall-tag b{color:var(--lime)}
 @media(prefers-reduced-motion:reduce){.sticker-wall-img{animation:none}}
+
+/* Packs : grille auto-fit (4 propositions), tags en lime (plus de cyan), note sans prix */
+.packs{grid-template-columns:repeat(auto-fit,minmax(228px,1fr))}
+.pack-tag{color:#14210f;background:var(--lime);border:none;padding:.28em .75em;border-radius:999px}
+.pack.feat{border-color:rgba(203,240,150,.5);box-shadow:0 0 0 1px rgba(203,240,150,.28),0 18px 50px rgba(0,0,0,.45)}
+.pack-note{color:var(--muted);font-size:.82rem;font-weight:600;margin:.2rem 0 1rem;display:flex;align-items:center;gap:.3em}
