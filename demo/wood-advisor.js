@@ -57,10 +57,9 @@
   const hero = documentRef.querySelector('.hero, .page-hero, .flower-detail, .product-detail');
   const setHeroClear = (isClear) => {
     widget.classList.toggle('is-hero-clear', isClear);
-    if (!widget.classList.contains('is-open')) {
-      bubble.tabIndex = isClear ? -1 : 0;
-      bubble.setAttribute('aria-hidden', isClear ? 'true' : 'false');
-    }
+    // La pastille reste toujours cliquable et accessible, même au-dessus du hero.
+    bubble.tabIndex = 0;
+    bubble.setAttribute('aria-hidden', 'false');
   };
   if (hero && typeof root.IntersectionObserver === 'function') {
     const heroObserver = new root.IntersectionObserver(([entry]) => setHeroClear(entry.isIntersecting), { threshold: 0.12 });
@@ -107,6 +106,8 @@
     const result = engine.recommend(products, preferences);
     renderResult(result);
     status.textContent = '';
+    // Amène la recommandation dans le champ de vision (sinon elle s'affiche sous le pli du panneau).
+    try { resultRoot.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (error) { /* noop */ }
   };
 
   const open = () => {

@@ -45,8 +45,9 @@
   /* When the bottom navigation hides, let the helper descend instead of leaving
      a large gap that makes it float over the editorial reading flow. */
   .wood-nav-hidden .wood-advisor{bottom:calc(env(safe-area-inset-bottom,0px) + 18px)}
-  .wood-advisor.is-hero-clear:not(.is-open){opacity:0;transform:translate3d(0,calc(100% + 20px),0);pointer-events:none}
-  .wood-advisor.is-hero-clear:not(.is-open) .wood-advisor__bubble{pointer-events:none}
+  /* La pastille d'aide reste visible et cliquable, y compris au-dessus du hero (sinon elle semble "ne pas fonctionner" sur mobile). */
+  .wood-advisor.is-hero-clear:not(.is-open){opacity:1;transform:none;pointer-events:auto}
+  .wood-advisor.is-hero-clear:not(.is-open) .wood-advisor__bubble{pointer-events:auto}
   .wood-advisor__bubble{padding:8px 11px 8px 8px}
   .wood-advisor__bubble img{width:52px;height:52px;flex-basis:52px}
   .wood-advisor__panel{max-height:calc(100dvh - 148px);padding:20px}
