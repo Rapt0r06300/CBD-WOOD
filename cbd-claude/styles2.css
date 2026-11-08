@@ -490,3 +490,12 @@ h2 .script::after{content:"";position:absolute;left:-2%;right:-2%;bottom:-.16em;
   .co-form input[type=checkbox],.co-form input[type=radio],form input[type=checkbox],form input[type=radio]{width:22px;height:22px;flex:0 0 auto}
   .co-form a:not(.btn),.check-row a{min-height:34px;display:inline-flex;align-items:center}
 }
+
+/* Audit final (senior) : zone de clic des pastilles avis ~37px + etat actif plus lisible */
+.avis-dot::after{inset:-14px}
+.avis-dot[aria-current="true"],.avis-dot.is-active,.avis-dot.active{transform:scale(1.35)}
+/* Accessibilite : anneau de focus clavier vert WOOD (ne s'affiche qu'au clavier) */
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible,[tabindex]:focus-visible{
+  outline:2px solid var(--lime);outline-offset:2px;border-radius:6px
+}
+:focus:not(:focus-visible){outline:none}
