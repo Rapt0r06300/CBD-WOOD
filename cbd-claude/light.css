@@ -1,0 +1,82 @@
+/* =========================================================
+   WOOD — THÈME CLAIR (fond blanc) · ESSAI RÉVERSIBLE
+   Pour revenir au thème sombre : retirer la ligne
+   <link rel="stylesheet" href="light.css?v=N"> de chaque page.
+   ========================================================= */
+:root{
+  --bg:#ffffff;
+  --bg-2:#f6f5ef;
+  --pine:#edf1e8;
+  --card:#ffffff;
+  --card-2:#f4f3ec;
+  --line:#e6e3d6;
+  --ink:#18211b;
+  --soft:#2b342c;
+  --wood:#59614f;
+  --muted:#6c766a;
+  --lime:#2f9e6b;          /* vert lisible comme TEXTE/accent sur blanc */
+  --lime-bright:#2f9e6b;
+  --cyan:#2f9e6b;
+  --cyan-deep:#1f7d52;
+  --sh-soft:0 8px 26px rgba(25,40,25,.08);
+  --sh-card:0 16px 44px rgba(25,40,25,.10);
+  --glow-cyan:0 0 44px rgba(47,158,107,.10);
+}
+body{background:var(--bg);color:var(--ink)}
+
+/* --- Surfaces "verre blanc" (rgba blanc sur sombre) -> gris très clair --- */
+.btn-ghost,.tag-maquette,.badge-classic,.icon-btn,.chip,.newsletter input,
+.sortsel,.gram,.ci-qty,.adv-close,.adv-opt,.pay-ic,.field input,.radio,
+.pay-demo,.cp-select,.cp-qty,.search-close,.cd-close,.cd-x-add,.mini-add,.card-qv{
+  background:rgba(20,45,20,.045)!important;border-color:var(--line)!important;color:var(--ink)!important;
+}
+.btn-ghost:hover,.icon-btn:hover,.ci-qty button:hover,.search-row:hover,
+.cp-qty button:hover,.adv-opt:hover{background:rgba(20,45,20,.09)!important}
+.freebar,.adv-progress,.cd-bar{background:rgba(20,45,20,.1)!important}
+
+/* --- Barre d'annonce : vert très clair --- */
+.announce{background:#e9f3dd!important;border-bottom-color:var(--line)!important}
+.announce-track{color:#2c7a4e!important}
+
+/* --- Header --- */
+.header.scrolled{background:rgba(255,255,255,.96)!important;border-bottom-color:var(--line)!important}
+.logo small{color:var(--muted)!important}
+
+/* --- Panneaux (recherche / pochon) en blanc --- */
+.search-panel{background:#ffffff!important;border-color:var(--line)!important;box-shadow:0 30px 80px rgba(20,30,20,.18)!important}
+.search-top,.search-foot{border-color:var(--line)!important}
+.search-close,.cd-close{color:var(--ink)!important}
+.search-row img{background:#eef1e9!important}
+.cd-panel{background:#ffffff!important;border-left-color:var(--line)!important;box-shadow:-20px 0 60px rgba(20,30,20,.18)!important}
+.cd-head,.cd-ship,.cd-item,.cd-foot{border-color:var(--line)!important}
+.cd-xsell{background:rgba(20,45,20,.035)!important;border-color:var(--line)!important}
+
+/* --- CTA verts : garder du punch --- */
+.btn-primary,.card-add,[data-add-pick],#pStickyAdd,.mini-see,.adv-restart{
+  background:#bfe88f!important;color:#17341e!important;border:0!important
+}
+.btn-primary:hover,.card-add:hover{background:#b0e07b!important}
+
+/* --- HERO : reste une vitrine sombre (photo) avec texte clair, sur page blanche --- */
+.hero-overlay{background:linear-gradient(90deg,#0f140f 2%,rgba(15,20,15,.82) 38%,rgba(15,20,15,.3) 68%,rgba(15,20,15,.6) 100%)!important}
+#hero{color:#f3f1e6}
+#hero .muted,#hero p{color:#d7dccd!important}
+@media(max-width:760px){.hero-overlay{background:linear-gradient(180deg,rgba(15,20,15,.5),rgba(15,20,15,.92) 78%)!important}}
+
+/* --- Sections à fond "mural" sombre -> neutralisées en clair --- */
+.edito,.avis,.stats,.p-reviews,.footer,.footer-cta,.why,.edito-media,
+.stickers-sec,.packs-sec{
+  background:var(--bg)!important
+}
+.edito::before,.avis::before,.stats::before,.footer::before,
+.stickers-sec::before,.packs-sec::before{opacity:0!important}
+.footer{border-top:1px solid var(--line)!important}
+.footer a,.footer h4{color:var(--ink)!important}
+.footer .muted,.footer small{color:var(--muted)!important}
+
+/* --- Cartes & textes génériques --- */
+.card-desc,.rate-c,.muted,.cd-it-meta{color:var(--muted)!important}
+.card-name,.ci-name,.pack h3{color:var(--ink)!important}
+
+/* --- Badges "boostés/soft" lisibles sur clair --- */
+.badge{color:#15301a}
