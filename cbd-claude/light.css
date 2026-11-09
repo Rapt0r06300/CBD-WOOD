@@ -100,3 +100,12 @@ body{background:var(--bg);color:var(--ink)}
 /* --- Pastille "Ana" : claire et cohérente sur fond blanc --- */
 .advisor{background:#ffffff!important;border:1px solid var(--line)!important;box-shadow:0 14px 40px rgba(20,35,20,.16)!important;color:var(--ink)!important}
 .advisor .txt small{color:var(--muted)!important}
+
+/* --- Boutons dans le HERO (sombre) : garder le texte clair --- */
+.hero .btn-ghost{background:rgba(255,255,255,.1)!important;border-color:rgba(255,255,255,.45)!important;color:#f4f2e7!important}
+.hero .btn-ghost:hover{background:rgba(255,255,255,.18)!important}
+
+/* --- Barre de navigation mobile (bas) : blanche --- */
+.botnav{background:rgba(255,255,255,.97)!important;border-top:1px solid var(--line)!important;backdrop-filter:saturate(1.2) blur(8px)}
+.botnav a{color:var(--muted)!important}
+.botnav a.active{color:#2f9e6b!important}
