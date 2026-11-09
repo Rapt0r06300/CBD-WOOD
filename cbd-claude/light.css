@@ -57,11 +57,13 @@ body{background:var(--bg);color:var(--ink)}
 }
 .btn-primary:hover,.card-add:hover{background:#b0e07b!important}
 
-/* --- HERO : reste une vitrine sombre (photo) avec texte clair, sur page blanche --- */
-.hero-overlay{background:linear-gradient(90deg,#0f140f 2%,rgba(15,20,15,.82) 38%,rgba(15,20,15,.3) 68%,rgba(15,20,15,.6) 100%)!important}
-#hero{color:#f3f1e6}
-#hero .muted,#hero p{color:#d7dccd!important}
-@media(max-width:760px){.hero-overlay{background:linear-gradient(180deg,rgba(15,20,15,.5),rgba(15,20,15,.92) 78%)!important}}
+/* --- HERO : reste une vitrine sombre (photo) avec texte CLAIR, sur page blanche --- */
+.hero-overlay{background:linear-gradient(90deg,#0f140f 2%,rgba(15,20,15,.82) 38%,rgba(15,20,15,.35) 68%,rgba(15,20,15,.62) 100%)!important}
+.hero,.hero h1,.hero .hero-sub,.hero .hero-copy{color:#f4f2e7!important}
+.hero .hero-sub{color:#e4e8db!important}
+.hero .hero-sub strong{color:#ffffff!important}
+.hero .eyebrow,.hero .script{color:#cbf096!important}
+@media(max-width:760px){.hero-overlay{background:linear-gradient(180deg,rgba(15,20,15,.55),rgba(15,20,15,.92) 78%)!important}}
 
 /* --- Sections à fond "mural" sombre -> neutralisées en clair --- */
 .edito,.avis,.stats,.p-reviews,.footer,.footer-cta,.why,.edito-media,
@@ -80,3 +82,21 @@ body{background:var(--bg);color:var(--ink)}
 
 /* --- Badges "boostés/soft" lisibles sur clair --- */
 .badge{color:#15301a}
+
+/* --- Tuiles catégories (image + libellé) : texte clair + dégradé bas --- */
+.cat::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(to top,rgba(8,13,8,.78),rgba(8,13,8,.12) 46%,transparent 72%)}
+.cat h3{color:#ffffff!important;position:relative;z-index:2}
+.cat .go{color:#cbf096!important;position:relative;z-index:2}
+.cat .badge,.cat .cat-i{position:relative;z-index:2}
+
+/* --- Mur à stickers : légende en clair sur l'image --- */
+.sticker-wall-tag{color:#f4f2e7!important}
+
+/* --- Pastilles du carrousel d'avis --- */
+.avis-dot{background:rgba(20,45,20,.18)!important}
+.avis-dot.on{background:#2f9e6b!important}
+
+/* --- Pastille "Ana" : claire et cohérente sur fond blanc --- */
+.advisor{background:#ffffff!important;border:1px solid var(--line)!important;box-shadow:0 14px 40px rgba(20,35,20,.16)!important;color:var(--ink)!important}
+.advisor .txt small{color:var(--muted)!important}
