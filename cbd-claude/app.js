@@ -54,7 +54,7 @@ function buyBlock(f){
   const opts=GRAMS.map((g,gi)=>{
     const pg=Math.round(f.p[gi]/g*10)/10;
     const sv=Math.round((1-(f.p[gi]/g)/base)*100);
-    return `<option value="${gi}"${gi===1?' selected':''}>${g} g · ${f.p[gi]} € · ${pg} €/g${sv>=8?` · −${sv}%`:''}</option>`;
+    return `<option value="${gi}"${gi===1?' selected':''}>${g} g · ${f.p[gi]} €${sv>=8?` · −${sv}%`:''}</option>`;
   }).join("");
   return `<div class="card-pick" data-pick="${f.slug}" role="group" aria-label="Choisir le grammage et la quantité">
     <div class="cp-ctl">
@@ -83,7 +83,7 @@ function updatePick(pick){
   if(!pick)return; const s=pickState(pick); if(!s)return;
   const base=s.f.p[0], pg=Math.round(s.f.p[s.gi]/s.g*10)/10, sv=Math.round((1-(s.f.p[s.gi]/s.g)/base)*100);
   const tot=pick.querySelector("[data-cp-total]"),add=pick.querySelector("[data-add-pick]");
-  if(tot)tot.innerHTML=`<b>${s.q} × ${s.g} g</b> = <b>${s.tg} g</b> · <b>${s.tp.toFixed(2)} €</b>${sv>=8?` · <em class="cp-eco">tu économises ${sv}%</em>`:''}`;
+  if(tot)tot.innerHTML=`${s.q>1?`${s.q} × ${s.g} g = <b>${s.tg} g</b>`:`<b>${s.g} g</b>`} · <b>${s.tp.toFixed(2)} €</b> <span class="cp-pg">(${pg} €/g)</span>${sv>=8?` <em class="cp-eco">−${sv}%</em>`:''}`;
   if(add)add.innerHTML=`Ajouter · <b>${s.tp.toFixed(2)} €</b>`;
   const sp=document.getElementById("pStickyPrice"); if(sp)sp.textContent=`${s.q} × ${s.g} g · ${s.tg} g · ${s.tp.toFixed(2)} €`;
   const sa=document.getElementById("pStickyAdd"); if(sa)sa.disabled=false;

@@ -516,3 +516,12 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .cp-eco{color:var(--lime);font-style:normal;font-weight:700}
 .card-add{width:100%}
 @media(max-width:600px){.cp-qty button{width:38px;height:44px}.cp-select{height:44px}}
+
+/* Affinage picker compact : menu plus lisible dans les rails etroits */
+.cp-select{padding:0 1.65rem 0 .7rem;font-size:.85rem;font-weight:700}
+.cp-sel-ic{right:.55rem}
+.cp-qty{gap:0}
+.cp-qty button{width:36px}
+.cp-pg{color:#8fa086;font-size:.8em}
+.cp-eco{color:var(--lime);font-style:normal;font-weight:800;margin-left:.1rem}
+@media(max-width:600px){.cp-qty button{width:34px;height:44px}}
