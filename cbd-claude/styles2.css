@@ -499,3 +499,20 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   outline:2px solid var(--lime);outline-offset:2px;border-radius:6px
 }
 :focus:not(:focus-visible){outline:none}
+
+/* ===== Achat compact : menu deroulant (grammage) + stepper (+/-) ===== */
+.card-pick{margin-top:.7rem}
+.cp-ctl{display:flex;gap:.5rem;align-items:stretch}
+.cp-sel-wrap{position:relative;flex:1 1 auto;min-width:0}
+.cp-select{width:100%;height:46px;padding:0 2.1rem 0 .85rem;border-radius:12px;border:1px solid rgba(203,240,150,.22);background:rgba(255,255,255,.04);color:var(--ink);font:inherit;font-size:.9rem;font-weight:600;cursor:pointer;-webkit-appearance:none;appearance:none;text-overflow:ellipsis}
+.cp-sel-ic{position:absolute;right:.7rem;top:50%;transform:translateY(-50%);color:var(--lime);pointer-events:none}
+.cp-select option{background:#131a13;color:var(--ink)}
+.cp-qty{display:inline-flex;align-items:center;gap:.1rem;background:rgba(255,255,255,.04);border:1px solid rgba(203,240,150,.22);border-radius:12px;padding:0 .2rem;flex:0 0 auto}
+.cp-qty button{width:40px;height:46px;border:0;background:transparent;color:var(--ink);font-size:1.3rem;line-height:1;cursor:pointer;border-radius:10px}
+.cp-qty button:hover{background:rgba(203,240,150,.14);color:var(--lime)}
+.cp-n{min-width:24px;text-align:center;font-weight:800;font-size:1rem}
+.cp-total{margin:.55rem 0 .55rem;font-size:.85rem;color:#b9c3b0;line-height:1.35}
+.cp-total b{color:var(--ink)}
+.cp-eco{color:var(--lime);font-style:normal;font-weight:700}
+.card-add{width:100%}
+@media(max-width:600px){.cp-qty button{width:38px;height:44px}.cp-select{height:44px}}

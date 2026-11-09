@@ -51,32 +51,43 @@ function cardStock(slug){
 /* ---- Bloc d'achat : une ligne par grammage, avec + / − et economie ---- */
 function buyBlock(f){
   const base=f.p[0]; // prix du 1 g = reference €/g la plus chere
-  const rows=GRAMS.map((g,gi)=>{
+  const opts=GRAMS.map((g,gi)=>{
     const pg=Math.round(f.p[gi]/g*10)/10;
     const sv=Math.round((1-(f.p[gi]/g)/base)*100);
-    return `<div class="cp-row" data-gi="${gi}">
-      <div class="cp-g"><b>${g} g</b><small>${f.p[gi]} € · ${pg} €/g${sv>=8?` · <em>−${sv}%</em>`:''}</small></div>
-      <div class="cp-qty"><button type="button" data-cp-dec aria-label="Enlever un pochon de ${g} g">−</button><span class="cp-n">0</span><button type="button" data-cp-inc aria-label="Ajouter un pochon de ${g} g">+</button></div>
-    </div>`;
+    return `<option value="${gi}"${gi===1?' selected':''}>${g} g · ${f.p[gi]} € · ${pg} €/g${sv>=8?` · −${sv}%`:''}</option>`;
   }).join("");
-  return `<div class="card-pick" data-pick="${f.slug}" role="group" aria-label="Choisir les grammages et quantités">
-    <div class="cp-head">Choisis tes grammages <span class="cp-hint">(+ / −)</span></div>
-    <div class="cp-rows">${rows}</div>
-    <div class="cp-total" data-cp-total>Rien sélectionné</div>
-    <button class="card-add" data-add-pick="${f.slug}" disabled>Ajouter au pochon</button>
+  return `<div class="card-pick" data-pick="${f.slug}" role="group" aria-label="Choisir le grammage et la quantité">
+    <div class="cp-ctl">
+      <div class="cp-sel-wrap">
+        <select class="cp-select" data-cp-select aria-label="Grammage de ${f.nom}">${opts}</select>
+        <svg class="cp-sel-ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="cp-qty" role="group" aria-label="Quantité">
+        <button type="button" data-cp-dec aria-label="Diminuer la quantité">−</button>
+        <span class="cp-n">1</span>
+        <button type="button" data-cp-inc aria-label="Augmenter la quantité">+</button>
+      </div>
+    </div>
+    <div class="cp-total" data-cp-total></div>
+    <button class="card-add" data-add-pick="${f.slug}">Ajouter au pochon</button>
   </div>`;
 }
 /* ---- Met a jour le total d'un bloc d'achat (prix, poids, bouton) ---- */
+function pickState(pick){
+  const f=byId(pick.dataset.pick); if(!f)return null;
+  const sel=pick.querySelector("[data-cp-select]"); const gi=sel?+sel.value:1;
+  const q=Math.max(1,+pick.querySelector(".cp-n").textContent||1);
+  const g=GRAMS[gi]; return {f,gi,g,q,tp:f.p[gi]*q,tg:g*q};
+}
 function updatePick(pick){
-  if(!pick)return; const f=byId(pick.dataset.pick); if(!f)return;
-  let tp=0,tg=0,tn=0;
-  pick.querySelectorAll(".cp-row").forEach(row=>{const gi=+row.dataset.gi,q=+row.querySelector(".cp-n").textContent||0;tp+=f.p[gi]*q;tg+=GRAMS[gi]*q;tn+=q;row.classList.toggle("active",q>0);});
+  if(!pick)return; const s=pickState(pick); if(!s)return;
+  const base=s.f.p[0], pg=Math.round(s.f.p[s.gi]/s.g*10)/10, sv=Math.round((1-(s.f.p[s.gi]/s.g)/base)*100);
   const tot=pick.querySelector("[data-cp-total]"),add=pick.querySelector("[data-add-pick]");
-  if(tot)tot.innerHTML=tn>0?`<b>${tn}</b> pochon${tn>1?'s':''} · <b>${tg} g</b> · <b>${tp.toFixed(2)} €</b>`:`Rien sélectionné`;
-  if(add){add.disabled=tn<1;add.innerHTML=tn>0?`Ajouter au pochon · <b>${tp.toFixed(2)} €</b>`:`Ajouter au pochon`;}
-  const sp=document.getElementById("pStickyPrice"); if(sp)sp.textContent=tn>0?`${tn} pochon${tn>1?'s':''} · ${tg} g · ${tp.toFixed(2)} €`:"Choisis un grammage";
-  const sa=document.getElementById("pStickyAdd"); if(sa)sa.disabled=tn<1;
-  return {tp,tg,tn};
+  if(tot)tot.innerHTML=`<b>${s.q} × ${s.g} g</b> = <b>${s.tg} g</b> · <b>${s.tp.toFixed(2)} €</b>${sv>=8?` · <em class="cp-eco">tu économises ${sv}%</em>`:''}`;
+  if(add)add.innerHTML=`Ajouter · <b>${s.tp.toFixed(2)} €</b>`;
+  const sp=document.getElementById("pStickyPrice"); if(sp)sp.textContent=`${s.q} × ${s.g} g · ${s.tg} g · ${s.tp.toFixed(2)} €`;
+  const sa=document.getElementById("pStickyAdd"); if(sa)sa.disabled=false;
+  return s;
 }
 /* ---- Carte produit ---- */
 function cardHTML(f,i){
@@ -286,7 +297,7 @@ function renderProduct(){
   // Picker + sticky
   document.querySelectorAll("#product .card-pick").forEach(updatePick);
   const sticky=document.getElementById("pStickyAdd");
-  if(sticky)sticky.addEventListener("click",()=>{const pick=document.querySelector("#product .card-pick");if(!pick)return;let tn=0,tg=0;pick.querySelectorAll(".cp-row").forEach(row=>{const gii=+row.dataset.gi,q=+row.querySelector(".cp-n").textContent||0;if(q>0){cartAdd(f.slug,GRAMS[gii],q);tn+=q;tg+=GRAMS[gii]*q;row.querySelector(".cp-n").textContent="0";}});if(tn>0){updatePick(pick);bumpCartBtn();toast(`Ajouté : ${tn} pochon${tn>1?'s':''} · ${tg} g de ${f.nom} ✓`);openCartDrawer();}});
+  if(sticky)sticky.addEventListener("click",()=>{const pick=document.querySelector("#product .card-pick");const s=pick&&pickState(pick);if(!s)return;cartAdd(s.f.slug,s.g,s.q);bumpCartBtn();toast(`Ajouté : ${s.q} × ${s.g} g de ${s.f.nom} ✓`);openCartDrawer();pick.querySelector(".cp-n").textContent="1";updatePick(pick);});
   // related
   const rel=FLEURS.filter(x=>x.tier===f.tier&&x.slug!==f.slug).slice(0,4);
   const relRail=document.getElementById("relRail"); relRail.innerHTML=(rel.length?rel:FLEURS.slice(0,4)).map((x,i)=>cardHTML(x,i)).join("");
@@ -520,18 +531,19 @@ document.addEventListener("DOMContentLoaded",()=>{
   document.body.addEventListener("click",e=>{
     // + / - par grammage
     const step=e.target.closest("[data-cp-inc],[data-cp-dec]");
-    if(step){e.preventDefault();const row=step.closest(".cp-row"),n=row.querySelector(".cp-n");let v=(+n.textContent||0)+(step.hasAttribute("data-cp-inc")?1:-1);if(v<0)v=0;if(v>99)v=99;n.textContent=v;updatePick(step.closest(".card-pick"));return;}
-    // Ajouter tout le choix (multi-grammages)
+    if(step){e.preventDefault();const pick=step.closest(".card-pick"),n=pick.querySelector(".cp-n");let v=(+n.textContent||1)+(step.hasAttribute("data-cp-inc")?1:-1);if(v<1)v=1;if(v>99)v=99;n.textContent=v;updatePick(pick);return;}
+    // Ajouter le grammage choisi x quantite
     const addP=e.target.closest("[data-add-pick]");
-    if(addP){e.preventDefault();const pick=addP.closest(".card-pick"),slug=addP.dataset.addPick,f=byId(slug);if(!pick||!f)return;
-      let tn=0,tg=0;pick.querySelectorAll(".cp-row").forEach(row=>{const gi=+row.dataset.gi,q=+row.querySelector(".cp-n").textContent||0;if(q>0){cartAdd(slug,GRAMS[gi],q);tn+=q;tg+=GRAMS[gi]*q;row.querySelector(".cp-n").textContent="0";}});
-      if(tn>0){updatePick(pick);bumpCartBtn();toast(`Ajouté : ${tn} pochon${tn>1?'s':''} · ${tg} g de ${f.nom} ✓`);openCartDrawer();}
+    if(addP){e.preventDefault();const pick=addP.closest(".card-pick"),s=pickState(pick);if(!s)return;
+      cartAdd(s.f.slug,s.g,s.q);bumpCartBtn();toast(`Ajouté : ${s.q} × ${s.g} g de ${s.f.nom} ✓`);openCartDrawer();
+      pick.querySelector(".cp-n").textContent="1";updatePick(pick);
       return;}
     // ajout simple (ex. cross-sell) : 3 g par defaut
     const a=e.target.closest("[data-add]"); if(a){e.preventDefault();const gi=a.dataset.gi!==undefined?+a.dataset.gi:1;addToCart(a.dataset.add,GRAMS[gi]);return;}
     const qv=e.target.closest("[data-qv]"); if(qv){e.preventDefault();openQuickView(qv.dataset.qv);return;}
     const fav=e.target.closest("[data-fav]"); if(fav){e.preventDefault();toggleFav(fav.dataset.fav);return;}
   });
+  document.body.addEventListener("change",e=>{const sel=e.target.closest("[data-cp-select]");if(sel)updatePick(sel.closest(".card-pick"));});
   updateFavBadges();
 
   const header=document.getElementById("header");
