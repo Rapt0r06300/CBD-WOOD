@@ -525,3 +525,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .cp-pg{color:#8fa086;font-size:.8em}
 .cp-eco{color:var(--lime);font-style:normal;font-weight:800;margin-left:.1rem}
 @media(max-width:600px){.cp-qty button{width:34px;height:44px}}
+
+/* Audit : neutralise le teal residuel des tuiles categories (univers) -> vert */
+.cat-art img{filter:saturate(.82) hue-rotate(-22deg) brightness(1.03)}
