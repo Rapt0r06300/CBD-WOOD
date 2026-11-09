@@ -144,7 +144,7 @@ function footerHTML(){return `<div class="container">
 function botnavHTML(active){const I={home:'<path d="M3 10 12 3l9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1Z"/>',fleurs:'<path d="M12 2s5 4 5 10a5 5 0 0 1-10 0c0-6 5-10 5-10Z"/>',search:'<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>',cart:'<path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/>',shop:'<path d="M12 21s7-6 7-12a7 7 0 1 0-14 0c0 6 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/>'};
   const a=(k,href,lbl,cls="")=>`<a href="${href}" class="${cls}${active===k?' active':''}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${I[k]}</svg>${lbl}</a>`;
   return a('home','index.html','Accueil')+a('fleurs','fleurs.html','Fleurs')+a('search','fleurs.html','Explorer')+`<a href="panier.html" data-cart-open class="bn-cart${active==='cart'?' active':''}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${I.cart}</svg><span class="cart-count" id="cartCountM">0</span>Pochon</a>`+a('shop','index.html#boutiques','Boutiques');}
-function advisorHTML(){return `<span class="ava">🌿</span><span class="txt">Besoin d'aide pour choisir ?<small>Un conseil, sans pression.</small></span>`;}
+function advisorHTML(){return `<span class="ava">🌿</span><span class="txt">Besoin d'aide pour choisir ?<small>Ana te répond — sans pression.</small></span>`;}
 
 function injectChrome(page){
   if(!document.querySelector(".announce")){const an=document.createElement("div");an.className="announce";an.setAttribute("aria-hidden","true");
@@ -476,7 +476,7 @@ function openAdvisor(){
   ];
   let i=0;
   const wrap=inner=>`<div class="adv-sheet"><button class="adv-close" aria-label="Fermer">✕</button>
-    <div class="adv-top"><span class="adv-ava">🌿</span><div><strong>Le conseiller WOOD</strong><small>conseil de goût, pas un avis médical</small></div></div>${inner}</div>`;
+    <div class="adv-top"><span class="adv-ava">🌿</span><div><strong>Ana · Conseillère WOOD</strong><small>conseil de goût, pas un avis médical</small></div></div>${inner}</div>`;
   function render(){
     if(i<steps.length){const s=steps[i];
       ov.innerHTML=wrap(`<div class="adv-progress"><span style="width:${i/steps.length*100}%"></span></div>
@@ -486,7 +486,7 @@ function openAdvisor(){
     } else {
       const scored=FLEURS.map(f=>{const p=PROFILE[f.slug]||{};let sc=0;if(p.a===state.aroma)sc+=3;if(p.i===state.intensity)sc+=2;return {f,sc};}).sort((a,b)=>b.sc-a.sc);
       const top=scored.slice(0,3).map(x=>x.f);
-      ov.innerHTML=wrap(`<div class="adv-q">Voilà pour toi 🌿</div>
+      ov.innerHTML=wrap(`<div class="adv-q">La sélection d'Ana pour toi 🌿</div>
         <div class="adv-why">Parce que tu aimes le <strong>${LBL.aroma[state.aroma]}</strong> · intensité <strong>${LBL.intensity[state.intensity]}</strong> :</div>
         <div class="adv-res">${top.map((f,k)=>cardHTML(f,k)).join("")}</div>
         <button class="adv-restart">↺ Recommencer</button>`);
