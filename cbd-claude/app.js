@@ -206,8 +206,8 @@ function renderCartDrawer(){
   const itemsHtml=cart.map(x=>{const pf=byId(x.slug),base=pf?pf.p[0]:x.unit,sv=Math.round((1-(x.unit/x.g)/base)*100);return `<div class="cd-item">
     <img src="assets/products/${x.slug}.jpg${IMGV}" alt="" onerror="this.style.visibility='hidden'">
     <div class="cd-it-info"><b>${x.nom}</b><span class="cd-it-meta"><b>${x.g} g</b> · ${x.unit.toFixed(2)} €${sv>=8?` · <em class="cd-sv">−${sv}%</em>`:''}</span>
-      <div class="cd-qty"><button data-cd-dec="${x.slug}" data-g="${x.g}" aria-label="Moins">−</button><span>${x.q}</span><button data-cd-inc="${x.slug}" data-g="${x.g}" aria-label="Plus">+</button></div></div>
-    <div class="cd-it-side"><b>${(x.unit*x.q).toFixed(2)} €</b><small class="cd-it-g">${x.g*x.q} g</small><button class="cd-del" data-cd-del="${x.slug}" data-g="${x.g}" aria-label="Retirer">🗑</button></div>
+      <div class="cd-qty"><button class="${x.q===1?'cd-rm':''}" data-cd-dec="${x.slug}" data-g="${x.g}" aria-label="${x.q===1?'Retirer du pochon':'Réduire'}" title="${x.q===1?'Retirer':'Réduire'}">${x.q===1?'🗑':'−'}</button><span>${x.q}</span><button data-cd-inc="${x.slug}" data-g="${x.g}" aria-label="Ajouter">+</button></div></div>
+    <div class="cd-it-side"><b>${(x.unit*x.q).toFixed(2)} €</b><small class="cd-it-g">${x.g*x.q} g</small><button class="cd-del" data-cd-del="${x.slug}" data-g="${x.g}" aria-label="Retirer ${x.nom}">Retirer</button></div>
   </div>`;}).join("");
   const picks=(typeof FLEURS!=="undefined"?FLEURS:[]).filter(f=>!cart.some(x=>x.slug===f.slug)).slice(0,2);
   const xsell=picks.length?`<div class="cd-xsell"><div class="cd-xsell-h">Souvent pris avec 👀</div>${picks.map(f=>`<div class="cd-x"><img src="assets/products/${f.slug}.jpg${IMGV}" alt="" onerror="this.style.visibility='hidden'"><div class="cd-x-info"><b>${f.nom}</b><span class="muted">dès ${f.p[0]} € · 3 g</span></div><button class="cd-x-add" data-add="${f.slug}" aria-label="Ajouter ${f.nom} au pochon">+</button></div>`).join("")}</div>`:"";
@@ -316,8 +316,8 @@ function renderCart(){
     <div class="cart-grid">
       <div class="cart-items">${cart.map((x,i)=>`<div class="cart-item"><div class="ci-media"><img src="assets/products/${x.slug}.jpg${IMGV}" alt="" onerror="this.outerHTML='<div>'+window.__cloche('${x.slug}')+'</div>'"></div>
         <div class="ci-info"><div class="ci-name">${x.nom}</div><div class="muted ci-meta"><b>${x.g} g</b> · ${euro(x.unit)}${(()=>{const pf=byId(x.slug),base=pf?pf.p[0]:x.unit,sv=Math.round((1-(x.unit/x.g)/base)*100);return sv>=8?` · <span class="ci-sv">−${sv}%</span>`:'';})()} · total <b>${x.g*x.q} g</b></div></div>
-        <div class="ci-qty"><button data-dec="${i}">−</button><span>${x.q}</span><button data-inc="${i}">+</button></div>
-        <div class="ci-line">${euro(x.unit*x.q)}</div><button class="ci-del" data-del="${i}" aria-label="Retirer">✕</button></div>`).join("")}</div>
+        <div class="ci-qty"><button class="${x.q===1?'cd-rm':''}" data-dec="${i}" aria-label="${x.q===1?'Retirer':'Réduire'}" title="${x.q===1?'Retirer':'Réduire'}">${x.q===1?'🗑':'−'}</button><span>${x.q}</span><button data-inc="${i}" aria-label="Ajouter">+</button></div>
+        <div class="ci-line">${euro(x.unit*x.q)}</div><button class="ci-del" data-del="${i}" aria-label="Retirer ${x.nom}">Retirer</button></div>`).join("")}</div>
       <aside class="cart-sum">
         <h3 class="serif">Résumé</h3>
         ${left>0?`<div class="freebar"><div class="freebar-fill" style="width:${Math.min(100,sub/free*100)}%"></div></div><p class="muted" style="font-size:.85rem">Plus que <strong>${euro(left)}</strong> pour la livraison offerte 🎉</p>`:`<p class="lime" style="font-weight:700">🎉 Livraison offerte !</p>`}
@@ -538,6 +538,13 @@ document.addEventListener("DOMContentLoaded",()=>{
       cartAdd(s.f.slug,s.g,s.q);bumpCartBtn();toast(`Ajouté : ${s.q} × ${s.g} g de ${s.f.nom} ✓`);openCartDrawer();
       pick.querySelector(".cp-n").textContent="1";updatePick(pick);
       return;}
+    // Page panier complete : +/- et suppression par index
+    const ci=e.target.closest("[data-inc],[data-dec],[data-del]");
+    if(ci){e.preventDefault();const idx=+(ci.dataset.inc??ci.dataset.dec??ci.dataset.del);if(!cart[idx])return;
+      if(ci.hasAttribute("data-inc"))cart[idx].q++;
+      else if(ci.hasAttribute("data-del"))cart.splice(idx,1);
+      else{cart[idx].q--;if(cart[idx].q<1)cart.splice(idx,1);}
+      saveCart();updateCartBadges();renderCart();if(typeof renderCartDrawer==='function')renderCartDrawer();return;}
     // ajout simple (ex. cross-sell) : 3 g par defaut
     const a=e.target.closest("[data-add]"); if(a){e.preventDefault();const gi=a.dataset.gi!==undefined?+a.dataset.gi:1;addToCart(a.dataset.add,GRAMS[gi]);return;}
     const qv=e.target.closest("[data-qv]"); if(qv){e.preventDefault();openQuickView(qv.dataset.qv);return;}

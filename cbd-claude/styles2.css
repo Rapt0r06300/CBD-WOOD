@@ -528,3 +528,9 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
 /* Audit : neutralise le teal residuel des tuiles categories (univers) -> vert */
 .cat-art img{filter:saturate(.82) hue-rotate(-22deg) brightness(1.03)}
+
+/* Audit : suppression pochon/panier claire (bouton Retirer + corbeille a quantite 1) */
+.cd-rm{color:#ff9a8f !important}
+.cd-del,.ci-del{width:auto;min-width:auto;height:auto;min-height:34px;padding:.32rem .72rem;font-size:.76rem;font-weight:700;color:#f0a9a2;background:rgba(224,87,77,.12);border:1px solid rgba(224,87,77,.3);border-radius:9px;cursor:pointer;letter-spacing:.01em;white-space:nowrap}
+.cd-del:hover,.ci-del:hover{background:rgba(224,87,77,.22);color:#ffd7d1;border-color:rgba(224,87,77,.5)}
+@media(max-width:600px){.cd-del,.ci-del{min-height:38px}}

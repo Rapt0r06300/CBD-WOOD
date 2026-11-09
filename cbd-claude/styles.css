@@ -154,7 +154,8 @@ p{margin:0}
 
 /* ============================================================ RAIL / CARDS */
 .rail-head{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1.6rem}
-.rail{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(240px,1fr);gap:1.1rem;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:1rem;scrollbar-width:thin}
+.rail{display:grid;grid-auto-flow:column;grid-auto-columns:248px;gap:1.1rem;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:1rem;scrollbar-width:thin}
+@media(min-width:900px){.rail{grid-auto-columns:264px}}
 .rail::-webkit-scrollbar{height:6px}.rail::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
 .card{scroll-snap-align:start;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;transition:transform var(--t) var(--ease),border-color var(--t),box-shadow var(--t)}
 .card:hover{transform:translateY(-6px);border-color:var(--cyan);box-shadow:var(--sh-card),var(--glow-cyan)}
