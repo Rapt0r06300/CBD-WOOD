@@ -333,7 +333,6 @@ function renderBientot(){
   const root=document.getElementById("bientot"); if(!root)return;
   const cat=new URLSearchParams(location.search).get("cat")||"resines";
   const T={resines:["Les résines","Hash & résines CBD de la boutique — bientôt en ligne. En attendant, viens les découvrir dans nos boutiques à Nice."],
-    huiles:["Huiles & infusions","Huiles, tisanes et infusions CBD — bientôt disponibles sur le site."],
     accessoires:["Accessoires","Grinders, feuilles, briquets et petits essentiels — bientôt en ligne."]}[cat]||["Bientôt chez WOOD","Cette gamme arrive très vite."];
   root.innerHTML=`<a class="breadcrumb" href="index.html">← Accueil</a>
     <div class="product">
@@ -698,7 +697,6 @@ function openMobileMenu(){
         <a href="fleurs.html"><span>🌿 Fleurs CBD</span><span class="arr">→</span></a>
         <a href="fleurs.html?tier=boostes"><span>⚡ Boostés</span><span class="arr">→</span></a>
         <a href="bientot.html?cat=resines"><span>🟤 Résines <em>bientôt</em></span><span class="arr">→</span></a>
-        <a href="bientot.html?cat=huiles"><span>💧 Huiles & infusions <em>bientôt</em></span><span class="arr">→</span></a>
         <a href="index.html#boutiques"><span>📍 Nos boutiques</span><span class="arr">→</span></a>
         <a href="index.html#histoire"><span>✳ L'histoire WOOD</span><span class="arr">→</span></a>
       </nav>
