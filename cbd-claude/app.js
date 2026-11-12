@@ -53,7 +53,7 @@ const BOUTIQUE = [
   { slug:"jass", nom:"Cartons Jass · filtres", kind:"simple", cat:"accessoires", price:0.90, img:"jass.jpg", c:["#e0d0b0","#8a7050"], desc:"50 filtres", body:"Format Slim Brown, non blanchi, 50 filtres perforés par carnet (taille M, carton)." },
   { slug:"tshirt-totally-stoned", nom:"T-shirt Oversized · Totally Stoned", kind:"simple", cat:"merch", price:39.90, opts:[["S",39.90],["M",39.90],["L",39.90],["XL",39.90],["2XL",39.90],["3XL",39.90]], img:"tshirt-totally-stoned.jpg", c:["#cfd0cf","#45504a"], desc:"Coton · mixte", body:"En coton, effet légèrement délavé. Modèle MIXTE disponible du S au 3XL." },
   { slug:"tshirt-weed-chill", nom:"T-shirt · Weed & Chill", kind:"simple", cat:"merch", price:39.90, opts:[["S",39.90],["M",39.90],["L",39.90],["XL",39.90],["2XL",39.90],["3XL",39.90]], img:"tshirt-weed-chill.jpg", c:["#bfe3b0","#3a7a4a"], desc:"Coton · mixte", body:"En coton, coupe classique (regular). Modèle MIXTE disponible du S au 3XL." },
-  { slug:"carte-cadeau", nom:"Carte-cadeau WOOD", kind:"simple", cat:"carte", opts:[["10 €",10],["25 €",25],["50 €",50],["100 €",100],["200 €",200],["500 €",500]], img:"carte-cadeau.jpg", c:["#cbf096","#2f9e6b"], desc:"Le bon cadeau 🎁", body:"Offrez WOOD : une carte-cadeau à utiliser en boutique ou en ligne. Montant au choix." },
+  { slug:"carte-cadeau", nom:"Carte-cadeau WOOD", kind:"simple", cat:"carte", opts:[["10 €",10],["25 €",25],["50 €",50],["100 €",100],["200 €",200],["500 €",500]], img:"carte-cadeau.jpg", c:["#cbf096","#2f9e6b"], desc:"Le bon cadeau 🎁", body:"Offrez WOOD : choisissez un montant et vous recevez un code cadeau unique (format WOOD-XXXX-XXXX) à la validation. Il se saisit directement dans le champ « code » au paiement — le solde est réutilisable jusqu'à épuisement — ou se présente en boutique. Montant au choix, de 10 à 500 €." },
 ];
 const CATLBL={fleurs:"Fleurs",resines:"Résines",accessoires:"Accessoires",merch:"Le Shop WOOD",bonbons:"Bonbons",carte:"Carte-cadeau"};
 /* Helpers panier compatibles grammage + produits simples */
@@ -533,7 +533,14 @@ function renderProduct(){
 const PROMO_CODES={WOOD10:{pct:10,l:"−10 %"},BIENVENUE:{pct:10,l:"−10 %"},NICE15:{pct:15,l:"−15 %"},LIVRAISON:{ship:true,l:"livraison offerte"}};
 function getPromo(){try{return JSON.parse(localStorage.getItem("wood_promo")||"null");}catch(e){return null;}}
 function setPromo(code){try{code?localStorage.setItem("wood_promo",JSON.stringify({code})):localStorage.removeItem("wood_promo");}catch(e){}}
-function promoInfo(){const p=getPromo();return p&&PROMO_CODES[p.code]?Object.assign({code:p.code},PROMO_CODES[p.code]):null;}
+/* ---- Cartes cadeaux WOOD (démo client-side : code unique + solde réutilisable au paiement) ---- */
+function getGifts(){try{return JSON.parse(localStorage.getItem("wood_giftcards")||"{}")||{};}catch(e){return {};}}
+function saveGifts(o){try{localStorage.setItem("wood_giftcards",JSON.stringify(o));}catch(e){}}
+function giftCard(code){const g=getGifts();return g[code]||null;}
+function genGiftCode(){const A="ACDEFGHJKLMNPQRSTUVWXY34679";const blk=()=>Array.from({length:4},()=>A[Math.floor(Math.random()*A.length)]).join("");const g=getGifts();let c;do{c="WOOD-"+blk()+"-"+blk();}while(g[c]);return c;}
+function issueGift(amount){const g=getGifts();const code=genGiftCode();g[code]={amount:amount,balance:amount,created:Date.now()};saveGifts(g);return code;}
+function redeemGift(code,amt){const g=getGifts();if(g[code]){g[code].balance=Math.max(0,Math.round((g[code].balance-amt)*100)/100);saveGifts(g);return g[code].balance;}return null;}
+function promoInfo(){const p=getPromo();if(!p)return null;if(PROMO_CODES[p.code])return Object.assign({code:p.code},PROMO_CODES[p.code]);const gc=giftCard(p.code);if(gc&&gc.balance>0)return {code:p.code,gift:true,balance:gc.balance,l:"carte cadeau · "+euro(gc.balance)};return null;}
 function renderCart(){
   const root=document.getElementById("cart"); if(!root)return;
   window.__renderCart=renderCart;
@@ -541,7 +548,7 @@ function renderCart(){
   const sub=cart.reduce((s,x)=>s+x.unit*x.q,0);
   const free=60, left=Math.max(0,free-sub);
   const nItems=cart.reduce((s,x)=>s+x.q,0), nGr=cart.reduce((s,x)=>s+x.g*x.q,0);
-  const promo=promoInfo(); const disc=promo&&promo.pct?Math.round(sub*promo.pct)/100:0; const total=Math.max(0,sub-disc);
+  const promo=promoInfo(); let disc=0; if(promo&&promo.pct)disc=Math.round(sub*promo.pct)/100; else if(promo&&promo.gift)disc=Math.min(promo.balance,sub); const total=Math.max(0,sub-disc);
   root.innerHTML=`<h1 class="serif">Ton pochon <span class="cart-count-h">${nItems} article${nItems>1?'s':''}${nGr?' · '+nGr+' g':''}</span></h1>
     <div class="cart-grid">
       <div class="cart-items">${cart.map((x,i)=>`<div class="cart-item"><div class="ci-media"><img src="assets/products/${x.slug}.jpg${IMGV}" alt="" onerror="this.outerHTML='<div>'+window.__cloche('${x.slug}')+'</div>'"></div>
@@ -553,7 +560,7 @@ function renderCart(){
         ${left>0?`<div class="freebar"><div class="freebar-fill" style="width:${Math.min(100,sub/free*100)}%"></div></div><p class="muted" style="font-size:.85rem">Plus que <strong>${euro(left)}</strong> pour la livraison offerte 🎉</p>`:`<p class="lime" style="font-weight:700">🎉 Livraison offerte !</p>`}
         <div class="promo-field">${promo?`<div class="promo-on"><span>🏷️ Code <b>${promo.code}</b> · ${promo.l}</span><button class="promo-rm" data-promo-rm type="button">Retirer</button></div>`:`<div class="promo-in"><input id="promoCode" type="text" placeholder="Code promo" autocomplete="off" aria-label="Code promo"><button class="promo-add" data-promo-apply type="button">Appliquer</button></div>`}</div>
         <div class="sum-row"><span>Sous-total</span><strong>${euro(sub)}</strong></div>
-        ${disc>0?`<div class="sum-row disc"><span>Réduction · ${promo.code}</span><strong>−${euro(disc)}</strong></div>`:''}
+        ${disc>0?`<div class="sum-row disc"><span>${promo.gift?'🎁 Carte cadeau':'Réduction'} · ${promo.code}</span><strong>−${euro(disc)}</strong></div>`:''}
         <div class="sum-row muted"><span>Livraison</span><span>${left>0?"calculée à l'étape suivante":"Offerte"}</span></div>
         <div class="sum-row total"><span>Total</span><strong>${euro(total)}</strong></div>
         <a class="btn btn-primary" href="checkout.html" style="width:100%;justify-content:center;margin-top:1rem">Passer commande →</a>
@@ -623,19 +630,22 @@ function renderCheckout(){
         <div class="promo-row"><input id="promoInput" placeholder="Code promo" autocomplete="off"><button type="button" class="btn btn-ghost" id="promoBtn">Appliquer</button></div>
         <p class="promo-msg" id="promoMsg" hidden></p>
         <div id="sumTotals"></div>
-        <p class="muted" style="font-size:.72rem;margin-top:.5rem">Codes d'essai : WOOD10 · BIENVENUE · LIVRAISON <span class="tag tag-maquette">démo</span></p>
+        <p class="muted" style="font-size:.72rem;margin-top:.5rem">Codes d'essai : WOOD10 · BIENVENUE · LIVRAISON — ou ta carte cadeau <b>WOOD-…</b> <span class="tag tag-maquette">démo</span></p>
       </aside>
     </div>`;
   function curMode(){const el=root.querySelector('[name="mode"]:checked');return el?el.value:"livraison";}
   function renderTotals(){
-    const pr=promoInfo(); let ship2=(curMode()==="cc"||sub>=60)?0:4.9, disc=0;
+    const pr=promoInfo(); let ship2=(curMode()==="cc"||sub>=60)?0:4.9, disc=0, gift=0;
     if(pr){ if(pr.pct)disc=Math.round(sub*pr.pct)/100; if(pr.ship)ship2=0; }
-    const total=Math.max(0,sub-disc)+ship2;
+    let base=Math.max(0,sub-disc)+ship2;
+    if(pr&&pr.gift){ gift=Math.min(pr.balance,base); }
+    const total=Math.max(0,Math.round((base-gift)*100)/100);
     document.getElementById("sumTotals").innerHTML=
       (disc>0?`<div class="sum-row promo"><span>Code ${pr.code}</span><b>−${euro(disc)}</b></div>`:"")
       +`<div class="sum-row"><span>${curMode()==="cc"?"Retrait boutique":"Livraison"}</span><span>${ship2?euro(ship2):"Offerte"}</span></div>`
+      +(gift>0?`<div class="sum-row promo"><span>🎁 Carte ${pr.code}</span><b>−${euro(gift)}</b></div>`:"")
       +`<div class="sum-row" style="font-size:1.15rem"><span>Total</span><strong>${euro(total)}</strong></div>`;
-    window.__coTotal=total;
+    window.__coTotal=total; window.__coGift=(pr&&pr.gift&&gift>0)?{code:pr.code,used:gift}:null;
   }
   const _pi=document.getElementById("promoInput"), _ep=getPromo(); if(_pi&&_ep)_pi.value=_ep.code;
   const shopBox=document.getElementById("coShop"), delivBox=document.getElementById("coDeliv");
@@ -643,14 +653,23 @@ function renderCheckout(){
   root.querySelectorAll('[name="mode"]').forEach(r=>r.addEventListener("change",syncMode)); syncMode();
   document.getElementById("promoBtn").addEventListener("click",()=>{
     const code=(document.getElementById("promoInput").value||"").trim().toUpperCase();
-    const msg=document.getElementById("promoMsg"), p=PROMO_CODES[code];
+    const msg=document.getElementById("promoMsg"), p=PROMO_CODES[code], gc=giftCard(code);
     if(p){setPromo(code);msg.textContent=`Code « ${code} » appliqué ✓ (${p.l})`;msg.className="promo-msg ok";}
-    else{setPromo(null);msg.textContent="Code promo invalide.";msg.className="promo-msg err";}
+    else if(gc&&gc.balance>0){setPromo(code);msg.textContent=`🎁 Carte cadeau appliquée ✓ · solde ${euro(gc.balance)}`;msg.className="promo-msg ok";}
+    else if(gc){setPromo(null);msg.textContent="Cette carte cadeau est épuisée.";msg.className="promo-msg err";}
+    else{setPromo(null);msg.textContent="Code invalide.";msg.className="promo-msg err";}
     msg.hidden=false; renderTotals();
   });
   document.getElementById("coForm").addEventListener("submit",e=>{e.preventDefault();
     const d=Object.fromEntries(new FormData(e.target));
-    sessionStorage.setItem("wood_lastorder",JSON.stringify({nom:d.nom||"",total:(window.__coTotal!=null?window.__coTotal:sub+ship),num:"WD-"+String(Date.now()).slice(-6),n:cartCount()}));
+    /* Émission des cartes cadeaux achetées → code unique par carte */
+    const gifts=[];
+    cart.forEach(x=>{ if(x.slug==="carte-cadeau"){ for(let k=0;k<x.q;k++){ gifts.push({code:issueGift(x.unit),amount:x.unit}); } } });
+    /* Paiement par carte cadeau → on débite son solde */
+    let redeemed=null; const g=window.__coGift;
+    if(g&&g.used>0){ const bal=redeemGift(g.code,g.used); redeemed={code:g.code,used:g.used,balance:bal}; }
+    sessionStorage.setItem("wood_lastorder",JSON.stringify({nom:d.nom||"",total:(window.__coTotal!=null?window.__coTotal:sub+ship),num:"WD-"+String(Date.now()).slice(-6),n:cartCount(),gifts:gifts,redeemed:redeemed}));
+    setPromo(null);
     cart=[];saveCart();updateCartBadges();location.href="confirmation.html";
   });
 }
@@ -658,14 +677,25 @@ function renderConfirm(){
   const root=document.getElementById("confirm"); if(!root)return;
   const o=JSON.parse(sessionStorage.getItem("wood_lastorder")||"null");
   const prenom=o&&o.nom?o.nom.split(" ")[0]:"";
+  const gifts=(o&&o.gifts)||[];
+  const giftHTML=gifts.length?`<div class="gift-issued">
+      <h3 class="serif">${gifts.length>1?'Tes cartes cadeaux':'Ta carte cadeau'} WOOD 🎁</h3>
+      <p class="muted" style="font-size:.85rem">${gifts.length>1?'Voici tes codes uniques':'Voici ton code unique'} — à saisir dans le champ « code » au paiement, ou à présenter en boutique.</p>
+      ${gifts.map(x=>`<div class="gift-code"><div class="gc-left"><span class="gc-amt">${euro(x.amount)}</span><code>${x.code}</code></div><button class="gc-copy" data-copy="${x.code}" type="button">Copier</button></div>`).join("")}
+      <p class="muted" style="font-size:.74rem;margin-top:.5rem">Solde réutilisable jusqu'à épuisement. Conserve ${gifts.length>1?'ces codes':'ce code'} précieusement.</p>
+    </div>`:"";
+  const redHTML=(o&&o.redeemed)?`<p class="gift-redeem">🎁 Carte <b>${o.redeemed.code}</b> utilisée : −${euro(o.redeemed.used)}${o.redeemed.balance>0?` · solde restant <b>${euro(o.redeemed.balance)}</b>`:' · carte épuisée'}</p>`:"";
   root.innerHTML=`<div class="confirm-box">
     <div class="ava-big">🎉</div>
     <h1 class="serif">Merci ${prenom} !</h1>
     <p class="muted">Ta commande ${o?`<strong class="cyan">${o.num}</strong>`:""} est bien prise en compte.<br>On va te mettre bien 😉</p>
+    ${redHTML}
+    ${giftHTML}
     <div class="tag tag-maquette" style="margin:1.2rem 0">Démo — aucune vraie commande/paiement · aucun e-mail envoyé</div>
-    <p class="muted" style="font-size:.86rem;max-width:40ch;margin-inline:auto">En vrai, tu recevrais ici un e-mail de confirmation avec ton <strong>bon de commande</strong> et ta <strong>facture</strong>.</p>
+    <p class="muted" style="font-size:.86rem;max-width:40ch;margin-inline:auto">En vrai, tu recevrais ${gifts.length?`${gifts.length>1?'ces codes':'ce code'} par <strong>e-mail</strong>`:'un e-mail de confirmation'} avec ton <strong>bon de commande</strong> et ta <strong>facture</strong>.</p>
     <a href="fleurs.html" class="btn btn-primary" style="margin-top:1.4rem">Continuer mes achats →</a>
   </div>`;
+  root.querySelectorAll("[data-copy]").forEach(b=>b.addEventListener("click",()=>{const c=b.getAttribute("data-copy");try{navigator.clipboard&&navigator.clipboard.writeText(c);}catch(e){}b.textContent="Copié ✓";b.classList.add("ok");setTimeout(()=>{b.textContent="Copier";b.classList.remove("ok");},1600);}));
 }
 
 /* ===================== AVIS (fondu) + INSTAGRAM ===================== */
@@ -806,7 +836,7 @@ document.addEventListener("DOMContentLoaded",()=>{
       else{cart[idx].q--;if(cart[idx].q<1)cart.splice(idx,1);}
       saveCart();updateCartBadges();renderCart();if(typeof renderCartDrawer==='function')renderCartDrawer();return;}
     // Code promo (panier)
-    const pa=e.target.closest("[data-promo-apply]"); if(pa){e.preventDefault();const inp=document.getElementById("promoCode");const c=((inp&&inp.value)||"").trim().toUpperCase();if(PROMO_CODES[c]){setPromo(c);toast(`Code ${c} appliqué 🎉`);renderCart();}else{toast("Code promo invalide");}return;}
+    const pa=e.target.closest("[data-promo-apply]"); if(pa){e.preventDefault();const inp=document.getElementById("promoCode");const c=((inp&&inp.value)||"").trim().toUpperCase();const gc=giftCard(c);if(PROMO_CODES[c]){setPromo(c);toast(`Code ${c} appliqué 🎉`);renderCart();}else if(gc&&gc.balance>0){setPromo(c);toast(`🎁 Carte cadeau appliquée · solde ${euro(gc.balance)}`);renderCart();}else{toast(gc?"Carte cadeau épuisée":"Code invalide");}return;}
     const prm=e.target.closest("[data-promo-rm]"); if(prm){e.preventDefault();setPromo(null);toast("Code promo retiré");renderCart();return;}
     // ajout simple (ex. cross-sell) : 3 g par defaut
     const a=e.target.closest("[data-add]"); if(a){e.preventDefault();const gi=a.dataset.gi!==undefined?+a.dataset.gi:1;addToCart(a.dataset.add,GRAMS[gi]);return;}

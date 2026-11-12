@@ -614,3 +614,17 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .logo-img{height:30px;width:auto;display:block}
 .logo-img-lg{height:40px}
 @media(max-width:600px){.logo-img{height:26px}}
+
+/* ===== Cartes cadeaux WOOD (confirmation + redeem) ===== */
+.gift-issued{margin:1.4rem auto;max-width:34rem;text-align:left;background:linear-gradient(160deg,#0a4e28,#003d1c);color:#f0edE2;border-radius:20px;padding:1.3rem 1.4rem;box-shadow:0 16px 40px rgba(0,40,20,.28)}
+.gift-issued h3{color:#fff;margin:0 0 .3rem}
+.gift-issued .muted{color:#cfe3d2}
+.gift-code{display:flex;align-items:center;justify-content:space-between;gap:.8rem;background:rgba(255,255,255,.08);border:1px solid rgba(203,240,150,.35);border-radius:14px;padding:.7rem .9rem;margin:.6rem 0}
+.gift-code .gc-left{display:flex;align-items:center;gap:.8rem;min-width:0}
+.gift-code .gc-amt{font-weight:800;color:#cbf096;font-size:1.05rem;white-space:nowrap}
+.gift-code code{font-family:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;font-size:1.05rem;letter-spacing:.06em;color:#fff;word-break:break-all}
+.gc-copy{flex:none;background:#cbf096;color:#083a1e;border:0;border-radius:10px;padding:.5rem .9rem;font-weight:700;cursor:pointer;transition:.15s}
+.gc-copy:hover{background:#d8f7a9}
+.gc-copy.ok{background:#fff}
+.gift-redeem{color:#1a7a44;font-weight:600;background:#eef8ea;border:1px solid #cfe9c2;border-radius:12px;padding:.6rem .9rem;display:inline-block;margin:.4rem auto}
+@media(prefers-color-scheme:dark){.gift-redeem{background:rgba(203,240,150,.1);color:#cbf096;border-color:rgba(203,240,150,.3)}}
