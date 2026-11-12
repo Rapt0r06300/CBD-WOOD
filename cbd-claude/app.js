@@ -111,7 +111,7 @@ function renderSimpleProduct(f){
         <h1>${f.nom}</h1>
         <p class="p-desc">${f.desc||''}</p>
         ${simpleBuyBlock(f)}
-        <div class="p-reassure"><span>🚚 Livraison discrète 24-48h</span><span>🔒 Paiement sécurisé</span><span>🔞 Réservé aux +18 ans</span></div>
+        <div class="p-reassure"><span>🏪 Retrait dans nos 2 boutiques à Nice</span><span>📞 Conseil par téléphone</span><span>🔞 Réservé aux +18 ans</span></div>
         <div class="accordions"><details open><summary>Description</summary>${body}</details></div>
         ${checker}
       </div>
@@ -362,7 +362,7 @@ function footerHTML(){return `<div class="container">
     <div><h4>Infos</h4><ul><li><a href="index.html#boutiques">Nos boutiques</a></li><li><a href="contact.html">Contact</a></li><li><a href="faq.html">FAQ</a></li><li><a href="index.html#histoire">L'histoire</a></li></ul></div>
     <div><h4>Légal</h4><ul><li><a href="mentions-legales.html">Mentions légales</a></li><li><a href="cgv.html">CGV</a></li><li><a href="confidentialite.html">Confidentialité</a></li><li><a href="confidentialite.html#cookies">Cookies</a></li></ul></div>
   </div>
-  <div class="footer-pay"><span class="muted">Paiement 100 % sécurisé</span><span class="pay-ic">VISA</span><span class="pay-ic">Mastercard</span><span class="pay-ic">Apple&nbsp;Pay</span><span class="pay-ic">G&nbsp;Pay</span><span class="pay-ic">Viva.com</span></div>
+  <div class="footer-pay"><span class="muted">Paiement en boutique</span></div>
   <div class="legal"><span>© 2026 WOOD CBD — JM BULLY · SIRET 888 112 836 00018 · THC &lt; 0,3 % · Vente interdite aux mineurs (18+).</span><span class="tag tag-maquette">Commande en ligne bientôt · réservation par téléphone</span></div></div>`;}
 function botnavHTML(active){const I={home:'<path d="M3 10 12 3l9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1Z"/>',fleurs:'<path d="M12 2s5 4 5 10a5 5 0 0 1-10 0c0-6 5-10 5-10Z"/>',search:'<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>',cart:'<path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/>',shop:'<path d="M12 21s7-6 7-12a7 7 0 1 0-14 0c0 6 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/>'};
   const a=(k,href,lbl,cls="")=>`<a href="${href}" class="${cls}${active===k?' active':''}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${I[k]}</svg>${lbl}</a>`;
@@ -371,7 +371,7 @@ function advisorHTML(){return `<span class="ava">🌿</span><span class="txt">Be
 
 function injectChrome(page){
   if(!document.querySelector(".announce")){const an=document.createElement("div");an.className="announce";an.setAttribute("aria-hidden","true");
-    an.innerHTML=`<div class="announce-track">${Array(2).fill("<span>🎁 Livraison offerte dès 60 €</span><span>🔬 Testé en labo · THC &lt; 0,3 %</span><span>📍 2 boutiques à Nice</span><span>✳ Si c'est WOOD, c'est GOOD</span><span>🌿 Conseil sans pression</span>").join("")}</div>`;
+    an.innerHTML=`<div class="announce-track">${Array(2).fill("<span>🏪 Retrait dans nos 2 boutiques</span><span>🔬 Testé en labo · THC &lt; 0,3 %</span><span>📍 2 boutiques à Nice</span><span>✳ Si c'est WOOD, c'est GOOD</span><span>🌿 Conseil sans pression</span>").join("")}</div>`;
     document.body.insertBefore(an,document.body.firstChild);}
   const h=document.querySelector('[data-chrome="header"]'); if(h){h.className="header";h.id="header";h.innerHTML=headerHTML();}
   const f=document.querySelector('[data-chrome="footer"]'); if(f){f.className="footer";f.innerHTML=footerHTML();}
@@ -423,9 +423,9 @@ function renderCartDrawer(){
   const sub=cartSubtotal(),rem=Math.max(0,FREE_SHIP-sub),pct=Math.min(100,Math.round(sub/FREE_SHIP*100));
   const nItems=cart.reduce((s,x)=>s+x.q,0),nGr=cart.reduce((s,x)=>s+x.g*x.q,0);
   const cnt=document.getElementById("cdCount"); if(cnt)cnt.textContent=`${nItems} article${nItems>1?'s':''}${nGr?' · '+nGr+' g':''}`;
-  ship.innerHTML=rem>0
-    ?`<p class="cd-ship-t">Plus que <b>${rem.toFixed(2)} €</b> pour la <b>livraison offerte</b> 🚚</p><div class="cd-bar"><i style="width:${pct}%"></i></div>`
-    :`<p class="cd-ship-t ok">🎉 Livraison offerte débloquée !</p><div class="cd-bar"><i style="width:100%"></i></div>`;
+  // Barre « livraison offerte » retiree : sans livraison, elle promettait un
+  // avantage inexistant. A remettre le jour ou l'expedition est en place.
+  ship.innerHTML=`<p class="cd-ship-t">🏪 À retirer à <b>Barla</b> ou <b>Borriglione</b></p>`;
   const itemsHtml=cart.map(x=>{const sv=itemSave(x);return `<div class="cd-item">
     <img src="assets/products/${x.slug}.jpg${IMGV}" alt="" onerror="this.style.visibility='hidden'">
     <div class="cd-it-info"><b>${x.nom}</b><span class="cd-it-meta"><b>${itemQty(x)}</b> · ${x.unit.toFixed(2)} €${sv>=8?` · <em class="cd-sv">−${sv}%</em>`:''}</span>
@@ -436,7 +436,7 @@ function renderCartDrawer(){
   const xsell=picks.length?`<div class="cd-xsell"><div class="cd-xsell-h">Souvent pris avec 👀</div>${picks.map(f=>`<div class="cd-x"><img src="assets/products/${f.slug}.jpg${IMGV}" alt="" onerror="this.style.visibility='hidden'"><div class="cd-x-info"><b>${f.nom}</b><span class="muted">dès ${f.p[0]} € · 3 g</span></div><button class="cd-x-add" data-add="${f.slug}" aria-label="Ajouter ${f.nom} au pochon">+</button></div>`).join("")}</div>`:"";
   items.innerHTML=itemsHtml+xsell;
   foot.innerHTML=`<div class="cd-sub"><span>Sous-total <small class="muted">· ${nItems} art.${nGr?' · '+nGr+' g':''}</small></span><b>${sub.toFixed(2)} €</b></div>
-    <a href="checkout.html" class="btn btn-primary cd-go">Commander →</a>
+    <a href="checkout.html" class="btn btn-primary cd-go">Réserver →</a>
     <a href="panier.html" class="cd-link">Voir le panier complet</a>`;
 }
 function openCartDrawer(){ensureCartDrawer();renderCartDrawer();const ov=document.getElementById("cartDrawer");requestAnimationFrame(()=>{ov.classList.add("open");document.body.style.overflow="hidden";});}
@@ -530,7 +530,7 @@ function renderProduct(){
         <p class="p-desc">${f.desc} · ${f.type==='resine'?'Résine CBD':'Fleur CBD'} · <span class="muted">profil de goût</span></p>
         ${pMolHTML(f.slug)}
         ${buyBlock(f)}
-        <div class="p-reassure"><span>🚚 Livraison discrète 24-48h</span><span>🔒 Paiement sécurisé</span><span>🔞 Réservé aux +18 ans</span></div>
+        <div class="p-reassure"><span>🏪 Retrait dans nos 2 boutiques à Nice</span><span>📞 Conseil par téléphone</span><span>🔞 Réservé aux +18 ans</span></div>
         <div class="accordions">
           <details open><summary>Description</summary>${descHTML(f)}</details>
           <details><summary>Infos produit</summary><p>Taux de CBD : <em>à renseigner</em> · Origine : <em>à renseigner</em> · THC &lt; 0,3 %. Les caractéristiques exactes seront confirmées par la boutique.</p></details>
@@ -603,11 +603,11 @@ function renderCart(){
         <div class="ci-line">${euro(x.unit*x.q)}</div><button class="ci-del" data-del="${i}" aria-label="Retirer ${x.nom}">Retirer</button></div>`).join("")}</div>
       <aside class="cart-sum">
         <h3 class="serif">Résumé</h3>
-        ${left>0?`<div class="freebar"><div class="freebar-fill" style="width:${Math.min(100,sub/free*100)}%"></div></div><p class="muted" style="font-size:.85rem">Plus que <strong>${euro(left)}</strong> pour la livraison offerte 🎉</p>`:`<p class="lime" style="font-weight:700">🎉 Livraison offerte !</p>`}
+        ${'' /* Barre « livraison offerte » retiree : il n'y a pas encore de livraison. */}
         ${'' /* Champ code retiré : sans paiement en ligne, une remise affichée ne voudrait rien dire. */}
         <div class="sum-row"><span>Sous-total</span><strong>${euro(sub)}</strong></div>
         ${disc>0?`<div class="sum-row disc"><span>${promo.gift?'🎁 Carte cadeau':'Réduction'} · ${promo.code}</span><strong>−${euro(disc)}</strong></div>`:''}
-        <div class="sum-row muted"><span>Livraison</span><span>${left>0?"calculée à l'étape suivante":"Offerte"}</span></div>
+        <div class="sum-row muted"><span>Retrait en boutique</span><span>Gratuit</span></div>
         <div class="sum-row total"><span>Total</span><strong>${euro(total)}</strong></div>
         <a class="btn btn-primary" href="checkout.html" style="width:100%;justify-content:center;margin-top:1rem">Réserver ma sélection →</a>
         <p class="muted" style="font-size:.78rem;text-align:center;margin-top:.8rem">Le paiement en ligne arrive bientôt. En attendant, on réserve par téléphone — c'est immédiat.</p>
@@ -1185,7 +1185,7 @@ function openQuickView(slug){
       <div class="qv-grams" id="qvGrams">${chips}</div>
       <div class="qv-actions"><button class="btn btn-primary" data-qv-add="${slug}" data-g="1" id="qvAdd">+ Ajouter · <b>${f.p[0]} €</b></button>
         <a class="btn btn-ghost" href="produit.html?f=${slug}">Fiche complète →</a></div>
-      <p class="qv-note muted">🚚 Livraison offerte dès 60 € · 🔬 testé en labo</p>
+      <p class="qv-note muted">🏪 Retrait en boutique · 🔬 testé en labo</p>
     </div></div>`;
   requestAnimationFrame(()=>ov.classList.add("open")); document.body.style.overflow="hidden";
 }
