@@ -118,6 +118,8 @@ const euro = n => n.toLocaleString("fr-FR")+" €";
 /* ---- Cloche repli SVG ---- */
 function clocheSVG(c,id){const g=`b${id}`;return `<svg class="cloche-svg" viewBox="0 0 200 250" width="100%" aria-hidden="true"><defs><radialGradient id="${g}" cx="45%" cy="38%" r="70%"><stop offset="0" stop-color="${c[0]}"/><stop offset="1" stop-color="${c[1]}"/></radialGradient></defs><ellipse cx="100" cy="226" rx="66" ry="12" fill="#000" opacity=".4"/><rect x="42" y="214" width="116" height="16" rx="8" fill="#6b5a3a"/><g fill="url(#${g})"><circle cx="100" cy="150" r="30"/><circle cx="78" cy="138" r="20"/><circle cx="122" cy="140" r="20"/><circle cx="90" cy="120" r="18"/><circle cx="112" cy="122" r="17"/><circle cx="100" cy="106" r="15"/><circle cx="74" cy="160" r="15"/><circle cx="126" cy="162" r="15"/><circle cx="100" cy="176" r="18"/></g><path d="M100 42c-40 0-66 30-66 70v86h132v-86c0-40-26-70-66-70Z" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.35)" stroke-width="2"/><ellipse cx="100" cy="44" rx="10" ry="6" fill="rgba(255,255,255,.25)"/></svg>`;}
 window.__cloche = s => { const f=byId(s); return clocheSVG(f?f.c:["#8fd08a","#243a2a"], s); };
+/* Visuel « Fleur Mystère » : cloche sombre, fleur dans l'ombre + gros ? vert WOOD */
+function mysterySVG(){return `<svg class="cloche-svg" viewBox="0 0 200 250" aria-hidden="true"><defs><radialGradient id="myg" cx="50%" cy="40%" r="62%"><stop offset="0" stop-color="#1b2c20"/><stop offset="1" stop-color="#0a120c"/></radialGradient></defs><ellipse cx="100" cy="226" rx="66" ry="12" fill="#000" opacity=".5"/><rect x="42" y="214" width="116" height="16" rx="8" fill="#5a4a2e"/><path d="M100 42c-40 0-66 30-66 70v86h132v-86c0-40-26-70-66-70Z" fill="url(#myg)" stroke="rgba(203,240,150,.22)" stroke-width="2"/><g fill="#2f5a3a" opacity=".5"><circle cx="100" cy="150" r="30"/><circle cx="78" cy="138" r="20"/><circle cx="122" cy="140" r="20"/><circle cx="90" cy="120" r="18"/><circle cx="112" cy="122" r="17"/><circle cx="100" cy="106" r="15"/><circle cx="74" cy="160" r="15"/><circle cx="126" cy="162" r="15"/><circle cx="100" cy="176" r="18"/></g><text x="100" y="170" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="128" font-weight="600" fill="#cbf096" opacity=".95">?</text><ellipse cx="100" cy="44" rx="10" ry="6" fill="rgba(255,255,255,.16)"/></svg>`;}
 
 function catArtSVG(kind){const m={fleurs:["#2f9e57","#0e3b26"],resines:["#c98a3a","#5a3410"],boostes:["#2f9e6b","#063b45"],huiles:["#cbf096","#3a5a1e"],accessoires:["#9fb0a0","#2c3a30"],acc:["#8fb0a8","#23342c"],bonbons:["#e58fb6","#5a2340"],carte:["#cbf096","#2f7a4a"]};const c=m[kind]||m.fleurs;return `<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" width="100%" height="100%"><rect width="400" height="300" fill="#141c16"/><path d="M-20 320C60 240 20 150 120 60c40-36 120 0 120 0s-30 120-120 170C60 270 20 300-20 320Z" fill="${c[0]}" opacity=".5"/></svg>`;}
 window.__catSVG = catArtSVG;
@@ -287,7 +289,7 @@ function descHTML(f){
 
 /* ---- PROMOS « Bons plans » (offres réelles Ana — style chic) ---- */
 const PROMOS=[
-  {name:"Fleur Mystère",tag:"Mystère",desc:"La surprise du moment · on choisit pour toi",c:["#d9c7f0","#4a2e6b"],price:"dès 9 €/g",sub:"3 g 25 € · 5 g 40 € · 10 g 70 € · 25 g 140 €"},
+  {name:"Fleur Mystère",tag:"Mystère",mystery:true,desc:"La surprise du moment · on choisit pour toi",c:["#1b2c20","#0a120c"],price:"dès 9 €/g",sub:"3 g 25 € · 5 g 40 € · 10 g 70 € · 25 g 140 €"},
   {name:"La promo 15 g",tag:"Offre",desc:"GTA · la variété du moment",c:["#c8f58f","#4ca72c"],price:"50 €",sub:"les variétés tournent régulièrement"},
   {name:"La promo 10 g",tag:"Offre",desc:"Une fruitée + une terreuse",c:["#f3c27a","#b5651d"],price:"30 €",sub:"ou 20 g pour 50 €"},
   {name:"Le Trim",tag:"Petit prix",desc:"Gros volume, petit budget",c:["#cfe39a","#7a8a2e"],price:"dès 15 €",sub:"10 g 15 € · 25 g 30 € · 100 g 100 €"},
@@ -302,7 +304,7 @@ function promoHeroHTML(p){
       <div class="ph-sub">${p.sub}</div>
       <a class="btn btn-primary ph-cta" href="fleurs.html">Voir l'offre <span class="arr">→</span></a>
     </div>
-    <div class="ph-art" aria-hidden="true"><div class="ph-halo" style="background:radial-gradient(circle,${p.c[0]}66,transparent 70%)"></div><div class="cloche">${clocheSVG(p.c,"ph")}</div></div>
+    <div class="ph-art" aria-hidden="true"><div class="ph-halo" style="background:radial-gradient(circle,${p.c[0]}66,transparent 70%)"></div><div class="cloche">${p.img?`<img src="assets/products/${p.img}${IMGV}" alt="${p.name}" style="width:100%;height:100%;object-fit:contain">`:(p.mystery?mysterySVG():clocheSVG(p.c,"ph"))}</div></div>
   </div>`;}
 function promoMiniHTML(p){
   return `<a class="promo-mini" href="fleurs.html"><span class="pm-dot" style="background:${p.c[0]}"></span><span class="pm-main"><b>${p.name}</b><span class="pm-sub">${p.desc}</span></span><span class="pm-price">${p.price}</span></a>`;}
