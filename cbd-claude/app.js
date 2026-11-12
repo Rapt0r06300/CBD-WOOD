@@ -140,6 +140,20 @@ function pMolHTML(slug){const m=MOLEC[slug];if(!m)return"";
   const ar=m.ar?`<div class="pm-b"><span class="pm-k">Arôme</span><span class="pm-v">${m.ar}</span></div>`:'';
   const prem=m.premium?`<div class="pm-b"><span class="pm-k">Gamme</span><span class="pm-v">${m.premium}</span></div>`:'';
   return `<div class="p-mol"><div class="pm-b"><span class="pm-k">Molécule</span><span class="pm-v">${m.mol}</span></div>${inten}${ar}${prem}</div>`;}
+/* ---- Descriptions VERBATIM (catalogue Shopify certifié d'Ana — jamais modifié) ---- */
+const DESC={
+  "nimbus-3000":"Variété : Nimbus 3000 (CBD+/STRONG)\nNotre Nimbus 3000, c'est une valeur sûre, niveau expert ! Outre son goût savoureux aux notes tropicales, cette fleur a la particularité d'être riche en CBD et BOOSTÉE, un atout majeur pour les consommateurs en quête de sensations fortes.\nCette variété exceptionnelle vous transporte dans un voyage aromatique, en plus de son profil de CBD élevé. Profitez d'une expérience ULTRA relaxante et apaisante grâce à cette fleur de CBD de qualité supérieure.\n⚠️ CBD BOOSTÉ : avec son taux puissant en CBD+, la Nimbus 3000 te procure une relaxation TRÈS profonde, à consommer avec modération.",
+  "ivory":"Variété : Ivory (CBD+/STRONG)\nNotre Ivory, c'est une fleur pour les vrais puristes et connaisseurs, niveau expert ! Outre son goût savoureux, cette fleur a la particularité d'être riche en CBD et BOOSTÉE, un atout majeur pour les consommateurs en quête de sensations fortes.\nCette variété exceptionnelle vous transporte dans un voyage aromatique, en plus de son profil de CBD élevé. Profitez d'une expérience ULTRA relaxante et apaisante grâce à cette fleur de CBD de qualité supérieure.\n⚠️ CBD BOOSTÉ : avec son taux puissant en CBD + CBE, l'Ivory te procure une relaxation TRÈS profonde, à consommer avec modération. Son nom en dit long sur son potentiel !",
+  "pastraweed":"Variété : Pastraweed (BOOSTÉ/STRONG)\nUne valeur sûre ! Goût savoureux, riche en CBD et BOOSTÉE : un voyage aromatique sur un profil de CBD élevé.\n⚠️ Fleur boostée, à consommer avec modération.",
+  "euphoria":"Variété : Euphoria (BOOSTÉ/STRONG)\nNotre Euphoria, c'est LA pépite chez WOOD ! Une saveur exceptionnellement fruitée, riche en CBD et BOOSTÉE, pour une expérience ULTRA relaxante. Exclusivité WOOD CBD !\n⚠️ CBD BOOSTÉ (CBD + CBE), relaxation TRÈS profonde, à consommer avec modération. Le conseil d'Ana : parsemer légèrement, 2-3 taffs et on pose le J… Bon voyage ♥",
+  "fanta-hazy":"🍋 Acidulée · 🍭 Sucrée\nGoût : offrant une explosion fruitée en bouche, la Fanta Hazy et son odeur sont le fruit d'une longue recherche de notre part, capturant l'essence même de la fleur sucrée et unique.\nTaux de CBD : la Fanta Hazy possède un taux de CBD garantissant une expérience relaxante et apaisante.",
+};
+function descHTML(f){
+  if(DESC[f.slug])return DESC[f.slug].split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("");
+  const m=MOLEC[f.slug]||{};const bits=[];
+  if(m.mol)bits.push(m.mol);if(m.ia)bits.push("intensité "+m.ia.toLowerCase());if(m.ar)bits.push("profil "+m.ar.toLowerCase());
+  return `<p>${f.nom} — ${bits.join(" · ")||"fleur de CBD"}. Sélectionnée par WOOD et présentée sous cloche, avec notre exigence habituelle.</p>`;
+}
 
 /* ---- PROMOS « Bons plans » (offres réelles Ana — style chic) ---- */
 const PROMOS=[
@@ -337,7 +351,7 @@ function renderProduct(){
         ${buyBlock(f)}
         <div class="p-reassure"><span>🚚 Livraison discrète 24-48h</span><span>🔒 Paiement sécurisé</span><span>🔞 Réservé aux +18 ans</span></div>
         <div class="accordions">
-          <details open><summary>Description</summary><p>${f.nom}, une fleur de CBD au profil « ${f.desc.replace(/[^\p{L}\s]/gu,'').trim().toLowerCase()} ». Sélectionnée par WOOD, présentée sous cloche. Visuel de démonstration généré — remplacé par les photos réelles de la boutique.</p></details>
+          <details open><summary>Description</summary>${descHTML(f)}</details>
           <details><summary>Infos produit</summary><p>Taux de CBD : <em>à renseigner</em> · Origine : <em>à renseigner</em> · THC &lt; 0,3 %. Les caractéristiques exactes seront confirmées par la boutique.</p></details>
           <details><summary>Certificat d'analyse (COA)</summary><p>Le certificat d'analyse par lot sera disponible ici (preuve de conformité &lt; 0,3 % THC).</p></details>
         </div>
