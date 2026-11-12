@@ -638,3 +638,24 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .gc-res.ok{color:#1a7a44}
 .gc-res.err{color:#b4443a}
 @media(prefers-color-scheme:dark){.gift-check{border-color:rgba(203,240,150,.22)}.gift-check input{background:rgba(255,255,255,.07);color:#eef6e8;border-color:rgba(203,240,150,.28)}.gc-res.ok{color:#cbf096}}
+
+
+/* ===== Réservation (tant que la commande en ligne n'est pas branchée) ===== */
+.resa-note{background:linear-gradient(160deg,#0a4e28,#003d1c);color:#f0ede2;
+  border-radius:16px;padding:1.1rem 1.3rem;margin:1rem 0 1.6rem;line-height:1.55}
+.resa-note b{display:block;margin-bottom:.25rem;font-size:1.02rem}
+.resa-shop{display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  flex-wrap:wrap;background:#fff;border:1px solid rgba(0,61,28,.12);border-radius:14px;
+  padding:.9rem 1.1rem;margin-bottom:.7rem;box-shadow:0 6px 18px rgba(0,40,20,.06)}
+.resa-shop-info{display:flex;flex-direction:column;min-width:0}
+.resa-shop-info b{font-size:1rem}
+.resa-shop-info .muted{font-size:.85rem}
+.resa-shop .btn{white-space:nowrap}
+.resa-actions{display:flex;gap:.6rem;flex-wrap:wrap;margin:.6rem 0 1rem}
+.resa-recap{background:#f4f1e9;border:1px solid rgba(0,61,28,.12);border-radius:12px;
+  padding:.9rem 1.1rem;font-size:.86rem;line-height:1.6;white-space:pre-wrap;
+  word-break:break-word;color:#15231b;font-family:inherit;margin:0}
+@media(prefers-color-scheme:dark){
+  .resa-shop{background:rgba(255,255,255,.05);border-color:rgba(203,240,150,.18)}
+  .resa-recap{background:rgba(255,255,255,.05);border-color:rgba(203,240,150,.18);color:#e8ece6}
+}

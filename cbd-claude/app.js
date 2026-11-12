@@ -132,7 +132,10 @@ function renderSimpleProduct(f){
 const TIER = { boostes:{label:"Boostés",cls:"badge-boost"}, soft:{label:"Soft",cls:"badge-soft"}, classique:{label:"Classique",cls:"badge-classic"} };
 const GRAMS = [1,3,5,10];
 const byId = s => FLEURS.find(f=>f.slug===s) || BOUTIQUE.find(f=>f.slug===s) || null;
-const euro = n => n.toLocaleString("fr-FR")+" €";
+/* Un prix ne s'écrit jamais « 11,8 € » : les centimes se notent sur deux chiffres. */
+const euro = n => (Number(n) % 1 === 0)
+  ? Number(n).toLocaleString("fr-FR") + " €"
+  : Number(n).toLocaleString("fr-FR", {minimumFractionDigits:2, maximumFractionDigits:2}) + " €";
 
 /* ---- Cloche repli SVG ---- */
 function clocheSVG(c,id){const g=`b${id}`;return `<svg class="cloche-svg" viewBox="0 0 200 250" width="100%" aria-hidden="true"><defs><radialGradient id="${g}" cx="45%" cy="38%" r="70%"><stop offset="0" stop-color="${c[0]}"/><stop offset="1" stop-color="${c[1]}"/></radialGradient></defs><ellipse cx="100" cy="226" rx="66" ry="12" fill="#000" opacity=".4"/><rect x="42" y="214" width="116" height="16" rx="8" fill="#6b5a3a"/><g fill="url(#${g})"><circle cx="100" cy="150" r="30"/><circle cx="78" cy="138" r="20"/><circle cx="122" cy="140" r="20"/><circle cx="90" cy="120" r="18"/><circle cx="112" cy="122" r="17"/><circle cx="100" cy="106" r="15"/><circle cx="74" cy="160" r="15"/><circle cx="126" cy="162" r="15"/><circle cx="100" cy="176" r="18"/></g><path d="M100 42c-40 0-66 30-66 70v86h132v-86c0-40-26-70-66-70Z" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.35)" stroke-width="2"/><ellipse cx="100" cy="44" rx="10" ry="6" fill="rgba(255,255,255,.25)"/></svg>`;}
@@ -600,13 +603,13 @@ function renderCart(){
       <aside class="cart-sum">
         <h3 class="serif">Résumé</h3>
         ${left>0?`<div class="freebar"><div class="freebar-fill" style="width:${Math.min(100,sub/free*100)}%"></div></div><p class="muted" style="font-size:.85rem">Plus que <strong>${euro(left)}</strong> pour la livraison offerte 🎉</p>`:`<p class="lime" style="font-weight:700">🎉 Livraison offerte !</p>`}
-        <div class="promo-field">${promo?`<div class="promo-on"><span>🏷️ Code <b>${promo.code}</b> · ${promo.l}</span><button class="promo-rm" data-promo-rm type="button">Retirer</button></div>`:`<div class="promo-in"><input id="promoCode" type="text" placeholder="Code promo" autocomplete="off" aria-label="Code promo"><button class="promo-add" data-promo-apply type="button">Appliquer</button></div>`}</div>
+        ${'' /* Champ code retiré : sans paiement en ligne, une remise affichée ne voudrait rien dire. */}
         <div class="sum-row"><span>Sous-total</span><strong>${euro(sub)}</strong></div>
         ${disc>0?`<div class="sum-row disc"><span>${promo.gift?'🎁 Carte cadeau':'Réduction'} · ${promo.code}</span><strong>−${euro(disc)}</strong></div>`:''}
         <div class="sum-row muted"><span>Livraison</span><span>${left>0?"calculée à l'étape suivante":"Offerte"}</span></div>
         <div class="sum-row total"><span>Total</span><strong>${euro(total)}</strong></div>
-        <a class="btn btn-primary" href="checkout.html" style="width:100%;justify-content:center;margin-top:1rem">Passer commande →</a>
-        <p class="muted" style="font-size:.78rem;text-align:center;margin-top:.8rem">Démo : aucune vraie commande ni paiement.</p>
+        <a class="btn btn-primary" href="checkout.html" style="width:100%;justify-content:center;margin-top:1rem">Réserver ma sélection →</a>
+        <p class="muted" style="font-size:.78rem;text-align:center;margin-top:.8rem">Le paiement en ligne arrive bientôt. En attendant, on réserve par téléphone — c'est immédiat.</p>
       </aside></div>`;
 }
 
@@ -629,137 +632,112 @@ function renderBientot(){
 }
 
 /* ===================== PAGE : CHECKOUT (démo) ===================== */
+/* ===================== PAGE : RÉSERVER (sans serveur) =====================
+   La commande en ligne n'est pas encore branchée : il n'y a pas de serveur
+   pour l'enregistrer. Plutôt que de laisser un client croire qu'il a commandé
+   — et attendre un colis qui ne viendrait jamais — on lui donne un chemin qui
+   fonctionne dès maintenant : un appel, ou sa sélection prête à envoyer.
+   ========================================================================= */
+const BOUTIQUES = [
+  { slug:"barla", nom:"WOOD · Barla", adresse:"7 rue Barla, 06300 Nice",
+    tel:"04 22 16 35 70", telBrut:"+33422163570" },
+  { slug:"borriglione", nom:"WOOD · Borriglione", adresse:"16 av. A. Borriglione, 06100 Nice",
+    tel:"04 23 13 03 05", telBrut:"+33423130305" },
+];
+
+/** Récapitulatif de la sélection, en texte simple, prêt à envoyer. */
+function selectionTexte(){
+  const l = cart.map(x => "• " + x.nom + " — " + itemQty(x) + " ×" + x.q + " (" + euro(x.unit * x.q) + ")");
+  const sub = cart.reduce((s,x) => s + x.unit * x.q, 0);
+  return "Bonjour, je souhaite réserver :\n\n" + l.join("\n") + "\n\nTotal indicatif : " + euro(sub);
+}
+
 function renderCheckout(){
-  const root=document.getElementById("checkout"); if(!root)return;
-  if(!cart.length){location.href="panier.html";return;}
-  const sub=cart.reduce((s,x)=>s+x.unit*x.q,0); const ship=sub>=60?0:4.9;
-  root.innerHTML=`<a class="breadcrumb" href="panier.html">← Retour au pochon</a>
-    <h1 class="serif">Commande</h1>
+  const root = document.getElementById("checkout"); if(!root) return;
+  if(!cart.length){ location.href = "panier.html"; return; }
+
+  const sub = cart.reduce((s,x) => s + x.unit * x.q, 0);
+  const nArt = cart.reduce((s,x) => s + x.q, 0);
+
+  const boutiques = BOUTIQUES.map(b => `
+    <div class="resa-shop">
+      <div class="resa-shop-info">
+        <b>${b.nom}</b>
+        <span class="muted">${b.adresse}</span>
+      </div>
+      <a class="btn btn-primary" href="tel:${b.telBrut}">📞 ${b.tel}</a>
+    </div>`).join("");
+
+  root.innerHTML = `
+    <a class="breadcrumb" href="panier.html">← Retour au pochon</a>
+    <h1 class="serif">Réserver ma sélection</h1>
+
+    <div class="resa-note">
+      <b>La commande en ligne arrive très bientôt.</b>
+      En attendant, réserve en un appel : on prépare ta sélection, tu passes la récupérer.
+      C'est immédiat, et tu parles à quelqu'un.
+    </div>
+
     <div class="checkout-grid">
-      <form class="checkout-form" id="coForm">
-        <h3 class="serif">Tes coordonnées</h3>
-        <div class="field"><label>Prénom & nom</label><input required name="nom" autocomplete="name"></div>
-        <div class="field"><label>E-mail</label><input required type="email" name="email" autocomplete="email" inputmode="email"></div>
-        <div class="field"><label>Téléphone</label><input type="tel" name="tel" autocomplete="tel" inputmode="tel"></div>
-        <h3 class="serif">Livraison</h3>
-        <div class="radios">
-          <label class="radio"><input type="radio" name="mode" value="livraison" checked> 🚚 Livraison à domicile (24–48h)</label>
-          <label class="radio"><input type="radio" name="mode" value="cc"> 🏪 Retrait en boutique</label>
+      <div>
+        <h3 class="serif">1. Appelle la boutique de ton choix</h3>
+        ${boutiques}
+
+        <h3 class="serif" style="margin-top:1.6rem">2. Ou envoie ta sélection</h3>
+        <p class="muted" style="font-size:.9rem">Copie-la et envoie-la en message — on te répond vite.</p>
+        <div class="resa-actions">
+          <button class="btn btn-primary" id="copierSel">📋 Copier ma sélection</button>
+          <a class="btn btn-ghost" href="https://instagram.com/wood.cbdshop" target="_blank" rel="noopener">Instagram</a>
         </div>
-        <div class="co-shop" id="coShop" hidden>
-          <div class="field"><label>Choisis ta boutique</label>
-            <select name="boutique" class="co-select">
-              <option value="Barla">WOOD · Barla — 7 rue Barla, 06300 Nice</option>
-              <option value="Borriglione">WOOD · Borriglione — 16 av. A. Borriglione, 06100 Nice</option>
-            </select>
-          </div>
-          <p class="co-note">🏪 Tu récupères et peux régler en boutique. On prévient l'équipe de ta commande.</p>
-        </div>
-        <div class="co-deliv" id="coDeliv">
-          <div class="field"><label>Adresse</label><input name="adresse" autocomplete="street-address"></div>
-          <div class="field two"><div><label>Code postal</label><input name="cp" inputmode="numeric" autocomplete="postal-code"></div><div><label>Ville</label><input name="ville" autocomplete="address-level2"></div></div>
-          <p class="co-note">📮 Expédition depuis notre point poste de Barla · 24–48h · paquet neutre.</p>
-        </div>
-        <h3 class="serif">Paiement</h3>
-        <div class="pay-demo">💳 Paiement sécurisé par <strong>Viva.com</strong> — ou en boutique au retrait <span class="tag tag-maquette">démo · paiement désactivé</span></div>
-        <label class="checkbox"><input type="checkbox" required> J'ai <strong>18 ans ou plus</strong> et j'accepte les <a href="cgv.html" target="_blank">CGV</a>.</label>
-        <button class="btn btn-primary" type="submit" style="width:100%;justify-content:center;margin-top:1rem">Confirmer la commande →</button>
-        <p class="muted" style="font-size:.78rem;text-align:center;margin-top:.6rem">Démo : aucune commande ni paiement réels.</p>
-      </form>
+        <pre class="resa-recap" id="recapSel">${selectionTexte().replace(/[<>&]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]))}</pre>
+      </div>
+
       <aside class="cart-sum">
-        <h3 class="serif">Résumé</h3>
-        ${cart.map(x=>`<div class="sum-row"><span>${x.nom} ×${x.q} <small class="muted">(${itemQty(x)})</small></span><strong>${euro(x.unit*x.q)}</strong></div>`).join("")}
-        <div class="promo-row"><input id="promoInput" placeholder="Code promo" autocomplete="off"><button type="button" class="btn btn-ghost" id="promoBtn">Appliquer</button></div>
-        <p class="promo-msg" id="promoMsg" hidden></p>
-        <div id="sumTotals"></div>
-        <p class="muted" style="font-size:.72rem;margin-top:.5rem">Codes d'essai : WOOD10 · BIENVENUE · LIVRAISON — ou ta carte cadeau <b>WOOD-…</b> <span class="tag tag-maquette">démo</span></p>
+        <h3 class="serif">Ta sélection</h3>
+        ${cart.map(x => `<div class="sum-row"><span>${x.nom} ×${x.q} <small class="muted">(${itemQty(x)})</small></span><strong>${euro(x.unit*x.q)}</strong></div>`).join("")}
+        <div class="sum-row total"><span>${nArt} article${nArt>1?'s':''}</span><strong>${euro(sub)}</strong></div>
+        <p class="muted" style="font-size:.78rem;margin-top:.8rem">
+          Montant indicatif. Le prix définitif t'est confirmé en boutique.
+        </p>
+        <p class="muted" style="font-size:.78rem">🔞 Réservé aux +18 ans · THC &lt; 0,3 %</p>
       </aside>
     </div>`;
-  function curMode(){const el=root.querySelector('[name="mode"]:checked');return el?el.value:"livraison";}
-  function renderTotals(){
-    const pr=promoInfo(); let ship2=(curMode()==="cc"||sub>=60)?0:4.9, disc=0, gift=0;
-    if(pr){ if(pr.pct)disc=Math.round(sub*pr.pct)/100; if(pr.ship)ship2=0; }
-    let base=Math.max(0,sub-disc)+ship2;
-    if(pr&&pr.gift){ gift=Math.min(pr.balance,base); }
-    const total=Math.max(0,Math.round((base-gift)*100)/100);
-    document.getElementById("sumTotals").innerHTML=
-      (disc>0?`<div class="sum-row promo"><span>Code ${pr.code}</span><b>−${euro(disc)}</b></div>`:"")
-      +`<div class="sum-row"><span>${curMode()==="cc"?"Retrait boutique":"Livraison"}</span><span>${ship2?euro(ship2):"Offerte"}</span></div>`
-      +(gift>0?`<div class="sum-row promo"><span>🎁 Carte ${pr.code}</span><b>−${euro(gift)}</b></div>`:"")
-      +`<div class="sum-row" style="font-size:1.15rem"><span>Total</span><strong>${euro(total)}</strong></div>`;
-    window.__coTotal=total; window.__coGift=(pr&&pr.gift&&gift>0)?{code:pr.code,used:gift}:null;
-  }
-  const _pi=document.getElementById("promoInput"), _ep=getPromo(); if(_pi&&_ep)_pi.value=_ep.code;
-  const shopBox=document.getElementById("coShop"), delivBox=document.getElementById("coDeliv");
-  function syncMode(){const cc=curMode()==="cc"; if(shopBox)shopBox.hidden=!cc; if(delivBox)delivBox.hidden=cc; renderTotals();}
-  root.querySelectorAll('[name="mode"]').forEach(r=>r.addEventListener("change",syncMode)); syncMode();
-  document.getElementById("promoBtn").addEventListener("click",async ()=>{
-    const code=(document.getElementById("promoInput").value||"").trim().toUpperCase();
-    const msg=document.getElementById("promoMsg"); msg.hidden=false;
-    if(PROMO_CODES[code]){setPromo(code);msg.textContent=`Code « ${code} » appliqué ✓ (${PROMO_CODES[code].l})`;msg.className="promo-msg ok";renderTotals();return;}
-    if(/^WOOD-/.test(code)){
-      msg.textContent="Vérification de la carte…";msg.className="promo-msg";
-      const gc=await lookupGift(code);
-      if(gc&&gc.balance>0){setPromo(code);msg.textContent=`🎁 Carte cadeau appliquée ✓ · solde ${euro(gc.balance)}`;msg.className="promo-msg ok";}
-      else if(gc){setPromo(null);msg.textContent="Cette carte cadeau est épuisée.";msg.className="promo-msg err";}
-      else{setPromo(null);msg.textContent="Carte cadeau introuvable.";msg.className="promo-msg err";}
-      renderTotals();return;
+
+  const btn = document.getElementById("copierSel");
+  if(btn) btn.addEventListener("click", async () => {
+    const txt = selectionTexte();
+    try{
+      await navigator.clipboard.writeText(txt);
+      btn.textContent = "✓ Copié !";
+    }catch(e){
+      // Le presse-papier peut être refusé : on sélectionne le texte à la place
+      const pre = document.getElementById("recapSel");
+      if(pre){
+        const r = document.createRange(); r.selectNodeContents(pre);
+        const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      }
+      btn.textContent = "Sélectionné — Ctrl+C";
     }
-    setPromo(null);msg.textContent="Code invalide.";msg.className="promo-msg err";renderTotals();
+    setTimeout(() => { btn.textContent = "📋 Copier ma sélection"; }, 2200);
   });
-  document.getElementById("coForm").addEventListener("submit",async e=>{e.preventDefault();
-    const d=Object.fromEntries(new FormData(e.target));
-    const btn=e.target.querySelector('button[type="submit"]'); const lbl=btn?btn.textContent:"";
-    if(btn){btn.disabled=true;btn.textContent="Validation…";}
-    const num="WD-"+String(Date.now()).slice(-6);
-    /* Émission des cartes cadeaux achetées → code unique créé EN BASE (repli local si hors-ligne) */
-    const gifts=[];
-    for(const x of cart){ if(x.slug==="carte-cadeau"){ for(let k=0;k<x.q;k++){
-      let code=null;
-      try{ const res=await sbRpc("issue_gift_card",{p_amount:x.unit}); code=res&&res[0]&&res[0].code; }catch(err){ code=null; }
-      if(code){ const g2=getGifts(); g2[code]={amount:x.unit,balance:x.unit,status:"active",created:Date.now()}; saveGifts(g2); }
-      else { code=issueGift(x.unit); }
-      gifts.push({code:code,amount:x.unit});
-    } } }
-    /* Paiement par carte cadeau → débit atomique EN BASE, idempotent via la réf commande */
-    let redeemed=null; const g=window.__coGift;
-    if(g&&g.used>0){
-      let bal=null, used=g.used;
-      try{ const res=await sbRpc("redeem_gift_card",{p_code:g.code,p_amount:g.used,p_ref:num});
-           if(res&&res[0]){ used=Number(res[0].used); bal=Number(res[0].balance); } }catch(err){ bal=null; }
-      if(bal===null){ bal=redeemGift(g.code,g.used); }
-      else { const g3=getGifts(); g3[g.code]=Object.assign(g3[g.code]||{amount:used},{balance:bal}); saveGifts(g3); }
-      redeemed={code:g.code,used:used,balance:bal};
-    }
-    if(btn){btn.disabled=false;btn.textContent=lbl;}
-    sessionStorage.setItem("wood_lastorder",JSON.stringify({nom:d.nom||"",total:(window.__coTotal!=null?window.__coTotal:sub+ship),num:num,n:cartCount(),gifts:gifts,redeemed:redeemed}));
-    setPromo(null);
-    cart=[];saveCart();updateCartBadges();location.href="confirmation.html";
-  });
+
+  document.title = "Réserver — WOOD CBD";
 }
 function renderConfirm(){
-  const root=document.getElementById("confirm"); if(!root)return;
-  const o=JSON.parse(sessionStorage.getItem("wood_lastorder")||"null");
-  const prenom=o&&o.nom?o.nom.split(" ")[0]:"";
-  const gifts=(o&&o.gifts)||[];
-  const giftHTML=gifts.length?`<div class="gift-issued">
-      <h3 class="serif">${gifts.length>1?'Tes cartes cadeaux':'Ta carte cadeau'} WOOD 🎁</h3>
-      <p class="muted" style="font-size:.85rem">${gifts.length>1?'Voici tes codes uniques':'Voici ton code unique'} — à saisir dans le champ « code » au paiement, ou à présenter en boutique.</p>
-      ${gifts.map(x=>`<div class="gift-code"><div class="gc-left"><span class="gc-amt">${euro(x.amount)}</span><code>${x.code}</code></div><button class="gc-copy" data-copy="${x.code}" type="button">Copier</button></div>`).join("")}
-      <p class="muted" style="font-size:.74rem;margin-top:.5rem">Solde réutilisable jusqu'à épuisement. Conserve ${gifts.length>1?'ces codes':'ce code'} précieusement.</p>
-    </div>`:"";
-  const redHTML=(o&&o.redeemed)?`<p class="gift-redeem">🎁 Carte <b>${o.redeemed.code}</b> utilisée : −${euro(o.redeemed.used)}${o.redeemed.balance>0?` · solde restant <b>${euro(o.redeemed.balance)}</b>`:' · carte épuisée'}</p>`:"";
-  root.innerHTML=`<div class="confirm-box">
-    <div class="ava-big">🎉</div>
-    <h1 class="serif">Merci ${prenom} !</h1>
-    <p class="muted">Ta commande ${o?`<strong class="cyan">${o.num}</strong>`:""} est bien prise en compte.<br>On va te mettre bien 😉</p>
-    ${redHTML}
-    ${giftHTML}
-    <div class="tag tag-maquette" style="margin:1.2rem 0">Démo — aucune vraie commande/paiement · aucun e-mail envoyé</div>
-    <p class="muted" style="font-size:.86rem;max-width:40ch;margin-inline:auto">En vrai, tu recevrais ${gifts.length?`${gifts.length>1?'ces codes':'ce code'} par <strong>e-mail</strong>`:'un e-mail de confirmation'} avec ton <strong>bon de commande</strong> et ta <strong>facture</strong>.</p>
-    <a href="fleurs.html" class="btn btn-primary" style="margin-top:1.4rem">Continuer mes achats →</a>
+  const root = document.getElementById("confirm"); if(!root) return;
+  /* Plus aucune commande n'est créée en ligne : cette page ne doit donc plus
+     afficher de faux numéro ni de fausse confirmation. */
+  root.innerHTML = `<div class="confirm-box">
+    <div class="ava-big">🌿</div>
+    <h1 class="serif">Réserve en un appel</h1>
+    <p class="muted">La commande en ligne arrive très bientôt.<br>
+       En attendant, on prépare ta sélection et tu passes la récupérer.</p>
+    <div class="resa-actions" style="justify-content:center;margin-top:1.2rem">
+      <a class="btn btn-primary" href="tel:+33422163570">📞 Barla · 04 22 16 35 70</a>
+      <a class="btn btn-primary" href="tel:+33423130305">📞 Borriglione · 04 23 13 03 05</a>
+    </div>
+    <a href="fleurs.html" class="btn btn-ghost" style="margin-top:1.2rem">Continuer à explorer →</a>
   </div>`;
-  root.querySelectorAll("[data-copy]").forEach(b=>b.addEventListener("click",()=>{const c=b.getAttribute("data-copy");try{navigator.clipboard&&navigator.clipboard.writeText(c);}catch(e){}b.textContent="Copié ✓";b.classList.add("ok");setTimeout(()=>{b.textContent="Copier";b.classList.remove("ok");},1600);}));
 }
 
 /* ===================== AVIS (fondu) + INSTAGRAM ===================== */
