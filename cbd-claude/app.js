@@ -289,7 +289,7 @@ function descHTML(f){
 
 /* ---- PROMOS « Bons plans » (offres réelles Ana — style chic) ---- */
 const PROMOS=[
-  {name:"Fleur Mystère",tag:"Mystère",mystery:true,desc:"La surprise du moment · on choisit pour toi",c:["#1b2c20","#0a120c"],price:"dès 9 €/g",sub:"3 g 25 € · 5 g 40 € · 10 g 70 € · 25 g 140 €"},
+  {name:"Fleur Mystère",tag:"Mystère",mystery:true,img:"fleur-mystere-promo.jpg",desc:"La surprise du moment · on choisit pour toi",c:["#1b2c20","#0a120c"],price:"dès 9 €/g",sub:"3 g 25 € · 5 g 40 € · 10 g 70 € · 25 g 140 €"},
   {name:"La promo 15 g",tag:"Offre",desc:"GTA · la variété du moment",c:["#c8f58f","#4ca72c"],price:"50 €",sub:"les variétés tournent régulièrement"},
   {name:"La promo 10 g",tag:"Offre",desc:"Une fruitée + une terreuse",c:["#f3c27a","#b5651d"],price:"30 €",sub:"ou 20 g pour 50 €"},
   {name:"Le Trim",tag:"Petit prix",desc:"Gros volume, petit budget",c:["#cfe39a","#7a8a2e"],price:"dès 15 €",sub:"10 g 15 € · 25 g 30 € · 100 g 100 €"},
@@ -304,7 +304,7 @@ function promoHeroHTML(p){
       <div class="ph-sub">${p.sub}</div>
       <a class="btn btn-primary ph-cta" href="fleurs.html">Voir l'offre <span class="arr">→</span></a>
     </div>
-    <div class="ph-art" aria-hidden="true"><div class="ph-halo" style="background:radial-gradient(circle,${p.c[0]}66,transparent 70%)"></div><div class="cloche">${p.img?`<img src="assets/products/${p.img}${IMGV}" alt="${p.name}" style="width:100%;height:100%;object-fit:contain">`:(p.mystery?mysterySVG():clocheSVG(p.c,"ph"))}</div></div>
+    <div class="ph-art" aria-hidden="true"><div class="ph-halo" style="background:radial-gradient(circle,${p.c[0]}66,transparent 70%)"></div><div class="cloche">${p.img?`<img src="assets/products/${p.img}${IMGV}" alt="${p.name}" loading="lazy" style="width:100%;max-width:320px;aspect-ratio:1;object-fit:cover;border-radius:20px;box-shadow:0 18px 50px rgba(0,0,0,.45)">`:(p.mystery?mysterySVG():clocheSVG(p.c,"ph"))}</div></div>
   </div>`;}
 function promoMiniHTML(p){
   return `<a class="promo-mini" href="fleurs.html"><span class="pm-dot" style="background:${p.c[0]}"></span><span class="pm-main"><b>${p.name}</b><span class="pm-sub">${p.desc}</span></span><span class="pm-price">${p.price}</span></a>`;}
