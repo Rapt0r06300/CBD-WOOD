@@ -4,23 +4,42 @@
    =========================================================== */
 
 const IMGV = "?v=3"; /* cache-buster images (bump si régénération) */
+/* Catalogue RÉEL (récupération Shopify WOOD) — descriptions/prix/photos certifiés, jamais inventé. Prix par 1/3/5/10 g. */
 const FLEURS = [
-  { slug:"nimbus-3000", nom:"Nimbus 3000", tier:"boostes", desc:"Givrée ❄️", c:["#eafce0","#8fd08a"], p:[15,42,70,130,260] },
-  { slug:"ivory", nom:"Ivory", tier:"boostes", desc:"Douce 🤍", c:["#f3f1dd","#b7cf9a"], p:[15,42,70,130,260] },
-  { slug:"velvet-kush", nom:"Velvet Kush", tier:"boostes", desc:"Intense 🖤", c:["#5a7f63","#243a2a"], p:[12,34,55,100,200] },
-  { slug:"pastraweed", nom:"Pastraweed", tier:"boostes", desc:"Gourmande 🍊", c:["#cfe39a","#8a7a2e"], p:[12,34,55,100,200] },
-  { slug:"euphoria", nom:"Euphoria", tier:"boostes", desc:"Fruitée 🍓", c:["#b7f0a0","#e07a4d"], p:[12,34,55,100,200] },
-  { slug:"purple", nom:"Purple", tier:"soft", desc:"Fruits noirs 🍇", c:["#b89adf","#4a2e6b"], p:[11,30,50,100,180] },
-  { slug:"bloody-mary", nom:"Bloody Mary", tier:"classique", desc:"Épicée 🌶️", c:["#c06b7e","#5a1f2d"], p:[10,28,45,80,160] },
-  { slug:"cosmic-cbg", nom:"Cosmic CBG", tier:"classique", desc:"Clair · CBG ✨", c:["#eef0b0","#b8b06a"], p:[10,28,45,80,160] },
-  { slug:"charlotte", nom:"Charlotte", tier:"classique", desc:"Classique 🌿", c:["#bfe3b0","#3a7a4a"], p:[10,28,45,80,160] },
-  { slug:"rainbow", nom:"Rainbow", tier:"classique", desc:"Acidulée 🌈", c:["#c6a8e0","#e0a05a"], p:[8,22,35,60,120] },
-  { slug:"orange-bud", nom:"Orange Bud", tier:"classique", desc:"Agrumes 🍊", c:["#f3c27a","#b5651d"], p:[7,20,30,50,100] },
-  { slug:"plutonium", nom:"Plutonium", tier:"classique", desc:"Punchy ⚡", c:["#c8f58f","#4ca72c"], p:[7,20,30,50,100] },
-  { slug:"fanta-hazy", nom:"Fanta Hazy", tier:"classique", desc:"Pétillante 🍊", c:["#f3d49a","#c98a3a"], p:[6,16,25,40,80] },
+  /* — Fleurs boostées (molécule, ultra-fort) — */
+  { slug:"euphoria", nom:"Euphoria", tier:"boostes", desc:"Fruitée · forte 🍓", c:["#b7f0a0","#e07a4d"], p:[12,34,55,100] },
+  { slug:"pastraweed", nom:"Pastraweed", tier:"boostes", desc:"Terreuse · forte 🌰", c:["#cfe39a","#8a7a2e"], p:[12,34,55,100] },
+  { slug:"ivory", nom:"Ivory", tier:"boostes", desc:"Weed · ultra fort 🤍", c:["#f3f1dd","#b7cf9a"], p:[15,42,70,130] },
+  { slug:"nimbus-3000", nom:"Nimbus 3000", tier:"boostes", desc:"Weed · tropical ❄️", c:["#eafce0","#8fd08a"], p:[15,42,70,130] },
+  /* — Fleurs classiques (CBD) — */
+  { slug:"green-skunk", nom:"Green Skunk", tier:"classique", desc:"Sucrée · herbacée 🌿", c:["#bfe3b0","#3a7a4a"], p:[9,25,40,70] },
+  { slug:"gelato", nom:"Gelato", tier:"classique", desc:"Sucrée intense 🍨", c:["#e7dce0","#7a5a8a"], p:[10,28,45,80] },
+  { slug:"ice-cream", nom:"Ice Cream", tier:"classique", desc:"Caramélisée 🍮", c:["#ead9c0","#8a6a3a"], p:[10.90,29.70,44.50,79] },
+  { slug:"fanta-hazy", nom:"Fanta Hazy", tier:"classique", desc:"Acidulée · sucrée 🍋", c:["#f3d49a","#c98a3a"], p:[10.90,29.70,44.50,79] },
+  { slug:"purple-saphir", nom:"Purple Saphir", tier:"classique", desc:"Délicieuse · rare 💜", c:["#b89adf","#4a2e6b"], p:[9.90,26.70,39.50,69.90] },
+  { slug:"fleur-mystere", nom:"Fleur Mystère", tier:"classique", desc:"Delicioso 🪻", c:["#d9c7f0","#4a2e6b"], p:[9.90,26.70,39.50,69] },
+  { slug:"godzilla", nom:"Godzilla", tier:"classique", desc:"Épicée · grosses buds 🌶️", c:["#cfe39a","#5a6a2e"], p:[8,22,35,60] },
+  { slug:"bio-peach", nom:"BIO Peach", tier:"classique", desc:"Pêche 🍑 · bio", c:["#f3c7a0","#b5651d"], p:[8,22,35,60] },
+  { slug:"bubba-kush", nom:"Bubba Kush", tier:"classique", desc:"Terreuse · épicée 🌲", c:["#a8c0a0","#2c3a30"], p:[8,22,35,60] },
+  { slug:"tropical-kush", nom:"Tropical Kush", tier:"classique", desc:"Sucrée · fruitée 🍓", c:["#c6e3a0","#5a8a3a"], p:[8,22,35,60] },
+  { slug:"sweet-purple", nom:"Sweet Purple", tier:"classique", desc:"Fruité · sucré 💜", c:["#c6a8e0","#5a2e6b"], p:[7,21,35,70] },
+  { slug:"skittlez", nom:"Skittlez", tier:"classique", desc:"Bonbon 🍭", c:["#f3c7e0","#8a3a6b"], p:[7,20,30,50] },
+  { slug:"fruit-cake", nom:"Fruit Cake", tier:"classique", desc:"Fruitée · terreuse 🍓", c:["#f0c0b0","#8a4a3a"], p:[7.90,20.70,29.50,49] },
+  { slug:"tropical-dream", nom:"Tropical Dream", tier:"classique", desc:"Tropicale 🌴", c:["#b7f0c0","#2f8a5a"], p:[6,16,25,40] },
+  { slug:"tangerine-dream", nom:"Tangerine Dream", tier:"classique", desc:"Mandarine 🍊", c:["#f3c27a","#b5651d"], p:[6,16,25,40] },
+  { slug:"tonic-haze", nom:"Tonic Haze", tier:"classique", desc:"Terreuse · citron 🍋", c:["#cfe39a","#7a8a2e"], p:[6,16,30,60] },
+  { slug:"harlequin", nom:"Harlequin", tier:"classique", desc:"Sucré · fruité 🍬", c:["#e0c0e0","#6b4a7b"], p:[3,9,15,30] },
+  { slug:"baby-cannatonic", nom:"Baby Cannatonic", tier:"classique", desc:"Douce 🌿", c:["#cfe0c0","#5a7a4a"], p:[3,9,15,30] },
+  /* — Résines / Hash / Pollen — */
+  { slug:"stoned", nom:"Stoned", tier:"boostes", type:"resine", desc:"3× filtré · fort 🟤", c:["#c0b0a0","#4a3a2a"], p:[12,34,55,100] },
+  { slug:"golden-high", nom:"Golden High", tier:"boostes", type:"resine", desc:"Pollen · fort ✨", c:["#e0c870","#8a6a1a"], p:[11,30,50,90] },
+  { slug:"jelly-high", nom:"Jelly High", tier:"boostes", type:"resine", desc:"Caramel 🍫 · fort", c:["#e0b090","#7a4a2a"], p:[11,30,50,90] },
+  { slug:"moonrock", nom:"Moonrock CBD", tier:"classique", type:"resine", desc:"Épicé · fruité 💥", c:["#b0a0c0","#3a2c4a"], p:[9,25,40,70] },
+  { slug:"beldia", nom:"Beldia", tier:"classique", type:"resine", desc:"Épicé · marocain 🍫", c:["#c0a080","#4a3420"], p:[9,25,40,70] },
+  { slug:"cbn-cream", nom:"CBN Cream", tier:"classique", type:"resine", desc:"Sommeil 🌙", c:["#d8d0b0","#6b5a3a"], p:[10.90,29.70,44.50,79] },
 ];
 const TIER = { boostes:{label:"Boostés",cls:"badge-boost"}, soft:{label:"Soft",cls:"badge-soft"}, classique:{label:"Classique",cls:"badge-classic"} };
-const GRAMS = [1,3,5,10,25];
+const GRAMS = [1,3,5,10];
 const byId = s => FLEURS.find(f=>f.slug===s);
 const euro = n => n.toLocaleString("fr-FR")+" €";
 
@@ -91,7 +110,7 @@ function updatePick(pick){
 }
 /* ---- Carte produit ---- */
 function cardHTML(f,i){
-  const t=TIER[f.tier], pg=Math.round((f.p[4]/25)*10)/10, m=META[f.slug]||{n:"4,8",c:30,tag:""};
+  const t=TIER[f.tier], pg=Math.round((f.p[3]/10)*10)/10, m=META[f.slug]||{n:"4,8",c:30,tag:""};
   return `<article class="card reveal ${['d1','d2','d3','d4'][i%4]}">
     <a class="card-media" href="produit.html?f=${f.slug}" aria-label="${f.nom}">
       <div class="halo" style="background:radial-gradient(circle,${f.c[0]}66,transparent 70%)"></div><div class="shine"></div>
@@ -105,7 +124,7 @@ function cardHTML(f,i){
     <div class="card-body">
       <div class="card-rate"><span class="stars">★★★★★</span><b>${m.n}</b><span class="rate-c">(${m.c})</span></div>
       <a class="card-name" href="produit.html?f=${f.slug}">${f.nom}</a>
-      <div class="card-desc">${f.desc} · Fleur CBD</div>
+      <div class="card-desc">${f.desc} · ${f.type==='resine'?'Résine CBD':'Fleur CBD'}</div>
       ${molLine(f.slug)}
       ${cardStock(f.slug)}
       ${buyBlock(f)}
@@ -115,19 +134,34 @@ function cardHTML(f,i){
 
 /* ---- MOLÉCULES & INTENSITÉS (données Ana, 12/11 — jamais inventé) ---- */
 const MOLEC={
-  "nimbus-3000":{mol:"Boosté",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Weed"},
-  "ivory":{mol:"Boosté",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Weed · Sucré"},
-  "euphoria":{mol:"Boosté",cls:"mol-boost",lvl:4,ia:"Fort · fruité",ar:"Exotic"},
-  "pastraweed":{mol:"Boosté",cls:"mol-boost",lvl:4,ia:"Fort · terreux",ar:"Kush"},
-  "velvet-kush":{mol:"Boosté",cls:"mol-boost",lvl:3,ia:"Fort",ar:"Sucré"},
-  "purple":{mol:"Molécule",cls:"mol-boost",lvl:2,ia:"Léger",ar:"Épicé"},
-  "cosmic-cbg":{mol:"CBD + CBG",cls:"mol-cbg",lvl:1,ia:"Léger",ar:"Weed"},
-  "bloody-mary":{mol:"CBD",cls:"",ar:"Agrumes",premium:"Élite premium"},
-  "charlotte":{mol:"CBD",cls:"",ar:"Sucré",premium:"Élite premium"},
-  "rainbow":{mol:"CBD",cls:"",ar:"Agrumes · Exotic"},
-  "orange-bud":{mol:"CBD",cls:"",ar:"Agrumes"},
-  "plutonium":{mol:"CBD",cls:"",ar:"Kush"},
-  "fanta-hazy":{mol:"CBD",cls:"",ar:"Agrumes"},
+  "euphoria":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort · fruité",ar:"Exotic"},
+  "pastraweed":{mol:"CBD +",cls:"mol-boost",lvl:4,ia:"Ultra fort · terreux",ar:"Kush"},
+  "ivory":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Weed"},
+  "nimbus-3000":{mol:"CBD +",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Weed"},
+  "green-skunk":{mol:"CBD",cls:"",lvl:3,ia:"Fort",ar:"Sucré · Herbacé",premium:"Indoor premium"},
+  "gelato":{mol:"CBD",cls:"",lvl:3,ia:"Fort",ar:"Sucré"},
+  "ice-cream":{mol:"CBD",cls:"",lvl:4,ia:"Ultra-fort",ar:"Caramélisé · Terreux"},
+  "fanta-hazy":{mol:"CBD",cls:"",lvl:2,ia:"Médium",ar:"Agrumes"},
+  "purple-saphir":{mol:"CBD",cls:"",ar:"Fruité"},
+  "fleur-mystere":{mol:"CBD",cls:"",lvl:2,ia:"Médium",ar:"Surprise"},
+  "godzilla":{mol:"CBD",cls:"",lvl:3,ia:"Médium+",ar:"Kush · Épicé"},
+  "bio-peach":{mol:"CBD",cls:"",lvl:3,ia:"Fort",ar:"Pêche"},
+  "bubba-kush":{mol:"CBD",cls:"",lvl:2,ia:"Médium",ar:"Kush · Épicé"},
+  "tropical-kush":{mol:"CBD",cls:"",lvl:2,ia:"Médium",ar:"Sucré · Fruité"},
+  "sweet-purple":{mol:"CBD",cls:"",lvl:3,ia:"Fort",ar:"Sucré · Fruité"},
+  "skittlez":{mol:"CBD",cls:"",lvl:2,ia:"Médium",ar:"Sucré"},
+  "fruit-cake":{mol:"CBD",cls:"",ar:"Fruité · Terreux"},
+  "tropical-dream":{mol:"CBD",cls:"",lvl:2,ia:"Médium",ar:"Exotic"},
+  "tangerine-dream":{mol:"CBD",cls:"",lvl:2,ia:"Médium",ar:"Agrumes"},
+  "tonic-haze":{mol:"CBD",cls:"",lvl:2,ia:"Médium",ar:"Terreux · Citron"},
+  "harlequin":{mol:"CBD",cls:"",ar:"Sucré · Fruité"},
+  "baby-cannatonic":{mol:"CBD",cls:"",ar:"Doux"},
+  "stoned":{mol:"CBD +",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Hash 3× filtré"},
+  "golden-high":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Pollen · Exotic"},
+  "jelly-high":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Caramel"},
+  "moonrock":{mol:"CBD",cls:"",lvl:3,ia:"Fort",ar:"Épicé · Fruité"},
+  "beldia":{mol:"CBD",cls:"",ar:"Épicé · Marocain"},
+  "cbn-cream":{mol:"CBN",cls:"mol-cbg",ar:"Sommeil"},
 };
 function idotsHTML(lvl){let s='<span class="idots" aria-label="Intensité">';for(let k=1;k<=4;k++){s+=`<i class="${k<=lvl?'on':''}"></i>`;}return s+'</span>';}
 function molLine(slug){const m=MOLEC[slug];if(!m)return"";
@@ -147,6 +181,29 @@ const DESC={
   "pastraweed":"Variété : Pastraweed (BOOSTÉ/STRONG)\nUne valeur sûre ! Goût savoureux, riche en CBD et BOOSTÉE : un voyage aromatique sur un profil de CBD élevé.\n⚠️ Fleur boostée, à consommer avec modération.",
   "euphoria":"Variété : Euphoria (BOOSTÉ/STRONG)\nNotre Euphoria, c'est LA pépite chez WOOD ! Une saveur exceptionnellement fruitée, riche en CBD et BOOSTÉE, pour une expérience ULTRA relaxante. Exclusivité WOOD CBD !\n⚠️ CBD BOOSTÉ (CBD + CBE), relaxation TRÈS profonde, à consommer avec modération. Le conseil d'Ana : parsemer légèrement, 2-3 taffs et on pose le J… Bon voyage ♥",
   "fanta-hazy":"🍋 Acidulée · 🍭 Sucrée\nGoût : offrant une explosion fruitée en bouche, la Fanta Hazy et son odeur sont le fruit d'une longue recherche de notre part, capturant l'essence même de la fleur sucrée et unique.\nTaux de CBD : la Fanta Hazy possède un taux de CBD garantissant une expérience relaxante et apaisante.",
+  "stoned":"Variété : STONED (BOOSTÉ/STRONG)\nLe 3× FILTRÉ de référence ! Goût délicieux, texture idéale, riche en CBD et BOOSTÉE pour des sensations fortes.\n⚠️ Résine boostée, à consommer avec modération.",
+  "golden-high":"Variété : Golden HIGH (BOOSTÉ/STRONG)\nLe POLLEN STRONG référence ! Riche en CBD et BOOSTÉE, un vrai voyage aromatique.\nGoût : épices exotiques, trésors des contrées lointaines. Pollen mousseux enrichi de CBE, effet puissant. Pas besoin de le chauffer avant de l'effriter : BEST TEXTURE EVER !",
+  "jelly-high":"🍫 Le Caramelo qui manque à ta vie.\nHASH type Caramel de référence ! Riche en CBD et BOOSTÉE. Goût : épices exotiques. Enrichie de CBE, effet puissant.\nPas besoin de le chauffer avant de l'effriter : BEST TEXTURE EVER !",
+  "moonrock":"Variété : Moon Rock — « Le Saint Graal de la Relaxation »\nGoût : la variété Moon Rock est réputée pour son goût unique qui allie des notes épicées et fruitées.\nTaux de CBD : se distingue par son taux de CBD puissant, offrant une expérience relaxante intense. Avis aux amateurs 💥",
+  "beldia":"🍫 Filament / boulette\nAspect : texture fondante, couleur charbonneuse, un produit authentique et raffiné.\nGoût : explosion de saveurs épicées, direction les souks marocains, pour une touche traditionnelle.",
+  "cbn-cream":"La texture idéale — ⚠️ ATTENTION, C'EST POUR DORMIR 🌔\nRésine CBN Cream : goût exquis, elle aide à améliorer le sommeil. Du CBD « bodybuildé », marocain — « si t'arrives pas à dormir ».",
+  "green-skunk":"🍭 Sucrée · 💥 Forte · 🌿 Herbacée\nTaux de CBD : FORT.\nLe mot de l'équipe WOOD : C'EST DE LA BOMBE !",
+  "gelato":"Variété : Gelato\nGoût : ses saveurs intenses et robustes sont accompagnées de douces notes sucrées, créant une combinaison envoûtante pour les papilles. Chaque inhalation est une expérience gustative profonde.\nTaux de CBD : reconnue pour son taux de CBD puissant.",
+  "ice-cream":"🍮 Caramélisée · 🌲 Terreuse · 🍭 Sucrée\nGoût : un dessert sucré, des saveurs intenses, fidèle à l'authenticité du cannabis.\nAspect : compacte et dense, parmi les « cali » de haut niveau, têtes denses et résineuses.\nTaux de CBD : extrêmement puissant.",
+  "purple-saphir":"Découvrez la fleur de CBD Purple Saphir, au goût si délicieux qu'il faut absolument l'essayer. Variété très rare à obtenir, offrant une expérience gustative exceptionnelle.\nNe passez pas à côté de cette expérience sensorielle unique.",
+  "fleur-mystere":"🪻 Delicioso\nGoût : un goût surprenant, des effets qui détendent, une odeur particulière — « la fleur magique ».\nTaux de CBD : relaxant et apaisant.",
+  "godzilla":"🌶 Épicé & grosses buds\nVariété : Godzilla 🦖 — « Mind Eraser »\nGoût : un mélange complexe d'arômes, aux notes terreuses, citronnées et épicées.\nTaux de CBD : moyen ++",
+  "bio-peach":"Variété : BIO Peach — « Iced Tea baby »\nGoût : fruité captivant, avec des notes sucrées de pêche. BIO et Française, cocorico ! 🇫🇷\nTaux de CBD : puissant, relaxation profonde.",
+  "bubba-kush":"🌲 Terreuse · 🌶 Épicée\nGoût : une explosion de saveur, un classique de notre sélection.\nTaux de CBD : expérience relaxante et apaisante.",
+  "tropical-kush":"🍭 Sucrée · 🍓 Fruitée\nGoût : un goût surprenant, des effets qui détendent, une odeur particulière — « la fleur magique ».\nTaux de CBD : relaxant et apaisant.",
+  "sweet-purple":"Variété : Sweet Purple\nGoût : fruité captivant, notes délicieuses et sucrées, une expérience gustative envoûtante.\nTaux de CBD : puissant, pour une relaxation profonde et apaisante.",
+  "skittlez":"Variété : Skittlez\nGoût : offrant une explosion de saveur, notre Skittlez vous séduit par sa puissance, ce qui en fait un classique de notre sélection pour les amateurs de fleur de qualité ! À consommer SANS MODÉRATION !\nTaux de CBD : garantit une expérience relaxante et apaisante.",
+  "fruit-cake":"🍓 Fruitée · 🌲 Terreuse\nGoût : explosion d'agrumes au nez.\nAspect : une belle poignée de small buds hyper odorantes, sucrée et terreuse.",
+  "tropical-dream":"Goût : offrant une explosion de saveur, notre Tropical Dream et son odeur est en fait le classique de notre sélection.\nTaux de CBD : garantit une expérience relaxante et apaisante.",
+  "tangerine-dream":"Goût : offrant une explosion de saveur, notre Tangerine Dream et son odeur est en fait le classique de notre sélection.\nTaux de CBD : garantit une expérience relaxante et apaisante.",
+  "tonic-haze":"Variété : Tonic Haze\nGoût : Terreuse / Citronnée.\nTaux de CBD : MÉDIUM.\nLe mot de l'équipe WOOD : si tu veux continuer à bosser tout en étant détendu 😎",
+  "harlequin":"Variété : Harley — « Sweet Bliss »\nGoût : sucré et fruité, qui rappelle les bonbons de l'enfance.",
+  "baby-cannatonic":"Oups, c'est en rupture ! Merci beaucoup 🙏\n(La Baby Cannatonic revient très vite en boutique.)",
 };
 function descHTML(f){
   if(DESC[f.slug])return DESC[f.slug].split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("");
@@ -182,7 +239,7 @@ function markSVG(){return `<svg class="mark" viewBox="0 0 100 100" fill="none" s
 function headerHTML(){return `<div class="container header-in">
   <a class="logo" href="index.html" aria-label="WOOD accueil"><span class="star">${markSVG()}</span>Wood <small>CBD · Nice</small></a>
   <nav class="nav" aria-label="Navigation principale">
-    <a href="fleurs.html">Fleurs</a><a href="bientot.html?cat=resines">Résines</a>
+    <a href="fleurs.html">Fleurs</a><a href="fleurs.html?type=resine">Résines</a>
     <a href="fleurs.html?tier=boostes">Boostés</a><a href="index.html#boutiques">Boutiques</a><a href="index.html#histoire">L'histoire</a>
   </nav>
   <div class="header-cta">
@@ -289,14 +346,22 @@ function renderFleurs(){
   const grid=document.getElementById("fleursGrid"); if(!grid)return;
   const params=new URLSearchParams(location.search);
   let tier=params.get("tier")||"all", aroma=params.get("aroma")||"all", sort="pop";
+  const gtype=params.get("type")==="resine"?"resine":(params.get("type")==="all"?"all":"fleur");
   const bar=document.getElementById("filterBar");
-  const tiers=[["all","Tout"],["boostes","Boostés"],["soft","Soft"],["classique","Classique"]];
-  const aromas=[["all","Tous les goûts"],["fruite","🍓 Fruité"],["agrumes","🍊 Agrumes"],["terreux","🌲 Boisé"],["frais","🌿 Frais"],["sucre","🍯 Gourmand"],["floral","🌸 Floral"],["classique","✦ Classique"]];
+  const tiers=[["all","Tout"],["boostes","Boostés"],["classique","Classique"]];
+  const aromas=[["all","Tous les goûts"],["agrumes","🍊 Agrumes"],["weed","🌿 Weed"],["exotic","🥭 Exotic"],["sucre","🍯 Sucré"],["kush","🌰 Kush"],["epice","🌶️ Épicé"]];
   bar.innerHTML=`<div class="filters">${tiers.map(([k,l])=>`<button class="chip filt${tier===k?' on':''}" data-tier="${k}">${l}</button>`).join("")}
     <select id="sortSel" class="sortsel"><option value="pop">Populaire</option><option value="asc">Prix ↑</option><option value="desc">Prix ↓</option></select></div>
     <div class="filters filters-aroma">${aromas.map(([k,l])=>`<button class="chip filt-a${aroma===k?' on':''}" data-aroma="${k}">${l}</button>`).join("")}</div>`;
   function draw(){
-    let list=FLEURS.filter(f=>(tier==="all"||f.tier===tier)&&(aroma==="all"||(PROFILE[f.slug]&&PROFILE[f.slug].a===aroma)));
+    let list=FLEURS.filter(f=>{
+      const isR=f.type==="resine";
+      if(gtype==="fleur"&&isR)return false;
+      if(gtype==="resine"&&!isR)return false;
+      if(tier!=="all"&&f.tier!==tier)return false;
+      if(aroma!=="all"){const m=MOLEC[f.slug];if(!(m&&m.ar&&m.ar.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").includes(aroma)))return false;}
+      return true;
+    });
     if(sort==="asc")list=[...list].sort((a,b)=>a.p[0]-b.p[0]);
     if(sort==="desc")list=[...list].sort((a,b)=>b.p[0]-a.p[0]);
     document.getElementById("resCount").textContent=`${list.length} variété${list.length>1?"s":""}`;
@@ -346,7 +411,7 @@ function renderProduct(){
       <div class="product-info">
         <span class="badge ${t.cls}">${t.label}</span>
         <h1>${f.nom}</h1>
-        <p class="p-desc">${f.desc} · Fleur CBD · <span class="muted">profil de goût</span></p>
+        <p class="p-desc">${f.desc} · ${f.type==='resine'?'Résine CBD':'Fleur CBD'} · <span class="muted">profil de goût</span></p>
         ${pMolHTML(f.slug)}
         ${buyBlock(f)}
         <div class="p-reassure"><span>🚚 Livraison discrète 24-48h</span><span>🔒 Paiement sécurisé</span><span>🔞 Réservé aux +18 ans</span></div>
@@ -526,7 +591,7 @@ function renderAvis(){
 }
 function renderInsta(){
   const g=document.getElementById("instaGrid"); if(!g)return;
-  g.innerHTML=["euphoria","purple","orange-bud","rainbow","velvet-kush","nimbus-3000"].map(s=>`<a class="insta-cell reveal" href="https://instagram.com/wood.cbdshop" target="_blank" rel="noopener"><img src="assets/products/${s}.jpg${IMGV}" alt="" loading="lazy"><span class="insta-ic">◎</span></a>`).join("");
+  g.innerHTML=["euphoria","fanta-hazy","gelato","moonrock","ice-cream","stoned"].map(s=>`<a class="insta-cell reveal" href="https://instagram.com/wood.cbdshop" target="_blank" rel="noopener"><img src="assets/products/${s}.jpg${IMGV}" alt="" loading="lazy"><span class="insta-ic">◎</span></a>`).join("");
 }
 
 /* ===================== STICKERS (mur défilant) ===================== */
@@ -576,7 +641,7 @@ function openAdvisor(){
         ${i>0?`<button class="adv-back">← Retour</button>`:""}`);
     } else {
       const targ=ITARG[state.intensity];
-      const scored=FLEURS.map(f=>{const m=MOLEC[f.slug]||{};let sc=0;
+      const scored=FLEURS.filter(f=>f.type!=="resine").map(f=>{const m=MOLEC[f.slug]||{};let sc=0;
         if(N(m.ar).includes(state.aroma))sc+=3;
         const lvl=m.lvl||0; sc+=Math.max(0,2-Math.abs(lvl-targ));
         return {f,sc};}).sort((a,b)=>b.sc-a.sc);
@@ -609,7 +674,7 @@ document.addEventListener("DOMContentLoaded",()=>{
   document.querySelectorAll("[data-cloche]").forEach((el,i)=>el.innerHTML=clocheSVG(["#d7ff8f","#1f8f5a"],"h"+i));
   document.querySelectorAll("[data-art]").forEach(el=>el.innerHTML=catArt(el.dataset.art));
   const rail=document.getElementById("fleursRail");
-  if(rail){const order=["nimbus-3000","purple","euphoria","orange-bud","velvet-kush","rainbow","cosmic-cbg","fanta-hazy"];rail.innerHTML=order.map((s,i)=>cardHTML(byId(s),i)).join("");}
+  if(rail){const order=["euphoria","fanta-hazy","gelato","green-skunk","ice-cream","pastraweed","moonrock","stoned"];rail.innerHTML=order.map((s,i)=>cardHTML(byId(s),i)).join("");}
   const phero=document.getElementById("promoHero");
   if(phero){phero.innerHTML=promoHeroHTML(PROMOS[0]);}
   const pstrip=document.getElementById("promoStrip");
