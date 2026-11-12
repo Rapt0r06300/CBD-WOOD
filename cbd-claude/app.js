@@ -106,11 +106,62 @@ function cardHTML(f,i){
       <div class="card-rate"><span class="stars">★★★★★</span><b>${m.n}</b><span class="rate-c">(${m.c})</span></div>
       <a class="card-name" href="produit.html?f=${f.slug}">${f.nom}</a>
       <div class="card-desc">${f.desc} · Fleur CBD</div>
+      ${molLine(f.slug)}
       ${cardStock(f.slug)}
       ${buyBlock(f)}
     </div>
   </article>`;
 }
+
+/* ---- MOLÉCULES & INTENSITÉS (données Ana, 12/11 — jamais inventé) ---- */
+const MOLEC={
+  "nimbus-3000":{mol:"Boosté",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Weed"},
+  "ivory":{mol:"Boosté",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Weed · Sucré"},
+  "euphoria":{mol:"Boosté",cls:"mol-boost",lvl:4,ia:"Fort · fruité",ar:"Exotic"},
+  "pastraweed":{mol:"Boosté",cls:"mol-boost",lvl:4,ia:"Fort · terreux",ar:"Kush"},
+  "velvet-kush":{mol:"Boosté",cls:"mol-boost",lvl:3,ia:"Fort",ar:"Sucré"},
+  "purple":{mol:"Molécule",cls:"mol-boost",lvl:2,ia:"Léger",ar:"Épicé"},
+  "cosmic-cbg":{mol:"CBD + CBG",cls:"mol-cbg",lvl:1,ia:"Léger",ar:"Weed"},
+  "bloody-mary":{mol:"CBD",cls:"",ar:"Agrumes",premium:"Élite premium"},
+  "charlotte":{mol:"CBD",cls:"",ar:"Sucré",premium:"Élite premium"},
+  "rainbow":{mol:"CBD",cls:"",ar:"Agrumes · Exotic"},
+  "orange-bud":{mol:"CBD",cls:"",ar:"Agrumes"},
+  "plutonium":{mol:"CBD",cls:"",ar:"Kush"},
+  "fanta-hazy":{mol:"CBD",cls:"",ar:"Agrumes"},
+};
+function idotsHTML(lvl){let s='<span class="idots" aria-label="Intensité">';for(let k=1;k<=4;k++){s+=`<i class="${k<=lvl?'on':''}"></i>`;}return s+'</span>';}
+function molLine(slug){const m=MOLEC[slug];if(!m)return"";
+  const chip=`<span class="mol-chip ${m.cls||''}">${m.mol}</span>`;
+  const ar=m.ar?`<span class="mol-arome">${m.ar}</span>`:'';
+  const inten=m.lvl?`<div class="mol-inten"><span class="mi-k">Intensité</span>${idotsHTML(m.lvl)}<span class="mi-l">${m.ia}</span></div>`:'';
+  return `<div class="mol-line">${chip}${ar}</div>${inten}`;}
+function pMolHTML(slug){const m=MOLEC[slug];if(!m)return"";
+  const inten=m.lvl?`<div class="pm-b"><span class="pm-k">Intensité</span><span class="pm-v">${idotsHTML(m.lvl)} <span style="font-size:.85rem;color:var(--muted)">${m.ia}</span></span></div>`:'';
+  const ar=m.ar?`<div class="pm-b"><span class="pm-k">Arôme</span><span class="pm-v">${m.ar}</span></div>`:'';
+  const prem=m.premium?`<div class="pm-b"><span class="pm-k">Gamme</span><span class="pm-v">${m.premium}</span></div>`:'';
+  return `<div class="p-mol"><div class="pm-b"><span class="pm-k">Molécule</span><span class="pm-v">${m.mol}</span></div>${inten}${ar}${prem}</div>`;}
+
+/* ---- PROMOS « Bons plans » (offres réelles Ana — style chic) ---- */
+const PROMOS=[
+  {name:"Fleur Mystère",tag:"Mystère",desc:"La surprise du moment · on choisit pour toi",c:["#d9c7f0","#4a2e6b"],price:"dès 9 €/g",sub:"3 g 25 € · 5 g 40 € · 10 g 70 € · 25 g 140 €"},
+  {name:"La promo 15 g",tag:"Offre",desc:"GTA · la variété du moment",c:["#c8f58f","#4ca72c"],price:"50 €",sub:"les variétés tournent régulièrement"},
+  {name:"La promo 10 g",tag:"Offre",desc:"Une fruitée + une terreuse",c:["#f3c27a","#b5651d"],price:"30 €",sub:"ou 20 g pour 50 €"},
+  {name:"Le Trim",tag:"Petit prix",desc:"Gros volume, petit budget",c:["#cfe39a","#7a8a2e"],price:"dès 15 €",sub:"10 g 15 € · 25 g 30 € · 100 g 100 €"},
+];
+function promoHeroHTML(p){
+  return `<div class="ph-in">
+    <div class="ph-txt">
+      <span class="ph-flag">La promo du moment</span>
+      <h3 class="ph-name">${p.name}</h3>
+      <p class="ph-desc">${p.desc}</p>
+      <div class="ph-price">${p.price}</div>
+      <div class="ph-sub">${p.sub}</div>
+      <a class="btn btn-primary ph-cta" href="fleurs.html">Voir l'offre <span class="arr">→</span></a>
+    </div>
+    <div class="ph-art" aria-hidden="true"><div class="ph-halo" style="background:radial-gradient(circle,${p.c[0]}66,transparent 70%)"></div><div class="cloche">${clocheSVG(p.c,"ph")}</div></div>
+  </div>`;}
+function promoMiniHTML(p){
+  return `<a class="promo-mini" href="fleurs.html"><span class="pm-dot" style="background:${p.c[0]}"></span><span class="pm-main"><b>${p.name}</b><span class="pm-sub">${p.desc}</span></span><span class="pm-price">${p.price}</span></a>`;}
 
 /* ===================== CHROME (header / footer / botnav / advisor) ===================== */
 function markSVG(){return `<svg class="mark" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="round" aria-hidden="true"><path d="M50 42 V12 M14 42 H86 M24 20 L76 64 M76 20 L24 64"/><circle cx="50" cy="80" r="6.5" fill="currentColor" stroke="none"/></svg>`;}
@@ -282,6 +333,7 @@ function renderProduct(){
         <span class="badge ${t.cls}">${t.label}</span>
         <h1>${f.nom}</h1>
         <p class="p-desc">${f.desc} · Fleur CBD · <span class="muted">profil de goût</span></p>
+        ${pMolHTML(f.slug)}
         ${buyBlock(f)}
         <div class="p-reassure"><span>🚚 Livraison discrète 24-48h</span><span>🔒 Paiement sécurisé</span><span>🔞 Réservé aux +18 ans</span></div>
         <div class="accordions">
@@ -513,6 +565,10 @@ document.addEventListener("DOMContentLoaded",()=>{
   document.querySelectorAll("[data-art]").forEach(el=>el.innerHTML=catArt(el.dataset.art));
   const rail=document.getElementById("fleursRail");
   if(rail){const order=["nimbus-3000","purple","euphoria","orange-bud","velvet-kush","rainbow","cosmic-cbg","fanta-hazy"];rail.innerHTML=order.map((s,i)=>cardHTML(byId(s),i)).join("");}
+  const phero=document.getElementById("promoHero");
+  if(phero){phero.innerHTML=promoHeroHTML(PROMOS[0]);}
+  const pstrip=document.getElementById("promoStrip");
+  if(pstrip){pstrip.innerHTML=PROMOS.slice(1).map(p=>promoMiniHTML(p)).join("");}
   // Flèches de défilement du rail catalogue
   document.querySelectorAll(".rail-wrap").forEach(rw=>{
     const rl=rw.querySelector(".rail"); if(!rl)return;

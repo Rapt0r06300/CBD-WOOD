@@ -534,3 +534,44 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .cd-del,.ci-del{width:auto;min-width:auto;height:auto;min-height:34px;padding:.32rem .72rem;font-size:.76rem;font-weight:700;color:#f0a9a2;background:rgba(224,87,77,.12);border:1px solid rgba(224,87,77,.3);border-radius:9px;cursor:pointer;letter-spacing:.01em;white-space:nowrap}
 .cd-del:hover,.ci-del:hover{background:rgba(224,87,77,.22);color:#ffd7d1;border-color:rgba(224,87,77,.5)}
 @media(max-width:600px){.cd-del,.ci-del{min-height:38px}}
+
+/* ============ MOLÉCULES & INTENSITÉS (ajout 12/11 — données Ana) ============ */
+.mol-line{display:flex;align-items:center;gap:.4rem .5rem;flex-wrap:wrap;margin:.1rem 0 .1rem}
+.mol-chip{font-size:.6rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;padding:.3em .6em;border-radius:999px;border:1px solid var(--line);color:var(--soft);background:rgba(255,255,255,.04);white-space:nowrap}
+.mol-chip.mol-boost{background:linear-gradient(120deg,rgba(47,158,107,.22),rgba(111,211,154,.16));color:var(--cyan);border-color:rgba(111,211,154,.3)}
+.mol-chip.mol-cbg{color:#e7dcc0;border-color:rgba(216,212,189,.4)}
+.mol-arome{font-size:.72rem;color:var(--muted)}
+.idots{display:inline-flex;gap:4px;align-items:center;vertical-align:middle}
+.idots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.16)}
+.idots i.on{background:var(--lime);box-shadow:0 0 6px rgba(203,240,150,.35)}
+.mol-inten{display:flex;align-items:center;gap:.5rem;margin-top:.4rem}
+.mol-inten .mi-k{font-size:.58rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.mol-inten .mi-l{font-size:.74rem;color:var(--soft);font-weight:600}
+.p-mol{display:flex;flex-wrap:wrap;gap:.9rem 1.6rem;align-items:center;margin:1rem 0 .3rem;padding:.85rem 1.05rem;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.03)}
+.p-mol .pm-b{display:flex;flex-direction:column;gap:.28rem}
+.p-mol .pm-k{font-size:.62rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.p-mol .pm-v{font-family:var(--serif);font-size:1.02rem;color:var(--ink);display:flex;align-items:center;gap:.4rem}
+
+/* ============ PROMOS — « Bons plans » : grand bandeau premium + mini-offres ============ */
+#promos .promo-hero{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:26px;background:linear-gradient(115deg,var(--card-2),var(--pine));box-shadow:var(--sh-card);margin-top:.9rem}
+#promos .promo-hero::before{content:"";position:absolute;inset:0;border-radius:26px;border:1px solid rgba(216,212,189,.16);pointer-events:none}
+#promos .ph-in{display:grid;grid-template-columns:1.25fr .85fr;gap:1rem;align-items:center}
+#promos .ph-txt{padding:clamp(1.5rem,3.5vw,2.7rem);min-width:0}
+#promos .ph-flag{display:inline-block;font-family:var(--sans);font-size:.6rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#e7dcc0;padding:.45em .9em;border:1px solid rgba(216,212,189,.5);border-radius:999px}
+#promos .ph-name{font-family:var(--serif);font-size:clamp(1.9rem,4vw,2.7rem);margin:.8rem 0 .4rem;letter-spacing:-.015em}
+#promos .ph-desc{color:var(--soft);margin:0 0 1.2rem;max-width:34ch}
+#promos .ph-price{font-family:var(--serif);font-size:1.75rem;color:var(--lime-bright)}
+#promos .ph-sub{color:var(--muted);font-size:.82rem;margin-top:.3rem}
+#promos .ph-cta{margin-top:1.4rem}
+#promos .ph-art{position:relative;min-height:240px;display:grid;place-items:center;padding:1rem}
+#promos .ph-art .ph-halo{position:absolute;width:300px;height:300px;border-radius:50%;filter:blur(12px)}
+#promos .ph-art .cloche{position:relative;z-index:1;width:60%}
+#promos .promo-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:.85rem;margin-top:.9rem}
+#promos .promo-mini{display:flex;align-items:center;gap:.75rem;padding:.95rem 1.1rem;border:1px solid var(--line);border-radius:16px;background:var(--card);transition:border-color var(--t) var(--ease),transform var(--t) var(--ease)}
+#promos .promo-mini:hover{border-color:rgba(216,212,189,.45);transform:translateY(-2px)}
+#promos .pm-dot{width:10px;height:10px;border-radius:50%;flex:none;box-shadow:0 0 10px rgba(255,255,255,.15)}
+#promos .pm-main{display:flex;flex-direction:column;min-width:0;line-height:1.3}
+#promos .pm-main b{font-family:var(--serif);font-weight:600;font-size:1.02rem}
+#promos .pm-sub{font-size:.74rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#promos .pm-price{margin-left:auto;font-family:var(--serif);font-size:1.05rem;color:var(--lime-bright);white-space:nowrap}
+@media(max-width:820px){#promos .ph-in{grid-template-columns:1fr}#promos .ph-art{min-height:170px;order:-1}#promos .promo-strip{grid-template-columns:1fr}}
