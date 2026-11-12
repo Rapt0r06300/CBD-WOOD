@@ -1,0 +1,261 @@
+- generic [active] [ref=f1e1]:
+  - link "Aller au contenu" [ref=f1e2] [cursor=pointer]:
+    - /url: "#contenu"
+  - generic [ref=f1e3]: Proposition de site vitrine · Maquette non officielle · À valider
+  - banner [ref=f1e4]:
+    - link "WOOD CBD Nice, accueil" [ref=f1e5] [cursor=pointer]:
+      - /url: "#accueil"
+      - text: WOOD
+      - emphasis [ref=f1e7]: CBD / NICE
+    - navigation "Navigation principale" [ref=f1e8]:
+      - generic "Explorer WOOD" [ref=f1e11]:
+        - link "Nos univers" [ref=f1e12] [cursor=pointer]:
+          - /url: "#univers"
+        - link "L'histoire" [ref=f1e13] [cursor=pointer]:
+          - /url: "#histoire"
+        - link "La boutique" [ref=f1e14] [cursor=pointer]:
+          - /url: "#boutique"
+        - link "FAQ" [ref=f1e15] [cursor=pointer]:
+          - /url: "#questions"
+    - link "Venir chez WOOD" [ref=f1e16] [cursor=pointer]:
+      - /url: "#boutique"
+      - text: Venir chez WOOD
+      - generic [aria-hidden] [ref=f1e17]: ↗
+  - main [ref=f1e18]:
+    - region [ref=f1e19]:
+      - generic [ref=f1e20]:
+        - generic [ref=f1e21]: Nice, France · Depuis 2020
+        - heading "LE CBD AUTRE- MENT." [level=1] [ref=f1e22]:
+          - text: LE CBD
+          - generic [ref=f1e23]: AUTRE-
+          - text: MENT.
+        - paragraph [ref=f1e24]: Une autre vision du chanvre. Une sélection qui a du caractère. Et surtout, de vrais conseils, au cœur de Nice.
+        - generic [ref=f1e25]:
+          - link "Découvrir WOOD" [ref=f1e26] [cursor=pointer]:
+            - /url: "#univers"
+            - text: Découvrir WOOD
+            - generic [aria-hidden] [ref=f1e27]: ↗
+          - link "Nous trouver" [ref=f1e28] [cursor=pointer]:
+            - /url: "#boutique"
+            - text: Nous trouver
+            - generic [aria-hidden] [ref=f1e29]: ↗
+      - generic [ref=f1e30]:
+        - img "Illustration botanique originale d'une feuille de chanvre" [ref=f1e31]
+        - generic [ref=f1e32]: WOOD — BOTANICAL EDITION
+        - generic [ref=f1e33]: 01 / 04 — L'ESPRIT WOOD
+        - link "Descendre vers les univers WOOD" [ref=f1e34] [cursor=pointer]:
+          - /url: "#univers"
+          - generic [aria-hidden] [ref=f1e35]: ↓
+          - generic [ref=f1e36]: Explorer
+    - generic "Les valeurs de WOOD" [ref=f1e37]:
+      - generic [ref=f1e38]:
+        - generic [aria-hidden] [ref=f1e39]:
+          - generic [ref=f1e40]: Indépendant depuis 2020
+          - generic [ref=f1e41]: ✳
+          - generic [ref=f1e42]: Made of character
+          - generic [ref=f1e43]: ✳
+          - generic [ref=f1e44]: 7 rue Barla · Nice
+          - generic [ref=f1e45]: ✳
+          - generic [ref=f1e46]: Si c'est WOOD c'est GOOD
+        - generic [aria-hidden] [ref=f1e47]:
+          - generic [ref=f1e48]: Indépendant depuis 2020
+          - generic [ref=f1e49]: ✳
+          - generic [ref=f1e50]: Made of character
+          - generic [ref=f1e51]: ✳
+          - generic [ref=f1e52]: 7 rue Barla · Nice
+          - generic [ref=f1e53]: ✳
+          - generic [ref=f1e54]: Si c'est WOOD c'est GOOD
+      - generic [ref=f1e55]: Indépendant depuis 2020. Made of character. 7 rue Barla, Nice. Si c'est WOOD c'est GOOD.
+    - region [ref=f1e56]:
+      - generic [ref=f1e57]:
+        - generic [ref=f1e58]:
+          - generic [ref=f1e59]: 01 / À découvrir
+          - heading "LE BON UNIVERS." [level=2] [ref=f1e60]
+        - paragraph [ref=f1e61]: Explorez les grandes familles de l'univers WOOD. Pour connaître la sélection du moment, passez en boutique.
+      - generic [ref=f1e62]:
+        - link "Voir la page Fleurs CBD" [ref=f1e63] [cursor=pointer]:
+          - /url: fleurs.html
+          - article [ref=f1e64]:
+            - img "Illustration de fleurs de chanvre" [ref=f1e66]
+            - generic [ref=f1e67]:
+              - text: 01 / BOTANICAL
+              - heading "Fleurs CBD" [level=3] [ref=f1e68]
+              - paragraph [ref=f1e69]: Des profils variés à découvrir et à comparer avec l'équipe en magasin.
+        - link "Voir la page Résines" [ref=f1e70] [cursor=pointer]:
+          - /url: resines.html
+          - article [ref=f1e71]:
+            - img "Illustration abstraite de résines" [ref=f1e73]
+            - generic [ref=f1e74]:
+              - text: 02 / TEXTURES
+              - heading "Résines" [level=3] [ref=f1e75]
+              - paragraph [ref=f1e76]: Un univers de textures et de références choisies avec attention.
+        - link "Voir la page WOOD Shop" [ref=f1e77] [cursor=pointer]:
+          - /url: wood-shop.html
+          - article [ref=f1e78]:
+            - img "Illustration d'un grinder en métal" [ref=f1e80]
+            - generic [ref=f1e81]:
+              - text: 03 / EVERYDAY
+              - heading "Accessoires" [level=3] [ref=f1e82]
+              - paragraph [ref=f1e83]: Les essentiels pratiques et les petits détails qui font la différence.
+        - link "Voir la page Bien-être" [ref=f1e84] [cursor=pointer]:
+          - /url: bien-etre.html
+          - article [ref=f1e85]:
+            - img "Illustration d'un flacon cosmétique botanique" [ref=f1e87]
+            - generic [ref=f1e88]:
+              - text: 04 / CARE
+              - heading "Cosmétiques" [level=3] [ref=f1e89]
+              - paragraph [ref=f1e90]: Des soins et produits autour du chanvre, selon les disponibilités en boutique.
+    - region [ref=f1e91]:
+      - generic [aria-hidden] [ref=f1e92]:
+        - generic [ref=f1e93]: W.
+        - text: NICE / 2020
+      - generic [ref=f1e94]:
+        - generic [ref=f1e95]: 02 / Notre histoire
+        - heading "PLUS QU'UN SHOP." [level=2] [ref=f1e96]: PLUS QU'UNSHOP.
+        - paragraph [ref=f1e97]: WOOD, c'est une enseigne familiale et indépendante née à Nice en 2020. Une adresse où l'on prend le temps de vous accueillir, de vous écouter et de vous guider dans vos découvertes.
+        - paragraph [ref=f1e98]: Pas de discours compliqué. Juste une équipe passionnée, une sélection soignée et une bonne dose de personnalité.
+        - generic [ref=f1e99]: SI C'EST WOOD, C'EST GOOD.
+    - region "L'expérience WOOD" [ref=f1e100]:
+      - generic [ref=f1e101]: L'esprit maison
+      - generic [ref=f1e102]:
+        - generic [ref=f1e103]:
+          - text: 01 /
+          - heading "Le conseil avant tout" [level=3] [ref=f1e104]
+          - paragraph [ref=f1e105]: Une équipe à l'écoute pour présenter les produits et répondre aux questions.
+        - generic [ref=f1e106]:
+          - text: 02 /
+          - heading "L'indépendance" [level=3] [ref=f1e107]
+          - paragraph [ref=f1e108]: Une enseigne niçoise, familiale, à taille humaine depuis 2020.
+        - generic [ref=f1e109]:
+          - text: 03 /
+          - heading "La sélection" [level=3] [ref=f1e110]
+          - paragraph [ref=f1e111]: Des références choisies pour leur intérêt et présentées en toute transparence.
+    - region [ref=f1e112]:
+      - generic [ref=f1e113]:
+        - generic [ref=f1e114]:
+          - generic [ref=f1e115]: 03 / On se voit ?
+          - heading [level=2] [ref=f1e116]:
+            - text: RENDEZ-VOUS
+            - emphasis [ref=f1e117]: À NICE.
+          - paragraph [ref=f1e118]: L'équipe WOOD vous accueille dans deux quartiers de Nice, avec la même sélection et le même esprit.
+          - generic [ref=f1e119]:
+            - generic [ref=f1e120]:
+              - term [ref=f1e121]: Le Port · Libération
+              - definition [ref=f1e122]: Deux boutiques, une même identité WOOD.
+            - generic [ref=f1e123]:
+              - term [ref=f1e124]: Nous contacter
+              - definition [ref=f1e125]:
+                - link "woodcbdshop@gmail.com" [ref=f1e126] [cursor=pointer]:
+                  - /url: mailto:woodcbdshop@gmail.com
+        - generic "Les deux boutiques WOOD à Nice" [ref=f1e127]:
+          - article [ref=f1e128]:
+            - generic [ref=f1e129]:
+              - generic [ref=f1e130]:
+                - generic [ref=f1e131]: 01 / LE PORT
+                - generic [ref=f1e132]: WOOD
+              - heading "BARLA" [level=3] [ref=f1e133]
+              - paragraph [ref=f1e134]: 7 rue Barla06300 Nice
+              - generic [ref=f1e135]:
+                - generic [ref=f1e136]:
+                  - term [ref=f1e137]: Horaires habituels — à confirmer
+                  - definition [ref=f1e138]: "Mardi au samedi : 10h–13h et 14h30–19hLundi et dimanche : fermé"
+                - generic [ref=f1e139]:
+                  - term [ref=f1e140]: Téléphone
+                  - definition [ref=f1e141]:
+                    - link "04 22 16 35 70" [ref=f1e142] [cursor=pointer]:
+                      - /url: tel:+33422163570
+            - generic [ref=f1e143]:
+              - link "Itinéraire" [ref=f1e144] [cursor=pointer]:
+                - /url: https://www.google.com/maps/dir/?api=1&destination=7+Rue+Barla%2C+06300+Nice
+                - text: Itinéraire
+                - generic [aria-hidden] [ref=f1e145]: ↗
+              - link "Appeler" [ref=f1e146] [cursor=pointer]:
+                - /url: tel:+33422163570
+                - text: Appeler
+                - generic [aria-hidden] [ref=f1e147]: ↗
+          - article [ref=f1e148]:
+            - generic [ref=f1e149]:
+              - generic [ref=f1e150]:
+                - generic [ref=f1e151]: 02 / LIBÉRATION
+                - generic [ref=f1e152]: WOOD
+              - heading "BORRIGLIONE" [level=3] [ref=f1e153]
+              - paragraph [ref=f1e154]: 16 avenue Alfred Borriglione06100 Nice
+              - generic [ref=f1e155]:
+                - generic [ref=f1e156]:
+                  - term [ref=f1e157]: Horaires habituels — à confirmer
+                  - definition [ref=f1e158]: "Mardi au samedi : 10h–13h et 14h30–19hLundi et dimanche : fermé"
+                - generic [ref=f1e159]:
+                  - term [ref=f1e160]: Téléphone
+                  - definition [ref=f1e161]:
+                    - link "04 23 13 03 05" [ref=f1e162] [cursor=pointer]:
+                      - /url: tel:+33423130305
+            - generic [ref=f1e163]:
+              - link "Itinéraire" [ref=f1e164] [cursor=pointer]:
+                - /url: https://www.google.com/maps/dir/?api=1&destination=16+Avenue+Alfred+Borriglione%2C+06100+Nice
+                - text: Itinéraire
+                - generic [aria-hidden] [ref=f1e165]: ↗
+              - link "Appeler" [ref=f1e166] [cursor=pointer]:
+                - /url: tel:+33423130305
+                - text: Appeler
+                - generic [aria-hidden] [ref=f1e167]: ↗
+    - region [ref=f1e168]:
+      - generic [ref=f1e169]:
+        - generic [ref=f1e170]:
+          - generic [ref=f1e171]: 04 / Questions fréquentes
+          - heading "ON VOUS RÉPOND." [level=2] [ref=f1e172]
+        - generic [ref=f1e173]:
+          - group [ref=f1e174]:
+            - generic "Où se trouve WOOD CBD Shop ? +" [ref=f1e175] [cursor=pointer]
+          - group [ref=f1e176]:
+            - generic "Quels produits trouve-t-on en boutique ? +" [ref=f1e177] [cursor=pointer]
+          - group [ref=f1e178]:
+            - generic "La livraison est-elle disponible ? +" [ref=f1e179] [cursor=pointer]
+          - group [ref=f1e180]:
+            - generic "Comment fonctionne le paiement ? +" [ref=f1e181] [cursor=pointer]
+          - group [ref=f1e182]:
+            - generic "Dois-je créer un compte ? +" [ref=f1e183] [cursor=pointer]
+          - group [ref=f1e184]:
+            - generic "Qu'est-ce que le CBD ? +" [ref=f1e185] [cursor=pointer]
+          - group [ref=f1e186]:
+            - generic "Puis-je demander conseil avant de venir ? +" [ref=f1e187] [cursor=pointer]
+  - contentinfo [ref=f1e188]:
+    - generic [ref=f1e189]:
+      - generic [ref=f1e190]:
+        - generic [ref=f1e191]:
+          - generic [ref=f1e192]: WOOD.
+          - generic [ref=f1e193]: Si c'est WOOD, c'est GOOD.
+        - group [ref=f1e194]:
+          - generic "Explorer" [ref=f1e195]
+          - generic [ref=f1e196]:
+            - link "Nos univers" [ref=f1e197] [cursor=pointer]:
+              - /url: "#univers"
+            - link "Notre histoire" [ref=f1e198] [cursor=pointer]:
+              - /url: "#histoire"
+            - link "La boutique" [ref=f1e199] [cursor=pointer]:
+              - /url: "#boutique"
+            - link "Questions fréquentes" [ref=f1e200] [cursor=pointer]:
+              - /url: "#questions"
+        - group [ref=f1e201]:
+          - generic "Rester en contact" [ref=f1e202]
+          - generic [ref=f1e203]:
+            - link "Barla · 04 22 16 35 70" [ref=f1e204] [cursor=pointer]:
+              - /url: tel:+33422163570
+            - link "Borriglione · 04 23 13 03 05" [ref=f1e205] [cursor=pointer]:
+              - /url: tel:+33423130305
+            - link "woodcbdshop@gmail.com" [ref=f1e206] [cursor=pointer]:
+              - /url: mailto:woodcbdshop@gmail.com
+            - link "Instagram ↗" [ref=f1e207] [cursor=pointer]:
+              - /url: https://www.instagram.com/woodcbdshop/
+            - generic [ref=f1e208]: 7 rue Barla, 06300 Nice16 avenue Alfred Borriglione, 06100 Nice
+      - generic [ref=f1e209]:
+        - generic [ref=f1e210]:
+          - text: © 2026 WOOD —
+          - strong [ref=f1e211]: Maquette de démonstration non officielle.
+          - text: Les commandes sont enregistrées de manière sécurisée.
+        - generic [ref=f1e212]: Visuel conceptuel et illustrations originales. Paiement Viva et mentions légales à valider.
+  - navigation "Choisir la version du site" [ref=f1e213]:
+    - generic [ref=f1e214]: VERSION
+    - link "DÉMO" [ref=f1e215] [cursor=pointer]:
+      - /url: https://rapt0r06300.github.io/CBD-WOOD/index.html
+    - link "BASE" [ref=f1e216] [cursor=pointer]:
+      - /url: https://rapt0r06300.github.io/CBD-WOOD/base/index.html

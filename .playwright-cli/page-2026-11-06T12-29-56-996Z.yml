@@ -1,0 +1,711 @@
+- generic [active] [ref=e1]:
+  - link "Aller au contenu" [ref=e2] [cursor=pointer]:
+    - /url: "#contenu"
+  - generic [ref=e3]: WOOD CBD · Nice — Le vert, le détail, le bon caractère.
+  - banner [ref=e4]:
+    - link "WOOD CBD Nice, accueil" [ref=e5] [cursor=pointer]:
+      - /url: "#accueil"
+      - text: WOOD
+      - emphasis [ref=e7]: CBD / NICE
+    - navigation "Navigation principale" [ref=e8]:
+      - generic "Explorer WOOD" [ref=e11]:
+        - link "Nos univers" [ref=e12] [cursor=pointer]:
+          - /url: "#univers"
+        - link "L'histoire" [ref=e13] [cursor=pointer]:
+          - /url: "#histoire"
+        - link "La boutique" [ref=e14] [cursor=pointer]:
+          - /url: "#boutique"
+        - link "FAQ" [ref=e15] [cursor=pointer]:
+          - /url: "#questions"
+    - link "Venir chez WOOD" [ref=e16] [cursor=pointer]:
+      - /url: "#boutique"
+      - text: Venir chez WOOD
+      - generic [aria-hidden] [ref=e17]: ↗
+  - main [ref=e18]:
+    - region [ref=e19]:
+      - generic [ref=e20]:
+        - generic [ref=e21]: Nice, France · Depuis 2020
+        - heading "LE CBD AUTRE- MENT." [level=1] [ref=e22]:
+          - text: LE CBD
+          - generic [ref=e23]: AUTRE-
+          - text: MENT.
+        - paragraph [ref=e24]: Une autre vision du chanvre. Une sélection qui a du caractère. Et surtout, de vrais conseils, au cœur de Nice.
+        - generic [ref=e25]:
+          - link "Découvrir WOOD" [ref=e26] [cursor=pointer]:
+            - /url: "#univers"
+            - text: Découvrir WOOD
+            - generic [aria-hidden] [ref=e27]: ↗
+          - link "Nous trouver" [ref=e28] [cursor=pointer]:
+            - /url: "#boutique"
+            - text: Nous trouver
+            - generic [aria-hidden] [ref=e29]: ↗
+        - generic "Aperçu photo de démonstration WOOD" [ref=e30]:
+          - figure "PHOTO DÉMO Caractère WOOD" [ref=e31]:
+            - img "Photo de démonstration de Pastraweed" [ref=e32]
+            - generic [ref=e33]:
+              - generic [ref=e34]: PHOTO DÉMO
+              - strong [ref=e35]: Caractère WOOD
+          - figure "PHOTO DÉMO La sélection du moment" [ref=e36]:
+            - img "Photo de démonstration de Ivory" [ref=e37]
+            - generic [ref=e38]:
+              - generic [ref=e39]: PHOTO DÉMO
+              - strong [ref=e40]: La sélection du moment
+      - generic [ref=e41]:
+        - img "Photographie de démonstration WOOD d'un produit botanique sous cloche en verre, dans une composition graffiti" [ref=e42]
+        - generic [ref=e43]: DROP 01 · PHOTO DÉMO
+        - figure "Velvet Kush Fleur · présentation WOOD" [ref=e44]:
+          - generic [ref=e45]:
+            - img "Photo de démonstration d'un produit WOOD sous cloche" [ref=e46]
+            - generic [ref=e47]: PHOTO DÉMO
+          - generic [ref=e48]:
+            - strong [ref=e49]: Velvet Kush
+            - generic [ref=e50]: Fleur · présentation WOOD
+        - generic [ref=e51]: WOOD — BOTANICAL EDITION
+        - generic [ref=e52]: 01 / 04 — L'ESPRIT WOOD
+        - link "Descendre vers les univers WOOD" [ref=e53] [cursor=pointer]:
+          - /url: "#univers"
+          - generic [aria-hidden] [ref=e54]: ↓
+          - generic [ref=e55]: Explorer
+    - generic "Les valeurs de WOOD" [ref=e56]:
+      - generic [ref=e57]:
+        - generic [aria-hidden] [ref=e58]:
+          - generic [ref=e59]: Indépendant depuis 2020
+          - generic [ref=e60]: ✳
+          - generic [ref=e61]: Made of character
+          - generic [ref=e62]: ✳
+          - generic [ref=e63]: 7 rue Barla · Nice
+          - generic [ref=e64]: ✳
+          - generic [ref=e65]: Si c'est WOOD c'est GOOD
+        - generic [aria-hidden] [ref=e66]:
+          - generic [ref=e67]: Indépendant depuis 2020
+          - generic [ref=e68]: ✳
+          - generic [ref=e69]: Made of character
+          - generic [ref=e70]: ✳
+          - generic [ref=e71]: 7 rue Barla · Nice
+          - generic [ref=e72]: ✳
+          - generic [ref=e73]: Si c'est WOOD c'est GOOD
+      - generic [ref=e74]: Indépendant depuis 2020. Made of character. 7 rue Barla, Nice. Si c'est WOOD c'est GOOD.
+    - region "Les repères WOOD" [ref=e75]:
+      - generic [ref=e76]:
+        - article [ref=e77]:
+          - generic [ref=e78]: "01"
+          - generic [ref=e79]:
+            - strong [ref=e80]: À NICE
+            - generic [ref=e81]: Deux adresses, une même signature.
+        - article [ref=e82]:
+          - generic [ref=e83]: "02"
+          - generic [ref=e84]:
+            - strong [ref=e85]: SOUS CLOCHE
+            - generic [ref=e86]: Une présentation qui mérite un gros plan.
+        - article [ref=e87]:
+          - generic [ref=e88]: "03"
+          - generic [ref=e89]:
+            - strong [ref=e90]: BON CONSEIL
+            - generic [ref=e91]: On prend le temps avant le clic.
+        - article [ref=e92]:
+          - generic [ref=e93]: "04"
+          - generic [ref=e94]:
+            - strong [ref=e95]: WOOD MOOD
+            - generic [ref=e96]: Chill, chic et un peu drôle.
+    - region "Les engagements WOOD" [ref=e97]:
+      - generic [ref=e98]:
+        - article [ref=e99]:
+          - generic [ref=e100]: 01 / L'ALLURE
+          - heading "Chic. Premium. WOOD." [level=3] [ref=e101]
+          - paragraph [ref=e102]: Du vert, le bon contraste et des fleurs présentées sous cloche.
+        - article [ref=e103]:
+          - generic [ref=e104]: 02 / LE GRAFFITI
+          - heading "Chill, pas sage." [level=3] [ref=e105]
+          - paragraph [ref=e106]: Des stickers dessinés à la main, partout où ils racontent WOOD.
+        - article [ref=e107]:
+          - generic [ref=e108]: 03 / L'HUMOUR
+          - heading "Le bon mot, au bon moment." [level=3] [ref=e109]
+          - paragraph [ref=e110]: Des clins d’œil et jeux de mots maison, sans perdre le fil du shopping.
+        - article [ref=e111]:
+          - generic [ref=e112]: 04 / LA MAISON
+          - heading "Nice. Caractère. Conseil." [level=3] [ref=e113]
+          - paragraph [ref=e114]: Le conseil avant le clic, et deux boutiques pour voir la sélection.
+    - region [ref=e115]:
+      - generic [ref=e116]:
+        - generic [ref=e117]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: 00 / Les drops WOOD
+            - heading "PROFITE, ÇA VA VIVRE." [level=2] [ref=e120]
+          - paragraph [ref=e121]: "Deux formats de présentation inspirés du rythme boutique en ligne : une image forte, une accroche claire et une action simple. Les visuels restent des démonstrations à valider."
+        - generic [ref=e122]:
+          - link "Composition de démonstration WOOD sous cloche en verre DROP 01 · DÉMO LA MATIÈRE AVANT LE DISCOURS. Voir la sélection ↗" [ref=e123] [cursor=pointer]:
+            - /url: "#selection-wood"
+            - img "Composition de démonstration WOOD sous cloche en verre" [ref=e124]
+            - generic [ref=e125]:
+              - generic [ref=e126]: DROP 01 · DÉMO
+              - strong [ref=e127]: LA MATIÈREAVANT LE DISCOURS.
+              - emphasis [ref=e128]: Voir la sélection ↗
+          - link "Bocal botanique de démonstration WOOD DROP 02 · DÉMO CHOISIS TON RYTHME. Choisir un mood ↗" [ref=e129] [cursor=pointer]:
+            - /url: "#humeurs"
+            - img "Bocal botanique de démonstration WOOD" [ref=e130]
+            - generic [ref=e131]:
+              - generic [ref=e132]: DROP 02 · DÉMO
+              - strong [ref=e133]: CHOISISTON RYTHME.
+              - emphasis [ref=e134]: Choisir un mood ↗
+    - region [ref=e135]:
+      - generic [ref=e137]:
+        - img "Composition photo de démonstration WOOD avec cloche en verre et bocal botanique" [ref=e139]
+        - generic [ref=e140]:
+          - generic [ref=e141]: DROP 03 / STUDIO WOOD
+          - heading "LA MATIÈRE FAIT SON ENTRÉE." [level=2] [ref=e142]
+          - paragraph [ref=e143]: "Un grand format photo pour donner au produit la place qu'il mérite : chic, botanique, un peu street, et toujours WOOD."
+          - generic [ref=e144]:
+            - generic [ref=e145]: PHOTO DÉMO
+            - generic [ref=e146]: PRÉSENTATION SOUS CLOCHE
+            - generic [ref=e147]: IDENTITÉ ORIGINALE
+          - link "Voir la sélection" [ref=e148] [cursor=pointer]:
+            - /url: "#selection-wood"
+            - text: Voir la sélection
+            - generic [aria-hidden] [ref=e149]: ↗
+    - region [ref=e150]:
+      - generic [ref=e151]:
+        - generic [ref=e152]:
+          - generic [ref=e153]: 01 / À découvrir
+          - heading "LE BON UNIVERS." [level=2] [ref=e154]
+        - paragraph [ref=e155]: Explorez les grandes familles de l'univers WOOD. Pour connaître la sélection du moment, passez en boutique.
+      - generic [ref=e156]:
+        - link "Voir la page Fleurs CBD" [ref=e157] [cursor=pointer]:
+          - /url: fleurs.html
+          - article [ref=e158]:
+            - img "Illustration de fleurs de chanvre" [ref=e160]
+            - generic [ref=e161]:
+              - text: 01 / BOTANICAL
+              - heading "Fleurs CBD" [level=3] [ref=e162]
+              - paragraph [ref=e163]: Des profils variés à découvrir et à comparer avec l'équipe en magasin.
+              - generic [ref=e164]:
+                - text: Découvrir l'univers
+                - generic [aria-hidden] [ref=e165]: ↗
+        - link "Voir la page Résines" [ref=e166] [cursor=pointer]:
+          - /url: resines.html
+          - article [ref=e167]:
+            - img "Illustration abstraite de résines" [ref=e169]
+            - generic [ref=e170]:
+              - text: 02 / TEXTURES
+              - heading "Résines" [level=3] [ref=e171]
+              - paragraph [ref=e172]: Un univers de textures et de références choisies avec attention.
+              - generic [ref=e173]:
+                - text: Explorer les textures
+                - generic [aria-hidden] [ref=e174]: ↗
+        - link "Voir la page WOOD Shop" [ref=e175] [cursor=pointer]:
+          - /url: wood-shop.html
+          - article [ref=e176]:
+            - img "Illustration d'un grinder en métal" [ref=e178]
+            - generic [ref=e179]:
+              - text: 03 / EVERYDAY
+              - heading "Accessoires" [level=3] [ref=e180]
+              - paragraph [ref=e181]: Les essentiels pratiques et les petits détails qui font la différence.
+              - generic [ref=e182]:
+                - text: Voir les essentiels
+                - generic [aria-hidden] [ref=e183]: ↗
+        - link "Voir la page Bien-être" [ref=e184] [cursor=pointer]:
+          - /url: bien-etre.html
+          - article [ref=e185]:
+            - img "Illustration d'un flacon cosmétique botanique" [ref=e187]
+            - generic [ref=e188]:
+              - text: 04 / CARE
+              - heading "Cosmétiques" [level=3] [ref=e189]
+              - paragraph [ref=e190]: Des soins et produits autour du chanvre, selon les disponibilités en boutique.
+              - generic [ref=e191]:
+                - text: Voir le rituel
+                - generic [aria-hidden] [ref=e192]: ↗
+    - region [ref=e193]:
+      - generic [ref=e194]:
+        - generic [ref=e195]:
+          - generic [ref=e196]:
+            - generic [ref=e197]: 02 bis / Le drop en détail
+            - heading "CHOISIS TON CARACTÈRE." [level=2] [ref=e198]
+          - paragraph [ref=e199]: "Le type de vitrine produit qui manquait à la démo : image principale, vue alternative, badge, profil et action claire. Aucun prix ou stock n'est inventé."
+        - generic [ref=e200]:
+          - article [ref=e201]:
+            - link "Voir Nimbus 3000" [ref=e202] [cursor=pointer]:
+              - /url: https://rapt0r06300.github.io/CBD-WOOD/demo/fleur.html?produit=fleurs-nimbus-3000
+              - generic [ref=e203]:
+                - img "Photo de démonstration de Nimbus 3000" [ref=e204]
+                - img "Vue alternative de démonstration de Nimbus 3000 sous cloche" [ref=e205]
+                - generic [ref=e206]: PHOTO DÉMO
+                - generic [ref=e207]: Voir la fiche ↗
+              - generic [ref=e208]:
+                - generic [ref=e209]:
+                  - generic [ref=e210]: FLEUR · DÉMO
+                  - generic [ref=e211]: 01 / 04
+                - heading "Nimbus 3000" [level=3] [ref=e212]
+                - paragraph [ref=e213]: Une présence botanique marquée, racontée avec le vocabulaire WOOD.
+                - generic [ref=e214]:
+                  - strong [ref=e215]: Sélection boutique
+                  - generic [ref=e216]: ↗
+            - button "Afficher la vue alternative de Nimbus 3000" [ref=e217] [cursor=pointer]: 1 / 2
+          - article [ref=e218]:
+            - link "Voir Ivory" [ref=e219] [cursor=pointer]:
+              - /url: https://rapt0r06300.github.io/CBD-WOOD/demo/fleur.html?produit=fleurs-ivory
+              - generic [ref=e220]:
+                - img "Photo de démonstration de Ivory" [ref=e221]
+                - img "Vue alternative de démonstration de Ivory sous cloche" [ref=e222]
+                - generic [ref=e223]: PHOTO DÉMO
+                - generic [ref=e224]: Voir la fiche ↗
+              - generic [ref=e225]:
+                - generic [ref=e226]:
+                  - generic [ref=e227]: FLEUR · TEXTURE
+                  - generic [ref=e228]: 02 / 04
+                - heading "Ivory" [level=3] [ref=e229]
+                - paragraph [ref=e230]: Une fiche à découvrir en second regard, comme une pièce sous verre.
+                - generic [ref=e231]:
+                  - strong [ref=e232]: Sélection boutique
+                  - generic [ref=e233]: ↗
+            - button "Afficher la vue alternative de Ivory" [ref=e234] [cursor=pointer]: 1 / 2
+          - article [ref=e235]:
+            - link "Voir Velvet Kush" [ref=e236] [cursor=pointer]:
+              - /url: https://rapt0r06300.github.io/CBD-WOOD/demo/fleur.html?produit=fleurs-velvet-kush
+              - generic [ref=e237]:
+                - img "Photo de démonstration de Velvet Kush" [ref=e238]
+                - img "Vue alternative de démonstration de Velvet Kush" [ref=e239]
+                - generic [ref=e240]: PHOTO DÉMO
+                - generic [ref=e241]: Voir la fiche ↗
+              - generic [ref=e242]:
+                - generic [ref=e243]:
+                  - generic [ref=e244]: FLEUR · CARACTÈRE
+                  - generic [ref=e245]: 03 / 04
+                - heading "Velvet Kush" [level=3] [ref=e246]
+                - paragraph [ref=e247]: Le profil mis en scène dans la cloche signature de la maison.
+                - generic [ref=e248]:
+                  - strong [ref=e249]: Sélection boutique
+                  - generic [ref=e250]: ↗
+            - button "Afficher la vue alternative de Velvet Kush" [ref=e251] [cursor=pointer]: 1 / 2
+          - article [ref=e252]:
+            - link "Voir Pastraweed" [ref=e253] [cursor=pointer]:
+              - /url: https://rapt0r06300.github.io/CBD-WOOD/demo/fleur.html?produit=fleurs-pastraweed
+              - generic [ref=e254]:
+                - img "Photo de démonstration de Pastraweed" [ref=e255]
+                - img "Vue alternative de démonstration de Pastraweed" [ref=e256]
+                - generic [ref=e257]: PHOTO DÉMO
+                - generic [ref=e258]: Voir la fiche ↗
+              - generic [ref=e259]:
+                - generic [ref=e260]:
+                  - generic [ref=e261]: FLEUR · ORIGINAL
+                  - generic [ref=e262]: 04 / 04
+                - heading "Pastraweed" [level=3] [ref=e263]
+                - paragraph [ref=e264]: Un nom qui garde l'humour WOOD au milieu d'une présentation premium.
+                - generic [ref=e265]:
+                  - strong [ref=e266]: Sélection boutique
+                  - generic [ref=e267]: ↗
+            - button "Afficher la vue alternative de Pastraweed" [ref=e268] [cursor=pointer]: 1 / 2
+        - paragraph [ref=e269]: ILLUSTRATIONS DE DÉMONSTRATION · PHOTOS RÉELLES, PRIX ET STOCKS À VALIDER
+    - region [ref=e270]:
+      - generic [ref=e271]:
+        - generic [ref=e272]:
+          - generic [ref=e273]: 02 / Sélection WOOD
+          - heading "LA SÉLECTION WOOD." [level=2] [ref=e274]
+        - paragraph [ref=e275]: Un aperçu de la présentation finale. Les visuels ci-dessous sont des illustrations de démonstration ; la sélection réelle sera validée par la boutique.
+      - generic [ref=e276]:
+        - link "Voir la présentation démo de Nimbus 3000" [ref=e277] [cursor=pointer]:
+          - /url: fleur.html?produit=fleurs-nimbus-3000
+          - generic [ref=e278]:
+            - img "Photographie de démonstration de Nimbus 3000 sous cloche" [ref=e279]
+            - generic [ref=e280]: PHOTO DÉMO
+          - generic [ref=e281]:
+            - generic [ref=e282]:
+              - generic [ref=e283]: FLEUR · DÉMO
+              - generic [ref=e284]: PROFIL À VALIDER
+            - heading "Nimbus 3000" [level=3] [ref=e285]
+            - paragraph [ref=e286]: Profil botanique marqué · sélection WOOD
+            - generic [ref=e287]:
+              - strong [ref=e288]: Voir la fiche
+              - generic [ref=e289]: ↗
+        - link "Voir la présentation démo de Ivory" [ref=e290] [cursor=pointer]:
+          - /url: fleur.html?produit=fleurs-ivory
+          - generic [ref=e291]:
+            - img "Photographie de démonstration de Ivory sous cloche" [ref=e292]
+            - generic [ref=e293]: PHOTO DÉMO
+          - generic [ref=e294]:
+            - generic [ref=e295]:
+              - generic [ref=e296]: FLEUR · DÉMO
+              - generic [ref=e297]: PROFIL À VALIDER
+            - heading "Ivory" [level=3] [ref=e298]
+            - paragraph [ref=e299]: Profil botanique marqué · sélection WOOD
+            - generic [ref=e300]:
+              - strong [ref=e301]: Voir la fiche
+              - generic [ref=e302]: ↗
+        - link "Voir la présentation démo de Velvet Kush" [ref=e303] [cursor=pointer]:
+          - /url: fleur.html?produit=fleurs-velvet-kush
+          - generic [ref=e304]:
+            - img "Illustration de démonstration de Velvet Kush" [ref=e305]
+            - generic [ref=e306]: PHOTO DÉMO
+          - generic [ref=e307]:
+            - generic [ref=e308]:
+              - generic [ref=e309]: FLEUR · DÉMO
+              - generic [ref=e310]: PROFIL À VALIDER
+            - heading "Velvet Kush" [level=3] [ref=e311]
+            - paragraph [ref=e312]: Profil botanique marqué · sélection WOOD
+            - generic [ref=e313]:
+              - strong [ref=e314]: Voir la fiche
+              - generic [ref=e315]: ↗
+        - link "Voir la présentation démo de Pastraweed" [ref=e316] [cursor=pointer]:
+          - /url: fleur.html?produit=fleurs-pastraweed
+          - generic [ref=e317]:
+            - img "Photographie de démonstration de Pastraweed sous cloche" [ref=e318]
+            - generic [ref=e319]: PHOTO DÉMO
+          - generic [ref=e320]:
+            - generic [ref=e321]:
+              - generic [ref=e322]: FLEUR · DÉMO
+              - generic [ref=e323]: PROFIL À VALIDER
+            - heading "Pastraweed" [level=3] [ref=e324]
+            - paragraph [ref=e325]: Profil botanique marqué · sélection WOOD
+            - generic [ref=e326]:
+              - strong [ref=e327]: Voir la fiche
+              - generic [ref=e328]: ↗
+      - generic "Contrôles de la sélection WOOD" [ref=e329]:
+        - button "Carte précédente" [disabled] [ref=e330]: ←
+        - generic [ref=e333]: 04 / 04
+        - button "Carte suivante" [disabled] [ref=e334]: →
+      - paragraph [ref=e335]: Glisser pour découvrir les profils · cliquer pour ouvrir une fiche
+      - text: Illustrations de démonstration · photos réelles à venir
+    - region [ref=e336]:
+      - generic [ref=e337]:
+        - generic [ref=e338]:
+          - generic [ref=e339]: 03 / Trouver son rythme
+          - heading "CHOISIS TON MOOD." [level=2] [ref=e340]
+        - paragraph [ref=e341]: Un point de départ éditorial pour parcourir WOOD. Les profils sont descriptifs et ne remplacent pas un conseil professionnel.
+      - group "Choisir une intention" [ref=e342]:
+        - button "Découverte" [pressed] [ref=e343] [cursor=pointer]
+        - button "Détente" [ref=e344] [cursor=pointer]
+        - button "Concentration" [ref=e345] [cursor=pointer]
+        - button "Soirée" [ref=e346] [cursor=pointer]
+      - generic [ref=e347]:
+        - generic [ref=e348]:
+          - heading "Pour commencer doucement" [level=3] [ref=e349]
+          - paragraph [ref=e350]: Une sélection courte pour prendre ses repères et découvrir l’univers WOOD.
+          - link "Voir les fleurs" [ref=e351] [cursor=pointer]:
+            - /url: fleurs.html
+          - paragraph [ref=e352]: Sélection éditoriale · données commerciales à confirmer
+        - figure "PHOTO DÉMO Nimbus 3000" [ref=e354]:
+          - img "Photo de démonstration d'un produit botanique WOOD" [ref=e355]
+          - generic [ref=e356]:
+            - generic [ref=e357]: PHOTO DÉMO
+            - strong [ref=e358]: Nimbus 3000
+      - generic "Contrôles du mood WOOD" [ref=e359]:
+        - button "Mood précédent" [disabled] [ref=e360]: ←
+        - generic [ref=e363]: 01 / 01
+        - button "Mood suivant" [disabled] [ref=e364]: →
+    - region [ref=e365]:
+      - generic [ref=e366]:
+        - generic [ref=e367]:
+          - generic [ref=e368]: 04 / Dans l’œil WOOD
+          - heading "LA SÉLECTION EN IMAGES." [level=2] [ref=e369]
+        - paragraph [ref=e370]: Un rail photo pour raconter les textures, les gestes et les adresses. Ces visuels sont encore des photos de démonstration.
+      - generic "Séquence photo de démonstration WOOD" [ref=e371]:
+        - figure "PHOTO DÉMO · 01 La matière avant le discours" [ref=e372]:
+          - img "Photo de démonstration d'une matière WOOD sous cloche" [ref=e373]
+          - generic [ref=e374]:
+            - generic [ref=e375]: PHOTO DÉMO · 01
+            - strong [ref=e376]: La matière avant le discours
+        - figure "PHOTO DÉMO · 02 Le produit comme une pièce" [ref=e377]:
+          - img "Photo de démonstration d'un bocal botanique WOOD" [ref=e378]
+          - generic [ref=e379]:
+            - generic [ref=e380]: PHOTO DÉMO · 02
+            - strong [ref=e381]: Le produit comme une pièce
+        - figure "PHOTO DÉMO · 03 Le détail compte" [ref=e382]:
+          - img "Photo de démonstration de Purple" [ref=e383]
+          - generic [ref=e384]:
+            - generic [ref=e385]: PHOTO DÉMO · 03
+            - strong [ref=e386]: Le détail compte
+      - generic "Contrôles de la sélection photo" [ref=e387]:
+        - button "Photo précédente" [disabled] [ref=e388]: ←
+        - generic [ref=e391]: 03 / 03
+        - button "Photo suivante" [disabled] [ref=e392]: →
+    - region [ref=e393]:
+      - generic [ref=e394]:
+        - generic [ref=e395]:
+          - generic [ref=e396]:
+            - generic [ref=e397]: 05 / À composer
+            - heading "LE PACK QUI RESTE À VALIDER." [level=2] [ref=e398]
+          - paragraph [ref=e399]: Le composant est prêt pour les futures sélections de la boutique, sans prix ni promotion inventés.
+        - generic [ref=e400]:
+          - generic [ref=e401]:
+            - img "Photo de démonstration d'un pack WOOD sous cloche" [ref=e402]
+            - generic [ref=e403]: PHOTO DÉMO
+          - generic [ref=e404]:
+            - generic [ref=e405]: PACK BUILDER · DÉMO
+            - heading "COMPOSE TON RITUEL." [level=3] [ref=e406]: COMPOSETON RITUEL.
+            - paragraph [ref=e407]: Un espace prêt à accueillir trois références, un grammage clair et une vraie offre quand les données seront validées.
+            - generic [ref=e408]:
+              - generic [ref=e409]:
+                - strong [ref=e410]: "03"
+                - text: références
+              - generic [ref=e411]:
+                - strong [ref=e412]: "01"
+                - text: sélection
+              - generic [ref=e413]:
+                - strong [ref=e414]: 24h
+                - text: à confirmer
+            - link "Voir le cadre qualité" [ref=e415] [cursor=pointer]:
+              - /url: "#preuve"
+              - text: Voir le cadre qualité
+              - generic [aria-hidden] [ref=e416]: ↗
+        - generic [ref=e417]:
+          - article [ref=e418]:
+            - generic [ref=e419]:
+              - img "Photo de démonstration du pack Découverte WOOD" [ref=e420]
+              - generic [ref=e421]: PHOTO DÉMO
+            - text: Pack 01 · démo
+            - heading "Découverte" [level=3] [ref=e422]
+            - paragraph [ref=e423]: Un assortiment à construire avec les références, grammages et disponibilités approuvés.
+          - article [ref=e424]:
+            - generic [ref=e425]:
+              - img "Photo de démonstration du pack Textures WOOD" [ref=e426]
+              - generic [ref=e427]: PHOTO DÉMO
+            - text: Pack 02 · démo
+            - heading "Textures" [level=3] [ref=e428]
+            - paragraph [ref=e429]: Une sélection éditoriale autour des matières, à compléter avec les données de la boutique.
+          - article [ref=e430]:
+            - generic [ref=e431]:
+              - img "Photo de démonstration du pack Choix WOOD" [ref=e432]
+              - generic [ref=e433]: PHOTO DÉMO
+            - text: Pack 03 · démo
+            - heading "Le choix WOOD" [level=3] [ref=e434]
+            - paragraph [ref=e435]: Un format de mise en avant, sans économie ni stock affichés tant que rien n’est validé.
+        - paragraph [ref=e436]: Aucune offre active · aucun prix barré · aucune disponibilité simulée
+        - generic [ref=e437]:
+          - generic [ref=e438]:
+            - generic [ref=e439]: UN CODE ? 😎
+            - strong [ref=e440]: Les vouchers WOOD arrivent ici.
+            - paragraph [ref=e441]: Le champ est prêt pour les futurs coupons validés par la boutique, mais aucune campagne n’est active.
+          - generic [ref=e442]:
+            - generic [ref=e443]: Code promo
+            - generic [ref=e444]:
+              - textbox "Code promo" [disabled] [ref=e445]:
+                - /placeholder: Bientôt disponible
+              - button "Appliquer" [disabled] [ref=e446]
+    - region [ref=e447]:
+      - generic [ref=e448]:
+        - generic [ref=e449]:
+          - generic [ref=e450]: 06 / La preuve avant tout
+          - heading "ON GARDE LE VRAI." [level=2] [ref=e451]
+        - paragraph [ref=e452]: Des extraits courts de la fiche Google, un fondu doux et une preuve locale qui se regarde immédiatement.
+      - article [ref=e454]:
+        - generic [ref=e455]:
+          - generic [ref=e456]: AVIS GOOGLE · NICE
+          - generic [ref=e457]: 5★
+        - generic [ref=e458]:
+          - strong [ref=e459]: 5,0
+          - generic [ref=e460]: / 5
+        - generic "Cinq étoiles sur cinq" [ref=e461]: ★★★★★
+        - heading "WOOD CBD Shop Nice Barla · Borriglione" [level=3] [ref=e462]: WOOD CBD Shop NiceBarla · Borriglione
+        - article [ref=e464]:
+          - blockquote [ref=e465]: « Meilleure CBD de Nice. »
+          - generic [ref=e466]:
+            - strong [ref=e467]: Lou Z.
+            - generic [ref=e468]: Barla · Google · 5★ · 14 mai 2026
+        - link "Voir la fiche Google ↗" [ref=e470] [cursor=pointer]:
+          - /url: https://www.google.com/maps/search/?api=1&query=CBD+Nice+Wood+Shop+CBD+Nice+Barla
+        - paragraph [ref=e471]: Extraits publics de fiches Google · rotation automatique · affichage à revalider avant publication finale.
+        - text: "5"
+    - region [ref=e472]:
+      - generic [aria-hidden] [ref=e473]:
+        - generic [ref=e474]: W.
+        - text: NICE / 2020
+      - generic [ref=e475]:
+        - generic [ref=e476]: 02 / Notre histoire
+        - heading "PLUS QU'UN SHOP." [level=2] [ref=e477]: PLUS QU'UNSHOP.
+        - paragraph [ref=e478]: WOOD, c'est une enseigne familiale et indépendante née à Nice en 2020. Une adresse où l'on prend le temps de vous accueillir, de vous écouter et de vous guider dans vos découvertes.
+        - paragraph [ref=e479]: Pas de discours compliqué. Juste une équipe passionnée, une sélection soignée et une bonne dose de personnalité.
+        - generic [ref=e480]: SI C'EST WOOD, C'EST GOOD.
+    - region "L'expérience WOOD" [ref=e481]:
+      - generic [ref=e482]: L'esprit maison
+      - generic [ref=e483]:
+        - generic [ref=e484]:
+          - text: 01 /
+          - heading "Le conseil avant tout" [level=3] [ref=e485]
+          - paragraph [ref=e486]: Une équipe à l'écoute pour présenter les produits et répondre aux questions.
+        - generic [ref=e487]:
+          - text: 02 /
+          - heading "L'indépendance" [level=3] [ref=e488]
+          - paragraph [ref=e489]: Une enseigne niçoise, familiale, à taille humaine depuis 2020.
+        - generic [ref=e490]:
+          - text: 03 /
+          - heading "La sélection" [level=3] [ref=e491]
+          - paragraph [ref=e492]: Des références choisies pour leur intérêt et présentées en toute transparence.
+    - region [ref=e493]:
+      - generic [ref=e494]:
+        - generic [ref=e495]:
+          - generic [ref=e496]: 03 / On se voit ?
+          - heading [level=2] [ref=e497]:
+            - text: RENDEZ-VOUS
+            - emphasis [ref=e498]: À NICE.
+          - paragraph [ref=e499]: L'équipe WOOD vous accueille dans deux quartiers de Nice, avec la même sélection et le même esprit.
+          - generic [ref=e500]:
+            - generic [ref=e501]:
+              - term [ref=e502]: Le Port · Libération
+              - definition [ref=e503]: Deux boutiques, une même identité WOOD.
+            - generic [ref=e504]:
+              - term [ref=e505]: Nous contacter
+              - definition [ref=e506]:
+                - link "woodcbdshop@gmail.com" [ref=e507] [cursor=pointer]:
+                  - /url: mailto:woodcbdshop@gmail.com
+        - generic "Les deux boutiques WOOD à Nice" [ref=e508]:
+          - article [ref=e509]:
+            - generic [ref=e510]:
+              - generic [ref=e511]:
+                - generic [ref=e512]: 01 / LE PORT
+                - generic [ref=e513]: WOOD
+              - generic [ref=e514]:
+                - generic [ref=e515]: NICE · LE PORT
+                - heading "BARLA" [level=3] [ref=e516]
+                - paragraph [ref=e517]: ↳ 7 rue Barla06300 Nice
+              - generic [ref=e518]:
+                - generic [ref=e519]:
+                  - term [ref=e520]: Horaires habituels — à confirmer
+                  - definition [ref=e521]: "Mardi au samedi : 10h–13h et 14h30–19hLundi et dimanche : fermé"
+                - generic [ref=e522]:
+                  - term [ref=e523]: Téléphone
+                  - definition [ref=e524]:
+                    - link "04 22 16 35 70" [ref=e525] [cursor=pointer]:
+                      - /url: tel:+33422163570
+            - generic [ref=e526]:
+              - generic [ref=e527]: BON, ON SE VOIT ?
+              - generic [ref=e528]:
+                - link "Itinéraire" [ref=e529] [cursor=pointer]:
+                  - /url: https://www.google.com/maps/dir/?api=1&destination=7+Rue+Barla%2C+06300+Nice
+                  - text: Itinéraire
+                  - generic [aria-hidden] [ref=e532]: ↗
+                - link "Appeler" [ref=e533] [cursor=pointer]:
+                  - /url: tel:+33422163570
+                  - text: Appeler
+                  - generic [aria-hidden] [ref=e535]: ↗
+            - text: "01"
+          - article [ref=e536]:
+            - generic [ref=e537]:
+              - generic [ref=e538]:
+                - generic [ref=e539]: 02 / LIBÉRATION
+                - generic [ref=e540]: WOOD
+              - generic [ref=e541]:
+                - generic [ref=e542]: NICE · LIBÉRATION
+                - heading "BORRIGLIONE" [level=3] [ref=e543]
+                - paragraph [ref=e544]: ↳ 16 avenue Alfred Borriglione06100 Nice
+              - generic [ref=e545]:
+                - generic [ref=e546]:
+                  - term [ref=e547]: Horaires habituels — à confirmer
+                  - definition [ref=e548]: "Mardi au samedi : 10h–13h et 14h30–19hLundi et dimanche : fermé"
+                - generic [ref=e549]:
+                  - term [ref=e550]: Téléphone
+                  - definition [ref=e551]:
+                    - link "04 23 13 03 05" [ref=e552] [cursor=pointer]:
+                      - /url: tel:+33423130305
+            - generic [ref=e553]:
+              - generic [ref=e554]: BON, ON SE VOIT ?
+              - generic [ref=e555]:
+                - link "Itinéraire" [ref=e556] [cursor=pointer]:
+                  - /url: https://www.google.com/maps/dir/?api=1&destination=16+Avenue+Alfred+Borriglione%2C+06100+Nice
+                  - text: Itinéraire
+                  - generic [aria-hidden] [ref=e559]: ↗
+                - link "Appeler" [ref=e560] [cursor=pointer]:
+                  - /url: tel:+33423130305
+                  - text: Appeler
+                  - generic [aria-hidden] [ref=e562]: ↗
+            - text: "02"
+    - region [ref=e563]:
+      - generic [ref=e564]:
+        - generic [ref=e565]:
+          - generic [ref=e566]:
+            - generic [ref=e567]: 07 / On reste en contact
+            - heading "LE FEED QUI RESTE HUMAIN." [level=2] [ref=e568]
+            - generic [ref=e569]:
+              - link "Voir Instagram" [ref=e570] [cursor=pointer]:
+                - /url: https://www.instagram.com/woodcbdshop/
+                - text: Voir Instagram
+                - generic [aria-hidden] [ref=e571]: ↗
+              - link "Passer en boutique" [ref=e572] [cursor=pointer]:
+                - /url: "#boutique"
+                - text: Passer en boutique
+                - generic [aria-hidden] [ref=e573]: ↗
+          - paragraph [ref=e574]: Le contenu social réel sera relié quand les comptes, photos et droits de diffusion seront validés par WOOD.
+        - generic "Aperçu du feed WOOD" [ref=e575]:
+          - article [ref=e576]:
+            - img "Photo de démonstration d'une composition WOOD" [ref=e577]
+            - generic [ref=e578]: FEED DÉMO · 01
+            - strong [ref=e579]: La cloche, le geste, le détail.
+          - article [ref=e580]:
+            - img "Photo de démonstration d'un bocal WOOD" [ref=e581]
+            - generic [ref=e582]: FEED DÉMO · 02
+            - strong [ref=e583]: Une sélection qui se regarde de près.
+          - article [ref=e584]:
+            - img "Photo de démonstration de Pastraweed" [ref=e585]
+            - generic [ref=e586]: FEED DÉMO · 03
+            - strong [ref=e587]: Du caractère, pas du bruit.
+    - region [ref=e588]:
+      - generic [ref=e589]:
+        - generic [ref=e590]:
+          - generic [ref=e591]: 08 / La lettre WOOD
+          - heading "TON MAIL, TON PROCHAIN DROP." [level=2] [ref=e592]: TON MAIL,TON PROCHAIN DROP.
+          - paragraph [ref=e593]: Un emplacement pour les nouveautés, les rendez-vous boutique et les sélections de la maison. Le branchement reste à valider.
+        - generic [ref=e594]:
+          - generic [ref=e595]: Adresse e-mail
+          - generic [ref=e596]:
+            - textbox "Adresse e-mail" [disabled] [ref=e597]:
+              - /placeholder: bientôt disponible
+            - button "Me prévenir" [disabled] [ref=e598]: Me prévenir →
+          - generic [ref=e599]: Formulaire de démonstration · aucun e-mail n’est collecté
+    - region [ref=e600]:
+      - generic [ref=e601]:
+        - generic [ref=e602]:
+          - generic [ref=e603]: 04 / Questions fréquentes
+          - heading "ON VOUS RÉPOND." [level=2] [ref=e604]
+          - search [ref=e605]:
+            - generic [ref=e606]: Une question en tête ?
+            - generic [ref=e607]:
+              - searchbox "Une question en tête ?" [ref=e608]
+              - button "Effacer la recherche" [ref=e609] [cursor=pointer]: Effacer
+            - status [ref=e610]: 7 questions, réponses WOOD.
+        - generic [ref=e611]:
+          - group [ref=e612]:
+            - generic "Où se trouve WOOD CBD Shop ? +" [ref=e613] [cursor=pointer]
+          - group [ref=e614]:
+            - generic "Quels produits trouve-t-on en boutique ? +" [ref=e615] [cursor=pointer]
+          - group [ref=e616]:
+            - generic "La livraison est-elle disponible ? +" [ref=e617] [cursor=pointer]
+          - group [ref=e618]:
+            - generic "Comment fonctionne le paiement ? +" [ref=e619] [cursor=pointer]
+          - group [ref=e620]:
+            - generic "Dois-je créer un compte ? +" [ref=e621] [cursor=pointer]
+          - group [ref=e622]:
+            - generic "Qu'est-ce que le CBD ? +" [ref=e623] [cursor=pointer]
+          - group [ref=e624]:
+            - generic "Puis-je demander conseil avant de venir ? +" [ref=e625] [cursor=pointer]
+  - contentinfo [ref=e626]:
+    - generic [ref=e627]:
+      - generic [ref=e628]:
+        - generic [ref=e629]:
+          - generic [ref=e630]: WOOD.
+          - generic [ref=e631]: Si c'est WOOD, c'est GOOD.
+        - group [ref=e632]:
+          - generic "Explorer" [ref=e633]
+          - generic [ref=e634]:
+            - link "Nos univers" [ref=e635] [cursor=pointer]:
+              - /url: "#univers"
+            - link "Notre histoire" [ref=e636] [cursor=pointer]:
+              - /url: "#histoire"
+            - link "La boutique" [ref=e637] [cursor=pointer]:
+              - /url: "#boutique"
+            - link "Questions fréquentes" [ref=e638] [cursor=pointer]:
+              - /url: "#questions"
+        - group [ref=e639]:
+          - generic "Rester en contact" [ref=e640]
+          - generic [ref=e641]:
+            - link "Barla · 04 22 16 35 70" [ref=e642] [cursor=pointer]:
+              - /url: tel:+33422163570
+            - link "Borriglione · 04 23 13 03 05" [ref=e643] [cursor=pointer]:
+              - /url: tel:+33423130305
+            - link "woodcbdshop@gmail.com" [ref=e644] [cursor=pointer]:
+              - /url: mailto:woodcbdshop@gmail.com
+            - link "Instagram ↗" [ref=e645] [cursor=pointer]:
+              - /url: https://www.instagram.com/woodcbdshop/
+            - generic [ref=e646]: 7 rue Barla, 06300 Nice16 avenue Alfred Borriglione, 06100 Nice
+      - generic [ref=e647]:
+        - generic [ref=e648]:
+          - text: © 2026 WOOD —
+          - strong [ref=e649]: Maquette de démonstration non officielle.
+          - text: Parcours d'achat de demonstration.
+        - generic [ref=e650]: Visuel conceptuel et illustrations originales. Paiement Viva et mentions légales à valider.

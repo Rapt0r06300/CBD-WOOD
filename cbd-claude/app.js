@@ -3,7 +3,7 @@
    Données fleurs RÉELLES (prix proprio). Profils = goût, jamais d'effet.
    =========================================================== */
 
-const IMGV = "?v=4"; /* cache-buster images (bump si régénération) */
+const IMGV = "?v=5"; /* cache-buster images (bump si régénération) */
 /* Catalogue RÉEL (récupération Shopify WOOD) — descriptions/prix/photos certifiés, jamais inventé. Prix par 1/3/5/10 g. */
 const FLEURS = [
   /* — Fleurs boostées (molécule, ultra-fort) — */
