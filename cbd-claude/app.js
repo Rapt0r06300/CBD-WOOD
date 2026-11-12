@@ -357,6 +357,10 @@ function renderProduct(){
 }
 
 /* ===================== PAGE : PANIER ===================== */
+/* Codes promo (démo) — les vrais vouchers d'Ana se brancheront ici */
+const PROMO_CODES={WOOD10:10,BIENVENUE:10,NICE15:15};
+function getPromo(){try{return JSON.parse(localStorage.getItem("wood_promo")||"null");}catch(e){return null;}}
+function setPromo(p){try{p?localStorage.setItem("wood_promo",JSON.stringify(p)):localStorage.removeItem("wood_promo");}catch(e){}}
 function renderCart(){
   const root=document.getElementById("cart"); if(!root)return;
   window.__renderCart=renderCart;
@@ -364,6 +368,7 @@ function renderCart(){
   const sub=cart.reduce((s,x)=>s+x.unit*x.q,0);
   const free=60, left=Math.max(0,free-sub);
   const nItems=cart.reduce((s,x)=>s+x.q,0), nGr=cart.reduce((s,x)=>s+x.g*x.q,0);
+  const promo=getPromo(); const disc=promo?Math.round(sub*promo.pct)/100:0; const total=Math.max(0,sub-disc);
   root.innerHTML=`<h1 class="serif">Ton pochon <span class="cart-count-h">${nItems} article${nItems>1?'s':''} · ${nGr} g</span></h1>
     <div class="cart-grid">
       <div class="cart-items">${cart.map((x,i)=>`<div class="cart-item"><div class="ci-media"><img src="assets/products/${x.slug}.jpg${IMGV}" alt="" onerror="this.outerHTML='<div>'+window.__cloche('${x.slug}')+'</div>'"></div>
@@ -373,8 +378,11 @@ function renderCart(){
       <aside class="cart-sum">
         <h3 class="serif">Résumé</h3>
         ${left>0?`<div class="freebar"><div class="freebar-fill" style="width:${Math.min(100,sub/free*100)}%"></div></div><p class="muted" style="font-size:.85rem">Plus que <strong>${euro(left)}</strong> pour la livraison offerte 🎉</p>`:`<p class="lime" style="font-weight:700">🎉 Livraison offerte !</p>`}
+        <div class="promo-field">${promo?`<div class="promo-on"><span>🏷️ Code <b>${promo.code}</b> · −${promo.pct}%</span><button class="promo-rm" data-promo-rm type="button">Retirer</button></div>`:`<div class="promo-in"><input id="promoCode" type="text" placeholder="Code promo" autocomplete="off" aria-label="Code promo"><button class="promo-add" data-promo-apply type="button">Appliquer</button></div>`}</div>
         <div class="sum-row"><span>Sous-total</span><strong>${euro(sub)}</strong></div>
+        ${disc>0?`<div class="sum-row disc"><span>Réduction · ${promo.code}</span><strong>−${euro(disc)}</strong></div>`:''}
         <div class="sum-row muted"><span>Livraison</span><span>${left>0?"calculée à l'étape suivante":"Offerte"}</span></div>
+        <div class="sum-row total"><span>Total</span><strong>${euro(total)}</strong></div>
         <a class="btn btn-primary" href="checkout.html" style="width:100%;justify-content:center;margin-top:1rem">Passer commande →</a>
         <p class="muted" style="font-size:.78rem;text-align:center;margin-top:.8rem">Démo : aucune vraie commande ni paiement.</p>
       </aside></div>`;
@@ -519,12 +527,15 @@ const LBL={aroma:{fruite:"fruité",agrumes:"agrumes",terreux:"terreux / boisé",
 function openAdvisor(){
   if(document.getElementById("advOverlay"))return;
   const ov=document.createElement("div"); ov.id="advOverlay"; ov.className="adv-overlay"; document.body.appendChild(ov);
-  const state={aroma:null,intensity:null,format:null};
+  const N=s=>(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  const state={aroma:null,intensity:null};
   const steps=[
-    {key:"aroma",q:"Qu'est-ce qui te ferait plaisir ?",sub:"On parle goût & arôme, promis — rien de médical 😉",opts:[["fruite","Fruité 🍓"],["agrumes","Agrumes 🍊"],["terreux","Terreux / boisé 🌰"],["frais","Frais & végétal 🌿"],["sucre","Sucré / gourmand 🍯"],["classique","Classique ✳"]]},
-    {key:"intensity",q:"Tu préfères quelle intensité d'arôme ?",opts:[["doux","Douce 🤍"],["equilibre","Équilibrée ⚖️"],["intense","Intense 🔥"]]},
-    {key:"format",q:"Et côté format ?",opts:[["essai","Petit essai (1–3 g)"],["habituel","Mon habituel (5–10 g)"],["stock","Je fais du stock (25 g)"]]},
+    {key:"aroma",q:"Qu'est-ce qui te ferait plaisir ?",sub:"On parle goût & arôme — rien de médical 😉",opts:[["agrumes","Agrumes 🍊"],["weed","Weed 🌿"],["exotic","Exotic 🥭"],["sucre","Sucré 🍯"],["kush","Kush 🌰"],["epice","Épicé 🌶️"]]},
+    {key:"intensity",q:"Tu cherches quelle intensité ?",sub:"Du CBD tout doux jusqu'aux molécules les plus fortes.",opts:[["doux","Tout en douceur 🤍"],["leger","Légèrement boosté ✨"],["fort","Fort 🔥"],["ultra","Ultra fort ⚡"]]},
   ];
+  const AL={agrumes:"agrumes",weed:"weed",exotic:"exotic",sucre:"sucré",kush:"kush",epice:"épicé"};
+  const IL={doux:"tout en douceur",leger:"légèrement boostée",fort:"forte",ultra:"ultra forte"};
+  const ITARG={doux:0,leger:1.5,fort:3,ultra:4};
   let i=0;
   const wrap=inner=>`<div class="adv-sheet"><button class="adv-close" aria-label="Fermer">✕</button>
     <div class="adv-top"><span class="adv-ava">🌿</span><div><strong>Ana · Conseillère WOOD</strong><small>conseil de goût, pas un avis médical</small></div></div>${inner}</div>`;
@@ -535,11 +546,16 @@ function openAdvisor(){
         <div class="adv-opts">${s.opts.map(([v,l])=>`<button class="adv-opt" data-v="${v}">${l}</button>`).join("")}</div>
         ${i>0?`<button class="adv-back">← Retour</button>`:""}`);
     } else {
-      const scored=FLEURS.map(f=>{const p=PROFILE[f.slug]||{};let sc=0;if(p.a===state.aroma)sc+=3;if(p.i===state.intensity)sc+=2;return {f,sc};}).sort((a,b)=>b.sc-a.sc);
+      const targ=ITARG[state.intensity];
+      const scored=FLEURS.map(f=>{const m=MOLEC[f.slug]||{};let sc=0;
+        if(N(m.ar).includes(state.aroma))sc+=3;
+        const lvl=m.lvl||0; sc+=Math.max(0,2-Math.abs(lvl-targ));
+        return {f,sc};}).sort((a,b)=>b.sc-a.sc);
       const top=scored.slice(0,3).map(x=>x.f);
       ov.innerHTML=wrap(`<div class="adv-q">La sélection d'Ana pour toi 🌿</div>
-        <div class="adv-why">Parce que tu aimes le <strong>${LBL.aroma[state.aroma]}</strong> · intensité <strong>${LBL.intensity[state.intensity]}</strong> :</div>
+        <div class="adv-why">Pour un profil <strong>${AL[state.aroma]}</strong> · intensité <strong>${IL[state.intensity]}</strong> :</div>
         <div class="adv-res">${top.map((f,k)=>cardHTML(f,k)).join("")}</div>
+        <div class="adv-tip">💡 <strong>Le conseil d'Ana :</strong> en boutique, on aime associer ta fleur à un peu de résine ou de molécule pour varier les plaisirs — passe nous voir pour affiner.</div>
         <button class="adv-restart">↺ Recommencer</button>`);
       ov.querySelectorAll(".reveal").forEach(e=>e.classList.add("in"));
     }
@@ -548,7 +564,7 @@ function openAdvisor(){
     if(e.target===ov||e.target.closest(".adv-close")){ov.remove();return;}
     const o=e.target.closest(".adv-opt"); if(o){state[steps[i].key]=o.dataset.v;i++;render();return;}
     if(e.target.closest(".adv-back")){i=Math.max(0,i-1);render();return;}
-    if(e.target.closest(".adv-restart")){i=0;state.aroma=state.intensity=state.format=null;render();return;}
+    if(e.target.closest(".adv-restart")){i=0;state.aroma=state.intensity=null;render();return;}
   });
   render();
   if(navigator.vibrate)navigator.vibrate(8);
@@ -600,6 +616,9 @@ document.addEventListener("DOMContentLoaded",()=>{
       else if(ci.hasAttribute("data-del"))cart.splice(idx,1);
       else{cart[idx].q--;if(cart[idx].q<1)cart.splice(idx,1);}
       saveCart();updateCartBadges();renderCart();if(typeof renderCartDrawer==='function')renderCartDrawer();return;}
+    // Code promo (panier)
+    const pa=e.target.closest("[data-promo-apply]"); if(pa){e.preventDefault();const inp=document.getElementById("promoCode");const c=((inp&&inp.value)||"").trim().toUpperCase();if(PROMO_CODES[c]){setPromo({code:c,pct:PROMO_CODES[c]});toast(`Code ${c} appliqué · −${PROMO_CODES[c]}% 🎉`);renderCart();}else{toast("Code promo invalide");}return;}
+    const prm=e.target.closest("[data-promo-rm]"); if(prm){e.preventDefault();setPromo(null);toast("Code promo retiré");renderCart();return;}
     // ajout simple (ex. cross-sell) : 3 g par defaut
     const a=e.target.closest("[data-add]"); if(a){e.preventDefault();const gi=a.dataset.gi!==undefined?+a.dataset.gi:1;addToCart(a.dataset.add,GRAMS[gi]);return;}
     const qv=e.target.closest("[data-qv]"); if(qv){e.preventDefault();openQuickView(qv.dataset.qv);return;}
