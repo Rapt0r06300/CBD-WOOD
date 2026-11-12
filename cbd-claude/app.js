@@ -357,10 +357,11 @@ function renderProduct(){
 }
 
 /* ===================== PAGE : PANIER ===================== */
-/* Codes promo (démo) — les vrais vouchers d'Ana se brancheront ici */
-const PROMO_CODES={WOOD10:10,BIENVENUE:10,NICE15:15};
+/* Codes promo (démo) — MÊMES codes au panier ET au checkout (les vrais vouchers d'Ana se brancheront ici) */
+const PROMO_CODES={WOOD10:{pct:10,l:"−10 %"},BIENVENUE:{pct:10,l:"−10 %"},NICE15:{pct:15,l:"−15 %"},LIVRAISON:{ship:true,l:"livraison offerte"}};
 function getPromo(){try{return JSON.parse(localStorage.getItem("wood_promo")||"null");}catch(e){return null;}}
-function setPromo(p){try{p?localStorage.setItem("wood_promo",JSON.stringify(p)):localStorage.removeItem("wood_promo");}catch(e){}}
+function setPromo(code){try{code?localStorage.setItem("wood_promo",JSON.stringify({code})):localStorage.removeItem("wood_promo");}catch(e){}}
+function promoInfo(){const p=getPromo();return p&&PROMO_CODES[p.code]?Object.assign({code:p.code},PROMO_CODES[p.code]):null;}
 function renderCart(){
   const root=document.getElementById("cart"); if(!root)return;
   window.__renderCart=renderCart;
@@ -368,7 +369,7 @@ function renderCart(){
   const sub=cart.reduce((s,x)=>s+x.unit*x.q,0);
   const free=60, left=Math.max(0,free-sub);
   const nItems=cart.reduce((s,x)=>s+x.q,0), nGr=cart.reduce((s,x)=>s+x.g*x.q,0);
-  const promo=getPromo(); const disc=promo?Math.round(sub*promo.pct)/100:0; const total=Math.max(0,sub-disc);
+  const promo=promoInfo(); const disc=promo&&promo.pct?Math.round(sub*promo.pct)/100:0; const total=Math.max(0,sub-disc);
   root.innerHTML=`<h1 class="serif">Ton pochon <span class="cart-count-h">${nItems} article${nItems>1?'s':''} · ${nGr} g</span></h1>
     <div class="cart-grid">
       <div class="cart-items">${cart.map((x,i)=>`<div class="cart-item"><div class="ci-media"><img src="assets/products/${x.slug}.jpg${IMGV}" alt="" onerror="this.outerHTML='<div>'+window.__cloche('${x.slug}')+'</div>'"></div>
@@ -378,7 +379,7 @@ function renderCart(){
       <aside class="cart-sum">
         <h3 class="serif">Résumé</h3>
         ${left>0?`<div class="freebar"><div class="freebar-fill" style="width:${Math.min(100,sub/free*100)}%"></div></div><p class="muted" style="font-size:.85rem">Plus que <strong>${euro(left)}</strong> pour la livraison offerte 🎉</p>`:`<p class="lime" style="font-weight:700">🎉 Livraison offerte !</p>`}
-        <div class="promo-field">${promo?`<div class="promo-on"><span>🏷️ Code <b>${promo.code}</b> · −${promo.pct}%</span><button class="promo-rm" data-promo-rm type="button">Retirer</button></div>`:`<div class="promo-in"><input id="promoCode" type="text" placeholder="Code promo" autocomplete="off" aria-label="Code promo"><button class="promo-add" data-promo-apply type="button">Appliquer</button></div>`}</div>
+        <div class="promo-field">${promo?`<div class="promo-on"><span>🏷️ Code <b>${promo.code}</b> · ${promo.l}</span><button class="promo-rm" data-promo-rm type="button">Retirer</button></div>`:`<div class="promo-in"><input id="promoCode" type="text" placeholder="Code promo" autocomplete="off" aria-label="Code promo"><button class="promo-add" data-promo-apply type="button">Appliquer</button></div>`}</div>
         <div class="sum-row"><span>Sous-total</span><strong>${euro(sub)}</strong></div>
         ${disc>0?`<div class="sum-row disc"><span>Réduction · ${promo.code}</span><strong>−${euro(disc)}</strong></div>`:''}
         <div class="sum-row muted"><span>Livraison</span><span>${left>0?"calculée à l'étape suivante":"Offerte"}</span></div>
@@ -422,12 +423,24 @@ function renderCheckout(){
         <h3 class="serif">Livraison</h3>
         <div class="radios">
           <label class="radio"><input type="radio" name="mode" value="livraison" checked> 🚚 Livraison à domicile (24–48h)</label>
-          <label class="radio"><input type="radio" name="mode" value="cc"> 🏪 Retrait en boutique (click & collect)</label>
+          <label class="radio"><input type="radio" name="mode" value="cc"> 🏪 Retrait en boutique</label>
         </div>
-        <div class="field"><label>Adresse</label><input name="adresse" autocomplete="street-address"></div>
-        <div class="field two"><div><label>Code postal</label><input name="cp" inputmode="numeric" autocomplete="postal-code"></div><div><label>Ville</label><input name="ville" autocomplete="address-level2"></div></div>
+        <div class="co-shop" id="coShop" hidden>
+          <div class="field"><label>Choisis ta boutique</label>
+            <select name="boutique" class="co-select">
+              <option value="Barla">WOOD · Barla — 7 rue Barla, 06300 Nice</option>
+              <option value="Borriglione">WOOD · Borriglione — 16 av. A. Borriglione, 06100 Nice</option>
+            </select>
+          </div>
+          <p class="co-note">🏪 Tu récupères et peux régler en boutique. On prévient l'équipe de ta commande.</p>
+        </div>
+        <div class="co-deliv" id="coDeliv">
+          <div class="field"><label>Adresse</label><input name="adresse" autocomplete="street-address"></div>
+          <div class="field two"><div><label>Code postal</label><input name="cp" inputmode="numeric" autocomplete="postal-code"></div><div><label>Ville</label><input name="ville" autocomplete="address-level2"></div></div>
+          <p class="co-note">📮 Expédition depuis notre point poste de Barla · 24–48h · paquet neutre.</p>
+        </div>
         <h3 class="serif">Paiement</h3>
-        <div class="pay-demo">💳 Paiement sécurisé par <strong>Viva.com</strong> <span class="tag tag-maquette">démo · paiement désactivé</span></div>
+        <div class="pay-demo">💳 Paiement sécurisé par <strong>Viva.com</strong> — ou en boutique au retrait <span class="tag tag-maquette">démo · paiement désactivé</span></div>
         <label class="checkbox"><input type="checkbox" required> J'ai <strong>18 ans ou plus</strong> et j'accepte les <a href="cgv.html" target="_blank">CGV</a>.</label>
         <button class="btn btn-primary" type="submit" style="width:100%;justify-content:center;margin-top:1rem">Confirmer la commande →</button>
         <p class="muted" style="font-size:.78rem;text-align:center;margin-top:.6rem">Démo : aucune commande ni paiement réels.</p>
@@ -441,24 +454,26 @@ function renderCheckout(){
         <p class="muted" style="font-size:.72rem;margin-top:.5rem">Codes d'essai : WOOD10 · BIENVENUE · LIVRAISON <span class="tag tag-maquette">démo</span></p>
       </aside>
     </div>`;
-  const PROMOS={WOOD10:{t:"pct",v:10,l:"−10 %"},BIENVENUE:{t:"pct",v:15,l:"−15 %"},LIVRAISON:{t:"ship",l:"livraison offerte"}};
-  let promo=null, promoCode="";
+  function curMode(){const el=root.querySelector('[name="mode"]:checked');return el?el.value:"livraison";}
   function renderTotals(){
-    let ship2=sub>=60?0:4.9, disc=0;
-    if(promo){ if(promo.t==="pct")disc=sub*promo.v/100; else if(promo.t==="ship")ship2=0; }
+    const pr=promoInfo(); let ship2=(curMode()==="cc"||sub>=60)?0:4.9, disc=0;
+    if(pr){ if(pr.pct)disc=Math.round(sub*pr.pct)/100; if(pr.ship)ship2=0; }
     const total=Math.max(0,sub-disc)+ship2;
     document.getElementById("sumTotals").innerHTML=
-      (disc>0?`<div class="sum-row promo"><span>Code ${promoCode}</span><b>−${euro(disc)}</b></div>`:"")
-      +`<div class="sum-row"><span>Livraison</span><span>${ship2?euro(ship2):"Offerte"}</span></div>`
+      (disc>0?`<div class="sum-row promo"><span>Code ${pr.code}</span><b>−${euro(disc)}</b></div>`:"")
+      +`<div class="sum-row"><span>${curMode()==="cc"?"Retrait boutique":"Livraison"}</span><span>${ship2?euro(ship2):"Offerte"}</span></div>`
       +`<div class="sum-row" style="font-size:1.15rem"><span>Total</span><strong>${euro(total)}</strong></div>`;
     window.__coTotal=total;
   }
-  renderTotals();
+  const _pi=document.getElementById("promoInput"), _ep=getPromo(); if(_pi&&_ep)_pi.value=_ep.code;
+  const shopBox=document.getElementById("coShop"), delivBox=document.getElementById("coDeliv");
+  function syncMode(){const cc=curMode()==="cc"; if(shopBox)shopBox.hidden=!cc; if(delivBox)delivBox.hidden=cc; renderTotals();}
+  root.querySelectorAll('[name="mode"]').forEach(r=>r.addEventListener("change",syncMode)); syncMode();
   document.getElementById("promoBtn").addEventListener("click",()=>{
     const code=(document.getElementById("promoInput").value||"").trim().toUpperCase();
-    const msg=document.getElementById("promoMsg"), p=PROMOS[code];
-    if(p){promo=p;promoCode=code;msg.textContent=`Code « ${code} » appliqué ✓ (${p.l})`;msg.className="promo-msg ok";}
-    else{promo=null;promoCode="";msg.textContent="Code promo invalide.";msg.className="promo-msg err";}
+    const msg=document.getElementById("promoMsg"), p=PROMO_CODES[code];
+    if(p){setPromo(code);msg.textContent=`Code « ${code} » appliqué ✓ (${p.l})`;msg.className="promo-msg ok";}
+    else{setPromo(null);msg.textContent="Code promo invalide.";msg.className="promo-msg err";}
     msg.hidden=false; renderTotals();
   });
   document.getElementById("coForm").addEventListener("submit",e=>{e.preventDefault();
@@ -617,7 +632,7 @@ document.addEventListener("DOMContentLoaded",()=>{
       else{cart[idx].q--;if(cart[idx].q<1)cart.splice(idx,1);}
       saveCart();updateCartBadges();renderCart();if(typeof renderCartDrawer==='function')renderCartDrawer();return;}
     // Code promo (panier)
-    const pa=e.target.closest("[data-promo-apply]"); if(pa){e.preventDefault();const inp=document.getElementById("promoCode");const c=((inp&&inp.value)||"").trim().toUpperCase();if(PROMO_CODES[c]){setPromo({code:c,pct:PROMO_CODES[c]});toast(`Code ${c} appliqué · −${PROMO_CODES[c]}% 🎉`);renderCart();}else{toast("Code promo invalide");}return;}
+    const pa=e.target.closest("[data-promo-apply]"); if(pa){e.preventDefault();const inp=document.getElementById("promoCode");const c=((inp&&inp.value)||"").trim().toUpperCase();if(PROMO_CODES[c]){setPromo(c);toast(`Code ${c} appliqué 🎉`);renderCart();}else{toast("Code promo invalide");}return;}
     const prm=e.target.closest("[data-promo-rm]"); if(prm){e.preventDefault();setPromo(null);toast("Code promo retiré");renderCart();return;}
     // ajout simple (ex. cross-sell) : 3 g par defaut
     const a=e.target.closest("[data-add]"); if(a){e.preventDefault();const gi=a.dataset.gi!==undefined?+a.dataset.gi:1;addToCart(a.dataset.add,GRAMS[gi]);return;}

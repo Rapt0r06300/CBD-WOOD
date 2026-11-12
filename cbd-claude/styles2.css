@@ -593,3 +593,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .promo-rm:hover{color:var(--soft)}
 .cart-sum .sum-row.disc strong{color:var(--lime)}
 .cart-sum .sum-row.total{border-top:1px solid var(--line);margin-top:.5rem;padding-top:.7rem;font-family:var(--serif);font-size:1.15rem}
+
+/* checkout — choix boutique / livraison */
+.co-note{font-size:.8rem;color:var(--muted);margin:.4rem 0 .2rem;line-height:1.5}
+.co-select{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;color:var(--ink);padding:.7em .8em;font-size:.9rem;font-family:var(--sans)}
+.co-select:focus{outline:none;border-color:var(--cyan)}
