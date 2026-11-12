@@ -345,6 +345,7 @@ function headerHTML(){return `<div class="container header-in">
   <div class="header-cta">
     <button class="icon-btn search" aria-label="Rechercher"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></button>
     <button class="icon-btn favBtn" id="favBtn" aria-label="Mes coups de cœur"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.5-9.5-9A5.2 5.2 0 0 1 12 6a5.2 5.2 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9Z"/></svg><span class="fav-count" id="favCount">0</span></button>
+    <a class="icon-btn" id="compteBtn" href="compte.html" aria-label="Mon compte"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></a>
     <a class="icon-btn" id="cartBtn" href="panier.html" aria-label="Panier"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="cart-count" id="cartCount">0</span></a>
     <button class="icon-btn burger" id="burger" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
   </div></div>`;}
@@ -632,6 +633,166 @@ function renderBientot(){
 }
 
 /* ===================== PAGE : CHECKOUT (démo) ===================== */
+/* ===================== PAGE : MON COMPTE =====================
+   L'espace client s'appuie entièrement sur l'API (api.js). Tant qu'elle n'est
+   pas branchée, on n'affiche PAS de formulaire de connexion : un formulaire
+   qui ne mène nulle part est aussi trompeur qu'une fausse commande.
+   On peut néanmoins prévisualiser le rendu avec  compte.html?apercu=1
+   ============================================================= */
+function renderCompte(){
+  const root = document.getElementById("compte"); if(!root) return;
+  const apercu = new URLSearchParams(location.search).has("apercu");
+  const actif  = (typeof WoodAPI !== "undefined") && WoodAPI.actif();
+
+  if(!actif && !apercu){ return compteBientot(root); }
+  compteConnexion(root, apercu);
+}
+
+/** Tant que le service n'est pas ouvert : on est honnête, et on reste utile. */
+function compteBientot(root){
+  root.innerHTML = `
+    <div class="compte-wrap">
+      <span class="eyebrow">Espace client</span>
+      <h1 class="serif">Ton compte WOOD, <span class="serif" style="font-style:italic;color:var(--lime)">bientôt.</span></h1>
+      <p class="muted" style="max-width:48ch">
+        On y prépare ton <b>portefeuille</b> (pour tes cartes cadeaux), l'historique de
+        tes commandes et tes adresses de livraison. Encore un peu de patience.
+      </p>
+
+      <div class="compte-teaser">
+        <div class="ct-item"><span>👛</span><b>Portefeuille</b><em>Tes cartes cadeaux créditées, dépensables quand tu veux</em></div>
+        <div class="ct-item"><span>📦</span><b>Tes commandes</b><em>Historique et suivi, sans rien redemander</em></div>
+        <div class="ct-item"><span>📍</span><b>Tes adresses</b><em>Enregistrées une fois, réutilisées ensuite</em></div>
+      </div>
+
+      <div class="resa-note" style="margin-top:1.6rem">
+        <b>En attendant, on reste joignables.</b>
+        Pour commander ou poser une question, appelle la boutique — on répond tout de suite.
+      </div>
+      <div class="resa-actions">
+        <a class="btn btn-primary" href="tel:+33422163570">📞 Barla · 04 22 16 35 70</a>
+        <a class="btn btn-primary" href="tel:+33423130305">📞 Borriglione · 04 23 13 03 05</a>
+      </div>
+      <p class="muted" style="font-size:.84rem">
+        Tu as déjà un <b>code cadeau</b> ? Garde-le précieusement : il sera créditable
+        sur ton portefeuille dès l'ouverture, et il n'expire pas.
+      </p>
+    </div>`;
+  document.title = "Mon compte — WOOD CBD";
+}
+
+/** Écran de connexion / inscription. */
+function compteConnexion(root, apercu){
+  const avis = apercu
+    ? `<div class="resa-note" style="margin-bottom:1.4rem"><b>Aperçu</b>
+         Cet écran est une prévisualisation : les formulaires ne sont pas encore reliés.</div>`
+    : "";
+
+  root.innerHTML = `
+    <div class="compte-wrap">
+      ${avis}
+      <span class="eyebrow">Espace client</span>
+      <h1 class="serif">Mon compte</h1>
+
+      <div class="compte-card">
+        <div class="compte-onglets">
+          <button class="co-tab actif" data-onglet="connexion">Se connecter</button>
+          <button class="co-tab" data-onglet="inscription">Créer un compte</button>
+        </div>
+
+        <div id="coRapide">
+          <button class="btn-oauth" data-oauth="google">
+            <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#4285F4" d="M45 24c0-1.6-.1-2.7-.4-3.9H24v7.1h12c-.2 1.9-1.5 4.7-4.4 6.6l6.8 5.3C42.4 35.4 45 30.2 45 24z"/><path fill="#34A853" d="M24 46c5.9 0 10.9-2 14.5-5.3l-6.8-5.3c-1.9 1.3-4.4 2.2-7.7 2.2-5.9 0-10.9-3.9-12.7-9.2l-7 5.4C7.9 41 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.3 28.4c-.5-1.4-.7-2.9-.7-4.4s.3-3 .7-4.4l-7-5.4C2.8 17 2 20.4 2 24s.8 7 2.3 9.8l7-5.4z"/><path fill="#EA4335" d="M24 10.5c4.2 0 7 1.8 8.6 3.3l6-5.9C34.9 4.5 29.9 2 24 2 15.4 2 7.9 7 4.3 14.2l7 5.4C13.1 14.4 18.1 10.5 24 10.5z"/></svg>
+            Continuer avec Google
+          </button>
+          <div class="co-ou"><span>ou</span></div>
+        </div>
+
+        <form class="compte-form" id="coForm" autocomplete="on">
+          <div class="field" id="champNom" hidden>
+            <label for="coNom">Prénom</label>
+            <input id="coNom" name="nom" autocomplete="given-name">
+          </div>
+          <div class="field">
+            <label for="coEmail">E-mail</label>
+            <input id="coEmail" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="coMdp">Mot de passe</label>
+            <input id="coMdp" name="mot_de_passe" type="password" autocomplete="current-password" required minlength="8">
+            <small class="muted" id="aideMdp" hidden>8 caractères minimum.</small>
+          </div>
+          <button class="btn btn-primary" type="submit" style="width:100%;justify-content:center">Se connecter</button>
+          <p class="co-msg" id="coMsg" hidden></p>
+          <button type="button" class="co-lien" id="coOubli">Mot de passe oublié ?</button>
+        </form>
+      </div>
+
+      <p class="muted" style="font-size:.82rem;text-align:center;max-width:42ch;margin:1.2rem auto 0">
+        🔞 Réservé aux personnes majeures. Tes données servent uniquement à traiter
+        tes commandes — jamais revendues.
+      </p>
+    </div>`;
+
+  let mode = "connexion";
+  const q = sel => root.querySelector(sel);
+
+  root.querySelectorAll(".co-tab").forEach(b => b.addEventListener("click", () => {
+    mode = b.dataset.onglet;
+    root.querySelectorAll(".co-tab").forEach(x => x.classList.toggle("actif", x === b));
+    const inscription = mode === "inscription";
+    q("#champNom").hidden  = !inscription;
+    q("#aideMdp").hidden   = !inscription;
+    q("#coOubli").hidden   =  inscription;
+    q("#coMdp").setAttribute("autocomplete", inscription ? "new-password" : "current-password");
+    q("#coForm button[type=submit]").textContent = inscription ? "Créer mon compte" : "Se connecter";
+  }));
+
+  q("#coForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    const msg = q("#coMsg"); msg.hidden = false;
+    if(!(typeof WoodAPI !== "undefined" && WoodAPI.actif())){
+      msg.className = "co-msg info";
+      msg.textContent = "L'espace client n'est pas encore ouvert. Appelle la boutique en attendant.";
+      return;
+    }
+    msg.className = "co-msg"; msg.textContent = "Un instant…";
+    try{
+      const d = await WoodAPI.compte({
+        action: mode,
+        email: q("#coEmail").value.trim(),
+        mot_de_passe: q("#coMdp").value,
+        nom: q("#coNom") ? q("#coNom").value.trim() : null,
+      });
+      msg.className = "co-msg ok"; msg.textContent = d.message || "Bienvenue !";
+      setTimeout(() => location.reload(), 700);
+    }catch(err){
+      msg.className = "co-msg err"; msg.textContent = err.message;
+    }
+  });
+
+  q("#coOubli").addEventListener("click", async () => {
+    const msg = q("#coMsg"); msg.hidden = false;
+    const email = q("#coEmail").value.trim();
+    if(!email){ msg.className = "co-msg err"; msg.textContent = "Renseigne d'abord ton e-mail."; return; }
+    if(!(typeof WoodAPI !== "undefined" && WoodAPI.actif())){
+      msg.className = "co-msg info"; msg.textContent = "Service pas encore ouvert."; return;
+    }
+    try{
+      const d = await WoodAPI.compte({ action:"mot_de_passe_oublie", email });
+      msg.className = "co-msg ok"; msg.textContent = d.message;
+    }catch(err){ msg.className = "co-msg err"; msg.textContent = err.message; }
+  });
+
+  root.querySelectorAll("[data-oauth]").forEach(b => b.addEventListener("click", () => {
+    const msg = q("#coMsg"); msg.hidden = false;
+    msg.className = "co-msg info";
+    msg.textContent = "La connexion Google sera activée en même temps que l'espace client.";
+  }));
+
+  document.title = "Mon compte — WOOD CBD";
+}
+
 /* ===================== PAGE : RÉSERVER (sans serveur) =====================
    La commande en ligne n'est pas encore branchée : il n'y a pas de serveur
    pour l'enregistrer. Plutôt que de laisser un client croire qu'il a commandé
@@ -854,7 +1015,7 @@ document.addEventListener("DOMContentLoaded",()=>{
     const sync=()=>{const max=rl.scrollWidth-rl.clientWidth-2;if(prev)prev.classList.toggle("off",rl.scrollLeft<=2);if(next)next.classList.toggle("off",rl.scrollLeft>=max);};
     rl.addEventListener("scroll",sync,{passive:true}); sync();
   });
-  renderFleurs(); renderProduct(); renderCart(); renderCheckout(); renderConfirm(); renderAvis(); renderInsta(); renderBientot(); renderStickers();
+  renderFleurs(); renderProduct(); renderCart(); renderCheckout(); renderCompte(); renderConfirm(); renderAvis(); renderInsta(); renderBientot(); renderStickers();
   updateCartBadges();
 
   document.querySelectorAll(".card-pick").forEach(updatePick);
