@@ -315,7 +315,7 @@ function promoMiniHTML(p){
 /* ===================== CHROME (header / footer / botnav / advisor) ===================== */
 function markSVG(){return `<svg class="mark" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="round" aria-hidden="true"><path d="M50 42 V12 M14 42 H86 M24 20 L76 64 M76 20 L24 64"/><circle cx="50" cy="80" r="6.5" fill="currentColor" stroke="none"/></svg>`;}
 function headerHTML(){return `<div class="container header-in">
-  <a class="logo" href="index.html" aria-label="WOOD accueil"><span class="star">${markSVG()}</span>Wood <small>CBD · Nice</small></a>
+  <a class="logo" href="index.html" aria-label="WOOD · CBD à Nice"><img class="logo-img" src="assets/icons/wood-logo.png?v=1" alt="WOOD" width="150" height="30"></a>
   <nav class="nav" aria-label="Navigation principale">
     <a href="fleurs.html">Fleurs</a><a href="fleurs.html?type=resine">Résines</a>
     <a href="fleurs.html?tier=boostes">Boostés</a><a href="index.html#boutiques">Boutiques</a><a href="index.html#histoire">L'histoire</a>
@@ -332,7 +332,7 @@ function footerHTML(){return `<div class="container">
     <form class="newsletter" onsubmit="return false"><input type="email" placeholder="Ton e-mail" aria-label="E-mail"><button class="btn btn-primary" type="submit">OK →</button></form>
   </div>
   <div class="footer-top">
-    <div><div class="big-logo"><span class="star" style="color:var(--lime)">${markSVG()}</span> Wood</div>
+    <div><div class="big-logo"><img class="logo-img logo-img-lg" src="assets/icons/wood-logo.png?v=1" alt="WOOD" height="40"></div>
       <p class="muted" style="margin:.6rem 0 1rem;max-width:30ch">La Maison du chanvre, à Nice. Si c'est WOOD, c'est GOOD.</p>
       <div class="socials"><a href="https://instagram.com/wood.cbdshop" target="_blank" rel="noopener">◎ Instagram</a><a href="https://facebook.com/Woodcbdshopnice" target="_blank" rel="noopener">ƒ Facebook</a></div></div>
     <div><h4>Boutique</h4><ul><li><a href="fleurs.html">Fleurs</a></li><li><a href="fleurs.html?type=resine">Résines</a></li><li><a href="fleurs.html?tier=boostes">Boostés</a></li><li><a href="fleurs.html?cat=accessoires">Accessoires</a></li><li><a href="fleurs.html?cat=merch">Le Shop</a></li></ul></div>
@@ -956,7 +956,7 @@ function openMobileMenu(){
   let ov=document.getElementById("mnuOv");
   if(!ov){ov=document.createElement("div"); ov.id="mnuOv"; ov.className="mnu-ov";
     ov.innerHTML=`<aside class="mnu-panel" role="dialog" aria-label="Menu">
-      <div class="mnu-head"><a class="logo" href="index.html"><span class="star">${markSVG()}</span>Wood</a><button class="mnu-close" aria-label="Fermer">✕</button></div>
+      <div class="mnu-head"><a class="logo" href="index.html"><img class="logo-img" src="assets/icons/wood-logo.png?v=1" alt="WOOD" height="28"></a><button class="mnu-close" aria-label="Fermer">✕</button></div>
       <nav class="mnu-nav">
         <a href="fleurs.html"><span>🌿 Fleurs CBD</span><span class="arr">→</span></a>
         <a href="fleurs.html?tier=boostes"><span>⚡ Boostés</span><span class="arr">→</span></a>

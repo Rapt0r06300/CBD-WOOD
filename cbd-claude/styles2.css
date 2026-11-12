@@ -609,3 +609,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .img-soon{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;color:var(--muted);text-align:center;padding:1rem;background:linear-gradient(180deg,var(--card-2),var(--bg-2))}
 .img-soon svg{opacity:.8}
 .img-soon span{font-size:.76rem;font-weight:600;letter-spacing:.02em}
+
+/* vrai logo WOOD (image) */
+.logo-img{height:30px;width:auto;display:block}
+.logo-img-lg{height:40px}
+@media(max-width:600px){.logo-img{height:26px}}
