@@ -628,3 +628,13 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .gc-copy.ok{background:#fff}
 .gift-redeem{color:#1a7a44;font-weight:600;background:#eef8ea;border:1px solid #cfe9c2;border-radius:12px;padding:.6rem .9rem;display:inline-block;margin:.4rem auto}
 @media(prefers-color-scheme:dark){.gift-redeem{background:rgba(203,240,150,.1);color:#cbf096;border-color:rgba(203,240,150,.3)}}
+
+/* ===== Vérificateur de solde carte cadeau ===== */
+.gift-check{margin-top:1.2rem;border:1px solid rgba(0,61,28,.16);border-radius:16px;padding:1rem 1.1rem;background:rgba(203,240,150,.1)}
+.gift-check h4{margin:0 0 .6rem;font-size:.95rem}
+.gift-check .gc-row{display:flex;gap:.5rem;flex-wrap:wrap}
+.gift-check input{flex:1;min-width:11rem;padding:.6rem .8rem;border:1px solid rgba(0,61,28,.22);border-radius:10px;font-family:ui-monospace,Menlo,Consolas,monospace;letter-spacing:.05em;text-transform:uppercase;background:#fff;color:#0d2b18}
+.gc-res{margin:.6rem 0 0;font-size:.9rem;font-weight:600}
+.gc-res.ok{color:#1a7a44}
+.gc-res.err{color:#b4443a}
+@media(prefers-color-scheme:dark){.gift-check{border-color:rgba(203,240,150,.22)}.gift-check input{background:rgba(255,255,255,.07);color:#eef6e8;border-color:rgba(203,240,150,.28)}.gc-res.ok{color:#cbf096}}

@@ -95,6 +95,13 @@ function renderSimpleProduct(f){
   const root=document.getElementById("product");
   const media=f.img?`<img src="assets/products/${f.img}${IMGV}" alt="${f.nom}" onerror="this.outerHTML='<div class=&quot;cloche big&quot;>'+window.__cloche('${f.slug}')+'</div>'">`:`<div class="cloche big">${clocheSVG(f.c||['#cbf096','#2f9e6b'],f.slug)}</div>`;
   const body=(f.body||f.desc||"").split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("");
+  /* Vérificateur de solde (carte cadeau) — interroge la base, utilisable en boutique */
+  const checker=f.slug==="carte-cadeau"?`
+        <div class="gift-check">
+          <h4>🔎 Vérifier le solde d'une carte</h4>
+          <div class="gc-row"><input id="gcInput" type="text" placeholder="WOOD-XXXX-XXXX" autocomplete="off" aria-label="Code carte cadeau" maxlength="14"><button class="btn btn-ghost" id="gcBtn" type="button">Vérifier</button></div>
+          <p class="gc-res" id="gcRes" hidden></p>
+        </div>`:"";
   root.innerHTML=`
     <a class="breadcrumb" href="fleurs.html?cat=${f.cat}">← ${CATLBL[f.cat]||'Boutique'}</a>
     <div class="product">
@@ -106,9 +113,21 @@ function renderSimpleProduct(f){
         ${simpleBuyBlock(f)}
         <div class="p-reassure"><span>🚚 Livraison discrète 24-48h</span><span>🔒 Paiement sécurisé</span><span>🔞 Réservé aux +18 ans</span></div>
         <div class="accordions"><details open><summary>Description</summary>${body}</details></div>
+        ${checker}
       </div>
     </div>`;
   document.title=`${f.nom} — WOOD CBD`;
+  const gcb=document.getElementById("gcBtn");
+  if(gcb) gcb.addEventListener("click",async()=>{
+    const code=(document.getElementById("gcInput").value||"").trim().toUpperCase();
+    const res=document.getElementById("gcRes"); res.hidden=false;
+    if(!/^WOOD-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(code)){res.textContent="Format attendu : WOOD-XXXX-XXXX";res.className="gc-res err";return;}
+    res.textContent="Vérification…";res.className="gc-res";
+    const gc=await lookupGift(code);
+    if(gc&&gc.balance>0){res.textContent=`✅ Carte valide · solde ${euro(gc.balance)}`;res.className="gc-res ok";}
+    else if(gc){res.textContent="Cette carte est épuisée.";res.className="gc-res err";}
+    else{res.textContent="Carte introuvable.";res.className="gc-res err";}
+  });
 }
 const TIER = { boostes:{label:"Boostés",cls:"badge-boost"}, soft:{label:"Soft",cls:"badge-soft"}, classique:{label:"Classique",cls:"badge-classic"} };
 const GRAMS = [1,3,5,10];
@@ -540,6 +559,29 @@ function giftCard(code){const g=getGifts();return g[code]||null;}
 function genGiftCode(){const A="ACDEFGHJKLMNPQRSTUVWXY34679";const blk=()=>Array.from({length:4},()=>A[Math.floor(Math.random()*A.length)]).join("");const g=getGifts();let c;do{c="WOOD-"+blk()+"-"+blk();}while(g[c]);return c;}
 function issueGift(amount){const g=getGifts();const code=genGiftCode();g[code]={amount:amount,balance:amount,created:Date.now()};saveGifts(g);return code;}
 function redeemGift(code,amt){const g=getGifts();if(g[code]){g[code].balance=Math.max(0,Math.round((g[code].balance-amt)*100)/100);saveGifts(g);return g[code].balance;}return null;}
+/* ---- Base de données WOOD (Supabase) : source de vérité des cartes cadeaux ----
+   La table est fermée en accès direct (RLS) : tout passe par 3 fonctions serveur
+   (émission, consultation, débit atomique + idempotent). Clé publique = prévue pour l'être. */
+const SB_URL="https://fautpphrrhwcmcywzsbk.supabase.co";
+const SB_KEY="sb_publishable_DeMukgfB802EMJ4Jyftf9g_dHG3XmmG";
+async function sbRpc(fn,args){
+  const r=await fetch(SB_URL+"/rest/v1/rpc/"+fn,{method:"POST",headers:{apikey:SB_KEY,Authorization:"Bearer "+SB_KEY,"Content-Type":"application/json"},body:JSON.stringify(args||{})});
+  const t=await r.text(); let j=null; try{j=JSON.parse(t);}catch(e){}
+  if(!r.ok) throw new Error((j&&(j.message||j.hint))||t||("HTTP "+r.status));
+  return j;
+}
+/* Consulte une carte EN BASE (cache local rafraîchi). Hors-ligne -> repli sur le cache. */
+async function lookupGift(code){
+  try{
+    const res=await sbRpc("check_gift_card",{p_code:code});
+    if(res&&res[0]){
+      const bal=Number(res[0].balance), g=getGifts();
+      g[code]=Object.assign(g[code]||{amount:bal},{balance:bal,status:res[0].status});
+      saveGifts(g); return g[code];
+    }
+    return null; /* inconnue en base */
+  }catch(e){ return giftCard(code); }
+}
 function promoInfo(){const p=getPromo();if(!p)return null;if(PROMO_CODES[p.code])return Object.assign({code:p.code},PROMO_CODES[p.code]);const gc=giftCard(p.code);if(gc&&gc.balance>0)return {code:p.code,gift:true,balance:gc.balance,l:"carte cadeau · "+euro(gc.balance)};return null;}
 function renderCart(){
   const root=document.getElementById("cart"); if(!root)return;
@@ -651,24 +693,46 @@ function renderCheckout(){
   const shopBox=document.getElementById("coShop"), delivBox=document.getElementById("coDeliv");
   function syncMode(){const cc=curMode()==="cc"; if(shopBox)shopBox.hidden=!cc; if(delivBox)delivBox.hidden=cc; renderTotals();}
   root.querySelectorAll('[name="mode"]').forEach(r=>r.addEventListener("change",syncMode)); syncMode();
-  document.getElementById("promoBtn").addEventListener("click",()=>{
+  document.getElementById("promoBtn").addEventListener("click",async ()=>{
     const code=(document.getElementById("promoInput").value||"").trim().toUpperCase();
-    const msg=document.getElementById("promoMsg"), p=PROMO_CODES[code], gc=giftCard(code);
-    if(p){setPromo(code);msg.textContent=`Code « ${code} » appliqué ✓ (${p.l})`;msg.className="promo-msg ok";}
-    else if(gc&&gc.balance>0){setPromo(code);msg.textContent=`🎁 Carte cadeau appliquée ✓ · solde ${euro(gc.balance)}`;msg.className="promo-msg ok";}
-    else if(gc){setPromo(null);msg.textContent="Cette carte cadeau est épuisée.";msg.className="promo-msg err";}
-    else{setPromo(null);msg.textContent="Code invalide.";msg.className="promo-msg err";}
-    msg.hidden=false; renderTotals();
+    const msg=document.getElementById("promoMsg"); msg.hidden=false;
+    if(PROMO_CODES[code]){setPromo(code);msg.textContent=`Code « ${code} » appliqué ✓ (${PROMO_CODES[code].l})`;msg.className="promo-msg ok";renderTotals();return;}
+    if(/^WOOD-/.test(code)){
+      msg.textContent="Vérification de la carte…";msg.className="promo-msg";
+      const gc=await lookupGift(code);
+      if(gc&&gc.balance>0){setPromo(code);msg.textContent=`🎁 Carte cadeau appliquée ✓ · solde ${euro(gc.balance)}`;msg.className="promo-msg ok";}
+      else if(gc){setPromo(null);msg.textContent="Cette carte cadeau est épuisée.";msg.className="promo-msg err";}
+      else{setPromo(null);msg.textContent="Carte cadeau introuvable.";msg.className="promo-msg err";}
+      renderTotals();return;
+    }
+    setPromo(null);msg.textContent="Code invalide.";msg.className="promo-msg err";renderTotals();
   });
-  document.getElementById("coForm").addEventListener("submit",e=>{e.preventDefault();
+  document.getElementById("coForm").addEventListener("submit",async e=>{e.preventDefault();
     const d=Object.fromEntries(new FormData(e.target));
-    /* Émission des cartes cadeaux achetées → code unique par carte */
+    const btn=e.target.querySelector('button[type="submit"]'); const lbl=btn?btn.textContent:"";
+    if(btn){btn.disabled=true;btn.textContent="Validation…";}
+    const num="WD-"+String(Date.now()).slice(-6);
+    /* Émission des cartes cadeaux achetées → code unique créé EN BASE (repli local si hors-ligne) */
     const gifts=[];
-    cart.forEach(x=>{ if(x.slug==="carte-cadeau"){ for(let k=0;k<x.q;k++){ gifts.push({code:issueGift(x.unit),amount:x.unit}); } } });
-    /* Paiement par carte cadeau → on débite son solde */
+    for(const x of cart){ if(x.slug==="carte-cadeau"){ for(let k=0;k<x.q;k++){
+      let code=null;
+      try{ const res=await sbRpc("issue_gift_card",{p_amount:x.unit}); code=res&&res[0]&&res[0].code; }catch(err){ code=null; }
+      if(code){ const g2=getGifts(); g2[code]={amount:x.unit,balance:x.unit,status:"active",created:Date.now()}; saveGifts(g2); }
+      else { code=issueGift(x.unit); }
+      gifts.push({code:code,amount:x.unit});
+    } } }
+    /* Paiement par carte cadeau → débit atomique EN BASE, idempotent via la réf commande */
     let redeemed=null; const g=window.__coGift;
-    if(g&&g.used>0){ const bal=redeemGift(g.code,g.used); redeemed={code:g.code,used:g.used,balance:bal}; }
-    sessionStorage.setItem("wood_lastorder",JSON.stringify({nom:d.nom||"",total:(window.__coTotal!=null?window.__coTotal:sub+ship),num:"WD-"+String(Date.now()).slice(-6),n:cartCount(),gifts:gifts,redeemed:redeemed}));
+    if(g&&g.used>0){
+      let bal=null, used=g.used;
+      try{ const res=await sbRpc("redeem_gift_card",{p_code:g.code,p_amount:g.used,p_ref:num});
+           if(res&&res[0]){ used=Number(res[0].used); bal=Number(res[0].balance); } }catch(err){ bal=null; }
+      if(bal===null){ bal=redeemGift(g.code,g.used); }
+      else { const g3=getGifts(); g3[g.code]=Object.assign(g3[g.code]||{amount:used},{balance:bal}); saveGifts(g3); }
+      redeemed={code:g.code,used:used,balance:bal};
+    }
+    if(btn){btn.disabled=false;btn.textContent=lbl;}
+    sessionStorage.setItem("wood_lastorder",JSON.stringify({nom:d.nom||"",total:(window.__coTotal!=null?window.__coTotal:sub+ship),num:num,n:cartCount(),gifts:gifts,redeemed:redeemed}));
     setPromo(null);
     cart=[];saveCart();updateCartBadges();location.href="confirmation.html";
   });
@@ -836,7 +900,14 @@ document.addEventListener("DOMContentLoaded",()=>{
       else{cart[idx].q--;if(cart[idx].q<1)cart.splice(idx,1);}
       saveCart();updateCartBadges();renderCart();if(typeof renderCartDrawer==='function')renderCartDrawer();return;}
     // Code promo (panier)
-    const pa=e.target.closest("[data-promo-apply]"); if(pa){e.preventDefault();const inp=document.getElementById("promoCode");const c=((inp&&inp.value)||"").trim().toUpperCase();const gc=giftCard(c);if(PROMO_CODES[c]){setPromo(c);toast(`Code ${c} appliqué 🎉`);renderCart();}else if(gc&&gc.balance>0){setPromo(c);toast(`🎁 Carte cadeau appliquée · solde ${euro(gc.balance)}`);renderCart();}else{toast(gc?"Carte cadeau épuisée":"Code invalide");}return;}
+    const pa=e.target.closest("[data-promo-apply]"); if(pa){e.preventDefault();(async()=>{
+      const inp=document.getElementById("promoCode");const c=((inp&&inp.value)||"").trim().toUpperCase();
+      if(PROMO_CODES[c]){setPromo(c);toast(`Code ${c} appliqué 🎉`);renderCart();return;}
+      if(/^WOOD-/.test(c)){ toast("Vérification de la carte…"); const gc=await lookupGift(c);
+        if(gc&&gc.balance>0){setPromo(c);toast(`🎁 Carte cadeau · solde ${euro(gc.balance)}`);renderCart();}
+        else{toast(gc?"Carte cadeau épuisée":"Carte introuvable");}
+        return;}
+      toast("Code invalide");})();return;}
     const prm=e.target.closest("[data-promo-rm]"); if(prm){e.preventDefault();setPromo(null);toast("Code promo retiré");renderCart();return;}
     // ajout simple (ex. cross-sell) : 3 g par defaut
     const a=e.target.closest("[data-add]"); if(a){e.preventDefault();const gi=a.dataset.gi!==undefined?+a.dataset.gi:1;addToCart(a.dataset.add,GRAMS[gi]);return;}
