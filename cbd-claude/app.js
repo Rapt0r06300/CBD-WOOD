@@ -38,9 +38,81 @@ const FLEURS = [
   { slug:"beldia", nom:"Beldia", tier:"classique", type:"resine", desc:"Épicé · marocain 🍫", c:["#c0a080","#4a3420"], p:[9,25,40,70] },
   { slug:"cbn-cream", nom:"CBN Cream", tier:"classique", type:"resine", desc:"Sommeil 🌙", c:["#d8d0b0","#6b5a3a"], p:[10.90,29.70,44.50,79] },
 ];
+/* Boutique — produits à prix unique / variantes (accessoires, merch, bonbons, carte-cadeau + fleurs/résines spéciales). Données réelles Shopify. */
+const BOUTIQUE = [
+  { slug:"pink-panther", nom:"Pink Panther", kind:"simple", cat:"fleurs", price:30, img:"pink-panther.jpg", c:["#f3b0c0","#8a3a5a"], desc:"Small buds · agrumes 🍊", body:"Aspect : une belle poignée de small buds hyper odorantes, sucrée et terreuse.\nGoût : explosion d'agrumes au nez — la musique de la Panthère rose tourne en boucle, ne nous remerciez pas… Ahahah !\nTaux de CBD : medium ++" },
+  { slug:"trim", nom:"Trim CBD · fait maison", kind:"simple", cat:"resines", opts:[["10 g",19],["Le lot",30]], img:"trim.jpg", c:["#cfe0a0","#5a6a2e"], desc:"Mélange maison 🌿", body:"Trim CBD maison — un savant mélange de nos différentes fleurs de CBD #WITHLOVE. Parfait pour vos infusions ou à consommer seul ! Vendu par 10 g." },
+  { slug:"bonbon-tc-10", nom:"Bonbon T*C 10 mg", kind:"simple", cat:"bonbons", price:3, img:"bonbon-tc-10.jpg", c:["#f3c27a","#c98a3a"], desc:"Coup de cœur 🍬", body:"Des bonbons ? Qui sont bons, et qui détendent, ça existe ? ÉVIDEMMENT — c'est un vrai produit COUP DE CŒUR chez WOOD !" },
+  { slug:"bonbon-tc-20", nom:"Bonbon T*C 20 mg", kind:"simple", cat:"bonbons", opts:[["À l'unité",5.90],["Les 6 · 1 offert",29.50],["Les 12",59]], img:"bonbon-tc-20.jpg", c:["#f0a0b0","#b5405a"], desc:"Dosage ++ 🍬", body:"Le dosage supérieur de notre gamme de bonbons CBD — à l'unité, en pack de 6 (1 offert) ou de 12." },
+  { slug:"bonbon-cbd-20", nom:"Bonbon CBD 20 mg", kind:"simple", cat:"bonbons", price:1.50, img:"bonbon-cbd-20.jpg", c:["#c6e3a0","#5a8a3a"], desc:"La gourmandise 🍬", body:"La gourmandise s'invite dans votre détente — un bonbon CBD 20 mg à prix doux." },
+  { slug:"pack-mix-bonbons", nom:"Pack Mix Bonbons CBD", kind:"simple", cat:"bonbons", price:29.90, img:"pack-mix-bonbons.jpg", c:["#f3c7e0","#8a3a6b"], desc:"Assortiment 🍬", body:"Découvrez l'expérience gustative du CBD… la gourmandise s'invite dans votre détente. Un assortiment à partager." },
+  { slug:"greengo", nom:"Feuille & Carton Greengo", kind:"simple", cat:"accessoires", price:3, img:"greengo.jpg", c:["#cfe0a0","#5a7a2e"], desc:"Papier non blanchi", body:"Papier non blanchi 100 % sans chlore, gomme arabique naturelle (14 g/m²), carton recyclé (200 g/m², 78×38 mm). 50 feuilles." },
+  { slug:"grinder-plastique", nom:"Grinder plastique", kind:"simple", cat:"accessoires", price:5, img:"grinder-plastique.jpg", c:["#cfd0d0","#5a6060"], desc:"Transparent", body:"Un grinder transparent qui mixe et broie toutes vos fleurs." },
+  { slug:"raw-slim", nom:"Feuilles RAW · slim", kind:"simple", cat:"accessoires", price:2.50, img:"raw-slim.jpg", c:["#e0cfa0","#8a6a3a"], desc:"100 % naturelles", body:"100 % naturelles, fibres non blanchies (lin et chanvre)." },
+  { slug:"grinder-incurve", nom:"Grinder incurvé", kind:"simple", cat:"accessoires", opts:[["Standard",10],["Grand",15]], img:"grinder-incurve.jpg", c:["#cfd0d0","#45505a"], desc:"Broyage incurvé", body:"Partie broyage incurvée (couvercle et intérieur) : originalité et efficacité." },
+  { slug:"jass", nom:"Cartons Jass · filtres", kind:"simple", cat:"accessoires", price:0.90, img:"jass.jpg", c:["#e0d0b0","#8a7050"], desc:"50 filtres", body:"Format Slim Brown, non blanchi, 50 filtres perforés par carnet (taille M, carton)." },
+  { slug:"tshirt-totally-stoned", nom:"T-shirt Oversized · Totally Stoned", kind:"simple", cat:"merch", price:39.90, opts:[["S",39.90],["M",39.90],["L",39.90],["XL",39.90],["2XL",39.90],["3XL",39.90]], img:"tshirt-totally-stoned.jpg", c:["#cfd0cf","#45504a"], desc:"Coton · mixte", body:"En coton, effet légèrement délavé. Modèle MIXTE disponible du S au 3XL." },
+  { slug:"tshirt-weed-chill", nom:"T-shirt · Weed & Chill", kind:"simple", cat:"merch", price:39.90, opts:[["S",39.90],["M",39.90],["L",39.90],["XL",39.90],["2XL",39.90],["3XL",39.90]], img:"tshirt-weed-chill.jpg", c:["#bfe3b0","#3a7a4a"], desc:"Coton · mixte", body:"En coton, coupe classique (regular). Modèle MIXTE disponible du S au 3XL." },
+  { slug:"carte-cadeau", nom:"Carte-cadeau WOOD", kind:"simple", cat:"carte", opts:[["10 €",10],["25 €",25],["50 €",50],["100 €",100],["200 €",200],["500 €",500]], img:"", c:["#cbf096","#2f9e6b"], desc:"Le bon cadeau 🎁", body:"Offrez WOOD : une carte-cadeau à utiliser en boutique ou en ligne. Montant au choix." },
+];
+const CATLBL={fleurs:"Fleurs",resines:"Résines",accessoires:"Accessoires",merch:"Le Shop WOOD",bonbons:"Bonbons",carte:"Carte-cadeau"};
+/* Helpers panier compatibles grammage + produits simples */
+function itemBase(x){const pf=byId(x.slug);return pf&&pf.p?pf.p[0]:null;}
+function itemSave(x){if(!x.g)return 0;const b=itemBase(x);if(!b)return 0;return Math.round((1-(x.unit/x.g)/b)*100);}
+function itemQty(x){return x.opt?x.opt:(x.g+" g");}
+function itemTot(x){return x.g?(x.g*x.q)+" g":(x.opt?x.q+"×":"");}
+function simplePrice(f){return f.opts?Math.min.apply(null,f.opts.map(o=>o[1])):f.price;}
+function simpleCardHTML(f,i){
+  const d=['d1','d2','d3','d4'][i%4];
+  const pre=f.opts&&f.opts.length>1?'dès ':'';
+  const media=f.img?`<img class="cloche" src="assets/products/${f.img}${IMGV}" alt="${f.nom}" loading="lazy" onerror="this.outerHTML='<div class=&quot;cloche&quot;>'+window.__cloche('${f.slug}')+'</div>'">`:`<div class="cloche">${clocheSVG(f.c||['#cbf096','#2f9e6b'],f.slug)}</div>`;
+  return `<article class="card reveal ${d}">
+    <a class="card-media" href="produit.html?f=${f.slug}" aria-label="${f.nom}">
+      <div class="halo" style="background:radial-gradient(circle,${(f.c||['#cbf096'])[0]}66,transparent 70%)"></div><div class="shine"></div>
+      ${media}
+      <span class="card-view">Voir le produit →</span>
+    </a>
+    <button class="card-fav${isFav(f.slug)?' on':''}" data-fav="${f.slug}" aria-label="Ajouter aux favoris">${isFav(f.slug)?'♥':'♡'}</button>
+    <div class="card-body">
+      <a class="card-name" href="produit.html?f=${f.slug}">${f.nom}</a>
+      <div class="card-desc">${f.desc||''}</div>
+      <div class="simple-price">${pre}<b>${euro(simplePrice(f))}</b></div>
+      <a class="card-add simple-see" href="produit.html?f=${f.slug}">Voir le produit →</a>
+    </div>
+  </article>`;
+}
+function simpleBuyBlock(f){
+  const sel=f.opts?`<div class="cp-sel-wrap"><select class="cp-select" data-sb-select aria-label="Option">${f.opts.map((o,i)=>`<option value="${i}">${o[0]} · ${euro(o[1])}</option>`).join("")}</select><svg class="cp-sel-ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></div>`:`<div class="sb-one">${euro(f.price)}</div>`;
+  return `<div class="card-pick" role="group" aria-label="Choisir et ajouter">
+    <div class="cp-ctl">${sel}
+      <div class="cp-qty" role="group" aria-label="Quantité"><button type="button" data-cp-dec aria-label="Diminuer la quantité">−</button><span class="cp-n">1</span><button type="button" data-cp-inc aria-label="Augmenter la quantité">+</button></div>
+    </div>
+    <button class="card-add" data-sb-add="${f.slug}">Ajouter au pochon</button>
+  </div>`;
+}
+function cartAddSimple(f,unit,opt,qty){qty=qty||1;const ex=cart.find(x=>x.slug===f.slug&&x.opt===opt);if(ex)ex.q+=qty;else cart.push({slug:f.slug,nom:f.nom,g:0,unit:unit,q:qty,opt:opt||null});saveCart();updateCartBadges();if(window.__renderCart)window.__renderCart();return qty;}
+function renderSimpleProduct(f){
+  const root=document.getElementById("product");
+  const media=f.img?`<img src="assets/products/${f.img}${IMGV}" alt="${f.nom}" onerror="this.outerHTML='<div class=&quot;cloche big&quot;>'+window.__cloche('${f.slug}')+'</div>'">`:`<div class="cloche big">${clocheSVG(f.c||['#cbf096','#2f9e6b'],f.slug)}</div>`;
+  const body=(f.body||f.desc||"").split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("");
+  root.innerHTML=`
+    <a class="breadcrumb" href="fleurs.html?cat=${f.cat}">← ${CATLBL[f.cat]||'Boutique'}</a>
+    <div class="product">
+      <div class="product-media"><div class="halo" style="background:radial-gradient(circle,${(f.c||['#cbf096'])[0]}55,transparent 70%)"></div>${media}</div>
+      <div class="product-info">
+        <span class="badge badge-classic">${CATLBL[f.cat]||'Boutique'}</span>
+        <h1>${f.nom}</h1>
+        <p class="p-desc">${f.desc||''}</p>
+        ${simpleBuyBlock(f)}
+        <div class="p-reassure"><span>🚚 Livraison discrète 24-48h</span><span>🔒 Paiement sécurisé</span><span>🔞 Réservé aux +18 ans</span></div>
+        <div class="accordions"><details open><summary>Description</summary>${body}</details></div>
+      </div>
+    </div>`;
+  document.title=`${f.nom} — WOOD CBD`;
+}
 const TIER = { boostes:{label:"Boostés",cls:"badge-boost"}, soft:{label:"Soft",cls:"badge-soft"}, classique:{label:"Classique",cls:"badge-classic"} };
 const GRAMS = [1,3,5,10];
-const byId = s => FLEURS.find(f=>f.slug===s);
+const byId = s => FLEURS.find(f=>f.slug===s) || BOUTIQUE.find(f=>f.slug===s) || null;
 const euro = n => n.toLocaleString("fr-FR")+" €";
 
 /* ---- Cloche repli SVG ---- */
@@ -110,6 +182,7 @@ function updatePick(pick){
 }
 /* ---- Carte produit ---- */
 function cardHTML(f,i){
+  if(f.kind==='simple')return simpleCardHTML(f,i);
   const t=TIER[f.tier], pg=Math.round((f.p[3]/10)*10)/10, m=META[f.slug]||{n:"4,8",c:30,tag:""};
   return `<article class="card reveal ${['d1','d2','d3','d4'][i%4]}">
     <a class="card-media" href="produit.html?f=${f.slug}" aria-label="${f.nom}">
@@ -321,20 +394,20 @@ function renderCartDrawer(){
   if(!cart.length){items.innerHTML=`<div class="cd-empty"><div class="ava-big">🛒</div><p class="muted">Ton pochon est vide… c'est pas une vie ça. 🌿</p><a href="fleurs.html" class="btn btn-primary">Remplir le pochon →</a></div>`;ship.innerHTML="";foot.innerHTML="";return;}
   const sub=cartSubtotal(),rem=Math.max(0,FREE_SHIP-sub),pct=Math.min(100,Math.round(sub/FREE_SHIP*100));
   const nItems=cart.reduce((s,x)=>s+x.q,0),nGr=cart.reduce((s,x)=>s+x.g*x.q,0);
-  const cnt=document.getElementById("cdCount"); if(cnt)cnt.textContent=`${nItems} article${nItems>1?'s':''} · ${nGr} g`;
+  const cnt=document.getElementById("cdCount"); if(cnt)cnt.textContent=`${nItems} article${nItems>1?'s':''}${nGr?' · '+nGr+' g':''}`;
   ship.innerHTML=rem>0
     ?`<p class="cd-ship-t">Plus que <b>${rem.toFixed(2)} €</b> pour la <b>livraison offerte</b> 🚚</p><div class="cd-bar"><i style="width:${pct}%"></i></div>`
     :`<p class="cd-ship-t ok">🎉 Livraison offerte débloquée !</p><div class="cd-bar"><i style="width:100%"></i></div>`;
-  const itemsHtml=cart.map(x=>{const pf=byId(x.slug),base=pf?pf.p[0]:x.unit,sv=Math.round((1-(x.unit/x.g)/base)*100);return `<div class="cd-item">
+  const itemsHtml=cart.map(x=>{const sv=itemSave(x);return `<div class="cd-item">
     <img src="assets/products/${x.slug}.jpg${IMGV}" alt="" onerror="this.style.visibility='hidden'">
-    <div class="cd-it-info"><b>${x.nom}</b><span class="cd-it-meta"><b>${x.g} g</b> · ${x.unit.toFixed(2)} €${sv>=8?` · <em class="cd-sv">−${sv}%</em>`:''}</span>
+    <div class="cd-it-info"><b>${x.nom}</b><span class="cd-it-meta"><b>${itemQty(x)}</b> · ${x.unit.toFixed(2)} €${sv>=8?` · <em class="cd-sv">−${sv}%</em>`:''}</span>
       <div class="cd-qty"><button class="${x.q===1?'cd-rm':''}" data-cd-dec="${x.slug}" data-g="${x.g}" aria-label="${x.q===1?'Retirer du pochon':'Réduire'}" title="${x.q===1?'Retirer':'Réduire'}">${x.q===1?'🗑':'−'}</button><span>${x.q}</span><button data-cd-inc="${x.slug}" data-g="${x.g}" aria-label="Ajouter">+</button></div></div>
-    <div class="cd-it-side"><b>${(x.unit*x.q).toFixed(2)} €</b><small class="cd-it-g">${x.g*x.q} g</small><button class="cd-del" data-cd-del="${x.slug}" data-g="${x.g}" aria-label="Retirer ${x.nom}">Retirer</button></div>
+    <div class="cd-it-side"><b>${(x.unit*x.q).toFixed(2)} €</b><small class="cd-it-g">${itemTot(x)}</small><button class="cd-del" data-cd-del="${x.slug}" data-g="${x.g}" aria-label="Retirer ${x.nom}">Retirer</button></div>
   </div>`;}).join("");
   const picks=(typeof FLEURS!=="undefined"?FLEURS:[]).filter(f=>!cart.some(x=>x.slug===f.slug)).slice(0,2);
   const xsell=picks.length?`<div class="cd-xsell"><div class="cd-xsell-h">Souvent pris avec 👀</div>${picks.map(f=>`<div class="cd-x"><img src="assets/products/${f.slug}.jpg${IMGV}" alt="" onerror="this.style.visibility='hidden'"><div class="cd-x-info"><b>${f.nom}</b><span class="muted">dès ${f.p[0]} € · 3 g</span></div><button class="cd-x-add" data-add="${f.slug}" aria-label="Ajouter ${f.nom} au pochon">+</button></div>`).join("")}</div>`:"";
   items.innerHTML=itemsHtml+xsell;
-  foot.innerHTML=`<div class="cd-sub"><span>Sous-total <small class="muted">· ${nItems} art. · ${nGr} g</small></span><b>${sub.toFixed(2)} €</b></div>
+  foot.innerHTML=`<div class="cd-sub"><span>Sous-total <small class="muted">· ${nItems} art.${nGr?' · '+nGr+' g':''}</small></span><b>${sub.toFixed(2)} €</b></div>
     <a href="checkout.html" class="btn btn-primary cd-go">Commander →</a>
     <a href="panier.html" class="cd-link">Voir le panier complet</a>`;
 }
@@ -348,6 +421,18 @@ function renderFleurs(){
   let tier=params.get("tier")||"all", aroma=params.get("aroma")||"all", sort="pop";
   const gtype=params.get("type")==="resine"?"resine":(params.get("type")==="all"?"all":"fleur");
   const bar=document.getElementById("filterBar");
+  const catP=params.get("cat");
+  if(catP&&["accessoires","merch","bonbons","carte"].indexOf(catP)>=0){
+    if(bar)bar.hidden=true;
+    const h1=document.querySelector("h1");
+    if(h1){const sec=h1.closest("section")||document;const eb=sec.querySelector(".eyebrow");if(eb)eb.textContent="Catalogue · "+(CATLBL[catP]||"Boutique");h1.textContent=CATLBL[catP]||"Boutique";const sub=sec.querySelector("p");if(sub)sub.textContent="Nos indispensables WOOD — prix réels de la boutique.";}
+    const items=BOUTIQUE.filter(b=>b.cat===catP);
+    const rc=document.getElementById("resCount");if(rc)rc.textContent=`${items.length} produit${items.length>1?"s":""}`;
+    grid.innerHTML=items.map((f,i)=>simpleCardHTML(f,i)).join("");
+    observeReveal();
+    document.title=(CATLBL[catP]||"Boutique")+" — WOOD CBD";
+    return;
+  }
   const tiers=[["all","Tout"],["boostes","Boostés"],["classique","Classique"]];
   const aromas=[["all","Tous les goûts"],["agrumes","🍊 Agrumes"],["weed","🌿 Weed"],["exotic","🥭 Exotic"],["sucre","🍯 Sucré"],["kush","🌰 Kush"],["epice","🌶️ Épicé"]];
   bar.innerHTML=`<div class="filters">${tiers.map(([k,l])=>`<button class="chip filt${tier===k?' on':''}" data-tier="${k}">${l}</button>`).join("")}
@@ -364,8 +449,10 @@ function renderFleurs(){
     });
     if(sort==="asc")list=[...list].sort((a,b)=>a.p[0]-b.p[0]);
     if(sort==="desc")list=[...list].sort((a,b)=>b.p[0]-a.p[0]);
-    document.getElementById("resCount").textContent=`${list.length} variété${list.length>1?"s":""}`;
-    grid.innerHTML=list.length?list.map((f,i)=>cardHTML(f,i)).join(""):`<p class="muted" style="grid-column:1/-1;padding:2rem 0">Aucune variété pour ce goût. <button class="linklike" id="resetFilt">Tout afficher →</button></p>`;
+    const simples=(aroma==="all"&&tier==="all"&&gtype!=="all")?BOUTIQUE.filter(b=>b.cat===(gtype==="resine"?"resines":"fleurs")):[];
+    const nTot=list.length+simples.length;
+    document.getElementById("resCount").textContent=`${nTot} variété${nTot>1?"s":""}`;
+    grid.innerHTML=nTot?(list.map((f,i)=>cardHTML(f,i)).join("")+simples.map((f,j)=>simpleCardHTML(f,list.length+j)).join("")):`<p class="muted" style="grid-column:1/-1;padding:2rem 0">Aucune variété pour ce goût. <button class="linklike" id="resetFilt">Tout afficher →</button></p>`;
     const rs=document.getElementById("resetFilt");if(rs)rs.addEventListener("click",()=>{tier="all";aroma="all";bar.querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));bar.querySelector('[data-tier="all"]').classList.add("on");bar.querySelector('[data-aroma="all"]').classList.add("on");draw();});
     observeReveal();
   }
@@ -399,6 +486,7 @@ function renderProduct(){
   const root=document.getElementById("product"); if(!root)return;
   const slug=new URLSearchParams(location.search).get("f")||"nimbus-3000";
   const f=byId(slug)||FLEURS[0], t=TIER[f.tier];
+  if(f.kind==='simple'){renderSimpleProduct(f);return;}
   let gi=1; // 3g par défaut
   const priceEl=()=>document.getElementById("pPrice"), pgEl=()=>document.getElementById("pPerG");
   root.innerHTML=`
@@ -449,10 +537,10 @@ function renderCart(){
   const free=60, left=Math.max(0,free-sub);
   const nItems=cart.reduce((s,x)=>s+x.q,0), nGr=cart.reduce((s,x)=>s+x.g*x.q,0);
   const promo=promoInfo(); const disc=promo&&promo.pct?Math.round(sub*promo.pct)/100:0; const total=Math.max(0,sub-disc);
-  root.innerHTML=`<h1 class="serif">Ton pochon <span class="cart-count-h">${nItems} article${nItems>1?'s':''} · ${nGr} g</span></h1>
+  root.innerHTML=`<h1 class="serif">Ton pochon <span class="cart-count-h">${nItems} article${nItems>1?'s':''}${nGr?' · '+nGr+' g':''}</span></h1>
     <div class="cart-grid">
       <div class="cart-items">${cart.map((x,i)=>`<div class="cart-item"><div class="ci-media"><img src="assets/products/${x.slug}.jpg${IMGV}" alt="" onerror="this.outerHTML='<div>'+window.__cloche('${x.slug}')+'</div>'"></div>
-        <div class="ci-info"><div class="ci-name">${x.nom}</div><div class="muted ci-meta"><b>${x.g} g</b> · ${euro(x.unit)}${(()=>{const pf=byId(x.slug),base=pf?pf.p[0]:x.unit,sv=Math.round((1-(x.unit/x.g)/base)*100);return sv>=8?` · <span class="ci-sv">−${sv}%</span>`:'';})()} · total <b>${x.g*x.q} g</b></div></div>
+        <div class="ci-info"><div class="ci-name">${x.nom}</div><div class="muted ci-meta"><b>${itemQty(x)}</b> · ${euro(x.unit)}${(()=>{const sv=itemSave(x);return sv>=8?` · <span class="ci-sv">−${sv}%</span>`:'';})()}${x.g?` · total <b>${x.g*x.q} g</b>`:''}</div></div>
         <div class="ci-qty"><button class="${x.q===1?'cd-rm':''}" data-dec="${i}" aria-label="${x.q===1?'Retirer':'Réduire'}" title="${x.q===1?'Retirer':'Réduire'}">${x.q===1?'🗑':'−'}</button><span>${x.q}</span><button data-inc="${i}" aria-label="Ajouter">+</button></div>
         <div class="ci-line">${euro(x.unit*x.q)}</div><button class="ci-del" data-del="${i}" aria-label="Retirer ${x.nom}">Retirer</button></div>`).join("")}</div>
       <aside class="cart-sum">
@@ -526,7 +614,7 @@ function renderCheckout(){
       </form>
       <aside class="cart-sum">
         <h3 class="serif">Résumé</h3>
-        ${cart.map(x=>`<div class="sum-row"><span>${x.nom} ×${x.q} <small class="muted">(${x.g} g)</small></span><strong>${euro(x.unit*x.q)}</strong></div>`).join("")}
+        ${cart.map(x=>`<div class="sum-row"><span>${x.nom} ×${x.q} <small class="muted">(${itemQty(x)})</small></span><strong>${euro(x.unit*x.q)}</strong></div>`).join("")}
         <div class="promo-row"><input id="promoInput" placeholder="Code promo" autocomplete="off"><button type="button" class="btn btn-ghost" id="promoBtn">Appliquer</button></div>
         <p class="promo-msg" id="promoMsg" hidden></p>
         <div id="sumTotals"></div>
@@ -703,6 +791,8 @@ document.addEventListener("DOMContentLoaded",()=>{
       cartAdd(s.f.slug,s.g,s.q);bumpCartBtn();toast(`Ajouté : ${s.q} × ${s.g} g de ${s.f.nom} ✓`);openCartDrawer();
       pick.querySelector(".cp-n").textContent="1";updatePick(pick);
       return;}
+    const sbAdd=e.target.closest("[data-sb-add]");
+    if(sbAdd){e.preventDefault();const pick=sbAdd.closest(".card-pick"),f=byId(sbAdd.dataset.sbAdd);if(!f)return;const q=Math.max(1,+pick.querySelector(".cp-n").textContent||1);let unit,opt=null;if(f.opts){const se=pick.querySelector("[data-sb-select]"),oi=se?+se.value:0;opt=f.opts[oi][0];unit=f.opts[oi][1];}else unit=f.price;cartAddSimple(f,unit,opt,q);bumpCartBtn();toast(`Ajouté : ${f.nom}${opt?' · '+opt:''} ✓`);openCartDrawer();pick.querySelector(".cp-n").textContent="1";return;}
     // Page panier complete : +/- et suppression par index
     const ci=e.target.closest("[data-inc],[data-dec],[data-del]");
     if(ci){e.preventDefault();const idx=+(ci.dataset.inc??ci.dataset.dec??ci.dataset.del);if(!cart[idx])return;

@@ -598,3 +598,9 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .co-note{font-size:.8rem;color:var(--muted);margin:.4rem 0 .2rem;line-height:1.5}
 .co-select{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;color:var(--ink);padding:.7em .8em;font-size:.9rem;font-family:var(--sans)}
 .co-select:focus{outline:none;border-color:var(--cyan)}
+
+/* produits boutique (prix unique / variantes) */
+.simple-price{font-family:var(--serif);font-size:1.15rem;color:var(--lime-bright);margin-top:.15rem}
+.simple-price b{font-weight:600}
+.sb-one{font-family:var(--serif);font-size:1.3rem;color:var(--lime-bright);align-self:center;padding:.2em 0}
+.card .simple-see{margin-top:.55rem;display:inline-flex;justify-content:center;text-align:center}
