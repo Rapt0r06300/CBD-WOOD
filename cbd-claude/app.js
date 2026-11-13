@@ -345,7 +345,9 @@ function descHTML(f){
 
 /* ---- PROMOS « Bons plans » (offres réelles Ana — style chic) ---- */
 const PROMOS=[
-  {key:"mystere",name:"Fleur Mystère",tag:"Mystère",mystery:true,img:"fleur-mystere-promo.jpg",desc:"La surprise du moment · on choisit pour toi",c:["#1b2c20","#0a120c"],price:"9 €/g",sub:"1 g 9 € · 3 g 25 € · 5 g 40 € · 10 g 70 € · 25 g 140 €"},
+  /* affiche carrée de la même collection que les 4 autres ; sans prix dessus,
+     le tarif vit dans le texte du bandeau et reste donc modifiable */
+  {key:"mystere",name:"Fleur Mystère",tag:"Mystère",mystery:true,img:"promo-mystere.jpg",desc:"La surprise du moment · on choisit pour toi",c:["#cbe3a8","#7a8a2e"],price:"9 €/g",sub:"1 g 9 € · 3 g 25 € · 5 g 40 € · 10 g 70 € · 25 g 140 €"},
   {key:"gta",affiche:"promo-gta-15g.jpg",name:"La promo GTA · 15 g",tag:"Offre",desc:"La variété du moment",c:["#c8f58f","#4ca72c"],price:"50 €",sub:"15 g · 50 €"},
   {key:"p10",affiche:"promo-10g.jpg",name:"La promo 10 g",tag:"Offre",desc:"Une fruitée + une terreuse, selon arrivages",c:["#f3c27a","#b5651d"],price:"30 €",sub:"10 g · 30 €"},
   {key:"p20",affiche:"promo-20g.jpg",name:"La promo 20 g",tag:"Offre",desc:"Une fruitée + une terreuse, selon arrivages",c:["#e6b36a","#9a5a18"],price:"50 €",sub:"20 g · 50 €"},
@@ -376,7 +378,10 @@ function promoHeroHTML(p){
       <div class="ph-sub">${p.sub}</div>
       <a class="btn btn-primary ph-cta" href="fleurs.html">Voir l'offre <span class="arr">→</span></a>
     </div>
-    <div class="ph-art" aria-hidden="true"><div class="ph-halo" style="background:radial-gradient(circle,${p.c[0]}66,transparent 70%)"></div><div class="cloche">${p.img?`<img src="assets/products/${p.img}${IMGV}" alt="${p.name}" loading="lazy" style="width:100%;max-width:320px;aspect-ratio:1;object-fit:cover;border-radius:20px;box-shadow:0 18px 50px rgba(0,0,0,.45)">`:(p.mystery?mysterySVG():clocheSVG(p.c,"ph"))}</div></div>
+    <div class="ph-art" aria-hidden="true"><div class="ph-halo" style="background:radial-gradient(circle,${p.c[0]}66,transparent 70%)"></div>${p.img
+      /* l'affiche est carrée : hors du conteneur .cloche, qui impose un 3/4 fait pour les cloches en verre */
+      ? `<img class="ph-affiche" src="assets/products/${p.img}${IMGV}" alt="Affiche WOOD — ${p.name}" width="760" height="760" decoding="async">`
+      : `<div class="cloche">${p.mystery?mysterySVG():clocheSVG(p.c,"ph")}</div>`}</div>
   </div>`;}
 function promoMiniHTML(p){
   return `<a class="promo-mini" href="fleurs.html">

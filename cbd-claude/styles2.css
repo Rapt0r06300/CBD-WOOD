@@ -566,6 +566,13 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 #promos .ph-art{position:relative;min-height:240px;display:grid;place-items:center;padding:1rem}
 #promos .ph-art .ph-halo{position:absolute;width:300px;height:300px;border-radius:50%;filter:blur(12px)}
 #promos .ph-art .cloche{position:relative;z-index:1;width:60%}
+/* l'affiche carrée du bandeau : papier crème, donc ombre douce et liseré fin
+   plutôt que l'ombre dure qui convenait à l'ancienne photo sombre */
+/* height:auto est obligatoire : l'attribut height="760" du <img> s'applique
+   comme hauteur CSS (indication de présentation) et écrasait l'aspect-ratio,
+   ce qui étirait l'affiche en bande verticale. */
+#promos .ph-affiche{position:relative;z-index:1;display:block;width:min(74%,300px);height:auto;aspect-ratio:1;
+  object-fit:cover;border-radius:18px;border:1px solid var(--line);box-shadow:0 14px 38px rgba(25,40,25,.18)}
 #promos .promo-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin-top:.9rem}
 #promos .promo-mini{display:flex;flex-direction:column;min-width:0;border:1px solid var(--line);border-radius:18px;background:var(--card);overflow:hidden;transition:border-color var(--t) var(--ease),transform var(--t) var(--ease),box-shadow var(--t) var(--ease)}
 #promos .promo-mini:hover{border-color:rgba(216,212,189,.45);transform:translateY(-3px);box-shadow:var(--sh-soft)}
