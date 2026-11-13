@@ -21,7 +21,9 @@ const FLEURS = [
   { slug:"ice-cream", nom:"Ice Cream", tier:"classique", desc:"Caramélisée 🍮", c:["#ead9c0","#8a6a3a"], p:[10.90,29.70,44.50,79] },
   { slug:"fanta-hazy", nom:"Fanta Hazy", tier:"classique", desc:"Acidulée · sucrée 🍋", c:["#f3d49a","#c98a3a"], p:[10.90,29.70,44.50,79] },
   { slug:"purple-saphir", nom:"Purple Saphir", tier:"classique", desc:"Délicieuse · rare 💜", c:["#b89adf","#4a2e6b"], p:[9.90,26.70,39.50,69.90] },
-  { slug:"fleur-mystere", nom:"Fleur Mystère", tier:"classique", desc:"Delicioso 🪻", c:["#d9c7f0","#4a2e6b"], p:[9.90,26.70,39.50,69] },
+  /* prix repris de la liste d'Ana du 12/11/2026 : 9 €/g · 3 g 25 € · 5 g 40 € · 10 g 70 € · 25 g 140 €.
+     L'ancienne grille (9,90 / 26,70 / 39,50 / 69) venait du Shopify suspendu. */
+  { slug:"fleur-mystere", nom:"Fleur Mystère", tier:"classique", desc:"Delicioso 🪻", c:["#d9c7f0","#4a2e6b"], p:[9,25,40,70], g25:140 },
   { slug:"godzilla", nom:"Godzilla", tier:"classique", desc:"Épicée · grosses buds 🌶️", c:["#cfe39a","#5a6a2e"], p:[8,22,35,60] },
   { slug:"bio-peach", nom:"BIO Peach", tier:"classique", desc:"Pêche 🍑 · bio", c:["#f3c7a0","#b5651d"], p:[8,22,35,60] },
   { slug:"bubba-kush", nom:"Bubba Kush", tier:"classique", desc:"Terreuse · épicée 🌲", c:["#a8c0a0","#2c3a30"], p:[8,22,35,60] },
@@ -45,7 +47,9 @@ const FLEURS = [
 /* Boutique — produits à prix unique / variantes (accessoires, merch, bonbons, carte-cadeau + fleurs/résines spéciales). Données réelles Shopify. */
 const BOUTIQUE = [
   { slug:"pink-panther", nom:"Pink Panther", kind:"simple", cat:"fleurs", price:30, img:"pink-panther.jpg", c:["#f3b0c0","#8a3a5a"], desc:"Small buds · agrumes 🍊", body:"Aspect : une belle poignée de small buds hyper odorantes, sucrée et terreuse.\nGoût : explosion d'agrumes au nez — la musique de la Panthère rose tourne en boucle, ne nous remerciez pas… Ahahah !\nTaux de CBD : medium ++" },
-  { slug:"trim", nom:"Trim CBD · fait maison", kind:"simple", cat:"resines", opts:[["10 g",19],["Le lot",30]], img:"trim.jpg", c:["#cfe0a0","#5a6a2e"], desc:"Mélange maison 🌿", body:"Trim CBD maison — un savant mélange de nos différentes fleurs de CBD #WITHLOVE. Parfait pour vos infusions ou à consommer seul ! Vendu par 10 g." },
+  /* grammages et prix repris de la liste d'Ana du 12/11/2026 : 10 g 15 € · 25 g 30 € · 100 g 100 €.
+     L'ancienne grille (10 g 19 € · « Le lot » 30 €) venait du Shopify suspendu. */
+  { slug:"trim", nom:"Trim CBD · fait maison", kind:"simple", cat:"resines", opts:[["10 g",15],["25 g",30],["100 g",100]], img:"trim.jpg", c:["#cfe0a0","#5a6a2e"], desc:"Mélange maison 🌿", body:"Trim CBD maison — un savant mélange de nos différentes fleurs de CBD #WITHLOVE. Parfait pour vos infusions ou à consommer seul ! Vendu par 10 g." },
   { slug:"bonbon-tc-10", nom:"Bonbon T*C 10 mg", kind:"simple", cat:"bonbons", price:3, img:"bonbon-tc-10.jpg", c:["#f3c27a","#c98a3a"], desc:"Coup de cœur 🍬", body:"Des bonbons ? Qui sont bons, et qui détendent, ça existe ? ÉVIDEMMENT — c'est un vrai produit COUP DE CŒUR chez WOOD !" },
   { slug:"bonbon-tc-20", nom:"Bonbon T*C 20 mg", kind:"simple", cat:"bonbons", opts:[["À l'unité",5.90],["Les 6 · 1 offert",29.50],["Les 12",59]], img:"bonbon-tc-20.jpg", c:["#f0a0b0","#b5405a"], desc:"Dosage ++ 🍬", body:"Le dosage supérieur de notre gamme de bonbons CBD — à l'unité, en pack de 6 (1 offert) ou de 12." },
   { slug:"bonbon-cbd-20", nom:"Bonbon CBD 20 mg", kind:"simple", cat:"bonbons", price:1.50, img:"bonbon-cbd-20.jpg", c:["#c6e3a0","#5a8a3a"], desc:"La gourmandise 🍬", body:"La gourmandise s'invite dans votre détente — un bonbon CBD 20 mg à prix doux." },
@@ -341,9 +345,10 @@ function descHTML(f){
 
 /* ---- PROMOS « Bons plans » (offres réelles Ana — style chic) ---- */
 const PROMOS=[
-  {name:"Fleur Mystère",tag:"Mystère",mystery:true,img:"fleur-mystere-promo.jpg",desc:"La surprise du moment · on choisit pour toi",c:["#1b2c20","#0a120c"],price:"dès 9 €/g",sub:"3 g 25 € · 5 g 40 € · 10 g 70 € · 25 g 140 €"},
-  {key:"p15",affiche:"promo-15g.jpg",name:"La promo 15 g",tag:"Offre",desc:"GTA · la variété du moment",c:["#c8f58f","#4ca72c"],price:"50 €",sub:"les variétés tournent régulièrement"},
-  {key:"p10",affiche:"promo-10g.jpg",name:"La promo 10 g",tag:"Offre",desc:"Une fruitée + une terreuse",c:["#f3c27a","#b5651d"],price:"30 €",sub:"ou 20 g pour 50 €"},
+  {key:"mystere",name:"Fleur Mystère",tag:"Mystère",mystery:true,img:"fleur-mystere-promo.jpg",desc:"La surprise du moment · on choisit pour toi",c:["#1b2c20","#0a120c"],price:"9 €/g",sub:"1 g 9 € · 3 g 25 € · 5 g 40 € · 10 g 70 € · 25 g 140 €"},
+  {key:"gta",affiche:"promo-gta-15g.jpg",name:"La promo GTA · 15 g",tag:"Offre",desc:"La variété du moment",c:["#c8f58f","#4ca72c"],price:"50 €",sub:"15 g · 50 €"},
+  {key:"p10",affiche:"promo-10g.jpg",name:"La promo 10 g",tag:"Offre",desc:"Une fruitée + une terreuse, selon arrivages",c:["#f3c27a","#b5651d"],price:"30 €",sub:"10 g · 30 €"},
+  {key:"p20",affiche:"promo-20g.jpg",name:"La promo 20 g",tag:"Offre",desc:"Une fruitée + une terreuse, selon arrivages",c:["#e6b36a","#9a5a18"],price:"50 €",sub:"20 g · 50 €"},
   {key:"trim",affiche:"promo-trim.jpg",name:"Le Trim",tag:"Petit prix",desc:"Gros volume, petit budget",c:["#cfe39a","#7a8a2e"],price:"dès 15 €",sub:"10 g 15 € · 25 g 30 € · 100 g 100 €"},
 ];
 
@@ -377,6 +382,7 @@ function promoMiniHTML(p){
   return `<a class="promo-mini" href="fleurs.html">
     <span class="pm-art">${promoArt(p)}</span>
     <span class="pm-body"><b>${p.name}</b><span class="pm-sub">${p.desc}</span>
+      <span class="pm-gram">${p.sub}</span>
       <span class="pm-go">Voir l'offre <span class="arr">→</span></span></span>
   </a>`;}
 
