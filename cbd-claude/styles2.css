@@ -860,3 +860,13 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .fav-art{width:100%;aspect-ratio:1/1}
 .ci-art .emo-art span,.cd-xa .emo-art span,.search-art .emo-art span{font-size:1.7rem;line-height:1;filter:none}
 .fav-art .emo-art span{font-size:2.4rem;line-height:1;filter:none}
+/* Les deux messages d'honnetete du conseiller : « on n'a pas ca » et
+   « voila ce qui s'en rapproche ». Volontairement visibles, pas discrets :
+   c'est exactement ce qu'Ana reprochait de ne pas etre dit. */
+.adv-approx,.adv-vide,.adv-plus{font-size:.92rem;line-height:1.5;
+  border-radius:12px;padding:.7rem .9rem;margin:.2rem 0 .8rem}
+.adv-approx{background:rgba(255,196,84,.12);border:1px solid rgba(255,196,84,.3)}
+.adv-vide{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  text-align:center;padding:1.2rem 1rem}
+.adv-plus{background:rgba(215,255,143,.08);border:1px solid rgba(215,255,143,.2);
+  font-size:.88rem}

@@ -1230,54 +1230,95 @@ function openAdvisor(){
   if(document.getElementById("advOverlay"))return;
   const ov=document.createElement("div"); ov.id="advOverlay"; ov.className="adv-overlay"; document.body.appendChild(ov);
   const N=s=>(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
-  const state={aroma:null,intensity:null};
+  const state={famille:null,aroma:null,intensity:null};
   const steps=[
+    /* La famille d'abord. Avant, le conseiller ne regardait que les fleurs :
+       « Hyper forte » ne pouvait donc JAMAIS etre satisfaite, puisque le seul
+       produit hyper fort de la carte -- Snow -- est une resine. Et les resines
+       sont mieux qualifiees que les fleurs (7 sur 10, contre 6 sur 13). */
+    {key:"famille",q:"Fleurs ou résines ?",sub:"Les deux familles de la carte.",opts:[["fleur","Les fleurs 🌿"],["resine","Les résines 🟤"]]},
     {key:"aroma",q:"Qu'est-ce qui te ferait plaisir ?",sub:"On parle goût & arôme — rien de médical 😉",opts:[["agrumes","Agrumes 🍊"],["weed","Weed 🌿"],["exotic","Exotic 🥭"],["sucre","Sucré 🍯"],["kush","Kush 🌰"],["epice","Épicé 🌶️"]]},
-    {key:"intensity",q:"Tu cherches quelle intensité ?",sub:"Du CBD tout doux jusqu'aux molécules les plus fortes.",opts:[["doux","Tout en douceur 🤍"],["leger","Légèrement boosté ✨"],["fort","Fort 🔥"],["ultra","Ultra fort ⚡"]]},
+    /* Les trois etiquettes de la carte d'Ana, telles qu'elle les ecrit.
+       Avant, on proposait quatre niveaux inventes qu'il fallait ensuite
+       faire correspondre aux siens : c'est la cette correspondance qui
+       produisait « du CBD propose dans de l'intense ». */
+    {key:"intensity",q:"Tu cherches quelle puissance ?",sub:"Les trois gammes de la boutique, dans les mots d'Ana.",opts:[["MÉDIUM","Light — molécule douce ✩"],["STRONG","Forte 🔥"],["HYPER STRONG","Hyper forte ⚡"]]},
   ];
   const AL={agrumes:"agrumes",weed:"weed",exotic:"exotic",sucre:"sucré",kush:"kush",epice:"épicé"};
-  const IL={doux:"tout en douceur",leger:"légèrement boostée",fort:"forte",ultra:"ultra forte"};
+  const IL={"MÉDIUM":"Light","STRONG":"forte","HYPER STRONG":"hyper forte"};
   /* Les niveaux de MOLEC vont de 2 a 4 : avec doux:0, « tout en douceur »
    ne pouvait structurellement RIEN trouver. L'echelle colle aux donnees. */
+/* INUTILISE depuis le 13/11 : le conseiller compare des rangs dans l'echelle
+   d'Ana, plus des nombres. Conserve pour l'historique. */
 const ITARG={doux:2,leger:2.5,fort:3,ultra:4};
   let i=0;
   const wrap=inner=>`<div class="adv-sheet"><button class="adv-close" aria-label="Fermer">✕</button>
     <div class="adv-top"><span class="adv-ava">🌿</span><div><strong>Ana · Conseillère WOOD</strong><small>conseil de goût, pas un avis médical</small></div></div>${inner}</div>`;
+  /* Ana ne donne aucun arome pour ses resines (sa carte dit juste « Forte »).
+     On ne pose donc pas la question : elle etait posee puis ignoree, et les
+     18 combinaisons resine rendaient les 3 memes produits. */
+  const pertinente=s=>!(s.key==="aroma" && state.famille==="resine");
   function render(){
+    while(i<steps.length && !pertinente(steps[i])){ state[steps[i].key]=null; i++; }
     if(i<steps.length){const s=steps[i];
       ov.innerHTML=wrap(`<div class="adv-progress"><span style="width:${i/steps.length*100}%"></span></div>
         <div class="adv-q">${s.q}</div>${s.sub?`<div class="adv-sub">${s.sub}</div>`:""}
         <div class="adv-opts">${s.opts.map(([v,l])=>`<button class="adv-opt" data-v="${v}">${l}</button>`).join("")}</div>
         ${i>0?`<button class="adv-back">← Retour</button>`:""}`);
     } else {
-      /* Ana, 13/11 : « le robot proposait du CBD dans du intense ». Quatre regles
-         pour que ca n'arrive plus :
-         1. un produit dont on ne connait pas le niveau est ECARTE, jamais
-            classe « doux » par defaut (c'etait `m.lvl||0`, la cause du bug) ;
-         2. l'ecart d'intensite est plafonne : au-dela d'un cran et demi, le
-            produit ne peut PAS sortir, meme si l'arome correspond ;
-         3. le score ne sature plus a 0, donc le tri garde un sens ;
-         4. et s'il ne reste rien, on le DIT. Un conseiller qui ne sait pas
-            dire « je n'ai pas ca » invente des reponses. */
-      const targ=ITARG[state.intensity];
-      const ECART_MAX=1.5;
-      const scored=FLEURS.filter(f=>f.type!=="resine").map(f=>{
+      /* Ana, 13/11 : « le robot proposait du CBD dans du intense ».
+
+         La cause reelle : le conseiller lisait MOLEC, une table heritee de
+         Shopify qui ne correspond pas a sa carte -- elle notait fanta-hazy et
+         fleur-mystere, qu'Ana n'a pas qualifiees, et ignorait velvet-kush et
+         purple, qu'elle a qualifiees.
+
+         Desormais on lit `f.int`, le champ du catalogue, qui vient de SES
+         mots. On compare des POSITIONS dans sa liste (MEDIUM < STRONG <
+         HYPER STRONG), jamais des nombres : l'ordre est le sien, un
+         espacement chiffre serait le notre.
+
+         Et un produit qu'elle n'a pas qualifie est ECARTE, jamais devine. */
+      const ECHELLE=["MÉDIUM","STRONG","HYPER STRONG"];
+      const rang=v=>ECHELLE.indexOf(v);
+      const voulu=rang(state.intensity);
+      const resine=state.famille==="resine";
+      const fleurs=FLEURS.filter(f=>f.slug!=="fleur-mystere"
+        &&(resine ? f.type==="resine" : f.type!=="resine"));
+      const scored=fleurs.map(f=>{
+        const r=rang(f.int);
+        if(r<0) return null;                  // non qualifiee par Ana -> ecartee
+        const ecart=Math.abs(r-voulu);
+        if(ecart>1) return null;              // plus d'un cran d'ecart -> ecartee
+        /* La puissance PRIME sur l'arome : c'est le reproche d'Ana, et il
+           porte sur la puissance, pas sur le gout. Une correspondance
+           exacte (10) depasse donc toute combinaison a un cran (2+3=5).
+           A puissance egale, l'arome trie. */
+        let sc=ecart===0?10:2;
         const m=MOLEC[f.slug]||{};
-        const lvl=(typeof m.lvl==="number")?m.lvl:null;
-        if(lvl===null) return null;                 // niveau inconnu -> ecarte
-        const ecart=Math.abs(lvl-targ);
-        if(ecart>ECART_MAX) return null;            // trop loin -> ecarte
-        let sc=(ECART_MAX-ecart)*2;                 // decroit continument
-        if(N(m.ar).includes(state.aroma)) sc+=3;    // l'arome demande
+        const ar=N(m.ar)+" "+N(f.desc);       // l'arome : MOLEC ou ses propres mots
+        if(ar.includes(state.aroma)) sc+=3;
         return {f,sc};
       }).filter(Boolean).sort((a,b)=>b.sc-a.sc);
       const top=scored.slice(0,3).map(x=>x.f);
+      /* Combien de varietes Ana n'a pas qualifiees : on le DIT, au lieu de
+         faire comme si le catalogue s'arretait la. */
+      const nonQualifiees=fleurs.filter(f=>rang(f.int)<0).length;
+      /* Rien ne correspond EXACTEMENT a la puissance demandee ? On le dit.
+         Sinon le client qui demande « Light » recoit du « Forte » sans le
+         savoir -- c'est le reproche d'Ana, en plus discret. */
+      const exact=scored.some(x=>x.f.int===state.intensity);
+      const approx=(!exact&&top.length)
+        ? `<p class="adv-approx">On n'a pas de ${state.famille==="resine"?"résine":"fleur"} <b>${IL[state.intensity]}</b> en ce moment. Voilà ce qui s'en rapproche le plus — <b>${IL[top[0].int==="MÉDIUM"?"MÉDIUM":top[0].int]}</b> :</p>`
+        : "";
       ov.innerHTML=wrap(`<div class="adv-q">La sélection d'Ana pour toi 🌿</div>
-        <div class="adv-why">Pour un profil <strong>${AL[state.aroma]}</strong> · intensité <strong>${IL[state.intensity]}</strong> :</div>
+        <div class="adv-why">Pour <strong>${state.famille==="resine"?"une résine":"une fleur"}</strong>${state.aroma?` · profil <strong>${AL[state.aroma]}</strong>`:""} · puissance <strong>${IL[state.intensity]}</strong> :</div>
+        ${approx}
         <div class="adv-res">${top.length
             ? top.map((f,k)=>cardHTML(f,k)).join("")
             : `<p class="adv-vide">On n'a pas ca en ce moment — et on prefere te le dire plutot que te proposer autre chose.<br><b>Appelle-nous</b>, on te dira ce qui s'en rapproche le plus en boutique.</p>`}</div>
-        <div class="adv-tip">💡 <strong>Le conseil d'Ana :</strong> en boutique, on aime associer ta fleur à un peu de résine ou de molécule pour varier les plaisirs — passe nous voir pour affiner.</div>
+        ${nonQualifiees?`<p class="adv-plus">Et <b>${nonQualifiees} autres ${state.famille==="resine"?"résines":"variétés"}</b> en boutique, dont on préfère te parler de vive voix plutôt que de les ranger dans une case.</p>`:""}
+          <div class="adv-tip">💡 <strong>Le conseil d'Ana :</strong> en boutique, on aime associer ta fleur à un peu de résine ou de molécule pour varier les plaisirs — passe nous voir pour affiner.</div>
         <button class="adv-restart">↺ Recommencer</button>`);
       ov.querySelectorAll(".reveal").forEach(e=>e.classList.add("in"));
     }
@@ -1285,8 +1326,8 @@ const ITARG={doux:2,leger:2.5,fort:3,ultra:4};
   ov.addEventListener("click",e=>{
     if(e.target===ov||e.target.closest(".adv-close")){ov.remove();return;}
     const o=e.target.closest(".adv-opt"); if(o){state[steps[i].key]=o.dataset.v;i++;render();return;}
-    if(e.target.closest(".adv-back")){i=Math.max(0,i-1);render();return;}
-    if(e.target.closest(".adv-restart")){i=0;state.aroma=state.intensity=null;render();return;}
+    if(e.target.closest(".adv-back")){i=Math.max(0,i-1);while(i>0 && !pertinente(steps[i])) i--; render();return;}
+    if(e.target.closest(".adv-restart")){i=0;state.famille=state.aroma=state.intensity=null;render();return;}
   });
   render();
   if(navigator.vibrate)navigator.vibrate(8);
