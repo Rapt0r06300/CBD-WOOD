@@ -13,11 +13,13 @@
 <meta property="og:description" content="WOOD CBD Shop — la Maison du chanvre à Nice. Fleurs & résines CBD sélectionnées, présentées sous cloche. Si c'est WOOD, c'est GOOD.">
 <meta property="og:image" content="https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/assets/scenes/hero.jpg">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="preload" as="image" href="assets/scenes/hero-scene.webp" fetchpriority="high">
+<link rel="canonical" href="https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/index.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=13">
-<link rel="stylesheet" href="styles2.css?v=64">
+<link rel="stylesheet" href="styles2.css?v=65">
 <link rel="stylesheet" href="light.css?v=3">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png?v=1"><link rel="icon" type="image/png" sizes="512x512" href="assets/icons/favicon-wood.png?v=1"><link rel="apple-touch-icon" href="assets/icons/apple-touch-wood.png?v=1">
 <script type="application/ld+json">
@@ -36,11 +38,12 @@
 </script>
 </head>
 <body data-page="home">
+<a class="skip-link" href="#contenu">Aller au contenu</a>
 
 <header data-chrome="header"></header>
 
 <!-- ============ HERO ============ -->
-<section class="hero has-stickers">
+<section id="contenu" tabindex="-1" class="hero has-stickers">
   <div class="hero-bg hero-bg--mural" aria-hidden="true">
     <img class="hero-img" src="assets/scenes/hero-scene.webp" alt="" fetchpriority="high">
     <div class="hero-overlay"></div>
@@ -204,9 +207,13 @@
 <section class="stats"><div class="container stats-grid">
   <div class="reveal"><b>2020</b><span>Nés à Nice</span></div>
   <div class="reveal d1"><b>2</b><span>boutiques</span></div>
-  <div class="reveal d2"><b>★ 4,9</b><span>sur Google · 500 avis</span></div>
-  <!-- chiffre compté sur la liste FLEURS d'app.js — à recompter si le catalogue bouge -->
-  <div class="reveal d3"><b>21</b><span>variétés de fleurs</span></div>
+  <!-- Deux fiches Google, deux notes. On n'en invente pas une troisieme :
+       une moyenne agregee n'existe nulle part chez Google, et la baliser
+       en donnees structurees exposerait a une penalite. -->
+  <div class="reveal d2"><b>★ 5,0</b><span>Barla · 4,9 Borriglione</span></div>
+  <!-- Compte par app.js depuis le catalogue : ce chiffre ne peut plus
+       diverger de la carte d'Ana (il annoncait 21 pour 13 reelles). -->
+  <div class="reveal d3"><b data-n="fleurs">–</b><span>variétés de fleurs</span></div>
 </div></section>
 
 <!-- ============ HISTOIRE (ancre) ============ -->
@@ -231,7 +238,7 @@
 <div data-chrome="advisor"></div>
 <nav data-chrome="botnav"></nav>
 
-<script src="api.js?v=2"></script>
-<script src="app.js?v=63"></script>
+<script src="api.js?v=3"></script>
+<script src="app.js?v=64"></script>
 </body>
 </html>

@@ -300,7 +300,7 @@ function buyBlock(f){
   const base=f.p[0]; // prix du 1 g = reference €/g la plus chere
   const opts=GRAMS.map((g,gi)=>{
       if(f.p[gi]==null) return ""; // grammage absent de la carte
-    const pg=Math.round(f.p[gi]/g*10)/10;
+    const pg=Math.round(f.p[gi]/g*100)/100;
     const sv=Math.round((1-(f.p[gi]/g)/base)*100);
     return `<option value="${gi}"${gi===1?' selected':''}>${g} g · ${f.p[gi]} €${sv>=8?` · −${sv}%`:''}</option>`;
   }).join("");
@@ -329,11 +329,11 @@ function pickState(pick){
 }
 function updatePick(pick){
   if(!pick)return; const s=pickState(pick); if(!s)return;
-  const base=s.f.p[0], pg=Math.round(s.f.p[s.gi]/s.g*10)/10, sv=Math.round((1-(s.f.p[s.gi]/s.g)/base)*100);
+  const base=s.f.p[0], pg=Math.round(s.f.p[s.gi]/s.g*100)/100, sv=Math.round((1-(s.f.p[s.gi]/s.g)/base)*100);
   const tot=pick.querySelector("[data-cp-total]"),add=pick.querySelector("[data-add-pick]");
-  if(tot)tot.innerHTML=`${s.q>1?`${s.q} × ${s.g} g = <b>${s.tg} g</b>`:`<b>${s.g} g</b>`} · <b>${s.tp.toFixed(2)} €</b> <span class="cp-pg">(${pg} €/g)</span>${sv>=8?` <em class="cp-eco">−${sv}%</em>`:''}`;
-  if(add)add.innerHTML=`Ajouter · <b>${s.tp.toFixed(2)} €</b>`;
-  const sp=document.getElementById("pStickyPrice"); if(sp)sp.textContent=`${s.q} × ${s.g} g · ${s.tg} g · ${s.tp.toFixed(2)} €`;
+  if(tot)tot.innerHTML=`${s.q>1?`${s.q} × ${s.g} g = <b>${s.tg} g</b>`:`<b>${s.g} g</b>`} · <b>${euro(s.tp)}</b> <span class="cp-pg">(${euro(pg)}/g)</span>${sv>=8?` <em class="cp-eco">−${sv}%</em>`:''}`;
+  if(add)add.innerHTML=`Ajouter · <b>${euro(s.tp)}</b>`;
+  const sp=document.getElementById("pStickyPrice"); if(sp)sp.textContent=`${s.q} × ${s.g} g · ${s.tg} g · ${euro(s.tp)}`;
   const sa=document.getElementById("pStickyAdd"); if(sa)sa.disabled=false;
   return s;
 }
@@ -392,7 +392,7 @@ const MOLEC={
   "jelly-high":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Caramel"},
   "moonrock":{mol:"CBD",cls:"",lvl:3,ia:"Fort",ar:"Épicé · Fruité"},
   "beldia":{mol:"CBD",cls:"",ar:"Épicé · Marocain"},
-  "cbn-cream":{mol:"CBN",cls:"mol-cbg",ar:"Sommeil"},
+  "cbn-cream":{mol:"CBN",cls:"mol-cbg",ar:"Crémeux"},
 };
 function idotsHTML(lvl){let s='<span class="idots" aria-label="Intensité">';for(let k=1;k<=4;k++){s+=`<i class="${k<=lvl?'on':''}"></i>`;}return s+'</span>';}
 function molLine(slug){const m=MOLEC[slug];if(!m)return"";
@@ -407,31 +407,31 @@ function pMolHTML(slug){const m=MOLEC[slug];if(!m)return"";
   return `<div class="p-mol"><div class="pm-b"><span class="pm-k">Molécule</span><span class="pm-v">${m.mol}</span></div>${inten}${ar}${prem}</div>`;}
 /* ---- Descriptions VERBATIM (catalogue Shopify certifié d'Ana — jamais modifié) ---- */
 const DESC={
-  "nimbus-3000":"Variété : Nimbus 3000 (CBD+/STRONG)\nNotre Nimbus 3000, c'est une valeur sûre, niveau expert ! Outre son goût savoureux aux notes tropicales, cette fleur a la particularité d'être riche en CBD et BOOSTÉE, un atout majeur pour les consommateurs en quête de sensations fortes.\nCette variété exceptionnelle vous transporte dans un voyage aromatique, en plus de son profil de CBD élevé. Profitez d'une expérience ULTRA relaxante et apaisante grâce à cette fleur de CBD de qualité supérieure.\n⚠️ CBD BOOSTÉ : avec son taux puissant en CBD+, la Nimbus 3000 te procure une relaxation TRÈS profonde, à consommer avec modération.",
-  "ivory":"Variété : Ivory (CBD+/STRONG)\nNotre Ivory, c'est une fleur pour les vrais puristes et connaisseurs, niveau expert ! Outre son goût savoureux, cette fleur a la particularité d'être riche en CBD et BOOSTÉE, un atout majeur pour les consommateurs en quête de sensations fortes.\nCette variété exceptionnelle vous transporte dans un voyage aromatique, en plus de son profil de CBD élevé. Profitez d'une expérience ULTRA relaxante et apaisante grâce à cette fleur de CBD de qualité supérieure.\n⚠️ CBD BOOSTÉ : avec son taux puissant en CBD + CBE, l'Ivory te procure une relaxation TRÈS profonde, à consommer avec modération. Son nom en dit long sur son potentiel !",
+  "nimbus-3000":"Variété : Nimbus 3000 (CBD+/STRONG)\nNotre Nimbus 3000, c'est une valeur sûre, niveau expert ! Outre son goût savoureux aux notes tropicales, cette fleur a la particularité d'être riche en CBD et BOOSTÉE.\nCette variété exceptionnelle vous transporte dans un voyage aromatique, en plus de son profil de CBD élevé. Une fleur de qualité supérieure.\n⚠️ CBD BOOSTÉ : taux puissant en CBD+. À consommer avec modération.",
+  "ivory":"Variété : Ivory (CBD+/STRONG)\nNotre Ivory, c'est une fleur pour les vrais puristes et connaisseurs, niveau expert ! Outre son goût savoureux, cette fleur a la particularité d'être riche en CBD et BOOSTÉE.\nCette variété exceptionnelle vous transporte dans un voyage aromatique, en plus de son profil de CBD élevé. Une fleur de qualité supérieure.\n⚠️ CBD BOOSTÉ : taux puissant en CBD + CBE. À consommer avec modération. Son nom en dit long sur son potentiel !",
   "pastraweed":"Variété : Pastraweed (BOOSTÉ/STRONG)\nUne valeur sûre ! Goût savoureux, riche en CBD et BOOSTÉE : un voyage aromatique sur un profil de CBD élevé.\n⚠️ Fleur boostée, à consommer avec modération.",
-  "euphoria":"Variété : Euphoria (BOOSTÉ/STRONG)\nNotre Euphoria, c'est LA pépite chez WOOD ! Une saveur exceptionnellement fruitée, riche en CBD et BOOSTÉE, pour une expérience ULTRA relaxante. Exclusivité WOOD CBD !\n⚠️ CBD BOOSTÉ (CBD + CBE), relaxation TRÈS profonde, à consommer avec modération. Le conseil d'Ana : parsemer légèrement, 2-3 taffs et on pose le J… Bon voyage ♥",
-  "fanta-hazy":"🍋 Acidulée · 🍭 Sucrée\nGoût : offrant une explosion fruitée en bouche, la Fanta Hazy et son odeur sont le fruit d'une longue recherche de notre part, capturant l'essence même de la fleur sucrée et unique.\nTaux de CBD : la Fanta Hazy possède un taux de CBD garantissant une expérience relaxante et apaisante.",
-  "stoned":"Variété : STONED (BOOSTÉ/STRONG)\nLe 3× FILTRÉ de référence ! Goût délicieux, texture idéale, riche en CBD et BOOSTÉE pour des sensations fortes.\n⚠️ Résine boostée, à consommer avec modération.",
+  "euphoria":"Variété : Euphoria (BOOSTÉ/STRONG)\nNotre Euphoria, c'est LA pépite chez WOOD ! Une saveur exceptionnellement fruitée, riche en CBD et BOOSTÉE. Exclusivité WOOD CBD !\n⚠️ CBD BOOSTÉ (CBD + CBE). À consommer avec modération. Le conseil d'Ana : parsemer légèrement, 2-3 taffs et on pose le J… Bon voyage ♥",
+  "fanta-hazy":"🍋 Acidulée · 🍭 Sucrée\nGoût : offrant une explosion fruitée en bouche, la Fanta Hazy et son odeur sont le fruit d'une longue recherche de notre part, capturant l'essence même de la fleur sucrée et unique.",
+  "stoned":"Variété : STONED (BOOSTÉ/STRONG)\nLe 3× FILTRÉ de référence ! Goût délicieux, texture idéale, riche en CBD et BOOSTÉE.\n⚠️ Résine boostée, à consommer avec modération.",
   "golden-high":"Variété : Golden HIGH (BOOSTÉ/STRONG)\nLe POLLEN STRONG référence ! Riche en CBD et BOOSTÉE, un vrai voyage aromatique.\nGoût : épices exotiques, trésors des contrées lointaines. Pollen mousseux enrichi de CBE, effet puissant. Pas besoin de le chauffer avant de l'effriter : BEST TEXTURE EVER !",
   "jelly-high":"🍫 Le Caramelo qui manque à ta vie.\nHASH type Caramel de référence ! Riche en CBD et BOOSTÉE. Goût : épices exotiques. Enrichie de CBE, effet puissant.\nPas besoin de le chauffer avant de l'effriter : BEST TEXTURE EVER !",
-  "moonrock":"Variété : Moon Rock — « Le Saint Graal de la Relaxation »\nGoût : la variété Moon Rock est réputée pour son goût unique qui allie des notes épicées et fruitées.\nTaux de CBD : se distingue par son taux de CBD puissant, offrant une expérience relaxante intense. Avis aux amateurs 💥",
+  "moonrock":"Variété : Moon Rock\nGoût : la variété Moon Rock est réputée pour son goût unique qui allie des notes épicées et fruitées.\nTaux de CBD : puissant. Avis aux amateurs 💥",
   "beldia":"🍫 Filament / boulette\nAspect : texture fondante, couleur charbonneuse, un produit authentique et raffiné.\nGoût : explosion de saveurs épicées, direction les souks marocains, pour une touche traditionnelle.",
-  "cbn-cream":"La texture idéale — ⚠️ ATTENTION, C'EST POUR DORMIR 🌔\nRésine CBN Cream : goût exquis, elle aide à améliorer le sommeil. Du CBD « bodybuildé », marocain — « si t'arrives pas à dormir ».",
+  "cbn-cream":"La texture idéale 🌔\nRésine CBN Cream : goût exquis, texture crémeuse. Du CBD « bodybuildé », marocain.",
   "green-skunk":"🍭 Sucrée · 💥 Forte · 🌿 Herbacée\nTaux de CBD : FORT.\nLe mot de l'équipe WOOD : C'EST DE LA BOMBE !",
   "gelato":"Variété : Gelato\nGoût : ses saveurs intenses et robustes sont accompagnées de douces notes sucrées, créant une combinaison envoûtante pour les papilles. Chaque inhalation est une expérience gustative profonde.\nTaux de CBD : reconnue pour son taux de CBD puissant.",
   "ice-cream":"🍮 Caramélisée · 🌲 Terreuse · 🍭 Sucrée\nGoût : un dessert sucré, des saveurs intenses, fidèle à l'authenticité du cannabis.\nAspect : compacte et dense, parmi les « cali » de haut niveau, têtes denses et résineuses.\nTaux de CBD : extrêmement puissant.",
   "purple-saphir":"Découvrez la fleur de CBD Purple Saphir, au goût si délicieux qu'il faut absolument l'essayer. Variété très rare à obtenir, offrant une expérience gustative exceptionnelle.\nNe passez pas à côté de cette expérience sensorielle unique.",
-  "fleur-mystere":"🪻 Delicioso\nGoût : un goût surprenant, des effets qui détendent, une odeur particulière — « la fleur magique ».\nTaux de CBD : relaxant et apaisant.",
+  "fleur-mystere":"🪻 Delicioso\nGoût : un goût surprenant, une odeur particulière — « la fleur magique ».",
   "godzilla":"🌶 Épicé & grosses buds\nVariété : Godzilla 🦖 — « Mind Eraser »\nGoût : un mélange complexe d'arômes, aux notes terreuses, citronnées et épicées.\nTaux de CBD : moyen ++",
-  "bio-peach":"Variété : BIO Peach — « Iced Tea baby »\nGoût : fruité captivant, avec des notes sucrées de pêche. BIO et Française, cocorico ! 🇫🇷\nTaux de CBD : puissant, relaxation profonde.",
-  "bubba-kush":"🌲 Terreuse · 🌶 Épicée\nGoût : une explosion de saveur, un classique de notre sélection.\nTaux de CBD : expérience relaxante et apaisante.",
-  "tropical-kush":"🍭 Sucrée · 🍓 Fruitée\nGoût : un goût surprenant, des effets qui détendent, une odeur particulière — « la fleur magique ».\nTaux de CBD : relaxant et apaisant.",
-  "sweet-purple":"Variété : Sweet Purple\nGoût : fruité captivant, notes délicieuses et sucrées, une expérience gustative envoûtante.\nTaux de CBD : puissant, pour une relaxation profonde et apaisante.",
-  "skittlez":"Variété : Skittlez\nGoût : offrant une explosion de saveur, notre Skittlez vous séduit par sa puissance, ce qui en fait un classique de notre sélection pour les amateurs de fleur de qualité ! À consommer SANS MODÉRATION !\nTaux de CBD : garantit une expérience relaxante et apaisante.",
+  "bio-peach":"Variété : BIO Peach — « Iced Tea baby »\nGoût : fruité captivant, avec des notes sucrées de pêche. BIO et Française, cocorico ! 🇫🇷\nTaux de CBD : puissant.",
+  "bubba-kush":"🌲 Terreuse · 🌶 Épicée\nGoût : une explosion de saveur, un classique de notre sélection.",
+  "tropical-kush":"🍭 Sucrée · 🍓 Fruitée\nGoût : un goût surprenant, une odeur particulière — « la fleur magique ».",
+  "sweet-purple":"Variété : Sweet Purple\nGoût : fruité captivant, notes délicieuses et sucrées, une expérience gustative envoûtante.\nTaux de CBD : puissant.",
+  "skittlez":"Variété : Skittlez\nGoût : offrant une explosion de saveur, notre Skittlez vous séduit par sa puissance, ce qui en fait un classique de notre sélection pour les amateurs de fleur de qualité ! À consommer SANS MODÉRATION !",
   "fruit-cake":"🍓 Fruitée · 🌲 Terreuse\nGoût : explosion d'agrumes au nez.\nAspect : une belle poignée de small buds hyper odorantes, sucrée et terreuse.",
-  "tropical-dream":"Goût : offrant une explosion de saveur, notre Tropical Dream et son odeur est en fait le classique de notre sélection.\nTaux de CBD : garantit une expérience relaxante et apaisante.",
-  "tangerine-dream":"Goût : offrant une explosion de saveur, notre Tangerine Dream et son odeur est en fait le classique de notre sélection.\nTaux de CBD : garantit une expérience relaxante et apaisante.",
+  "tropical-dream":"Goût : offrant une explosion de saveur, notre Tropical Dream et son odeur est en fait le classique de notre sélection.",
+  "tangerine-dream":"Goût : offrant une explosion de saveur, notre Tangerine Dream et son odeur est en fait le classique de notre sélection.",
   "tonic-haze":"Variété : Tonic Haze\nGoût : Terreuse / Citronnée.\nTaux de CBD : MÉDIUM.\nLe mot de l'équipe WOOD : si tu veux continuer à bosser tout en étant détendu 😎",
   "harlequin":"Variété : Harley — « Sweet Bliss »\nGoût : sucré et fruité, qui rappelle les bonbons de l'enfance.",
   "baby-cannatonic":"Oups, c'est en rupture ! Merci beaucoup 🙏\n(La Baby Cannatonic revient très vite en boutique.)",
@@ -594,7 +594,7 @@ function cartCount(){return cart.reduce((s,x)=>s+x.q,0);}
 function updateCartBadges(){document.querySelectorAll("#cartCount,#cartCountM").forEach(e=>e.textContent=cartCount());}
 function cartAdd(slug,g,qty){const f=byId(slug);if(!f)return 0;g=g||3;qty=qty||1;const gi=GRAMS.indexOf(g);const unit=f.p[gi>=0?gi:0];const ex=cart.find(x=>x.slug===slug&&x.g===g);if(ex)ex.q+=qty;else cart.push({slug,nom:f.nom,g,unit,q:qty});saveCart();updateCartBadges();if(window.__renderCart)window.__renderCart();return qty;}
 function bumpCartBtn(){const b=document.getElementById("cartBtn");if(b)b.animate([{transform:"scale(1)"},{transform:"scale(1.25)"},{transform:"scale(1)"}],{duration:380,easing:"cubic-bezier(.16,1,.3,1)"});if(navigator.vibrate)navigator.vibrate(12);}
-function addToCart(slug,g,qty){const f=byId(slug);if(!f)return;g=g||3;qty=qty||1;cartAdd(slug,g,qty);bumpCartBtn();const unit=f.p[GRAMS.indexOf(g)>=0?GRAMS.indexOf(g):0];toast(`Ajouté au pochon : ${f.nom} · ${g} g${qty>1?` ×${qty}`:''} · ${(unit*qty).toFixed(2)} € ✓`);openCartDrawer();}
+function addToCart(slug,g,qty){const f=byId(slug);if(!f)return;g=g||3;qty=qty||1;cartAdd(slug,g,qty);bumpCartBtn();const unit=f.p[GRAMS.indexOf(g)>=0?GRAMS.indexOf(g):0];toast(`Ajouté au pochon : ${f.nom} · ${g} g${qty>1?` ×${qty}`:''} · ${euro(unit*qty)} ✓`);openCartDrawer();}
 
 /* ===================== PANIER TIROIR (drawer) ===================== */
 function cartSubtotal(){return cart.reduce((s,x)=>s+x.unit*x.q,0);}
@@ -631,15 +631,17 @@ function renderCartDrawer(){
   // avantage inexistant. A remettre le jour ou l'expedition est en place.
   ship.innerHTML=`<p class="cd-ship-t">🏪 À retirer à <b>Barla</b> ou <b>Borriglione</b></p>`;
   const itemsHtml=cart.map(x=>{const sv=itemSave(x);return `<div class="cd-item">
-    <img src="assets/products/${x.slug}.webp${IMGV}" alt="" onerror="this.style.visibility='hidden'">
-    <div class="cd-it-info"><b>${x.nom}</b><span class="cd-it-meta"><b>${itemQty(x)}</b> · ${x.unit.toFixed(2)} €${sv>=8?` · <em class="cd-sv">−${sv}%</em>`:''}</span>
+    ${NOIMG.has(x.slug)
+      ? `<div class="cd-art">${window.__cloche(x.slug)}</div>`
+      : `<img src="assets/products/${x.slug}.webp${IMGV}" alt="" onerror="this.style.visibility='hidden'">`}
+    <div class="cd-it-info"><b>${x.nom}</b><span class="cd-it-meta"><b>${itemQty(x)}</b> · ${euro(x.unit)}${sv>=8?` · <em class="cd-sv">−${sv}%</em>`:''}</span>
       <div class="cd-qty"><button class="${x.q===1?'cd-rm':''}" data-cd-dec="${x.slug}" data-g="${x.g}" aria-label="${x.q===1?'Retirer du pochon':'Réduire'}" title="${x.q===1?'Retirer':'Réduire'}">${x.q===1?'🗑':'−'}</button><span>${x.q}</span><button data-cd-inc="${x.slug}" data-g="${x.g}" aria-label="Ajouter">+</button></div></div>
-    <div class="cd-it-side"><b>${(x.unit*x.q).toFixed(2)} €</b><small class="cd-it-g">${itemTot(x)}</small><button class="cd-del" data-cd-del="${x.slug}" data-g="${x.g}" aria-label="Retirer ${x.nom}">Retirer</button></div>
+    <div class="cd-it-side"><b>${euro(x.unit*x.q)}</b><small class="cd-it-g">${itemTot(x)}</small><button class="cd-del" data-cd-del="${x.slug}" data-g="${x.g}" aria-label="Retirer ${x.nom}">Retirer</button></div>
   </div>`;}).join("");
   const picks=(typeof FLEURS!=="undefined"?FLEURS:[]).filter(f=>!cart.some(x=>x.slug===f.slug)).slice(0,2);
-  const xsell=picks.length?`<div class="cd-xsell"><div class="cd-xsell-h">Ça va bien avec 👀</div>${picks.map(f=>`<div class="cd-x"><img src="assets/products/${f.slug}.webp${IMGV}" alt="" onerror="this.style.visibility='hidden'"><div class="cd-x-info"><b>${f.nom}</b><span class="muted">${f.p[1]} € · 3 g</span></div><button class="cd-x-add" data-add="${f.slug}" aria-label="Ajouter ${f.nom} au pochon">+</button></div>`).join("")}</div>`:"";
+  const xsell=picks.length?`<div class="cd-xsell"><div class="cd-xsell-h">Ça va bien avec 👀</div>${picks.map(f=>`<div class="cd-x">${NOIMG.has(f.slug)?`<div class="cd-xa">${window.__cloche(f.slug)}</div>`:`<img src="assets/products/${f.slug}.webp${IMGV}" alt="" onerror="this.style.visibility='hidden'">`}<div class="cd-x-info"><b>${f.nom}</b><span class="muted">${f.p[1]} € · 3 g</span></div><button class="cd-x-add" data-add="${f.slug}" aria-label="Ajouter ${f.nom} au pochon">+</button></div>`).join("")}</div>`:"";
   items.innerHTML=itemsHtml+xsell;
-  foot.innerHTML=`<div class="cd-sub"><span>Sous-total <small class="muted">· ${nItems} art.${nGr?' · '+nGr+' g':''}</small></span><b>${sub.toFixed(2)} €</b></div>
+  foot.innerHTML=`<div class="cd-sub"><span>Sous-total <small class="muted">· ${nItems} art.${nGr?' · '+nGr+' g':''}</small></span><b>${euro(sub)}</b></div>
     <a href="checkout.html" class="btn btn-primary cd-go">Réserver →</a>
     <a href="panier.html" class="cd-link">Voir le panier complet</a>`;
 }
@@ -801,7 +803,7 @@ function renderCart(){
   const promo=promoInfo(); let disc=0; if(promo&&promo.pct)disc=Math.round(sub*promo.pct)/100; else if(promo&&promo.gift)disc=Math.min(promo.balance,sub); const total=Math.max(0,sub-disc);
   root.innerHTML=`<h1 class="serif">Ton pochon <span class="cart-count-h">${nItems} article${nItems>1?'s':''}${nGr?' · '+nGr+' g':''}</span></h1>
     <div class="cart-grid">
-      <div class="cart-items">${cart.map((x,i)=>`<div class="cart-item"><div class="ci-media"><img src="assets/products/${x.slug}.webp${IMGV}" alt="" onerror="this.outerHTML='<div>'+window.__cloche('${x.slug}')+'</div>'"></div>
+      <div class="cart-items">${cart.map((x,i)=>`<div class="cart-item"><div class="ci-media">${NOIMG.has(x.slug)?`<div class="ci-art">${window.__cloche(x.slug)}</div>`:`<img src="assets/products/${x.slug}.webp${IMGV}" alt="" onerror="this.outerHTML='<div>'+window.__cloche('${x.slug}')+'</div>'">`}</div>
         <div class="ci-info"><div class="ci-name">${x.nom}</div><div class="muted ci-meta"><b>${itemQty(x)}</b> · ${euro(x.unit)}${(()=>{const sv=itemSave(x);return sv>=8?` · <span class="ci-sv">−${sv}%</span>`:'';})()}${x.g?` · total <b>${x.g*x.q} g</b>`:''}</div></div>
         <div class="ci-qty"><button class="${x.q===1?'cd-rm':''}" data-dec="${i}" aria-label="${x.q===1?'Retirer':'Réduire'}" title="${x.q===1?'Retirer':'Réduire'}">${x.q===1?'🗑':'−'}</button><span>${x.q}</span><button data-inc="${i}" aria-label="Ajouter">+</button></div>
         <div class="ci-line">${euro(x.unit*x.q)}</div><button class="ci-del" data-del="${i}" aria-label="Retirer ${x.nom}">Retirer</button></div>`).join("")}</div>
@@ -1207,7 +1209,9 @@ function openAdvisor(){
   ];
   const AL={agrumes:"agrumes",weed:"weed",exotic:"exotic",sucre:"sucré",kush:"kush",epice:"épicé"};
   const IL={doux:"tout en douceur",leger:"légèrement boostée",fort:"forte",ultra:"ultra forte"};
-  const ITARG={doux:0,leger:1.5,fort:3,ultra:4};
+  /* Les niveaux de MOLEC vont de 2 a 4 : avec doux:0, « tout en douceur »
+   ne pouvait structurellement RIEN trouver. L'echelle colle aux donnees. */
+const ITARG={doux:2,leger:2.5,fort:3,ultra:4};
   let i=0;
   const wrap=inner=>`<div class="adv-sheet"><button class="adv-close" aria-label="Fermer">✕</button>
     <div class="adv-top"><span class="adv-ava">🌿</span><div><strong>Ana · Conseillère WOOD</strong><small>conseil de goût, pas un avis médical</small></div></div>${inner}</div>`;
@@ -1218,15 +1222,33 @@ function openAdvisor(){
         <div class="adv-opts">${s.opts.map(([v,l])=>`<button class="adv-opt" data-v="${v}">${l}</button>`).join("")}</div>
         ${i>0?`<button class="adv-back">← Retour</button>`:""}`);
     } else {
+      /* Ana, 13/11 : « le robot proposait du CBD dans du intense ». Quatre regles
+         pour que ca n'arrive plus :
+         1. un produit dont on ne connait pas le niveau est ECARTE, jamais
+            classe « doux » par defaut (c'etait `m.lvl||0`, la cause du bug) ;
+         2. l'ecart d'intensite est plafonne : au-dela d'un cran et demi, le
+            produit ne peut PAS sortir, meme si l'arome correspond ;
+         3. le score ne sature plus a 0, donc le tri garde un sens ;
+         4. et s'il ne reste rien, on le DIT. Un conseiller qui ne sait pas
+            dire « je n'ai pas ca » invente des reponses. */
       const targ=ITARG[state.intensity];
-      const scored=FLEURS.filter(f=>f.type!=="resine").map(f=>{const m=MOLEC[f.slug]||{};let sc=0;
-        if(N(m.ar).includes(state.aroma))sc+=3;
-        const lvl=m.lvl||0; sc+=Math.max(0,2-Math.abs(lvl-targ));
-        return {f,sc};}).sort((a,b)=>b.sc-a.sc);
+      const ECART_MAX=1.5;
+      const scored=FLEURS.filter(f=>f.type!=="resine").map(f=>{
+        const m=MOLEC[f.slug]||{};
+        const lvl=(typeof m.lvl==="number")?m.lvl:null;
+        if(lvl===null) return null;                 // niveau inconnu -> ecarte
+        const ecart=Math.abs(lvl-targ);
+        if(ecart>ECART_MAX) return null;            // trop loin -> ecarte
+        let sc=(ECART_MAX-ecart)*2;                 // decroit continument
+        if(N(m.ar).includes(state.aroma)) sc+=3;    // l'arome demande
+        return {f,sc};
+      }).filter(Boolean).sort((a,b)=>b.sc-a.sc);
       const top=scored.slice(0,3).map(x=>x.f);
       ov.innerHTML=wrap(`<div class="adv-q">La sélection d'Ana pour toi 🌿</div>
         <div class="adv-why">Pour un profil <strong>${AL[state.aroma]}</strong> · intensité <strong>${IL[state.intensity]}</strong> :</div>
-        <div class="adv-res">${top.map((f,k)=>cardHTML(f,k)).join("")}</div>
+        <div class="adv-res">${top.length
+            ? top.map((f,k)=>cardHTML(f,k)).join("")
+            : `<p class="adv-vide">On n'a pas ca en ce moment — et on prefere te le dire plutot que te proposer autre chose.<br><b>Appelle-nous</b>, on te dira ce qui s'en rapproche le plus en boutique.</p>`}</div>
         <div class="adv-tip">💡 <strong>Le conseil d'Ana :</strong> en boutique, on aime associer ta fleur à un peu de résine ou de molécule pour varier les plaisirs — passe nous voir pour affiner.</div>
         <button class="adv-restart">↺ Recommencer</button>`);
       ov.querySelectorAll(".reveal").forEach(e=>e.classList.add("in"));
@@ -1255,6 +1277,15 @@ document.addEventListener("DOMContentLoaded",()=>{
   if(rail){/* Construit depuis le catalogue : une liste en dur casse la page des qu'un
      produit sort de la carte (arrive le 13/11 avec Gelato, Moonrock, Ice Cream). */
     const sel=FLEURS.filter(f=>f.slug!=="fleur-mystere").slice(0,8);rail.innerHTML=sel.map((f,i)=>cardHTML(f,i)).join("");}
+  /* Les compteurs de l'accueil, calcules depuis le catalogue. Un chiffre
+     ecrit en dur finit toujours par mentir : celui-ci annoncait 21 varietes
+     pour 13 reelles, avec un commentaire qui disait deja "a recompter". */
+  document.querySelectorAll("[data-n]").forEach(el=>{
+    const resine = el.dataset.n === "resines";
+    el.textContent = FLEURS.filter(f =>
+      f.slug !== "fleur-mystere" &&
+      (resine ? f.type === "resine" : f.type !== "resine")).length;
+  });
   const phero=document.getElementById("promoHero");
   if(phero){phero.innerHTML=promoHeroHTML(PROMOS[0]);}
   const pstrip=document.getElementById("promoStrip");
@@ -1357,7 +1388,7 @@ function searchDraw(q){
   if(!list.length){res.innerHTML=`<p class="search-empty muted">Aucun résultat pour « ${q} ». Essaie « fruité », « boosté », « doux »…</p>`;return;}
   res.innerHTML=`${q?"":'<p class="search-hint muted">Notre sélection</p>'}<div class="search-grid">`+list.slice(0,8).map(f=>{
     return `<a class="search-row" href="produit.html?f=${f.slug}">
-      <img src="assets/products/${f.slug}.webp${IMGV}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
+      ${NOIMG.has(f.slug)?`<div class="search-art">${window.__cloche(f.slug)}</div>`:`<img src="assets/products/${f.slug}.webp${IMGV}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">`}
       <div class="search-info"><b>${f.nom}</b><span class="muted">${f.desc} · ${TIER[f.tier]?TIER[f.tier].label:f.tier}</span></div>
       <span class="search-price">dès ${f.p[0]} €</span></a>`;}).join("")+`</div>`;
 }
@@ -1399,7 +1430,7 @@ function renderFavDrawer(){
   if(!favs.length){box.innerHTML=`<div class="cd-empty"><div class="ava-big">💚</div><p class="muted">Aucun coup de cœur… pour l'instant. Touche le ❤ sur une fleur pour la garder sous le coude.</p><a href="fleurs.html" class="btn btn-primary">Voir les fleurs →</a></div>`;return;}
   box.innerHTML=favs.map(s=>{const f=byId(s);if(!f)return"";
     return `<div class="fav-row">
-      <a class="fav-media" href="produit.html?f=${s}"><img src="assets/products/${s}.webp${IMGV}" alt="${f.nom}" onerror="this.style.visibility='hidden'"></a>
+      <a class="fav-media" href="produit.html?f=${s}">${NOIMG.has(s)?`<div class="fav-art">${window.__cloche(s)}</div>`:`<img src="assets/products/${s}.webp${IMGV}" alt="${f.nom}" onerror="this.style.visibility='hidden'">`}</a>
       <div class="fav-info"><a class="fav-name" href="produit.html?f=${s}">${f.nom}</a><span class="muted">${f.desc}</span><span class="fav-price">${f.p&&f.p[1]?f.p[1]+" € · 3 g":""}</span></div>
       <div class="fav-acts"><button class="btn btn-primary btn-sm" data-fav-add="${s}">+ Pochon</button><button class="fav-x" data-fav-del="${s}" aria-label="Retirer">✕</button></div>
     </div>`;}).join("");
