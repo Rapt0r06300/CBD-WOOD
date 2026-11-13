@@ -913,3 +913,26 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 @media(max-width:720px){
   .corner-sticker{font-size:.62rem}  /* etait .5rem = 8 px */
 }
+/* LE CODE DE RETRAIT A L'ECRAN.
+   C'est le canal le plus fiable des trois : Telegram previent les filles,
+   l'e-mail peut tomber en indesirables (et Hostinger plafonne a 100 par
+   jour), l'ecran ne depend de rien. Il doit donc etre le plus visible de la
+   page -- d'ou la taille et le contraste. */
+.code-retrait{margin:1.6rem auto 0;max-width:30rem;padding:1.4rem 1.2rem;
+  border-radius:20px;text-align:center;
+  background:linear-gradient(145deg,rgba(215,255,143,.16),rgba(47,158,107,.1));
+  border:1px solid rgba(215,255,143,.34)}
+.cr-label{display:block;font-size:.82rem;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--soft);margin-bottom:.5rem}
+.cr-code{display:block;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:clamp(1.9rem,7vw,2.8rem);line-height:1.1;font-weight:800;
+  letter-spacing:.1em;color:#d7ff8f;
+  font-variant-numeric:tabular-nums;
+  /* le code doit pouvoir etre selectionne a la main si le presse-papiers
+     est refuse par le navigateur */
+  user-select:all;-webkit-user-select:all}
+.cr-copier{margin-top:.9rem;min-height:44px}
+.cr-note{margin:.9rem 0 0;font-size:.86rem;line-height:1.5;color:var(--soft)}
+@media(max-width:600px){
+  .code-retrait{border-radius:16px;padding:1.2rem .9rem}
+}

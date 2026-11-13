@@ -228,6 +228,77 @@ const TIER = { boostes:{label:"Boostés",cls:"badge-boost"}, soft:{label:"Soft",
 const GRAMS = [1,3,5,10];
 const byId = s => FLEURS.find(f=>f.slug===s) || BOUTIQUE.find(f=>f.slug===s) || null;
 /* Un prix ne s'écrit jamais « 11,8 € » : les centimes se notent sur deux chiffres. */
+/* Échappement HTML, pour toute valeur insérée dans un template.
+   Les valeurs de la page de confirmation (numéro, code, slug de boutique)
+   sont toutes générées par le serveur et d'un format strict : ce n'est donc
+   pas une faille aujourd'hui. Mais le jour où quelqu'un ajoute le nom ou la
+   note du client — une saisie libre — l'habitude doit déjà être là. Trois
+   lignes qui coûtent moins qu'une relecture. */
+const esc = v => String(v == null ? "" : v)
+  .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+  .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+
+/* COPIER, en un seul endroit pour tout le site.
+
+   Le piège, trouvé au test navigateur : `await navigator.clipboard
+   .writeText()` dans un try/catch laisse le bouton MUET. Selon le contexte,
+   la promesse ne se résout jamais — ni tenue, ni rejetée — donc l'`await`
+   reste suspendu et le `catch` ne s'exécute pas non plus. Un try/catch ne
+   protège pas d'une promesse qui ne répond pas.
+
+   Ce que fait cette version :
+    1. elle SÉLECTIONNE le texte tout de suite (aucune permission requise,
+       marche partout, et le client voit qu'il s'est passé quelque chose) ;
+    2. elle tente la copie bornée par un délai de garde ;
+    3. elle n'annonce « Copié » que si la copie a vraiment abouti.
+
+   @param bouton  l'élément cliquable
+   @param texte   une chaîne, ou une fonction qui la rend au moment du clic
+   @param aSelectionner  l'élément dont on sélectionne le contenu en repli */
+function brancherCopier(bouton, texte, aSelectionner){
+  if (!bouton) return;
+  const libelleInitial = bouton.textContent;
+
+  bouton.addEventListener("click", () => {
+    const txt = (typeof texte === "function") ? texte() : texte;
+
+    /* 1. La sélection, immédiate et sans permission. */
+    let selectionne = false;
+    const cible = (typeof aSelectionner === "function")
+      ? aSelectionner() : aSelectionner;
+    if (cible) {
+      try {
+        const r = document.createRange(); r.selectNodeContents(cible);
+        const sel = window.getSelection();
+        sel.removeAllRanges(); sel.addRange(r);
+        selectionne = true;
+      } catch(e){ /* même ça peut échouer : on continue */ }
+    }
+    bouton.textContent = selectionne ? "Sélectionné…" : "…";
+
+    /* 2. La copie, bornée. Sans ce délai de garde, le bouton resterait
+          muet quand writeText ne répond pas. */
+    const ecrire = (navigator.clipboard && navigator.clipboard.writeText)
+      ? navigator.clipboard.writeText(txt)
+      : Promise.reject(new Error("presse-papiers indisponible"));
+    const garde = new Promise((_, rejette) =>
+      setTimeout(() => rejette(new Error("délai dépassé")), 1500));
+
+    Promise.race([ecrire, garde]).then(() => {
+      /* 3. Là, et seulement là, on peut l'annoncer. */
+      bouton.textContent = "✓ Copié";
+      setTimeout(()=>{ bouton.textContent = libelleInitial; }, 2500);
+    }).catch(() => {
+      /* Refusé ou sans réponse : le texte est sélectionné, on le dit
+         honnêtement plutôt que de prétendre que c'est copié. */
+      bouton.textContent = selectionne
+        ? "Sélectionné — à toi de copier"
+        : "Copie refusée — note-le";
+      setTimeout(()=>{ bouton.textContent = libelleInitial; }, 4000);
+    });
+  });
+}
+
 const euro = n => (Number(n) % 1 === 0)
   ? Number(n).toLocaleString("fr-FR") + " €"
   : Number(n).toLocaleString("fr-FR", {minimumFractionDigits:2, maximumFractionDigits:2}) + " €";
@@ -1151,28 +1222,41 @@ function renderCheckout(){
       </aside>
     </div>`;
 
-  const btn = document.getElementById("copierSel");
-  if(btn) btn.addEventListener("click", async () => {
-    const txt = selectionTexte();
-    try{
-      await navigator.clipboard.writeText(txt);
-      btn.textContent = "✓ Copié !";
-    }catch(e){
-      // Le presse-papier peut être refusé : on sélectionne le texte à la place
-      const pre = document.getElementById("recapSel");
-      if(pre){
-        const r = document.createRange(); r.selectNodeContents(pre);
-        const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
-      }
-      btn.textContent = "Sélectionné — Ctrl+C";
-    }
-    setTimeout(() => { btn.textContent = "📋 Copier ma sélection"; }, 2200);
-  });
+  /* Le bouton le plus important du site aujourd'hui : copier sa
+     selection pour la dicter au telephone est le seul chemin de
+     commande qui fonctionne. Il passe par brancherCopier(), comme
+     celui du code de retrait -- une seule implementation, donc un
+     seul endroit a corriger. */
+  brancherCopier(document.getElementById("copierSel"),
+                 () => selectionTexte(),
+                 () => document.getElementById("recapSel"));
 
   document.title = "Réserver — WOOD CBD";
 }
 function renderConfirm(){
   const root = document.getElementById("confirm"); if(!root) return;
+
+  /* LE CODE DE RETRAIT À L'ÉCRAN — le canal le plus fiable des trois.
+     Telegram prévient les filles, l'e-mail prévient le client (mais Hostinger
+     plafonne à 100 par jour, et sans SPF/DKIM il part en indésirables).
+     L'écran ne dépend de rien : c'est donc ici que le code doit être le plus
+     visible, avec un bouton copier — le client est devant son téléphone, et
+     il devra le relire au comptoir.
+
+     ⚠️ LE CODE VIENT DE LA RÉPONSE DE LA COMMANDE, pas d'un rechargement.
+     `routes/order.php` renvoie déjà `code_retrait` : on le garde au moment où
+     la commande est créée. Aucun appel réseau, donc rien qui puisse échouer.
+     (Aller le rechercher via la route `suivi` ne marcherait pas : elle exige
+     le couple numéro + e-mail comme preuve de propriété, et elle ne rend le
+     code que si le statut est déjà `ready`.)
+
+     ⚠️ On n'affiche RIEN si aucune commande n'existe : pas de faux code. */
+  const cmd = lireDerniereCommande();
+  if (cmd && cmd.numero) {
+    afficherCodeRetrait(root, cmd);
+    return;
+  }
+
   /* Plus aucune commande n'est créée en ligne : cette page ne doit donc plus
      afficher de faux numéro ni de fausse confirmation. */
   root.innerHTML = `<div class="confirm-box">
@@ -1186,6 +1270,93 @@ function renderConfirm(){
     </div>
     <a href="fleurs.html" class="btn btn-ghost" style="margin-top:1.2rem">Continuer à explorer →</a>
   </div>`;
+}
+
+/* Ce que la commande a laissé derrière elle.
+   `localStorage` peut lever (navigation privée, données bloquées) ou revenir
+   vide : on rend alors `null` et la page garde son message honnête. */
+function lireDerniereCommande(){
+  try {
+    const brut = localStorage.getItem("wood_last_order");
+    if (!brut) return null;
+    const o = JSON.parse(brut);
+    /* Au-delà de 24 h, ce n'est plus « la commande qu'on vient de passer ».
+       On n'affiche pas un code d'hier comme s'il venait d'être généré. */
+    if (!o || !o.numero) return null;
+    if (o.t && (Date.now() - o.t) > 86400000) return null;
+    return o;
+  } catch(e){ return null; }
+}
+
+/* Ce qu'on garde au moment où la commande est créée.
+   On ne garde QUE ce qu'il faut pour réafficher la confirmation — ni e-mail,
+   ni téléphone, ni adresse : `localStorage` reste dans le navigateur du
+   client, mais c'est une raison de ne pas y mettre plus que nécessaire.
+
+   ⚠️ ÉTAT RÉEL AUJOURD'HUI : personne ne l'appelle encore, parce que
+   `WoodAPI.commander()` n'est appelé nulle part — le tunnel de commande en
+   ligne n'est pas branché, et le site fonctionne en réservation par
+   téléphone. La fonction est exposée sous `window.woodGarderCommande` et
+   n'attend qu'une ligne, au retour de `commander()` :
+
+       const rep = await WoodAPI.commander(commande);
+       garderCommande(rep);
+       location.href = "confirmation.html";
+
+   Tant que cette ligne n'existe pas, la page de confirmation garde son
+   message honnête (« Réserve en un appel ») : elle n'affiche jamais un
+   faux code. */
+function garderCommande(rep){
+  try {
+    localStorage.setItem("wood_last_order", JSON.stringify({
+      numero: rep.numero || "",
+      code_retrait: rep.code_retrait || null,
+      boutique: rep.boutique || "",
+      mode: rep.mode || "",
+      total: rep.total || "",
+      t: Date.now(),
+    }));
+  } catch(e){ /* refusé : la confirmation marchera sans, via la réponse */ }
+}
+if (typeof window !== "undefined") window.woodGarderCommande = garderCommande;
+
+/* Met le code de retrait au premier plan. Reçoit la commande telle que
+   l'API l'a renvoyée — aucun appel réseau, donc rien qui puisse échouer. */
+function afficherCodeRetrait(root, o){
+  const code = o.code_retrait || null;
+  const boutique = (o.boutique || "").toUpperCase();
+  const livraison = o.mode === "livraison";
+
+  root.innerHTML = `<div class="confirm-box">
+    <div class="ava-big">✅</div>
+    <h1 class="serif">C'est noté !</h1>
+    <p class="muted">Commande <code>${esc(o.numero || "")}</code>${
+      livraison ? " · expédiée depuis Barla"
+                : (boutique ? ` · à retirer à <b>${esc(boutique)}</b>` : "")}</p>
+
+    ${code ? `
+    <div class="code-retrait">
+      <span class="cr-label">Ton code de retrait</span>
+      <b class="cr-code" id="crCode">${esc(code)}</b>
+      <button type="button" class="btn btn-ghost cr-copier" data-copier="${esc(code)}">
+        📋 Copier</button>
+      <p class="cr-note">Montre-le au comptoir, c'est tout.
+        <b>Garde cet écran</b> ou note-le : on te l'envoie aussi par e-mail,
+        mais un e-mail peut tomber dans les indésirables.</p>
+    </div>` : `
+    <p class="muted" style="margin-top:1rem">On te prévient dès que ton colis
+      part. Il est préparé et expédié depuis la boutique Barla.</p>`}
+
+    <div class="resa-actions" style="justify-content:center;margin-top:1.4rem">
+      <a class="btn btn-ghost" href="fleurs.html">Continuer à explorer →</a>
+    </div>
+  </div>`;
+
+  /* Le bouton copier, par la meme fonction que celui du checkout. */
+  brancherCopier(root.querySelector("[data-copier]"),
+                 () => (root.querySelector("[data-copier]") || {})
+                         .dataset?.copier || code,
+                 () => document.getElementById("crCode"));
 }
 
 /* ===================== AVIS (fondu) + INSTAGRAM ===================== */

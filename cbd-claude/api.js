@@ -76,6 +76,20 @@ const WoodAPI = (() => {
        doit savoir pourquoi (mot de passe incorrect, compte déjà existant...). */
     compte: (donnees) => appel("compte", { methode: "POST", corps: donnees }),
 
+    /* --- Suivi d'une commande -----------------------------------------
+       ⚠️ L'E-MAIL EST OBLIGATOIRE. `routes/suivi.php` exige le couple
+       numero + e-mail comme preuve de propriete : sans ca, n'importe qui
+       pourrait enumerer les commandes. Un appel sans e-mail echoue, et
+       c'est voulu.
+       ⚠️ Et la route ne rend le code de retrait QUE si le statut est
+       deja `ready`. La page de confirmation ne passe donc pas par ici :
+       elle garde le code que `routes/order.php` lui a renvoye.
+       Celle-ci sert au client qui revient consulter sa commande.
+       Echoue en douceur : l'appelant retombe sur le telephone des
+       boutiques, jamais sur un ecran vide.                              */
+    suivi: (numero, email) =>
+      doux(() => appel("suivi", { methode: "POST", corps: { numero, email } })),
+
     /* --- Formulaires ----------------------------------------------- */
     contact:    (d) => appel("contact",    { methode: "POST", corps: d }),
     newsletter: (d) => appel("newsletter", { methode: "POST", corps: d }),
