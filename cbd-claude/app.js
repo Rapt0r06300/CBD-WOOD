@@ -33,7 +33,16 @@ const FLEURS = [
   { slug:"fruit-cake", nom:"Fruit Cake", tier:"classique", desc:"Fruitée · terreuse 🍓", c:["#f0c0b0","#8a4a3a"], p:[7.90,20.70,29.50,49] },
   { slug:"tropical-dream", nom:"Tropical Dream", tier:"classique", desc:"Tropicale 🌴", c:["#b7f0c0","#2f8a5a"], p:[6,16,25,40] },
   { slug:"tangerine-dream", nom:"Tangerine Dream", tier:"classique", desc:"Mandarine 🍊", c:["#f3c27a","#b5651d"], p:[6,16,25,40] },
+  /* ---- Tonic Haze : RETIRÉE DU SITE le 13/11/2026, en attendant Ana --------
+     Elle n'est ni sur le menu imprimé de la boutique ni dans la liste d'Ana :
+     rien ne confirme qu'elle est encore vendue, et ses prix (6 / 16 / 30 / 60)
+     viennent du Shopify suspendu — ils font d'ailleurs REMONTER le prix au
+     gramme quand la quantité monte, ce qui ne ressemble à aucune autre
+     variété. Mieux vaut ne rien montrer que montrer un prix que personne
+     n'assume. Sa description, sa molécule et sa photo restent en place :
+     décommenter cette ligne suffit à la remettre, une fois le prix confirmé.
   { slug:"tonic-haze", nom:"Tonic Haze", tier:"classique", desc:"Terreuse · citron 🍋", c:["#cfe39a","#7a8a2e"], p:[6,16,30,60] },
+  ------------------------------------------------------------------------ */
   { slug:"harlequin", nom:"Harlequin", tier:"classique", desc:"Sucré · fruité 🍬", c:["#e0c0e0","#6b4a7b"], p:[3,9,15,30] },
   { slug:"baby-cannatonic", nom:"Baby Cannatonic", tier:"classique", desc:"Douce 🌿", c:["#cfe0c0","#5a7a4a"], p:[3,9,15,30] },
   /* — Résines / Hash / Pollen — */
