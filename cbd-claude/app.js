@@ -364,25 +364,25 @@ function descHTML(f){
    Le 10 g et le 20 g partagent le même fond, l'un en miroir : c'est la même
    offre en deux tailles, elle l'écrit au singulier.                        */
 const PROMOS=[
-  {key:"mystere",name:"Fleur Mystère",tag:"Mystère",mystery:true,img:"offre-mystere.jpg",badge:"Mystère",
+  {key:"mystere",name:"Fleur Mystère",tag:"Mystère",mystery:true,badge:"Mystère",
    desc:"La surprise du moment · on choisit pour toi",c:["#cbe3a8","#7a8a2e"],
    price:"9 €/g",sub:"1 g 9 € · 3 g 25 € · 5 g 40 € · 10 g 70 € · 25 g 140 €"},
 
-  {key:"gta",fond:"offre-gta.jpg",badge:"GTA",gros:"15",unite:"g",
+  {key:"gta",badge:"GTA",gros:"15",unite:"g",
    name:"La promo GTA · 15 g",tag:"Offre",desc:"La variété du moment",
    c:["#c8f58f","#4ca72c"],price:"50 €",sub:"15 g · 50 €"},
 
   /* mots d'Ana, verbatim : « La promo 10G 30€ ou 20G 50€ (Les variétés changent
      régulièrement : une fleur fruitée et une fleur terreuse) » */
-  {key:"p10",fond:"offre-10g.jpg",gros:"10",unite:"g",
+  {key:"p10",gros:"10",unite:"g",
    name:"La promo 10 g",tag:"Offre",desc:"Une fleur fruitée + une fleur terreuse, qui changent régulièrement",
    c:["#f3c27a","#b5651d"],price:"30 €",sub:"10 g · 30 €"},
 
-  {key:"p20",fond:"offre-20g.jpg",gros:"20",unite:"g",
+  {key:"p20",gros:"20",unite:"g",
    name:"La promo 20 g",tag:"Offre",desc:"La même, en double — fruitée + terreuse, qui changent régulièrement",
    c:["#e6b36a","#9a5a18"],price:"50 €",sub:"20 g · 50 €"},
 
-  {key:"trim",fond:"offre-trim.jpg",badge:"Petit prix",gros:"Trim",unite:"",
+  {key:"trim",badge:"Petit prix",gros:"Trim",unite:"",
    name:"Le Trim",tag:"Petit prix",desc:"Gros volume, petit budget",
    c:["#cfe39a","#7a8a2e"],price:"dès 15 €",sub:"10 g 15 € · 25 g 30 € · 100 g 100 €"},
 ];
