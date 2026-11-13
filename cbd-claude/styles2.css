@@ -695,3 +695,13 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   .btn-oauth{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);color:#eef6e8}
   .compte-form input{background:rgba(255,255,255,.07);color:#eef6e8;border-color:rgba(203,240,150,.25)}
 }
+
+/* ============================================================ QA 13/11/2026
+   Conseiller flottant sur petit ecran : la pastille large (~230 px) passait
+   par-dessus le bouton « + Ajouter » des fiches produit — c'est-a-dire
+   par-dessus l'action principale de la page. Sous 560 px, on garde l'icone
+   seule ; le texte revient des que l'ecran le permet. */
+@media(max-width:560px){
+  .advisor{padding:.45rem;gap:0;border-radius:50%}
+  .advisor .txt{display:none}
+}

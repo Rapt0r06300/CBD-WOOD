@@ -4,6 +4,10 @@
    =========================================================== */
 
 const IMGV = "?v=5"; /* cache-buster images (bump si régénération) */
+
+/* L'API est-elle branchée ? Si api.js n'a pas chargé, on ne plante pas :
+   le site garde son comportement hors-ligne. */
+function apiActif(){ try{ return typeof WoodAPI!=="undefined" && WoodAPI.actif(); }catch(e){ return false; } }
 /* Catalogue RÉEL (récupération Shopify WOOD) — descriptions/prix/photos certifiés, jamais inventé. Prix par 1/3/5/10 g. */
 const FLEURS = [
   /* — Fleurs boostées (molécule, ultra-fort) — */
@@ -148,24 +152,46 @@ function mysterySVG(){return `<svg class="cloche-svg" viewBox="0 0 200 250" aria
 
 function catArtSVG(kind){const m={fleurs:["#2f9e57","#0e3b26"],resines:["#c98a3a","#5a3410"],boostes:["#2f9e6b","#063b45"],huiles:["#cbf096","#3a5a1e"],accessoires:["#9fb0a0","#2c3a30"],acc:["#8fb0a8","#23342c"],bonbons:["#e58fb6","#5a2340"],carte:["#cbf096","#2f7a4a"]};const c=m[kind]||m.fleurs;return `<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" width="100%" height="100%"><rect width="400" height="300" fill="#141c16"/><path d="M-20 320C60 240 20 150 120 60c40-36 120 0 120 0s-30 120-120 170C60 270 20 300-20 320Z" fill="${c[0]}" opacity=".5"/></svg>`;}
 window.__catSVG = catArtSVG;
-function catArt(kind){return `<img src="assets/scenes/cat-${kind}.jpg${IMGV}" alt="" loading="lazy" onerror="this.outerHTML=window.__catSVG('${kind}')">`;}
-
-/* ---- Méta démo (note/avis/sticker) — à remplacer par les vrais avis Google ---- */
-const META={
-  "nimbus-3000":{n:"5,0",c:87,tag:"top"},"ivory":{n:"4,9",c:64,tag:""},"velvet-kush":{n:"4,8",c:52,tag:""},
-  "pastraweed":{n:"4,9",c:41,tag:"new"},"euphoria":{n:"5,0",c:118,tag:"top"},"purple":{n:"4,9",c:73,tag:""},
-  "bloody-mary":{n:"4,7",c:38,tag:""},"cosmic-cbg":{n:"4,8",c:29,tag:"new"},"charlotte":{n:"4,8",c:55,tag:""},
-  "rainbow":{n:"4,9",c:61,tag:""},"orange-bud":{n:"4,7",c:44,tag:""},"plutonium":{n:"4,8",c:33,tag:""},
-  "fanta-hazy":{n:"4,6",c:22,tag:""},
+/* Vignettes de catégorie : on ne demande que des fichiers qui existent.
+   Avant, « acc », « bonbons » et « carte » cherchaient cat-acc.jpg,
+   cat-bonbons.jpg et cat-carte.jpg — trois fichiers absents : trois 404 à
+   chaque visite de l'accueil, puis un dessin de remplacement. */
+const CAT_IMG={
+  fleurs:"assets/scenes/cat-fleurs.jpg", resines:"assets/scenes/cat-resines.jpg",
+  boostes:"assets/scenes/cat-boostes.jpg", huiles:"assets/scenes/cat-huiles.jpg",
+  accessoires:"assets/scenes/cat-accessoires.jpg", acc:"assets/scenes/cat-accessoires.jpg",
+  bonbons:"assets/products/pack-mix-bonbons.jpg", carte:"assets/products/carte-cadeau.jpg",
 };
-const STICK={top:"★ Top vente",new:"✦ Nouveau"};
-/* ---- Urgence stock (démo, déterministe) ---- */
-function cardStock(slug){
-  const h=[...slug].reduce((a,c)=>a+c.charCodeAt(0),0), r=h%7;
-  if(r<2) return `<div class="card-stock low">🔥 Plus que <b>${3+(h%4)}</b> en stock</div>`;
-  if(r<4) return `<div class="card-stock">⏳ Stock limité</div>`;
-  return "";
+function catArt(kind){
+  const src=CAT_IMG[kind];
+  if(!src) return catArtSVG(kind);
+  return `<img src="${src}${IMGV}" alt="" loading="lazy" onerror="this.outerHTML=window.__catSVG('${kind}')">`;
 }
+
+/* ---- NOTES PAR PRODUIT ET BADGES « TOP VENTE » : RETIRÉS -----------------
+   Attention à la nuance, elle est importante :
+
+   • Les vraies notes Google des DEUX BOUTIQUES existent et sont excellentes
+     (Barla 5,0/5 · 310+ avis · Borriglione 4,9/5 · 195+ avis, relevé le
+     13/11/2026). Elles sont affichées sur l'accueil, avec un lien vers
+     chaque fiche Google pour qu'on puisse les vérifier.
+
+   • Ce qui était inventé, c'est la note PAR FLEUR (« ★★★★★ 5,0 · 118 avis »
+     sur Euphoria, « 4,8 · 52 » sur Velvet Kush…) et les badges « ★ Top
+     vente » : Google note la boutique, pas chaque variété. Personne n'a
+     jamais noté une fleur sur ce site. Afficher une note produit inventée,
+     c'est une pratique commerciale trompeuse (art. L121-2 et L121-4 du Code
+     de la consommation) — et Ana est déjà en procédure contre un faux avis
+     négatif : elle sait mieux que personne ce que ça vaut.
+
+   Le jour où le site collecte de vrais avis produits (la table `reviews`
+   existe déjà en base), la note par fleur revient ici — mesurée.           */
+
+/* ---- Stock : aucune donnée tant que l'API n'est pas branchée -------------
+   L'ancienne version affichait « 🔥 Plus que 3 en stock » calculé sur les
+   lettres du nom du produit. Une fausse rareté. On préfère ne rien dire : le
+   vrai stock existe en base (colonne stock), il s'affichera quand il sera lu. */
+function cardStock(){ return ""; }
 /* ---- Bloc d'achat : une ligne par grammage, avec + / − et economie ---- */
 function buyBlock(f){
   const base=f.p[0]; // prix du 1 g = reference €/g la plus chere
@@ -210,19 +236,20 @@ function updatePick(pick){
 /* ---- Carte produit ---- */
 function cardHTML(f,i){
   if(f.kind==='simple')return simpleCardHTML(f,i);
-  const t=TIER[f.tier], pg=Math.round((f.p[3]/10)*10)/10, m=META[f.slug]||{n:"4,8",c:30,tag:""};
+  const t=TIER[f.tier];
   return `<article class="card reveal ${['d1','d2','d3','d4'][i%4]}">
     <a class="card-media" href="produit.html?f=${f.slug}" aria-label="${f.nom}">
       <div class="halo" style="background:radial-gradient(circle,${f.c[0]}66,transparent 70%)"></div><div class="shine"></div>
-      <img class="cloche" src="assets/products/${f.slug}.jpg${IMGV}" alt="Fleur CBD ${f.nom} sous cloche" loading="lazy"
-        onerror="this.outerHTML='<div class=&quot;cloche&quot;>'+window.__cloche('${f.slug}')+'</div>'">
-      <div class="card-badges"><span class="badge ${t.cls}">${t.label}</span>${m.tag?`<span class="sticker st-${m.tag}">${STICK[m.tag]}</span>`:""}</div>
+      ${NOIMG.has(f.slug)
+        ? `<div class="cloche">${window.__cloche(f.slug)}</div>`
+        : `<img class="cloche" src="assets/products/${f.slug}.jpg${IMGV}" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom} sous cloche" loading="lazy"
+        onerror="this.outerHTML='<div class=&quot;cloche&quot;>'+window.__cloche('${f.slug}')+'</div>'">`}
+      <div class="card-badges"><span class="badge ${t.cls}">${t.label}</span></div>
       <span class="card-view">Voir le produit →</span>
       <button class="card-qv" data-qv="${f.slug}" aria-label="Aperçu rapide" title="Aperçu rapide"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span>Aperçu</span></button>
     </a>
     <button class="card-fav${isFav(f.slug)?' on':''}" data-fav="${f.slug}" aria-label="Ajouter aux favoris">${isFav(f.slug)?'♥':'♡'}</button>
     <div class="card-body">
-      <div class="card-rate"><span class="stars">★★★★★</span><b>${m.n}</b><span class="rate-c">(${m.c})</span></div>
       <a class="card-name" href="produit.html?f=${f.slug}">${f.nom}</a>
       <div class="card-desc">${f.desc} · ${f.type==='resine'?'Résine CBD':'Fleur CBD'}</div>
       ${molLine(f.slug)}
@@ -351,8 +378,12 @@ function headerHTML(){return `<div class="container header-in">
   </div></div>`;}
 function footerHTML(){return `<div class="container">
   <div class="footer-cta reveal">
-    <div><h3 class="serif">Rejoins le cercle WOOD</h3><p class="muted">Nouveautés, sélections et offres — directement dans ta boîte mail.</p></div>
-    <form class="newsletter" onsubmit="return false"><input type="email" placeholder="Ton e-mail" aria-label="E-mail"><button class="btn btn-primary" type="submit">OK →</button></form>
+    <div><h3 class="serif">Rejoins le cercle WOOD</h3><p class="muted">${apiActif()
+      ? "Nouveautés, sélections et offres — directement dans ta boîte mail."
+      : "Les nouveautés passent d'abord sur Instagram — la lettre par e-mail arrive avec la commande en ligne."}</p></div>
+    ${apiActif()
+      ? `<form class="newsletter" id="newsletterForm"><input type="email" id="nlMail" placeholder="Ton e-mail" aria-label="Ton adresse e-mail" required><button class="btn btn-primary" type="submit">OK →</button></form>`
+      : `<div class="socials"><a href="https://instagram.com/wood.cbdshop" target="_blank" rel="noopener">◎ Instagram</a><a href="https://facebook.com/Woodcbdshopnice" target="_blank" rel="noopener">ƒ Facebook</a></div>`}
   </div>
   <div class="footer-top">
     <div><div class="big-logo"><img class="logo-img logo-img-lg" src="assets/icons/wood-logo.png?v=2" alt="WOOD" height="40"></div>
@@ -377,6 +408,23 @@ function injectChrome(page){
   const f=document.querySelector('[data-chrome="footer"]'); if(f){f.className="footer";f.innerHTML=footerHTML();}
   const b=document.querySelector('[data-chrome="botnav"]'); if(b){b.className="botnav";b.setAttribute("aria-label","Navigation mobile");b.innerHTML=botnavHTML(page);}
   const a=document.querySelector('[data-chrome="advisor"]'); if(a){a.className="advisor";a.id="advisor";a.innerHTML=advisorHTML();}
+  brancherNewsletter();
+}
+
+/* La lettre d'information n'est proposée que si l'API peut vraiment
+   l'enregistrer. Avant, le formulaire avalait l'adresse sans rien faire. */
+function brancherNewsletter(){
+  const form=document.getElementById("newsletterForm"); if(!form||form.dataset.pret)return;
+  form.dataset.pret="1";
+  form.addEventListener("submit",async e=>{
+    e.preventDefault();
+    const champ=document.getElementById("nlMail"), mail=(champ&&champ.value||"").trim();
+    if(!/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(mail)){toast("Vérifie ton adresse e-mail");return;}
+    const btn=form.querySelector("button"); if(btn)btn.disabled=true;
+    try{ await WoodAPI.newsletter({email:mail}); champ.value=""; toast("C'est noté — à très vite 🌿"); }
+    catch(err){ toast("L'inscription n'a pas pu être enregistrée. Réessaie dans un instant."); }
+    finally{ if(btn)btn.disabled=false; }
+  });
 }
 
 /* ===================== TOAST ===================== */
@@ -392,7 +440,6 @@ function bumpCartBtn(){const b=document.getElementById("cartBtn");if(b)b.animate
 function addToCart(slug,g,qty){const f=byId(slug);if(!f)return;g=g||3;qty=qty||1;cartAdd(slug,g,qty);bumpCartBtn();const unit=f.p[GRAMS.indexOf(g)>=0?GRAMS.indexOf(g):0];toast(`Ajouté au pochon : ${f.nom} · ${g} g${qty>1?` ×${qty}`:''} · ${(unit*qty).toFixed(2)} € ✓`);openCartDrawer();}
 
 /* ===================== PANIER TIROIR (drawer) ===================== */
-const FREE_SHIP=60;
 function cartSubtotal(){return cart.reduce((s,x)=>s+x.unit*x.q,0);}
 function ensureCartDrawer(){
   let ov=document.getElementById("cartDrawer"); if(ov)return ov;
@@ -420,7 +467,7 @@ function renderCartDrawer(){
   const items=document.getElementById("cdItems"); if(!items)return;
   const ship=document.getElementById("cdShip"),foot=document.getElementById("cdFoot");
   if(!cart.length){items.innerHTML=`<div class="cd-empty"><div class="ava-big">🛒</div><p class="muted">Ton pochon est vide… c'est pas une vie ça. 🌿</p><a href="fleurs.html" class="btn btn-primary">Remplir le pochon →</a></div>`;ship.innerHTML="";foot.innerHTML="";return;}
-  const sub=cartSubtotal(),rem=Math.max(0,FREE_SHIP-sub),pct=Math.min(100,Math.round(sub/FREE_SHIP*100));
+  const sub=cartSubtotal();
   const nItems=cart.reduce((s,x)=>s+x.q,0),nGr=cart.reduce((s,x)=>s+x.g*x.q,0);
   const cnt=document.getElementById("cdCount"); if(cnt)cnt.textContent=`${nItems} article${nItems>1?'s':''}${nGr?' · '+nGr+' g':''}`;
   // Barre « livraison offerte » retiree : sans livraison, elle promettait un
@@ -433,7 +480,7 @@ function renderCartDrawer(){
     <div class="cd-it-side"><b>${(x.unit*x.q).toFixed(2)} €</b><small class="cd-it-g">${itemTot(x)}</small><button class="cd-del" data-cd-del="${x.slug}" data-g="${x.g}" aria-label="Retirer ${x.nom}">Retirer</button></div>
   </div>`;}).join("");
   const picks=(typeof FLEURS!=="undefined"?FLEURS:[]).filter(f=>!cart.some(x=>x.slug===f.slug)).slice(0,2);
-  const xsell=picks.length?`<div class="cd-xsell"><div class="cd-xsell-h">Souvent pris avec 👀</div>${picks.map(f=>`<div class="cd-x"><img src="assets/products/${f.slug}.jpg${IMGV}" alt="" onerror="this.style.visibility='hidden'"><div class="cd-x-info"><b>${f.nom}</b><span class="muted">dès ${f.p[0]} € · 3 g</span></div><button class="cd-x-add" data-add="${f.slug}" aria-label="Ajouter ${f.nom} au pochon">+</button></div>`).join("")}</div>`:"";
+  const xsell=picks.length?`<div class="cd-xsell"><div class="cd-xsell-h">Ça va bien avec 👀</div>${picks.map(f=>`<div class="cd-x"><img src="assets/products/${f.slug}.jpg${IMGV}" alt="" onerror="this.style.visibility='hidden'"><div class="cd-x-info"><b>${f.nom}</b><span class="muted">${f.p[1]} € · 3 g</span></div><button class="cd-x-add" data-add="${f.slug}" aria-label="Ajouter ${f.nom} au pochon">+</button></div>`).join("")}</div>`:"";
   items.innerHTML=itemsHtml+xsell;
   foot.innerHTML=`<div class="cd-sub"><span>Sous-total <small class="muted">· ${nItems} art.${nGr?' · '+nGr+' g':''}</small></span><b>${sub.toFixed(2)} €</b></div>
     <a href="checkout.html" class="btn btn-primary cd-go">Réserver →</a>
@@ -494,22 +541,12 @@ function renderFleurs(){
 }
 
 /* ===================== PAGE : PRODUIT ===================== */
-function productReviewsHTML(f){
-  const m=META[f.slug]||{n:"4,8",c:40};
-  const POOL=[
-    ["Léa M.","Parfum au top, exactement la description. Emballage soigné 🙌"],
-    ["Karim B.","Livraison rapide et discrète. Je recommande les yeux fermés."],
-    ["Sophie R.","Super accueil en boutique, de très bons conseils sans pression."],
-    ["Tom G.","Qualité au rendez-vous, je reprendrai c'est sûr."],
-    ["Inès D.","Le goût est vraiment bon, conforme à ce qui est annoncé."],
-    ["Marc L.","Rapport qualité/prix excellent — et la présentation sous cloche, classe."]
-  ];
-  let h=0; for(const c of f.slug) h=(h*31+c.charCodeAt(0))>>>0;
-  const a=POOL[h%POOL.length], b=POOL[(h+3)%POOL.length];
-  const card=(r)=>`<div class="pr-card"><div class="pr-top"><span class="pr-ava">${r[0][0]}</span><div><b>${r[0]}</b><span class="stars sm">★★★★★</span></div><span class="pr-ok">✓ Achat vérifié</span></div><p>${r[1]}</p></div>`;
-  return `<section class="section container p-reviews"><div class="rail-head"><div><span class="eyebrow">Avis clients</span><h2 class="serif">Ils ont aimé.</h2></div><div class="pr-score"><span class="stars">★★★★★</span> <b>${m.n}</b>/5 · ${m.c} avis <span class="tag tag-maquette">exemple · démo</span></div></div>
-    <div class="pr-grid">${card(a)}${card(b)}</div></section>`;
-}
+/* Le bloc « Avis clients » des fiches produit a été retiré : les six
+   témoignages (« Karim B. », « Léa M. »…) étaient écrits dans ce fichier,
+   avec un badge « ✓ Achat vérifié » et une note sur 5 inventée — l'un d'eux
+   vantait même une livraison qui n'existe pas. Aucun n'était un vrai client.
+   Les vrais avis, eux, sont sur les fiches Google des deux boutiques et
+   l'accueil y renvoie. */
 function renderProduct(){
   const root=document.getElementById("product"); if(!root)return;
   const slug=new URLSearchParams(location.search).get("f")||"nimbus-3000";
@@ -522,7 +559,9 @@ function renderProduct(){
     <div class="product">
       <div class="product-media">
         <div class="halo" style="background:radial-gradient(circle,${f.c[0]}55,transparent 70%)"></div>
-        <img src="assets/products/${f.slug}.jpg${IMGV}" alt="Fleur CBD ${f.nom} sous cloche" onerror="this.outerHTML='<div class=&quot;cloche big&quot;>'+window.__cloche('${f.slug}')+'</div>'">
+        ${NOIMG.has(f.slug)
+          ? `<div class="cloche big">${window.__cloche(f.slug)}</div>`
+          : `<img src="assets/products/${f.slug}.jpg${IMGV}" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom} sous cloche" onerror="this.outerHTML='<div class=&quot;cloche big&quot;>'+window.__cloche('${f.slug}')+'</div>'">`}
       </div>
       <div class="product-info">
         <span class="badge ${t.cls}">${t.label}</span>
@@ -533,12 +572,11 @@ function renderProduct(){
         <div class="p-reassure"><span>🏪 Retrait dans nos 2 boutiques à Nice</span><span>📞 Conseil par téléphone</span><span>🔞 Réservé aux +18 ans</span></div>
         <div class="accordions">
           <details open><summary>Description</summary>${descHTML(f)}</details>
-          <details><summary>Infos produit</summary><p>Taux de CBD : <em>à renseigner</em> · Origine : <em>à renseigner</em> · THC &lt; 0,3 %. Les caractéristiques exactes seront confirmées par la boutique.</p></details>
+          <details><summary>Infos produit</summary><p>THC &lt; 0,3 %, conforme à la réglementation française. Pour le taux de CBD exact et l'origine du lot, demande-nous au téléphone : l'équipe a la fiche du lot en boutique.</p></details>
           <details><summary>Certificat d'analyse (COA)</summary><p>Le certificat d'analyse par lot sera disponible ici (preuve de conformité &lt; 0,3 % THC).</p></details>
         </div>
       </div>
     </div>
-    ${productReviewsHTML(f)}
     <section class="section"><div class="rail-head"><h2 class="serif">Dans le même esprit</h2></div><div class="rail" id="relRail"></div></section>
     <div class="p-sticky" id="pSticky"><div class="ps-in"><div class="ps-info"><b>${f.nom}</b><span id="pStickyPrice">Choisis un grammage</span></div><button class="btn btn-primary" id="pStickyAdd" disabled>+ Ajouter au pochon</button></div></div>`;
   // Picker + sticky
@@ -553,7 +591,13 @@ function renderProduct(){
 
 /* ===================== PAGE : PANIER ===================== */
 /* Codes promo (démo) — MÊMES codes au panier ET au checkout (les vrais vouchers d'Ana se brancheront ici) */
-const PROMO_CODES={WOOD10:{pct:10,l:"−10 %"},BIENVENUE:{pct:10,l:"−10 %"},NICE15:{pct:15,l:"−15 %"},LIVRAISON:{ship:true,l:"livraison offerte"}};
+/* Codes de réduction : AUCUN. Le site accordait −10 %, −15 % et une
+   « livraison offerte » (sans livraison) sur des codes que la boutique
+   n'avait jamais validés — et un visiteur qui en avait appliqué un gardait
+   la remise en mémoire à chaque retour. Seules les cartes cadeaux, qui
+   existent vraiment en base, restent acceptées. Ana ajoutera ses codes ici
+   le jour où elle en lancera un.                                          */
+const PROMO_CODES={};
 function getPromo(){try{return JSON.parse(localStorage.getItem("wood_promo")||"null");}catch(e){return null;}}
 function setPromo(code){try{code?localStorage.setItem("wood_promo",JSON.stringify({code})):localStorage.removeItem("wood_promo");}catch(e){}}
 /* ---- Cartes cadeaux WOOD (démo client-side : code unique + solde réutilisable au paiement) ---- */
@@ -590,9 +634,8 @@ function promoInfo(){const p=getPromo();if(!p)return null;if(PROMO_CODES[p.code]
 function renderCart(){
   const root=document.getElementById("cart"); if(!root)return;
   window.__renderCart=renderCart;
-  if(!cart.length){root.innerHTML=`<div class="cart-empty"><div class="ava-big">🌿</div><h2 class="serif">Ton pochon est vide…</h2><p class="muted">On répare ça ?</p><a href="fleurs.html" class="btn btn-primary">Découvrir les fleurs →</a></div>`;return;}
+  if(!cart.length){root.innerHTML=`<div class="cart-empty"><div class="ava-big">🌿</div><h1 class="serif">Ton pochon est vide…</h1><p class="muted">On répare ça ?</p><a href="fleurs.html" class="btn btn-primary">Découvrir les fleurs →</a></div>`;return;}
   const sub=cart.reduce((s,x)=>s+x.unit*x.q,0);
-  const free=60, left=Math.max(0,free-sub);
   const nItems=cart.reduce((s,x)=>s+x.q,0), nGr=cart.reduce((s,x)=>s+x.g*x.q,0);
   const promo=promoInfo(); let disc=0; if(promo&&promo.pct)disc=Math.round(sub*promo.pct)/100; else if(promo&&promo.gift)disc=Math.min(promo.balance,sub); const total=Math.max(0,sub-disc);
   root.innerHTML=`<h1 class="serif">Ton pochon <span class="cart-count-h">${nItems} article${nItems>1?'s':''}${nGr?' · '+nGr+' g':''}</span></h1>
@@ -622,11 +665,11 @@ function renderBientot(){
     accessoires:["Accessoires","Grinders, feuilles, briquets et petits essentiels — bientôt en ligne."]}[cat]||["Bientôt chez WOOD","Cette gamme arrive très vite."];
   root.innerHTML=`<a class="breadcrumb" href="index.html">← Accueil</a>
     <div class="product">
-      <div class="product-media"><div class="halo" style="background:radial-gradient(circle,#6fd39a55,transparent 70%)"></div><img src="assets/scenes/cat-${cat}.jpg${IMGV}" alt="${T[0]}" onerror="this.style.display='none'"></div>
+      <div class="product-media"><div class="halo" style="background:radial-gradient(circle,#6fd39a55,transparent 70%)"></div>${CAT_IMG[cat]?`<img src="${CAT_IMG[cat]}${IMGV}" alt="${T[0]}" onerror="this.style.display='none'">`:""}</div>
       <div class="product-info"><span class="eyebrow">Bientôt chez WOOD</span><h1>${T[0]}</h1>
         <p class="p-desc">${T[1]}</p>
         <div class="hero-cta" style="margin-top:1rem"><a href="fleurs.html" class="btn btn-primary">Voir les fleurs →</a><a href="index.html#boutiques" class="btn btn-ghost">Venir en boutique</a></div>
-        <p class="muted" style="margin-top:1.4rem"><span class="tag tag-maquette">Démo</span> Cette gamme existe en boutique ; sa mise en ligne arrive.</p>
+        <p class="muted" style="margin-top:1.4rem">Cette gamme existe en boutique ; sa mise en ligne arrive.</p>
       </div>
     </div>`;
   document.title=T[0]+" — WOOD";
@@ -793,6 +836,59 @@ function compteConnexion(root, apercu){
   document.title = "Mon compte — WOOD CBD";
 }
 
+/* ===================== PAGE : CONTACT =====================================
+   Tant que l'API n'est pas branchée, on ne montre PAS de formulaire : il
+   n'existe aucun serveur pour recevoir le message. On donne les chemins qui
+   marchent vraiment — le téléphone et Instagram.
+   ========================================================================= */
+function renderContact(){
+  const root=document.getElementById("contactForm"); if(!root)return;
+
+  if(!apiActif()){
+    root.innerHTML=`
+      <h3 class="serif">Écris-nous</h3>
+      <p class="muted">La messagerie du site ouvre avec la commande en ligne. En attendant, le plus rapide — et de loin — c'est un appel : on est en boutique, on répond.</p>
+      <div class="resa-actions" style="margin-top:1.2rem;flex-direction:column;align-items:stretch;gap:.6rem">
+        <a class="btn btn-primary" href="tel:+33422163570">📞 04 22 16 35 70 · Barla</a>
+        <a class="btn btn-primary" href="tel:+33423130305">📞 04 23 13 03 05 · Borriglione</a>
+        <a class="btn btn-ghost" href="https://instagram.com/wood.cbdshop" target="_blank" rel="noopener">◎ Nous écrire sur Instagram</a>
+      </div>
+      <p class="muted" style="font-size:.8rem;margin-top:1rem">Mar–Sam · 10h–13h et 14h30–19h</p>`;
+    return;
+  }
+
+  root.innerHTML=`
+    <h3 class="serif">Écris-nous</h3>
+    <form id="ctForm" novalidate>
+      <div class="field"><label for="ctNom">Ton nom</label><input id="ctNom" name="nom" autocomplete="name" required></div>
+      <div class="field"><label for="ctMail">Ton e-mail</label><input id="ctMail" type="email" name="email" autocomplete="email" required></div>
+      <div class="field"><label for="ctMsg">Ton message</label><textarea id="ctMsg" name="message" rows="5" required></textarea></div>
+      <button class="btn btn-primary" type="submit" style="width:100%;justify-content:center">Envoyer →</button>
+      <p class="co-msg" id="ctMsgRet" hidden></p>
+    </form>`;
+
+  const form=document.getElementById("ctForm"), ret=document.getElementById("ctMsgRet");
+  form.addEventListener("submit", async e=>{
+    e.preventDefault();
+    const nom=document.getElementById("ctNom").value.trim();
+    const email=document.getElementById("ctMail").value.trim();
+    const message=document.getElementById("ctMsg").value.trim();
+    ret.hidden=false;
+    if(nom.length<2||!/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(email)||message.length<5){
+      ret.className="co-msg err"; ret.textContent="Il manque ton nom, un e-mail valide ou le message."; return;
+    }
+    const btn=form.querySelector("button"); btn.disabled=true;
+    try{
+      await WoodAPI.contact({nom,email,message});
+      form.reset();
+      ret.className="co-msg ok"; ret.textContent="Message reçu — on te répond vite 🌿";
+    }catch(err){
+      ret.className="co-msg err";
+      ret.textContent="L'envoi a échoué. Appelle-nous au 04 22 16 35 70, c'est immédiat.";
+    }finally{ btn.disabled=false; }
+  });
+}
+
 /* ===================== PAGE : RÉSERVER (sans serveur) =====================
    La commande en ligne n'est pas encore branchée : il n'y a pas de serveur
    pour l'enregistrer. Plutôt que de laisser un client croire qu'il a commandé
@@ -902,19 +998,12 @@ function renderConfirm(){
 }
 
 /* ===================== AVIS (fondu) + INSTAGRAM ===================== */
-const AVIS=[
-  {t:"Accueil au top, des conseils en or et une sélection qui déchire. Ma boutique CBD préférée à Nice, de loin.",a:"Client WOOD · Nice"},
-  {t:"La présentation sous cloche, les variétés, l'ambiance… premium mais jamais prise de tête. J'adore.",a:"Cliente WOOD · Nice"},
-  {t:"Franchement la qualité est là, et l'équipe est adorable. « Si c'est WOOD, c'est GOOD », c'est pas qu'un slogan !",a:"Client fidèle · Nice"},
-];
-function renderAvis(){
-  const st=document.getElementById("avisStage"); if(!st)return;
-  st.innerHTML=AVIS.map((a,i)=>`<figure class="avis-card${i===0?" on":""}"><div class="avis-stars">★★★★★</div><blockquote>${a.t}</blockquote><figcaption>— ${a.a}</figcaption></figure>`).join("")+`<div class="avis-dots">${AVIS.map((_,i)=>`<button class="avis-dot${i===0?" on":""}" data-i="${i}" aria-label="Avis ${i+1}"></button>`).join("")}</div>`;
-  let i=0; const cards=[...st.querySelectorAll(".avis-card")],dots=[...st.querySelectorAll(".avis-dot")]; let timer;
-  const go=n=>{cards[i].classList.remove("on");dots[i].classList.remove("on");i=(n+AVIS.length)%AVIS.length;cards[i].classList.add("on");dots[i].classList.add("on");};
-  if(!matchMedia("(prefers-reduced-motion:reduce)").matches){const start=()=>timer=setInterval(()=>go(i+1),5000);start();st.addEventListener("mouseenter",()=>clearInterval(timer));st.addEventListener("mouseleave",start);}
-  st.addEventListener("click",e=>{const d=e.target.closest(".avis-dot");if(d){clearInterval(timer);go(+d.dataset.i);}});
-}
+/* Le carrousel d'avis de l'accueil est retiré : les trois témoignages
+   (« Client WOOD · Nice »…) étaient écrits ici. À la place, l'accueil
+   affiche les vraies notes Google des deux boutiques avec un lien vers
+   chaque fiche. Si Ana veut remettre des citations, ce seront ses vrais
+   avis Google, choisis par elle — c'est la seule version défendable.      */
+function renderAvis(){ /* aucun avis à afficher aujourd'hui */ }
 function renderInsta(){
   const g=document.getElementById("instaGrid"); if(!g)return;
   g.innerHTML=["euphoria","fanta-hazy","gelato","moonrock","ice-cream","stoned"].map(s=>`<a class="insta-cell reveal" href="https://instagram.com/wood.cbdshop" target="_blank" rel="noopener"><img src="assets/products/${s}.jpg${IMGV}" alt="" loading="lazy"><span class="insta-ic">◎</span></a>`).join("");
@@ -1015,7 +1104,7 @@ document.addEventListener("DOMContentLoaded",()=>{
     const sync=()=>{const max=rl.scrollWidth-rl.clientWidth-2;if(prev)prev.classList.toggle("off",rl.scrollLeft<=2);if(next)next.classList.toggle("off",rl.scrollLeft>=max);};
     rl.addEventListener("scroll",sync,{passive:true}); sync();
   });
-  renderFleurs(); renderProduct(); renderCart(); renderCheckout(); renderCompte(); renderConfirm(); renderAvis(); renderInsta(); renderBientot(); renderStickers();
+  renderFleurs(); renderProduct(); renderCart(); renderCheckout(); renderCompte(); renderConfirm(); renderAvis(); renderInsta(); renderBientot(); renderStickers(); renderContact();
   updateCartBadges();
 
   document.querySelectorAll(".card-pick").forEach(updatePick);
@@ -1101,8 +1190,8 @@ function searchDraw(q){
   let list=FLEURS;
   if(q) list=FLEURS.filter(f=>(f.nom+" "+f.desc+" "+f.tier+" "+((PROFILE[f.slug]&&PROFILE[f.slug].a)||"")).toLowerCase().includes(q));
   if(!list.length){res.innerHTML=`<p class="search-empty muted">Aucun résultat pour « ${q} ». Essaie « fruité », « boosté », « doux »…</p>`;return;}
-  res.innerHTML=`${q?"":'<p class="search-hint muted">Suggestions populaires</p>'}<div class="search-grid">`+list.slice(0,8).map(f=>{
-    const m=META[f.slug]||{}; return `<a class="search-row" href="produit.html?f=${f.slug}">
+  res.innerHTML=`${q?"":'<p class="search-hint muted">Notre sélection</p>'}<div class="search-grid">`+list.slice(0,8).map(f=>{
+    return `<a class="search-row" href="produit.html?f=${f.slug}">
       <img src="assets/products/${f.slug}.jpg${IMGV}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
       <div class="search-info"><b>${f.nom}</b><span class="muted">${f.desc} · ${TIER[f.tier]?TIER[f.tier].label:f.tier}</span></div>
       <span class="search-price">dès ${f.p[0]} €</span></a>`;}).join("")+`</div>`;
@@ -1143,10 +1232,10 @@ function ensureFavDrawer(){
 function renderFavDrawer(){
   const box=document.getElementById("favItems"); if(!box)return;
   if(!favs.length){box.innerHTML=`<div class="cd-empty"><div class="ava-big">💚</div><p class="muted">Aucun coup de cœur… pour l'instant. Touche le ❤ sur une fleur pour la garder sous le coude.</p><a href="fleurs.html" class="btn btn-primary">Voir les fleurs →</a></div>`;return;}
-  box.innerHTML=favs.map(s=>{const f=byId(s);if(!f)return"";const m=META[s]||{n:"4,8"};
+  box.innerHTML=favs.map(s=>{const f=byId(s);if(!f)return"";
     return `<div class="fav-row">
       <a class="fav-media" href="produit.html?f=${s}"><img src="assets/products/${s}.jpg${IMGV}" alt="${f.nom}" onerror="this.style.visibility='hidden'"></a>
-      <div class="fav-info"><a class="fav-name" href="produit.html?f=${s}">${f.nom}</a><span class="muted">${f.desc} · ★ ${m.n}</span><span class="fav-price">dès ${f.p[0]} €</span></div>
+      <div class="fav-info"><a class="fav-name" href="produit.html?f=${s}">${f.nom}</a><span class="muted">${f.desc}</span><span class="fav-price">${f.p&&f.p[1]?f.p[1]+" € · 3 g":""}</span></div>
       <div class="fav-acts"><button class="btn btn-primary btn-sm" data-fav-add="${s}">+ Pochon</button><button class="fav-x" data-fav-del="${s}" aria-label="Retirer">✕</button></div>
     </div>`;}).join("");
 }
@@ -1156,7 +1245,7 @@ function closeFavDrawer(){const ov=document.getElementById("favDrawer");if(ov){o
 /* ===================== APERÇU RAPIDE (quick-view) ===================== */
 function openQuickView(slug){
   const f=byId(slug); if(!f)return;
-  const m=META[slug]||{n:"4,8",c:30}, t=TIER[f.tier], pr=PROFILE[slug]||{};
+  const t=TIER[f.tier], pr=PROFILE[slug]||{};
   const aroma=pr.a&&LBL.aroma[pr.a]?LBL.aroma[pr.a]:"", inten=pr.i&&LBL.intensity[pr.i]?LBL.intensity[pr.i]:"";
   let ov=document.getElementById("qvOv");
   if(!ov){ov=document.createElement("div"); ov.id="qvOv"; ov.className="qv-ov"; document.body.appendChild(ov);
@@ -1174,12 +1263,13 @@ function openQuickView(slug){
   ov.innerHTML=`<div class="qv-panel" role="dialog" aria-label="${f.nom}">
     <button class="qv-close" aria-label="Fermer">✕</button>
     <div class="qv-media"><div class="halo" style="background:radial-gradient(circle,${f.c[0]}66,transparent 70%)"></div>
-      <img src="assets/products/${slug}.jpg${IMGV}" alt="Fleur CBD ${f.nom}" onerror="this.outerHTML='<div class=&quot;cloche big&quot;>'+window.__cloche('${slug}')+'</div>'"></div>
+      ${NOIMG.has(slug)
+        ? `<div class="cloche big">${window.__cloche(slug)}</div>`
+        : `<img src="assets/products/${slug}.jpg${IMGV}" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom}" onerror="this.outerHTML='<div class=&quot;cloche big&quot;>'+window.__cloche('${slug}')+'</div>'">`}</div>
     <div class="qv-body">
       <div class="qv-top"><span class="badge ${t.cls}">${t.label}</span><button class="card-fav${isFav(slug)?' on':''}" data-fav="${slug}" aria-label="Favori">${isFav(slug)?'♥':'♡'}</button></div>
       <h3 class="qv-name">${f.nom}</h3>
-      <div class="card-rate"><span class="stars">★★★★★</span><b>${m.n}</b><span class="rate-c">(${m.c} avis)</span></div>
-      <p class="qv-desc muted">${f.desc} — fleur CBD cultivée avec soin, présentée sous cloche.</p>
+      <p class="qv-desc muted">${f.desc} — ${f.type==='resine'?'résine':'fleur'} CBD choisie avec soin, présentée sous cloche.</p>
       ${(aroma||inten)?`<div class="qv-tags">${aroma?`<span class="qv-tag">🌿 ${aroma}</span>`:""}${inten?`<span class="qv-tag">🔥 ${inten}</span>`:""}</div>`:""}
       <div class="qv-glabel muted">Choisis ton format</div>
       <div class="qv-grams" id="qvGrams">${chips}</div>

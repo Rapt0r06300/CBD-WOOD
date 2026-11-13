@@ -1,5 +1,8 @@
 /* WOOD — service worker (PWA) */
-const CACHE = "wood-v1";
+/* Nom du cache bumpé le 13/11/2026 (audit QA) : à l'activation, le service
+   worker supprime tous les caches dont le nom diffère — c'est ce qui garantit
+   qu'aucun visiteur ne garde une ancienne version des fichiers corrigés. */
+const CACHE = "wood-v2";
 const CORE = [
   "index.html", "fleurs.html", "produit.html", "panier.html",
   "styles.css", "styles2.css", "app.js", "manifest.webmanifest",

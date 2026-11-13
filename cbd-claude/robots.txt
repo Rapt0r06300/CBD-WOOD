@@ -1,0 +1,8 @@
+# WOOD CBD Shop — Nice
+User-agent: *
+Allow: /
+# Pages de parcours : aucun interet pour un moteur de recherche
+Disallow: /panier.html
+Disallow: /checkout.html
+Disallow: /confirmation.html
+Disallow: /compte.html
