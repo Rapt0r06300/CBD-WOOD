@@ -71,8 +71,31 @@ const BOUTIQUE = [
   { slug:"tshirt-totally-stoned", nom:"T-shirt Oversized · Totally Stoned", kind:"simple", cat:"merch", price:39.90, opts:[["S",39.90],["M",39.90],["L",39.90],["XL",39.90],["2XL",39.90],["3XL",39.90]], img:"tshirt-totally-stoned.jpg", c:["#cfd0cf","#45504a"], desc:"Coton · mixte", body:"En coton, effet légèrement délavé. Modèle MIXTE disponible du S au 3XL." },
   { slug:"tshirt-weed-chill", nom:"T-shirt · Weed & Chill", kind:"simple", cat:"merch", price:39.90, opts:[["S",39.90],["M",39.90],["L",39.90],["XL",39.90],["2XL",39.90],["3XL",39.90]], img:"tshirt-weed-chill.jpg", c:["#bfe3b0","#3a7a4a"], desc:"Coton · mixte", body:"En coton, coupe classique (regular). Modèle MIXTE disponible du S au 3XL." },
   { slug:"carte-cadeau", nom:"Carte-cadeau WOOD", kind:"simple", cat:"carte", opts:[["10 €",10],["25 €",25],["50 €",50],["100 €",100],["200 €",200],["500 €",500]], img:"carte-cadeau.jpg", c:["#cbf096","#2f9e6b"], desc:"Le bon cadeau 🎁", body:"Offrez WOOD : choisissez un montant et vous recevez un code cadeau unique (format WOOD-XXXX-XXXX) à la validation. Il se saisit directement dans le champ « code » au paiement — le solde est réutilisable jusqu'à épuisement — ou se présente en boutique. Montant au choix, de 10 à 500 €." },
+
+  /* ---- Les offres d'Ana, comme produits à part entière ---------------------
+     Avant, cliquer sur un bon plan renvoyait au catalogue : la promesse de la
+     carte n'était pas tenue. Chacune a maintenant sa fiche.
+     `promo:true` bascule sur un gabarit dédié ; le reste est un produit
+     `simple` ordinaire, donc le pochon et le panier marchent sans code en plus.
+     `variete` dit ce qu'il y a dedans AUJOURD'HUI, `tournante` dit que ça
+     change : aucune photo, aucune variété figée annoncée.
+     Prix verbatim du message d'Ana du 12/11/2026 (photo 9ec6b8c6).          */
+  { slug:"promo-gta-15g", nom:"La promo GTA", kind:"simple", promo:true, cat:"promos",
+    price:50, gros:"15", unite:"g", grammes:15, badge:"GTA", variete:"GTA", tournante:true,
+    c:["#c8f58f","#4ca72c"], desc:"15 g de la variété du moment",
+    body:"Quinze grammes de la variété que l'équipe a choisie en ce moment, à prix d'offre.\nC'est l'une des deux promos qui tournent en continu en boutique : la variété change régulièrement, le prix ne bouge pas." },
+
+  { slug:"promo-10g", nom:"La promo 10 g", kind:"simple", promo:true, cat:"promos",
+    price:30, gros:"10", unite:"g", grammes:10, duo:true, tournante:true,
+    c:["#f3c27a","#b5651d"], desc:"Une fleur fruitée + une fleur terreuse",
+    body:"Dix grammes composés de deux fleurs : une fruitée et une terreuse, pour varier les plaisirs dans la même commande.\nLes deux variétés changent régulièrement, au gré des arrivages." },
+
+  { slug:"promo-20g", nom:"La promo 20 g", kind:"simple", promo:true, cat:"promos",
+    price:50, gros:"20", unite:"g", grammes:20, duo:true, tournante:true,
+    c:["#e6b36a","#9a5a18"], desc:"La même, en double",
+    body:"La grande sœur de la promo 10 g : vingt grammes, toujours une fleur fruitée et une fleur terreuse.\nAna l'écrit comme une seule offre en deux tailles — 10 g pour 30 €, ou 20 g pour 50 €." },
 ];
-const CATLBL={fleurs:"Fleurs",resines:"Résines",accessoires:"Accessoires",merch:"Le Shop WOOD",bonbons:"Bonbons",carte:"Carte-cadeau"};
+const CATLBL={fleurs:"Fleurs",resines:"Résines",accessoires:"Accessoires",merch:"Le Shop WOOD",bonbons:"Bonbons",carte:"Carte-cadeau",promos:"Les offres"};
 /* Helpers panier compatibles grammage + produits simples */
 function itemBase(x){const pf=byId(x.slug);return pf&&pf.p?pf.p[0]:null;}
 function itemSave(x){if(!x.g)return 0;const b=itemBase(x);if(!b)return 0;return Math.round((1-(x.unit/x.g)/b)*100);}
@@ -82,7 +105,12 @@ function simplePrice(f){return f.opts?Math.min.apply(null,f.opts.map(o=>o[1])):f
 function simpleCardHTML(f,i){
   const d=['d1','d2','d3','d4'][i%4];
   const pre=f.opts&&f.opts.length>1?'dès ':'';
-  const media=f.img?`<img class="cloche" src="assets/products/${f.img}${IMGV}" alt="${f.nom}" loading="lazy" onerror="this.outerHTML='<div class=&quot;cloche&quot;>'+window.__cloche('${f.slug}')+'</div>'">`:`<div class="cloche">${clocheSVG(f.c||['#cbf096','#2f9e6b'],f.slug)}</div>`;
+  /* une offre n'a pas de produit à montrer (la variété tourne) : même
+     traitement que sur l'accueil — la fresque et le grammage — plutôt que
+     la cloche dessinée, qui suggérerait une fleur précise. */
+  const media=f.promo
+    ? `<span class="card-promo pm-${f.slug.replace('promo-','')}"><span class="cp-q">${f.gros}<i>${f.unite||''}</i></span></span>`
+    : (f.img?`<img class="cloche" src="assets/products/${f.img}${IMGV}" alt="${f.nom}" loading="lazy" onerror="this.outerHTML='<div class=&quot;cloche&quot;>'+window.__cloche('${f.slug}')+'</div>'">`:`<div class="cloche">${clocheSVG(f.c||['#cbf096','#2f9e6b'],f.slug)}</div>`);
   return `<article class="card reveal ${d}">
     <a class="card-media" href="produit.html?f=${f.slug}" aria-label="${f.nom}">
       <div class="halo" style="background:radial-gradient(circle,${(f.c||['#cbf096'])[0]}66,transparent 70%)"></div><div class="shine"></div>
@@ -108,7 +136,96 @@ function simpleBuyBlock(f){
   </div>`;
 }
 function cartAddSimple(f,unit,opt,qty){qty=qty||1;const ex=cart.find(x=>x.slug===f.slug&&x.opt===opt);if(ex)ex.q+=qty;else cart.push({slug:f.slug,nom:f.nom,g:0,unit:unit,q:qty,opt:opt||null});saveCart();updateCartBadges();if(window.__renderCart)window.__renderCart();return qty;}
+
+/* ---- Fiche d'une offre ----------------------------------------------------
+   Une offre n'a pas de produit à montrer : la variété qu'elle contient TOURNE.
+   Pas de photo, donc, et aucune variété figée annoncée — ce serait un visuel
+   trompeur sur une caractéristique essentielle (art. L121-2), que la mention
+   « photo non contractuelle » ne couvrirait pas.
+   Du coup, le sujet de la page est le MARCHÉ : combien le gramme revient, et
+   où ça se situe par rapport au reste de la boutique. Les deux bornes sont
+   CALCULÉES sur le catalogue (echelleParGramme), pas écrites en dur : si un
+   prix bouge, la page reste vraie. Aucun pourcentage de remise n'est affiché,
+   seulement des prix au gramme comparables.                                 */
+function echelleParGramme(){
+  const p=FLEURS.filter(f=>f.tier==="classique"&&Array.isArray(f.p)&&f.p[3]).map(f=>f.p[3]/10);
+  if(!p.length)return null;
+  return {min:Math.min.apply(null,p),max:Math.max.apply(null,p)};
+}
+function renderPromoProduct(f){
+  const root=document.getElementById("product");
+  const cle=f.slug.replace("promo-","");
+  const auG=f.grammes?f.price/f.grammes:null;
+  const ech=echelleParGramme();
+  const autres=BOUTIQUE.filter(x=>x.promo&&x.slug!==f.slug);
+  const dedans=f.duo
+    ? "Une fleur <b>fruitée</b> et une fleur <b>terreuse</b>, choisies par l'équipe"
+    : (f.variete?`En ce moment, c'est de la <b>${f.variete}</b>`:"La variété choisie par l'équipe");
+
+  /* la règle : où tombe le prix au gramme de l'offre dans la gamme classique */
+  let regle="";
+  if(auG&&ech){
+    const bas=Math.min(auG,ech.min), haut=Math.max(auG,ech.max);
+    const pos=x=>((x-bas)/(haut-bas))*100;
+    regle=`
+      <div class="echelle" role="img" aria-label="Prix au gramme de l'offre : ${euro(Math.round(auG*100)/100)}. Nos fleurs classiques vont de ${euro(ech.min)} à ${euro(ech.max)} le gramme.">
+        <div class="ech-piste">
+          <span class="ech-gamme" style="left:${pos(ech.min)}%;right:${100-pos(ech.max)}%"></span>
+          <span class="ech-ici" style="left:${pos(auG)}%"></span>
+        </div>
+        <div class="ech-leg">
+          <span><b>${euro(Math.round(auG*100)/100)}</b>/g · cette offre</span>
+          <span class="muted">nos fleurs classiques : ${euro(ech.min)} à ${euro(ech.max)}/g</span>
+        </div>
+      </div>`;
+  }
+
+  root.innerHTML=`
+    <a class="breadcrumb" href="index.html#promos">← Les offres du moment</a>
+
+    <header class="offre-bandeau pm-${cle}">
+      <span class="sticker st-top ob-badge">${f.badge||"Offre"}</span>
+      <span class="ob-q">${f.gros}<i>${f.unite||""}</i></span>
+      <span class="sticker st-top ob-prix">${euro(f.price)}</span>
+    </header>
+
+    <div class="offre-corps">
+      <div class="offre-achat">
+        <h1>${f.nom}</h1>
+        <p class="p-desc">${f.desc||""}</p>
+        <div class="offre-chiffre">
+          <b>${f.gros} ${f.unite||""}</b><span>pour</span><b>${euro(f.price)}</b>
+        </div>
+        ${regle}
+        <p class="offre-dedans">${dedans}</p>
+        ${simpleBuyBlock(f)}
+        <div class="p-reassure"><span>🏪 Retrait dans nos 2 boutiques à Nice</span><span>📞 Conseil par téléphone</span><span>🔞 Réservé aux +18 ans</span></div>
+      </div>
+
+      <aside class="offre-infos">
+        <div class="accordions">
+          <details open><summary>L'offre</summary>${(f.body||"").split("\n").filter(Boolean).map(t=>`<p>${t}</p>`).join("")}</details>
+          <details open><summary>Pourquoi il n'y a pas de photo</summary>
+            <p><b>Parce que la variété change régulièrement.</b> C'est le principe même de cette offre : on vous met ce qu'il y a de bon au moment où vous passez. Une photo ne correspondrait pas à ce que vous repartez avec — on préfère ne pas en mettre.</p>
+            <p>Pour savoir ce qu'il y a <b>aujourd'hui</b>, appelez-nous : <a href="tel:+33422163570">04 22 16 35 70</a> (Barla) ou <a href="tel:+33423130305">04 23 13 03 05</a> (Borriglione). L'équipe a la fiche du lot sous les yeux.</p>
+          </details>
+          <details><summary>Conformité</summary><p>THC &lt; 0,3 %, conforme à la réglementation française. Vente interdite aux mineurs. Le certificat d'analyse du lot est consultable en boutique.</p></details>
+        </div>
+      </aside>
+    </div>
+
+    ${autres.length?`<section class="section" id="promos"><div class="rail-head"><h2 class="serif">Les autres offres</h2></div>
+      <div class="promo-strip">${autres.map(x=>promoMiniHTML({
+        key:x.slug.replace("promo-",""),badge:x.badge,gros:x.gros,unite:x.unite,
+        name:x.nom,desc:x.desc,price:euro(x.price),sub:`${x.gros} ${x.unite||""} · ${euro(x.price)}`,
+        lien:`produit.html?f=${x.slug}`
+      })).join("")}</div></section>`:""}`;
+
+  document.querySelectorAll("#product .card-pick").forEach(updatePick);
+  document.title=`${f.nom} — WOOD CBD`;
+}
 function renderSimpleProduct(f){
+  if(f.promo){renderPromoProduct(f);return;}
   const root=document.getElementById("product");
   const media=f.img?`<img src="assets/products/${f.img}${IMGV}" alt="${f.nom}" onerror="this.outerHTML='<div class=&quot;cloche big&quot;>'+window.__cloche('${f.slug}')+'</div>'">`:`<div class="cloche big">${clocheSVG(f.c||['#cbf096','#2f9e6b'],f.slug)}</div>`;
   const body=(f.body||f.desc||"").split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("");
@@ -364,25 +481,25 @@ function descHTML(f){
    Le 10 g et le 20 g partagent le même fond, l'un en miroir : c'est la même
    offre en deux tailles, elle l'écrit au singulier.                        */
 const PROMOS=[
-  {key:"mystere",name:"Fleur Mystère",tag:"Mystère",mystery:true,badge:"Mystère",
+  {key:"mystere",lien:"produit.html?f=fleur-mystere",name:"Fleur Mystère",tag:"Mystère",mystery:true,badge:"Mystère",
    desc:"La surprise du moment · on choisit pour toi",c:["#cbe3a8","#7a8a2e"],
    price:"9 €/g",sub:"1 g 9 € · 3 g 25 € · 5 g 40 € · 10 g 70 € · 25 g 140 €"},
 
-  {key:"gta",badge:"GTA",gros:"15",unite:"g",
+  {key:"gta",lien:"produit.html?f=promo-gta-15g",badge:"GTA",gros:"15",unite:"g",
    name:"La promo GTA · 15 g",tag:"Offre",desc:"La variété du moment",
    c:["#c8f58f","#4ca72c"],price:"50 €",sub:"15 g · 50 €"},
 
   /* mots d'Ana, verbatim : « La promo 10G 30€ ou 20G 50€ (Les variétés changent
      régulièrement : une fleur fruitée et une fleur terreuse) » */
-  {key:"p10",gros:"10",unite:"g",
+  {key:"p10",lien:"produit.html?f=promo-10g",gros:"10",unite:"g",
    name:"La promo 10 g",tag:"Offre",desc:"Une fleur fruitée + une fleur terreuse, qui changent régulièrement",
    c:["#f3c27a","#b5651d"],price:"30 €",sub:"10 g · 30 €"},
 
-  {key:"p20",gros:"20",unite:"g",
+  {key:"p20",lien:"produit.html?f=promo-20g",gros:"20",unite:"g",
    name:"La promo 20 g",tag:"Offre",desc:"La même, en double — fruitée + terreuse, qui changent régulièrement",
    c:["#e6b36a","#9a5a18"],price:"50 €",sub:"20 g · 50 €"},
 
-  {key:"trim",badge:"Petit prix",gros:"Trim",unite:"",
+  {key:"trim",lien:"produit.html?f=trim",badge:"Petit prix",gros:"Trim",unite:"",
    name:"Le Trim",tag:"Petit prix",desc:"Gros volume, petit budget",
    c:["#cfe39a","#7a8a2e"],price:"dès 15 €",sub:"10 g 15 € · 25 g 30 € · 100 g 100 €"},
 ];
@@ -412,7 +529,7 @@ function promoHeroHTML(p){
       <p class="ph-desc">${p.desc}</p>
       <div class="ph-price">${p.price}</div>
       <div class="ph-sub">${p.sub}</div>
-      <a class="btn btn-primary ph-cta" href="fleurs.html">Voir l'offre <span class="arr">→</span></a>
+      <a class="btn btn-primary ph-cta" href="${p.lien||'fleurs.html'}">Voir l'offre <span class="arr">→</span></a>
     </div>
     <div class="ph-art" aria-hidden="true"><div class="ph-halo" style="background:radial-gradient(circle,${p.c[0]}66,transparent 70%)"></div><span class="ph-visuel">
         <span class="ph-q">?</span>
@@ -420,7 +537,7 @@ function promoHeroHTML(p){
       </span></div>
   </div>`;}
 function promoMiniHTML(p){
-  return `<a class="promo-mini pm-${p.key}" href="fleurs.html">
+  return `<a class="promo-mini pm-${p.key}" href="${p.lien||'fleurs.html'}">
     <span class="pm-art">${promoArt(p)}</span>
     <span class="pm-body"><b>${p.name}</b><span class="pm-sub">${p.desc}</span>
       <span class="pm-gram">${p.sub}</span>
@@ -563,10 +680,14 @@ function renderFleurs(){
   const gtype=params.get("type")==="resine"?"resine":(params.get("type")==="all"?"all":"fleur");
   const bar=document.getElementById("filterBar");
   const catP=params.get("cat");
-  if(catP&&["accessoires","merch","bonbons","carte"].indexOf(catP)>=0){
+  /* « promos » est une categorie du catalogue : sans ca, fleurs.html?cat=promos
+     tombait sur la grille des fleurs et ne rendait rien. */
+  if(catP&&["accessoires","merch","bonbons","carte","promos"].indexOf(catP)>=0){
     if(bar)bar.hidden=true;
     const h1=document.querySelector("h1");
-    if(h1){const sec=h1.closest("section")||document;const eb=sec.querySelector(".eyebrow");if(eb)eb.textContent="Catalogue · "+(CATLBL[catP]||"Boutique");h1.textContent=CATLBL[catP]||"Boutique";const sub=sec.querySelector("p");if(sub)sub.textContent="Nos indispensables WOOD — prix réels de la boutique.";}
+    if(h1){const sec=h1.closest("section")||document;const eb=sec.querySelector(".eyebrow");if(eb)eb.textContent="Catalogue · "+(CATLBL[catP]||"Boutique");h1.textContent=CATLBL[catP]||"Boutique";const sub=sec.querySelector("p");if(sub)sub.textContent=catP==="promos"
+        ? "Les bons plans en continu en boutique. La variété change régulièrement — le prix, lui, ne bouge pas."
+        : "Nos indispensables WOOD — prix réels de la boutique.";}
     const items=BOUTIQUE.filter(b=>b.cat===catP);
     const rc=document.getElementById("resCount");if(rc)rc.textContent=`${items.length} produit${items.length>1?"s":""}`;
     grid.innerHTML=items.map((f,i)=>simpleCardHTML(f,i)).join("");
