@@ -358,8 +358,12 @@ const PROMOS=[
      le tarif vit dans le texte du bandeau et reste donc modifiable */
   {key:"mystere",name:"Fleur Mystère",tag:"Mystère",mystery:true,img:"promo-mystere.jpg",desc:"La surprise du moment · on choisit pour toi",c:["#cbe3a8","#7a8a2e"],price:"9 €/g",sub:"1 g 9 € · 3 g 25 € · 5 g 40 € · 10 g 70 € · 25 g 140 €"},
   {key:"gta",affiche:"promo-gta-15g.jpg",name:"La promo GTA · 15 g",tag:"Offre",desc:"La variété du moment",c:["#c8f58f","#4ca72c"],price:"50 €",sub:"15 g · 50 €"},
-  {key:"p10",affiche:"promo-10g.jpg",name:"La promo 10 g",tag:"Offre",desc:"Une fruitée + une terreuse, selon arrivages",c:["#f3c27a","#b5651d"],price:"30 €",sub:"10 g · 30 €"},
-  {key:"p20",affiche:"promo-20g.jpg",name:"La promo 20 g",tag:"Offre",desc:"Une fruitée + une terreuse, selon arrivages",c:["#e6b36a","#9a5a18"],price:"50 €",sub:"20 g · 50 €"},
+  /* mots d'Ana, verbatim : « La promo 10G 30€ ou 20G 50€ (Les variétés changent
+     régulièrement : une fleur fruitée et une fleur terreuse) ». Elle l'écrit comme
+     UNE promo en deux tailles ; elle est présentée en deux cartes pour que le
+     20 g soit visible — il ne l'avait jamais été. */
+  {key:"p10",affiche:"promo-10g.jpg",name:"La promo 10 g",tag:"Offre",desc:"Une fleur fruitée + une fleur terreuse, qui changent régulièrement",c:["#f3c27a","#b5651d"],price:"30 €",sub:"10 g · 30 €"},
+  {key:"p20",affiche:"promo-20g.jpg",name:"La promo 20 g",tag:"Offre",desc:"La même, en double — fruitée + terreuse, qui changent régulièrement",c:["#e6b36a","#9a5a18"],price:"50 €",sub:"20 g · 50 €"},
   {key:"trim",affiche:"promo-trim.jpg",name:"Le Trim",tag:"Petit prix",desc:"Gros volume, petit budget",c:["#cfe39a","#7a8a2e"],price:"dès 15 €",sub:"10 g 15 € · 25 g 30 € · 100 g 100 €"},
 ];
 
