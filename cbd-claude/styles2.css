@@ -896,3 +896,20 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   .shop-note{border-radius:14px;width:auto}
   .shop-card{padding:1.1rem}
 }
+/* Chiffres alignes sur TOUS les prix. Sans tabular-nums, une colonne de prix
+   « danse » d'une ligne a l'autre -- c'est le premier signe qu'un site n'a pas
+   ete relu. Il n'etait applique qu'a un seul endroit sur dix. */
+.cp-tot,.cp-pg,.cd-sub,.cd-it-meta,.cd-it-side,.ci-row,.ci-tot,
+.pick-tot,.p-price,.card-price,.sum-row,.sum-tot,.pm-gram,
+[data-cp-total],[data-add-pick],#pStickyPrice,
+.adv-res .card,.g-opt,.opt-row{font-variant-numeric:tabular-nums}
+
+/* Textes trop petits, mesures a 390 px. La regle : rien sous 12 px, et les
+   informations produit au moins aussi lisibles que le nom. « Molecule » est
+   precisement ce qu'Ana a reclame -- c'etait le plus petit texte de la fiche. */
+.mol-chip{font-size:.75rem}          /* etait .6rem = 9,6 px */
+.mol-inten .mi-k{font-size:.75rem}   /* etait .58rem = 9,3 px */
+.mol-arome{font-size:.8rem}          /* etait .72rem = 11,5 px */
+@media(max-width:720px){
+  .corner-sticker{font-size:.62rem}  /* etait .5rem = 8 px */
+}

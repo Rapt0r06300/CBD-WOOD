@@ -1421,6 +1421,11 @@ document.addEventListener("DOMContentLoaded",()=>{
   if(burger)burger.addEventListener("click",openMobileMenu);
   const adv=document.getElementById("advisor");
   if(adv)adv.addEventListener("click",openAdvisor);
+  /* Le pack « Le tour des aromes » ouvre le conseiller : c'est exactement
+     ce qu'il fait. Avant, les 4 packs menaient au meme endroit et disaient
+     tous « Composer » -- quatre cartes qui simulaient une offre. */
+  document.querySelectorAll("[data-ouvre-conseiller]")
+    .forEach(b=>b.addEventListener("click",openAdvisor));
   document.querySelectorAll(".icon-btn.search").forEach(b=>b.addEventListener("click",openSearch));
   document.querySelectorAll("#cartBtn,[data-cart-open]").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();openCartDrawer();}));
   document.querySelectorAll("#favBtn").forEach(b=>b.addEventListener("click",openFavDrawer));
