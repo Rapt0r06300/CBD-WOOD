@@ -569,18 +569,32 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 /* l'affiche carrée du bandeau : papier crème, donc ombre douce et liseré fin
    plutôt que l'ombre dure qui convenait à l'ancienne photo sombre */
 /* height:auto est obligatoire : l'attribut height="760" du <img> s'applique
-   comme hauteur CSS (indication de présentation) et écrasait l'aspect-ratio,
-   ce qui étirait l'affiche en bande verticale. */
-#promos .ph-affiche{position:relative;z-index:1;display:block;width:min(74%,300px);height:auto;aspect-ratio:1;
-  object-fit:cover;border-radius:18px;border:1px solid var(--line);box-shadow:0 14px 38px rgba(25,40,25,.18)}
+   comme hauteur CSS (indication de présentation) et écraserait l'aspect-ratio,
+   ce qui étirerait le visuel en bande verticale. */
+#promos .ph-visuel{position:relative;z-index:1;display:block;width:min(74%,300px)}
+#promos .ph-affiche{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:cover;
+  border-radius:18px;border:1px solid var(--line);box-shadow:0 16px 42px rgba(12,24,14,.34)}
+#promos .ph-badge{position:absolute;left:.85rem;top:.8rem;font-size:.72rem;padding:.4em .8em}
 #promos .promo-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin-top:.9rem}
 #promos .promo-mini{display:flex;flex-direction:column;min-width:0;border:1px solid var(--line);border-radius:18px;background:var(--card);overflow:hidden;transition:border-color var(--t) var(--ease),transform var(--t) var(--ease),box-shadow var(--t) var(--ease)}
 #promos .promo-mini:hover{border-color:rgba(216,212,189,.45);transform:translateY(-3px);box-shadow:var(--sh-soft)}
-#promos .pm-art{display:block;aspect-ratio:16/9;overflow:hidden;border-bottom:1px solid var(--line)}
-/* Les affiches sont en 16/9 et le cadre aussi : rien n'est rogné, à aucune largeur.
-   Une version recadrée en 5/2 sur téléphone coupait le « GTA » peint en haut de
-   son affiche — or c'est le nom de l'offre. Une affiche se montre entière. */
+#promos .pm-art{display:block;position:relative;aspect-ratio:16/9;overflow:hidden;border-bottom:1px solid var(--line)}
+/* Le visuel d'une offre = un fond photo + la typographie du site par-dessus.
+   Le prix n'est donc jamais peint dans l'image : Ana écrit « les variétés
+   changent régulièrement », un tarif doit rester modifiable en une ligne.
+   Le prix et le nom de l'offre réutilisent le composant .sticker du site —
+   Ana : « j'ai du graffiti et des stickers de partout ». */
 #promos .pm-img{display:block;width:100%;height:100%;object-fit:cover}
+#promos .pm-over{position:absolute;inset:0;padding:.95rem 1.05rem;
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;
+  background:linear-gradient(100deg,rgba(7,16,9,.72) 0%,rgba(7,16,9,.34) 46%,transparent 72%)}
+#promos .pm-badge{position:absolute;left:1.05rem;top:.95rem}
+#promos .pm-q{font-family:var(--serif);font-weight:600;font-size:clamp(2.4rem,5.2vw,3.3rem);
+  line-height:.84;letter-spacing:-.02em;color:#f4f2e4;text-shadow:0 6px 30px rgba(0,0,0,.65)}
+#promos .pm-q i{font-style:italic;font-size:.5em}
+#promos .pm-prix{margin-top:.55rem;font-size:.92rem;padding:.42em .8em;transform:rotate(-3deg)}
+#promos .promo-mini:hover .pm-prix{transform:rotate(-3deg) scale(1.04)}
+#promos .pm-prix,#promos .pm-badge{transition:transform var(--t) var(--ease)}
 /* flex:1 + margin-top:auto sur .pm-go : les « Voir l'offre » restent alignés
    d'une carte à l'autre même quand une description passe sur deux lignes */
 #promos .pm-body{display:flex;flex-direction:column;flex:1;min-width:0;padding:1rem 1.15rem 1.15rem;line-height:1.35}

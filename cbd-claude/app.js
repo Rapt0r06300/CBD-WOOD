@@ -352,35 +352,50 @@ function descHTML(f){
   return `<p>${f.nom} — ${bits.join(" · ")||"fleur de CBD"}. Sélectionnée par WOOD et présentée sous cloche, avec notre exigence habituelle.</p>`;
 }
 
-/* ---- PROMOS « Bons plans » (offres réelles Ana — style chic) ---- */
+/* ---- PROMOS « Bons plans » (offres réelles Ana) -------------------------
+   Chaque offre a un FOND (photo, le monde de la boutique : nuit botanique,
+   cloche en verre, coulure de bombe) et sa typographie est écrite PAR-DESSUS,
+   en vrai texte, dans la Fraunces du site. Ana écrit « les variétés changent
+   régulièrement » : un prix doit donc rester modifiable en une ligne, pas
+   peint dans des pixels.
+   · gros / unite : le grand chiffre
+   · badge        : le sticker posé en haut à gauche (identité WOOD — Ana :
+                    « j'ai du graffiti et des stickers de partout »)
+   Le 10 g et le 20 g partagent le même fond, l'un en miroir : c'est la même
+   offre en deux tailles, elle l'écrit au singulier.                        */
 const PROMOS=[
-  /* affiche carrée de la même collection que les 4 autres ; sans prix dessus,
-     le tarif vit dans le texte du bandeau et reste donc modifiable */
-  {key:"mystere",name:"Fleur Mystère",tag:"Mystère",mystery:true,img:"promo-mystere.jpg",desc:"La surprise du moment · on choisit pour toi",c:["#cbe3a8","#7a8a2e"],price:"9 €/g",sub:"1 g 9 € · 3 g 25 € · 5 g 40 € · 10 g 70 € · 25 g 140 €"},
-  {key:"gta",affiche:"promo-gta-15g.jpg",name:"La promo GTA · 15 g",tag:"Offre",desc:"La variété du moment",c:["#c8f58f","#4ca72c"],price:"50 €",sub:"15 g · 50 €"},
+  {key:"mystere",name:"Fleur Mystère",tag:"Mystère",mystery:true,img:"offre-mystere.jpg",badge:"Mystère",
+   desc:"La surprise du moment · on choisit pour toi",c:["#cbe3a8","#7a8a2e"],
+   price:"9 €/g",sub:"1 g 9 € · 3 g 25 € · 5 g 40 € · 10 g 70 € · 25 g 140 €"},
+
+  {key:"gta",fond:"offre-gta.jpg",badge:"GTA",gros:"15",unite:"g",
+   name:"La promo GTA · 15 g",tag:"Offre",desc:"La variété du moment",
+   c:["#c8f58f","#4ca72c"],price:"50 €",sub:"15 g · 50 €"},
+
   /* mots d'Ana, verbatim : « La promo 10G 30€ ou 20G 50€ (Les variétés changent
-     régulièrement : une fleur fruitée et une fleur terreuse) ». Elle l'écrit comme
-     UNE promo en deux tailles ; elle est présentée en deux cartes pour que le
-     20 g soit visible — il ne l'avait jamais été. */
-  {key:"p10",affiche:"promo-10g.jpg",name:"La promo 10 g",tag:"Offre",desc:"Une fleur fruitée + une fleur terreuse, qui changent régulièrement",c:["#f3c27a","#b5651d"],price:"30 €",sub:"10 g · 30 €"},
-  {key:"p20",affiche:"promo-20g.jpg",name:"La promo 20 g",tag:"Offre",desc:"La même, en double — fruitée + terreuse, qui changent régulièrement",c:["#e6b36a","#9a5a18"],price:"50 €",sub:"20 g · 50 €"},
-  {key:"trim",affiche:"promo-trim.jpg",name:"Le Trim",tag:"Petit prix",desc:"Gros volume, petit budget",c:["#cfe39a","#7a8a2e"],price:"dès 15 €",sub:"10 g 15 € · 25 g 30 € · 100 g 100 €"},
+     régulièrement : une fleur fruitée et une fleur terreuse) » */
+  {key:"p10",fond:"offre-10g.jpg",gros:"10",unite:"g",
+   name:"La promo 10 g",tag:"Offre",desc:"Une fleur fruitée + une fleur terreuse, qui changent régulièrement",
+   c:["#f3c27a","#b5651d"],price:"30 €",sub:"10 g · 30 €"},
+
+  {key:"p20",fond:"offre-20g.jpg",gros:"20",unite:"g",
+   name:"La promo 20 g",tag:"Offre",desc:"La même, en double — fruitée + terreuse, qui changent régulièrement",
+   c:["#e6b36a","#9a5a18"],price:"50 €",sub:"20 g · 50 €"},
+
+  {key:"trim",fond:"offre-trim.jpg",badge:"Petit prix",gros:"Trim",unite:"",
+   name:"Le Trim",tag:"Petit prix",desc:"Gros volume, petit budget",
+   c:["#cfe39a","#7a8a2e"],price:"dès 15 €",sub:"10 g 15 € · 25 g 30 € · 100 g 100 €"},
 ];
 
-/* ---- Affiches des 3 offres ------------------------------------------------
-   Trois sérigraphies composées pour WOOD : papier crème, palmes et façade
-   niçoise, le grammage en didone vert sapin et le prix au tampon. Aucune
-   fleur ni feuille de cannabis dessus — c'est l'offre qu'on montre, pas le
-   produit.
-   ⚠ Le montant est dans l'image : si Ana tranche autrement le prix du Trim
-   (15 € ou 19 € les 10 g, question ouverte dans QUESTIONS-POUR-ANA.md), il
-   faut refaire l'affiche, pas seulement une ligne de code.
-   Cadrage : l'image est en 16/9 et le sujet est en bas ; sur téléphone la
-   carte passe en 5/2 et c'est le bas qui est gardé (object-position dans
-   styles2.css).                                                            */
+/* ---- Le visuel d'une offre : le fond, puis le texte par-dessus ---------- */
 function promoArt(p){
-  return `<img class="pm-img" src="assets/products/${p.affiche}${IMGV}" width="1000" height="563"
-    loading="lazy" decoding="async" alt="Affiche WOOD — ${p.name}, ${p.price}">`;}
+  return `<img class="pm-img" src="assets/products/${p.fond}${IMGV}" width="1000" height="563"
+      loading="lazy" decoding="async" alt="">
+    <span class="pm-over">
+      ${p.badge?`<span class="sticker st-top pm-badge">${p.badge}</span>`:""}
+      <span class="pm-q">${p.gros}${p.unite?`<i>${p.unite}</i>`:""}</span>
+      <span class="sticker st-top pm-prix">${p.price}</span>
+    </span>`;}
 function promoHeroHTML(p){
   return `<div class="ph-in">
     <div class="ph-txt">
@@ -392,8 +407,9 @@ function promoHeroHTML(p){
       <a class="btn btn-primary ph-cta" href="fleurs.html">Voir l'offre <span class="arr">→</span></a>
     </div>
     <div class="ph-art" aria-hidden="true"><div class="ph-halo" style="background:radial-gradient(circle,${p.c[0]}66,transparent 70%)"></div>${p.img
-      /* l'affiche est carrée : hors du conteneur .cloche, qui impose un 3/4 fait pour les cloches en verre */
-      ? `<img class="ph-affiche" src="assets/products/${p.img}${IMGV}" alt="Affiche WOOD — ${p.name}" width="760" height="760" decoding="async">`
+      /* le visuel est carré : hors du conteneur .cloche, qui impose un 3/4 fait pour les cloches en verre */
+      ? `<span class="ph-visuel"><img class="ph-affiche" src="assets/products/${p.img}${IMGV}" alt="" width="760" height="760" decoding="async">
+           ${p.badge?`<span class="sticker st-top ph-badge">${p.badge}</span>`:""}</span>`
       : `<div class="cloche">${p.mystery?mysterySVG():clocheSVG(p.c,"ph")}</div>`}</div>
   </div>`;}
 function promoMiniHTML(p){
