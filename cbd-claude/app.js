@@ -342,10 +342,25 @@ function descHTML(f){
 /* ---- PROMOS « Bons plans » (offres réelles Ana — style chic) ---- */
 const PROMOS=[
   {name:"Fleur Mystère",tag:"Mystère",mystery:true,img:"fleur-mystere-promo.jpg",desc:"La surprise du moment · on choisit pour toi",c:["#1b2c20","#0a120c"],price:"dès 9 €/g",sub:"3 g 25 € · 5 g 40 € · 10 g 70 € · 25 g 140 €"},
-  {name:"La promo 15 g",tag:"Offre",desc:"GTA · la variété du moment",c:["#c8f58f","#4ca72c"],price:"50 €",sub:"les variétés tournent régulièrement"},
-  {name:"La promo 10 g",tag:"Offre",desc:"Une fruitée + une terreuse",c:["#f3c27a","#b5651d"],price:"30 €",sub:"ou 20 g pour 50 €"},
-  {name:"Le Trim",tag:"Petit prix",desc:"Gros volume, petit budget",c:["#cfe39a","#7a8a2e"],price:"dès 15 €",sub:"10 g 15 € · 25 g 30 € · 100 g 100 €"},
+  {key:"p15",affiche:"promo-15g.jpg",name:"La promo 15 g",tag:"Offre",desc:"GTA · la variété du moment",c:["#c8f58f","#4ca72c"],price:"50 €",sub:"les variétés tournent régulièrement"},
+  {key:"p10",affiche:"promo-10g.jpg",name:"La promo 10 g",tag:"Offre",desc:"Une fruitée + une terreuse",c:["#f3c27a","#b5651d"],price:"30 €",sub:"ou 20 g pour 50 €"},
+  {key:"trim",affiche:"promo-trim.jpg",name:"Le Trim",tag:"Petit prix",desc:"Gros volume, petit budget",c:["#cfe39a","#7a8a2e"],price:"dès 15 €",sub:"10 g 15 € · 25 g 30 € · 100 g 100 €"},
 ];
+
+/* ---- Affiches des 3 offres ------------------------------------------------
+   Trois sérigraphies composées pour WOOD : papier crème, palmes et façade
+   niçoise, le grammage en didone vert sapin et le prix au tampon. Aucune
+   fleur ni feuille de cannabis dessus — c'est l'offre qu'on montre, pas le
+   produit.
+   ⚠ Le montant est dans l'image : si Ana tranche autrement le prix du Trim
+   (15 € ou 19 € les 10 g, question ouverte dans QUESTIONS-POUR-ANA.md), il
+   faut refaire l'affiche, pas seulement une ligne de code.
+   Cadrage : l'image est en 16/9 et le sujet est en bas ; sur téléphone la
+   carte passe en 5/2 et c'est le bas qui est gardé (object-position dans
+   styles2.css).                                                            */
+function promoArt(p){
+  return `<img class="pm-img" src="assets/products/${p.affiche}${IMGV}" width="1000" height="563"
+    loading="lazy" decoding="async" alt="Affiche WOOD — ${p.name}, ${p.price}">`;}
 function promoHeroHTML(p){
   return `<div class="ph-in">
     <div class="ph-txt">
@@ -359,7 +374,11 @@ function promoHeroHTML(p){
     <div class="ph-art" aria-hidden="true"><div class="ph-halo" style="background:radial-gradient(circle,${p.c[0]}66,transparent 70%)"></div><div class="cloche">${p.img?`<img src="assets/products/${p.img}${IMGV}" alt="${p.name}" loading="lazy" style="width:100%;max-width:320px;aspect-ratio:1;object-fit:cover;border-radius:20px;box-shadow:0 18px 50px rgba(0,0,0,.45)">`:(p.mystery?mysterySVG():clocheSVG(p.c,"ph"))}</div></div>
   </div>`;}
 function promoMiniHTML(p){
-  return `<a class="promo-mini" href="fleurs.html"><span class="pm-dot" style="background:${p.c[0]}"></span><span class="pm-main"><b>${p.name}</b><span class="pm-sub">${p.desc}</span></span><span class="pm-price">${p.price}</span></a>`;}
+  return `<a class="promo-mini" href="fleurs.html">
+    <span class="pm-art">${promoArt(p)}</span>
+    <span class="pm-body"><b>${p.name}</b><span class="pm-sub">${p.desc}</span>
+      <span class="pm-go">Voir l'offre <span class="arr">→</span></span></span>
+  </a>`;}
 
 /* ===================== CHROME (header / footer / botnav / advisor) ===================== */
 function markSVG(){return `<svg class="mark" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="round" aria-hidden="true"><path d="M50 42 V12 M14 42 H86 M24 20 L76 64 M76 20 L24 64"/><circle cx="50" cy="80" r="6.5" fill="currentColor" stroke="none"/></svg>`;}
