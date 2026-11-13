@@ -1,7 +1,0 @@
-.wood-transition{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:18px;padding-top:25px;padding-bottom:25px;color:#b8c8b4}
-.wood-transition__mark{display:inline-flex;align-items:center;gap:8px;color:#cbf096;font-size:9px;font-weight:900;letter-spacing:2px;text-transform:uppercase;white-space:nowrap}
-.wood-transition__mark:before{content:"";width:28px;height:1px;background:#cbf096}
-.wood-transition p{max-width:690px;margin:0;font-size:13px;line-height:1.55}
-.wood-transition strong{color:#f1f0e6;font-weight:800}
-@media(max-width:600px){.wood-transition{grid-template-columns:1fr;gap:9px;padding:18px 23px}.wood-transition__mark{font-size:8px;letter-spacing:1.5px}.wood-transition p{font-size:12px}}
-@media(prefers-reduced-motion:reduce){.wood-transition{transition:none}}
