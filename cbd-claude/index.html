@@ -19,18 +19,28 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=13">
-<link rel="stylesheet" href="styles2.css?v=65">
+<link rel="stylesheet" href="styles2.css?v=66">
 <link rel="stylesheet" href="light.css?v=3">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png?v=1"><link rel="icon" type="image/png" sizes="512x512" href="assets/icons/favicon-wood.png?v=1"><link rel="apple-touch-icon" href="assets/icons/apple-touch-wood.png?v=1">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
+ {"@type":"Organization","@id":"https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/#organization",
+  "name":"WOOD CBD Shop","legalName":"JM BULLY","url":"https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/",
+  "logo":"https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/assets/icons/wood-logo.png",
+  "slogan":"Si c'est WOOD, c'est GOOD",
+  "email":"info@woodcbdshop.com",
+  "sameAs":["https://instagram.com/wood.cbdshop","https://facebook.com/Woodcbdshopnice"],
+  "contactPoint":{"@type":"ContactPoint","telephone":"+33422163570",
+   "contactType":"customer service","areaServed":"FR","availableLanguage":"French"}},
  {"@type":"Store","@id":"https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/#barla","name":"WOOD CBD Shop \u00b7 Barla",
   "image":"https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/assets/scenes/hero.jpg","telephone":"+33422163570","priceRange":"\u20ac\u20ac",
+  "branchOf":{"@id":"https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/#organization"},
   "address":{"@type":"PostalAddress","streetAddress":"7 rue Barla","postalCode":"06300","addressLocality":"Nice","addressCountry":"FR"},
   "openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"10:00","closes":"13:00"},
    {"@type":"OpeningHoursSpecification","dayOfWeek":["Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"14:30","closes":"19:00"}]},
  {"@type":"Store","@id":"https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/#borriglione","name":"WOOD CBD Shop \u00b7 Borriglione",
   "image":"https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/assets/scenes/hero.jpg","telephone":"+33423130305","priceRange":"\u20ac\u20ac",
+  "branchOf":{"@id":"https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/#organization"},
   "address":{"@type":"PostalAddress","streetAddress":"16 avenue Alfred Borriglione","postalCode":"06100","addressLocality":"Nice","addressCountry":"FR"},
   "openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"10:00","closes":"13:00"},
    {"@type":"OpeningHoursSpecification","dayOfWeek":["Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"14:30","closes":"19:00"}]}
@@ -45,7 +55,7 @@
 <!-- ============ HERO ============ -->
 <section id="contenu" tabindex="-1" class="hero has-stickers">
   <div class="hero-bg hero-bg--mural" aria-hidden="true">
-    <img class="hero-img" src="assets/scenes/hero-scene.webp" alt="" fetchpriority="high">
+    <img class="hero-img" src="assets/scenes/hero-scene.webp" alt="" fetchpriority="high" width="1672" height="941">
     <div class="hero-overlay"></div>
   </div>
   <div class="container hero-in">
@@ -177,7 +187,7 @@
         <div class="acts"><a class="chip" href="https://www.google.com/maps/search/?api=1&amp;query=Wood+Shop+CBD+Nice+Borriglione+16+avenue+Alfred+Borriglione+Nice" target="_blank" rel="noopener">Lire les avis sur Google →</a></div>
       </div>
     </div>
-    <p class="avis-note muted">Notes et nombres d'avis relevés sur les fiches Google le 13 novembre 2026. Le compte exact évolue chaque semaine — il est à jour sur Google.</p>
+    <p class="avis-note muted">Notes et nombres d'avis relevés sur les fiches Google le 13 novembre 2026 — le compte exact évolue chaque semaine, il est à jour sur Google. Ces avis sont <strong>déposés et modérés par Google</strong>, pas par nous : nous ne les trions pas, ne les supprimons pas et n'accordons aucune contrepartie en échange. L'ensemble, <strong>y compris les avis négatifs</strong>, est consultable à la source.</p>
   </div>
 </section>
 
@@ -239,6 +249,6 @@
 <nav data-chrome="botnav"></nav>
 
 <script src="api.js?v=3"></script>
-<script src="app.js?v=64"></script>
+<script src="app.js?v=67"></script>
 </body>
 </html>

@@ -268,7 +268,7 @@ const CAT_IMG={
 function catArt(kind){
   const src=CAT_IMG[kind];
   if(!src) return catArtSVG(kind);
-  return `<img src="${src}${IMGV}" alt="" loading="lazy" onerror="this.outerHTML=window.__catSVG('${kind}')">`;
+  return `<img src="${src}${IMGV}" alt="" width="1254" height="1254" loading="lazy" onerror="this.outerHTML=window.__catSVG('${kind}')">`;
 }
 
 /* ---- NOTES PAR PRODUIT ET BADGES « TOP VENTE » : RETIRÉS -----------------
@@ -346,7 +346,7 @@ function cardHTML(f,i){
       <div class="halo" style="background:radial-gradient(circle,${f.c[0]}66,transparent 70%)"></div><div class="shine"></div>
       ${NOIMG.has(f.slug)
         ? `<div class="cloche">${window.__cloche(f.slug)}</div>`
-        : `<img class="cloche" src="assets/products/${f.slug}.webp${IMGV}" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom} sous cloche" loading="lazy"
+        : `<img class="cloche" src="assets/products/${f.slug}.webp${IMGV}" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom} sous cloche" width="1000" height="1000" loading="lazy"
         onerror="this.outerHTML='<div class=&quot;cloche&quot;>'+window.__cloche('${f.slug}')+'</div>'">`}
       <div class="card-badges"><span class="badge ${t.cls}">${f.int||t.label}</span></div>
       <span class="card-view">Voir le produit →</span>
@@ -736,7 +736,7 @@ function renderProduct(){
         <div class="accordions">
           <details open><summary>Description</summary>${descHTML(f)}</details>
           <details><summary>Infos produit</summary><p>THC &lt; 0,3 %, conforme à la réglementation française. Pour le taux de CBD exact et l'origine du lot, demande-nous au téléphone : l'équipe a la fiche du lot en boutique.</p></details>
-          <details><summary>Certificat d'analyse (COA)</summary><p>Le certificat d'analyse par lot sera disponible ici (preuve de conformité &lt; 0,3 % THC).</p></details>
+          <details><summary>Certificat d'analyse (COA)</summary><p>Le certificat d'analyse du lot est <b>consultable en boutique</b> : demande-le à l'équipe, elle a la fiche sous la main. (Preuve de conformité &lt; 0,3 % THC.)</p></details>
         </div>
       </div>
     </div>
@@ -749,6 +749,34 @@ function renderProduct(){
   // related
   const rel=FLEURS.filter(x=>x.tier===f.tier&&x.slug!==f.slug).slice(0,4);
   const relRail=document.getElementById("relRail"); relRail.innerHTML=(rel.length?rel:FLEURS.slice(0,4)).map((x,i)=>cardHTML(x,i)).join("");
+  /* Donnees structurees Product, construites depuis le catalogue pour que
+     le prix balise ne puisse pas diverger du prix affiche.
+     Volontairement SANS aggregateRating (aucun avis par produit : en
+     inventer exposerait a une penalite) ni image (aucune photo affichee). */
+  try{
+    const ancien=document.getElementById("ldProduct"); if(ancien) ancien.remove();
+    const racine=location.href.replace(/[^/]*$/,"");
+    const offres=GRAMS.map((g,i)=>f.p[i]==null?null:({
+      "@type":"Offer","name":g+" g","price":f.p[i].toFixed(2),"priceCurrency":"EUR",
+      "eligibleQuantity":{"@type":"QuantitativeValue","value":g,"unitCode":"GRM"},
+      "availability":"https://schema.org/InStoreOnly",
+      "availableAtOrFrom":[{"@id":racine+"#barla"},{"@id":racine+"#borriglione"}]
+    })).filter(Boolean);
+    if(f.g25!=null) offres.push({"@type":"Offer","name":"25 g",
+      "price":f.g25.toFixed(2),"priceCurrency":"EUR",
+      "eligibleQuantity":{"@type":"QuantitativeValue","value":25,"unitCode":"GRM"},
+      "availability":"https://schema.org/InStoreOnly"});
+    const ld=document.createElement("script");
+    ld.type="application/ld+json"; ld.id="ldProduct";
+    ld.textContent=JSON.stringify({"@context":"https://schema.org",
+      "@type":"Product","name":f.nom,
+      "category":f.type==="resine"?"R\u00e9sine CBD":"Fleur CBD",
+      "brand":{"@type":"Brand","name":"WOOD CBD Shop"},
+      "additionalProperty":[{"@type":"PropertyValue","name":"THC","value":"< 0,3 %"}]
+        .concat(f.int?[{"@type":"PropertyValue","name":"Intensit\u00e9","value":f.int}]:[]),
+      "offers":offres});
+    document.head.appendChild(ld);
+  }catch(e){ console.warn("[WOOD] Product JSON-LD non genere :", e); }
   document.title=`${f.nom} — WOOD CBD`;
 }
 
@@ -828,7 +856,7 @@ function renderBientot(){
     accessoires:["Accessoires","Grinders, feuilles, briquets et petits essentiels — bientôt en ligne."]}[cat]||["Bientôt chez WOOD","Cette gamme arrive très vite."];
   root.innerHTML=`<a class="breadcrumb" href="index.html">← Accueil</a>
     <div class="product">
-      <div class="product-media"><div class="halo" style="background:radial-gradient(circle,#6fd39a55,transparent 70%)"></div>${CAT_IMG[cat]?`<img src="${CAT_IMG[cat]}${IMGV}" alt="${T[0]}" onerror="this.style.display='none'">`:""}</div>
+      <div class="product-media"><div class="halo" style="background:radial-gradient(circle,#6fd39a55,transparent 70%)"></div>${CAT_IMG[cat]?`<img src="${CAT_IMG[cat]}${IMGV}" alt="${T[0]}" width="1254" height="1254" onerror="this.style.display='none'">`:""}</div>
       <div class="product-info"><span class="eyebrow">Bientôt chez WOOD</span><h1>${T[0]}</h1>
         <p class="p-desc">${T[1]}</p>
         <div class="hero-cta" style="margin-top:1rem"><a href="fleurs.html" class="btn btn-primary">Voir les fleurs →</a><a href="index.html#boutiques" class="btn btn-ghost">Venir en boutique</a></div>
@@ -1171,7 +1199,7 @@ function renderInsta(){
   const g=document.getElementById("instaGrid"); if(!g)return;
   /* Scenes de boutique, pas des photos produit : on n'affiche plus aucune
      marchandise dont on n'est pas sur. */
-  g.innerHTML=["mural","stickers-wall","cloche","hero-scene","mural","stickers-wall"].map(s=>`<a class="insta-cell reveal" href="https://instagram.com/wood.cbdshop" target="_blank" rel="noopener"><img src="assets/scenes/${s}.webp${IMGV}" alt="" loading="lazy"><span class="insta-ic">◎</span></a>`).join("");
+  g.innerHTML=["mural","stickers-wall","cloche","hero-scene","mural","stickers-wall"].map(s=>`<a class="insta-cell reveal" href="https://instagram.com/wood.cbdshop" target="_blank" rel="noopener"><img src="assets/scenes/${s}.webp${IMGV}" alt="" width="1672" height="941" loading="lazy"><span class="insta-ic">◎</span></a>`).join("");
 }
 
 /* ===================== STICKERS (mur défilant) ===================== */
