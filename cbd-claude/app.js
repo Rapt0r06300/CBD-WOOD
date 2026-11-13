@@ -19,7 +19,13 @@ const FLEURS = [
   { slug:"green-skunk", nom:"Green Skunk", tier:"classique", desc:"Sucrée · herbacée 🌿", c:["#bfe3b0","#3a7a4a"], p:[9,25,40,70] },
   { slug:"gelato", nom:"Gelato", tier:"classique", desc:"Sucrée intense 🍨", c:["#e7dce0","#7a5a8a"], p:[10,28,45,80] },
   { slug:"ice-cream", nom:"Ice Cream", tier:"classique", desc:"Caramélisée 🍮", c:["#ead9c0","#8a6a3a"], p:[10.90,29.70,44.50,79] },
-  { slug:"fanta-hazy", nom:"Fanta Hazy", tier:"classique", desc:"Acidulée · sucrée 🍋", c:["#f3d49a","#c98a3a"], p:[10.90,29.70,44.50,79] },
+  /* prix du MENU IMPRIMÉ de la boutique : 6 / 16 / 25 / 40 (et 80 les 25 g).
+     Le site affichait 10,90 / 29,70 / 44,50 / 79 — la grille de l'ancien
+     Shopify, soit près du double. Les quatre autres fleurs présentes à la
+     fois au menu et sur le site (Nimbus, Ivory, Pastraweed, Euphoria) y sont
+     identiques au centime : le menu est fiable, c'est Fanta Hazy qui était
+     fausse. Trouvé le 13/11/2026. */
+  { slug:"fanta-hazy", nom:"Fanta Hazy", tier:"classique", desc:"Acidulée · sucrée 🍋", c:["#f3d49a","#c98a3a"], p:[6,16,25,40], g25:80 },
   { slug:"purple-saphir", nom:"Purple Saphir", tier:"classique", desc:"Délicieuse · rare 💜", c:["#b89adf","#4a2e6b"], p:[9.90,26.70,39.50,69.90] },
   /* prix repris de la liste d'Ana du 12/11/2026 : 9 €/g · 3 g 25 € · 5 g 40 € · 10 g 70 € · 25 g 140 €.
      L'ancienne grille (9,90 / 26,70 / 39,50 / 69) venait du Shopify suspendu. */
@@ -138,47 +144,26 @@ function simpleBuyBlock(f){
 function cartAddSimple(f,unit,opt,qty){qty=qty||1;const ex=cart.find(x=>x.slug===f.slug&&x.opt===opt);if(ex)ex.q+=qty;else cart.push({slug:f.slug,nom:f.nom,g:0,unit:unit,q:qty,opt:opt||null});saveCart();updateCartBadges();if(window.__renderCart)window.__renderCart();return qty;}
 
 /* ---- Fiche d'une offre ----------------------------------------------------
-   Une offre n'a pas de produit à montrer : la variété qu'elle contient TOURNE.
-   Pas de photo, donc, et aucune variété figée annoncée — ce serait un visuel
-   trompeur sur une caractéristique essentielle (art. L121-2), que la mention
+   Une offre n'a pas de produit a montrer : la variete qu'elle contient TOURNE.
+   Pas de photo, donc, et aucune variete figee annoncee — ce serait un visuel
+   trompeur sur une caracteristique essentielle (art. L121-2), que la mention
    « photo non contractuelle » ne couvrirait pas.
-   Du coup, le sujet de la page est le MARCHÉ : combien le gramme revient, et
-   où ça se situe par rapport au reste de la boutique. Les deux bornes sont
-   CALCULÉES sur le catalogue (echelleParGramme), pas écrites en dur : si un
-   prix bouge, la page reste vraie. Aucun pourcentage de remise n'est affiché,
-   seulement des prix au gramme comparables.                                 */
-function echelleParGramme(){
-  const p=FLEURS.filter(f=>f.tier==="classique"&&Array.isArray(f.p)&&f.p[3]).map(f=>f.p[3]/10);
-  if(!p.length)return null;
-  return {min:Math.min.apply(null,p),max:Math.max.apply(null,p)};
-}
+   Le sujet de la page est donc le grammage et le prix au gramme, qui est de
+   l'arithmetique sur les chiffres d'Ana.
+   ⚠ Il y avait ici une echelle comparant ce prix au gramme a celui des fleurs
+   « classiques » du catalogue. RETIREE le 13/11/2026 : 19 des 20 fleurs de ce
+   calcul sont absentes du menu imprime de la boutique — leurs prix viennent du
+   Shopify suspendu et rien ne les confirme. Comparer a ces prix-la revenait a
+   fonder un argument de vente sur des donnees non verifiees. Le prix au gramme
+   seul suffit, et il est vrai.                                              */
 function renderPromoProduct(f){
   const root=document.getElementById("product");
   const cle=f.slug.replace("promo-","");
   const auG=f.grammes?f.price/f.grammes:null;
-  const ech=echelleParGramme();
   const autres=BOUTIQUE.filter(x=>x.promo&&x.slug!==f.slug);
   const dedans=f.duo
     ? "Une fleur <b>fruitée</b> et une fleur <b>terreuse</b>, choisies par l'équipe"
     : (f.variete?`En ce moment, c'est de la <b>${f.variete}</b>`:"La variété choisie par l'équipe");
-
-  /* la règle : où tombe le prix au gramme de l'offre dans la gamme classique */
-  let regle="";
-  if(auG&&ech){
-    const bas=Math.min(auG,ech.min), haut=Math.max(auG,ech.max);
-    const pos=x=>((x-bas)/(haut-bas))*100;
-    regle=`
-      <div class="echelle" role="img" aria-label="Prix au gramme de l'offre : ${euro(Math.round(auG*100)/100)}. Nos fleurs classiques vont de ${euro(ech.min)} à ${euro(ech.max)} le gramme.">
-        <div class="ech-piste">
-          <span class="ech-gamme" style="left:${pos(ech.min)}%;right:${100-pos(ech.max)}%"></span>
-          <span class="ech-ici" style="left:${pos(auG)}%"></span>
-        </div>
-        <div class="ech-leg">
-          <span><b>${euro(Math.round(auG*100)/100)}</b>/g · cette offre</span>
-          <span class="muted">nos fleurs classiques : ${euro(ech.min)} à ${euro(ech.max)}/g</span>
-        </div>
-      </div>`;
-  }
 
   root.innerHTML=`
     <a class="breadcrumb" href="index.html#promos">← Les offres du moment</a>
@@ -196,7 +181,7 @@ function renderPromoProduct(f){
         <div class="offre-chiffre">
           <b>${f.gros} ${f.unite||""}</b><span>pour</span><b>${euro(f.price)}</b>
         </div>
-        ${regle}
+        ${auG?`<p class="offre-aug">soit <b>${euro(Math.round(auG*100)/100)}</b> le gramme</p>`:""}
         <p class="offre-dedans">${dedans}</p>
         ${simpleBuyBlock(f)}
         <div class="p-reassure"><span>🏪 Retrait dans nos 2 boutiques à Nice</span><span>📞 Conseil par téléphone</span><span>🔞 Réservé aux +18 ans</span></div>
