@@ -870,3 +870,29 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   text-align:center;padding:1.2rem 1rem}
 .adv-plus{background:rgba(215,255,143,.08);border:1px solid rgba(215,255,143,.2);
   font-size:.88rem}
+/* Pages par boutique (barla.html, borriglione.html). La fiche Google doit
+   pointer vers la page du lieu, pas vers l'accueil : c'est ce qui transfere
+   son autorite vers une page capable de se classer. */
+.shop-head{max-width:60ch;margin:.4rem 0 1.8rem}
+.shop-intro{font-size:1.06rem;line-height:1.6;opacity:.9;margin:.5rem 0 1rem}
+.shop-note{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;
+  font-size:.95rem;background:rgba(215,255,143,.08);
+  border:1px solid rgba(215,255,143,.2);border-radius:999px;
+  padding:.5rem 1rem;width:fit-content}
+.shop-note .stars{color:#d7ff8f;letter-spacing:.06em}
+.shop-note a{margin-left:.3rem;white-space:nowrap}
+.shop-grid{display:grid;gap:1.1rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.shop-card{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;padding:1.3rem 1.4rem}
+.shop-card h2{margin:0 0 .8rem;font-size:1.12rem}
+.shop-adr{font-size:1.02rem;line-height:1.5;margin:0 0 .9rem}
+.shop-h{line-height:1.55;margin:0 0 1.1rem}
+.acc-list{display:grid;gap:.9rem}
+.acc-item{display:flex;gap:.8rem;align-items:flex-start}
+.acc-i{font-size:1.3rem;line-height:1;flex:none;margin-top:.1rem}
+.acc-item b{display:block;font-size:.95rem;margin-bottom:.15rem}
+.acc-item p{margin:0;font-size:.92rem;line-height:1.5;opacity:.86}
+@media(max-width:600px){
+  .shop-note{border-radius:14px;width:auto}
+  .shop-card{padding:1.1rem}
+}
