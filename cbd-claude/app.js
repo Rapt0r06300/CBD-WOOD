@@ -10,98 +10,74 @@ const IMGV = "?v=5"; /* cache-buster images (bump si régénération) */
 function apiActif(){ try{ return typeof WoodAPI!=="undefined" && WoodAPI.actif(); }catch(e){ return false; } }
 /* Catalogue RÉEL (récupération Shopify WOOD) — descriptions/prix/photos certifiés, jamais inventé. Prix par 1/3/5/10 g. */
 const FLEURS = [
-  /* — Fleurs boostées (molécule, ultra-fort) — */
-  { slug:"euphoria", nom:"Euphoria", tier:"boostes", desc:"Fruitée · forte 🍓", c:["#b7f0a0","#e07a4d"], p:[12,34,55,100] },
-  { slug:"pastraweed", nom:"Pastraweed", tier:"boostes", desc:"Terreuse · forte 🌰", c:["#cfe39a","#8a7a2e"], p:[12,34,55,100] },
-  { slug:"ivory", nom:"Ivory", tier:"boostes", desc:"Weed · ultra fort 🤍", c:["#f3f1dd","#b7cf9a"], p:[15,42,70,130] },
-  { slug:"nimbus-3000", nom:"Nimbus 3000", tier:"boostes", desc:"Weed · tropical ❄️", c:["#eafce0","#8fd08a"], p:[15,42,70,130] },
-  /* — Fleurs classiques (CBD) — */
-  { slug:"green-skunk", nom:"Green Skunk", tier:"classique", desc:"Sucrée · herbacée 🌿", c:["#bfe3b0","#3a7a4a"], p:[9,25,40,70] },
-  { slug:"gelato", nom:"Gelato", tier:"classique", desc:"Sucrée intense 🍨", c:["#e7dce0","#7a5a8a"], p:[10,28,45,80] },
-  { slug:"ice-cream", nom:"Ice Cream", tier:"classique", desc:"Caramélisée 🍮", c:["#ead9c0","#8a6a3a"], p:[10.90,29.70,44.50,79] },
-  /* prix du MENU IMPRIMÉ de la boutique : 6 / 16 / 25 / 40 (et 80 les 25 g).
-     Le site affichait 10,90 / 29,70 / 44,50 / 79 — la grille de l'ancien
-     Shopify, soit près du double. Les quatre autres fleurs présentes à la
-     fois au menu et sur le site (Nimbus, Ivory, Pastraweed, Euphoria) y sont
-     identiques au centime : le menu est fiable, c'est Fanta Hazy qui était
-     fausse. Trouvé le 13/11/2026. */
-  { slug:"fanta-hazy", nom:"Fanta Hazy", tier:"classique", desc:"Acidulée · sucrée 🍋", c:["#f3d49a","#c98a3a"], p:[6,16,25,40], g25:80 },
-  { slug:"purple-saphir", nom:"Purple Saphir", tier:"classique", desc:"Délicieuse · rare 💜", c:["#b89adf","#4a2e6b"], p:[9.90,26.70,39.50,69.90] },
-  /* prix repris de la liste d'Ana du 12/11/2026 : 9 €/g · 3 g 25 € · 5 g 40 € · 10 g 70 € · 25 g 140 €.
-     L'ancienne grille (9,90 / 26,70 / 39,50 / 69) venait du Shopify suspendu. */
-  { slug:"fleur-mystere", nom:"Fleur Mystère", tier:"classique", desc:"Delicioso 🪻", c:["#d9c7f0","#4a2e6b"], p:[9,25,40,70], g25:140 },
-  { slug:"godzilla", nom:"Godzilla", tier:"classique", desc:"Épicée · grosses buds 🌶️", c:["#cfe39a","#5a6a2e"], p:[8,22,35,60] },
-  { slug:"bio-peach", nom:"BIO Peach", tier:"classique", desc:"Pêche 🍑 · bio", c:["#f3c7a0","#b5651d"], p:[8,22,35,60] },
-  { slug:"bubba-kush", nom:"Bubba Kush", tier:"classique", desc:"Terreuse · épicée 🌲", c:["#a8c0a0","#2c3a30"], p:[8,22,35,60] },
-  { slug:"tropical-kush", nom:"Tropical Kush", tier:"classique", desc:"Sucrée · fruitée 🍓", c:["#c6e3a0","#5a8a3a"], p:[8,22,35,60] },
-  { slug:"sweet-purple", nom:"Sweet Purple", tier:"classique", desc:"Fruité · sucré 💜", c:["#c6a8e0","#5a2e6b"], p:[7,21,35,70] },
-  { slug:"skittlez", nom:"Skittlez", tier:"classique", desc:"Bonbon 🍭", c:["#f3c7e0","#8a3a6b"], p:[7,20,30,50] },
-  { slug:"fruit-cake", nom:"Fruit Cake", tier:"classique", desc:"Fruitée · terreuse 🍓", c:["#f0c0b0","#8a4a3a"], p:[7.90,20.70,29.50,49] },
-  { slug:"tropical-dream", nom:"Tropical Dream", tier:"classique", desc:"Tropicale 🌴", c:["#b7f0c0","#2f8a5a"], p:[6,16,25,40] },
-  { slug:"tangerine-dream", nom:"Tangerine Dream", tier:"classique", desc:"Mandarine 🍊", c:["#f3c27a","#b5651d"], p:[6,16,25,40] },
-  /* ---- Tonic Haze : RETIRÉE DU SITE le 13/11/2026, en attendant Ana --------
-     Elle n'est ni sur le menu imprimé de la boutique ni dans la liste d'Ana :
-     rien ne confirme qu'elle est encore vendue, et ses prix (6 / 16 / 30 / 60)
-     viennent du Shopify suspendu — ils font d'ailleurs REMONTER le prix au
-     gramme quand la quantité monte, ce qui ne ressemble à aucune autre
-     variété. Mieux vaut ne rien montrer que montrer un prix que personne
-     n'assume. Sa description, sa molécule et sa photo restent en place :
-     décommenter cette ligne suffit à la remettre, une fois le prix confirmé.
-  { slug:"tonic-haze", nom:"Tonic Haze", tier:"classique", desc:"Terreuse · citron 🍋", c:["#cfe39a","#7a8a2e"], p:[6,16,30,60] },
-  ------------------------------------------------------------------------ */
-  { slug:"harlequin", nom:"Harlequin", tier:"classique", desc:"Sucré · fruité 🍬", c:["#e0c0e0","#6b4a7b"], p:[3,9,15,30] },
-  { slug:"baby-cannatonic", nom:"Baby Cannatonic", tier:"classique", desc:"Douce 🌿", c:["#cfe0c0","#5a7a4a"], p:[3,9,15,30] },
-  /* — Résines / Hash / Pollen — */
-  { slug:"stoned", nom:"Stoned", tier:"boostes", type:"resine", desc:"3× filtré · fort 🟤", c:["#c0b0a0","#4a3a2a"], p:[12,34,55,100] },
-  { slug:"golden-high", nom:"Golden High", tier:"boostes", type:"resine", desc:"Pollen · fort ✨", c:["#e0c870","#8a6a1a"], p:[11,30,50,90] },
-  { slug:"jelly-high", nom:"Jelly High", tier:"boostes", type:"resine", desc:"Caramel 🍫 · fort", c:["#e0b090","#7a4a2a"], p:[11,30,50,90] },
-  { slug:"moonrock", nom:"Moonrock CBD", tier:"classique", type:"resine", desc:"Épicé · fruité 💥", c:["#b0a0c0","#3a2c4a"], p:[9,25,40,70] },
-  { slug:"beldia", nom:"Beldia", tier:"classique", type:"resine", desc:"Épicé · marocain 🍫", c:["#c0a080","#4a3420"], p:[9,25,40,70] },
-  { slug:"cbn-cream", nom:"CBN Cream", tier:"classique", type:"resine", desc:"Sommeil 🌙", c:["#d8d0b0","#6b5a3a"], p:[10.90,29.70,44.50,79] },
+  /* ------------------------------------------------------------------
+     CATALOGUE = LA CARTE DE LA BOUTIQUE, et rien d'autre.
+     Photographiee le 13/11/2026 (afd97ffd-image.jpg / ebf9e65f-image.jpg) :
+     « WOOD · LE MENU · FLEURS & RESINES · EDITION HALLOWEEN ».
+     13 fleurs + 10 resines. Decision de Florent : on les met SANS PHOTO
+     pour l'instant. Ana (13/11) : « t'as plein de varietes qui sont meme
+     pas disponibles aux shops » -> tout ce qui n'est pas sur la carte sort.
+     Intensites reprises de la carte (STRONG / MEDIUM / HYPER STRONG).
+     Descriptions : mots d'Ana quand elle en a donne, sinon l'emoji de la
+     carte. Rien d'invente.
+     ------------------------------------------------------------------ */
+
+  /* --- FLEURS CBD (carte : 1G 3G 5G 10G 25G) --- */
+  { slug:"nimbus-3000", nom:"Nimbus 3000", tier:"boostes", desc:"Goût weed plus vrai que nature · ultra forte 🧙", c:["#cfd8e3","#2e3a4a"], p:[15,42,70,130], g25:260 , emo:"🧙", int:"STRONG"},
+  { slug:"ivory", nom:"Ivory", tier:"boostes", desc:"Goût weed plus vrai que nature · ultra forte 🌱", c:["#e8e3d4","#6b6453"], p:[15,42,70,130], g25:260 , emo:"🌱", int:"STRONG"},
+  { slug:"velvet-kush", nom:"Velvet Kush", tier:"boostes", desc:"Forte 💋", c:["#e3b4c4","#6b2e42"], p:[12,34,55,100], g25:200 , emo:"💋", int:"STRONG"},
+  { slug:"pastraweed", nom:"Pastraweed", tier:"boostes", desc:"Terreuse · forte 🍁", c:["#cfe39a","#8a7a2e"], p:[12,34,55,100], g25:200 , emo:"🍁", int:"STRONG"},
+  { slug:"euphoria", nom:"Euphoria", tier:"boostes", desc:"Fruitée · forte 🎈", c:["#f3c7d4","#a53a5a"], p:[12,34,55,100], g25:200 , emo:"🎈", int:"STRONG"},
+  { slug:"purple", nom:"Purple", tier:"boostes", desc:"Molécule, mais Light ☯", c:["#b89adf","#4a2e6b"], p:[11,30,50,100], g25:180 , emo:"☯️", int:"MÉDIUM"},
+  { slug:"bloody-mary", nom:"Bloody Mary", tier:"classique", desc:"CBD élite premium 🍸", c:["#e8a39a","#7a2a2a"], p:[10,28,45,80], g25:160 , emo:"🍸"},
+  { slug:"cosmic-cbg", nom:"Cosmic CBG", tier:"classique", desc:"CBD + CBG · intense, mais Light 🪐", c:["#a9c4e8","#2e3a6b"], p:[10,28,45,80], g25:160 , emo:"🪐"},
+  { slug:"charlotte", nom:"Charlotte", tier:"classique", desc:"CBD élite premium 🍰", c:["#f0d9c4","#8a5a3a"], p:[10,28,45,80], g25:160 , emo:"🍰"},
+  { slug:"rainbow", nom:"Rainbow", tier:"classique", desc:"🌈", c:["#f3d9a0","#5a8a6b"], p:[8,22,35,60], g25:120 , emo:"🌈"},
+  { slug:"orange-bud", nom:"Orange Bud", tier:"classique", desc:"🍊", c:["#f3c79a","#b5651d"], p:[7,20,30,50], g25:100 , emo:"🍊"},
+  { slug:"plutonium", nom:"Plutonium", tier:"classique", desc:"🧪", c:["#b4d9c4","#2e6b4a"], p:[7,20,30,50], g25:100 , emo:"🧪"},
+  { slug:"fanta-hazy", nom:"Fanta Hazy", tier:"classique", desc:"Acidulée · sucrée 🥤", c:["#f3d49a","#c98a3a"], p:[6,16,25,40], g25:80 , emo:"🥤"},
+
+  /* --- RESINES CBD (carte : 1G 3G 5G ; la colonne 10G est coupee sur la
+         photo, donc le 10 g reste null tant qu'Ana ne l'a pas donne) --- */
+  { slug:"katmandou", nom:"Katmandou", tier:"classique", type:"resine", desc:"🟤", c:["#c4a98a","#5a4432"], p:[8,22,35,null] },
+  { slug:"cbn-cream", nom:"CBN Cream", tier:"classique", type:"resine", desc:"CBN · crémeuse 🟤", c:["#e3d4b4","#6b5a3a"], p:[9,25,40,null] },
+  { slug:"super-dry", nom:"Super Dry", tier:"classique", type:"resine", desc:"🟤", c:["#d4c4a9","#5a4a32"], p:[10,28,45,null] },
+  { slug:"golden-high", nom:"Golden High", tier:"boostes", type:"resine", desc:"Forte 🟡", c:["#e8c97a","#8a6b1d"], p:[11,30,50,null] , int:"STRONG"},
+  { slug:"jelly-high", nom:"Jelly High", tier:"boostes", type:"resine", desc:"Forte 🟠", c:["#e8b47a","#8a4a1d"], p:[11,30,50,null] , int:"STRONG"},
+  { slug:"frost", nom:"Frost'", tier:"boostes", type:"resine", desc:"Forte ❄️", c:["#d4e3ef","#3a5a7a"], p:[11,30,50,null] , int:"STRONG"},
+  { slug:"stoned", nom:"Stoned", tier:"boostes", type:"resine", desc:"3× filtré · forte 🟤", c:["#c0b0a0","#4a3a2a"], p:[12,34,55,null] , int:"STRONG"},
+  { slug:"uranus", nom:"Uranus", tier:"boostes", type:"resine", desc:"Forte 🪐", c:["#b4c4e3","#3a3a6b"], p:[12,34,55,null] , int:"STRONG"},
+  { slug:"la-mousse", nom:"La Mousse", tier:"boostes", type:"resine", desc:"Forte 🟢", c:["#c4d9b4","#4a6b3a"], p:[15,42,70,null] , int:"STRONG"},
+  { slug:"snow", nom:"Snow", tier:"boostes", type:"resine", desc:"Hyper forte ❄️", c:["#eef3f7","#5a6b7a"], p:[20,58,95,null] , int:"HYPER STRONG"},
+
+  /* --- L'OFFRE « Fleur Mystere » : ce n'est pas une fleur de la carte,
+         c'est une des cinq offres d'Ana (message du 12/11, photo 9ec6b8c6).
+         Elle reste. --- */
+  { slug:"fleur-mystere", nom:"Fleur Mystère", tier:"classique", desc:"Delicioso 🪻", c:["#d9c7f0","#4a2e6b"], p:[9,25,40,70], g25:140 , emo:"🪻"},
+
 ];
 /* Boutique — produits à prix unique / variantes (accessoires, merch, bonbons, carte-cadeau + fleurs/résines spéciales). Données réelles Shopify. */
 const BOUTIQUE = [
-  { slug:"pink-panther", nom:"Pink Panther", kind:"simple", cat:"fleurs", price:30, img:"pink-panther.webp", c:["#f3b0c0","#8a3a5a"], desc:"Small buds · agrumes 🍊", body:"Aspect : une belle poignée de small buds hyper odorantes, sucrée et terreuse.\nGoût : explosion d'agrumes au nez — la musique de la Panthère rose tourne en boucle, ne nous remerciez pas… Ahahah !\nTaux de CBD : medium ++" },
-  /* grammages et prix repris de la liste d'Ana du 12/11/2026 : 10 g 15 € · 25 g 30 € · 100 g 100 €.
-     L'ancienne grille (10 g 19 € · « Le lot » 30 €) venait du Shopify suspendu. */
-  { slug:"trim", nom:"Trim CBD · fait maison", kind:"simple", cat:"resines", opts:[["10 g",15],["25 g",30],["100 g",100]], img:"trim.webp", c:["#cfe0a0","#5a6a2e"], desc:"Mélange maison 🌿", body:"Trim CBD maison — un savant mélange de nos différentes fleurs de CBD #WITHLOVE. Parfait pour vos infusions ou à consommer seul ! Vendu par 10 g." },
-  { slug:"bonbon-tc-10", nom:"Bonbon T*C 10 mg", kind:"simple", cat:"bonbons", price:3, img:"bonbon-tc-10.webp", c:["#f3c27a","#c98a3a"], desc:"Coup de cœur 🍬", body:"Des bonbons ? Qui sont bons, et qui détendent, ça existe ? ÉVIDEMMENT — c'est un vrai produit COUP DE CŒUR chez WOOD !" },
-  { slug:"bonbon-tc-20", nom:"Bonbon T*C 20 mg", kind:"simple", cat:"bonbons", opts:[["À l'unité",5.90],["Les 6 · 1 offert",29.50],["Les 12",59]], img:"bonbon-tc-20.webp", c:["#f0a0b0","#b5405a"], desc:"Dosage ++ 🍬", body:"Le dosage supérieur de notre gamme de bonbons CBD — à l'unité, en pack de 6 (1 offert) ou de 12." },
-  { slug:"bonbon-cbd-20", nom:"Bonbon CBD 20 mg", kind:"simple", cat:"bonbons", price:1.50, img:"bonbon-cbd-20.webp", c:["#c6e3a0","#5a8a3a"], desc:"La gourmandise 🍬", body:"La gourmandise s'invite dans votre détente — un bonbon CBD 20 mg à prix doux." },
-  { slug:"pack-mix-bonbons", nom:"Pack Mix Bonbons CBD", kind:"simple", cat:"bonbons", price:29.90, img:"pack-mix-bonbons.webp", c:["#f3c7e0","#8a3a6b"], desc:"Assortiment 🍬", body:"Découvrez l'expérience gustative du CBD… la gourmandise s'invite dans votre détente. Un assortiment à partager." },
-  { slug:"greengo", nom:"Feuille & Carton Greengo", kind:"simple", cat:"accessoires", price:3, img:"greengo.webp", c:["#cfe0a0","#5a7a2e"], desc:"Papier non blanchi", body:"Papier non blanchi 100 % sans chlore, gomme arabique naturelle (14 g/m²), carton recyclé (200 g/m², 78×38 mm). 50 feuilles." },
-  { slug:"grinder-plastique", nom:"Grinder plastique", kind:"simple", cat:"accessoires", price:5, img:"grinder-plastique.webp", c:["#cfd0d0","#5a6060"], desc:"Transparent", body:"Un grinder transparent qui mixe et broie toutes vos fleurs." },
-  { slug:"raw-slim", nom:"Feuilles RAW · slim", kind:"simple", cat:"accessoires", price:2.50, img:"raw-slim.webp", c:["#e0cfa0","#8a6a3a"], desc:"100 % naturelles", body:"100 % naturelles, fibres non blanchies (lin et chanvre)." },
-  { slug:"grinder-incurve", nom:"Grinder incurvé", kind:"simple", cat:"accessoires", opts:[["Standard",10],["Grand",15]], img:"grinder-incurve.webp", c:["#cfd0d0","#45505a"], desc:"Broyage incurvé", body:"Partie broyage incurvée (couvercle et intérieur) : originalité et efficacité." },
-  { slug:"jass", nom:"Cartons Jass · filtres", kind:"simple", cat:"accessoires", price:0.90, img:"jass.webp", c:["#e0d0b0","#8a7050"], desc:"50 filtres", body:"Format Slim Brown, non blanchi, 50 filtres perforés par carnet (taille M, carton)." },
-  { slug:"tshirt-totally-stoned", nom:"T-shirt Oversized · Totally Stoned", kind:"simple", cat:"merch", price:39.90, opts:[["S",39.90],["M",39.90],["L",39.90],["XL",39.90],["2XL",39.90],["3XL",39.90]], img:"tshirt-totally-stoned.webp", c:["#cfd0cf","#45504a"], desc:"Coton · mixte", body:"En coton, effet légèrement délavé. Modèle MIXTE disponible du S au 3XL." },
-  { slug:"tshirt-weed-chill", nom:"T-shirt · Weed & Chill", kind:"simple", cat:"merch", price:39.90, opts:[["S",39.90],["M",39.90],["L",39.90],["XL",39.90],["2XL",39.90],["3XL",39.90]], img:"tshirt-weed-chill.webp", c:["#bfe3b0","#3a7a4a"], desc:"Coton · mixte", body:"En coton, coupe classique (regular). Modèle MIXTE disponible du S au 3XL." },
-  { slug:"carte-cadeau", nom:"Carte-cadeau WOOD", kind:"simple", cat:"carte", opts:[["10 €",10],["25 €",25],["50 €",50],["100 €",100],["200 €",200],["500 €",500]], img:"carte-cadeau.webp", c:["#cbf096","#2f9e6b"], desc:"Le bon cadeau 🎁", body:"Offrez WOOD : choisissez un montant et vous recevez un code cadeau unique (format WOOD-XXXX-XXXX) à la validation. Il se saisit directement dans le champ « code » au paiement — le solde est réutilisable jusqu'à épuisement — ou se présente en boutique. Montant au choix, de 10 à 500 €." },
-
-  /* ---- Les offres d'Ana, comme produits à part entière ---------------------
-     Avant, cliquer sur un bon plan renvoyait au catalogue : la promesse de la
-     carte n'était pas tenue. Chacune a maintenant sa fiche.
-     `promo:true` bascule sur un gabarit dédié ; le reste est un produit
-     `simple` ordinaire, donc le pochon et le panier marchent sans code en plus.
-     `variete` dit ce qu'il y a dedans AUJOURD'HUI, `tournante` dit que ça
-     change : aucune photo, aucune variété figée annoncée.
-     Prix verbatim du message d'Ana du 12/11/2026 (photo 9ec6b8c6).          */
+  /* Le catalogue = LA CARTE (fleurs & resines) + LES OFFRES d'Ana.
+     13/11/2026 : tout le reste est retire sur demande de Florent —
+     accessoires, merch, carte-cadeau, Pink Panther, et les bonbons
+     qui sont de toute facon interdits a la vente depuis le 15/05/2026. */
+  { slug:"trim", nom:"Trim CBD · fait maison", kind:"simple", cat:"promos", opts:[["10 g",15],["25 g",30],["100 g",100]], img:"trim.webp", c:["#cfe0a0","#5a6a2e"], desc:"Mélange maison 🌿", body:"Trim CBD maison — un savant mélange de nos différentes fleurs de CBD #WITHLOVE. Parfait pour vos infusions ou à consommer seul ! Vendu par 10 g." },
   { slug:"promo-gta-15g", nom:"La promo GTA", kind:"simple", promo:true, cat:"promos",
     price:50, gros:"15", unite:"g", grammes:15, badge:"GTA", variete:"GTA", tournante:true,
     c:["#c8f58f","#4ca72c"], desc:"15 g de la variété du moment",
     body:"Quinze grammes de la variété que l'équipe a choisie en ce moment, à prix d'offre.\nC'est l'une des deux promos qui tournent en continu en boutique : la variété change régulièrement, le prix ne bouge pas." },
-
   { slug:"promo-10g", nom:"La promo 10 g", kind:"simple", promo:true, cat:"promos",
     price:30, gros:"10", unite:"g", grammes:10, duo:true, tournante:true,
     c:["#f3c27a","#b5651d"], desc:"Une fleur fruitée + une fleur terreuse",
     body:"Dix grammes composés de deux fleurs : une fruitée et une terreuse, pour varier les plaisirs dans la même commande.\nLes deux variétés changent régulièrement, au gré des arrivages." },
-
   { slug:"promo-20g", nom:"La promo 20 g", kind:"simple", promo:true, cat:"promos",
     price:50, gros:"20", unite:"g", grammes:20, duo:true, tournante:true,
     c:["#e6b36a","#9a5a18"], desc:"La même, en double",
-    body:"La grande sœur de la promo 10 g : vingt grammes, toujours une fleur fruitée et une fleur terreuse.\nAna l'écrit comme une seule offre en deux tailles — 10 g pour 30 €, ou 20 g pour 50 €." },
+    body:"La grande sœur de la promo 10 g : vingt grammes, toujours une fleur fruitée et une fleur terreuse.\nAna l'écrit comme une seule offre en deux tailles — 10 g pour 30 €, ou 20 g pour 50 €." }
+
 ];
-const CATLBL={fleurs:"Fleurs",resines:"Résines",accessoires:"Accessoires",merch:"Le Shop WOOD",bonbons:"Bonbons",carte:"Carte-cadeau",promos:"Les offres"};
+const CATLBL={fleurs:"Fleurs",resines:"Résines",promos:"Les offres"};
 /* Helpers panier compatibles grammage + produits simples */
 function itemBase(x){const pf=byId(x.slug);return pf&&pf.p?pf.p[0]:null;}
 function itemSave(x){if(!x.g)return 0;const b=itemBase(x);if(!b)return 0;return Math.round((1-(x.unit/x.g)/b)*100);}
@@ -259,9 +235,21 @@ const euro = n => (Number(n) % 1 === 0)
 /* ---- Cloche repli SVG ---- */
 function clocheSVG(c,id){const g=`b${id}`;return `<svg class="cloche-svg" viewBox="0 0 200 250" width="100%" aria-hidden="true"><defs><radialGradient id="${g}" cx="45%" cy="38%" r="70%"><stop offset="0" stop-color="${c[0]}"/><stop offset="1" stop-color="${c[1]}"/></radialGradient></defs><ellipse cx="100" cy="226" rx="66" ry="12" fill="#000" opacity=".4"/><rect x="42" y="214" width="116" height="16" rx="8" fill="#6b5a3a"/><g fill="url(#${g})"><circle cx="100" cy="150" r="30"/><circle cx="78" cy="138" r="20"/><circle cx="122" cy="140" r="20"/><circle cx="90" cy="120" r="18"/><circle cx="112" cy="122" r="17"/><circle cx="100" cy="106" r="15"/><circle cx="74" cy="160" r="15"/><circle cx="126" cy="162" r="15"/><circle cx="100" cy="176" r="18"/></g><path d="M100 42c-40 0-66 30-66 70v86h132v-86c0-40-26-70-66-70Z" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.35)" stroke-width="2"/><ellipse cx="100" cy="44" rx="10" ry="6" fill="rgba(255,255,255,.25)"/></svg>`;}
 /* Produits sans vraie photo (perdue/à générer) → placeholder "Image bientôt disponible" */
-const NOIMG=new Set(["ivory","nimbus-3000","golden-high"]);
+/* 13/11 : AUCUNE photo produit affichee. Ana : « les photos ca va pas » ;
+   Florent : « on sait meme pas si c'est les bonnes ». Les fichiers sont
+   conserves — pour en reafficher une, il suffit de retirer son slug d'ici. */
+const NOIMG=new Set(["nimbus-3000","ivory","velvet-kush","pastraweed","euphoria","purple","bloody-mary","cosmic-cbg","charlotte","rainbow","orange-bud","plutonium","fanta-hazy","katmandou","cbn-cream","super-dry","golden-high","jelly-high","frost","stoned","uranus","la-mousse","snow","fleur-mystere"]);
 function soonHTML(){return '<div class="img-soon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h3l2-2h8l2 2h3v12H3z"/><circle cx="12" cy="13" r="3.4"/></svg><span>Image bientôt disponible</span></div>';}
-window.__cloche = s => { if(NOIMG.has(s))return soonHTML(); const f=byId(s); return clocheSVG(f?f.c:["#8fd08a","#243a2a"], s); };
+function carteArt(f){
+  const c = (f && f.c) || ["#8fd08a","#243a2a"];
+  const inner = (f && f.emo)
+    ? `<span style="font-size:clamp(4.2rem,7.4vw,7.6rem);line-height:1;filter:drop-shadow(0 8px 20px ${c[1]}55)">${f.emo}</span>`
+    : `<span style="font-family:Fraunces,Georgia,serif;font-weight:700;font-size:clamp(1.15rem,2.1vw,1.9rem);line-height:1.1;letter-spacing:.01em;color:${c[1]};text-align:center;padding:0 12%">${f?f.nom:""}</span>`;
+  return `<div class="cloche emo-art" style="display:grid;place-items:center;width:100%;height:100%">${inner}</div>`;
+}
+/* Le visuel d'un produit sans photo = l'emoji de SA carte imprimee, ou son nom
+   en typo d'affiche. Ce n'est pas un bouche-trou : c'est son code visuel. */
+window.__cloche = s => carteArt(byId(s));
 /* Visuel « Fleur Mystère » : cloche sombre, fleur dans l'ombre + gros ? vert WOOD */
 function mysterySVG(){return `<svg class="cloche-svg" viewBox="0 0 200 250" aria-hidden="true"><defs><radialGradient id="myg" cx="50%" cy="40%" r="62%"><stop offset="0" stop-color="#1b2c20"/><stop offset="1" stop-color="#0a120c"/></radialGradient></defs><ellipse cx="100" cy="226" rx="66" ry="12" fill="#000" opacity=".5"/><rect x="42" y="214" width="116" height="16" rx="8" fill="#5a4a2e"/><path d="M100 42c-40 0-66 30-66 70v86h132v-86c0-40-26-70-66-70Z" fill="url(#myg)" stroke="rgba(203,240,150,.22)" stroke-width="2"/><g fill="#2f5a3a" opacity=".5"><circle cx="100" cy="150" r="30"/><circle cx="78" cy="138" r="20"/><circle cx="122" cy="140" r="20"/><circle cx="90" cy="120" r="18"/><circle cx="112" cy="122" r="17"/><circle cx="100" cy="106" r="15"/><circle cx="74" cy="160" r="15"/><circle cx="126" cy="162" r="15"/><circle cx="100" cy="176" r="18"/></g><text x="100" y="170" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="128" font-weight="600" fill="#cbf096" opacity=".95">?</text><ellipse cx="100" cy="44" rx="10" ry="6" fill="rgba(255,255,255,.16)"/></svg>`;}
 
@@ -311,6 +299,7 @@ function cardStock(){ return ""; }
 function buyBlock(f){
   const base=f.p[0]; // prix du 1 g = reference €/g la plus chere
   const opts=GRAMS.map((g,gi)=>{
+      if(f.p[gi]==null) return ""; // grammage absent de la carte
     const pg=Math.round(f.p[gi]/g*10)/10;
     const sv=Math.round((1-(f.p[gi]/g)/base)*100);
     return `<option value="${gi}"${gi===1?' selected':''}>${g} g · ${f.p[gi]} €${sv>=8?` · −${sv}%`:''}</option>`;
@@ -359,7 +348,7 @@ function cardHTML(f,i){
         ? `<div class="cloche">${window.__cloche(f.slug)}</div>`
         : `<img class="cloche" src="assets/products/${f.slug}.webp${IMGV}" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom} sous cloche" loading="lazy"
         onerror="this.outerHTML='<div class=&quot;cloche&quot;>'+window.__cloche('${f.slug}')+'</div>'">`}
-      <div class="card-badges"><span class="badge ${t.cls}">${t.label}</span></div>
+      <div class="card-badges"><span class="badge ${t.cls}">${f.int||t.label}</span></div>
       <span class="card-view">Voir le produit →</span>
       <button class="card-qv" data-qv="${f.slug}" aria-label="Aperçu rapide" title="Aperçu rapide"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span>Aperçu</span></button>
     </a>
@@ -557,7 +546,7 @@ function footerHTML(){return `<div class="container">
     <div><div class="big-logo"><img class="logo-img logo-img-lg" src="assets/icons/wood-logo.png?v=2" alt="WOOD" height="40"></div>
       <p class="muted" style="margin:.6rem 0 1rem;max-width:30ch">La Maison du chanvre, à Nice. Si c'est WOOD, c'est GOOD.</p>
       <div class="socials"><a href="https://instagram.com/wood.cbdshop" target="_blank" rel="noopener">◎ Instagram</a><a href="https://facebook.com/Woodcbdshopnice" target="_blank" rel="noopener">ƒ Facebook</a></div></div>
-    <div><h4>Boutique</h4><ul><li><a href="fleurs.html">Fleurs</a></li><li><a href="fleurs.html?type=resine">Résines</a></li><li><a href="fleurs.html?tier=boostes">Boostés</a></li><li><a href="fleurs.html?cat=accessoires">Accessoires</a></li><li><a href="fleurs.html?cat=merch">Le Shop</a></li></ul></div>
+    <div><h4>Boutique</h4><ul><li><a href="fleurs.html">Fleurs</a></li><li><a href="fleurs.html?type=resine">Résines</a></li><li><a href="fleurs.html?tier=boostes">Boostés</a></li></ul></div>
     <div><h4>Infos</h4><ul><li><a href="index.html#boutiques">Nos boutiques</a></li><li><a href="contact.html">Contact</a></li><li><a href="faq.html">FAQ</a></li><li><a href="index.html#histoire">L'histoire</a></li></ul></div>
     <div><h4>Légal</h4><ul><li><a href="mentions-legales.html">Mentions légales</a></li><li><a href="cgv.html">CGV</a></li><li><a href="confidentialite.html">Confidentialité</a></li><li><a href="confidentialite.html#cookies">Cookies</a></li></ul></div>
   </div>
@@ -667,7 +656,7 @@ function renderFleurs(){
   const catP=params.get("cat");
   /* « promos » est une categorie du catalogue : sans ca, fleurs.html?cat=promos
      tombait sur la grille des fleurs et ne rendait rien. */
-  if(catP&&["accessoires","merch","bonbons","carte","promos"].indexOf(catP)>=0){
+  if(catP&&["promos"].indexOf(catP)>=0){
     if(bar)bar.hidden=true;
     const h1=document.querySelector("h1");
     if(h1){const sec=h1.closest("section")||document;const eb=sec.querySelector(".eyebrow");if(eb)eb.textContent="Catalogue · "+(CATLBL[catP]||"Boutique");h1.textContent=CATLBL[catP]||"Boutique";const sub=sec.querySelector("p");if(sub)sub.textContent=catP==="promos"
@@ -1178,7 +1167,9 @@ function renderConfirm(){
 function renderAvis(){ /* aucun avis à afficher aujourd'hui */ }
 function renderInsta(){
   const g=document.getElementById("instaGrid"); if(!g)return;
-  g.innerHTML=["euphoria","fanta-hazy","gelato","moonrock","ice-cream","stoned"].map(s=>`<a class="insta-cell reveal" href="https://instagram.com/wood.cbdshop" target="_blank" rel="noopener"><img src="assets/products/${s}.webp${IMGV}" alt="" loading="lazy"><span class="insta-ic">◎</span></a>`).join("");
+  /* Scenes de boutique, pas des photos produit : on n'affiche plus aucune
+     marchandise dont on n'est pas sur. */
+  g.innerHTML=["mural","stickers-wall","cloche","hero-scene","mural","stickers-wall"].map(s=>`<a class="insta-cell reveal" href="https://instagram.com/wood.cbdshop" target="_blank" rel="noopener"><img src="assets/scenes/${s}.webp${IMGV}" alt="" loading="lazy"><span class="insta-ic">◎</span></a>`).join("");
 }
 
 /* ===================== STICKERS (mur défilant) ===================== */
@@ -1261,7 +1252,9 @@ document.addEventListener("DOMContentLoaded",()=>{
   document.querySelectorAll("[data-cloche]").forEach((el,i)=>el.innerHTML=clocheSVG(["#d7ff8f","#1f8f5a"],"h"+i));
   document.querySelectorAll("[data-art]").forEach(el=>el.innerHTML=catArt(el.dataset.art));
   const rail=document.getElementById("fleursRail");
-  if(rail){const order=["euphoria","fanta-hazy","gelato","green-skunk","ice-cream","pastraweed","moonrock","stoned"];rail.innerHTML=order.map((s,i)=>cardHTML(byId(s),i)).join("");}
+  if(rail){/* Construit depuis le catalogue : une liste en dur casse la page des qu'un
+     produit sort de la carte (arrive le 13/11 avec Gelato, Moonrock, Ice Cream). */
+    const sel=FLEURS.filter(f=>f.slug!=="fleur-mystere").slice(0,8);rail.innerHTML=sel.map((f,i)=>cardHTML(f,i)).join("");}
   const phero=document.getElementById("promoHero");
   if(phero){phero.innerHTML=promoHeroHTML(PROMOS[0]);}
   const pstrip=document.getElementById("promoStrip");

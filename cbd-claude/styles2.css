@@ -817,3 +817,13 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .card-promo .cp-q{font-family:var(--serif);font-weight:600;font-size:4.2rem;line-height:.82;
   letter-spacing:-.03em;color:#f4f2e4;text-shadow:0 8px 34px rgba(0,0,0,.6)}
 .card-promo .cp-q i{font-style:italic;font-size:.42em}
+
+/* ---- 13/11 : produits sans photo = l'emoji de la carte imprimee d'Ana ----
+   Le badge d'intensite (STRONG / MEDIUM / HYPER STRONG, ses mots) passait
+   exactement SOUS la pastille « Apercu » : meme top/left, meme z-index.
+   Il passe a droite. Et le halo est densifie derriere l'emoji pour que la
+   carte ne lise pas comme une image manquante. */
+.card-badges{left:auto;right:10px}
+.card-media:has(.emo-art) .halo{opacity:.92;width:86%;filter:blur(30px)}
+.card:hover .card-media:has(.emo-art) .halo{opacity:1}
+.emo-art{user-select:none}
