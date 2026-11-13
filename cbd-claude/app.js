@@ -61,22 +61,22 @@ const FLEURS = [
 ];
 /* Boutique — produits à prix unique / variantes (accessoires, merch, bonbons, carte-cadeau + fleurs/résines spéciales). Données réelles Shopify. */
 const BOUTIQUE = [
-  { slug:"pink-panther", nom:"Pink Panther", kind:"simple", cat:"fleurs", price:30, img:"pink-panther.jpg", c:["#f3b0c0","#8a3a5a"], desc:"Small buds · agrumes 🍊", body:"Aspect : une belle poignée de small buds hyper odorantes, sucrée et terreuse.\nGoût : explosion d'agrumes au nez — la musique de la Panthère rose tourne en boucle, ne nous remerciez pas… Ahahah !\nTaux de CBD : medium ++" },
+  { slug:"pink-panther", nom:"Pink Panther", kind:"simple", cat:"fleurs", price:30, img:"pink-panther.webp", c:["#f3b0c0","#8a3a5a"], desc:"Small buds · agrumes 🍊", body:"Aspect : une belle poignée de small buds hyper odorantes, sucrée et terreuse.\nGoût : explosion d'agrumes au nez — la musique de la Panthère rose tourne en boucle, ne nous remerciez pas… Ahahah !\nTaux de CBD : medium ++" },
   /* grammages et prix repris de la liste d'Ana du 12/11/2026 : 10 g 15 € · 25 g 30 € · 100 g 100 €.
      L'ancienne grille (10 g 19 € · « Le lot » 30 €) venait du Shopify suspendu. */
-  { slug:"trim", nom:"Trim CBD · fait maison", kind:"simple", cat:"resines", opts:[["10 g",15],["25 g",30],["100 g",100]], img:"trim.jpg", c:["#cfe0a0","#5a6a2e"], desc:"Mélange maison 🌿", body:"Trim CBD maison — un savant mélange de nos différentes fleurs de CBD #WITHLOVE. Parfait pour vos infusions ou à consommer seul ! Vendu par 10 g." },
-  { slug:"bonbon-tc-10", nom:"Bonbon T*C 10 mg", kind:"simple", cat:"bonbons", price:3, img:"bonbon-tc-10.jpg", c:["#f3c27a","#c98a3a"], desc:"Coup de cœur 🍬", body:"Des bonbons ? Qui sont bons, et qui détendent, ça existe ? ÉVIDEMMENT — c'est un vrai produit COUP DE CŒUR chez WOOD !" },
-  { slug:"bonbon-tc-20", nom:"Bonbon T*C 20 mg", kind:"simple", cat:"bonbons", opts:[["À l'unité",5.90],["Les 6 · 1 offert",29.50],["Les 12",59]], img:"bonbon-tc-20.jpg", c:["#f0a0b0","#b5405a"], desc:"Dosage ++ 🍬", body:"Le dosage supérieur de notre gamme de bonbons CBD — à l'unité, en pack de 6 (1 offert) ou de 12." },
-  { slug:"bonbon-cbd-20", nom:"Bonbon CBD 20 mg", kind:"simple", cat:"bonbons", price:1.50, img:"bonbon-cbd-20.jpg", c:["#c6e3a0","#5a8a3a"], desc:"La gourmandise 🍬", body:"La gourmandise s'invite dans votre détente — un bonbon CBD 20 mg à prix doux." },
-  { slug:"pack-mix-bonbons", nom:"Pack Mix Bonbons CBD", kind:"simple", cat:"bonbons", price:29.90, img:"pack-mix-bonbons.jpg", c:["#f3c7e0","#8a3a6b"], desc:"Assortiment 🍬", body:"Découvrez l'expérience gustative du CBD… la gourmandise s'invite dans votre détente. Un assortiment à partager." },
-  { slug:"greengo", nom:"Feuille & Carton Greengo", kind:"simple", cat:"accessoires", price:3, img:"greengo.jpg", c:["#cfe0a0","#5a7a2e"], desc:"Papier non blanchi", body:"Papier non blanchi 100 % sans chlore, gomme arabique naturelle (14 g/m²), carton recyclé (200 g/m², 78×38 mm). 50 feuilles." },
-  { slug:"grinder-plastique", nom:"Grinder plastique", kind:"simple", cat:"accessoires", price:5, img:"grinder-plastique.jpg", c:["#cfd0d0","#5a6060"], desc:"Transparent", body:"Un grinder transparent qui mixe et broie toutes vos fleurs." },
-  { slug:"raw-slim", nom:"Feuilles RAW · slim", kind:"simple", cat:"accessoires", price:2.50, img:"raw-slim.jpg", c:["#e0cfa0","#8a6a3a"], desc:"100 % naturelles", body:"100 % naturelles, fibres non blanchies (lin et chanvre)." },
-  { slug:"grinder-incurve", nom:"Grinder incurvé", kind:"simple", cat:"accessoires", opts:[["Standard",10],["Grand",15]], img:"grinder-incurve.jpg", c:["#cfd0d0","#45505a"], desc:"Broyage incurvé", body:"Partie broyage incurvée (couvercle et intérieur) : originalité et efficacité." },
-  { slug:"jass", nom:"Cartons Jass · filtres", kind:"simple", cat:"accessoires", price:0.90, img:"jass.jpg", c:["#e0d0b0","#8a7050"], desc:"50 filtres", body:"Format Slim Brown, non blanchi, 50 filtres perforés par carnet (taille M, carton)." },
-  { slug:"tshirt-totally-stoned", nom:"T-shirt Oversized · Totally Stoned", kind:"simple", cat:"merch", price:39.90, opts:[["S",39.90],["M",39.90],["L",39.90],["XL",39.90],["2XL",39.90],["3XL",39.90]], img:"tshirt-totally-stoned.jpg", c:["#cfd0cf","#45504a"], desc:"Coton · mixte", body:"En coton, effet légèrement délavé. Modèle MIXTE disponible du S au 3XL." },
-  { slug:"tshirt-weed-chill", nom:"T-shirt · Weed & Chill", kind:"simple", cat:"merch", price:39.90, opts:[["S",39.90],["M",39.90],["L",39.90],["XL",39.90],["2XL",39.90],["3XL",39.90]], img:"tshirt-weed-chill.jpg", c:["#bfe3b0","#3a7a4a"], desc:"Coton · mixte", body:"En coton, coupe classique (regular). Modèle MIXTE disponible du S au 3XL." },
-  { slug:"carte-cadeau", nom:"Carte-cadeau WOOD", kind:"simple", cat:"carte", opts:[["10 €",10],["25 €",25],["50 €",50],["100 €",100],["200 €",200],["500 €",500]], img:"carte-cadeau.jpg", c:["#cbf096","#2f9e6b"], desc:"Le bon cadeau 🎁", body:"Offrez WOOD : choisissez un montant et vous recevez un code cadeau unique (format WOOD-XXXX-XXXX) à la validation. Il se saisit directement dans le champ « code » au paiement — le solde est réutilisable jusqu'à épuisement — ou se présente en boutique. Montant au choix, de 10 à 500 €." },
+  { slug:"trim", nom:"Trim CBD · fait maison", kind:"simple", cat:"resines", opts:[["10 g",15],["25 g",30],["100 g",100]], img:"trim.webp", c:["#cfe0a0","#5a6a2e"], desc:"Mélange maison 🌿", body:"Trim CBD maison — un savant mélange de nos différentes fleurs de CBD #WITHLOVE. Parfait pour vos infusions ou à consommer seul ! Vendu par 10 g." },
+  { slug:"bonbon-tc-10", nom:"Bonbon T*C 10 mg", kind:"simple", cat:"bonbons", price:3, img:"bonbon-tc-10.webp", c:["#f3c27a","#c98a3a"], desc:"Coup de cœur 🍬", body:"Des bonbons ? Qui sont bons, et qui détendent, ça existe ? ÉVIDEMMENT — c'est un vrai produit COUP DE CŒUR chez WOOD !" },
+  { slug:"bonbon-tc-20", nom:"Bonbon T*C 20 mg", kind:"simple", cat:"bonbons", opts:[["À l'unité",5.90],["Les 6 · 1 offert",29.50],["Les 12",59]], img:"bonbon-tc-20.webp", c:["#f0a0b0","#b5405a"], desc:"Dosage ++ 🍬", body:"Le dosage supérieur de notre gamme de bonbons CBD — à l'unité, en pack de 6 (1 offert) ou de 12." },
+  { slug:"bonbon-cbd-20", nom:"Bonbon CBD 20 mg", kind:"simple", cat:"bonbons", price:1.50, img:"bonbon-cbd-20.webp", c:["#c6e3a0","#5a8a3a"], desc:"La gourmandise 🍬", body:"La gourmandise s'invite dans votre détente — un bonbon CBD 20 mg à prix doux." },
+  { slug:"pack-mix-bonbons", nom:"Pack Mix Bonbons CBD", kind:"simple", cat:"bonbons", price:29.90, img:"pack-mix-bonbons.webp", c:["#f3c7e0","#8a3a6b"], desc:"Assortiment 🍬", body:"Découvrez l'expérience gustative du CBD… la gourmandise s'invite dans votre détente. Un assortiment à partager." },
+  { slug:"greengo", nom:"Feuille & Carton Greengo", kind:"simple", cat:"accessoires", price:3, img:"greengo.webp", c:["#cfe0a0","#5a7a2e"], desc:"Papier non blanchi", body:"Papier non blanchi 100 % sans chlore, gomme arabique naturelle (14 g/m²), carton recyclé (200 g/m², 78×38 mm). 50 feuilles." },
+  { slug:"grinder-plastique", nom:"Grinder plastique", kind:"simple", cat:"accessoires", price:5, img:"grinder-plastique.webp", c:["#cfd0d0","#5a6060"], desc:"Transparent", body:"Un grinder transparent qui mixe et broie toutes vos fleurs." },
+  { slug:"raw-slim", nom:"Feuilles RAW · slim", kind:"simple", cat:"accessoires", price:2.50, img:"raw-slim.webp", c:["#e0cfa0","#8a6a3a"], desc:"100 % naturelles", body:"100 % naturelles, fibres non blanchies (lin et chanvre)." },
+  { slug:"grinder-incurve", nom:"Grinder incurvé", kind:"simple", cat:"accessoires", opts:[["Standard",10],["Grand",15]], img:"grinder-incurve.webp", c:["#cfd0d0","#45505a"], desc:"Broyage incurvé", body:"Partie broyage incurvée (couvercle et intérieur) : originalité et efficacité." },
+  { slug:"jass", nom:"Cartons Jass · filtres", kind:"simple", cat:"accessoires", price:0.90, img:"jass.webp", c:["#e0d0b0","#8a7050"], desc:"50 filtres", body:"Format Slim Brown, non blanchi, 50 filtres perforés par carnet (taille M, carton)." },
+  { slug:"tshirt-totally-stoned", nom:"T-shirt Oversized · Totally Stoned", kind:"simple", cat:"merch", price:39.90, opts:[["S",39.90],["M",39.90],["L",39.90],["XL",39.90],["2XL",39.90],["3XL",39.90]], img:"tshirt-totally-stoned.webp", c:["#cfd0cf","#45504a"], desc:"Coton · mixte", body:"En coton, effet légèrement délavé. Modèle MIXTE disponible du S au 3XL." },
+  { slug:"tshirt-weed-chill", nom:"T-shirt · Weed & Chill", kind:"simple", cat:"merch", price:39.90, opts:[["S",39.90],["M",39.90],["L",39.90],["XL",39.90],["2XL",39.90],["3XL",39.90]], img:"tshirt-weed-chill.webp", c:["#bfe3b0","#3a7a4a"], desc:"Coton · mixte", body:"En coton, coupe classique (regular). Modèle MIXTE disponible du S au 3XL." },
+  { slug:"carte-cadeau", nom:"Carte-cadeau WOOD", kind:"simple", cat:"carte", opts:[["10 €",10],["25 €",25],["50 €",50],["100 €",100],["200 €",200],["500 €",500]], img:"carte-cadeau.webp", c:["#cbf096","#2f9e6b"], desc:"Le bon cadeau 🎁", body:"Offrez WOOD : choisissez un montant et vous recevez un code cadeau unique (format WOOD-XXXX-XXXX) à la validation. Il se saisit directement dans le champ « code » au paiement — le solde est réutilisable jusqu'à épuisement — ou se présente en boutique. Montant au choix, de 10 à 500 €." },
 
   /* ---- Les offres d'Ana, comme produits à part entière ---------------------
      Avant, cliquer sur un bon plan renvoyait au catalogue : la promesse de la
@@ -275,7 +275,7 @@ const CAT_IMG={
   fleurs:"assets/scenes/cat-fleurs.jpg", resines:"assets/scenes/cat-resines.jpg",
   boostes:"assets/scenes/cat-boostes.jpg", huiles:"assets/scenes/cat-huiles.jpg",
   accessoires:"assets/scenes/cat-accessoires.jpg", acc:"assets/scenes/cat-accessoires.jpg",
-  bonbons:"assets/products/pack-mix-bonbons.jpg", carte:"assets/products/carte-cadeau.jpg",
+  bonbons:"assets/products/pack-mix-bonbons.webp", carte:"assets/products/carte-cadeau.webp",
 };
 function catArt(kind){
   const src=CAT_IMG[kind];
@@ -357,7 +357,7 @@ function cardHTML(f,i){
       <div class="halo" style="background:radial-gradient(circle,${f.c[0]}66,transparent 70%)"></div><div class="shine"></div>
       ${NOIMG.has(f.slug)
         ? `<div class="cloche">${window.__cloche(f.slug)}</div>`
-        : `<img class="cloche" src="assets/products/${f.slug}.jpg${IMGV}" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom} sous cloche" loading="lazy"
+        : `<img class="cloche" src="assets/products/${f.slug}.webp${IMGV}" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom} sous cloche" loading="lazy"
         onerror="this.outerHTML='<div class=&quot;cloche&quot;>'+window.__cloche('${f.slug}')+'</div>'">`}
       <div class="card-badges"><span class="badge ${t.cls}">${t.label}</span></div>
       <span class="card-view">Voir le produit →</span>
@@ -642,13 +642,13 @@ function renderCartDrawer(){
   // avantage inexistant. A remettre le jour ou l'expedition est en place.
   ship.innerHTML=`<p class="cd-ship-t">🏪 À retirer à <b>Barla</b> ou <b>Borriglione</b></p>`;
   const itemsHtml=cart.map(x=>{const sv=itemSave(x);return `<div class="cd-item">
-    <img src="assets/products/${x.slug}.jpg${IMGV}" alt="" onerror="this.style.visibility='hidden'">
+    <img src="assets/products/${x.slug}.webp${IMGV}" alt="" onerror="this.style.visibility='hidden'">
     <div class="cd-it-info"><b>${x.nom}</b><span class="cd-it-meta"><b>${itemQty(x)}</b> · ${x.unit.toFixed(2)} €${sv>=8?` · <em class="cd-sv">−${sv}%</em>`:''}</span>
       <div class="cd-qty"><button class="${x.q===1?'cd-rm':''}" data-cd-dec="${x.slug}" data-g="${x.g}" aria-label="${x.q===1?'Retirer du pochon':'Réduire'}" title="${x.q===1?'Retirer':'Réduire'}">${x.q===1?'🗑':'−'}</button><span>${x.q}</span><button data-cd-inc="${x.slug}" data-g="${x.g}" aria-label="Ajouter">+</button></div></div>
     <div class="cd-it-side"><b>${(x.unit*x.q).toFixed(2)} €</b><small class="cd-it-g">${itemTot(x)}</small><button class="cd-del" data-cd-del="${x.slug}" data-g="${x.g}" aria-label="Retirer ${x.nom}">Retirer</button></div>
   </div>`;}).join("");
   const picks=(typeof FLEURS!=="undefined"?FLEURS:[]).filter(f=>!cart.some(x=>x.slug===f.slug)).slice(0,2);
-  const xsell=picks.length?`<div class="cd-xsell"><div class="cd-xsell-h">Ça va bien avec 👀</div>${picks.map(f=>`<div class="cd-x"><img src="assets/products/${f.slug}.jpg${IMGV}" alt="" onerror="this.style.visibility='hidden'"><div class="cd-x-info"><b>${f.nom}</b><span class="muted">${f.p[1]} € · 3 g</span></div><button class="cd-x-add" data-add="${f.slug}" aria-label="Ajouter ${f.nom} au pochon">+</button></div>`).join("")}</div>`:"";
+  const xsell=picks.length?`<div class="cd-xsell"><div class="cd-xsell-h">Ça va bien avec 👀</div>${picks.map(f=>`<div class="cd-x"><img src="assets/products/${f.slug}.webp${IMGV}" alt="" onerror="this.style.visibility='hidden'"><div class="cd-x-info"><b>${f.nom}</b><span class="muted">${f.p[1]} € · 3 g</span></div><button class="cd-x-add" data-add="${f.slug}" aria-label="Ajouter ${f.nom} au pochon">+</button></div>`).join("")}</div>`:"";
   items.innerHTML=itemsHtml+xsell;
   foot.innerHTML=`<div class="cd-sub"><span>Sous-total <small class="muted">· ${nItems} art.${nGr?' · '+nGr+' g':''}</small></span><b>${sub.toFixed(2)} €</b></div>
     <a href="checkout.html" class="btn btn-primary cd-go">Réserver →</a>
@@ -733,7 +733,7 @@ function renderProduct(){
         <div class="halo" style="background:radial-gradient(circle,${f.c[0]}55,transparent 70%)"></div>
         ${NOIMG.has(f.slug)
           ? `<div class="cloche big">${window.__cloche(f.slug)}</div>`
-          : `<img src="assets/products/${f.slug}.jpg${IMGV}" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom} sous cloche" onerror="this.outerHTML='<div class=&quot;cloche big&quot;>'+window.__cloche('${f.slug}')+'</div>'">`}
+          : `<img src="assets/products/${f.slug}.webp${IMGV}" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom} sous cloche" onerror="this.outerHTML='<div class=&quot;cloche big&quot;>'+window.__cloche('${f.slug}')+'</div>'">`}
       </div>
       <div class="product-info">
         <span class="badge ${t.cls}">${t.label}</span>
@@ -812,7 +812,7 @@ function renderCart(){
   const promo=promoInfo(); let disc=0; if(promo&&promo.pct)disc=Math.round(sub*promo.pct)/100; else if(promo&&promo.gift)disc=Math.min(promo.balance,sub); const total=Math.max(0,sub-disc);
   root.innerHTML=`<h1 class="serif">Ton pochon <span class="cart-count-h">${nItems} article${nItems>1?'s':''}${nGr?' · '+nGr+' g':''}</span></h1>
     <div class="cart-grid">
-      <div class="cart-items">${cart.map((x,i)=>`<div class="cart-item"><div class="ci-media"><img src="assets/products/${x.slug}.jpg${IMGV}" alt="" onerror="this.outerHTML='<div>'+window.__cloche('${x.slug}')+'</div>'"></div>
+      <div class="cart-items">${cart.map((x,i)=>`<div class="cart-item"><div class="ci-media"><img src="assets/products/${x.slug}.webp${IMGV}" alt="" onerror="this.outerHTML='<div>'+window.__cloche('${x.slug}')+'</div>'"></div>
         <div class="ci-info"><div class="ci-name">${x.nom}</div><div class="muted ci-meta"><b>${itemQty(x)}</b> · ${euro(x.unit)}${(()=>{const sv=itemSave(x);return sv>=8?` · <span class="ci-sv">−${sv}%</span>`:'';})()}${x.g?` · total <b>${x.g*x.q} g</b>`:''}</div></div>
         <div class="ci-qty"><button class="${x.q===1?'cd-rm':''}" data-dec="${i}" aria-label="${x.q===1?'Retirer':'Réduire'}" title="${x.q===1?'Retirer':'Réduire'}">${x.q===1?'🗑':'−'}</button><span>${x.q}</span><button data-inc="${i}" aria-label="Ajouter">+</button></div>
         <div class="ci-line">${euro(x.unit*x.q)}</div><button class="ci-del" data-del="${i}" aria-label="Retirer ${x.nom}">Retirer</button></div>`).join("")}</div>
@@ -1178,7 +1178,7 @@ function renderConfirm(){
 function renderAvis(){ /* aucun avis à afficher aujourd'hui */ }
 function renderInsta(){
   const g=document.getElementById("instaGrid"); if(!g)return;
-  g.innerHTML=["euphoria","fanta-hazy","gelato","moonrock","ice-cream","stoned"].map(s=>`<a class="insta-cell reveal" href="https://instagram.com/wood.cbdshop" target="_blank" rel="noopener"><img src="assets/products/${s}.jpg${IMGV}" alt="" loading="lazy"><span class="insta-ic">◎</span></a>`).join("");
+  g.innerHTML=["euphoria","fanta-hazy","gelato","moonrock","ice-cream","stoned"].map(s=>`<a class="insta-cell reveal" href="https://instagram.com/wood.cbdshop" target="_blank" rel="noopener"><img src="assets/products/${s}.webp${IMGV}" alt="" loading="lazy"><span class="insta-ic">◎</span></a>`).join("");
 }
 
 /* ===================== STICKERS (mur défilant) ===================== */
@@ -1364,7 +1364,7 @@ function searchDraw(q){
   if(!list.length){res.innerHTML=`<p class="search-empty muted">Aucun résultat pour « ${q} ». Essaie « fruité », « boosté », « doux »…</p>`;return;}
   res.innerHTML=`${q?"":'<p class="search-hint muted">Notre sélection</p>'}<div class="search-grid">`+list.slice(0,8).map(f=>{
     return `<a class="search-row" href="produit.html?f=${f.slug}">
-      <img src="assets/products/${f.slug}.jpg${IMGV}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
+      <img src="assets/products/${f.slug}.webp${IMGV}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
       <div class="search-info"><b>${f.nom}</b><span class="muted">${f.desc} · ${TIER[f.tier]?TIER[f.tier].label:f.tier}</span></div>
       <span class="search-price">dès ${f.p[0]} €</span></a>`;}).join("")+`</div>`;
 }
@@ -1406,7 +1406,7 @@ function renderFavDrawer(){
   if(!favs.length){box.innerHTML=`<div class="cd-empty"><div class="ava-big">💚</div><p class="muted">Aucun coup de cœur… pour l'instant. Touche le ❤ sur une fleur pour la garder sous le coude.</p><a href="fleurs.html" class="btn btn-primary">Voir les fleurs →</a></div>`;return;}
   box.innerHTML=favs.map(s=>{const f=byId(s);if(!f)return"";
     return `<div class="fav-row">
-      <a class="fav-media" href="produit.html?f=${s}"><img src="assets/products/${s}.jpg${IMGV}" alt="${f.nom}" onerror="this.style.visibility='hidden'"></a>
+      <a class="fav-media" href="produit.html?f=${s}"><img src="assets/products/${s}.webp${IMGV}" alt="${f.nom}" onerror="this.style.visibility='hidden'"></a>
       <div class="fav-info"><a class="fav-name" href="produit.html?f=${s}">${f.nom}</a><span class="muted">${f.desc}</span><span class="fav-price">${f.p&&f.p[1]?f.p[1]+" € · 3 g":""}</span></div>
       <div class="fav-acts"><button class="btn btn-primary btn-sm" data-fav-add="${s}">+ Pochon</button><button class="fav-x" data-fav-del="${s}" aria-label="Retirer">✕</button></div>
     </div>`;}).join("");
@@ -1437,7 +1437,7 @@ function openQuickView(slug){
     <div class="qv-media"><div class="halo" style="background:radial-gradient(circle,${f.c[0]}66,transparent 70%)"></div>
       ${NOIMG.has(slug)
         ? `<div class="cloche big">${window.__cloche(slug)}</div>`
-        : `<img src="assets/products/${slug}.jpg${IMGV}" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom}" onerror="this.outerHTML='<div class=&quot;cloche big&quot;>'+window.__cloche('${slug}')+'</div>'">`}</div>
+        : `<img src="assets/products/${slug}.webp${IMGV}" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom}" onerror="this.outerHTML='<div class=&quot;cloche big&quot;>'+window.__cloche('${slug}')+'</div>'">`}</div>
     <div class="qv-body">
       <div class="qv-top"><span class="badge ${t.cls}">${t.label}</span><button class="card-fav${isFav(slug)?' on':''}" data-fav="${slug}" aria-label="Favori">${isFav(slug)?'♥':'♡'}</button></div>
       <h3 class="qv-name">${f.nom}</h3>
