@@ -571,32 +571,51 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 /* height:auto est obligatoire : l'attribut height="760" du <img> s'applique
    comme hauteur CSS (indication de présentation) et écraserait l'aspect-ratio,
    ce qui étirerait le visuel en bande verticale. */
-#promos .ph-visuel{position:relative;z-index:1;display:block;width:min(74%,300px)}
-#promos .ph-affiche{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:cover;
-  border-radius:18px;border:1px solid var(--line);box-shadow:0 16px 42px rgba(12,24,14,.34)}
-#promos .ph-badge{position:absolute;left:.85rem;top:.8rem;font-size:.72rem;padding:.4em .8em}
+/* le bandeau : le seul « moment » de la section, un grand point d'interrogation
+   sur la fresque. C'est litteralement l'offre : on ne dit pas ce qu'il y a dedans. */
+#promos .ph-visuel{position:relative;z-index:1;display:grid;place-items:center;
+  width:min(74%,300px);aspect-ratio:1;border-radius:18px;overflow:hidden;
+  border:1px solid rgba(255,255,255,.1);box-shadow:0 16px 42px rgba(12,24,14,.34);
+  background-color:#0f1c12;
+  background-image:linear-gradient(170deg,rgba(9,20,12,.62),rgba(9,20,12,.9)),
+                   url("assets/scenes/mural.webp");
+  background-size:auto,170%;background-position:center,46% 38%;background-repeat:no-repeat}
+#promos .ph-q{font-family:var(--serif);font-weight:600;font-size:9rem;line-height:1;
+  color:#f4f2e4;text-shadow:0 10px 44px rgba(0,0,0,.6);transform:translateY(.04em)}
+#promos .ph-badge{position:absolute;left:.9rem;top:.85rem;font-size:.72rem;padding:.4em .8em}
 #promos .promo-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin-top:.9rem}
 #promos .promo-mini{display:flex;flex-direction:column;min-width:0;border:1px solid var(--line);border-radius:18px;background:var(--card);overflow:hidden;transition:border-color var(--t) var(--ease),transform var(--t) var(--ease),box-shadow var(--t) var(--ease)}
 #promos .promo-mini:hover{border-color:rgba(216,212,189,.45);transform:translateY(-3px);box-shadow:var(--sh-soft)}
-#promos .pm-art{display:block;position:relative;aspect-ratio:16/9;overflow:hidden;border-bottom:1px solid var(--line)}
-/* Le visuel d'une offre = un fond photo + la typographie du site par-dessus.
-   Le prix n'est donc jamais peint dans l'image : Ana écrit « les variétés
-   changent régulièrement », un tarif doit rester modifiable en une ligne.
-   Le prix et le nom de l'offre réutilisent le composant .sticker du site —
-   Ana : « j'ai du graffiti et des stickers de partout ». */
-#promos .pm-img{display:block;width:100%;height:100%;object-fit:cover}
-#promos .pm-over{position:absolute;inset:0;padding:.95rem 1.05rem;
-  display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;
-  background:linear-gradient(100deg,rgba(7,16,9,.72) 0%,rgba(7,16,9,.34) 46%,transparent 72%)}
-#promos .pm-badge{position:absolute;left:1.05rem;top:.95rem}
-#promos .pm-q{font-family:var(--serif);font-weight:600;font-size:clamp(2.4rem,5.2vw,3.3rem);
-  line-height:.84;letter-spacing:-.02em;color:#f4f2e4;text-shadow:0 6px 30px rgba(0,0,0,.65)}
-#promos .pm-q i{font-style:italic;font-size:.5em}
-#promos .pm-prix{margin-top:.55rem;font-size:.92rem;padding:.42em .8em;transform:rotate(-3deg)}
-#promos .promo-mini:hover .pm-prix{transform:rotate(-3deg) scale(1.04)}
-#promos .pm-prix,#promos .pm-badge{transition:transform var(--t) var(--ease)}
-/* flex:1 + margin-top:auto sur .pm-go : les « Voir l'offre » restent alignés
-   d'une carte à l'autre même quand une description passe sur deux lignes */
+/* ===== Le visuel d'une offre ==============================================
+   Pas de photo produit : la variete tourne, en montrer une serait trompeur.
+   Le sujet est le grammage. Le fond est la fresque de la boutique, deja
+   chargee par le pied de page, assombrie pour rester une matiere.
+   Dosage : 80% calme premium / 15% matiere brute / 5% accent street.      */
+#promos .pm-art{display:block;position:relative;aspect-ratio:16/9;overflow:hidden;
+  container-type:inline-size;border-bottom:1px solid var(--line);
+  background-color:#0f1c12;
+  background-image:linear-gradient(104deg,rgba(9,20,12,.93) 0%,rgba(9,20,12,.74) 46%,rgba(9,20,12,.46) 100%),
+                   url("assets/scenes/mural.webp");
+  background-size:auto,220%;background-repeat:no-repeat;background-position:center,center}
+/* chaque offre cadre la fresque ailleurs : quatre cartes, une seule image */
+#promos .pm-gta  .pm-art{background-position:center,12% 22%}
+#promos .pm-p10  .pm-art{background-position:center,78% 20%}
+#promos .pm-p20  .pm-art{background-position:center,22% 82%}
+#promos .pm-trim .pm-art{background-position:center,86% 76%}
+
+#promos .pm-over{position:absolute;inset:0;padding:.9rem 1.05rem;
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end}
+#promos .pm-badge{position:absolute;left:1.05rem;top:.9rem}
+/* enorme et legerement debordante : la base du chiffre est coupee par le cadre */
+#promos .pm-q{font-family:var(--serif);font-weight:600;font-size:3.7rem;line-height:.76;
+  letter-spacing:-.03em;color:#f4f2e4;margin-bottom:-.08em;
+  text-shadow:0 8px 34px rgba(0,0,0,.6)}
+@supports (font-size:1cqw){#promos .pm-q{font-size:30cqw}}
+#promos .pm-q i{font-style:italic;font-size:.44em;letter-spacing:0}
+/* le prix en haut à droite : en diagonale du sticker de nom, et jamais sur le chiffre */
+#promos .pm-prix{position:absolute;right:.95rem;top:.9rem;font-size:1.02rem;padding:.46em .9em;
+  transform:rotate(-3deg);transition:transform var(--t) var(--ease)}
+#promos .promo-mini:hover .pm-prix{transform:rotate(-3deg) scale(1.06)}
 #promos .pm-body{display:flex;flex-direction:column;flex:1;min-width:0;padding:1rem 1.15rem 1.15rem;line-height:1.35}
 #promos .pm-body b{font-family:var(--serif);font-weight:600;font-size:1.08rem}
 #promos .pm-sub{font-size:.8rem;color:var(--muted);margin-top:.15rem}

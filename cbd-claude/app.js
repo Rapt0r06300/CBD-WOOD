@@ -387,11 +387,19 @@ const PROMOS=[
    c:["#cfe39a","#7a8a2e"],price:"dès 15 €",sub:"10 g 15 € · 25 g 30 € · 100 g 100 €"},
 ];
 
-/* ---- Le visuel d'une offre : le fond, puis le texte par-dessus ---------- */
+/* ---- Le visuel d'une offre -----------------------------------------------
+   Aucune photo de produit, et c'est un choix de fond : la variete d'une promo
+   TOURNE (« les variétés changent régulièrement »). Montrer une fleur qui n'est
+   pas celle vendue serait un visuel trompeur sur une caractéristique
+   essentielle, et la mention « photo non contractuelle » ne couvre pas ça
+   (art. L121-2 du Code de la consommation).
+   Alors le sujet, c'est le GRAMMAGE : chiffre en Fraunces, énorme, qui déborde
+   du cadre. Le fond est la fresque de la boutique (assets/scenes/mural.webp,
+   déjà chargée par le pied de page : zero octet de plus), assombrie pour
+   rester une matiere et non un sujet. Le seul accent est le sticker du prix.
+   Dosage vise : 80% calme premium, 15% matiere brute, 5% accent street.    */
 function promoArt(p){
-  return `<img class="pm-img" src="assets/products/${p.fond}${IMGV}" width="1000" height="563"
-      loading="lazy" decoding="async" alt="">
-    <span class="pm-over">
+  return `<span class="pm-over">
       ${p.badge?`<span class="sticker st-top pm-badge">${p.badge}</span>`:""}
       <span class="pm-q">${p.gros}${p.unite?`<i>${p.unite}</i>`:""}</span>
       <span class="sticker st-top pm-prix">${p.price}</span>
@@ -406,14 +414,13 @@ function promoHeroHTML(p){
       <div class="ph-sub">${p.sub}</div>
       <a class="btn btn-primary ph-cta" href="fleurs.html">Voir l'offre <span class="arr">→</span></a>
     </div>
-    <div class="ph-art" aria-hidden="true"><div class="ph-halo" style="background:radial-gradient(circle,${p.c[0]}66,transparent 70%)"></div>${p.img
-      /* le visuel est carré : hors du conteneur .cloche, qui impose un 3/4 fait pour les cloches en verre */
-      ? `<span class="ph-visuel"><img class="ph-affiche" src="assets/products/${p.img}${IMGV}" alt="" width="760" height="760" decoding="async">
-           ${p.badge?`<span class="sticker st-top ph-badge">${p.badge}</span>`:""}</span>`
-      : `<div class="cloche">${p.mystery?mysterySVG():clocheSVG(p.c,"ph")}</div>`}</div>
+    <div class="ph-art" aria-hidden="true"><div class="ph-halo" style="background:radial-gradient(circle,${p.c[0]}66,transparent 70%)"></div><span class="ph-visuel">
+        <span class="ph-q">?</span>
+        ${p.badge?`<span class="sticker st-top ph-badge">${p.badge}</span>`:""}
+      </span></div>
   </div>`;}
 function promoMiniHTML(p){
-  return `<a class="promo-mini" href="fleurs.html">
+  return `<a class="promo-mini pm-${p.key}" href="fleurs.html">
     <span class="pm-art">${promoArt(p)}</span>
     <span class="pm-body"><b>${p.name}</b><span class="pm-sub">${p.desc}</span>
       <span class="pm-gram">${p.sub}</span>
