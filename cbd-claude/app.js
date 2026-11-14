@@ -218,10 +218,24 @@ function renderSimpleProduct(f){
     const res=document.getElementById("gcRes"); res.hidden=false;
     if(!/^WOOD-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(code)){res.textContent="Format attendu : WOOD-XXXX-XXXX";res.className="gc-res err";return;}
     res.textContent="Vérification…";res.className="gc-res";
+    gcb.disabled=true;                       /* pas deux requêtes pour un clic */
     const gc=await lookupGift(code);
-    if(gc&&gc.balance>0){res.textContent=`✅ Carte valide · solde ${euro(gc.balance)}`;res.className="gc-res ok";}
-    else if(gc){res.textContent="Cette carte est épuisée.";res.className="gc-res err";}
-    else{res.textContent="Carte introuvable.";res.className="gc-res err";}
+    gcb.disabled=false;
+    /* Quatre réponses possibles, quatre phrases vraies. On ne dit JAMAIS
+       « introuvable » quand c'est nous qui n'avons pas pu demander. */
+    if(gc.etat==="ok"&&gc.utilisable){
+      res.textContent=`✅ Carte valide · solde ${gc.solde}`;res.className="gc-res ok";
+    }else if(gc.etat==="ok"){
+      res.textContent="Cette carte est épuisée.";res.className="gc-res err";
+    }else if(gc.etat==="inconnue"){
+      res.textContent="Carte introuvable. Vérifie le code — s'il est bien celui-là, appelle-nous : "+GC_TEL;
+      res.className="gc-res err";
+    }else if(gc.etat==="trop-dessais"){
+      res.textContent="Trop d'essais : réessaie dans une minute.";res.className="gc-res err";
+    }else{
+      res.textContent="On ne peut pas vérifier en ligne pour l'instant. Ta carte reste valable : appelle "+GC_TEL+", on te donne ton solde.";
+      res.className="gc-res";
+    }
   });
 }
 const TIER = { boostes:{label:"Boostés",cls:"badge-boost"}, soft:{label:"Soft",cls:"badge-soft"}, classique:{label:"Classique",cls:"badge-classic"} };
@@ -862,44 +876,94 @@ function renderProduct(){
 const PROMO_CODES={};
 function getPromo(){try{return JSON.parse(localStorage.getItem("wood_promo")||"null");}catch(e){return null;}}
 function setPromo(code){try{code?localStorage.setItem("wood_promo",JSON.stringify({code})):localStorage.removeItem("wood_promo");}catch(e){}}
-/* ---- Cartes cadeaux WOOD (démo client-side : code unique + solde réutilisable au paiement) ---- */
-function getGifts(){try{return JSON.parse(localStorage.getItem("wood_giftcards")||"{}")||{};}catch(e){return {};}}
-function saveGifts(o){try{localStorage.setItem("wood_giftcards",JSON.stringify(o));}catch(e){}}
-function giftCard(code){const g=getGifts();return g[code]||null;}
-function genGiftCode(){const A="ACDEFGHJKLMNPQRSTUVWXY34679";const blk=()=>Array.from({length:4},()=>A[Math.floor(Math.random()*A.length)]).join("");const g=getGifts();let c;do{c="WOOD-"+blk()+"-"+blk();}while(g[c]);return c;}
-function issueGift(amount){const g=getGifts();const code=genGiftCode();g[code]={amount:amount,balance:amount,created:Date.now()};saveGifts(g);return code;}
-function redeemGift(code,amt){const g=getGifts();if(g[code]){g[code].balance=Math.max(0,Math.round((g[code].balance-amt)*100)/100);saveGifts(g);return g[code].balance;}return null;}
-/* ---- Base de données WOOD (Supabase) : source de vérité des cartes cadeaux ----
-   La table est fermée en accès direct (RLS) : tout passe par 3 fonctions serveur
-   (émission, consultation, débit atomique + idempotent). Clé publique = prévue pour l'être. */
-const SB_URL="https://fautpphrrhwcmcywzsbk.supabase.co";
-const SB_KEY="sb_publishable_DeMukgfB802EMJ4Jyftf9g_dHG3XmmG";
-async function sbRpc(fn,args){
-  const r=await fetch(SB_URL+"/rest/v1/rpc/"+fn,{method:"POST",headers:{apikey:SB_KEY,Authorization:"Bearer "+SB_KEY,"Content-Type":"application/json"},body:JSON.stringify(args||{})});
-  const t=await r.text(); let j=null; try{j=JSON.parse(t);}catch(e){}
-  if(!r.ok) throw new Error((j&&(j.message||j.hint))||t||("HTTP "+r.status));
-  return j;
-}
-/* Consulte une carte EN BASE (cache local rafraîchi). Hors-ligne -> repli sur le cache. */
+/* ===================== CARTES CADEAUX =====================
+   ⚠️ LE SOLDE D'UNE CARTE NE VIT QUE SUR LE SERVEUR.
+
+   Ce qui était écrit ici faisait vivre l'argent dans le navigateur :
+     · `issueGift(montant)`   créait une carte ET son solde dans localStorage ;
+     · `redeemGift(code,m)`   le débitait ;
+     · `giftCard(code)`       le relisait comme une source de vérité.
+   Trois fonctions qui frappent de la monnaie dans un endroit que le visiteur
+   modifie en deux clics dans les outils de développement. Aucune n'était
+   appelée — mais les garder, c'est laisser le piège armé pour le prochain
+   site d'appel, et ce chantier a déjà montré six fois qu'une bonne pratique
+   existante n'empêche pas un appelant de passer à côté.
+
+   L'argent vit dans `wood-api/lib/giftcard.php`, en un seul endroit :
+     · `giftcard_issue()`   — après un paiement vérifié, jamais avant ;
+     · `giftcard_redeem()`  — atomique et idempotent : rejouer la même
+       référence ne débite pas deux fois ;
+   et la route `carte-cadeau` n'expose QUE la consultation et le débit.
+   Personne ne peut faire naître une carte depuis le navigateur.
+
+   SUPABASE EST DÉBRANCHÉ. Le solde était lu sur
+   `fautpphrrhwcmcywzsbk.supabase.co` via la fonction `check_gift_card`,
+   avec sa clé publique en clair dans ce fichier. La base de WOOD est
+   MariaDB + PHP pour Hostinger ; Supabase ne tournait plus que là.
+   Vérifié avant de couper : la table ne contenait que trois cartes de test
+   du 12/11 (50 € et 77 € déjà vidées, 25 € dont 15 € restants) — aucun
+   solde client n'est orphelin.
+   ========================================================= */
+
+/* Les vrais numéros des deux boutiques, pour le cas « on ne peut pas
+   vérifier ». Les mêmes que sur la page de réservation. */
+const GC_TEL = "04 22 16 35 70 (Barla) ou 04 23 13 03 05 (Borriglione)";
+
+/* Consulte une carte auprès de l'API PHP. Rend TOUJOURS un état nommé —
+   et surtout jamais « introuvable » quand c'est NOUS qui n'avons pas pu
+   demander : dire à quelqu'un qui tient une vraie carte qu'elle n'existe
+   pas est le pire des trois cas.
+
+     {etat:"ok", soldeCents, solde, utilisable, demo}
+     {etat:"inconnue"}       le serveur a répondu : ce code n'existe pas
+     {etat:"trop-dessais"}   12 essais/minute/IP atteints
+     {etat:"indisponible"}   API non branchée, muette, ou réponse illisible */
 async function lookupGift(code){
-  try{
-    const res=await sbRpc("check_gift_card",{p_code:code});
-    if(res&&res[0]){
-      const bal=Number(res[0].balance), g=getGifts();
-      g[code]=Object.assign(g[code]||{amount:bal},{balance:bal,status:res[0].status});
-      saveGifts(g); return g[code];
-    }
-    return null; /* inconnue en base */
-  }catch(e){ return giftCard(code); }
+  if(typeof WoodAPI==="undefined" || !WoodAPI.actif()) return {etat:"indisponible"};
+  let r=null;
+  try{ r=await WoodAPI.verifierCarte(code); }
+  catch(e){
+    const s=e&&e.statut;
+    return {etat: s===404 ? "inconnue" : (s===429 ? "trop-dessais" : "indisponible")};
+  }
+  /* Le serveur compte en CENTIMES — jamais en euros flottants. */
+  const cents=Number(r&&r.solde_cents);
+  if(!Number.isFinite(cents)) return {etat:"indisponible"};
+  return {etat:"ok", soldeCents:cents,
+          solde:(r.solde||euro(cents/100)),
+          utilisable:r.utilisable===true, demo:r.demo===true};
 }
-function promoInfo(){const p=getPromo();if(!p)return null;if(PROMO_CODES[p.code])return Object.assign({code:p.code},PROMO_CODES[p.code]);const gc=giftCard(p.code);if(gc&&gc.balance>0)return {code:p.code,gift:true,balance:gc.balance,l:"carte cadeau · "+euro(gc.balance)};return null;}
+
+/* AUCUNE réduction ne peut s'appliquer au panier aujourd'hui, et ce n'est
+   pas un oubli : il n'y a pas de paiement en ligne, et une carte cadeau se
+   présente au comptoir, où la vendeuse la débite en base.
+
+   ⚠️ CE QUE ÇA CORRIGE. Les codes promo avaient été vidés (`PROMO_CODES={}`)
+   et le champ retiré du panier — mais la branche « carte cadeau » lisait
+   encore un solde dans localStorage et accordait la remise. Résultat : un
+   visiteur qui avait appliqué une carte à l'époque où le champ existait
+   voyait toujours sa ligne de remise, sortie d'une valeur qu'il contrôle,
+   SANS aucun moyen de l'enlever — le bouton « retirer » avait disparu avec
+   le champ. Et le checkout, lui, n'a jamais tenu compte des remises : le
+   même pochon affichait donc deux totaux différents, et le plus bas était
+   celui que le client allait dicter au téléphone.
+
+   On rend null, et on nettoie la mémoire laissée par cette époque.        */
+function promoInfo(){
+  try{ setPromo(null); localStorage.removeItem("wood_giftcards"); }catch(e){}
+  return null;
+}
 function renderCart(){
   const root=document.getElementById("cart"); if(!root)return;
   window.__renderCart=renderCart;
   if(!cart.length){root.innerHTML=`<div class="cart-empty"><div class="ava-big">🌿</div><h1 class="serif">Ton pochon est vide…</h1><p class="muted">On répare ça ?</p><a href="fleurs.html" class="btn btn-primary">Découvrir les fleurs →</a></div>`;return;}
   const sub=cart.reduce((s,x)=>s+x.unit*x.q,0);
   const nItems=cart.reduce((s,x)=>s+x.q,0), nGr=cart.reduce((s,x)=>s+x.g*x.q,0);
-  const promo=promoInfo(); let disc=0; if(promo&&promo.pct)disc=Math.round(sub*promo.pct)/100; else if(promo&&promo.gift)disc=Math.min(promo.balance,sub); const total=Math.max(0,sub-disc);
+  /* UN SEUL TOTAL. Le panier affichait `sub − remise`, le checkout affichait
+     `sub` : deux chiffres pour le même pochon. `promoInfo()` rend désormais
+     toujours null (voir son commentaire), donc les deux pages s'accordent. */
+  promoInfo();                 /* appelé pour son nettoyage, pas sa valeur */
+  const total=sub;
   root.innerHTML=`<h1 class="serif">Ton pochon <span class="cart-count-h">${nItems} article${nItems>1?'s':''}${nGr?' · '+nGr+' g':''}</span></h1>
     <div class="cart-grid">
       <div class="cart-items">${cart.map((x,i)=>`<div class="cart-item"><div class="ci-media">${NOIMG.has(x.slug)?`<div class="ci-art">${window.__cloche(x.slug)}</div>`:`<img src="assets/products/${x.slug}.webp${IMGV}" alt="" onerror="this.outerHTML='<div>'+window.__cloche('${x.slug}')+'</div>'">`}</div>
@@ -911,7 +975,7 @@ function renderCart(){
         ${'' /* Barre « livraison offerte » retiree : il n'y a pas encore de livraison. */}
         ${'' /* Champ code retiré : sans paiement en ligne, une remise affichée ne voudrait rien dire. */}
         <div class="sum-row"><span>Sous-total</span><strong>${euro(sub)}</strong></div>
-        ${disc>0?`<div class="sum-row disc"><span>${promo.gift?'🎁 Carte cadeau':'Réduction'} · ${promo.code}</span><strong>−${euro(disc)}</strong></div>`:''}
+        ${'' /* Ligne de remise retirée : elle sortait d'un solde stocké dans le navigateur du visiteur, et le checkout ne la connaissait pas. */}
         <div class="sum-row muted"><span>Retrait en boutique</span><span>Gratuit</span></div>
         <div class="sum-row total"><span>Total</span><strong>${euro(total)}</strong></div>
         <a class="btn btn-primary" href="checkout.html" style="width:100%;justify-content:center;margin-top:1rem">Réserver ma sélection →</a>
@@ -1563,16 +1627,13 @@ document.addEventListener("DOMContentLoaded",()=>{
       else if(ci.hasAttribute("data-del"))cart.splice(idx,1);
       else{cart[idx].q--;if(cart[idx].q<1)cart.splice(idx,1);}
       saveCart();updateCartBadges();renderCart();if(typeof renderCartDrawer==='function')renderCartDrawer();return;}
-    // Code promo (panier)
-    const pa=e.target.closest("[data-promo-apply]"); if(pa){e.preventDefault();(async()=>{
-      const inp=document.getElementById("promoCode");const c=((inp&&inp.value)||"").trim().toUpperCase();
-      if(PROMO_CODES[c]){setPromo(c);toast(`Code ${c} appliqué 🎉`);renderCart();return;}
-      if(/^WOOD-/.test(c)){ toast("Vérification de la carte…"); const gc=await lookupGift(c);
-        if(gc&&gc.balance>0){setPromo(c);toast(`🎁 Carte cadeau · solde ${euro(gc.balance)}`);renderCart();}
-        else{toast(gc?"Carte cadeau épuisée":"Carte introuvable");}
-        return;}
-      toast("Code invalide");})();return;}
-    const prm=e.target.closest("[data-promo-rm]"); if(prm){e.preventDefault();setPromo(null);toast("Code promo retiré");renderCart();return;}
+    /* CODE PROMO AU PANIER : les deux gestionnaires sont partis avec le champ.
+       Ils écoutaient `[data-promo-apply]` et `[data-promo-rm]`, deux attributs
+       qu'aucun élément ne porte plus depuis le retrait du champ de code — donc
+       du code mort, mais du code mort qui rallumait la remise localStorage dès
+       que quelqu'un remettrait l'input. Le jour où une carte cadeau pourra
+       vraiment être appliquée, ce sera au moment du paiement en ligne, avec un
+       débit serveur (`giftcard_redeem()`), pas avec une remise d'affichage. */
     // ajout simple (ex. cross-sell) : 3 g par defaut
     const a=e.target.closest("[data-add]"); if(a){e.preventDefault();const gi=a.dataset.gi!==undefined?+a.dataset.gi:1;addToCart(a.dataset.add,GRAMS[gi]);return;}
     const qv=e.target.closest("[data-qv]"); if(qv){e.preventDefault();openQuickView(qv.dataset.qv);return;}

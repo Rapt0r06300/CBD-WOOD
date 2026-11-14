@@ -61,9 +61,20 @@ const WoodAPI = (() => {
     boutiques: ()      => doux(() => appel("boutiques")),
     catalogue: (cat)   => doux(() => appel("catalogue" + (cat ? "&cat=" + encodeURIComponent(cat) : ""))),
 
-    /* --- Carte cadeau ---------------------------------------------- */
+    /* --- Carte cadeau ----------------------------------------------
+       ⚠️ LES ERREURS NE SONT PAS AVALÉES ICI, et c'est volontaire.
+       `doux()` rend `null` sur TOUTE erreur. Un code inconnu (404) et un
+       serveur muet deviendraient donc indistinguables, et l'écran n'aurait
+       plus que deux mensonges au choix : annoncer « carte introuvable » à
+       quelqu'un qui tient une vraie carte, ou « on ne peut pas vérifier »
+       à quelqu'un qui s'est trompé d'un caractère.
+
+       L'appelant tranche sur `e.statut` :
+         404 → ce code n'existe pas en base (le serveur a bien répondu)
+         429 → trop d'essais (12/minute/IP, anti-recherche de codes)
+         autre ou réseau muet → on ne sait pas, et on le dit.            */
     verifierCarte: (code) =>
-      doux(() => appel("carte-cadeau", { methode: "POST", corps: { action: "verifier", code } })),
+      appel("carte-cadeau", { methode: "POST", corps: { action: "verifier", code } }),
 
     /* --- Commande ---------------------------------------------------
        Les erreurs NE sont PAS avalées ici : si une commande échoue,

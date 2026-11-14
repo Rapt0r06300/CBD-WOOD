@@ -31,11 +31,13 @@
     <h2>Ce que ce site collecte aujourd'hui</h2>
     <p><strong>Aucune donnée personnelle n'est envoyée à un serveur.</strong> Il n'y a ni compte client, ni commande en ligne, ni formulaire actif : la réservation se fait par téléphone. Concrètement, rien de ce que vous faites ici ne nous parvient — à part votre appel.</p>
     <h2>Ce qui reste dans votre navigateur</h2>
-    <p>Quatre informations seulement, enregistrées <em>dans votre navigateur</em> (stockage local) : votre panier, vos coups de cœur, le solde d'une carte cadeau que vous auriez vérifiée, et un éventuel code de réduction. Elles ne sortent pas de votre appareil, personne d'autre n'y a accès, et vider les données du site les supprime.</p>
+    <p>Deux informations seulement, enregistrées <em>dans votre navigateur</em> (stockage local) : votre panier et vos coups de cœur. Elles ne sortent pas de votre appareil, personne d'autre n'y a accès, et vider les données du site les supprime.</p>
+    <p>Cette page en annonçait quatre : s'y ajoutaient le solde d'une carte cadeau et un code de réduction. Le site ne les enregistre plus, et <strong>il efface de lui-même celles qu'il avait pu laisser</strong> lors de votre prochaine visite au panier — un solde conservé dans votre navigateur ne voulait rien dire, puisque seul notre comptoir fait foi.</p>
     <h2>Mesure d'audience</h2>
     <p><strong>Aucune.</strong> Pas de Google Analytics, pas de pixel publicitaire, pas de traceur tiers. Nous ne savons pas qui visite ce site.</p>
     <h2>Services extérieurs appelés par la page</h2>
-    <p>Deux seulement : les polices de caractères sont servies par <strong>Google Fonts</strong> (votre adresse IP est donc vue par Google au chargement), et la vérification d'un code de carte cadeau interroge notre base hébergée chez <strong>Supabase</strong> — uniquement si vous saisissez un code.</p>
+    <p>Un seul : les polices de caractères sont servies par <strong>Google Fonts</strong> — votre adresse IP est donc vue par Google au chargement de la page.</p>
+    <p>La vérification du solde d'une carte cadeau passait auparavant par une base extérieure (<strong>Supabase</strong>). Ce n'est plus le cas : plus aucune donnée ne part vers ce service. Le jour où cette vérification rouvrira, elle interrogera <em>notre propre serveur</em>, chez notre hébergeur, sans service tiers — et cette page le dira avant, pas après.</p>
     <h2>Le jour où la commande en ligne ouvrira</h2>
     <p>Nous collecterons alors les données strictement nécessaires : identité et coordonnées (exécution du contrat), e-mail pour la lettre d'information (consentement), et les mentions obligatoires des factures. Cette page sera mise à jour <em>avant</em>, pas après.</p>
     <h2>Durée de conservation</h2>
@@ -48,7 +50,7 @@
   </div>
 </main>
 <footer data-chrome="footer"></footer><div data-chrome="advisor"></div><nav data-chrome="botnav"></nav>
-<script src="api.js?v=4"></script>
-<script src="app.js?v=73"></script>
+<script src="api.js?v=5"></script>
+<script src="app.js?v=74"></script>
 </body>
 </html>
