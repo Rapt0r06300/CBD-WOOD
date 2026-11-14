@@ -32,14 +32,29 @@ const FLEURS = [
      aucune molécule sur les fleurs ». La phrase entière d'Ana est conservée
      dans [[ana_ses_mots_verbatim]] : « Et tu as la Purple qui est molécule,
      mais Light ». On garde SON mot (Light), on retire l'étiquette.
-     ⚠️ 14/11 — PRIX 10 g CONTESTE, on ne touche pas. La carte imprimee
-     affiche 100 € ; les DEUX ardoises affichent 90 €. L'arithmetique de la
-     carte penche pour 90 (partout ailleurs 25 g = 2 × 10 g, et ici
-     25 g = 180). On reste quand meme a 100 € : un prix annonce doit etre
-     honore au comptoir (art. L112-1), donc entre deux lectures on retient
-     la plus haute — se tromper vers le bas obligerait la vendeuse a
-     reclamer 10 € de plus au retrait. QUESTION A ANA : 90 ou 100 ? */
-  { slug:"purple", nom:"Purple", tier:"boostes", desc:"Light ☯", c:["#b89adf","#4a2e6b"], p:[11,30,50,100], g25:180 , emo:"☯️", int:"MÉDIUM"},
+     ⚠️ 14/11, CORRIGE LE JOUR MEME : LE 10 g EST A 90 €, PAS 100 €.
+     J'avais d'abord ecrit 100 € en lisant la carte imprimee, et justifie
+     ce choix par « entre deux lectures, on retient la plus haute, car un
+     prix annonce doit etre honore au comptoir (art. L112-1) ». La regle est
+     bonne ; son application etait fausse. C'est un DEPARTAGE, et il ne vaut
+     que s'il y a vraiment egalite. Il n'y en avait pas : QUATRE indices
+     disent 90, un seul dit 100.
+       1. l'ardoise B dit 90
+       2. l'ardoise C dit 90
+       3. partout ailleurs sur la carte, 25 g = 2 × 10 g — et ici 25 g = 180
+       4. et surtout : LE PALIER 11 €/g DE LA CARTE ELLE-MEME. Golden High,
+          Jelly High et Frost' sont aussi a 11 €/g et font tous
+          30 / 50 / 90 / 180. Purple etait le SEUL produit sur 23 a casser
+          son palier.
+     Le point 4 est interne a la source A : ce n'est plus « ma photo contre
+     son ardoise », c'est la carte qui se contredit elle-meme sur une case
+     — vraisemblablement un reflet lu de travers, ou une coquille d'impression.
+     Et afficher 100 € ne protegeait personne : ca faisait payer 10 € de
+     plus qu'en boutique.
+     LECON : avant d'invoquer une regle de prudence, verifier qu'on est bien
+     dans le cas qu'elle couvre. Une regle de departage appliquee a un cas
+     tranche, c'est une erreur qui se deguise en rigueur. */
+  { slug:"purple", nom:"Purple", tier:"boostes", desc:"Light ☯", c:["#b89adf","#4a2e6b"], p:[11,30,50,90], g25:180 , emo:"☯️", int:"MÉDIUM"},
   { slug:"bloody-mary", nom:"Bloody Mary", tier:"classique", desc:"CBD élite premium 🍸", c:["#e8a39a","#7a2a2a"], p:[10,28,45,80], g25:160 , emo:"🍸"},
   /* 14/11 — « CBD + CBG · » retiré (même consigne). Ana, verbatim : « j'ai
      même une fleur Cbd plus CBG donc la cosmique qui peut correspondre à
