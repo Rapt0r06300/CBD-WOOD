@@ -117,7 +117,22 @@ function simpleBuyBlock(f){
     <button class="card-add" data-sb-add="${f.slug}">Ajouter au pochon</button>
   </div>`;
 }
-function cartAddSimple(f,unit,opt,qty){qty=qty||1;const ex=cart.find(x=>x.slug===f.slug&&x.opt===opt);if(ex)ex.q+=qty;else cart.push({slug:f.slug,nom:f.nom,g:0,unit:unit,q:qty,opt:opt||null});saveCart();updateCartBadges();if(window.__renderCart)window.__renderCart();return qty;}
+/* Même verrou que `cartAdd()` : pas de prix, pas de ligne. Les offres d'Ana
+   ont toutes un prix aujourd'hui, mais la porte doit être fermée partout —
+   sinon le prochain produit sans prix repasse par ici. */
+function cartAddSimple(f,unit,opt,qty){
+  qty=qty||1;
+  if(!Number.isFinite(Number(unit))||Number(unit)<=0){
+    if(typeof toast==="function")
+      toast("Ce format n'est pas encore en ligne — demande-le en boutique");
+    return 0;
+  }
+  unit=Number(unit);
+  const ex=cart.find(x=>x.slug===f.slug&&x.opt===opt);
+  if(ex)ex.q+=qty; else cart.push({slug:f.slug,nom:f.nom,g:0,unit:unit,q:qty,opt:opt||null});
+  saveCart();updateCartBadges();if(window.__renderCart)window.__renderCart();
+  return qty;
+}
 
 /* ---- Fiche d'une offre ----------------------------------------------------
    Une offre n'a pas de produit a montrer : la variete qu'elle contient TOURNE.
@@ -239,7 +254,29 @@ function renderSimpleProduct(f){
   });
 }
 const TIER = { boostes:{label:"Boostés",cls:"badge-boost"}, soft:{label:"Soft",cls:"badge-soft"}, classique:{label:"Classique",cls:"badge-classic"} };
-const GRAMS = [1,3,5,10];
+
+/* LES GRAMMAGES DE LA CARTE : 1 / 3 / 5 / 10 / 25 g.
+   ⚠️ LE 25 g MANQUAIT, et c'était un vrai écart. Son prix était pourtant
+   dans les données (`g25`), relevé sur la carte d'Ana — mais il ne servait
+   QU'À UNE CHOSE : la balise structurée envoyée à Google. Autrement dit, on
+   annonçait à Google une offre « 25 g » qu'aucun visiteur ne pouvait choisir,
+   et qu'aucun humain ne voyait. C'est à la fois une perte sèche (la carte
+   vend du 25 g) et une incohérence entre le balisage et le contenu visible,
+   que Google sanctionne.
+   Exactement le motif deja rencontre avec la promo 20 g d'Ana : la donnee
+   etait la, aucun gabarit ne la rendait.
+   Ici on ne devine rien — on affiche un prix deja valide.
+   Pour revenir en arriere : retirer 25 de ce tableau suffit, la ligne de
+   normalisation ci-dessous redevient inoffensive. */
+const GRAMS = [1,3,5,10,25];
+
+/* `p` tenait 4 prix et le 25 g vivait a part, dans `g25`. On le range a sa
+   place, en 5e position, pour que TOUS les consommateurs existants — la
+   fiche produit, l'apercu rapide, le panier, la balise structuree — le voient
+   sans qu'aucun d'eux n'ait besoin de connaitre le cas particulier. Les
+   resines n'ont pas de 25 g sur la carte : `p[4]` y reste `null`, et chaque
+   affichage filtre deja les prix absents. */
+FLEURS.forEach(f => { if (Array.isArray(f.p) && f.p.length < 5) f.p[4] = (f.g25 == null ? null : f.g25); });
 const byId = s => FLEURS.find(f=>f.slug===s) || BOUTIQUE.find(f=>f.slug===s) || null;
 /* Un prix ne s'écrit jamais « 11,8 € » : les centimes se notent sur deux chiffres. */
 /* Échappement HTML, pour toute valeur insérée dans un template.
@@ -673,13 +710,66 @@ function brancherNewsletter(){
 function toast(msg){let t=document.createElement("div");t.textContent=msg;Object.assign(t.style,{position:"fixed",left:"50%",bottom:"88px",transform:"translateX(-50%) translateY(20px)",background:"#17211a",color:"#f1f0e6",border:"1px solid #2c3a30",padding:".8em 1.2em",borderRadius:"999px",zIndex:99,fontWeight:"700",fontSize:".9rem",boxShadow:"0 18px 50px rgba(0,0,0,.5)",opacity:"0",transition:".3s cubic-bezier(.16,1,.3,1)",maxWidth:"90vw",textAlign:"center"});document.body.appendChild(t);requestAnimationFrame(()=>{t.style.opacity="1";t.style.transform="translateX(-50%) translateY(0)";});setTimeout(()=>{t.style.opacity="0";t.style.transform="translateX(-50%) translateY(20px)";setTimeout(()=>t.remove(),320);},2300);}
 
 /* ===================== PANIER ===================== */
-let cart=JSON.parse(localStorage.getItem("wood_cart")||"[]");
+/* LE POCHON, RELU DU NAVIGATEUR — et nettoyé au passage.
+   ⚠️ Un visiteur peut déjà avoir en mémoire une ligne sans prix, ajoutée
+   avant que `cartAdd()` ne les refuse (l'aperçu rapide proposait « 10 g
+   null € » pour les résines). Elle comptait zéro dans le total : on la
+   retire, sinon le correctif ne protège que les nouveaux visiteurs.
+   On se protège aussi d'un `localStorage` illisible ou falsifié : une
+   quantité négative, un prix en chaîne de caractères, un objet sans slug. */
+function lireLePochon(){
+  let brut;
+  try { brut = JSON.parse(localStorage.getItem("wood_cart")||"[]"); }
+  catch(e){ return []; }
+  if(!Array.isArray(brut)) return [];
+  return brut.filter(x =>
+    x && typeof x.slug === "string" && x.slug
+    && Number.isFinite(Number(x.unit)) && Number(x.unit) > 0
+    && Number.isFinite(Number(x.q))    && Number(x.q)    > 0
+  ).map(x => Object.assign({}, x, { unit: Number(x.unit), q: Math.floor(Number(x.q)) }));
+}
+let cart=lireLePochon();
 function saveCart(){localStorage.setItem("wood_cart",JSON.stringify(cart));}
 function cartCount(){return cart.reduce((s,x)=>s+x.q,0);}
 function updateCartBadges(){document.querySelectorAll("#cartCount,#cartCountM").forEach(e=>e.textContent=cartCount());}
-function cartAdd(slug,g,qty){const f=byId(slug);if(!f)return 0;g=g||3;qty=qty||1;const gi=GRAMS.indexOf(g);const unit=f.p[gi>=0?gi:0];const ex=cart.find(x=>x.slug===slug&&x.g===g);if(ex)ex.q+=qty;else cart.push({slug,nom:f.nom,g,unit,q:qty});saveCart();updateCartBadges();if(window.__renderCart)window.__renderCart();return qty;}
+/* LA PORTE D'ENTRÉE DU POCHON. Tout ce qui s'achète passe par ici.
+   ⚠️ UNE LIGNE SANS PRIX EST REFUSÉE. Les 10 résines n'ont pas de prix pour
+   le 10 g (colonne coupée sur la photo de la carte, et on ne devine pas un
+   prix). Un appelant qui demandait ce grammage créait une ligne à
+   `unit: null`, comptée ZÉRO dans le total — un article remis gratuitement.
+   Filtrer l'affichage ne suffit pas : il y avait deux affichages, et un seul
+   filtrait. C'est donc ici que ça se tranche, une fois pour toutes.
+   Rend 0 si rien n'a été ajouté, et le dit au client. */
+function cartAdd(slug,g,qty){
+  const f=byId(slug); if(!f)return 0;
+  g=g||3; qty=qty||1;
+  const gi=GRAMS.indexOf(g);
+  const unit=f.p[gi>=0?gi:0];
+  if(!Number.isFinite(unit)||unit<=0){
+    if(typeof toast==="function")
+      toast(`${g} g : ce format n'est pas encore en ligne — demande-le en boutique`);
+    return 0;
+  }
+  const ex=cart.find(x=>x.slug===slug&&x.g===g);
+  if(ex)ex.q+=qty; else cart.push({slug,nom:f.nom,g,unit,q:qty});
+  saveCart();updateCartBadges();if(window.__renderCart)window.__renderCart();
+  return qty;
+}
 function bumpCartBtn(){const b=document.getElementById("cartBtn");if(b)b.animate([{transform:"scale(1)"},{transform:"scale(1.25)"},{transform:"scale(1)"}],{duration:380,easing:"cubic-bezier(.16,1,.3,1)"});if(navigator.vibrate)navigator.vibrate(12);}
-function addToCart(slug,g,qty){const f=byId(slug);if(!f)return;g=g||3;qty=qty||1;cartAdd(slug,g,qty);bumpCartBtn();const unit=f.p[GRAMS.indexOf(g)>=0?GRAMS.indexOf(g):0];toast(`Ajouté au pochon : ${f.nom} · ${g} g${qty>1?` ×${qty}`:''} · ${euro(unit*qty)} ✓`);openCartDrawer();}
+/* ⚠️ ON N'ANNONCE PAS UN AJOUT QUI N'A PAS EU LIEU. Avant, ce toast disait
+   « Ajouté au pochon … null € ✓ » même quand `cartAdd` avait refusé la ligne :
+   la coche verte mentait, et le tiroir s'ouvrait sur un pochon inchangé.
+   `cartAdd` rend 0 quand il refuse — on le lit. */
+function addToCart(slug,g,qty){
+  const f=byId(slug); if(!f)return;
+  g=g||3; qty=qty||1;
+  if(cartAdd(slug,g,qty)===0) return;        // le refus a déjà été expliqué
+  bumpCartBtn();
+  const gi=GRAMS.indexOf(g);
+  const unit=f.p[gi>=0?gi:0];
+  toast(`Ajouté au pochon : ${f.nom} · ${g} g${qty>1?` ×${qty}`:''} · ${euro(unit*qty)} ✓`);
+  openCartDrawer();
+}
 
 /* ===================== PANIER TIROIR (drawer) ===================== */
 function cartSubtotal(){return cart.reduce((s,x)=>s+x.unit*x.q,0);}
@@ -847,10 +937,10 @@ function renderProduct(){
       "availability":"https://schema.org/InStoreOnly",
       "availableAtOrFrom":[{"@id":racine+"#barla"},{"@id":racine+"#borriglione"}]
     })).filter(Boolean);
-    if(f.g25!=null) offres.push({"@type":"Offer","name":"25 g",
-      "price":f.g25.toFixed(2),"priceCurrency":"EUR",
-      "eligibleQuantity":{"@type":"QuantitativeValue","value":25,"unitCode":"GRM"},
-      "availability":"https://schema.org/InStoreOnly"});
+    /* Le 25 g n'est plus ajoute a part : il est dans GRAMS, donc la boucle
+       ci-dessus le produit comme les autres. Le laisser ici le compterait
+       DEUX FOIS dans la balise — et c'etait justement cette offre « hors
+       boucle » qui existait pour Google sans exister pour le client. */
     const ld=document.createElement("script");
     ld.type="application/ld+json"; ld.id="ldProduct";
     ld.textContent=JSON.stringify({"@context":"https://schema.org",
@@ -1235,9 +1325,205 @@ function selectionTexte(){
   return "Bonjour, je souhaite réserver :\n\n" + l.join("\n") + "\n\nTotal indicatif : " + euro(sub);
 }
 
+/* ===================== LE TUNNEL DE COMMANDE ==============================
+   ⚠️ IL NE S'AFFICHE QUE SI L'API RÉPOND (`apiActif()`). Tant que
+   `WOOD_API_URL` est vide, la page garde la réservation par téléphone — un
+   formulaire qui n'aboutit nulle part serait exactement le mensonge que ce
+   chantier a passé son temps à retirer.
+
+   TROIS RÈGLES QUI NE SE NÉGOCIENT PAS
+   1. ON N'ENVOIE AUCUN PRIX. Le navigateur dit QUOI et COMBIEN ; le serveur
+      relit chaque prix en base (`routes/order.php`). Un client qui modifie
+      le code de la page ne peut pas se fabriquer une commande à 0 €.
+   2. LA CLÉ ANTI-DOUBLON EST STABLE. `idem` est tiré UNE fois et conservé
+      tant que la commande n'a pas abouti : un double clic, un réseau qui
+      coupe, un rechargement — le serveur reconnaît la même commande et ne la
+      crée pas deux fois (`order_idempotency`). La régénérer à chaque essai
+      annulerait toute la protection.
+   3. ON AFFICHE LE TOTAL DU SERVEUR, jamais celui calculé ici. Celui de la
+      page est indicatif ; celui qui compte est celui de la base.
+   ========================================================================= */
+
+/** La clé anti-doublon de la commande en cours. Survit à un rechargement. */
+function idemCourant(){
+  const CLE = "wood_idem_en_cours";
+  try {
+    let v = sessionStorage.getItem(CLE);
+    if (!v) {
+      /* `crypto.randomUUID` n'existe pas partout (anciens Safari) : repli. */
+      v = (window.crypto && crypto.randomUUID)
+        ? crypto.randomUUID()
+        : "idem-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2,10);
+      sessionStorage.setItem(CLE, v);
+    }
+    return v;
+  } catch(e) {
+    /* sessionStorage refusé (navigation privée) : on garde la clé en mémoire,
+       ce qui protège au moins du double clic sur cette page. */
+    if (!window.__woodIdem) {
+      window.__woodIdem = "idem-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2,10);
+    }
+    return window.__woodIdem;
+  }
+}
+function idemTerminé(){ try { sessionStorage.removeItem("wood_idem_en_cours"); } catch(e){} }
+
+function renderTunnel(root){
+  const sub  = cart.reduce((s,x) => s + x.unit * x.q, 0);
+  const nArt = cart.reduce((s,x) => s + x.q, 0);
+
+  const lignes = cart.map(x => `<li><span>${esc(x.nom)} — ${esc(itemQty(x))} ×${x.q}</span><b>${euro(x.unit*x.q)}</b></li>`).join("");
+  const choixBoutiques = BOUTIQUES.map((b,i) => `
+      <label class="tn-radio">
+        <input type="radio" name="boutique" value="${b.slug}"${i===0?" checked":""}>
+        <span><b>${esc(b.nom)}</b><br><span class="muted">${esc(b.adresse)}</span></span>
+      </label>`).join("");
+
+  root.innerHTML = `
+    <a class="breadcrumb" href="panier.html">← Retour au pochon</a>
+    <h1 class="serif">Finaliser ma commande</h1>
+    <p class="muted">${nArt} article${nArt>1?"s":""} · total indicatif <b>${euro(sub)}</b> —
+       le montant exact est recalculé par la boutique.</p>
+
+    <form id="tnForm" class="tn-form" novalidate>
+      <fieldset class="tn-bloc">
+        <legend>Comment tu la récupères</legend>
+        <label class="tn-radio">
+          <input type="radio" name="mode" value="retrait" checked>
+          <span><b>Retrait en boutique</b><br><span class="muted">Gratuit, dès que c'est prêt</span></span>
+        </label>
+        <label class="tn-radio">
+          <input type="radio" name="mode" value="livraison">
+          <span><b>Livraison</b><br><span class="muted">Expédiée depuis Barla · offerte dès 60 €</span></span>
+        </label>
+      </fieldset>
+
+      <fieldset class="tn-bloc" id="tnBoutiques">
+        <legend>Dans quelle boutique</legend>
+        ${choixBoutiques}
+      </fieldset>
+
+      <fieldset class="tn-bloc" id="tnAdresse" hidden>
+        <legend>Où on l'envoie</legend>
+        <div class="field"><label for="tnRue">Adresse</label><input id="tnRue" name="rue" autocomplete="street-address"></div>
+        <div class="tn-duo">
+          <div class="field"><label for="tnCp">Code postal</label><input id="tnCp" name="cp" inputmode="numeric" autocomplete="postal-code"></div>
+          <div class="field"><label for="tnVille">Ville</label><input id="tnVille" name="ville" autocomplete="address-level2"></div>
+        </div>
+      </fieldset>
+
+      <fieldset class="tn-bloc">
+        <legend>Toi</legend>
+        <div class="field"><label for="tnNom">Nom et prénom</label><input id="tnNom" name="nom" autocomplete="name" required></div>
+        <div class="field"><label for="tnMail">E-mail</label><input id="tnMail" type="email" name="email" autocomplete="email" required>
+          <span class="field-aide muted">C'est là qu'arrivent ton code de retrait et ta facture.</span></div>
+        <div class="field"><label for="tnTel">Téléphone</label><input id="tnTel" type="tel" name="tel" autocomplete="tel"></div>
+        <div class="field"><label for="tnNote">Un mot pour l'équipe <span class="muted">(facultatif)</span></label>
+          <textarea id="tnNote" name="note" rows="2"></textarea></div>
+      </fieldset>
+
+      <label class="tn-case">
+        <input type="checkbox" id="tnAge" required>
+        <span>Je confirme avoir <b>18 ans ou plus</b> et j'accepte les
+          <a href="cgv.html" target="_blank" rel="noopener">conditions de vente</a>.</span>
+      </label>
+
+      <ul class="tn-recap">${lignes}</ul>
+
+      <button class="btn btn-primary" type="submit" id="tnEnvoyer"
+              style="width:100%;justify-content:center">Valider ma commande →</button>
+      <p class="co-msg" id="tnMsg" hidden></p>
+      <p class="muted" style="font-size:.78rem;text-align:center;margin-top:.8rem">
+        Le paiement se fait au retrait ou à la réception. Rien n'est prélevé ici.</p>
+    </form>`;
+
+  const form = document.getElementById("tnForm");
+  const msg  = document.getElementById("tnMsg");
+  const btn  = document.getElementById("tnEnvoyer");
+
+  /* Retrait ou livraison : on montre le bloc qui sert, on cache l'autre. */
+  const bascule = () => {
+    const livr = form.querySelector('input[name="mode"]:checked').value === "livraison";
+    document.getElementById("tnAdresse").hidden  = !livr;
+    document.getElementById("tnBoutiques").hidden = livr;
+  };
+  form.querySelectorAll('input[name="mode"]').forEach(r => r.addEventListener("change", bascule));
+  bascule();
+
+  const dire = (texte, classe) => {
+    msg.hidden = false; msg.className = "co-msg " + classe; msg.textContent = texte;
+  };
+
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+
+    const mode  = form.querySelector('input[name="mode"]:checked').value;
+    const nom   = document.getElementById("tnNom").value.trim();
+    const email = document.getElementById("tnMail").value.trim();
+    const tel   = document.getElementById("tnTel").value.trim();
+    const note  = document.getElementById("tnNote").value.trim();
+
+    /* Contrôles côté page : ils rendent service, ils ne protègent rien — le
+       serveur revalide tout. On n'affiche donc QUE des messages utiles. */
+    if (nom.length < 2) return dire("Il manque ton nom.", "err");
+    if (!/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(email))
+      return dire("Cet e-mail n'a pas l'air valide — c'est là qu'arrive ton code de retrait.", "err");
+    if (!document.getElementById("tnAge").checked)
+      return dire("La vente est interdite aux mineurs : il faut confirmer avoir 18 ans ou plus.", "err");
+
+    const commande = {
+      idem: idemCourant(),
+      client: { nom, email, tel: tel || null },
+      mode: mode,
+      /* ON N'ENVOIE PAS DE PRIX. Que le quoi et le combien. */
+      articles: cart.map(x => ({ slug: x.slug, variante: itemQty(x), qte: x.q })),
+      age_confirme: true,
+      note: note || null,
+      pays: "FR",
+    };
+    if (mode === "retrait") {
+      commande.boutique  = form.querySelector('input[name="boutique"]:checked').value;
+      commande.livraison = "boutique";
+    } else {
+      const rue   = document.getElementById("tnRue").value.trim();
+      const cp    = document.getElementById("tnCp").value.trim();
+      const ville = document.getElementById("tnVille").value.trim();
+      if (!rue || !cp || !ville) return dire("Il manque l'adresse de livraison.", "err");
+      commande.adresse   = { rue, cp, ville };
+      commande.livraison = "domicile";
+    }
+
+    btn.disabled = true;
+    dire("On enregistre ta commande…", "");
+    try {
+      const rep = await WoodAPI.commander(commande);
+      /* ⚠️ C'EST ICI que la commande est gardée pour la page de confirmation :
+         `routes/order.php` renvoie déjà `code_retrait`, et c'est la seule
+         occasion de l'avoir. La route `suivi` ne le rendrait pas (elle exige
+         numéro + e-mail, et seulement au statut `ready`). */
+      if (typeof garderCommande === "function") garderCommande(rep);
+      idemTerminé();                  // commande aboutie : la clé a fini son office
+      cart = []; saveCart(); updateCartBadges();
+      location.href = "confirmation.html";
+    } catch(err) {
+      btn.disabled = false;
+      /* On montre le message DU SERVEUR : « stock insuffisant pour X »,
+         « ce code promo a expiré » — un « une erreur est survenue » ferait
+         perdre son temps au client comme à la boutique.
+         ⚠️ Et on NE RÉGÉNÈRE PAS `idem` : si la commande est en réalité
+         passée, réessayer ne la créera pas deux fois. */
+      dire((err && err.message ? err.message : "L'enregistrement a échoué.")
+           + " — tu peux réessayer, ou nous appeler au 04 22 16 35 70.", "err");
+    }
+  });
+}
+
 function renderCheckout(){
   const root = document.getElementById("checkout"); if(!root) return;
   if(!cart.length){ location.href = "panier.html"; return; }
+
+  /* L'API répond : on commande vraiment. Sinon, le téléphone — qui marche. */
+  if (apiActif()) { return renderTunnel(root); }
 
   const sub = cart.reduce((s,x) => s + x.unit * x.q, 0);
   const nArt = cart.reduce((s,x) => s + x.q, 0);
@@ -1761,7 +2047,18 @@ function openQuickView(slug){
     });
     document.addEventListener("keydown",e=>{if(e.key==="Escape"&&ov.classList.contains("open"))closeQuickView();});
   }
-  const chips=f.p.map((p,i)=>`<button class="qv-g${i===0?' on':''}" data-qv-g="${i}">${GRAMS[i]} g<span>${p} €</span></button>`).join("");
+  /* ⚠️ ON N'AFFICHE QUE LES GRAMMAGES QUI ONT UN PRIX.
+     Sans ce filtre, les 10 résines — dont la colonne 10 G est coupée sur la
+     photo de la carte, donc `p[3] === null` — affichaient un format
+     « 10 g null € », cliquable, qui mettait au pochon une ligne à
+     `unit: null`. Elle comptait donc **zéro** dans le total que le client
+     dicte au téléphone : un article remis sans être payé.
+     La fiche produit filtrait déjà (`if(f.p[gi]==null) return ""`) ; c'est
+     l'aperçu rapide qui ne le faisait pas. Même défaut à deux endroits, un
+     seul corrigé : exactement le motif déjà vu avec le bouton copier.
+     Le vrai verrou est dans `cartAdd()`, qui refuse désormais toute ligne
+     sans prix, quel que soit l'appelant.                                   */
+  const chips=f.p.map((p,i)=>p==null?"":`<button class="qv-g${i===0?' on':''}" data-qv-g="${i}">${GRAMS[i]} g<span>${p} €</span></button>`).join("");
   ov.innerHTML=`<div class="qv-panel" role="dialog" aria-label="${f.nom}">
     <button class="qv-close" aria-label="Fermer">✕</button>
     <div class="qv-media"><div class="halo" style="background:radial-gradient(circle,${f.c[0]}66,transparent 70%)"></div>

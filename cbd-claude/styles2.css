@@ -936,3 +936,52 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 @media(max-width:600px){
   .code-retrait{border-radius:16px;padding:1.2rem .9rem}
 }
+
+/* ===================== LE TUNNEL DE COMMANDE =============================
+   Ne s'affiche que quand l'API repond. Deux contraintes qui commandent tout
+   le reste : ca se remplit au telephone, debout dans la rue (cibles de 44 px
+   au moins, un seul champ par ligne), et il doit etre impossible de se
+   tromper entre « retrait » et « livraison » — d'ou des blocs entiers qui
+   apparaissent et disparaissent, plutot qu'une case a cocher discrete.
+   ========================================================================= */
+.tn-form{max-width:620px;margin:1.4rem auto 0}
+.tn-bloc{border:1px solid var(--line);border-radius:var(--r-md);
+  padding:1rem 1rem .6rem;margin:0 0 1rem;background:rgba(255,255,255,.02)}
+.tn-bloc legend{padding:0 .5rem;font-size:.82rem;font-weight:700;
+  letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.tn-bloc[hidden]{display:none!important}
+
+/* Un choix se designe en entier, pas seulement sur le petit rond. */
+.tn-radio{display:flex;align-items:flex-start;gap:.7rem;cursor:pointer;
+  padding:.7rem .6rem;border-radius:var(--r-md);min-height:44px;
+  border:1px solid transparent;margin-bottom:.4rem}
+.tn-radio:hover{background:rgba(255,255,255,.04)}
+.tn-radio input{margin-top:.2rem;width:20px;height:20px;flex:0 0 20px;accent-color:var(--cyan)}
+.tn-radio span{line-height:1.4;font-size:.95rem}
+.tn-radio:has(input:checked){border-color:var(--cyan);background:rgba(255,255,255,.05)}
+.tn-radio input:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+
+.tn-duo{display:grid;grid-template-columns:1fr 1.6fr;gap:.8rem}
+.field textarea{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--line);
+  border-radius:var(--r-md);padding:.8em 1em;color:var(--ink);font-size:1rem;
+  font-family:inherit;resize:vertical}
+.field textarea:focus{outline:none;border-color:var(--cyan)}
+.field-aide{display:block;font-size:.78rem;margin-top:.3rem;line-height:1.4}
+
+/* La case des 18 ans : obligatoire, donc visible — pas une ligne de bas de page. */
+.tn-case{display:flex;align-items:flex-start;gap:.7rem;cursor:pointer;
+  padding:.9rem 1rem;border:1px solid var(--line);border-radius:var(--r-md);
+  margin:0 0 1.2rem;font-size:.92rem;line-height:1.5}
+.tn-case input{margin-top:.15rem;width:20px;height:20px;flex:0 0 20px;accent-color:var(--cyan)}
+.tn-case a{color:var(--cyan)}
+
+.tn-recap{list-style:none;margin:0 0 1.2rem;padding:1rem;border:1px dashed var(--line);
+  border-radius:var(--r-md)}
+.tn-recap li{display:flex;justify-content:space-between;gap:1rem;
+  padding:.35rem 0;font-size:.92rem}
+.tn-recap li span{min-width:0}
+
+@media(max-width:600px){
+  .tn-duo{grid-template-columns:1fr}
+  .tn-bloc{padding:.9rem .8rem .5rem}
+}
