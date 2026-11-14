@@ -770,6 +770,9 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   background-size:auto,150%;background-repeat:no-repeat;background-position:center,16% 30%}
 .offre-bandeau.pm-10g    {background-position:center,76% 24%}
 .offre-bandeau.pm-20g    {background-position:center,24% 82%}
+/* 14/11 : la Fleur Mystere a rejoint les offres. Son cadrage de fresque est
+   different des quatre autres, pour qu'on ne croie pas a un doublon. */
+.offre-bandeau.pm-fleur-mystere{background-position:center,50% 62%}
 .offre-bandeau .ob-q{font-family:var(--serif);font-weight:600;
   font-size:clamp(5rem,14vw,10rem);line-height:.74;letter-spacing:-.035em;
   color:#f4f2e4;text-shadow:0 10px 48px rgba(0,0,0,.6);margin-bottom:.03em}
@@ -817,6 +820,46 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .card-promo .cp-q{font-family:var(--serif);font-weight:600;font-size:4.2rem;line-height:.82;
   letter-spacing:-.03em;color:#f4f2e4;text-shadow:0 8px 34px rgba(0,0,0,.6)}
 .card-promo .cp-q i{font-style:italic;font-size:.42em}
+/* 14/11 : la Fleur Mystère est une OFFRE, pas une fleur de la carte. Elle
+   prend donc le même gabarit — un autre cadrage de la fresque, pour qu'on ne
+   croie pas à une erreur d'affichage en voyant deux cartes identiques.
+   ⚠️ Le nom de classe vient de `slug.replace("promo-","")` : le slug est
+   `fleur-mystere`, donc la classe est `pm-fleur-mystere`, pas `pm-mystere`. */
+.card-promo.pm-fleur-mystere{background-position:center,50% 62%}
+
+/* Pas de classe `.offre-echelle` ici : elle a existé une heure le 14/11 pour
+   lister les 5 tailles de la Fleur Mystère, puis a été retirée — le sélecteur
+   d'achat, juste dessous, donne déjà l'échelle complète, et l'imprimer deux
+   fois se lisait comme un bug. Une offre à plusieurs tailles réutilise
+   `.offre-chiffre` pour afficher le prix au gramme. */
+
+/* 14/11 — LE MÊME VISUEL, PARTOUT AILLEURS.
+   Le gabarit .card-promo ci-dessus est en `position:absolute;inset:0` : il ne
+   vit que dans une carte de grille. Or la Fleur Mystère apparaît aussi dans
+   le pochon (58 px), le panier, la recherche, les coups de cœur, l'aperçu
+   rapide et la fiche produit. .art-mystere est le même dessin, mais
+   dimensionné par son conteneur — donc utilisable dans les sept.
+   Le « ? » est un SVG à viewBox : il se met à l'échelle tout seul, là où une
+   taille de police aurait demandé un réglage par contexte. */
+.art-mystere{display:block;width:100%;height:100%;border-radius:inherit;
+  background-color:#0f1c12;
+  background-image:linear-gradient(150deg,rgba(9,20,12,.74),rgba(9,20,12,.44)),
+                   url("assets/scenes/mural.webp");
+  background-size:auto,210%;background-repeat:no-repeat;
+  background-position:center,50% 62%}
+.art-mystere .cloche-svg{display:block;width:100%;height:100%;
+  filter:drop-shadow(0 6px 24px rgba(0,0,0,.55))}
+/* .cloche est taillée pour une fleur sous cloche : 70 % de large, ratio 3/4,
+   contenu collé en bas. Un fond de fresque doit au contraire remplir la boîte,
+   sinon il flotte au milieu de la carte comme une vignette perdue. */
+.cloche:has(.art-mystere){width:100%;height:100%;aspect-ratio:auto;
+  place-items:stretch;display:block}
+/* styles.css:289 impose `.product-media .cloche.big{width:86%}` — pensé pour
+   une photo détourée, qui doit respirer. Une fresque, elle, doit aller bord à
+   bord comme sur les cartes promo : mesuré, le visuel faisait 510 px dans une
+   boîte de 595, soit une tuile qui flotte. Sélecteur plus spécifique (0,4,0)
+   pour passer devant, plutôt qu'un !important. */
+.product-media .cloche.big:has(.art-mystere){width:100%;height:100%}
 
 /* ---- 13/11 : produits sans photo = l'emoji de la carte imprimee d'Ana ----
    Le badge d'intensite (STRONG / MEDIUM / HYPER STRONG, ses mots) passait

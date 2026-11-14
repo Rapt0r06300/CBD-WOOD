@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=13">
-<link rel="stylesheet" href="styles2.css?v=71">
+<link rel="stylesheet" href="styles2.css?v=75">
 <link rel="stylesheet" href="light.css?v=3">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png?v=1"><link rel="icon" type="image/png" sizes="512x512" href="assets/icons/favicon-wood.png?v=1"><link rel="apple-touch-icon" href="assets/icons/apple-touch-wood.png?v=1">
 <script type="application/ld+json">
@@ -151,18 +151,31 @@
   </div>
 </section>
 
-<!-- ============ EDITORIAL CLOCHE ============ -->
-<section class="section edito">
-  <div class="container edito-in">
-    <div class="edito-art reveal" aria-hidden="true"><div class="halo"></div><div class="cloche" data-cloche></div></div>
-    <div class="reveal d1">
-      <span class="eyebrow">Séquence · la matière</span>
-      <h2>La cloche <span class="script">ouvre le bal.</span></h2>
-      <p class="muted" style="margin:1.2rem 0 1.8rem;max-width:40ch">Chaque fleur, chaque résine, présentée comme un produit précieux : beau cadrage, lumière chaude, et ce petit halo qui donne envie de regarder de plus près. Le premium au premier regard, le chill dans l'attitude.</p>
-      <a href="#fleurs" class="btn btn-primary">Voir la sélection <span class="arr">→</span></a>
-    </div>
-  </div>
-</section>
+<!-- ============ EDITORIAL CLOCHE — RETIRÉE LE 14/11/2026 ============
+     La section « Séquence · la matière — La cloche ouvre le bal. » est
+     supprimée. Trois raisons, pas une question de goût :
+
+     1. Elle promettait une qualité photo que le site ne tient pas :
+        « beau cadrage, lumière chaude, et ce petit halo ». Or AUCUNE photo
+        produit n'est affichée depuis le 13/11 (app.js, constante NOIMG),
+        parce qu'Ana a dit « les photos ça va pas ». Le site se contredisait
+        lui-même, comme la FAQ le faisait sur les allégations.
+     2. Son visuel était la cloche DESSINÉE (clocheSVG, app.js:358) : des
+        cercles verts sous un dôme. Le code a déjà tranché ailleurs qu'elle
+        est trompeuse — voir le commentaire app.js:90 sur les offres :
+        « plutôt que la cloche dessinée, qui suggérerait une fleur précise ».
+        C'était le dernier endroit du site où elle restait branchée.
+     3. Elle parlait de la direction artistique du site au client, qui n'en
+        a rien à faire, sur ~la moitié d'un écran de téléphone.
+
+     Effet de bord bénéfique : .edito et .avis portaient TOUTES DEUX le fond
+     mural (styles2.css:377) et se suivaient — deux blocs sombres collés.
+     Le rythme alterné est rétabli : Packs (clair) → Avis (mural).
+
+     Le CSS .edito/.edito-in/.edito-art reste dans styles.css et light.css :
+     il est mutualisé avec .avis et .stats, on n'y touche pas.
+     Pour la remettre un jour : l'historique git de ce fichier la contient.
+     ================================================================== -->
 
 <!-- ============ AVIS ============
      Les trois témoignages écrits dans app.js ont été retirés le 13/11/2026 :
@@ -249,6 +262,6 @@
 <nav data-chrome="botnav"></nav>
 
 <script src="api.js?v=6"></script>
-<script src="app.js?v=77"></script>
+<script src="app.js?v=86"></script>
 </body>
 </html>

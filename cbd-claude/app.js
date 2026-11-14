@@ -50,10 +50,17 @@ const FLEURS = [
   { slug:"la-mousse", nom:"La Mousse", tier:"boostes", type:"resine", desc:"Forte 🟢", c:["#c4d9b4","#4a6b3a"], p:[15,42,70,null] , int:"STRONG"},
   { slug:"snow", nom:"Snow", tier:"boostes", type:"resine", desc:"Hyper forte ❄️", c:["#eef3f7","#5a6b7a"], p:[20,58,95,null] , int:"HYPER STRONG"},
 
-  /* --- L'OFFRE « Fleur Mystere » : ce n'est pas une fleur de la carte,
-         c'est une des cinq offres d'Ana (message du 12/11, photo 9ec6b8c6).
-         Elle reste. --- */
-  { slug:"fleur-mystere", nom:"Fleur Mystère", tier:"classique", desc:"Delicioso 🪻", c:["#d9c7f0","#4a2e6b"], p:[9,25,40,70], g25:140 , emo:"🪻"},
+  /* --- LA FLEUR MYSTERE N'EST PLUS ICI (14/11/2026) ---
+     Elle a ete DEPLACEE dans BOUTIQUE, categorie « promos », juste en
+     dessous. Florent : « Je t'avais dit pourtant de garder seulement les
+     fleurs et les resines sur la carte que je t'avais envoyee. Ensuite,
+     pour la fleur mystere, ca, c'est une promo. »
+     Le commentaire en tete de FLEURS le disait deja — « CATALOGUE = LA CARTE
+     DE LA BOUTIQUE, et rien d'autre : 13 fleurs + 10 resines » — et l'ancien
+     commentaire de cette ligne l'admettait meme explicitement (« ce n'est pas
+     une fleur de la carte, c'est une des cinq offres d'Ana »)… avant de
+     conclure « elle reste ». C'etait la contradiction.
+     Consequence : FLEURS contient exactement les 23 produits de la carte. --- */
 
 ];
 /* Boutique — produits à prix unique / variantes (accessoires, merch, bonbons, carte-cadeau + fleurs/résines spéciales). Données réelles Shopify. */
@@ -63,6 +70,22 @@ const BOUTIQUE = [
      accessoires, merch, carte-cadeau, Pink Panther, et les bonbons
      qui sont de toute facon interdits a la vente depuis le 15/05/2026. */
   { slug:"trim", nom:"Trim CBD · fait maison", kind:"simple", cat:"promos", opts:[["10 g",15],["25 g",30],["100 g",100]], img:"trim.webp", c:["#cfe0a0","#5a6a2e"], desc:"Mélange maison 🌿", body:"Trim CBD maison — un savant mélange de nos différentes fleurs de CBD #WITHLOVE. Parfait pour vos infusions ou à consommer seul ! Vendu par 10 g." },
+  /* LA FLEUR MYSTERE — une des cinq offres d'Ana (message du 12/11, photo
+     9ec6b8c6), arrivee ici le 14/11 depuis FLEURS, ou elle n'avait rien a
+     faire. Elle differe des autres promos sur un seul point : elle se vend
+     en CINQ tailles, la ou les autres ont un prix unique. D'ou `opts`, comme
+     le Trim — et le garde-fou ajoute dans renderPromoProduct().
+     Prix VERBATIM d'Ana : 9 €/g · 3 g 25 € · 5 g 40 € · 10 g 70 € · 25 g 140 €.
+     `gros:"?"` : le grand signe du bandeau. Pour les autres offres c'est le
+     grammage ; ici le sujet du produit, c'est justement qu'on ne le dit pas.
+     Ni photo, ni emoji, ni nom de variete : la variete n'est pas annoncee,
+     et un visuel figuratif suggererait une variete precise (art. L121-2). */
+  { slug:"fleur-mystere", nom:"Fleur Mystère", kind:"simple", promo:true, mystery:true, cat:"promos",
+    opts:[["1 g",9],["3 g",25],["5 g",40],["10 g",70],["25 g",140]],
+    gros:"?", unite:"", badge:"Mystère", tournante:true,
+    c:["#d9c7f0","#4a2e6b"], desc:"La surprise du moment · on choisit pour toi",
+    body:"La fleur que l'équipe a envie de vous faire découvrir en ce moment, au prix de l'offre.\nOn ne dit pas laquelle : c'est tout le principe. Pour savoir ce qu'il y a aujourd'hui, un coup de fil suffit — l'équipe a la fiche du lot sous les yeux.\nGoût : un goût surprenant, une odeur particulière — « la fleur magique »." },
+
   { slug:"promo-gta-15g", nom:"La promo GTA", kind:"simple", promo:true, cat:"promos",
     price:50, gros:"15", unite:"g", grammes:15, badge:"GTA", variete:"GTA", tournante:true,
     c:["#c8f58f","#4ca72c"], desc:"15 g de la variété du moment",
@@ -84,6 +107,25 @@ function itemSave(x){if(!x.g)return 0;const b=itemBase(x);if(!b)return 0;return 
 function itemQty(x){return x.opt?x.opt:(x.g+" g");}
 function itemTot(x){return x.g?(x.g*x.q)+" g":(x.opt?x.q+"×":"");}
 function simplePrice(f){return f.opts?Math.min.apply(null,f.opts.map(o=>o[1])):f.price;}
+/* ---- LE PRIX AFFICHE D'UNE OFFRE : UNE SEULE REGLE, UN SEUL ENDROIT ----
+   Une offre a soit un prix unique (`price`, les promos 10/20 g et GTA), soit
+   plusieurs tailles (`opts`, la Fleur Mystere et le Trim).
+   14/11 : la regle etait recopiee a la main a trois endroits. Le jour ou une
+   offre a plusieurs tailles est arrivee, deux de ces copies ont affiche
+   « NaN € » — sur les vignettes « Les autres offres » des TROIS fiches que je
+   n'avais pas testees. D'ou cette fonction : on ne recopie plus. */
+function prixOffreTexte(f){
+  if(f && f.price!=null) return euro(f.price);
+  const n=simplePrice(f);
+  return Number.isFinite(n) ? "dès "+euro(n) : "";
+}
+/* Le sous-titre d'une vignette d'offre : « 15 g · 50 € » quand il n'y a
+   qu'une taille, le prix d'appel sinon (reimprimer « ? · dès 9 € » n'aurait
+   aucun sens). */
+function sousTitreOffre(f){
+  if(f && f.price!=null) return `${f.gros||""} ${f.unite||""} · ${euro(f.price)}`.replace(/\s+/g," ").trim();
+  return prixOffreTexte(f);
+}
 function simpleCardHTML(f,i){
   const d=['d1','d2','d3','d4'][i%4];
   const pre=f.opts&&f.opts.length>1?'dès ':'';
@@ -150,11 +192,27 @@ function cartAddSimple(f,unit,opt,qty){
 function renderPromoProduct(f){
   const root=document.getElementById("product");
   const cle=f.slug.replace("promo-","");
-  const auG=f.grammes?f.price/f.grammes:null;
+  /* 14/11 — UNE OFFRE PEUT AVOIR PLUSIEURS TAILLES.
+     Les quatre premieres promos ont un prix unique (`price` + `grammes`).
+     La Fleur Mystere se vend en cinq tailles (`opts`), comme le Trim. Sans
+     ces gardes, `euro(f.price)` ecrivait « undefined € » en 4 rem sur le
+     bandeau, et `f.price/f.grammes` donnait NaN au gramme. */
+  const prixUnique=(f.price!=null);
+  const prixTexte=prixOffreTexte(f);   // la regle unique, definie pres de simplePrice()
+  const auG=(f.grammes&&prixUnique)?f.price/f.grammes:null;
+  /* Le prix au gramme d'une offre a plusieurs tailles : LU dans la taille
+     « 1 g », jamais calcule par division. Diviser 140 € par 25 g donnerait
+     5,60 €/g — vrai arithmetiquement, mais ce n'est pas le prix qu'Ana
+     annonce, et un prix affiche qui n'est pas le sien est exactement ce
+     qu'on s'interdit. */
+  const unG=Array.isArray(f.opts)?f.opts.find(o=>/^\s*1\s*g\s*$/i.test(o[0])):null;
+  const prixUnGramme=(unG&&Number.isFinite(unG[1]))?unG[1]:null;
   const autres=BOUTIQUE.filter(x=>x.promo&&x.slug!==f.slug);
-  const dedans=f.duo
-    ? "Une fleur <b>fruitée</b> et une fleur <b>terreuse</b>, choisies par l'équipe"
-    : (f.variete?`En ce moment, c'est de la <b>${f.variete}</b>`:"La variété choisie par l'équipe");
+  const dedans=f.mystery
+    ? "<b>On ne dit pas laquelle</b> — c'est tout le principe"
+    : (f.duo
+      ? "Une fleur <b>fruitée</b> et une fleur <b>terreuse</b>, choisies par l'équipe"
+      : (f.variete?`En ce moment, c'est de la <b>${f.variete}</b>`:"La variété choisie par l'équipe"));
 
   root.innerHTML=`
     <a class="breadcrumb" href="index.html#promos">← Les offres du moment</a>
@@ -162,16 +220,26 @@ function renderPromoProduct(f){
     <header class="offre-bandeau pm-${cle}">
       <span class="sticker st-top ob-badge">${f.badge||"Offre"}</span>
       <span class="ob-q">${f.gros}<i>${f.unite||""}</i></span>
-      <span class="sticker st-top ob-prix">${euro(f.price)}</span>
+      <span class="sticker st-top ob-prix">${prixTexte}</span>
     </header>
 
     <div class="offre-corps">
       <div class="offre-achat">
         <h1>${f.nom}</h1>
         <p class="p-desc">${f.desc||""}</p>
-        <div class="offre-chiffre">
+        ${prixUnique
+          ? `<div class="offre-chiffre">
           <b>${f.gros} ${f.unite||""}</b><span>pour</span><b>${euro(f.price)}</b>
-        </div>
+        </div>`
+          : /* Plusieurs tailles : l'enonce de l'offre est le PRIX AU GRAMME —
+               c'est le titre d'Ana elle-meme (« Fleur Mystere 9 €/g »). On ne
+               reimprime pas l'echelle ici : le selecteur juste en dessous la
+               donne deja en entier, et l'afficher deux fois se lit comme un
+               bug d'affichage. Si un jour une offre n'a pas de taille « 1 g »,
+               le bloc disparait plutot que d'inventer une division. */
+            (prixUnGramme!=null
+              ? `<div class="offre-chiffre"><b>${euro(prixUnGramme)}</b><span>le gramme</span></div>`
+              : "")}
         ${auG?`<p class="offre-aug">soit <b>${euro(Math.round(auG*100)/100)}</b> le gramme</p>`:""}
         <p class="offre-dedans">${dedans}</p>
         ${simpleBuyBlock(f)}
@@ -193,7 +261,7 @@ function renderPromoProduct(f){
     ${autres.length?`<section class="section" id="promos"><div class="rail-head"><h2 class="serif">Les autres offres</h2></div>
       <div class="promo-strip">${autres.map(x=>promoMiniHTML({
         key:x.slug.replace("promo-",""),badge:x.badge,gros:x.gros,unite:x.unite,
-        name:x.nom,desc:x.desc,price:euro(x.price),sub:`${x.gros} ${x.unite||""} · ${euro(x.price)}`,
+        name:x.nom,desc:x.desc,price:prixOffreTexte(x),sub:sousTitreOffre(x),
         lien:`produit.html?f=${x.slug}`
       })).join("")}</div></section>`:""}`;
 
@@ -363,6 +431,25 @@ function clocheSVG(c,id){const g=`b${id}`;return `<svg class="cloche-svg" viewBo
 const NOIMG=new Set(["nimbus-3000","ivory","velvet-kush","pastraweed","euphoria","purple","bloody-mary","cosmic-cbg","charlotte","rainbow","orange-bud","plutonium","fanta-hazy","katmandou","cbn-cream","super-dry","golden-high","jelly-high","frost","stoned","uranus","la-mousse","snow","fleur-mystere"]);
 function soonHTML(){return '<div class="img-soon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h3l2-2h8l2 2h3v12H3z"/><circle cx="12" cy="13" r="3.4"/></svg><span>Image bientôt disponible</span></div>';}
 function carteArt(f){
+  /* 14/11 — UNE OFFRE NE MONTRE JAMAIS DE FLEUR.
+     La variété n'est pas annoncée : un visuel figuratif suggérerait une
+     variété précise, et « photo non contractuelle » ne couvre pas un écart
+     sur une caractéristique essentielle (art. L121-2).
+     Même grammaire que les promos — la fresque de la boutique + un gros
+     signe en Fraunces — mais le signe est « ? », qui EST le sujet.
+     Le « ? » est dessiné en SVG (et pas en CSS) pour une seule raison : il
+     doit tenir aussi bien dans la vignette de 58 px du pochon que dans une
+     carte de 500 px. Un viewBox fait ça tout seul, une taille de police non.
+     Cette fonction est le point de passage de TOUS les petits contextes —
+     pochon, panier, recherche, coups de cœur, aperçu rapide, fiche produit —
+     donc la corriger ici les corrige tous d'un coup. */
+  if (f && f.mystery) {
+    return '<span class="art-mystere" aria-hidden="true">'
+      + '<svg class="cloche-svg" viewBox="0 0 100 100" role="presentation">'
+      + '<text x="50" y="52" text-anchor="middle" dominant-baseline="central"'
+      + ' font-family="Fraunces,Georgia,serif" font-size="64" font-weight="600"'
+      + ' fill="#f4f2e4">?</text></svg></span>';
+  }
   const c = (f && f.c) || ["#8fd08a","#243a2a"];
   const inner = (f && f.emo)
     ? `<span style="font-size:clamp(4.2rem,7.4vw,7.6rem);line-height:1;filter:drop-shadow(0 8px 20px ${c[1]}55)">${f.emo}</span>`
@@ -372,20 +459,38 @@ function carteArt(f){
 /* Le visuel d'un produit sans photo = l'emoji de SA carte imprimee, ou son nom
    en typo d'affiche. Ce n'est pas un bouche-trou : c'est son code visuel. */
 window.__cloche = s => carteArt(byId(s));
-/* Visuel « Fleur Mystère » : cloche sombre, fleur dans l'ombre + gros ? vert WOOD */
+/* Visuel « Fleur Mystère » : cloche sombre, fleur dans l'ombre + gros ? vert WOOD
+   ⚠️ 14/11 — CODE MORT, ET IL L'A TOUJOURS ÉTÉ : recherché dans tout le
+   dossier, cette fonction n'a JAMAIS été appelée nulle part. Pendant ce
+   temps la Fleur Mystère affichait une jacinthe. Le visuel qui sert
+   vraiment est maintenant `.art-mystere` (fresque + « ? »), construit dans
+   carteArt() juste au-dessus — il a l'avantage d'être le MÊME que celui des
+   promos, ce que cette cloche n'était pas. Conservée ici sans être appelée :
+   son dessin de fleur dans l'ombre pourra resservir si Ana veut un jour un
+   visuel propre à cette offre. */
 function mysterySVG(){return `<svg class="cloche-svg" viewBox="0 0 200 250" aria-hidden="true"><defs><radialGradient id="myg" cx="50%" cy="40%" r="62%"><stop offset="0" stop-color="#1b2c20"/><stop offset="1" stop-color="#0a120c"/></radialGradient></defs><ellipse cx="100" cy="226" rx="66" ry="12" fill="#000" opacity=".5"/><rect x="42" y="214" width="116" height="16" rx="8" fill="#5a4a2e"/><path d="M100 42c-40 0-66 30-66 70v86h132v-86c0-40-26-70-66-70Z" fill="url(#myg)" stroke="rgba(203,240,150,.22)" stroke-width="2"/><g fill="#2f5a3a" opacity=".5"><circle cx="100" cy="150" r="30"/><circle cx="78" cy="138" r="20"/><circle cx="122" cy="140" r="20"/><circle cx="90" cy="120" r="18"/><circle cx="112" cy="122" r="17"/><circle cx="100" cy="106" r="15"/><circle cx="74" cy="160" r="15"/><circle cx="126" cy="162" r="15"/><circle cx="100" cy="176" r="18"/></g><text x="100" y="170" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="128" font-weight="600" fill="#cbf096" opacity=".95">?</text><ellipse cx="100" cy="44" rx="10" ry="6" fill="rgba(255,255,255,.16)"/></svg>`;}
 
-function catArtSVG(kind){const m={fleurs:["#2f9e57","#0e3b26"],resines:["#c98a3a","#5a3410"],boostes:["#2f9e6b","#063b45"],huiles:["#cbf096","#3a5a1e"],accessoires:["#9fb0a0","#2c3a30"],acc:["#8fb0a8","#23342c"],bonbons:["#e58fb6","#5a2340"],carte:["#cbf096","#2f7a4a"]};const c=m[kind]||m.fleurs;return `<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" width="100%" height="100%"><rect width="400" height="300" fill="#141c16"/><path d="M-20 320C60 240 20 150 120 60c40-36 120 0 120 0s-30 120-120 170C60 270 20 300-20 320Z" fill="${c[0]}" opacity=".5"/></svg>`;}
+/* Memes trois categories que CAT_IMG, et pour la meme raison : une couleur
+   nommee « bonbons » ou « huiles » est une invitation a recreer la gamme. */
+function catArtSVG(kind){const m={fleurs:["#2f9e57","#0e3b26"],resines:["#c98a3a","#5a3410"],boostes:["#2f9e6b","#063b45"]};const c=m[kind]||m.fleurs;return `<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" width="100%" height="100%"><rect width="400" height="300" fill="#141c16"/><path d="M-20 320C60 240 20 150 120 60c40-36 120 0 120 0s-30 120-120 170C60 270 20 300-20 320Z" fill="${c[0]}" opacity=".5"/></svg>`;}
 window.__catSVG = catArtSVG;
 /* Vignettes de catégorie : on ne demande que des fichiers qui existent.
    Avant, « acc », « bonbons » et « carte » cherchaient cat-acc.jpg,
    cat-bonbons.jpg et cat-carte.jpg — trois fichiers absents : trois 404 à
    chaque visite de l'accueil, puis un dessin de remplacement. */
+/* ⚠️ 14/11 — CINQ CATEGORIES MORTES RETIREES : huiles, accessoires, acc,
+   bonbons, carte. Le site ne vend plus que LA CARTE (fleurs + resines) et
+   LES OFFRES d'Ana.
+   Ce n'etait pas cosmetique : `bonbons` pointait sur
+   `assets/products/pack-mix-bonbons.webp` — l'image d'un produit A INGERER,
+   INTERDIT a la vente depuis le 15/05/2026 (Novel Food). Une simple visite
+   de `bientot.html?cat=bonbons` l'affichait en pleine page. Et `huiles`
+   affichait une gamme qu'Ana n'a plus le droit de vendre (« Huiles
+   malheureusement j'ai plus le droit d'en vendre »).
+   Les fichiers restent sur le disque ; plus rien ne les demande. */
 const CAT_IMG={
   fleurs:"assets/scenes/cat-fleurs.jpg", resines:"assets/scenes/cat-resines.jpg",
-  boostes:"assets/scenes/cat-boostes.jpg", huiles:"assets/scenes/cat-huiles.jpg",
-  accessoires:"assets/scenes/cat-accessoires.jpg", acc:"assets/scenes/cat-accessoires.jpg",
-  bonbons:"assets/products/pack-mix-bonbons.webp", carte:"assets/products/carte-cadeau.webp",
+  boostes:"assets/scenes/cat-boostes.jpg",
 };
 function catArt(kind){
   const src=CAT_IMG[kind];
@@ -466,7 +571,11 @@ function cardHTML(f,i){
   return `<article class="card reveal ${['d1','d2','d3','d4'][i%4]}">
     <a class="card-media" href="produit.html?f=${f.slug}" aria-label="${f.nom}">
       <div class="halo" style="background:radial-gradient(circle,${f.c[0]}66,transparent 70%)"></div><div class="shine"></div>
-      ${NOIMG.has(f.slug)
+      ${/* 14/11 : plus de branche « mystere » ici. cardHTML ne rend que les
+            23 produits de la carte ; les offres passent par simpleCardHTML,
+            qui applique deja le gabarit promo. Une branche morte « au cas
+            ou » est exactement ce qui a laisse mysterySVG() dormir un mois. */
+        NOIMG.has(f.slug)
         ? `<div class="cloche">${window.__cloche(f.slug)}</div>`
         : `<img class="cloche" src="assets/products/${f.slug}.webp${IMGV}" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom} sous cloche" width="1000" height="1000" loading="lazy"
         onerror="this.outerHTML='<div class=&quot;cloche&quot;>'+window.__cloche('${f.slug}')+'</div>'">`}
@@ -485,35 +594,44 @@ function cardHTML(f,i){
   </article>`;
 }
 
-/* ---- MOLÉCULES & INTENSITÉS (données Ana, 12/11 — jamais inventé) ---- */
+/* ---- MOLÉCULES & INTENSITÉS ----
+   ⚠️ 14/11 — CE COMMENTAIRE DISAIT « données Ana, 12/11 — jamais inventé ».
+   C'ÉTAIT FAUX, et ce mensonge rassurant a coûté le bug qu'Ana a signalé le
+   13/11 (« le robot proposait du CBD dans du intense »). La vérité est écrite
+   plus bas, dans le conseiller (voir le commentaire au-dessus de ECHELLE) :
+   MOLEC est une table HÉRITÉE DE SHOPIFY qui ne correspond pas à sa carte.
+   RÈGLE : la source d'intensité qui fait foi est `f.int` (les mots d'Ana,
+   MÉDIUM / STRONG / HYPER STRONG). Un produit qu'elle n'a pas qualifié ne
+   doit AFFICHER AUCUNE intensité — ni ici, ni sur la fiche.
+
+   ⚠️ PURGE DU 14/11 — 18 FANTÔMES RETIRÉS.
+   Un contrôle automatique a compté les clés de MOLEC qui ne correspondent à
+   AUCUN produit du catalogue : il y en avait **dix-huit**, pas six comme je
+   l'avais écrit plus haut. Toutes héritées du Shopify suspendu :
+     green-skunk, gelato, ice-cream, purple-saphir, godzilla, bio-peach,
+     bubba-kush, tropical-kush, sweet-purple, skittlez, fruit-cake,
+     tropical-dream, tangerine-dream, tonic-haze, harlequin,
+     baby-cannatonic, moonrock, beldia.
+   Elles ne s'affichaient nulle part (rien ne les cherchait), mais elles
+   faisaient PARAÎTRE cette table riche et à jour. C'est ce qui a fait croire
+   qu'on pouvait s'y fier.
+
+   ⚠️ ET `fanta-hazy` A PERDU SON INTENSITÉ, pour la même raison que la Fleur
+   Mystère : Ana ne l'a pas qualifiée. Le commentaire du conseiller les
+   nommait TOUTES LES DEUX — « elle notait fanta-hazy et fleur-mystere,
+   qu'Ana n'a pas qualifiees » — et je n'avais corrigé que la seconde.
+   Repéré le 14/11 par un contrôle qui croise `f.int` et `MOLEC[].lvl`. ---- */
 const MOLEC={
   "euphoria":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort · fruité",ar:"Exotic"},
   "pastraweed":{mol:"CBD +",cls:"mol-boost",lvl:4,ia:"Ultra fort · terreux",ar:"Kush"},
   "ivory":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Weed"},
   "nimbus-3000":{mol:"CBD +",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Weed"},
-  "green-skunk":{mol:"CBD",cls:"",lvl:3,ia:"Fort",ar:"Sucré · Herbacé",premium:"Indoor premium"},
-  "gelato":{mol:"CBD",cls:"",lvl:3,ia:"Fort",ar:"Sucré"},
-  "ice-cream":{mol:"CBD",cls:"",lvl:4,ia:"Ultra-fort",ar:"Caramélisé · Terreux"},
-  "fanta-hazy":{mol:"CBD",cls:"",lvl:2,ia:"Médium",ar:"Agrumes"},
-  "purple-saphir":{mol:"CBD",cls:"",ar:"Fruité"},
-  "fleur-mystere":{mol:"CBD",cls:"",lvl:2,ia:"Médium",ar:"Surprise"},
-  "godzilla":{mol:"CBD",cls:"",lvl:3,ia:"Médium+",ar:"Kush · Épicé"},
-  "bio-peach":{mol:"CBD",cls:"",lvl:3,ia:"Fort",ar:"Pêche"},
-  "bubba-kush":{mol:"CBD",cls:"",lvl:2,ia:"Médium",ar:"Kush · Épicé"},
-  "tropical-kush":{mol:"CBD",cls:"",lvl:2,ia:"Médium",ar:"Sucré · Fruité"},
-  "sweet-purple":{mol:"CBD",cls:"",lvl:3,ia:"Fort",ar:"Sucré · Fruité"},
-  "skittlez":{mol:"CBD",cls:"",lvl:2,ia:"Médium",ar:"Sucré"},
-  "fruit-cake":{mol:"CBD",cls:"",ar:"Fruité · Terreux"},
-  "tropical-dream":{mol:"CBD",cls:"",lvl:2,ia:"Médium",ar:"Exotic"},
-  "tangerine-dream":{mol:"CBD",cls:"",lvl:2,ia:"Médium",ar:"Agrumes"},
-  "tonic-haze":{mol:"CBD",cls:"",lvl:2,ia:"Médium",ar:"Terreux · Citron"},
-  "harlequin":{mol:"CBD",cls:"",ar:"Sucré · Fruité"},
-  "baby-cannatonic":{mol:"CBD",cls:"",ar:"Doux"},
+  /* arôme conservé (c'est un goût, pas une puissance), intensité retirée */
+  "fanta-hazy":{mol:"CBD",cls:"",ar:"Agrumes"},
+  "fleur-mystere":{mol:"CBD",cls:"",ar:"Surprise"},
   "stoned":{mol:"CBD +",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Hash 3× filtré"},
   "golden-high":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Pollen · Exotic"},
   "jelly-high":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Caramel"},
-  "moonrock":{mol:"CBD",cls:"",lvl:3,ia:"Fort",ar:"Épicé · Fruité"},
-  "beldia":{mol:"CBD",cls:"",ar:"Épicé · Marocain"},
   "cbn-cream":{mol:"CBN",cls:"mol-cbg",ar:"Crémeux"},
 };
 function idotsHTML(lvl){let s='<span class="idots" aria-label="Intensité">';for(let k=1;k<=4;k++){s+=`<i class="${k<=lvl?'on':''}"></i>`;}return s+'</span>';}
@@ -537,26 +655,12 @@ const DESC={
   "stoned":"Variété : STONED (BOOSTÉ/STRONG)\nLe 3× FILTRÉ de référence ! Goût délicieux, texture idéale, riche en CBD et BOOSTÉE.\n⚠️ Résine boostée, à consommer avec modération.",
   "golden-high":"Variété : Golden HIGH (BOOSTÉ/STRONG)\nLe POLLEN STRONG référence ! Riche en CBD et BOOSTÉE, un vrai voyage aromatique.\nGoût : épices exotiques, trésors des contrées lointaines. Pollen mousseux enrichi de CBE, effet puissant. Pas besoin de le chauffer avant de l'effriter : BEST TEXTURE EVER !",
   "jelly-high":"🍫 Le Caramelo qui manque à ta vie.\nHASH type Caramel de référence ! Riche en CBD et BOOSTÉE. Goût : épices exotiques. Enrichie de CBE, effet puissant.\nPas besoin de le chauffer avant de l'effriter : BEST TEXTURE EVER !",
-  "moonrock":"Variété : Moon Rock\nGoût : la variété Moon Rock est réputée pour son goût unique qui allie des notes épicées et fruitées.\nTaux de CBD : puissant. Avis aux amateurs 💥",
-  "beldia":"🍫 Filament / boulette\nAspect : texture fondante, couleur charbonneuse, un produit authentique et raffiné.\nGoût : explosion de saveurs épicées, direction les souks marocains, pour une touche traditionnelle.",
   "cbn-cream":"La texture idéale 🌔\nRésine CBN Cream : goût exquis, texture crémeuse. Du CBD « bodybuildé », marocain.",
-  "green-skunk":"🍭 Sucrée · 💥 Forte · 🌿 Herbacée\nTaux de CBD : FORT.\nLe mot de l'équipe WOOD : C'EST DE LA BOMBE !",
-  "gelato":"Variété : Gelato\nGoût : ses saveurs intenses et robustes sont accompagnées de douces notes sucrées, créant une combinaison envoûtante pour les papilles. Chaque inhalation est une expérience gustative profonde.\nTaux de CBD : reconnue pour son taux de CBD puissant.",
-  "ice-cream":"🍮 Caramélisée · 🌲 Terreuse · 🍭 Sucrée\nGoût : un dessert sucré, des saveurs intenses, fidèle à l'authenticité du cannabis.\nAspect : compacte et dense, parmi les « cali » de haut niveau, têtes denses et résineuses.\nTaux de CBD : extrêmement puissant.",
-  "purple-saphir":"Découvrez la fleur de CBD Purple Saphir, au goût si délicieux qu'il faut absolument l'essayer. Variété très rare à obtenir, offrant une expérience gustative exceptionnelle.\nNe passez pas à côté de cette expérience sensorielle unique.",
-  "fleur-mystere":"🪻 Delicioso\nGoût : un goût surprenant, une odeur particulière — « la fleur magique ».",
-  "godzilla":"🌶 Épicé & grosses buds\nVariété : Godzilla 🦖 — « Mind Eraser »\nGoût : un mélange complexe d'arômes, aux notes terreuses, citronnées et épicées.\nTaux de CBD : moyen ++",
-  "bio-peach":"Variété : BIO Peach — « Iced Tea baby »\nGoût : fruité captivant, avec des notes sucrées de pêche. BIO et Française, cocorico ! 🇫🇷\nTaux de CBD : puissant.",
-  "bubba-kush":"🌲 Terreuse · 🌶 Épicée\nGoût : une explosion de saveur, un classique de notre sélection.",
-  "tropical-kush":"🍭 Sucrée · 🍓 Fruitée\nGoût : un goût surprenant, une odeur particulière — « la fleur magique ».",
-  "sweet-purple":"Variété : Sweet Purple\nGoût : fruité captivant, notes délicieuses et sucrées, une expérience gustative envoûtante.\nTaux de CBD : puissant.",
-  "skittlez":"Variété : Skittlez\nGoût : offrant une explosion de saveur, notre Skittlez vous séduit par sa puissance, ce qui en fait un classique de notre sélection pour les amateurs de fleur de qualité ! À consommer SANS MODÉRATION !",
-  "fruit-cake":"🍓 Fruitée · 🌲 Terreuse\nGoût : explosion d'agrumes au nez.\nAspect : une belle poignée de small buds hyper odorantes, sucrée et terreuse.",
-  "tropical-dream":"Goût : offrant une explosion de saveur, notre Tropical Dream et son odeur est en fait le classique de notre sélection.",
-  "tangerine-dream":"Goût : offrant une explosion de saveur, notre Tangerine Dream et son odeur est en fait le classique de notre sélection.",
-  "tonic-haze":"Variété : Tonic Haze\nGoût : Terreuse / Citronnée.\nTaux de CBD : MÉDIUM.\nLe mot de l'équipe WOOD : si tu veux continuer à bosser tout en étant détendu 😎",
-  "harlequin":"Variété : Harley — « Sweet Bliss »\nGoût : sucré et fruité, qui rappelle les bonbons de l'enfance.",
-  "baby-cannatonic":"Oups, c'est en rupture ! Merci beaucoup 🙏\n(La Baby Cannatonic revient très vite en boutique.)",
+  /* 14/11 : « 🪻 Delicioso » retiré de la note de goût — même raison que
+     dans FLEURS : ça nommait une variété. Le reste est conservé tel quel,
+     ce sont les mots de WOOD (REFERENTIEL-PRODUITS-WOOD.md:30), et ils ne
+     parlent que de goût et d'odeur — jamais d'un effet. */
+  "fleur-mystere":"Goût : un goût surprenant, une odeur particulière — « la fleur magique ».\nLa variété n'est pas annoncée : c'est tout le principe.",
 };
 function descHTML(f){
   if(DESC[f.slug])return DESC[f.slug].split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("");
@@ -986,9 +1090,12 @@ function setPromo(code){try{code?localStorage.setItem("wood_promo",JSON.stringif
    et la route `carte-cadeau` n'expose QUE la consultation et le débit.
    Personne ne peut faire naître une carte depuis le navigateur.
 
-   SUPABASE EST DÉBRANCHÉ. Le solde était lu sur
-   `fautpphrrhwcmcywzsbk.supabase.co` via la fonction `check_gift_card`,
-   avec sa clé publique en clair dans ce fichier. La base de WOOD est
+   SUPABASE EST DÉBRANCHÉ. Le solde était lu sur l'ancien projet Supabase
+   (identifiant retiré d'ici le 14/11 : ce dépôt est PUBLIC, et un identifiant
+   de projet désigne une base — même gelée, il n'a rien à y faire ; il est
+   dans la mémoire de travail et dans le tableau de bord Supabase, pas ici)
+   via la fonction `check_gift_card`, avec sa clé publique en clair dans ce
+   fichier. La base de WOOD est
    MariaDB + PHP pour Hostinger ; Supabase ne tournait plus que là.
    Vérifié avant de couper : la table ne contenait que trois cartes de test
    du 12/11 (50 € et 77 € déjà vidées, 25 € dont 15 € restants) — aucun
@@ -1077,8 +1184,17 @@ function renderCart(){
 function renderBientot(){
   const root=document.getElementById("bientot"); if(!root)return;
   const cat=new URLSearchParams(location.search).get("cat")||"resines";
-  const T={resines:["Les résines","Hash & résines CBD de la boutique — bientôt en ligne. En attendant, viens les découvrir dans nos boutiques à Nice."],
-    accessoires:["Accessoires","Grinders, feuilles, briquets et petits essentiels — bientôt en ligne."]}[cat]||["Bientôt chez WOOD","Cette gamme arrive très vite."];
+  /* ⚠️ 14/11 — les deux entrees de ce tableau etaient devenues fausses :
+     - « Les resines … bientot en ligne » : les 10 resines de la carte SONT
+       en ligne depuis le 13/11. La page promettait pour demain ce qui etait
+       deja la.
+     - « Accessoires : grinders, feuilles, briquets » : une gamme que le site
+       ne vend pas et qui ne reviendra pas (la carte + les offres, rien
+       d'autre). Annoncer un assortiment qu'on n'a pas, c'est le meme defaut
+       que les anciennes mentions de livraison.
+     Il ne reste que le texte generique, qui lui est vrai en toute
+     circonstance. */
+  const T=["Bientôt chez WOOD","Cette gamme arrive très vite."];
   root.innerHTML=`<a class="breadcrumb" href="index.html">← Accueil</a>
     <div class="product">
       <div class="product-media"><div class="halo" style="background:radial-gradient(circle,#6fd39a55,transparent 70%)"></div>${CAT_IMG[cat]?`<img src="${CAT_IMG[cat]}${IMGV}" alt="${T[0]}" width="1254" height="1254" onerror="this.style.display='none'">`:""}</div>
@@ -1975,14 +2091,43 @@ function openSearch(){
 function searchDraw(q){
   const res=document.getElementById("searchRes"); if(!res)return;
   q=(q||"").trim().toLowerCase();
-  let list=FLEURS;
-  if(q) list=FLEURS.filter(f=>(f.nom+" "+f.desc+" "+f.tier+" "+((PROFILE[f.slug]&&PROFILE[f.slug].a)||"")).toLowerCase().includes(q));
+  /* 14/11 : LA RECHERCHE COUVRE AUSSI LES OFFRES.
+     Elle ne lisait que FLEURS : taper « mystère », « promo » ou « trim »
+     répondait « Aucun résultat » pour des produits bien en vente. Le
+     catalogue, c'est LA CARTE **et** LES OFFRES — la recherche doit dire la
+     même chose que les pages. */
+  const CATALOGUE=[...FLEURS,...BOUTIQUE];
+  /* On compare SANS ACCENTS, des deux cotes. Mesure du 14/11 : « mystère »
+     trouvait la Fleur Mystere, « mystere » ne trouvait RIEN. Personne ne
+     tape les accents dans un champ de recherche. Vaut aussi pour « resine »,
+     « boostes », « epice »… */
+  const sansAccent=s=>(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+  /* Le TYPE fait partie des mots cherchables : « resine » ne renvoyait rien
+     alors que la carte en compte dix. Idem « fleur », « hash ». */
+  const mots=f=>sansAccent([f.nom,f.desc,f.tier,f.badge,f.variete,
+                 (PROFILE[f.slug]&&PROFILE[f.slug].a)||"",
+                 Array.isArray(f.p)?(f.type==="resine"?"résine hash":"fleur"):"",
+                 f.cat==="promos"?"offre promo bon plan":""].filter(Boolean).join(" "));
+  const qn=sansAccent(q);
+  let list=CATALOGUE;
+  if(q) list=CATALOGUE.filter(f=>mots(f).includes(qn));
   if(!list.length){res.innerHTML=`<p class="search-empty muted">Aucun résultat pour « ${q} ». Essaie « fruité », « boosté », « doux »…</p>`;return;}
   res.innerHTML=`${q?"":'<p class="search-hint muted">Notre sélection</p>'}<div class="search-grid">`+list.slice(0,8).map(f=>{
+    /* un produit de la carte a un tableau de prix `p` ; une offre a `price`
+       ou `opts`. Lire `f.p[0]` sur une offre donnait « dès undefined € ». */
+    const prix = Array.isArray(f.p) ? `dès ${f.p[0]} €` : prixOffreTexte(f);
+    const etiquette = f.cat==="promos" ? "Offre" : (TIER[f.tier]?TIER[f.tier].label:f.tier);
+    const media = (f.mystery||NOIMG.has(f.slug))
+      ? `<div class="search-art">${window.__cloche(f.slug)}</div>`
+      : (f.img
+        ? `<img src="assets/products/${f.img}${IMGV}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">`
+        : (Array.isArray(f.p)
+          ? `<img src="assets/products/${f.slug}.webp${IMGV}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">`
+          : `<div class="search-art">${window.__cloche(f.slug)}</div>`));
     return `<a class="search-row" href="produit.html?f=${f.slug}">
-      ${NOIMG.has(f.slug)?`<div class="search-art">${window.__cloche(f.slug)}</div>`:`<img src="assets/products/${f.slug}.webp${IMGV}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">`}
-      <div class="search-info"><b>${f.nom}</b><span class="muted">${f.desc} · ${TIER[f.tier]?TIER[f.tier].label:f.tier}</span></div>
-      <span class="search-price">dès ${f.p[0]} €</span></a>`;}).join("")+`</div>`;
+      ${media}
+      <div class="search-info"><b>${f.nom}</b><span class="muted">${f.desc} · ${etiquette}</span></div>
+      <span class="search-price">${prix}</span></a>`;}).join("")+`</div>`;
 }
 
 /* ===================== FAVORIS (persistants) ===================== */
