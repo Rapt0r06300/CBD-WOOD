@@ -321,7 +321,13 @@ function renderSimpleProduct(f){
     }
   });
 }
-const TIER = { boostes:{label:"Boostés",cls:"badge-boost"}, soft:{label:"Soft",cls:"badge-soft"}, classique:{label:"Classique",cls:"badge-classic"} };
+/* 14/11 : la gamme « Soft » est retiree — AUCUN produit ne la porte, et
+   elle n'est pas sur la carte d'Ana (deux gammes : Classique et Boostes).
+   Elle survivait aussi dans la description Google de fleurs.html, qui
+   annoncait « Boostes, Soft, Classique » a des gens qui ne trouveraient
+   jamais de Soft. Meme famille que les 18 fantomes de MOLEC : une entree
+   morte fait croire que la table est a jour. */
+const TIER = { boostes:{label:"Boostés",cls:"badge-boost"}, classique:{label:"Classique",cls:"badge-classic"} };
 
 /* LES GRAMMAGES DE LA CARTE : 1 / 3 / 5 / 10 / 25 g.
    ⚠️ LE 25 g MANQUAIT, et c'était un vrai écart. Son prix était pourtant
@@ -577,7 +583,7 @@ function cardHTML(f,i){
             ou » est exactement ce qui a laisse mysterySVG() dormir un mois. */
         NOIMG.has(f.slug)
         ? `<div class="cloche">${window.__cloche(f.slug)}</div>`
-        : `<img class="cloche" src="assets/products/${f.slug}.webp${IMGV}" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom} sous cloche" width="1000" height="1000" loading="lazy"
+        : `<img class="cloche" src="assets/products/${f.slug}.webp${IMGV}" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom}" width="1000" height="1000" loading="lazy"
         onerror="this.outerHTML='<div class=&quot;cloche&quot;>'+window.__cloche('${f.slug}')+'</div>'">`}
       <div class="card-badges"><span class="badge ${t.cls}">${f.int||t.label}</span></div>
       <span class="card-view">Voir le produit →</span>
@@ -666,7 +672,7 @@ function descHTML(f){
   if(DESC[f.slug])return DESC[f.slug].split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("");
   const m=MOLEC[f.slug]||{};const bits=[];
   if(m.mol)bits.push(m.mol);if(m.ia)bits.push("intensité "+m.ia.toLowerCase());if(m.ar)bits.push("profil "+m.ar.toLowerCase());
-  return `<p>${f.nom} — ${bits.join(" · ")||"fleur de CBD"}. Sélectionnée par WOOD et présentée sous cloche, avec notre exigence habituelle.</p>`;
+  return `<p>${f.nom} — ${bits.join(" · ")||"fleur de CBD"}. Sélectionnée par WOOD, avec notre exigence habituelle.</p>`;
 }
 
 /* ---- PROMOS « Bons plans » (offres réelles Ana) -------------------------
@@ -991,7 +997,7 @@ function renderFleurs(){
       oeil="Catalogue · tout"; titre="Fleurs & "; italique="résines.";
       texte="Toute la carte de la boutique : treize fleurs et dix résines. 🏪 À retirer dans nos deux boutiques à Nice.";
     } else {
-      oeil="Catalogue · fleurs"; titre="Les fleurs, "; italique="sous cloche.";
+      oeil="Catalogue · fleurs"; titre="Les fleurs, "; italique="de la boutique.";
       texte="Nos variétés sélectionnées par WOOD, de la gamme Classique aux Boostés — molécules, intensités et prix réels de la boutique. 🏪 À retirer dans nos deux boutiques à Nice.";
     }
     if(eb) eb.textContent=oeil;
@@ -1051,7 +1057,7 @@ function renderProduct(){
         <div class="halo" style="background:radial-gradient(circle,${f.c[0]}55,transparent 70%)"></div>
         ${NOIMG.has(f.slug)
           ? `<div class="cloche big">${window.__cloche(f.slug)}</div>`
-          : `<img src="assets/products/${f.slug}.webp${IMGV}" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom} sous cloche" onerror="this.outerHTML='<div class=&quot;cloche big&quot;>'+window.__cloche('${f.slug}')+'</div>'">`}
+          : `<img src="assets/products/${f.slug}.webp${IMGV}" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom}" onerror="this.outerHTML='<div class=&quot;cloche big&quot;>'+window.__cloche('${f.slug}')+'</div>'">`}
       </div>
       <div class="product-info">
         <span class="badge ${t.cls}">${t.label}</span>
@@ -2261,7 +2267,7 @@ function openQuickView(slug){
     <div class="qv-body">
       <div class="qv-top"><span class="badge ${t.cls}">${t.label}</span><button class="card-fav${isFav(slug)?' on':''}" data-fav="${slug}" aria-label="Favori">${isFav(slug)?'♥':'♡'}</button></div>
       <h3 class="qv-name">${f.nom}</h3>
-      <p class="qv-desc muted">${f.desc} — ${f.type==='resine'?'résine':'fleur'} CBD choisie avec soin, présentée sous cloche.</p>
+      <p class="qv-desc muted">${f.desc} — ${f.type==='resine'?'résine':'fleur'} CBD choisie avec soin.</p>
       ${(aroma||inten)?`<div class="qv-tags">${aroma?`<span class="qv-tag">🌿 ${aroma}</span>`:""}${inten?`<span class="qv-tag">🔥 ${inten}</span>`:""}</div>`:""}
       <div class="qv-glabel muted">Choisis ton format</div>
       <div class="qv-grams" id="qvGrams">${chips}</div>
