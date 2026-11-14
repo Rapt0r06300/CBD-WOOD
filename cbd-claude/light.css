@@ -132,7 +132,14 @@ body{background:var(--bg);color:var(--ink)}
 .p-sticky .ps-info span{color:var(--lime)!important}
 .qv-panel,.qv-panel .qv-name,.qv-panel h3{color:#f4f2e7!important}
 .qv-panel .qv-desc,.qv-panel .qv-glabel,.qv-panel .muted{color:#a8b3a2!important} /* 8.42 */
-.card-fav{color:#f4f2e7!important}
+/* ⚠️ `:not(.on)` OBLIGATOIRE. Ma premiere version ecrivait `.card-fav{...
+   !important}` — et comme `.card-fav.on{color:#e0574d}` n'a PAS de
+   !important, elle ECRASAIT le coeur rouge du favori : le bouton ne
+   changeait plus de couleur quand on cliquait. Un correctif de contraste
+   qui casse un retour visuel, c'est un bug echange contre un autre.
+   Regle : un `!important` ajoute a un etat de BASE doit toujours exclure
+   les etats actifs qui, eux, n'en ont pas. */
+.card-fav:not(.on){color:#f4f2e7!important}
 
 /* --- 2. LE PRIX AU GRAMME ETAIT LE TEXTE LE PLUS PALE DU SITE ---
    `.cp-pg` : #8FA086 sur blanc = 2.78, sous le seuil AA de 4.5, et a
