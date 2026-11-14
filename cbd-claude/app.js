@@ -974,6 +974,39 @@ function renderFleurs(){
      pastille de filtre, ne disait qu'on avait change de page.
      Le filtrage, lui, etait correct — mesure : 13 / 6 / 10. C'etait un
      probleme d'ENONCE, pas de donnees. */
+  /* ======================================================================
+     RESTAURER « SOUS CLOCHE » — LE JOUR OU IL Y AURA DES PHOTOS
+     ----------------------------------------------------------------------
+     Florent, 14/11 : « On garde l'idee du sous cloche mais vu qu'on a pas
+     de photo pour l'instant on met rien. »
+
+     CE N'EST PAS UN ABANDON. La cloche reste la mise en scene de WOOD —
+     Ana l'a demandee elle-meme (« sous cloche en verre »). Elle est juste
+     retiree des MOTS tant qu'aucune photo ne la montre : une promesse
+     visuelle sans visuel est une promesse en l'air. Meme raison que le
+     retrait de la section « La cloche ouvre le bal », le meme jour.
+
+     CONDITION DE RETOUR : qu'une photo sous cloche s'affiche reellement,
+     c'est-a-dire qu'un slug sorte de NOIMG. Pas avant.
+
+     LES 13 ENDROITS A REMETTRE, dans l'ordre :
+       1. app.js  enTete()        -> italique = "sous cloche."   (ICI)
+       2. fleurs.html  <h1>       -> le MEME titre, en dur
+          ⚠️ LE TITRE EXISTE AUX DEUX ENDROITS. N'en corriger qu'un donne
+             un site qui semble repare jusqu'a ce que le JS reprenne la main.
+       3. index.html  .hero-sub   -> « presentees comme il faut — sous cloche »
+       4. app.js  descHTML()      -> « presentee sous cloche, avec notre
+                                       exigence habituelle »
+       5. app.js  apercu rapide   -> « choisie avec soin, presentee sous cloche »
+       6-7. app.js  alt des <img> produit (carteHTML et fiche) ->
+            « Fleur CBD <nom> sous cloche »
+       8-13. meta description + og:description de index.html, fleurs.html
+             et produit.html (2 balises chacune)
+
+     Tout est dans l'historique git : commit 0f62fda, « Retrait de
+     "sous cloche" et de la gamme morte Soft ». `git show 0f62fda` donne les
+     formulations exactes d'avant.
+     ====================================================================== */
   function enTete(){
     const h1=document.querySelector("h1"); if(!h1) return;
     const sec=h1.closest("section")||document;
