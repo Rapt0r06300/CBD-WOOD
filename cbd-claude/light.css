@@ -108,4 +108,43 @@ body{background:var(--bg);color:var(--ink)}
 /* --- Barre de navigation mobile (bas) : blanche --- */
 .botnav{background:rgba(255,255,255,.97)!important;border-top:1px solid var(--line)!important;backdrop-filter:saturate(1.2) blur(8px)}
 .botnav a{color:var(--muted)!important}
-.botnav a.active{color:#2f9e6b!important}
+.botnav a.active{color:#28865b!important}
+
+/* ===================================================================
+   14/11/2026 — AUDIT DE CONTRASTE (mesure reelle, pas a l'oeil)
+   Mesure : iframe a 390 px, pile de peinture reelle via
+   elementsFromPoint (les ancetres ne suffisent pas : le hero est un
+   degrade POSE SUR une photo, invisible a une simple remontee), puis
+   ratio WCAG. 144 elements sur l'accueil, 132 sur les fleurs.
+   =================================================================== */
+
+/* --- 1. DEUX BLOCS SOMBRES OUBLIES PAR LE THEME CLAIR ---
+   `.p-sticky` (la barre d'achat du bas) et `.qv-panel` (l'apercu rapide)
+   gardent un fond NOIR dans les deux themes — c'est voulu. Mais leur
+   texte, lui, heritait de la couleur du theme CLAIR, donc du noir :
+     · barre d'achat, nom du produit  -> ratio 1.14  (invisible)
+     · apercu rapide, nom du produit  -> ratio 1.11  (invisible)
+   Le nom du produit etait illisible sur les DEUX elements les plus
+   commerciaux du site. light.css couvrait deja le hero, la botnav et la
+   pastille Ana — ces deux-la etaient passes au travers.
+   Creme sur ces fonds : 16.7 et 16.4. */
+.p-sticky,.p-sticky b,.p-sticky .ps-info b{color:#f4f2e7!important}
+.p-sticky .ps-info span{color:var(--lime)!important}
+.qv-panel,.qv-panel .qv-name,.qv-panel h3{color:#f4f2e7!important}
+.qv-panel .qv-desc,.qv-panel .qv-glabel,.qv-panel .muted{color:#a8b3a2!important} /* 8.42 */
+.card-fav{color:#f4f2e7!important}
+
+/* --- 2. LE PRIX AU GRAMME ETAIT LE TEXTE LE PLUS PALE DU SITE ---
+   `.cp-pg` : #8FA086 sur blanc = 2.78, sous le seuil AA de 4.5, et a
+   10.9 px la plus petite taille de la page. Or c'est une INFORMATION DE
+   PRIX, et mes recherches de conversion la donnent comme l'un des rares
+   elements qui pesent vraiment sur la decision d'achat. La mettre au
+   plus pale et au plus petit, c'est cacher l'argument.
+   #6D7A66 garde exactement la meme teinte : 4.56. */
+.cp-pg{color:#6d7a66!important;font-size:.76rem!important}
+
+/* --- 3. LE VERT DE MARQUE SUR BLANC ---
+   #2F9E6B sur blanc = 3.37, sous le seuil. Il porte les sur-titres de
+   section, « Avis Google » et les etoiles. #28865B est le MEME vert
+   assombri de 15 % : 4.50. La teinte de marque est conservee. */
+.eyebrow,.q,.stars,.avis-note{color:#28865b!important}
