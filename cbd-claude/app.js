@@ -28,9 +28,19 @@ const FLEURS = [
   { slug:"velvet-kush", nom:"Velvet Kush", tier:"boostes", desc:"Forte 💋", c:["#e3b4c4","#6b2e42"], p:[12,34,55,100], g25:200 , emo:"💋", int:"STRONG"},
   { slug:"pastraweed", nom:"Pastraweed", tier:"boostes", desc:"Terreuse · forte 🍁", c:["#cfe39a","#8a7a2e"], p:[12,34,55,100], g25:200 , emo:"🍁", int:"STRONG"},
   { slug:"euphoria", nom:"Euphoria", tier:"boostes", desc:"Fruitée · forte 🎈", c:["#f3c7d4","#a53a5a"], p:[12,34,55,100], g25:200 , emo:"🎈", int:"STRONG"},
-  { slug:"purple", nom:"Purple", tier:"boostes", desc:"Molécule, mais Light ☯", c:["#b89adf","#4a2e6b"], p:[11,30,50,100], g25:180 , emo:"☯️", int:"MÉDIUM"},
+  /* 14/11 — « Molécule, mais Light » -> « Light ». Florent : « Ne marque
+     aucune molécule sur les fleurs ». La phrase entière d'Ana est conservée
+     dans [[ana_ses_mots_verbatim]] : « Et tu as la Purple qui est molécule,
+     mais Light ». On garde SON mot (Light), on retire l'étiquette. */
+  { slug:"purple", nom:"Purple", tier:"boostes", desc:"Light ☯", c:["#b89adf","#4a2e6b"], p:[11,30,50,100], g25:180 , emo:"☯️", int:"MÉDIUM"},
   { slug:"bloody-mary", nom:"Bloody Mary", tier:"classique", desc:"CBD élite premium 🍸", c:["#e8a39a","#7a2a2a"], p:[10,28,45,80], g25:160 , emo:"🍸"},
-  { slug:"cosmic-cbg", nom:"Cosmic CBG", tier:"classique", desc:"CBD + CBG · intense, mais Light 🪐", c:["#a9c4e8","#2e3a6b"], p:[10,28,45,80], g25:160 , emo:"🪐"},
+  /* 14/11 — « CBD + CBG · » retiré (même consigne). Ana, verbatim : « j'ai
+     même une fleur Cbd plus CBG donc la cosmique qui peut correspondre à
+     quelqu'un qui veut quelque chose d'intense, mais Light ». On garde la
+     FIN de sa phrase, qui est son positionnement, pas l'énumération.
+     ⚠️ Le nom du produit contient « CBG » : c'est son nom, pas une
+     étiquette posée dessus. On ne renomme pas la carte d'Ana. */
+  { slug:"cosmic-cbg", nom:"Cosmic CBG", tier:"classique", desc:"Intense, mais Light 🪐", c:["#a9c4e8","#2e3a6b"], p:[10,28,45,80], g25:160 , emo:"🪐"},
   { slug:"charlotte", nom:"Charlotte", tier:"classique", desc:"CBD élite premium 🍰", c:["#f0d9c4","#8a5a3a"], p:[10,28,45,80], g25:160 , emo:"🍰"},
   { slug:"rainbow", nom:"Rainbow", tier:"classique", desc:"🌈", c:["#f3d9a0","#5a8a6b"], p:[8,22,35,60], g25:120 , emo:"🌈"},
   { slug:"orange-bud", nom:"Orange Bud", tier:"classique", desc:"🍊", c:["#f3c79a","#b5651d"], p:[7,20,30,50], g25:100 , emo:"🍊"},
@@ -40,7 +50,9 @@ const FLEURS = [
   /* --- RESINES CBD (carte : 1G 3G 5G ; la colonne 10G est coupee sur la
          photo, donc le 10 g reste null tant qu'Ana ne l'a pas donne) --- */
   { slug:"katmandou", nom:"Katmandou", tier:"classique", type:"resine", desc:"🟤", c:["#c4a98a","#5a4432"], p:[8,22,35,null] },
-  { slug:"cbn-cream", nom:"CBN Cream", tier:"classique", type:"resine", desc:"CBN · crémeuse 🟤", c:["#e3d4b4","#6b5a3a"], p:[9,25,40,null] },
+  /* 14/11 — « CBN · » retiré : c'était la molécule répétée juste sous le nom
+     du produit, qui la porte déjà. La texture reste : c'est un goût. */
+  { slug:"cbn-cream", nom:"CBN Cream", tier:"classique", type:"resine", desc:"Crémeuse 🟤", c:["#e3d4b4","#6b5a3a"], p:[9,25,40,null] },
   { slug:"super-dry", nom:"Super Dry", tier:"classique", type:"resine", desc:"🟤", c:["#d4c4a9","#5a4a32"], p:[10,28,45,null] },
   { slug:"golden-high", nom:"Golden High", tier:"boostes", type:"resine", desc:"Forte 🟡", c:["#e8c97a","#8a6b1d"], p:[11,30,50,null] , int:"STRONG"},
   { slug:"jelly-high", nom:"Jelly High", tier:"boostes", type:"resine", desc:"Forte 🟠", c:["#e8b47a","#8a4a1d"], p:[11,30,50,null] , int:"STRONG"},
@@ -641,26 +653,88 @@ const MOLEC={
   "cbn-cream":{mol:"CBN",cls:"mol-cbg",ar:"Crémeux"},
 };
 function idotsHTML(lvl){let s='<span class="idots" aria-label="Intensité">';for(let k=1;k<=4;k++){s+=`<i class="${k<=lvl?'on':''}"></i>`;}return s+'</span>';}
+/* ===== AUCUNE MOLÉCULE N'EST MARQUÉE SUR UNE FLEUR (14/11/2026) ==========
+   Florent : « **Ne marque aucune molécule sur les fleurs** ».
+   Avant ce commit : une pastille « CBD + », « CBD + CBE » ou « CBN » sur
+   chaque carte, et la fiche produit s'ouvrait sur une ligne « MOLÉCULE ».
+   NEUF produits de la carte en portaient une (euphoria, pastraweed, ivory,
+   nimbus-3000, fanta-hazy, stoned, golden-high, jelly-high, cbn-cream).
+
+   POURQUOI C'EST JUSTE, et pas qu'une préférence d'affichage :
+     · ces valeurs viennent de MOLEC, la table HÉRITÉE DU SHOPIFY SUSPENDU —
+       celle qui a produit le bug qu'Ana a signalé le 13/11 ;
+     · rien ne les étaye en ligne. L'étude MILDECA (223 produits, 33 sites)
+       trouve une teneur en CBD différente de l'étiquette sur **81 %** des
+       produits étiquetés, inférieure dans 69 % des cas ;
+     · afficher une teneur supérieure au réel est une **pratique commerciale
+       trompeuse** (L121-2 / L132-2). La fiche renvoie déjà au COA
+       consultable en boutique : ça, c'est vérifiable. Une pastille, non.
+
+   ⚠️ CELA CONTREDIT UNE DEMANDE D'ANA — à savoir avant d'en reparler avec
+   elle. Elle a écrit : « **Intense mettre les molécules : fleurs & resines** ».
+   C'est Florent qui tranche ici. La donnée n'est pas perdue pour autant :
+   le champ `mol` de MOLEC est intact juste au-dessus, simplement plus rendu.
+
+   CONDITION DE RETOUR : un certificat d'analyse par lot qui porte la teneur
+   annoncée, affiché ou consultable. Pas avant.
+   LES 4 POINTS À REMETTRE : 1. le chip de `molLine()` · 2. la ligne
+   « Molécule » de `pMolHTML()` · 3. `m.mol` dans `descHTML()` · 4. les deux
+   sous-titres de `enTete()` (gamme Boostés, et fleurs) + `fleurs.html`.
+   `git show 0f62fda` et le commit de ce jour rendent les lignes exactes.
+   (CSS `.mol-chip` conservé dans styles2.css : inutilisé, prêt au retour.)
+   ======================================================================== */
 function molLine(slug){const m=MOLEC[slug];if(!m)return"";
-  const chip=`<span class="mol-chip ${m.cls||''}">${m.mol}</span>`;
-  const ar=m.ar?`<span class="mol-arome">${m.ar}</span>`:'';
+  const ar=m.ar?`<div class="mol-line"><span class="mol-arome">${m.ar}</span></div>`:'';
   const inten=m.lvl?`<div class="mol-inten"><span class="mi-k">Intensité</span>${idotsHTML(m.lvl)}<span class="mi-l">${m.ia}</span></div>`:'';
-  return `<div class="mol-line">${chip}${ar}</div>${inten}`;}
+  return `${ar}${inten}`;}
 function pMolHTML(slug){const m=MOLEC[slug];if(!m)return"";
   const inten=m.lvl?`<div class="pm-b"><span class="pm-k">Intensité</span><span class="pm-v">${idotsHTML(m.lvl)} <span style="font-size:.85rem;color:var(--muted)">${m.ia}</span></span></div>`:'';
   const ar=m.ar?`<div class="pm-b"><span class="pm-k">Arôme</span><span class="pm-v">${m.ar}</span></div>`:'';
   const prem=m.premium?`<div class="pm-b"><span class="pm-k">Gamme</span><span class="pm-v">${m.premium}</span></div>`:'';
-  return `<div class="p-mol"><div class="pm-b"><span class="pm-k">Molécule</span><span class="pm-v">${m.mol}</span></div>${inten}${ar}${prem}</div>`;}
-/* ---- Descriptions VERBATIM (catalogue Shopify certifié d'Ana — jamais modifié) ---- */
+  /* Sans la ligne « Molécule », un produit qui n'a ni intensité ni arôme ni
+     gamme donnerait un CADRE VIDE sur la fiche. On ne rend rien. */
+  if(!inten&&!ar&&!prem)return"";
+  return `<div class="p-mol">${inten}${ar}${prem}</div>`;}
+/* ---- Descriptions (catalogue Shopify d'Ana) --------------------------------
+   ⚠️ 14/11/2026 — CE BLOC N'EST PLUS « JAMAIS MODIFIÉ », et le dire serait
+   un mensonge de confort du même genre que celui qui a coûté le bug d'Ana.
+   Consigne de Florent : « Ne marque aucune molécule sur les fleurs ». La
+   pastille a été retirée des cartes — mais CES TEXTES écrivaient la molécule
+   en toutes lettres, deux clics plus loin, dans l'accordéon « Description ».
+   Retirer l'une sans l'autre, c'est le défaut « même faute à deux endroits,
+   un seul corrigé » déjà vu sur le prix nul de l'aperçu rapide.
+
+   CE QUI A ÉTÉ RETIRÉ, mot pour mot, pour que rien ne soit perdu :
+     · nimbus-3000 : « (CBD+/STRONG) » · « riche en CBD et » · « en plus de
+       son profil de CBD élevé » · « ⚠️ CBD BOOSTÉ : taux puissant en CBD+. »
+     · ivory       : « (CBD+/STRONG) » · « riche en CBD et » · « en plus de
+       son profil de CBD élevé » · « ⚠️ CBD BOOSTÉ : taux puissant en CBD + CBE. »
+     · pastraweed  : « riche en CBD et » · « sur un profil de CBD élevé »
+     · euphoria    : « riche en CBD et » · « ⚠️ CBD BOOSTÉ (CBD + CBE). »
+     · stoned      : « riche en CBD et »
+     · golden-high : « Riche en CBD et » · « enrichi de CBE, effet puissant »
+     · jelly-high  : « Riche en CBD et » · « Enrichie de CBE, effet puissant. »
+   Le libellé de remplacement des avertissements n'est pas inventé : c'est
+   celui que WOOD écrit déjà pour Pastraweed et Stoned (« Fleur / Résine
+   boostée, à consommer avec modération »).
+   « BOOSTÉ / BOOSTÉE » reste : c'est le NOM DE GAMME d'Ana, pas une molécule.
+   « CBD » seul reste aussi : c'est la catégorie du produit — la carte dit
+   « Fleur CBD », on ne peut pas la renommer.
+   Note : sur Golden High et Jelly High, la molécule et la mention « effet
+   puissant » étaient dans la MÊME proposition ; la retirer emporte les deux,
+   et « effet puissant » était de toute façon une allégation d'effet, que
+   l'en-tête de ce fichier interdit depuis le premier jour.
+   CONDITION DE RETOUR : un COA par lot. `git show` de ce commit rend les
+   textes d'origine à l'identique.                                          */
 const DESC={
-  "nimbus-3000":"Variété : Nimbus 3000 (CBD+/STRONG)\nNotre Nimbus 3000, c'est une valeur sûre, niveau expert ! Outre son goût savoureux aux notes tropicales, cette fleur a la particularité d'être riche en CBD et BOOSTÉE.\nCette variété exceptionnelle vous transporte dans un voyage aromatique, en plus de son profil de CBD élevé. Une fleur de qualité supérieure.\n⚠️ CBD BOOSTÉ : taux puissant en CBD+. À consommer avec modération.",
-  "ivory":"Variété : Ivory (CBD+/STRONG)\nNotre Ivory, c'est une fleur pour les vrais puristes et connaisseurs, niveau expert ! Outre son goût savoureux, cette fleur a la particularité d'être riche en CBD et BOOSTÉE.\nCette variété exceptionnelle vous transporte dans un voyage aromatique, en plus de son profil de CBD élevé. Une fleur de qualité supérieure.\n⚠️ CBD BOOSTÉ : taux puissant en CBD + CBE. À consommer avec modération. Son nom en dit long sur son potentiel !",
-  "pastraweed":"Variété : Pastraweed (BOOSTÉ/STRONG)\nUne valeur sûre ! Goût savoureux, riche en CBD et BOOSTÉE : un voyage aromatique sur un profil de CBD élevé.\n⚠️ Fleur boostée, à consommer avec modération.",
-  "euphoria":"Variété : Euphoria (BOOSTÉ/STRONG)\nNotre Euphoria, c'est LA pépite chez WOOD ! Une saveur exceptionnellement fruitée, riche en CBD et BOOSTÉE. Exclusivité WOOD CBD !\n⚠️ CBD BOOSTÉ (CBD + CBE). À consommer avec modération. Le conseil d'Ana : parsemer légèrement, 2-3 taffs et on pose le J… Bon voyage ♥",
+  "nimbus-3000":"Variété : Nimbus 3000 (STRONG)\nNotre Nimbus 3000, c'est une valeur sûre, niveau expert ! Outre son goût savoureux aux notes tropicales, cette fleur a la particularité d'être BOOSTÉE.\nCette variété exceptionnelle vous transporte dans un voyage aromatique. Une fleur de qualité supérieure.\n⚠️ Fleur boostée, à consommer avec modération.",
+  "ivory":"Variété : Ivory (STRONG)\nNotre Ivory, c'est une fleur pour les vrais puristes et connaisseurs, niveau expert ! Outre son goût savoureux, cette fleur a la particularité d'être BOOSTÉE.\nCette variété exceptionnelle vous transporte dans un voyage aromatique. Une fleur de qualité supérieure.\n⚠️ Fleur boostée, à consommer avec modération. Son nom en dit long sur son potentiel !",
+  "pastraweed":"Variété : Pastraweed (BOOSTÉ/STRONG)\nUne valeur sûre ! Goût savoureux et BOOSTÉE : un voyage aromatique.\n⚠️ Fleur boostée, à consommer avec modération.",
+  "euphoria":"Variété : Euphoria (BOOSTÉ/STRONG)\nNotre Euphoria, c'est LA pépite chez WOOD ! Une saveur exceptionnellement fruitée et BOOSTÉE. Exclusivité WOOD CBD !\n⚠️ Fleur boostée, à consommer avec modération. Le conseil d'Ana : parsemer légèrement, 2-3 taffs et on pose le J… Bon voyage ♥",
   "fanta-hazy":"🍋 Acidulée · 🍭 Sucrée\nGoût : offrant une explosion fruitée en bouche, la Fanta Hazy et son odeur sont le fruit d'une longue recherche de notre part, capturant l'essence même de la fleur sucrée et unique.",
-  "stoned":"Variété : STONED (BOOSTÉ/STRONG)\nLe 3× FILTRÉ de référence ! Goût délicieux, texture idéale, riche en CBD et BOOSTÉE.\n⚠️ Résine boostée, à consommer avec modération.",
-  "golden-high":"Variété : Golden HIGH (BOOSTÉ/STRONG)\nLe POLLEN STRONG référence ! Riche en CBD et BOOSTÉE, un vrai voyage aromatique.\nGoût : épices exotiques, trésors des contrées lointaines. Pollen mousseux enrichi de CBE, effet puissant. Pas besoin de le chauffer avant de l'effriter : BEST TEXTURE EVER !",
-  "jelly-high":"🍫 Le Caramelo qui manque à ta vie.\nHASH type Caramel de référence ! Riche en CBD et BOOSTÉE. Goût : épices exotiques. Enrichie de CBE, effet puissant.\nPas besoin de le chauffer avant de l'effriter : BEST TEXTURE EVER !",
+  "stoned":"Variété : STONED (BOOSTÉ/STRONG)\nLe 3× FILTRÉ de référence ! Goût délicieux, texture idéale, BOOSTÉE.\n⚠️ Résine boostée, à consommer avec modération.",
+  "golden-high":"Variété : Golden HIGH (BOOSTÉ/STRONG)\nLe POLLEN STRONG référence ! BOOSTÉE, un vrai voyage aromatique.\nGoût : épices exotiques, trésors des contrées lointaines. Pollen mousseux. Pas besoin de le chauffer avant de l'effriter : BEST TEXTURE EVER !\n⚠️ Résine boostée, à consommer avec modération.",
+  "jelly-high":"🍫 Le Caramelo qui manque à ta vie.\nHASH type Caramel de référence ! BOOSTÉE. Goût : épices exotiques.\nPas besoin de le chauffer avant de l'effriter : BEST TEXTURE EVER !\n⚠️ Résine boostée, à consommer avec modération.",
   "cbn-cream":"La texture idéale 🌔\nRésine CBN Cream : goût exquis, texture crémeuse. Du CBD « bodybuildé », marocain.",
   /* 14/11 : « 🪻 Delicioso » retiré de la note de goût — même raison que
      dans FLEURS : ça nommait une variété. Le reste est conservé tel quel,
@@ -671,7 +745,12 @@ const DESC={
 function descHTML(f){
   if(DESC[f.slug])return DESC[f.slug].split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("");
   const m=MOLEC[f.slug]||{};const bits=[];
-  if(m.mol)bits.push(m.mol);if(m.ia)bits.push("intensité "+m.ia.toLowerCase());if(m.ar)bits.push("profil "+m.ar.toLowerCase());
+  /* `m.mol` n'entre plus dans cette liste (14/11) : elle fabriquait une
+     description du genre « Stoned — CBD + · intensité ultra fort », donc une
+     molécule écrite en toutes lettres. Aujourd'hui aucun produit n'emprunte
+     cette branche (les 10 clés de MOLEC ont toutes une entrée dans DESC),
+     mais elle se réveillerait au premier produit sans description. */
+  if(m.ia)bits.push("intensité "+m.ia.toLowerCase());if(m.ar)bits.push("profil "+m.ar.toLowerCase());
   return `<p>${f.nom} — ${bits.join(" · ")||"fleur de CBD"}. Sélectionnée par WOOD, avec notre exigence habituelle.</p>`;
 }
 
@@ -1022,7 +1101,10 @@ function renderFleurs(){
       texte="Les dix résines de la carte — prix réels de la boutique. 🏪 À retirer dans nos deux boutiques à Nice.";
     } else if(tier==="boostes"){
       oeil="Catalogue · gamme Boostés"; titre="Les "; italique="Boostés.";
-      texte="La gamme forte : des fleurs enrichies en molécules (CBD+, CBD+CBE). Pour qui sait déjà ce qu'il cherche. 🏪 À retirer dans nos deux boutiques à Nice.";
+      /* 14/11 — « des fleurs enrichies en molécules (CBD+, CBD+CBE) » retiré :
+         c'était une annonce de composition, non étayée par un COA en ligne.
+         « Boostés » est le nom de gamme d'Ana ; ce qui reste est vérifiable. */
+      texte="La gamme forte de la boutique. Pour qui sait déjà ce qu'il cherche. 🏪 À retirer dans nos deux boutiques à Nice.";
     } else if(tier==="classique"){
       oeil="Catalogue · gamme Classique"; titre="La gamme "; italique="Classique.";
       texte="Les fleurs de tous les jours, sans partir sur du fort. 🏪 À retirer dans nos deux boutiques à Nice.";
@@ -1031,7 +1113,10 @@ function renderFleurs(){
       texte="Toute la carte de la boutique : treize fleurs et dix résines. 🏪 À retirer dans nos deux boutiques à Nice.";
     } else {
       oeil="Catalogue · fleurs"; titre="Les fleurs, "; italique="de la boutique.";
-      texte="Nos variétés sélectionnées par WOOD, de la gamme Classique aux Boostés — molécules, intensités et prix réels de la boutique. 🏪 À retirer dans nos deux boutiques à Nice.";
+      /* 14/11 — « molécules, » retiré du sous-titre : la page n'en affiche
+         plus aucune. Promettre dans l'accroche ce que la page ne montre pas
+         est le défaut qu'on vient de corriger deux fois (cloche, photos). */
+      texte="Nos variétés sélectionnées par WOOD, de la gamme Classique aux Boostés — intensités et prix réels de la boutique. 🏪 À retirer dans nos deux boutiques à Nice.";
     }
     if(eb) eb.textContent=oeil;
     h1.innerHTML=`${titre}<span class="serif" style="font-style:italic;color:var(--lime)">${italique}</span>`;
@@ -1966,7 +2051,9 @@ function openAdvisor(){
        Avant, on proposait quatre niveaux inventes qu'il fallait ensuite
        faire correspondre aux siens : c'est la cette correspondance qui
        produisait « du CBD propose dans de l'intense ». */
-    {key:"intensity",q:"Tu cherches quelle puissance ?",sub:"Les trois gammes de la boutique, dans les mots d'Ana.",opts:[["MÉDIUM","Light — molécule douce ✩"],["STRONG","Forte 🔥"],["HYPER STRONG","Hyper forte ⚡"]]},
+    /* 14/11 — « Light — molécule douce ✩ » -> « Light ✩ » : « Light » est le
+       mot d'Ana pour ce niveau, « molécule douce » était un ajout. */
+    {key:"intensity",q:"Tu cherches quelle puissance ?",sub:"Les trois gammes de la boutique, dans les mots d'Ana.",opts:[["MÉDIUM","Light ✩"],["STRONG","Forte 🔥"],["HYPER STRONG","Hyper forte ⚡"]]},
   ];
   const AL={agrumes:"agrumes",weed:"weed",exotic:"exotic",sucre:"sucré",kush:"kush",epice:"épicé"};
   const IL={"MÉDIUM":"Light","STRONG":"forte","HYPER STRONG":"hyper forte"};

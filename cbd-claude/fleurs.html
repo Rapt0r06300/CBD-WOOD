@@ -30,7 +30,11 @@
   <div class="container">
     <span class="eyebrow">Catalogue · fleurs</span>
     <h1>Les fleurs, <span class="serif" style="font-style:italic;color:var(--lime)">de la boutique.</span></h1>
-    <p>Nos variétés sélectionnées par WOOD, de la gamme Classique aux Boostés — molécules, intensités et prix réels de la boutique. 🏪 À retirer dans nos deux boutiques à Nice.</p>
+    <!-- ⚠️ CE TEXTE EXISTE AUX DEUX ENDROITS : ici en dur, et dans enTete()
+         de app.js qui le réécrit au chargement. N'en corriger qu'un donne une
+         page qui semble réparée jusqu'à ce que le JS reprenne la main.
+         14/11 : « molécules, » retiré (aucune molécule n'est plus affichée). -->
+    <p>Nos variétés sélectionnées par WOOD, de la gamme Classique aux Boostés — intensités et prix réels de la boutique. 🏪 À retirer dans nos deux boutiques à Nice.</p>
   </div>
 </section>
 
@@ -43,6 +47,6 @@
 <div data-chrome="advisor"></div>
 <nav data-chrome="botnav"></nav>
 <script src="api.js?v=6"></script>
-<script src="app.js?v=91"></script>
+<script src="app.js?v=92"></script>
 </body>
 </html>
