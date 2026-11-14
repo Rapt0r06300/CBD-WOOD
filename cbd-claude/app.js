@@ -114,7 +114,21 @@ const BOUTIQUE = [
      13/11/2026 : tout le reste est retire sur demande de Florent —
      accessoires, merch, carte-cadeau, Pink Panther, et les bonbons
      qui sont de toute facon interdits a la vente depuis le 15/05/2026. */
-  { slug:"trim", nom:"Trim CBD · fait maison", kind:"simple", cat:"promos", opts:[["10 g",15],["25 g",30],["100 g",100]], img:"trim.webp", c:["#cfe0a0","#5a6a2e"], desc:"Mélange maison 🌿", body:"Trim CBD maison — un savant mélange de nos différentes fleurs de CBD #WITHLOVE. Parfait pour vos infusions ou à consommer seul ! Vendu par 10 g." },
+  { slug:"trim", nom:"Trim CBD · fait maison", kind:"simple", cat:"promos", opts:[["10 g",15],["25 g",30],["100 g",100]], img:"trim.webp", c:["#cfe0a0","#5a6a2e"], desc:"Mélange maison 🌿", /* ⚠️ 14/11/2026, AUDIT — « Parfait pour vos INFUSIONS ou à consommer
+       seul ! » a ete retire de cette phrase.
+       C'etait le texte Shopify d'origine, donc les mots de la boutique, et
+       on ne touche pas aux mots d'Ana sans raison. Il y en avait une :
+       depuis le 15/05/2026 les INFUSIONS DE SOMMITES FLORALES sont
+       interdites a la vente (Novel Food (UE) 2015/2283, confirme par la
+       DGAL le 15/04/2026) -> [[wood_ingerables_interdits]]. Ecrire
+       « parfait pour vos infusions », ce n'est pas decrire le produit :
+       c'est RECOMMANDER UN USAGE PAR INGESTION, donc le presenter comme
+       une denree alimentaire. C'est exactement la famille de risque qui a
+       fait sauter le Shopify, et ce que la DDPP controle (Loiret,
+       13-14/10/2026 : 24 references non conformes, destruction ordonnee).
+       Le produit, lui, RESTE : le trim est un melange de fleurs, pas un
+       ingerable. Seule la phrase qui invite a l'ingerer est partie. */
+    body:"Trim CBD maison — un savant mélange de nos différentes fleurs de CBD #WITHLOVE. Vendu par 10 g." },
   /* LA FLEUR MYSTERE — une des cinq offres d'Ana (message du 12/11, photo
      9ec6b8c6), arrivee ici le 14/11 depuis FLEURS, ou elle n'avait rien a
      faire. Elle differe des autres promos sur un seul point : elle se vend

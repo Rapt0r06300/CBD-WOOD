@@ -2,10 +2,22 @@
 /* Nom du cache bumpé le 13/11/2026 (audit QA) : à l'activation, le service
    worker supprime tous les caches dont le nom diffère — c'est ce qui garantit
    qu'aucun visiteur ne garde une ancienne version des fichiers corrigés. */
-const CACHE = "wood-v2";
+/* ⚠️ 14/11/2026, AUDIT — app.js / styles.css / styles2.css SONT SORTIS DE
+   CORE. Les pages ne les demandent JAMAIS nus : elles demandent
+   « app.js?v=95 ». Ces trois entrees etaient donc des copies que personne
+   n'allait jamais lire, mais qui dormaient dans le cache de chaque
+   visiteur — et qui devenaient un piege le jour ou quelqu'un ajouterait un
+   `<script src="app.js">` sans version : il aurait recu la copie figee a
+   l'installation, pour toujours, sans aucun signe.
+   Le pre-cache ne garde donc que ce qui est demande tel quel : les
+   documents (reseau d'abord, voir plus bas) et les icones.
+   Les ressources versionnees n'ont pas besoin d'etre pre-cachees : la
+   premiere visite les met en cache sous leur URL exacte, et un bump de
+   `?v=` cree mecaniquement une nouvelle entree. */
+const CACHE = "wood-v3";
 const CORE = [
   "index.html", "fleurs.html", "produit.html", "panier.html",
-  "styles.css", "styles2.css", "app.js", "manifest.webmanifest",
+  "manifest.webmanifest",
   "assets/icons/icon-192.png", "assets/icons/icon-512.png"
 ];
 
