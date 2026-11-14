@@ -31,7 +31,14 @@ const FLEURS = [
   /* 14/11 — « Molécule, mais Light » -> « Light ». Florent : « Ne marque
      aucune molécule sur les fleurs ». La phrase entière d'Ana est conservée
      dans [[ana_ses_mots_verbatim]] : « Et tu as la Purple qui est molécule,
-     mais Light ». On garde SON mot (Light), on retire l'étiquette. */
+     mais Light ». On garde SON mot (Light), on retire l'étiquette.
+     ⚠️ 14/11 — PRIX 10 g CONTESTE, on ne touche pas. La carte imprimee
+     affiche 100 € ; les DEUX ardoises affichent 90 €. L'arithmetique de la
+     carte penche pour 90 (partout ailleurs 25 g = 2 × 10 g, et ici
+     25 g = 180). On reste quand meme a 100 € : un prix annonce doit etre
+     honore au comptoir (art. L112-1), donc entre deux lectures on retient
+     la plus haute — se tromper vers le bas obligerait la vendeuse a
+     reclamer 10 € de plus au retrait. QUESTION A ANA : 90 ou 100 ? */
   { slug:"purple", nom:"Purple", tier:"boostes", desc:"Light ☯", c:["#b89adf","#4a2e6b"], p:[11,30,50,100], g25:180 , emo:"☯️", int:"MÉDIUM"},
   { slug:"bloody-mary", nom:"Bloody Mary", tier:"classique", desc:"CBD élite premium 🍸", c:["#e8a39a","#7a2a2a"], p:[10,28,45,80], g25:160 , emo:"🍸"},
   /* 14/11 — « CBD + CBG · » retiré (même consigne). Ana, verbatim : « j'ai
@@ -47,20 +54,45 @@ const FLEURS = [
   { slug:"plutonium", nom:"Plutonium", tier:"classique", desc:"🧪", c:["#b4d9c4","#2e6b4a"], p:[7,20,30,50], g25:100 , emo:"🧪"},
   { slug:"fanta-hazy", nom:"Fanta Hazy", tier:"classique", desc:"Acidulée · sucrée 🥤", c:["#f3d49a","#c98a3a"], p:[6,16,25,40], g25:80 , emo:"🥤"},
 
-  /* --- RESINES CBD (carte : 1G 3G 5G ; la colonne 10G est coupee sur la
-         photo, donc le 10 g reste null tant qu'Ana ne l'a pas donne) --- */
-  { slug:"katmandou", nom:"Katmandou", tier:"classique", type:"resine", desc:"🟤", c:["#c4a98a","#5a4432"], p:[8,22,35,null] },
+  /* --- RESINES CBD (carte : 1G 3G 5G 10G 25G) ---
+     14/11/2026 — LES 20 PRIX QUI MANQUAIENT. Jusqu'a aujourd'hui le 10 g
+     valait `null` et le 25 g n'existait meme pas : la colonne etait COUPEE
+     sur la premiere photo. Dix resines sur dix etaient donc invendables
+     au-dela de 5 g, alors que la boutique les vend.
+     Florent est retourne en boutique — « je t'ai mieux pris la carte en
+     photo » — et a rapporte TROIS sources :
+       A. la carte imprimee « EDITION HALLOWEEN »        (d5cd2971 / 30261f4a)
+       B. l'ardoise « Menu @ WOOD.CBDSHOP »               (bd2bf4eb)
+       C. l'ardoise « EDITION HALLOWEEN Dracula »         (229867fc)
+     A, B et C concordent sur 9 resines sur 10. Rien n'est devine ici :
+     chaque 10 g et chaque 25 g est LU sur la carte A, puis CONFIRME par au
+     moins une ardoise. La seule exception est signalee a sa ligne. */
+  { slug:"katmandou", nom:"Katmandou", tier:"classique", type:"resine", desc:"🟤", c:["#c4a98a","#5a4432"], p:[8,22,35,60], g25:120 },
   /* 14/11 — « CBN · » retiré : c'était la molécule répétée juste sous le nom
      du produit, qui la porte déjà. La texture reste : c'est un goût. */
-  { slug:"cbn-cream", nom:"CBN Cream", tier:"classique", type:"resine", desc:"Crémeuse 🟤", c:["#e3d4b4","#6b5a3a"], p:[9,25,40,null] },
-  { slug:"super-dry", nom:"Super Dry", tier:"classique", type:"resine", desc:"🟤", c:["#d4c4a9","#5a4a32"], p:[10,28,45,null] },
-  { slug:"golden-high", nom:"Golden High", tier:"boostes", type:"resine", desc:"Forte 🟡", c:["#e8c97a","#8a6b1d"], p:[11,30,50,null] , int:"STRONG"},
-  { slug:"jelly-high", nom:"Jelly High", tier:"boostes", type:"resine", desc:"Forte 🟠", c:["#e8b47a","#8a4a1d"], p:[11,30,50,null] , int:"STRONG"},
-  { slug:"frost", nom:"Frost'", tier:"boostes", type:"resine", desc:"Forte ❄️", c:["#d4e3ef","#3a5a7a"], p:[11,30,50,null] , int:"STRONG"},
-  { slug:"stoned", nom:"Stoned", tier:"boostes", type:"resine", desc:"3× filtré · forte 🟤", c:["#c0b0a0","#4a3a2a"], p:[12,34,55,null] , int:"STRONG"},
-  { slug:"uranus", nom:"Uranus", tier:"boostes", type:"resine", desc:"Forte 🪐", c:["#b4c4e3","#3a3a6b"], p:[12,34,55,null] , int:"STRONG"},
-  { slug:"la-mousse", nom:"La Mousse", tier:"boostes", type:"resine", desc:"Forte 🟢", c:["#c4d9b4","#4a6b3a"], p:[15,42,70,null] , int:"STRONG"},
-  { slug:"snow", nom:"Snow", tier:"boostes", type:"resine", desc:"Hyper forte ❄️", c:["#eef3f7","#5a6b7a"], p:[20,58,95,null] , int:"HYPER STRONG"},
+  { slug:"cbn-cream", nom:"CBN Cream", tier:"classique", type:"resine", desc:"Crémeuse 🟤", c:["#e3d4b4","#6b5a3a"], p:[9,25,40,70], g25:140 },
+  { slug:"super-dry", nom:"Super Dry", tier:"classique", type:"resine", desc:"🟤", c:["#d4c4a9","#5a4a32"], p:[10,28,45,80], g25:160 },
+  { slug:"golden-high", nom:"Golden High", tier:"boostes", type:"resine", desc:"Forte 🟡", c:["#e8c97a","#8a6b1d"], p:[11,30,50,90], g25:180 , int:"STRONG"},
+  { slug:"jelly-high", nom:"Jelly High", tier:"boostes", type:"resine", desc:"Forte 🟠", c:["#e8b47a","#8a4a1d"], p:[11,30,50,90], g25:180 , int:"STRONG"},
+  { slug:"frost", nom:"Frost'", tier:"boostes", type:"resine", desc:"Forte ❄️", c:["#d4e3ef","#3a5a7a"], p:[11,30,50,90], g25:180 , int:"STRONG"},
+  { slug:"stoned", nom:"Stoned", tier:"boostes", type:"resine", desc:"3× filtré · forte 🟤", c:["#c0b0a0","#4a3a2a"], p:[12,34,55,100], g25:200 , int:"STRONG"},
+  { slug:"uranus", nom:"Uranus", tier:"boostes", type:"resine", desc:"Forte 🪐", c:["#b4c4e3","#3a3a6b"], p:[12,34,55,100], g25:200 , int:"STRONG"},
+  /* ⚠️ LA MOUSSE — LES TROIS SOURCES SE CONTREDISENT. Prix NON confirme.
+       Carte imprimee A : 15 / 42 / 70 / 130 / 260   <- ce qu'on affiche
+       Ardoise B        : 12 / 34 / 55 / 100 / 200
+       Ardoise C        : 12 / 34 / 55 / 100 / 200
+     On garde A pour deux raisons, et aucune n'est « parce que c'est deja la » :
+     1. Le 1/3/5 g DEJA EN LIGNE vient de A. Basculer sur B/C ne remplirait
+        pas un trou : ca changerait un prix deja publie, sur la foi d'une
+        ardoise dont on ignore et la date et la boutique.
+     2. On retient a dessein le prix le PLUS ELEVE. Un prix annonce doit etre
+        honore au comptoir (art. L112-1 code de la consommation). Annoncer
+        100 € et reclamer 130 € au retrait serait le mauvais sens de l'erreur ;
+        l'inverse ne coute qu'une remise.
+     QUESTION A ANA : La Mousse, c'est 12 € ou 15 € le gramme ?
+     Tant qu'elle n'a pas tranche, ce prix reste CONTESTE. */
+  { slug:"la-mousse", nom:"La Mousse", tier:"boostes", type:"resine", desc:"Forte 🟢", c:["#c4d9b4","#4a6b3a"], p:[15,42,70,130], g25:260 , int:"STRONG"},
+  { slug:"snow", nom:"Snow", tier:"boostes", type:"resine", desc:"Hyper forte ❄️", c:["#eef3f7","#5a6b7a"], p:[20,58,95,180], g25:360 , int:"HYPER STRONG"},
 
   /* --- LA FLEUR MYSTERE N'EST PLUS ICI (14/11/2026) ---
      Elle a ete DEPLACEE dans BOUTIQUE, categorie « promos », juste en
@@ -359,9 +391,13 @@ const GRAMS = [1,3,5,10,25];
 /* `p` tenait 4 prix et le 25 g vivait a part, dans `g25`. On le range a sa
    place, en 5e position, pour que TOUS les consommateurs existants — la
    fiche produit, l'apercu rapide, le panier, la balise structuree — le voient
-   sans qu'aucun d'eux n'ait besoin de connaitre le cas particulier. Les
-   resines n'ont pas de 25 g sur la carte : `p[4]` y reste `null`, et chaque
-   affichage filtre deja les prix absents. */
+   sans qu'aucun d'eux n'ait besoin de connaitre le cas particulier.
+   ⚠️ 14/11 — CE COMMENTAIRE DISAIT « les resines n'ont pas de 25 g sur la
+   carte ». C'ETAIT FAUX, et ca ne l'a jamais ete : la carte en a toujours
+   eu un, c'est NOTRE PHOTO qui coupait la colonne. Les trois nouvelles
+   photos l'ont montre. Les dix resines ont desormais leur 10 g ET leur
+   25 g. Un commentaire qui explique une absence finit par la justifier —
+   celui-ci a tenu un trou de 20 prix pour une regle metier. */
 FLEURS.forEach(f => { if (Array.isArray(f.p) && f.p.length < 5) f.p[4] = (f.g25 == null ? null : f.g25); });
 const byId = s => FLEURS.find(f=>f.slug===s) || BOUTIQUE.find(f=>f.slug===s) || null;
 /* Un prix ne s'écrit jamais « 11,8 € » : les centimes se notent sur deux chiffres. */
