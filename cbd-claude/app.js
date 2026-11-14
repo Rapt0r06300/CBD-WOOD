@@ -955,7 +955,55 @@ function renderFleurs(){
   bar.innerHTML=`<div class="filters">${tiers.map(([k,l])=>`<button class="chip filt${tier===k?' on':''}" data-tier="${k}">${l}</button>`).join("")}
     <select id="sortSel" class="sortsel"><option value="pop">Populaire</option><option value="asc">Prix ↑</option><option value="desc">Prix ↓</option></select></div>
     <div class="filters filters-aroma">${aromas.map(([k,l])=>`<button class="chip filt-a${aroma===k?' on':''}" data-aroma="${k}">${l}</button>`).join("")}</div>`;
+  /* 14/11 — CHAQUE PORTE DOIT ANNONCER OU ELLE MENE.
+     Florent : « Fleurs CBD et boostés ont les mêmes fleurs ».
+     Les trois entrees de l'accueil (Fleurs CBD, Resines, Boostes) tombaient
+     sur une page qui s'appelait TOUJOURS « Les fleurs, sous cloche. » :
+       · Fleurs CBD  -> 13 produits
+       · Boostes     ->  6 produits, qui sont LES SIX PREMIERES CARTES de la
+                         page Fleurs, dans le meme ordre
+       · Resines     -> 10 produits, sous un titre qui dit « Les fleurs »
+     Sur un telephone on voit 2 a 4 cartes : le premier ecran de « Boostes »
+     etait donc identique a celui de « Fleurs CBD ». Rien, sauf une petite
+     pastille de filtre, ne disait qu'on avait change de page.
+     Le filtrage, lui, etait correct — mesure : 13 / 6 / 10. C'etait un
+     probleme d'ENONCE, pas de donnees. */
+  function enTete(){
+    const h1=document.querySelector("h1"); if(!h1) return;
+    const sec=h1.closest("section")||document;
+    const eb=sec.querySelector(".eyebrow"), sub=sec.querySelector("p");
+    const resine=gtype==="resine";
+    let oeil, titre, italique, texte;
+    if(resine){
+      /* ⚠️ Premiere version : « Les resines, PRESSEES A LA MAIN » et « hash
+         et pollens ». Retire avant mise en ligne : je n'en sais rien. On ne
+         decrit pas un procede de fabrication qu'Ana n'a pas decrit. Seul
+         reste ce qui est verifiable : le nombre, et que ce sont ses prix. */
+      oeil="Catalogue · résines"; titre="Les "; italique="résines.";
+      texte="Les dix résines de la carte — prix réels de la boutique. 🏪 À retirer dans nos deux boutiques à Nice.";
+    } else if(tier==="boostes"){
+      oeil="Catalogue · gamme Boostés"; titre="Les "; italique="Boostés.";
+      texte="La gamme forte : des fleurs enrichies en molécules (CBD+, CBD+CBE). Pour qui sait déjà ce qu'il cherche. 🏪 À retirer dans nos deux boutiques à Nice.";
+    } else if(tier==="classique"){
+      oeil="Catalogue · gamme Classique"; titre="La gamme "; italique="Classique.";
+      texte="Les fleurs de tous les jours, sans partir sur du fort. 🏪 À retirer dans nos deux boutiques à Nice.";
+    } else if(gtype==="all"){
+      oeil="Catalogue · tout"; titre="Fleurs & "; italique="résines.";
+      texte="Toute la carte de la boutique : treize fleurs et dix résines. 🏪 À retirer dans nos deux boutiques à Nice.";
+    } else {
+      oeil="Catalogue · fleurs"; titre="Les fleurs, "; italique="sous cloche.";
+      texte="Nos variétés sélectionnées par WOOD, de la gamme Classique aux Boostés — molécules, intensités et prix réels de la boutique. 🏪 À retirer dans nos deux boutiques à Nice.";
+    }
+    if(eb) eb.textContent=oeil;
+    h1.innerHTML=`${titre}<span class="serif" style="font-style:italic;color:var(--lime)">${italique}</span>`;
+    if(sub) sub.textContent=texte;
+    document.title=(resine?"Résines CBD"
+      :(tier==="boostes"?"Fleurs CBD Boostés"
+      :(tier==="classique"?"Fleurs CBD Classique"
+      :(gtype==="all"?"Fleurs & résines CBD":"Fleurs CBD"))))+" — WOOD · Nice";
+  }
   function draw(){
+    enTete();
     let list=FLEURS.filter(f=>{
       const isR=f.type==="resine";
       if(gtype==="fleur"&&isR)return false;
