@@ -163,8 +163,35 @@ const CATLBL={fleurs:"Fleurs",resines:"Résines",promos:"Les offres"};
 /* Helpers panier compatibles grammage + produits simples */
 function itemBase(x){const pf=byId(x.slug);return pf&&pf.p?pf.p[0]:null;}
 function itemSave(x){if(!x.g)return 0;const b=itemBase(x);if(!b)return 0;return Math.round((1-(x.unit/x.g)/b)*100);}
-function itemQty(x){return x.opt?x.opt:(x.g+" g");}
-function itemTot(x){return x.g?(x.g*x.q)+" g":(x.opt?x.q+"×":"");}
+/* ⚠️ 15/11 — « LA PROMO GTA · 0 g » : LE POCHON ANNONÇAIT ZÉRO GRAMME.
+   `x.g` n'existe que pour les 5 grammages du catalogue. Les offres ont
+   `g:0` et portent leur poids ailleurs : dans le libellé de l'option
+   (« 10 g ») ou dans le champ `grammes` (la promo GTA, c'est 15 g).
+   Résultat : la ligne affichait « 0 g », le compteur d'en-tête oubliait ces
+   grammes (« 7 articles · 28 g » pour un pochon de 78 g), et surtout
+   LE MESSAGE DICTÉ À LA BOUTIQUE disait « La promo GTA — 0 g ×1 ».
+   C'est le texte le plus important du site : il est lu au téléphone par le
+   client et noté par la vendeuse. Un poids se lit au même endroit pour
+   tout le monde, donc une seule fonction le donne. */
+function ligneGrammes(x){
+  if(Number(x.g) > 0) return Number(x.g);
+  if(x.opt){ const m = String(x.opt).match(/(\d+(?:[.,]\d+)?)\s*g/i); if(m) return parseFloat(m[1].replace(",",".")); }
+  const f = byId(x.slug);
+  if(f && Number(f.grammes) > 0) return Number(f.grammes);
+  return 0;
+}
+/* Le poids total d'un pochon — offres comprises. */
+function cartGrammes(c){ return (c||cart).reduce((s,x)=>s+ligneGrammes(x)*x.q, 0); }
+function itemQty(x){
+  if(x.opt) return x.opt;
+  const g = ligneGrammes(x);
+  return g > 0 ? g+" g" : "";          /* jamais « 0 g » */
+}
+function itemTot(x){
+  const g = ligneGrammes(x);
+  if(g > 0) return (g*x.q)+" g";
+  return x.q > 1 ? x.q+"×" : "";
+}
 function simplePrice(f){return f.opts?Math.min.apply(null,f.opts.map(o=>o[1])):f.price;}
 /* ---- LE PRIX AFFICHE D'UNE OFFRE : UNE SEULE REGLE, UN SEUL ENDROIT ----
    Une offre a soit un prix unique (`price`, les promos 10/20 g et GTA), soit
@@ -554,6 +581,30 @@ function carteArt(f){
      de la qualité). L'emoji reste, en petit, en sticker collé de travers :
      Ana a « du graffiti et des stickers de partout » et « adore l'humour ».
      Le signe noble porte le produit, le signe de rue signe la marque. */
+  /* ⚠️ 15/11 — RÉGRESSION DU MATIN, RATTRAPÉE LE SOIR.
+     En remplaçant l'emoji géant par la cloche, j'ai fait dessiner UN BOUTON
+     DE FLEUR à « La promo GTA » — une offre dont la variété TOURNE. C'est
+     exactement ce que le commentaire trois lignes plus haut interdit, et je
+     venais de l'écrire. Un visuel figuratif y suggère une variété précise,
+     et « photo non contractuelle » ne couvre pas un écart sur une
+     caractéristique essentielle (art. L121-2).
+     Vu dans le pochon et dans le récapitulatif du checkout, aux deux
+     endroits où la vignette passe par le repli `onerror`.
+     Une offre garde donc la grammaire de sa grande carte : son CHIFFRE en
+     Fraunces, qui EST le sujet — jamais une plante. */
+  if (f && f.kind === "simple") {
+    const signe = f.gros ? f.gros : f.nom;
+    const unite = (f.gros && f.unite) ? f.unite : "";
+    const petit = String(signe).length > 3;
+    return '<span class="art-mystere art-offre" aria-hidden="true">'
+      + '<svg class="cloche-svg" viewBox="0 0 100 100" role="presentation">'
+      + '<text x="50" y="52" text-anchor="middle" dominant-baseline="central"'
+      + ' font-family="Fraunces,Georgia,serif" font-size="' + (petit ? 17 : 54) + '"'
+      + ' font-weight="600" fill="#f4f2e4">'
+      + String(signe).replace(/[<>&]/g, ch => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[ch]))
+      + (unite ? '<tspan font-size="' + (petit ? 11 : 30) + '" font-style="italic">' + unite + '</tspan>' : '')
+      + '</text></svg></span>';
+  }
   const c = (f && f.c) || ["#8fd08a","#243a2a"];
   const id = (f && f.slug) || "x";
   const art = (f && f.type === "resine") ? resineSVG(c,id) : clocheSVG(c,id);
@@ -1048,6 +1099,21 @@ function lireLePochon(){
   return lignes;
 }
 let cart=lireLePochon();
+/* ⚠️ 15/11 — DEUX ONGLETS, DEUX POCHONS, ET LE DERNIER ÉCRASE L'AUTRE.
+   Rien n'écoutait `storage`. Quelqu'un qui ouvre une fiche produit dans un
+   second onglet (le geste le plus banal du monde) et y ajoute un article :
+   le premier onglet continue d'afficher l'ancien pochon et le réécrit au
+   premier clic — l'article ajouté disparaît sans un mot.
+   `storage` n'est émis que dans les AUTRES onglets, donc pas de boucle. */
+if(typeof window!=="undefined" && typeof window.addEventListener==="function"){
+  window.addEventListener("storage", e => {
+    if(e.key !== "wood_cart") return;
+    cart = lireLePochon();
+    updateCartBadges();
+    if(document.getElementById("cdItems")) renderCartDrawer();
+    if(window.__renderCart) window.__renderCart();
+  });
+}
 function saveCart(){localStorage.setItem("wood_cart",JSON.stringify(cart));}
 function cartCount(){return cart.reduce((s,x)=>s+x.q,0);}
 function updateCartBadges(){document.querySelectorAll("#cartCount,#cartCountM").forEach(e=>e.textContent=cartCount());}
@@ -1095,7 +1161,7 @@ function cartSubtotal(){return cart.reduce((s,x)=>s+x.unit*x.q,0);}
 function ensureCartDrawer(){
   let ov=document.getElementById("cartDrawer"); if(ov)return ov;
   ov=document.createElement("div"); ov.id="cartDrawer"; ov.className="cd-ov";
-  ov.innerHTML=`<aside class="cd-panel" role="dialog" aria-label="Panier">
+  ov.innerHTML=`<aside class="cd-panel" role="dialog" aria-modal="true" aria-label="Ton pochon">
     <div class="cd-head"><div class="cd-head-t"><b>Ton pochon 🌿</b><span class="cd-count" id="cdCount"></span></div><button class="cd-close" aria-label="Fermer">✕</button></div>
     <div class="cd-ship" id="cdShip"></div>
     <div class="cd-items" id="cdItems"></div>
@@ -1105,32 +1171,56 @@ function ensureCartDrawer(){
   ov.addEventListener("click",e=>{
     if(e.target===ov||e.target.closest(".cd-close")){closeCartDrawer();return;}
     const inc=e.target.closest("[data-cd-inc]"),dec=e.target.closest("[data-cd-dec]"),del=e.target.closest("[data-cd-del]");
-    if(inc)cdQty(inc.dataset.cdInc,+inc.dataset.g,1);
-    if(dec)cdQty(dec.dataset.cdDec,+dec.dataset.g,-1);
-    if(del)cdDel(del.dataset.cdDel,+del.dataset.g);
+    if(inc)cdQty(+inc.dataset.cdInc,1);
+    if(dec)cdQty(+dec.dataset.cdDec,-1);
+    if(del)cdDel(+del.dataset.cdDel);
   });
-  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&ov.classList.contains("open"))closeCartDrawer();});
+  /* ⚠️ 15/11 — LE TIROIR S'OUVRAIT SANS EMMENER LE FOCUS.
+     Mesuré : à l'ouverture, `document.activeElement` restait sur `BODY`, et
+     les 18 boutons de la page DERRIÈRE le panneau restaient dans l'ordre de
+     tabulation. Au clavier, on ouvrait son pochon puis on tabulait dans une
+     page qu'on ne voit plus. Échap fermait déjà — c'était la moitié du
+     travail. */
+  document.addEventListener("keydown",e=>{
+    if(!ov.classList.contains("open"))return;
+    if(e.key==="Escape"){closeCartDrawer();return;}
+    if(e.key!=="Tab")return;
+    const f=cdFocusables(ov); if(!f.length)return;
+    const premier=f[0],dernier=f[f.length-1];
+    if(e.shiftKey && document.activeElement===premier){e.preventDefault();dernier.focus();}
+    else if(!e.shiftKey && document.activeElement===dernier){e.preventDefault();premier.focus();}
+  });
   return ov;
 }
-function cdQty(slug,g,d){const x=cart.find(i=>i.slug===slug&&i.g===g);if(!x)return;x.q+=d;if(x.q<1)cart=cart.filter(i=>i!==x);saveCart();updateCartBadges();renderCartDrawer();if(window.__renderCart)window.__renderCart();}
-function cdDel(slug,g){cart=cart.filter(i=>!(i.slug===slug&&i.g===g));saveCart();updateCartBadges();renderCartDrawer();if(window.__renderCart)window.__renderCart();}
+/* ⚠️ 15/11 — LE TIROIR SUPPRIMAIT UNE LIGNE QU'ON N'AVAIT PAS TOUCHÉE.
+   Ces deux fonctions identifiaient une ligne par `slug + grammage`. Or
+   TOUTES les offres ont `g:0` : deux formats de la même offre (Trim 10 g et
+   Trim 25 g) étaient donc la même ligne à leurs yeux.
+   Reproduit : pochon avec Trim 10 g ET Trim 25 g, clic sur « Retirer » du
+   10 g -> LES DEUX disparaissent, 30 € effacés sans rien demander. Le + et
+   le − se trompaient de ligne de la même façon.
+   La page `panier.html`, elle, travaillait déjà par INDEX et était juste —
+   le tiroir est pourtant celui qu'on utilise le plus. Les deux surfaces
+   doivent désigner une ligne de la même manière : par son rang. */
+function cdQty(i,d){const x=cart[i];if(!x)return;x.q+=d;if(x.q<1)cart.splice(i,1);saveCart();updateCartBadges();renderCartDrawer();if(window.__renderCart)window.__renderCart();}
+function cdDel(i){if(!cart[i])return;cart.splice(i,1);saveCart();updateCartBadges();renderCartDrawer();if(window.__renderCart)window.__renderCart();}
 function renderCartDrawer(){
   const items=document.getElementById("cdItems"); if(!items)return;
   const ship=document.getElementById("cdShip"),foot=document.getElementById("cdFoot");
   if(!cart.length){items.innerHTML=`<div class="cd-empty"><div class="ava-big">🛒</div><p class="muted">Ton pochon est vide… c'est pas une vie ça. 🌿</p><a href="fleurs.html" class="btn btn-primary">Remplir le pochon →</a></div>`;ship.innerHTML="";foot.innerHTML="";return;}
   const sub=cartSubtotal();
-  const nItems=cart.reduce((s,x)=>s+x.q,0),nGr=cart.reduce((s,x)=>s+x.g*x.q,0);
+  const nItems=cart.reduce((s,x)=>s+x.q,0),nGr=cartGrammes();
   const cnt=document.getElementById("cdCount"); if(cnt)cnt.textContent=`${nItems} article${nItems>1?'s':''}${nGr?' · '+nGr+' g':''}`;
   // Barre « livraison offerte » retiree : sans livraison, elle promettait un
   // avantage inexistant. A remettre le jour ou l'expedition est en place.
   ship.innerHTML=`<p class="cd-ship-t">🏪 À retirer à <b>Barla</b> ou <b>Borriglione</b></p>`;
-  const itemsHtml=cart.map(x=>{const sv=itemSave(x);return `<div class="cd-item">
+  const itemsHtml=cart.map((x,i)=>{const sv=itemSave(x);const q=itemQty(x);const nomComplet=x.nom+(q?" "+q:"");return `<div class="cd-item">
     ${NOIMG.has(x.slug)
       ? `<div class="cd-art">${window.__cloche(x.slug)}</div>`
       : `<img src="assets/products/${x.slug}.webp${IMGV}" alt="" onerror="this.style.visibility='hidden'">`}
-    <div class="cd-it-info"><b>${x.nom}</b><span class="cd-it-meta"><b>${itemQty(x)}</b> · ${euro(x.unit)}${sv>=8?` · <em class="cd-sv">−${sv}%</em>`:''}</span>
-      <div class="cd-qty"><button class="${x.q===1?'cd-rm':''}" data-cd-dec="${x.slug}" data-g="${x.g}" aria-label="${x.q===1?'Retirer du pochon':'Réduire'}" title="${x.q===1?'Retirer':'Réduire'}">${x.q===1?'🗑':'−'}</button><span>${x.q}</span><button data-cd-inc="${x.slug}" data-g="${x.g}" aria-label="Ajouter">+</button></div></div>
-    <div class="cd-it-side"><b>${euro(x.unit*x.q)}</b><small class="cd-it-g">${itemTot(x)}</small><button class="cd-del" data-cd-del="${x.slug}" data-g="${x.g}" aria-label="Retirer ${x.nom}">Retirer</button></div>
+    <div class="cd-it-info"><a class="cd-it-nom" href="produit.html?f=${x.slug}">${x.nom}</a><span class="cd-it-meta">${q?`<b>${q}</b> · `:''}${euro(x.unit)}${sv>=8?` · <em class="cd-sv">−${sv} %</em>`:''}</span>
+      <div class="cd-qty"><button class="${x.q===1?'cd-rm':''}" data-cd-dec="${i}" aria-label="${x.q===1?`Retirer ${nomComplet} du pochon`:`Réduire la quantité de ${nomComplet}`}" title="${x.q===1?'Retirer':'Réduire'}">${x.q===1?'🗑':'−'}</button><span aria-live="polite">${x.q}</span><button data-cd-inc="${i}" aria-label="Ajouter un ${nomComplet}">+</button></div></div>
+    <div class="cd-it-side"><b>${euro(x.unit*x.q)}</b><small class="cd-it-g">${itemTot(x)}</small><button class="cd-del" data-cd-del="${i}" aria-label="Retirer ${nomComplet} du pochon">Retirer</button></div>
   </div>`;}).join("");
   const picks=(typeof FLEURS!=="undefined"?FLEURS:[]).filter(f=>!cart.some(x=>x.slug===f.slug)).slice(0,2);
   const xsell=picks.length?`<div class="cd-xsell"><div class="cd-xsell-h">Ça va bien avec 👀</div>${picks.map(f=>`<div class="cd-x">${NOIMG.has(f.slug)?`<div class="cd-xa">${window.__cloche(f.slug)}</div>`:`<img src="assets/products/${f.slug}.webp${IMGV}" alt="" onerror="this.style.visibility='hidden'">`}<div class="cd-x-info"><b>${f.nom}</b><span class="muted">${f.p[1]} € · 3 g</span></div><button class="cd-x-add" data-add="${f.slug}" aria-label="Ajouter ${f.nom} au pochon">+</button></div>`).join("")}</div>`:"";
@@ -1139,8 +1229,32 @@ function renderCartDrawer(){
     <a href="checkout.html" class="btn btn-primary cd-go">Réserver →</a>
     <a href="panier.html" class="cd-link">Voir le panier complet</a>`;
 }
-function openCartDrawer(){ensureCartDrawer();renderCartDrawer();const ov=document.getElementById("cartDrawer");requestAnimationFrame(()=>{ov.classList.add("open");document.body.style.overflow="hidden";});}
-function closeCartDrawer(){const ov=document.getElementById("cartDrawer");if(ov){ov.classList.remove("open");document.body.style.overflow="";}}
+/* Les éléments du tiroir réellement atteignables au clavier. */
+function cdFocusables(ov){
+  return Array.prototype.slice.call(
+    ov.querySelectorAll('a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])')
+  ).filter(e => e.offsetWidth > 0 || e.offsetHeight > 0);
+}
+let cdOuvertPar = null;
+function openCartDrawer(){
+  ensureCartDrawer();renderCartDrawer();
+  const ov=document.getElementById("cartDrawer");
+  cdOuvertPar = document.activeElement;      /* pour rendre le focus en fermant */
+  requestAnimationFrame(()=>{
+    ov.classList.add("open");document.body.style.overflow="hidden";
+    const cible = ov.querySelector(".cd-close") || cdFocusables(ov)[0];
+    if(cible) cible.focus();
+  });
+}
+function closeCartDrawer(){
+  const ov=document.getElementById("cartDrawer");
+  if(!ov)return;
+  ov.classList.remove("open");document.body.style.overflow="";
+  /* On rend le focus là où on l'avait pris : sinon il repart en haut de page
+     et l'on doit re-tabuler tout le site pour revenir à son pochon. */
+  if(cdOuvertPar && document.contains(cdOuvertPar)){ try{ cdOuvertPar.focus(); }catch(e){} }
+  cdOuvertPar = null;
+}
 
 /* ===================== PAGE : FLEURS ===================== */
 function renderFleurs(){
@@ -1457,18 +1571,35 @@ function renderCart(){
   window.__renderCart=renderCart;
   if(!cart.length){root.innerHTML=`<div class="cart-empty"><div class="ava-big">🌿</div><h1 class="serif">Ton pochon est vide…</h1><p class="muted">On répare ça ?</p><a href="fleurs.html" class="btn btn-primary">Découvrir les fleurs →</a></div>`;return;}
   const sub=cart.reduce((s,x)=>s+x.unit*x.q,0);
-  const nItems=cart.reduce((s,x)=>s+x.q,0), nGr=cart.reduce((s,x)=>s+x.g*x.q,0);
+  const nItems=cart.reduce((s,x)=>s+x.q,0), nGr=cartGrammes();
   /* UN SEUL TOTAL. Le panier affichait `sub − remise`, le checkout affichait
      `sub` : deux chiffres pour le même pochon. `promoInfo()` rend désormais
      toujours null (voir son commentaire), donc les deux pages s'accordent. */
   promoInfo();                 /* appelé pour son nettoyage, pas sa valeur */
   const total=sub;
+  /* ⚠️ 15/11 — SUR TÉLÉPHONE, LE TOTAL ÉTAIT À 1 460 px DU HAUT.
+     Mesuré à 390 px : une ligne de pochon fait 162 px, six lignes 934 px, et
+     le bouton « Réserver » arrivait après. Il fallait deux à trois écrans de
+     défilement pour savoir combien on doit et pour pouvoir agir — sur la page
+     dont c'est le seul rôle. D'où la barre collante ajoutée en fin de rendu.
+     Elle réutilise la classe .p-sticky de la fiche produit, pas une nouvelle :
+     même gabarit, même position au-dessus de la barre de navigation, et les
+     règles de couleur du thème clair déjà écrites pour elle s'appliquent
+     d'office. Une surface de moins à entretenir.
+     ⚠️⚠️ ET SURTOUT : ce commentaire est ICI, en commentaire JS, et PAS dans
+     le gabarit HTML plus bas. Première version, je l'avais écrit en
+     <!-- ... --> À L'INTÉRIEUR du littéral de gabarit, avec des accents
+     graves autour du nom de classe. Un accent grave FERME le littéral : la
+     page entière est tombée en « ReferenceError: sticky is not defined », le
+     pochon s'affichait vide et le compteur à 0. `node --check` ne l'a pas vu
+     (c'était du JS valide), aucune suite ne l'a vu (renderCart a besoin d'un
+     DOM) — seul le navigateur l'a vu. */
   root.innerHTML=`<h1 class="serif">Ton pochon <span class="cart-count-h">${nItems} article${nItems>1?'s':''}${nGr?' · '+nGr+' g':''}</span></h1>
     <div class="cart-grid">
       <div class="cart-items">${cart.map((x,i)=>`<div class="cart-item"><div class="ci-media">${NOIMG.has(x.slug)?`<div class="ci-art">${window.__cloche(x.slug)}</div>`:`<img src="assets/products/${x.slug}.webp${IMGV}" alt="" onerror="this.outerHTML='<div>'+window.__cloche('${x.slug}')+'</div>'">`}</div>
-        <div class="ci-info"><div class="ci-name">${x.nom}</div><div class="muted ci-meta"><b>${itemQty(x)}</b> · ${euro(x.unit)}${(()=>{const sv=itemSave(x);return sv>=8?` · <span class="ci-sv">−${sv}%</span>`:'';})()}${x.g?` · total <b>${x.g*x.q} g</b>`:''}</div></div>
-        <div class="ci-qty"><button class="${x.q===1?'cd-rm':''}" data-dec="${i}" aria-label="${x.q===1?'Retirer':'Réduire'}" title="${x.q===1?'Retirer':'Réduire'}">${x.q===1?'🗑':'−'}</button><span>${x.q}</span><button data-inc="${i}" aria-label="Ajouter">+</button></div>
-        <div class="ci-line">${euro(x.unit*x.q)}</div><button class="ci-del" data-del="${i}" aria-label="Retirer ${x.nom}">Retirer</button></div>`).join("")}</div>
+        <div class="ci-info"><a class="ci-name" href="produit.html?f=${x.slug}">${x.nom}</a><div class="muted ci-meta">${itemQty(x)?`<b>${itemQty(x)}</b> · `:''}${euro(x.unit)}${(()=>{const sv=itemSave(x);return sv>=8?` · <span class="ci-sv">−${sv} %</span>`:'';})()}${(ligneGrammes(x)&&x.q>1)?` · total <b>${ligneGrammes(x)*x.q} g</b>`:''}</div></div>
+        <div class="ci-qty"><button class="${x.q===1?'cd-rm':''}" data-dec="${i}" aria-label="${x.q===1?`Retirer ${x.nom} ${itemQty(x)} du pochon`:`Réduire la quantité de ${x.nom} ${itemQty(x)}`}" title="${x.q===1?'Retirer':'Réduire'}">${x.q===1?'🗑':'−'}</button><span aria-live="polite">${x.q}</span><button data-inc="${i}" aria-label="Ajouter un ${x.nom} ${itemQty(x)}">+</button></div>
+        <div class="ci-line">${euro(x.unit*x.q)}</div><button class="ci-del" data-del="${i}" aria-label="Retirer ${x.nom} ${itemQty(x)} du pochon">Retirer</button></div>`).join("")}</div>
       <aside class="cart-sum">
         <h3 class="serif">Résumé</h3>
         ${'' /* Barre « livraison offerte » retiree : il n'y a pas encore de livraison. */}
@@ -1479,7 +1610,11 @@ function renderCart(){
         <div class="sum-row total"><span>Total</span><strong>${euro(total)}</strong></div>
         <a class="btn btn-primary" href="checkout.html" style="width:100%;justify-content:center;margin-top:1rem">Réserver ma sélection →</a>
         <p class="muted" style="font-size:.78rem;text-align:center;margin-top:.8rem">Le paiement en ligne arrive bientôt. En attendant, on réserve par téléphone — c'est immédiat.</p>
-      </aside></div>`;
+      </aside></div>
+    <div class="p-sticky"><div class="ps-in">
+      <div class="ps-info"><b>${nItems} article${nItems>1?'s':''}${nGr?' · '+nGr+' g':''}</b><span>${euro(total)}</span></div>
+      <a class="btn btn-primary" href="checkout.html">Réserver →</a>
+    </div></div>`;
 }
 
 /* ===================== PAGE : BIENTÔT (gammes à venir) ===================== */
@@ -1736,11 +1871,37 @@ const BOUTIQUES = [
     tel:"04 23 13 03 05", telBrut:"+33423130305" },
 ];
 
-/** Récapitulatif de la sélection, en texte simple, prêt à envoyer. */
+/* La boutique de retrait choisie. C'est une PRÉFÉRENCE d'affichage, pas une
+   somme : localStorage est ici à sa place (voir la règle inverse pour les
+   prix, relus dans le catalogue à chaque lecture du pochon). */
+const SHOP_KEY = "wood_shop";
+function shopChoisi(){
+  try { const s = localStorage.getItem(SHOP_KEY); return BOUTIQUES.find(b => b.slug === s) || null; }
+  catch(e){ return null; }
+}
+function choisirShop(slug){ try { localStorage.setItem(SHOP_KEY, slug); } catch(e){} }
+
+/** Récapitulatif de la sélection, en texte simple, prêt à envoyer.
+    ⚠️ 15/11 — CE MESSAGE NE DISAIT PAS DANS QUELLE BOUTIQUE.
+    WOOD a DEUX boutiques. Le client copiait « Bonjour, je souhaite
+    réserver… » et l'envoyait en message : personne, côté WOOD, ne savait
+    s'il fallait préparer la sélection à Barla ou à Borriglione. Et il
+    manquait aussi « La promo GTA — 0 g », corrigé par ligneGrammes().
+    C'est le texte le plus important du site : c'est LA commande. */
 function selectionTexte(){
-  const l = cart.map(x => "• " + x.nom + " — " + itemQty(x) + " ×" + x.q + " (" + euro(x.unit * x.q) + ")");
+  const l = cart.map(x => {
+    const q = itemQty(x);
+    return "• " + x.nom + (q ? " — " + q : "") + " ×" + x.q + " (" + euro(x.unit * x.q) + ")";
+  });
   const sub = cart.reduce((s,x) => s + x.unit * x.q, 0);
-  return "Bonjour, je souhaite réserver :\n\n" + l.join("\n") + "\n\nTotal indicatif : " + euro(sub);
+  const g = cartGrammes();
+  const b = shopChoisi();
+  const retrait = b
+    ? "\n\nRetrait à " + b.nom + " — " + b.adresse
+    : "";
+  return "Bonjour, je souhaite réserver :\n\n" + l.join("\n")
+       + retrait
+       + "\n\nTotal indicatif : " + euro(sub) + (g ? " · " + g + " g" : "");
 }
 
 /* ===================== LE TUNNEL DE COMMANDE ==============================
@@ -1946,14 +2107,20 @@ function renderCheckout(){
   const sub = cart.reduce((s,x) => s + x.unit * x.q, 0);
   const nArt = cart.reduce((s,x) => s + x.q, 0);
 
-  const boutiques = BOUTIQUES.map(b => `
-    <div class="resa-shop">
-      <div class="resa-shop-info">
-        <b>${b.nom}</b>
-        <span class="muted">${b.adresse}</span>
-      </div>
+  const choisi = shopChoisi();
+  const boutiques = BOUTIQUES.map(b => {
+    const on = !!(choisi && choisi.slug === b.slug);
+    return `
+    <div class="resa-shop${on?' on':''}">
+      <button type="button" class="resa-pick" data-pick-shop="${b.slug}" aria-pressed="${on}">
+        <span class="resa-tick" aria-hidden="true">${on?'✓':''}</span>
+        <span class="resa-shop-info">
+          <b>${b.nom}</b>
+          <span class="muted">${b.adresse}</span>
+        </span>
+      </button>
       <a class="btn btn-primary" href="tel:${b.telBrut}">📞 ${b.tel}</a>
-    </div>`).join("");
+    </div>`;}).join("");
 
   root.innerHTML = `
     <a class="breadcrumb" href="panier.html">← Retour au pochon</a>
@@ -1967,10 +2134,11 @@ function renderCheckout(){
 
     <div class="checkout-grid">
       <div>
-        <h3 class="serif">1. Appelle la boutique de ton choix</h3>
+        <h3 class="serif">1. Choisis ta boutique</h3>
+        <p class="muted" style="font-size:.9rem">C'est là qu'on prépare ta sélection${choisi?'':' — touche une boutique pour la choisir'}.</p>
         ${boutiques}
 
-        <h3 class="serif" style="margin-top:1.6rem">2. Ou envoie ta sélection</h3>
+        <h3 class="serif" style="margin-top:1.6rem">2. Appelle, ou envoie ta sélection</h3>
         <p class="muted" style="font-size:.9rem">Copie-la et envoie-la en message — on te répond vite.</p>
         <div class="resa-actions">
           <button class="btn btn-primary" id="copierSel">📋 Copier ma sélection</button>
@@ -1998,6 +2166,12 @@ function renderCheckout(){
   brancherCopier(document.getElementById("copierSel"),
                  () => selectionTexte(),
                  () => document.getElementById("recapSel"));
+
+  /* Choisir sa boutique réécrit le message : on ne garde pas deux versions
+     de la commande à l'écran. */
+  root.querySelectorAll("[data-pick-shop]").forEach(b => {
+    b.addEventListener("click", () => { choisirShop(b.dataset.pickShop); renderCheckout(); });
+  });
 
   document.title = "Réserver — WOOD CBD";
 }

@@ -1075,3 +1075,70 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .card-media .cloche:has(.emo-art){position:absolute;inset:0;width:auto;height:auto;aspect-ratio:auto;display:block}
 .card:hover .card-media .cloche:has(.emo-art){transform:none}
 .card:hover .card-media .cloche:has(.emo-art) .cloche-svg{transform:translateY(-4px) scale(1.04);transition:transform var(--t) var(--ease)}
+
+/* ===================================================================
+   15/11/2026 — LE POCHON, RENDU SIMPLE
+   =================================================================== */
+/* 1. La barre collante du pochon : meme gabarit que la fiche produit, donc
+      il suffit d'etendre la reserve de place en bas de page. */
+@media(max-width:899px){
+  body[data-page="cart"]{padding-bottom:130px}
+  /* L'etat vide n'a pas de barre collante : sans cette regle, son bouton
+     « Decouvrir les fleurs » passait SOUS la barre de navigation du bas. */
+  body[data-page="cart"] .cart-empty{padding-bottom:90px}
+}
+/* 2. La bulle du conseiller recouvrait le Resume et le prix des lignes.
+      Sur les deux pages ou l'on compte son argent, elle remonte au-dessus
+      de la barre collante et ne mord plus sur les chiffres. */
+/* Sur telephone, le pochon empile deja TROIS couches fixes : la barre de
+   navigation du bas, la barre collante du total, et la bulle du conseiller.
+   Sur un ecran de 535 px, la bulle recouvrait la ligne de produit. A ce
+   moment du parcours le client a fini de choisir : il compte et il valide.
+   La bulle reste disponible sur toutes les pages de catalogue. */
+@media(max-width:760px){
+  body[data-page="cart"] .advisor,
+  body[data-page="checkout"] .advisor{display:none}
+}
+/* Sur grand ecran la bulle est a DROITE — exactement la colonne du Resume.
+   Elle recouvrait la ligne « Total » et le prix des lignes. Sur les deux
+   pages ou le client compte son argent, on la passe a GAUCHE, ou il n'y a
+   rien de critique. Une bulle d aide ne doit jamais cacher un chiffre. */
+@media(min-width:900px){
+  body[data-page="cart"] .advisor,
+  body[data-page="checkout"] .advisor{bottom:24px;right:auto;left:clamp(14px,3vw,28px)}
+}
+/* 3. Le nom d'une ligne est devenu un lien vers la fiche. */
+.cd-it-nom,.ci-name{text-decoration:none}
+.cd-it-nom:hover,.ci-name:hover{text-decoration:underline}
+.cd-it-nom{display:block;font-weight:700;line-height:1.25}
+/* 4. Cibles tactiles : les commandes du pochon faisaient 30 px de cote dans
+      le tiroir. 44 px est la taille confortable au pouce. */
+.cd-qty button,.ci-qty button{min-width:38px;min-height:38px}
+@media(max-width:760px){
+  .cd-qty button,.ci-qty button{min-width:44px;min-height:44px}
+  .cd-del,.ci-del{min-height:44px;padding-inline:.9rem}
+}
+/* 5. Choisir SA boutique de retrait. WOOD en a deux : sans ce choix, le
+      message envoye ne disait pas laquelle preparer. */
+.resa-pick{flex:1;display:flex;align-items:center;gap:.7rem;min-width:0;
+  background:none;border:0;padding:0;margin:0;font:inherit;color:inherit;
+  text-align:left;cursor:pointer;min-height:44px}
+.resa-tick{flex:none;width:24px;height:24px;border-radius:50%;
+  border:2px solid var(--line);display:grid;place-items:center;
+  font-size:.8rem;line-height:1;transition:all .18s ease}
+.resa-shop.on{border-color:var(--lime)}
+.resa-shop.on .resa-tick{background:var(--lime);border-color:var(--lime);color:#10240f}
+.resa-pick:focus-visible{outline:2px solid var(--lime);outline-offset:3px;border-radius:10px}
+/* 6. La ligne de pochon sur telephone.
+      styles.css:335 placait « Retirer » en HAUT A DROITE, colle au nom du
+      produit (zones "m i d" / "m q l") : l'action destructrice tombait sous
+      le pouce, juste a cote du titre, et le nom n'avait plus la place de
+      s'afficher (« 3 g · 22 € · −8 % · total » puis « 3 g » a la ligne).
+      On remet l'ordre de lecture naturel : ce que c'est + ce que ca coute,
+      PUIS comment le changer. */
+@media(max-width:760px){
+  .cart-item{grid-template-areas:"m i l" "m q d"!important;row-gap:.6rem;column-gap:.8rem}
+  .ci-line{justify-self:end;align-self:start}
+  .ci-del{justify-self:end}
+  .ci-meta{line-height:1.5}
+}

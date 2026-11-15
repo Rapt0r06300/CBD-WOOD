@@ -155,3 +155,32 @@ body{background:var(--bg);color:var(--ink)}
    section, « Avis Google » et les etoiles. #28865B est le MEME vert
    assombri de 15 % : 4.50. La teinte de marque est conservee. */
 .eyebrow,.q,.stars,.avis-note{color:#28865b!important}
+
+/* ===================================================================
+   15/11/2026 — LE POCHON : SES COMMANDES ETAIENT INVISIBLES
+   Florent : « le panier est ultra mal fait et y'a plein de bugs ».
+   Mesure (pile de peinture reelle, alpha composite) :
+     · tiroir, bouton « + »        -> ratio 1.00  (blanc sur blanc)
+     · tiroir, corbeille « 🗑 »     -> 2.04
+     · « Retirer » (tiroir ET page) -> 1.67
+     · « −8 % » (tiroir ET page)    -> 1.57
+     · « 7 articles · 28 g »        -> 3.37
+   Cause : la liste des « surfaces verre » en haut de ce fichier contient
+   `.ci-qty` (la page) mais PAS `.cd-qty` (le tiroir). Les commandes du
+   tiroir gardaient donc les couleurs du theme SOMBRE sur un panneau blanc.
+   Le tiroir est pourtant la surface la plus utilisee du site.
+   =================================================================== */
+.cd-qty{background:rgba(20,45,20,.045)!important;border-color:var(--line)!important}
+.cd-qty button{color:#18211b!important}            /* 15.06 */
+.cd-qty button:hover{background:rgba(20,45,20,.09)!important}
+/* Le rouge d'une action destructrice doit se LIRE : on ne supprime pas par
+   erreur ce qu'on voit, on supprime par erreur ce qu'on devine. */
+.cd-qty .cd-rm,.ci-qty .cd-rm{color:#b3261e!important}   /* 5.96 */
+.cd-del,.ci-del{color:#b3261e!important}                 /* 5.79 */
+/* L'economie realisee est un argument de vente : la cacher, c'est la perdre. */
+.cd-sv,.ci-sv{color:#28865b!important}                   /* 4.51 */
+.cd-xsell-h{color:#1f7d52!important}                     /* 4.79 */
+.cart-count-h{color:#28865b!important}                   /* 4.51 */
+/* Le nom d'une ligne devient un lien vers la fiche : il doit en avoir l'air
+   sans crier plus fort que le prix. */
+.cd-it-nom,.ci-name{color:var(--ink)!important}
