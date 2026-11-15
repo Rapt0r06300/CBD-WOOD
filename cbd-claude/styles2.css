@@ -1142,3 +1142,10 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   .ci-del{justify-self:end}
   .ci-meta{line-height:1.5}
 }
+/* 7. Coups de cœur : la croix de retrait faisait 28 px. Au pouce, une action
+      destructrice de 28 px se touche par erreur. */
+.fav-x{min-width:38px;min-height:38px}
+@media(max-width:760px){.fav-x{min-width:44px;min-height:44px}}
+/* Les deux actions d'une ligne de coup de cœur etaient empilees de travers :
+   on les aligne sur une rangee, l'action principale d'abord. */
+.fav-acts{display:flex;align-items:center;gap:.5rem;flex-wrap:nowrap}

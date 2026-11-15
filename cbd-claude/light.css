@@ -184,3 +184,20 @@ body{background:var(--bg);color:var(--ink)}
 /* Le nom d'une ligne devient un lien vers la fiche : il doit en avoir l'air
    sans crier plus fort que le prix. */
 .cd-it-nom,.ci-name{color:var(--ink)!important}
+
+/* ===================================================================
+   15/11/2026 — LES COUPS DE CŒUR
+   =================================================================== */
+/* Le cœur PLEIN — celui qui confirme le geste du client — etait le moins
+   lisible des deux : #E0574D sur sa pastille rouge pale posee au-dessus du
+   panneau sombre = ratio 3.66. Le cœur VIDE, lui, etait a 6.48. L'etat qui
+   dit « c'est fait » doit etre AU MOINS aussi lisible que l'etat au repos.
+   #F4837A est le meme rouge eclairci : 5.46.
+   ⚠️ Mesure faite avec elementsFromPoint : le bouton est en position
+   absolue AU-DESSUS de la vignette sombre, alors que son parent DOM est la
+   carte blanche. Une remontee d'ancetres donne ici un fond faux (251,235,234
+   au lieu de 55,43,37) — c'est le piege du 14/11, re-paye. */
+.card-fav.on{color:#f4837a!important}
+/* Le prix dans le panneau des coups de cœur : meme vert de marque trop pale
+   que partout ailleurs (3.37). C'est un PRIX. */
+.fav-price{color:#28865b!important}

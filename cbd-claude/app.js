@@ -227,7 +227,7 @@ function simpleCardHTML(f,i){
       ${media}
       <span class="card-view">Voir le produit →</span>
     </a>
-    <button class="card-fav${isFav(f.slug)?' on':''}" data-fav="${f.slug}" aria-label="Ajouter aux favoris">${isFav(f.slug)?'♥':'♡'}</button>
+    <button class="card-fav${isFav(f.slug)?' on':''}" data-fav="${f.slug}" aria-pressed="${isFav(f.slug)}" aria-label="${isFav(f.slug)?`Retirer ${f.nom} de tes coups de cœur`:`Ajouter ${f.nom} à tes coups de cœur`}" title="${isFav(f.slug)?'Retirer des coups de cœur':'Ajouter aux coups de cœur'}">${isFav(f.slug)?'♥':'♡'}</button>
     <div class="card-body">
       <a class="card-name" href="produit.html?f=${f.slug}">${f.nom}</a>
       <div class="card-desc">${f.desc||''}</div>
@@ -743,7 +743,7 @@ function cardHTML(f,i){
       <span class="card-view">Voir le produit →</span>
       <button class="card-qv" data-qv="${f.slug}" aria-label="Aperçu rapide" title="Aperçu rapide"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span>Aperçu</span></button>
     </a>
-    <button class="card-fav${isFav(f.slug)?' on':''}" data-fav="${f.slug}" aria-label="Ajouter aux favoris">${isFav(f.slug)?'♥':'♡'}</button>
+    <button class="card-fav${isFav(f.slug)?' on':''}" data-fav="${f.slug}" aria-pressed="${isFav(f.slug)}" aria-label="${isFav(f.slug)?`Retirer ${f.nom} de tes coups de cœur`:`Ajouter ${f.nom} à tes coups de cœur`}" title="${isFav(f.slug)?'Retirer des coups de cœur':'Ajouter aux coups de cœur'}">${isFav(f.slug)?'♥':'♡'}</button>
     <div class="card-body">
       <a class="card-name" href="produit.html?f=${f.slug}">${f.nom}</a>
       <div class="card-desc">${f.desc} · ${f.type==='resine'?'Résine CBD':'Fleur CBD'}</div>
@@ -1107,11 +1107,30 @@ let cart=lireLePochon();
    `storage` n'est émis que dans les AUTRES onglets, donc pas de boucle. */
 if(typeof window!=="undefined" && typeof window.addEventListener==="function"){
   window.addEventListener("storage", e => {
-    if(e.key !== "wood_cart") return;
-    cart = lireLePochon();
-    updateCartBadges();
-    if(document.getElementById("cdItems")) renderCartDrawer();
-    if(window.__renderCart) window.__renderCart();
+    if(e.key === "wood_cart"){
+      cart = lireLePochon();
+      updateCartBadges();
+      if(document.getElementById("cdItems")) renderCartDrawer();
+      if(window.__renderCart) window.__renderCart();
+      return;
+    }
+    /* Les coups de cœur avaient le même trou que le pochon : un cœur touché
+       dans un autre onglet n'était pas vu ici, et le prochain clic écrasait
+       la liste de l'autre onglet. */
+    if(e.key === "wood_fav"){
+      favs = lireLesFavoris();
+      updateFavBadges();
+      document.querySelectorAll("[data-fav]").forEach(b=>{
+        const on = isFav(b.dataset.fav), f = byId(b.dataset.fav), nom = f?f.nom:"ce produit";
+        b.classList.toggle("on", on);
+        b.textContent = on ? "♥" : "♡";
+        b.setAttribute("aria-pressed", String(on));
+        b.setAttribute("aria-label", on
+          ? "Retirer "+nom+" de tes coups de cœur"
+          : "Ajouter "+nom+" à tes coups de cœur");
+      });
+      if(document.getElementById("favItems")) renderFavDrawer();
+    }
   });
 }
 function saveCart(){localStorage.setItem("wood_cart",JSON.stringify(cart));}
@@ -1129,7 +1148,13 @@ function cartAdd(slug,g,qty){
   const f=byId(slug); if(!f)return 0;
   g=g||3; qty=qty||1;
   const gi=GRAMS.indexOf(g);
-  const unit=f.p[gi>=0?gi:0];
+  /* ⚠️ 15/11 — `f.p` N'EXISTE PAS SUR UNE OFFRE.
+     `cartAdd` était appelé avec un slug d'offre depuis le panneau des coups
+     de cœur (bouton « + Pochon ») : `f.p[gi]` levait une TypeError, rien
+     n'était ajouté, et le client n'avait AUCUN retour. Une offre s'ajoute
+     par `cartAddSimple`, avec son format choisi. Ici on refuse proprement
+     au lieu de tomber. */
+  const unit=Array.isArray(f.p)?f.p[gi>=0?gi:0]:undefined;
   if(!Number.isFinite(unit)||unit<=0){
     if(typeof toast==="function")
       toast(`${g} g : ce format n'est pas encore en ligne — demande-le en boutique`);
@@ -2609,25 +2634,76 @@ function searchDraw(q){
 }
 
 /* ===================== FAVORIS (persistants) ===================== */
-let favs=JSON.parse(localStorage.getItem("wood_fav")||"[]");
+/* ⚠️ 15/11 — UNE SEULE VALEUR ABÎMÉE ICI VIDAIT TOUTE LA BOUTIQUE.
+   La ligne était : `let favs=JSON.parse(localStorage.getItem("wood_fav")||"[]")`.
+   Sans try/catch. Reproduit en écrivant du JSON invalide dans `wood_fav` :
+     SyntaxError au chargement de app.js
+     -> `favs` jamais initialisée
+     -> `isFav()` lève « Cannot access 'favs' before initialization »
+     -> `cardHTML()` lève -> `renderFleurs()` lève
+     -> ZÉRO produit affiché, sur TOUTES les pages, pour ce visiteur,
+        définitivement (seul un vidage des données du site le répare).
+   Le pochon avait été blindé contre exactement ça (`lireLePochon`) ; les
+   favoris, jamais. Même classe de bug, une surface traitée, l'autre
+   oubliée. RÈGLE : toute lecture de localStorage se fait dans un try, rend
+   un type sûr, et ne fait jamais tomber le reste de la page.
+
+   On en profite pour jeter les favoris ORPHELINS : un slug retiré du
+   catalogue restait compté dans la pastille alors que le panneau ne
+   pouvait plus l'afficher (`if(!f)return""`). La pastille annonçait
+   « 2 coups de cœur » et le panneau s'ouvrait vide. */
+function lireLesFavoris(){
+  let brut;
+  try { brut = JSON.parse(localStorage.getItem("wood_fav") || "[]"); }
+  catch(e){ return []; }
+  if(!Array.isArray(brut)) return [];
+  const vus = Object.create(null), propres = [];
+  brut.forEach(s => {
+    if(typeof s !== "string" || !s) return;
+    if(vus[s]) return;                       // pas deux fois le même
+    if(!byId(s)) return;                     // produit sorti du catalogue
+    vus[s] = 1; propres.push(s);
+  });
+  return propres;
+}
+let favs = lireLesFavoris();
+/* Si on a nettoyé, on l'écrit tout de suite : sinon la pastille redevient
+   fausse au prochain chargement. */
+try {
+  if(localStorage.getItem("wood_fav") !== JSON.stringify(favs))
+    localStorage.setItem("wood_fav", JSON.stringify(favs));
+} catch(e){}
 function isFav(s){return favs.indexOf(s)>-1;}
-function saveFavs(){localStorage.setItem("wood_fav",JSON.stringify(favs));}
+function saveFavs(){try{localStorage.setItem("wood_fav",JSON.stringify(favs));}catch(e){}}
 function updateFavBadges(){document.querySelectorAll("#favCount").forEach(e=>{e.textContent=favs.length;e.classList.toggle("on",favs.length>0);});}
 function toggleFav(slug){
   const on=isFav(slug);
   if(on)favs=favs.filter(s=>s!==slug);else favs.push(slug);
   saveFavs(); updateFavBadges();
-  document.querySelectorAll('[data-fav="'+slug+'"]').forEach(b=>{b.classList.toggle("on",!on);b.textContent=!on?"♥":"♡";});
+  /* ⚠️ 15/11 — LE BOUTON MENTAIT AUX LECTEURS D'ÉCRAN.
+     Il annonçait « Ajouter aux favoris » même quand le produit Y ÉTAIT
+     DÉJÀ : le libellé décrivait l'icône, pas l'action. Et rien ne disait
+     l'état (pas d'`aria-pressed`), donc à la voix le cœur plein et le cœur
+     vide étaient exactement le même bouton. On met l'état ET l'action à
+     jour partout où ce produit est affiché. */
+  const f=byId(slug), nomFav=f?f.nom:"ce produit";
+  document.querySelectorAll('[data-fav="'+slug+'"]').forEach(b=>{
+    b.classList.toggle("on",!on);
+    b.textContent=!on?"♥":"♡";
+    b.setAttribute("aria-pressed", String(!on));
+    b.setAttribute("aria-label", !on
+      ? "Retirer "+nomFav+" de tes coups de cœur"
+      : "Ajouter "+nomFav+" à tes coups de cœur");
+  });
   if(navigator.vibrate)navigator.vibrate(10);
-  const f=byId(slug);
-  toast(!on?`${f?f.nom:"Ajouté"} dans tes coups de cœur ❤️`:"Retiré des favoris");
+  toast(!on?`${f?f.nom:"Ajouté"} dans tes coups de cœur ❤️`:`${nomFav} retiré de tes coups de cœur`);
   if(document.getElementById("favDrawer"))renderFavDrawer();
 }
 /* ---- Tiroir favoris ---- */
 function ensureFavDrawer(){
   let ov=document.getElementById("favDrawer"); if(ov)return ov;
   ov=document.createElement("div"); ov.id="favDrawer"; ov.className="cd-ov fav-ov";
-  ov.innerHTML=`<aside class="cd-panel" role="dialog" aria-label="Coups de cœur">
+  ov.innerHTML=`<aside class="cd-panel" role="dialog" aria-modal="true" aria-label="Tes coups de cœur">
     <div class="cd-head"><b>Tes coups de cœur ❤️</b><button class="cd-close" aria-label="Fermer">✕</button></div>
     <div class="cd-items" id="favItems"></div>
   </aside>`;
@@ -2637,21 +2713,62 @@ function ensureFavDrawer(){
     const add=e.target.closest("[data-fav-add]"); if(add){addToCart(add.dataset.favAdd);return;}
     const del=e.target.closest("[data-fav-del]"); if(del){toggleFav(del.dataset.favDel);return;}
   });
-  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&ov.classList.contains("open"))closeFavDrawer();});
+  /* Même traitement clavier que le pochon : Échap ferme, et Tab reste
+     ENFERMÉ dans le panneau. Sans ça on tabule dans la page qu'on ne voit
+     plus — le panneau des coups de cœur avait le même trou que le tiroir. */
+  document.addEventListener("keydown",e=>{
+    if(!ov.classList.contains("open"))return;
+    if(e.key==="Escape"){closeFavDrawer();return;}
+    if(e.key!=="Tab")return;
+    const f=cdFocusables(ov); if(!f.length)return;
+    const premier=f[0],dernier=f[f.length-1];
+    if(e.shiftKey && document.activeElement===premier){e.preventDefault();dernier.focus();}
+    else if(!e.shiftKey && document.activeElement===dernier){e.preventDefault();premier.focus();}
+  });
   return ov;
 }
 function renderFavDrawer(){
   const box=document.getElementById("favItems"); if(!box)return;
   if(!favs.length){box.innerHTML=`<div class="cd-empty"><div class="ava-big">💚</div><p class="muted">Aucun coup de cœur… pour l'instant. Touche le ❤ sur une fleur pour la garder sous le coude.</p><a href="fleurs.html" class="btn btn-primary">Voir les fleurs →</a></div>`;return;}
   box.innerHTML=favs.map(s=>{const f=byId(s);if(!f)return"";
+    /* ⚠️ 15/11 — DEUX DÉFAUTS DANS CETTE LIGNE.
+       1. Le prix ne s'affichait que si `f.p` existait : les OFFRES (qui
+          peuvent être mises en coup de cœur, leur carte a le cœur) étaient
+          listées sans aucun prix.
+       2. « + Pochon » appelait `cartAdd()` sur une offre -> TypeError, rien
+          ajouté, aucun retour. Une offre a des formats : on envoie vers sa
+          fiche, là où on les choisit. */
+    const estOffre = f.kind === "simple";
+    const prix = estOffre
+      ? (f.opts ? "dès " + euro(simplePrice(f)) : euro(f.price))
+      : (f.p && f.p[1] ? euro(f.p[1]) + " · 3 g" : "");
+    const nature = estOffre ? "Offre" : (f.type === "resine" ? "Résine CBD" : "Fleur CBD");
     return `<div class="fav-row">
       <a class="fav-media" href="produit.html?f=${s}">${NOIMG.has(s)?`<div class="fav-art">${window.__cloche(s)}</div>`:`<img src="assets/products/${s}.webp${IMGV}" alt="${f.nom}" onerror="this.style.visibility='hidden'">`}</a>
-      <div class="fav-info"><a class="fav-name" href="produit.html?f=${s}">${f.nom}</a><span class="muted">${f.desc}</span><span class="fav-price">${f.p&&f.p[1]?f.p[1]+" € · 3 g":""}</span></div>
-      <div class="fav-acts"><button class="btn btn-primary btn-sm" data-fav-add="${s}">+ Pochon</button><button class="fav-x" data-fav-del="${s}" aria-label="Retirer">✕</button></div>
+      <div class="fav-info"><a class="fav-name" href="produit.html?f=${s}">${f.nom}</a><span class="muted">${nature}${f.desc?' · '+f.desc:''}</span><span class="fav-price">${prix}</span></div>
+      <div class="fav-acts">${estOffre
+        ? `<a class="btn btn-primary btn-sm" href="produit.html?f=${s}">Voir l'offre</a>`
+        : `<button class="btn btn-primary btn-sm" data-fav-add="${s}">+ Pochon</button>`}<button class="fav-x" data-fav-del="${s}" aria-label="Retirer ${f.nom} de tes coups de cœur">✕</button></div>
     </div>`;}).join("");
 }
-function openFavDrawer(){const ov=ensureFavDrawer();renderFavDrawer();requestAnimationFrame(()=>ov.classList.add("open"));document.body.style.overflow="hidden";}
-function closeFavDrawer(){const ov=document.getElementById("favDrawer");if(ov){ov.classList.remove("open");document.body.style.overflow="";}}
+let favOuvertPar=null;
+function openFavDrawer(){
+  const ov=ensureFavDrawer();renderFavDrawer();
+  favOuvertPar=document.activeElement;
+  requestAnimationFrame(()=>{
+    ov.classList.add("open");
+    const cible=ov.querySelector(".cd-close")||cdFocusables(ov)[0];
+    if(cible)cible.focus();
+  });
+  document.body.style.overflow="hidden";
+}
+function closeFavDrawer(){
+  const ov=document.getElementById("favDrawer");
+  if(!ov)return;
+  ov.classList.remove("open");document.body.style.overflow="";
+  if(favOuvertPar&&document.contains(favOuvertPar)){try{favOuvertPar.focus();}catch(e){}}
+  favOuvertPar=null;
+}
 
 /* ===================== APERÇU RAPIDE (quick-view) ===================== */
 function openQuickView(slug){
@@ -2689,7 +2806,7 @@ function openQuickView(slug){
         ? `<div class="cloche big">${window.__cloche(slug)}</div>`
         : `<img src="assets/products/${slug}.webp${IMGV}" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom}" onerror="this.outerHTML='<div class=&quot;cloche big&quot;>'+window.__cloche('${slug}')+'</div>'">`}</div>
     <div class="qv-body">
-      <div class="qv-top"><span class="badge ${t.cls}">${t.label}</span><button class="card-fav${isFav(slug)?' on':''}" data-fav="${slug}" aria-label="Favori">${isFav(slug)?'♥':'♡'}</button></div>
+      <div class="qv-top"><span class="badge ${t.cls}">${t.label}</span><button class="card-fav${isFav(slug)?' on':''}" data-fav="${slug}" aria-pressed="${isFav(slug)}" aria-label="${isFav(slug)?`Retirer ${f.nom} de tes coups de cœur`:`Ajouter ${f.nom} à tes coups de cœur`}">${isFav(slug)?'♥':'♡'}</button></div>
       <h3 class="qv-name">${f.nom}</h3>
       <p class="qv-desc muted">${f.desc} — ${f.type==='resine'?'résine':'fleur'} CBD choisie avec soin.</p>
       ${(aroma||inten)?`<div class="qv-tags">${aroma?`<span class="qv-tag">🌿 ${aroma}</span>`:""}${inten?`<span class="qv-tag">🔥 ${inten}</span>`:""}</div>`:""}
