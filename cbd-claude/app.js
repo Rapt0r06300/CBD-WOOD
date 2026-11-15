@@ -1200,21 +1200,9 @@ function ensureCartDrawer(){
     if(dec)cdQty(+dec.dataset.cdDec,-1);
     if(del)cdDel(+del.dataset.cdDel);
   });
-  /* ⚠️ 15/11 — LE TIROIR S'OUVRAIT SANS EMMENER LE FOCUS.
-     Mesuré : à l'ouverture, `document.activeElement` restait sur `BODY`, et
-     les 18 boutons de la page DERRIÈRE le panneau restaient dans l'ordre de
-     tabulation. Au clavier, on ouvrait son pochon puis on tabulait dans une
-     page qu'on ne voit plus. Échap fermait déjà — c'était la moitié du
-     travail. */
-  document.addEventListener("keydown",e=>{
-    if(!ov.classList.contains("open"))return;
-    if(e.key==="Escape"){closeCartDrawer();return;}
-    if(e.key!=="Tab")return;
-    const f=cdFocusables(ov); if(!f.length)return;
-    const premier=f[0],dernier=f[f.length-1];
-    if(e.shiftKey && document.activeElement===premier){e.preventDefault();dernier.focus();}
-    else if(!e.shiftKey && document.activeElement===dernier){e.preventDefault();premier.focus();}
-  });
+  /* Échap, le piège à focus et aria-modal viennent du traitement commun
+     (dialogueOuvert). Ce panneau n'a plus son propre clavier : il y en avait
+     deux copies, et c'est comme ça qu'on en oublie une. */
   return ov;
 }
 /* ⚠️ 15/11 — LE TIROIR SUPPRIMAIT UNE LIGNE QU'ON N'AVAIT PAS TOUCHÉE.
@@ -1254,31 +1242,62 @@ function renderCartDrawer(){
     <a href="checkout.html" class="btn btn-primary cd-go">Réserver →</a>
     <a href="panier.html" class="cd-link">Voir le panier complet</a>`;
 }
-/* Les éléments du tiroir réellement atteignables au clavier. */
+/* ===================== LES PANNEAUX, UNE SEULE FOIS =====================
+   ⚠️ 15/11 — LE SITE A CINQ PANNEAUX QUI S'OUVRENT PAR-DESSUS LA PAGE :
+   pochon, coups de cœur, recherche, aperçu rapide, menu mobile. J'ai écrit
+   le même traitement clavier deux fois (pochon, puis coups de cœur), et
+   l'audit a trouvé que les TROIS autres ne l'avaient pas du tout : pas
+   d'`aria-modal`, pas de piège à focus, focus non rendu en fermant. Au
+   clavier, on ouvrait un panneau puis on tabulait dans la page qu'on ne
+   voit plus.
+   Écrire la même chose cinq fois, c'est garantir qu'on en oubliera une.
+   Donc : UNE implémentation, et les cinq panneaux l'appellent.          */
+const _dlgOuvertPar = new WeakMap();
+function dialogueOuvert(ov, panneauSel, fermer, cibleSel){
+  const pan = ov.querySelector(panneauSel);
+  if(pan && !pan.hasAttribute("aria-modal")) pan.setAttribute("aria-modal","true");
+  _dlgOuvertPar.set(ov, document.activeElement);
+  requestAnimationFrame(()=>{
+    const c = (cibleSel && ov.querySelector(cibleSel)) || cdFocusables(ov)[0];
+    if(c){ try{ c.focus(); }catch(e){} }
+  });
+  if(ov.__clavierBranche) return;
+  ov.__clavierBranche = true;
+  document.addEventListener("keydown", e=>{
+    if(!ov.classList.contains("open")) return;
+    if(e.key === "Escape"){ fermer(); return; }
+    if(e.key !== "Tab") return;
+    const f = cdFocusables(ov); if(!f.length) return;
+    const premier = f[0], dernier = f[f.length-1];
+    if(e.shiftKey && document.activeElement === premier){ e.preventDefault(); dernier.focus(); }
+    else if(!e.shiftKey && document.activeElement === dernier){ e.preventDefault(); premier.focus(); }
+  });
+}
+/* On rend le focus là où on l'avait pris : sinon il repart en haut de page
+   et il faut re-tabuler tout le site pour revenir où l'on était. */
+function dialogueFerme(ov){
+  if(!ov) return;
+  const prec = _dlgOuvertPar.get(ov);
+  if(prec && document.contains(prec)){ try{ prec.focus(); }catch(e){} }
+  _dlgOuvertPar.delete(ov);
+}
+/* Les éléments d'un panneau réellement atteignables au clavier. */
 function cdFocusables(ov){
   return Array.prototype.slice.call(
     ov.querySelectorAll('a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])')
   ).filter(e => e.offsetWidth > 0 || e.offsetHeight > 0);
 }
-let cdOuvertPar = null;
 function openCartDrawer(){
   ensureCartDrawer();renderCartDrawer();
   const ov=document.getElementById("cartDrawer");
-  cdOuvertPar = document.activeElement;      /* pour rendre le focus en fermant */
-  requestAnimationFrame(()=>{
-    ov.classList.add("open");document.body.style.overflow="hidden";
-    const cible = ov.querySelector(".cd-close") || cdFocusables(ov)[0];
-    if(cible) cible.focus();
-  });
+  requestAnimationFrame(()=>{ov.classList.add("open");document.body.style.overflow="hidden";});
+  dialogueOuvert(ov, ".cd-panel", closeCartDrawer, ".cd-close");
 }
 function closeCartDrawer(){
   const ov=document.getElementById("cartDrawer");
   if(!ov)return;
   ov.classList.remove("open");document.body.style.overflow="";
-  /* On rend le focus là où on l'avait pris : sinon il repart en haut de page
-     et l'on doit re-tabuler tout le site pour revenir à son pochon. */
-  if(cdOuvertPar && document.contains(cdOuvertPar)){ try{ cdOuvertPar.focus(); }catch(e){} }
-  cdOuvertPar = null;
+  dialogueFerme(ov);
 }
 
 /* ===================== PAGE : FLEURS ===================== */
@@ -2582,14 +2601,17 @@ function openSearch(){
       <div class="search-res" id="searchRes"></div>
     </div>`;
     document.body.appendChild(ov);
-    const close=()=>{ov.classList.remove("open");document.body.style.overflow="";};
+    const close=()=>{ov.classList.remove("open");document.body.style.overflow="";dialogueFerme(ov);};
+    ov.__fermer=close;
     ov.addEventListener("click",e=>{if(e.target===ov||e.target.closest(".search-close"))close();});
-    document.addEventListener("keydown",e=>{if(e.key==="Escape"&&ov.classList.contains("open"))close();});
     const inp=ov.querySelector("#searchInput");
     inp.addEventListener("input",()=>searchDraw(inp.value));
   }
   ov.classList.add("open"); document.body.style.overflow="hidden";
-  searchDraw(""); setTimeout(()=>ov.querySelector("#searchInput").focus(),60);
+  searchDraw("");
+  /* Le champ garde la priorite sur le bouton de fermeture : on vient pour
+     taper. Le piege a focus et aria-modal viennent du traitement commun. */
+  dialogueOuvert(ov, ".search-panel", ov.__fermer, "#searchInput");
 }
 function searchDraw(q){
   const res=document.getElementById("searchRes"); if(!res)return;
@@ -2713,18 +2735,7 @@ function ensureFavDrawer(){
     const add=e.target.closest("[data-fav-add]"); if(add){addToCart(add.dataset.favAdd);return;}
     const del=e.target.closest("[data-fav-del]"); if(del){toggleFav(del.dataset.favDel);return;}
   });
-  /* Même traitement clavier que le pochon : Échap ferme, et Tab reste
-     ENFERMÉ dans le panneau. Sans ça on tabule dans la page qu'on ne voit
-     plus — le panneau des coups de cœur avait le même trou que le tiroir. */
-  document.addEventListener("keydown",e=>{
-    if(!ov.classList.contains("open"))return;
-    if(e.key==="Escape"){closeFavDrawer();return;}
-    if(e.key!=="Tab")return;
-    const f=cdFocusables(ov); if(!f.length)return;
-    const premier=f[0],dernier=f[f.length-1];
-    if(e.shiftKey && document.activeElement===premier){e.preventDefault();dernier.focus();}
-    else if(!e.shiftKey && document.activeElement===dernier){e.preventDefault();premier.focus();}
-  });
+  /* Clavier : traitement commun (dialogueOuvert). */
   return ov;
 }
 function renderFavDrawer(){
@@ -2751,23 +2762,17 @@ function renderFavDrawer(){
         : `<button class="btn btn-primary btn-sm" data-fav-add="${s}">+ Pochon</button>`}<button class="fav-x" data-fav-del="${s}" aria-label="Retirer ${f.nom} de tes coups de cœur">✕</button></div>
     </div>`;}).join("");
 }
-let favOuvertPar=null;
 function openFavDrawer(){
   const ov=ensureFavDrawer();renderFavDrawer();
-  favOuvertPar=document.activeElement;
-  requestAnimationFrame(()=>{
-    ov.classList.add("open");
-    const cible=ov.querySelector(".cd-close")||cdFocusables(ov)[0];
-    if(cible)cible.focus();
-  });
+  requestAnimationFrame(()=>ov.classList.add("open"));
   document.body.style.overflow="hidden";
+  dialogueOuvert(ov, ".cd-panel", closeFavDrawer, ".cd-close");
 }
 function closeFavDrawer(){
   const ov=document.getElementById("favDrawer");
   if(!ov)return;
   ov.classList.remove("open");document.body.style.overflow="";
-  if(favOuvertPar&&document.contains(favOuvertPar)){try{favOuvertPar.focus();}catch(e){}}
-  favOuvertPar=null;
+  dialogueFerme(ov);
 }
 
 /* ===================== APERÇU RAPIDE (quick-view) ===================== */
@@ -2817,8 +2822,9 @@ function openQuickView(slug){
       <p class="qv-note muted">🏪 Retrait en boutique · 🔬 testé en labo</p>
     </div></div>`;
   requestAnimationFrame(()=>ov.classList.add("open")); document.body.style.overflow="hidden";
+  dialogueOuvert(ov, ".qv-panel", closeQuickView, ".qv-close");
 }
-function closeQuickView(){const ov=document.getElementById("qvOv");if(ov){ov.classList.remove("open");document.body.style.overflow="";}}
+function closeQuickView(){const ov=document.getElementById("qvOv");if(ov){ov.classList.remove("open");document.body.style.overflow="";dialogueFerme(ov);}}
 
 /* ===================== MENU MOBILE (drawer) ===================== */
 function openMobileMenu(){
@@ -2846,11 +2852,11 @@ function openMobileMenu(){
       const q=e.target.closest("[data-mnu]");
       if(q){closeMobileMenu();const k=q.dataset.mnu;setTimeout(()=>{if(k==="search")openSearch();else if(k==="fav")openFavDrawer();else if(k==="cart")openCartDrawer();},180);}
     });
-    document.addEventListener("keydown",e=>{if(e.key==="Escape"&&ov.classList.contains("open"))closeMobileMenu();});
   }
+  dialogueOuvert(ov, ".mnu-panel", closeMobileMenu, ".mnu-close");
   requestAnimationFrame(()=>ov.classList.add("open")); document.body.style.overflow="hidden";
 }
-function closeMobileMenu(){const ov=document.getElementById("mnuOv");if(ov){ov.classList.remove("open");document.body.style.overflow="";}}
+function closeMobileMenu(){const ov=document.getElementById("mnuOv");if(ov){ov.classList.remove("open");document.body.style.overflow="";dialogueFerme(ov);}}
 
 /* ===================== PWA (manifest, meta iOS, service worker) ===================== */
 (function(){

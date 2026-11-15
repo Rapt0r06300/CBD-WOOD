@@ -108,7 +108,7 @@ body{background:var(--bg);color:var(--ink)}
 /* --- Barre de navigation mobile (bas) : blanche --- */
 .botnav{background:rgba(255,255,255,.97)!important;border-top:1px solid var(--line)!important;backdrop-filter:saturate(1.2) blur(8px)}
 .botnav a{color:var(--muted)!important}
-.botnav a.active{color:#28865b!important}
+.botnav a.active{color:#1b6f49!important}
 
 /* ===================================================================
    14/11/2026 — AUDIT DE CONTRASTE (mesure reelle, pas a l'oeil)
@@ -154,7 +154,7 @@ body{background:var(--bg);color:var(--ink)}
    #2F9E6B sur blanc = 3.37, sous le seuil. Il porte les sur-titres de
    section, « Avis Google » et les etoiles. #28865B est le MEME vert
    assombri de 15 % : 4.50. La teinte de marque est conservee. */
-.eyebrow,.q,.stars,.avis-note{color:#28865b!important}
+.eyebrow,.q,.stars,.avis-note{color:#1b6f49!important}
 
 /* ===================================================================
    15/11/2026 — LE POCHON : SES COMMANDES ETAIENT INVISIBLES
@@ -178,9 +178,9 @@ body{background:var(--bg);color:var(--ink)}
 .cd-qty .cd-rm,.ci-qty .cd-rm{color:#b3261e!important}   /* 5.96 */
 .cd-del,.ci-del{color:#b3261e!important}                 /* 5.79 */
 /* L'economie realisee est un argument de vente : la cacher, c'est la perdre. */
-.cd-sv,.ci-sv{color:#28865b!important}                   /* 4.51 */
+.cd-sv,.ci-sv{color:#1b6f49!important}                   /* 4.51 */
 .cd-xsell-h{color:#1f7d52!important}                     /* 4.79 */
-.cart-count-h{color:#28865b!important}                   /* 4.51 */
+.cart-count-h{color:#1b6f49!important}                   /* 4.51 */
 /* Le nom d'une ligne devient un lien vers la fiche : il doit en avoir l'air
    sans crier plus fort que le prix. */
 .cd-it-nom,.ci-name{color:var(--ink)!important}
@@ -200,4 +200,42 @@ body{background:var(--bg);color:var(--ink)}
 .card-fav.on{color:#f4837a!important}
 /* Le prix dans le panneau des coups de cœur : meme vert de marque trop pale
    que partout ailleurs (3.37). C'est un PRIX. */
-.fav-price{color:#28865b!important}
+.fav-price{color:#1b6f49!important}
+
+/* ===================================================================
+   15/11/2026 — LE VERT DE MARQUE SUR FOND CLAIR, UNE BONNE FOIS
+   Je l'ai corrige trois fois de suite a trois endroits differents, et
+   chaque tour en trouvait un de plus. La raison, mesuree : dans ce
+   theme `--lime` ET `--cyan` valent tous deux #2F9E6B, soit 3.37 sur
+   blanc — et **67 regles** posent ce vert en couleur de texte (61 autres
+   l'utilisent comme surface, donc on ne peut PAS changer le jeton).
+   Il fallait donc lister les contextes clairs. Ceux-ci sortent d'une
+   mesure page par page, pas d'une relecture a l'oeil.
+   #1B6F49 est le meme vert assombri : 6.15 sur blanc, 5.63 sur #f6f5ef,
+   5.37 sur #edf1e8, 5.53 sur #f4f3ec — lisible sur TOUTES les surfaces
+   claires du site, pas seulement sur le blanc pur (c'est ce qui laissait
+   .stars a 4.46 sur la page boutique).
+   =================================================================== */
+/* ⚠️ `:not(.btn)` OBLIGATOIRE — et je viens de refaire la faute du matin.
+   `.doc a{color:…!important}` repeint TOUS les liens de la page, BOUTON
+   PRINCIPAL COMPRIS : « Voir la selection » est un <a class="btn btn-primary">
+   dans un .doc. Son texte sombre #17341E (9.8 sur le vert clair du bouton)
+   devenait vert #1B6F49 -> 4.44, mesure. Regle, deja ecrite ce matin pour
+   .card-fav et non appliquee ici : un !important large doit exclure les
+   composants qui portent deja leur propre couleur. */
+.doc a:not(.btn){color:#1b6f49!important}  /* liens des pages legales et boutiques */
+.cp-eco{color:#1b6f49!important}           /* l'economie, sur la carte produit */
+.pm-go{color:#1b6f49!important}            /* « Voir l'offre » sur l'accueil */
+.botnav a.active{color:#1b6f49!important}
+.lien-vert{color:#1b6f49!important}
+
+/* ⚠️ LE TEXTE LE PLUS IMPORTANT DU SITE ETAIT A 1,20.
+   `.resa-recap`, c'est le bloc qui montre au client LE MESSAGE QU'IL VA
+   ENVOYER A LA BOUTIQUE — c'est la commande. Son texte restait creme
+   (#E8ECE6), herite du theme sombre, sur un fond clair : ratio 1.20,
+   illisible. Encore la meme faute que `.p-sticky` et `.qv-panel` hier,
+   dans l'autre sens : une surface CLAIRE codee en dur, sans regle de
+   couleur de texte pour le theme clair.
+   Regle generale, a appliquer a toute surface future : une surface qui
+   fixe son fond DOIT fixer sa couleur de texte. */
+.resa-recap{background:#f4f1e9!important;color:#18211b!important;border-color:var(--line)!important}
