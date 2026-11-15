@@ -852,14 +852,21 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 /* .cloche est taillée pour une fleur sous cloche : 70 % de large, ratio 3/4,
    contenu collé en bas. Un fond de fresque doit au contraire remplir la boîte,
    sinon il flotte au milieu de la carte comme une vignette perdue. */
-.cloche:has(.art-mystere){width:100%;height:100%;aspect-ratio:auto;
+/* 15/11 : `.emo-art` rejoint `.art-mystere` ici. C'est EXACTEMENT le meme
+   cas — un visuel qui va bord a bord, enferme dans une enveloppe taillee
+   pour une photo detouree — et je l'ai re-trouve a la main sur la fiche
+   produit avant de voir que la regle d'a cote le disait deja. Quand deux
+   visuels ont le meme comportement, ils partagent la regle : sinon la
+   prochaine correction n'en soigne qu'un des deux. */
+.cloche:has(.art-mystere),.cloche:has(.emo-art){width:100%;height:100%;aspect-ratio:auto;
   place-items:stretch;display:block}
 /* styles.css:289 impose `.product-media .cloche.big{width:86%}` — pensé pour
    une photo détourée, qui doit respirer. Une fresque, elle, doit aller bord à
    bord comme sur les cartes promo : mesuré, le visuel faisait 510 px dans une
    boîte de 595, soit une tuile qui flotte. Sélecteur plus spécifique (0,4,0)
    pour passer devant, plutôt qu'un !important. */
-.product-media .cloche.big:has(.art-mystere){width:100%;height:100%}
+.product-media .cloche.big:has(.art-mystere),
+.product-media .cloche.big:has(.emo-art){width:100%;height:100%}
 
 /* ---- 13/11 : produits sans photo = l'emoji de la carte imprimee d'Ana ----
    Le badge d'intensite (STRONG / MEDIUM / HYPER STRONG, ses mots) passait
@@ -1028,3 +1035,43 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   .tn-duo{grid-template-columns:1fr}
   .tn-bloc{padding:.9rem .8rem .5rem}
 }
+
+/* ===================================================================
+   15/11/2026 — LE VISUEL D'UN PRODUIT SANS PHOTO
+   Avant : l'emoji de la carte imprimee rendu en 7,6 rem comme sujet
+   principal. Resultat sur les 24 produits (aucune photo affichee) :
+   un catalogue de grands emojis sur fond pale. Florent : « tout le
+   site est parti en couille ».
+   Apres : la cloche en verre (les mots d'Ana) aux deux couleurs du
+   produit, sur fond sombre, + l'emoji en petit sticker de travers.
+   =================================================================== */
+.emo-art{position:relative;display:grid;place-items:center;overflow:hidden;
+  background:linear-gradient(180deg,rgba(9,14,9,.74),rgba(9,14,9,.94))}
+.emo-art .cloche-svg{position:relative;z-index:1;width:72%;max-width:270px;height:auto}
+/* Le sticker : pastille creme posee de travers, jamais le sujet. */
+.art-sticker{position:absolute;right:7%;bottom:7%;z-index:2;
+  font-style:normal;font-size:clamp(.95rem,1.5vw,1.3rem);line-height:1;
+  background:#f4f2e7;border-radius:999px;padding:.34em .4em;
+  box-shadow:0 5px 16px rgba(0,0,0,.4);transform:rotate(-8deg)}
+/* Petits contextes (pochon, panier, recherche, coups de coeur) : la
+   cloche remplit, le sticker disparait — a 58 px il ne serait plus un
+   clin d'oeil mais une tache. */
+.cd-art .emo-art .cloche-svg,.ci-art .emo-art .cloche-svg,
+.cd-xa .emo-art .cloche-svg,.search-art .emo-art .cloche-svg,
+.fav-art .emo-art .cloche-svg{width:88%}
+.cd-art .art-sticker,.ci-art .art-sticker,.cd-xa .art-sticker,
+.search-art .art-sticker,.fav-art .art-sticker{display:none}
+/* cardHTML enveloppe le visuel dans un `<div class="cloche">` qui porte la
+   taille (64 % + ratio 3/4, pense pour une photo detouree). Sur un fond
+   sombre plein, ce cadrage laisse une plaque noire flottant dans une carte
+   claire — ca se lit comme une image mal dimensionnee. Quand le contenu est
+   la cloche dessinee, l'enveloppe doit s'effacer. */
+/* ⚠️ `width/height:100%` NE SUFFIT PAS ICI, et la mesure l'a prouve :
+   ratio bien passe a `auto`, place-items bien a `stretch`, et pourtant
+   374,7 px de haut dans une vignette de 281. La hauteur du parent depend de
+   son contenu : un pourcentage de hauteur est alors circulaire et retombe en
+   `auto`. On sort du calcul en placant le panneau en absolu sur la vignette
+   (.card-media est deja position:relative). */
+.card-media .cloche:has(.emo-art){position:absolute;inset:0;width:auto;height:auto;aspect-ratio:auto;display:block}
+.card:hover .card-media .cloche:has(.emo-art){transform:none}
+.card:hover .card-media .cloche:has(.emo-art) .cloche-svg{transform:translateY(-4px) scale(1.04);transition:transform var(--t) var(--ease)}

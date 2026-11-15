@@ -492,7 +492,22 @@ const euro = n => (Number(n) % 1 === 0)
   : Number(n).toLocaleString("fr-FR", {minimumFractionDigits:2, maximumFractionDigits:2}) + " €";
 
 /* ---- Cloche repli SVG ---- */
-function clocheSVG(c,id){const g=`b${id}`;return `<svg class="cloche-svg" viewBox="0 0 200 250" width="100%" aria-hidden="true"><defs><radialGradient id="${g}" cx="45%" cy="38%" r="70%"><stop offset="0" stop-color="${c[0]}"/><stop offset="1" stop-color="${c[1]}"/></radialGradient></defs><ellipse cx="100" cy="226" rx="66" ry="12" fill="#000" opacity=".4"/><rect x="42" y="214" width="116" height="16" rx="8" fill="#6b5a3a"/><g fill="url(#${g})"><circle cx="100" cy="150" r="30"/><circle cx="78" cy="138" r="20"/><circle cx="122" cy="140" r="20"/><circle cx="90" cy="120" r="18"/><circle cx="112" cy="122" r="17"/><circle cx="100" cy="106" r="15"/><circle cx="74" cy="160" r="15"/><circle cx="126" cy="162" r="15"/><circle cx="100" cy="176" r="18"/></g><path d="M100 42c-40 0-66 30-66 70v86h132v-86c0-40-26-70-66-70Z" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.35)" stroke-width="2"/><ellipse cx="100" cy="44" rx="10" ry="6" fill="rgba(255,255,255,.25)"/></svg>`;}
+/* ⚠️ 15/11 — CE DESSIN ETAIT UNE GRAPPE DE RAISIN.
+   L'ancienne version empilait 9 CERCLES parfaits : zoome, ca ne se lit pas
+   comme un bouton de CBD, ca se lit comme des billes ou des grains de
+   raisin. Et le socle flottait SOUS la cloche au lieu de la porter.
+   Tant que ce dessin n'etait qu'un repli jamais affiche, personne ne
+   regardait. Du jour ou il devient LE visuel des 24 produits, c'est la
+   vitrine. Un bouton a une silhouette en goutte et des pointes ; un cercle
+   n'en a pas. */
+function clocheSVG(c,id){const g=`b${id}`,v=`v${id}`;return `<svg class="cloche-svg" viewBox="0 0 200 250" width="100%" aria-hidden="true"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c[0]}"/><stop offset="1" stop-color="${c[1]}"/></linearGradient><linearGradient id="${v}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".16"/><stop offset=".24" stop-color="#fff" stop-opacity=".04"/><stop offset=".76" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity=".1"/></linearGradient></defs><ellipse cx="100" cy="220" rx="62" ry="10" fill="#000" opacity=".45"/><ellipse cx="100" cy="212" rx="58" ry="9.5" fill="#5d4e33"/><ellipse cx="100" cy="209" rx="58" ry="9.5" fill="#8a7450"/><g fill="url(#${g})"><path d="M100 92c13 20 25 42 23 68-2 24-11 38-23 41-12-3-21-17-23-41-2-26 10-48 23-68Z"/><path d="M73 130c11 14 18 29 17 46-1 16-7 26-16 29-9-3-15-13-16-29-1-17 5-32 15-46Z" opacity=".92"/><path d="M127 130c10 14 16 29 15 46-1 16-7 26-16 29-9-3-15-13-16-29-1-17 6-32 17-46Z" opacity=".92"/></g><g fill="#fff" opacity=".14"><path d="M100 102c6 12 10 24 9 36-5-6-9-14-9-22Z"/><path d="M86 132c3 12 4 23 2 34-5-8-7-18-6-26Z"/><path d="M114 132c-3 12-4 23-2 34 5-8 7-18 6-26Z"/></g><path d="M100 198v13" stroke="${c[1]}" stroke-width="3.5" stroke-linecap="round" opacity=".9"/><path d="M46 209v-84c0-31 24-57 54-57s54 26 54 57v84" fill="url(#${v})" stroke="rgba(255,255,255,.34)" stroke-width="2" stroke-linejoin="round"/><path d="M67 190v-62c0-21 11-38 26-45" stroke="rgba(255,255,255,.2)" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="100" cy="66" rx="9" ry="6" fill="rgba(255,255,255,.3)"/></svg>`;}
+/* ---- Cloche repli SVG · RÉSINE ----
+   15/11 : une résine n'est pas une fleur. Lui dessiner un bouton de fleur
+   serait une image fausse sur une caractéristique essentielle du produit
+   (art. L121-2) — la même famille de faute que « photo non contractuelle »
+   posée sur un écart réel. Même grammaire que la cloche : même socle, même
+   verre, mais une plaque pressée et un morceau cassé. */
+function resineSVG(c,id){const g=`r${id}`,v=`w${id}`;return `<svg class="cloche-svg" viewBox="0 0 200 250" width="100%" aria-hidden="true"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c[0]}"/><stop offset="1" stop-color="${c[1]}"/></linearGradient><linearGradient id="${v}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".16"/><stop offset=".24" stop-color="#fff" stop-opacity=".04"/><stop offset=".76" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity=".1"/></linearGradient></defs><ellipse cx="100" cy="220" rx="62" ry="10" fill="#000" opacity=".45"/><ellipse cx="100" cy="212" rx="58" ry="9.5" fill="#5d4e33"/><ellipse cx="100" cy="209" rx="58" ry="9.5" fill="#8a7450"/><g fill="url(#${g})"><rect x="60" y="160" width="80" height="44" rx="8"/><rect x="71" y="136" width="58" height="30" rx="7" opacity=".93"/><path d="M60 204l-10 2 2-10 10-2Z" opacity=".75"/></g><path d="M60 178h80" stroke="#000" stroke-width="2.5" opacity=".16"/><path d="M71 150h58" stroke="#fff" stroke-width="2" opacity=".1"/><path d="M46 209v-84c0-31 24-57 54-57s54 26 54 57v84" fill="url(#${v})" stroke="rgba(255,255,255,.34)" stroke-width="2" stroke-linejoin="round"/><path d="M67 190v-62c0-21 11-38 26-45" stroke="rgba(255,255,255,.2)" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="100" cy="66" rx="9" ry="6" fill="rgba(255,255,255,.3)"/></svg>`;}
 /* Produits sans vraie photo (perdue/à générer) → placeholder "Image bientôt disponible" */
 /* 13/11 : AUCUNE photo produit affichee. Ana : « les photos ca va pas » ;
    Florent : « on sait meme pas si c'est les bonnes ». Les fichiers sont
@@ -519,14 +534,39 @@ function carteArt(f){
       + ' font-family="Fraunces,Georgia,serif" font-size="64" font-weight="600"'
       + ' fill="#f4f2e4">?</text></svg></span>';
   }
+  /* ⚠️ 15/11 — CE QUI ÉTAIT ICI A CASSÉ LE SITE, ET IL FAUT SAVOIR POURQUOI.
+     Cette fonction rendait l'emoji de la carte imprimée en 7,6 rem comme
+     VISUEL PRINCIPAL du produit. Sur les 24 produits, aucune photo n'est
+     affichée (Ana : « les photos ça va pas ») — donc TOUT le catalogue est
+     passé en grands emojis : un magicien pour Nimbus 3000, une pousse pour
+     Ivory, des lèvres pour Velvet Kush. Florent, 15/11 : « j'ai l'impression
+     que tout le site est parti en couille ». Il a raison, et c'est le mot
+     juste : un emoji géant ne se lit pas comme un produit, il se lit comme
+     une image qui n'a pas chargé.
+     Mon erreur de raisonnement : j'avais écrit en commentaire « ce n'est pas
+     un bouche-trou, c'est son code visuel ». C'était vrai SUR LA CARTE
+     IMPRIMÉE, où l'emoji est un petit repère à côté d'un nom. Agrandi au
+     rang de sujet, le même signe change de nature. Un élément ne garde pas
+     sa valeur quand on change son échelle et sa place.
+     Ce qu'on affiche à la place : la cloche en verre — les mots d'Ana,
+     « sous cloche en verre » — dessinée en SVG aux deux couleurs du produit,
+     sur un fond sombre (la recherche : un fond sombre fait lire 15 €/g comme
+     de la qualité). L'emoji reste, en petit, en sticker collé de travers :
+     Ana a « du graffiti et des stickers de partout » et « adore l'humour ».
+     Le signe noble porte le produit, le signe de rue signe la marque. */
   const c = (f && f.c) || ["#8fd08a","#243a2a"];
-  const inner = (f && f.emo)
-    ? `<span style="font-size:clamp(4.2rem,7.4vw,7.6rem);line-height:1;filter:drop-shadow(0 8px 20px ${c[1]}55)">${f.emo}</span>`
-    : `<span style="font-family:Fraunces,Georgia,serif;font-weight:700;font-size:clamp(1.15rem,2.1vw,1.9rem);line-height:1.1;letter-spacing:.01em;color:${c[1]};text-align:center;padding:0 12%">${f?f.nom:""}</span>`;
-  return `<div class="cloche emo-art" style="display:grid;place-items:center;width:100%;height:100%">${inner}</div>`;
+  const id = (f && f.slug) || "x";
+  const art = (f && f.type === "resine") ? resineSVG(c,id) : clocheSVG(c,id);
+  const sticker = (f && f.emo)
+    ? `<i class="art-sticker" aria-hidden="true">${f.emo}</i>`
+    : "";
+  return `<div class="cloche emo-art" style="width:100%;height:100%">${art}${sticker}</div>`;
 }
-/* Le visuel d'un produit sans photo = l'emoji de SA carte imprimee, ou son nom
-   en typo d'affiche. Ce n'est pas un bouche-trou : c'est son code visuel. */
+/* ⚠️ 15/11 — CE COMMENTAIRE DISAIT : « Le visuel d'un produit sans photo =
+   l'emoji de SA carte imprimee, ou son nom en typo d'affiche. Ce n'est pas un
+   bouche-trou : c'est son code visuel. » C'etait une justification, pas une
+   verification : je ne l'avais jamais REGARDE rendu. Le visuel d'un produit
+   sans photo = la cloche en verre + un sticker. Voir carteArt(). */
 window.__cloche = s => carteArt(byId(s));
 /* Visuel « Fleur Mystère » : cloche sombre, fleur dans l'ombre + gros ? vert WOOD
    ⚠️ 14/11 — CODE MORT, ET IL L'A TOUJOURS ÉTÉ : recherché dans tout le
@@ -802,7 +842,13 @@ function descHTML(f){
      cette branche (les 10 clés de MOLEC ont toutes une entrée dans DESC),
      mais elle se réveillerait au premier produit sans description. */
   if(m.ia)bits.push("intensité "+m.ia.toLowerCase());if(m.ar)bits.push("profil "+m.ar.toLowerCase());
-  return `<p>${f.nom} — ${bits.join(" · ")||"fleur de CBD"}. Sélectionnée par WOOD, avec notre exigence habituelle.</p>`;
+  /* ⚠️ 15/11 — CE REPLI DISAIT « fleur de CBD » POUR TOUT LE MONDE.
+     Sur la fiche Snow, qui est une RÉSINE, la page affichait en sous-titre
+     « Résine CBD » et trois lignes plus bas « Snow — fleur de CBD ». La même
+     page se contredisait sur la nature du produit. Un repli doit rester muet
+     sur ce qu'il ne sait pas, jamais inventer la catégorie. */
+  const nature = f.type==="resine" ? "résine de CBD" : "fleur de CBD";
+  return `<p>${f.nom} — ${bits.join(" · ")||nature}. Sélectionnée par WOOD, avec notre exigence habituelle.</p>`;
 }
 
 /* ---- PROMOS « Bons plans » (offres réelles Ana) -------------------------
@@ -957,16 +1003,49 @@ function toast(msg){let t=document.createElement("div");t.textContent=msg;Object
    retire, sinon le correctif ne protège que les nouveaux visiteurs.
    On se protège aussi d'un `localStorage` illisible ou falsifié : une
    quantité négative, un prix en chaîne de caractères, un objet sans slug. */
+/* Le prix d'une ligne se relit dans le CATALOGUE, jamais dans le pochon.
+   Trois cas, et un seul endroit pour les trois. */
+function prixDuJour(f,x){
+  if(Number(x.g) > 0){                                  // grammage du catalogue
+    const gi = GRAMS.indexOf(Number(x.g));
+    return gi >= 0 && Array.isArray(f.p) ? Number(f.p[gi]) : NaN;
+  }
+  if(Array.isArray(f.opts)){                            // offre à plusieurs formats
+    const o = f.opts.find(o => o[0] === x.opt);
+    return o ? Number(o[1]) : NaN;
+  }
+  return Number(f.price);                               // offre à prix unique
+}
+/* ⚠️ 15/11 — LE POCHON GARDAIT LE PRIX DU JOUR OÙ ON AVAIT CLIQUÉ.
+   Vu en vrai : le pochon affichait « Rainbow · 3 g · 25 € » pendant que la
+   fiche du même produit affichait 22 €. `cartAdd()` écrit `unit` dans
+   localStorage, et plus rien ne le relisait — donc toute correction de prix
+   (et on vient d'en faire 115 d'après la carte imprimée) laissait un prix
+   fantôme dans le pochon des gens déjà passés.
+   Ce n'est pas qu'un affichage : le seul tunnel qui existe est « je réserve
+   et je dicte ma commande au téléphone ». Le client dictait un total que la
+   boutique ne pratique plus, et c'est la vendeuse qui devait le contredire.
+   Même famille que la remise fantôme en localStorage — l'argent ne vit pas
+   dans le navigateur. On relit le prix à CHAQUE lecture du pochon, et une
+   ligne dont le produit ou le format n'existe plus disparaît au lieu d'être
+   vendue à un prix inventé. */
 function lireLePochon(){
   let brut;
   try { brut = JSON.parse(localStorage.getItem("wood_cart")||"[]"); }
   catch(e){ return []; }
   if(!Array.isArray(brut)) return [];
-  return brut.filter(x =>
-    x && typeof x.slug === "string" && x.slug
-    && Number.isFinite(Number(x.unit)) && Number(x.unit) > 0
-    && Number.isFinite(Number(x.q))    && Number(x.q)    > 0
-  ).map(x => Object.assign({}, x, { unit: Number(x.unit), q: Math.floor(Number(x.q)) }));
+  const lignes = [];
+  brut.forEach(x => {
+    if(!x || typeof x.slug !== "string" || !x.slug) return;
+    const q = Math.floor(Number(x.q));
+    if(!Number.isFinite(q) || q <= 0) return;
+    const f = byId(x.slug);
+    if(!f) return;                                       // produit retiré du catalogue
+    const unit = prixDuJour(f,x);
+    if(!Number.isFinite(unit) || unit <= 0) return;      // format qui ne se vend plus
+    lignes.push(Object.assign({}, x, { nom:f.nom, unit, q }));
+  });
+  return lignes;
 }
 let cart=lireLePochon();
 function saveCart(){localStorage.setItem("wood_cart",JSON.stringify(cart));}
