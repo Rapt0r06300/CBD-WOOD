@@ -1149,3 +1149,28 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 /* Les deux actions d'une ligne de coup de cœur etaient empilees de travers :
    on les aligne sur une rangee, l'action principale d'abord. */
 .fav-acts{display:flex;align-items:center;gap:.5rem;flex-wrap:nowrap}
+
+/* ==========================================================================
+   25/11/2026 — VISUELS PRODUIT COMPOSÉS (vrai pochon WOOD + vraie fleur +
+   décor), liste VISUELS dans app.js. Opaques et déjà étalonnés :
+   · AUCUN filtre de couleur — la règle « Audit : neutralise le halo teal »
+     plus haut vire tout de -22° : sur le pochon, le vert de marque changerait ;
+   · plein cadre — les cadres d'image sont taillés pour une fleur détourée
+     sous cloche (64 % de large, ratio 3/4) : un carré opaque y serait
+     écrasé ou flotterait comme un rectangle.
+   ========================================================================== */
+img.visuel{filter:none!important}
+.card-media img.cloche.visuel{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;object-fit:cover}
+.card:hover .card-media img.cloche.visuel{transform:scale(1.03)}
+.product-media img.visuel{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ci-media img.visuel{width:100%;height:100%;object-fit:cover}
+#promos .ph-art img.visuel{width:min(100%,340px);height:auto;aspect-ratio:1/1;object-fit:cover;border-radius:var(--r-lg)}
+/* L'aperçu rapide a un cadre plus haut que large (379 × 508 sur ordinateur) :
+   en « cover », il rognait les côtés et coupait la bulle d'Ana. Le visuel
+   y est montré EN ENTIER. */
+.qv-media img.visuel{object-fit:contain}
+/* Le badge de gamme s'écrivait en sombre, sans fond, à même le décor : sur un
+   visuel il reçoit la pastille crème / vert WOOD de la méthode. */
+/* !important : light.css (chargée APRÈS) impose `.badge-classic` en !important ;
+   la spécificité plus forte de ce sélecteur départage, sur les seules cartes à visuel. */
+.card:has(img.visuel) .card-badges .badge{background:#FBF6EC!important;color:#1D4631!important;box-shadow:0 2px 10px rgba(0,0,0,.28)}

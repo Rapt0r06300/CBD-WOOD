@@ -3,7 +3,7 @@
    Données fleurs RÉELLES (prix proprio). Profils = goût, jamais d'effet.
    =========================================================== */
 
-const IMGV = "?v=5"; /* cache-buster images (bump si régénération) */
+const IMGV = "?v=6"; /* cache-buster images (bump si régénération) — v6 le 25/11 : charlotte.webp remplacé (visuel IA de démo → vrai pochon) */
 
 /* L'API est-elle branchée ? Si api.js n'a pas chargé, on ne plante pas :
    le site garde son comportement hors-ligne. */
@@ -56,7 +56,7 @@ const FLEURS = [
      ⚠️ Le nom du produit contient « CBG » : c'est son nom, pas une
      étiquette posée dessus. On ne renomme pas la carte d'Ana. */
   { slug:"cosmic-cbg", nom:"Cosmic CBG", tier:"classique", desc:"Intense, mais Light 🪐", c:["#a9c4e8","#2e3a6b"], p:[10,28,45,80], g25:160 , emo:"🪐"},
-  { slug:"charlotte", nom:"Charlotte", tier:"classique", desc:"CBD élite premium 🍰", c:["#f0d9c4","#8a5a3a"], p:[10,28,45,80], g25:160 , emo:"🍰"},
+  { slug:"charlotte", nom:"Charlotte", tier:"classique", desc:"CBD élite premium 🍓", c:["#f0d9c4","#8a5a3a"], p:[10,28,45,80], g25:160 , emo:"🍓"},
   { slug:"rainbow", nom:"Rainbow", tier:"classique", desc:"🌈", c:["#f3d9a0","#5a8a6b"], p:[8,22,35,60], g25:120 , emo:"🌈"},
   { slug:"orange-bud", nom:"Orange Bud", tier:"classique", desc:"🍊", c:["#f3c79a","#b5651d"], p:[7,20,30,50], g25:100 , emo:"🍊"},
   { slug:"plutonium", nom:"Plutonium", tier:"classique", desc:"🧪", c:["#b4d9c4","#2e6b4a"], p:[7,20,30,50], g25:100 , emo:"🧪"},
@@ -539,7 +539,26 @@ function resineSVG(c,id){const g=`r${id}`,v=`w${id}`;return `<svg class="cloche-
 /* 13/11 : AUCUNE photo produit affichee. Ana : « les photos ca va pas » ;
    Florent : « on sait meme pas si c'est les bonnes ». Les fichiers sont
    conserves — pour en reafficher une, il suffit de retirer son slug d'ici. */
-const NOIMG=new Set(["nimbus-3000","ivory","velvet-kush","pastraweed","euphoria","purple","bloody-mary","cosmic-cbg","charlotte","rainbow","orange-bud","plutonium","fanta-hazy","katmandou","cbn-cream","super-dry","golden-high","jelly-high","frost","stoned","uranus","la-mousse","snow","fleur-mystere"]);
+const NOIMG=new Set(["nimbus-3000","ivory","velvet-kush","pastraweed","euphoria","purple","bloody-mary","cosmic-cbg","rainbow","orange-bud","plutonium","fanta-hazy","katmandou","cbn-cream","super-dry","golden-high","jelly-high","frost","stoned","uranus","la-mousse","snow","fleur-mystere"]);
+/* ⭐ 25/11/2026 — LES VISUELS PRODUIT (méthode « vrai pochon WOOD »).
+   Florent : « on va s'occuper des fleurs une par une. On commence par la
+   fleur charlotte ». Chaque fleur reçoit un visuel COMPOSÉ et OPAQUE :
+   le vrai pochon WOOD, la vraie fleur d'Ana, un décor tiré de sa fiche.
+   Ce n'est PAS une fleur détourée comme les anciennes photos, d'où :
+     · `filter:none` — styles2.css applique à TOUTES les photos produit
+       `saturate(.82) hue-rotate(-22deg)`, posé pour éteindre le reflet
+       bleu-vert des photos Shopify. Sur un visuel déjà étalonné, il
+       virerait le vert du pochon et le rouge du décor : interdit par la
+       méthode (on ne change ni le pochon ni la couleur de la fleur) ;
+     · cadrage plein cadre (`object-fit:cover`) au lieu de 64 % de large
+       en 3/4, cadre taillé pour une fleur sous cloche.
+   Pour la fleur suivante : déposer assets/products/<slug>.webp, retirer
+   son slug de NOIMG, l'ajouter ICI. Les 8 gabarits suivent seuls.
+   ⚠️ Sortir de NOIMG est la condition écrite de retour du mot « sous
+   cloche » (13 endroits, plus bas). Un pochon N'EST PAS une cloche : la
+   condition n'est PAS remplie, rien n'a été remis. C'est à Florent. */
+const VISUELS=new Set(["charlotte"]);
+const visu=s=>VISUELS.has(s)?" visuel":"";
 function soonHTML(){return '<div class="img-soon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h3l2-2h8l2 2h3v12H3z"/><circle cx="12" cy="13" r="3.4"/></svg><span>Image bientôt disponible</span></div>';}
 function carteArt(f){
   /* 14/11 — UNE OFFRE NE MONTRE JAMAIS DE FLEUR.
@@ -737,7 +756,7 @@ function cardHTML(f,i){
             ou » est exactement ce qui a laisse mysterySVG() dormir un mois. */
         NOIMG.has(f.slug)
         ? `<div class="cloche">${window.__cloche(f.slug)}</div>`
-        : `<img class="cloche" src="assets/products/${f.slug}.webp${IMGV}" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom}" width="1000" height="1000" loading="lazy"
+        : `<img class="cloche${visu(f.slug)}" src="assets/products/${f.slug}.webp${IMGV}" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom}" width="1000" height="1000" loading="lazy"
         onerror="this.outerHTML='<div class=&quot;cloche&quot;>'+window.__cloche('${f.slug}')+'</div>'">`}
       <div class="card-badges"><span class="badge ${t.cls}">${f.int||t.label}</span></div>
       <span class="card-view">Voir le produit →</span>
@@ -882,6 +901,13 @@ const DESC={
      dans FLEURS : ça nommait une variété. Le reste est conservé tel quel,
      ce sont les mots de WOOD (REFERENTIEL-PRODUITS-WOOD.md:30), et ils ne
      parlent que de goût et d'odeur — jamais d'un effet. */
+  /* 25/11 : la fiche de Florent, MOT POUR MOT (« La description c'est ça,
+     rajoute 2 ou 3 emojis cohérents pour le côté vivant ») : seuls 🍓 ❄️ ✨
+     sont ajoutés. Aucun emoji qui évoque de manger ou de fumer (ingérables
+     interdits, « Ne pas fumer » sur le pochon). « CBD » seul = la catégorie,
+     autorisé (wood_aucune_molecule_affichee). Le prix « 10 €/g » est écrit
+     en dur : il doit suivre p[0] de FLEURS si Ana le change. */
+  "charlotte":"CHARLOTTE 🍓\nCollection Premium | Indoor Élite\nIssue de la génétique Strawberry Payton, la Charlotte incarne toute la finesse d’une fleur de CBD naturel cultivée en Indoor gamme Élite. Ses têtes particulièrement compactes et généreuses dévoilent de belles nuances de vert, sublimées par des pistils cuivrés et un épais manteau de trichomes à l’aspect givré ❄️\nSon parfum enivrant révèle un profil aromatique gourmand, où les notes sucrées se mêlent harmonieusement aux nuances fruitées. Une véritable signature olfactive, à la fois douce, raffinée et expressive ✨\nCaractéristiques :\nGénétique : Strawberry Payton\nCulture : Indoor Élite\nGamme : Premium\nType : fleur de CBD naturel\nArômes : sucrés et fruités\nAspect : dense, compact et cristallisé\nPrix : 10 €/g\nWOOD — See differently. Le CBD autrement.",
   "fleur-mystere":"Goût : un goût surprenant, une odeur particulière — « la fleur magique ».\nLa variété n'est pas annoncée : c'est tout le principe.",
 };
 function descHTML(f){
@@ -1230,13 +1256,13 @@ function renderCartDrawer(){
   const itemsHtml=cart.map((x,i)=>{const sv=itemSave(x);const q=itemQty(x);const nomComplet=x.nom+(q?" "+q:"");return `<div class="cd-item">
     ${NOIMG.has(x.slug)
       ? `<div class="cd-art">${window.__cloche(x.slug)}</div>`
-      : `<img src="assets/products/${x.slug}.webp${IMGV}" alt="" onerror="this.style.visibility='hidden'">`}
+      : `<img class="${visu(x.slug).trim()}" src="assets/products/${x.slug}.webp${IMGV}" alt="" onerror="this.style.visibility='hidden'">`}
     <div class="cd-it-info"><a class="cd-it-nom" href="produit.html?f=${x.slug}">${x.nom}</a><span class="cd-it-meta">${q?`<b>${q}</b> · `:''}${euro(x.unit)}${sv>=8?` · <em class="cd-sv">−${sv} %</em>`:''}</span>
       <div class="cd-qty"><button class="${x.q===1?'cd-rm':''}" data-cd-dec="${i}" aria-label="${x.q===1?`Retirer ${nomComplet} du pochon`:`Réduire la quantité de ${nomComplet}`}" title="${x.q===1?'Retirer':'Réduire'}">${x.q===1?'🗑':'−'}</button><span aria-live="polite">${x.q}</span><button data-cd-inc="${i}" aria-label="Ajouter un ${nomComplet}">+</button></div></div>
     <div class="cd-it-side"><b>${euro(x.unit*x.q)}</b><small class="cd-it-g">${itemTot(x)}</small><button class="cd-del" data-cd-del="${i}" aria-label="Retirer ${nomComplet} du pochon">Retirer</button></div>
   </div>`;}).join("");
   const picks=(typeof FLEURS!=="undefined"?FLEURS:[]).filter(f=>!cart.some(x=>x.slug===f.slug)).slice(0,2);
-  const xsell=picks.length?`<div class="cd-xsell"><div class="cd-xsell-h">Ça va bien avec 👀</div>${picks.map(f=>`<div class="cd-x">${NOIMG.has(f.slug)?`<div class="cd-xa">${window.__cloche(f.slug)}</div>`:`<img src="assets/products/${f.slug}.webp${IMGV}" alt="" onerror="this.style.visibility='hidden'">`}<div class="cd-x-info"><b>${f.nom}</b><span class="muted">${f.p[1]} € · 3 g</span></div><button class="cd-x-add" data-add="${f.slug}" aria-label="Ajouter ${f.nom} au pochon">+</button></div>`).join("")}</div>`:"";
+  const xsell=picks.length?`<div class="cd-xsell"><div class="cd-xsell-h">Ça va bien avec 👀</div>${picks.map(f=>`<div class="cd-x">${NOIMG.has(f.slug)?`<div class="cd-xa">${window.__cloche(f.slug)}</div>`:`<img class="${visu(f.slug).trim()}" src="assets/products/${f.slug}.webp${IMGV}" alt="" onerror="this.style.visibility='hidden'">`}<div class="cd-x-info"><b>${f.nom}</b><span class="muted">${f.p[1]} € · 3 g</span></div><button class="cd-x-add" data-add="${f.slug}" aria-label="Ajouter ${f.nom} au pochon">+</button></div>`).join("")}</div>`:"";
   items.innerHTML=itemsHtml+xsell;
   foot.innerHTML=`<div class="cd-sub"><span>Sous-total <small class="muted">· ${nItems} art.${nGr?' · '+nGr+' g':''}</small></span><b>${euro(sub)}</b></div>
     <a href="checkout.html" class="btn btn-primary cd-go">Réserver →</a>
@@ -1463,7 +1489,7 @@ function renderProduct(){
         <div class="halo" style="background:radial-gradient(circle,${f.c[0]}55,transparent 70%)"></div>
         ${NOIMG.has(f.slug)
           ? `<div class="cloche big">${window.__cloche(f.slug)}</div>`
-          : `<img src="assets/products/${f.slug}.webp${IMGV}" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom}" onerror="this.outerHTML='<div class=&quot;cloche big&quot;>'+window.__cloche('${f.slug}')+'</div>'">`}
+          : `<img class="${visu(f.slug).trim()}" src="assets/products/${f.slug}.webp${IMGV}" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom}" onerror="this.outerHTML='<div class=&quot;cloche big&quot;>'+window.__cloche('${f.slug}')+'</div>'">`}
       </div>
       <div class="product-info">
         <span class="badge ${t.cls}">${t.label}</span>
@@ -1640,7 +1666,7 @@ function renderCart(){
      DOM) — seul le navigateur l'a vu. */
   root.innerHTML=`<h1 class="serif">Ton pochon <span class="cart-count-h">${nItems} article${nItems>1?'s':''}${nGr?' · '+nGr+' g':''}</span></h1>
     <div class="cart-grid">
-      <div class="cart-items">${cart.map((x,i)=>`<div class="cart-item"><div class="ci-media">${NOIMG.has(x.slug)?`<div class="ci-art">${window.__cloche(x.slug)}</div>`:`<img src="assets/products/${x.slug}.webp${IMGV}" alt="" onerror="this.outerHTML='<div>'+window.__cloche('${x.slug}')+'</div>'">`}</div>
+      <div class="cart-items">${cart.map((x,i)=>`<div class="cart-item"><div class="ci-media">${NOIMG.has(x.slug)?`<div class="ci-art">${window.__cloche(x.slug)}</div>`:`<img class="${visu(x.slug).trim()}" src="assets/products/${x.slug}.webp${IMGV}" alt="" onerror="this.outerHTML='<div>'+window.__cloche('${x.slug}')+'</div>'">`}</div>
         <div class="ci-info"><a class="ci-name" href="produit.html?f=${x.slug}">${x.nom}</a><div class="muted ci-meta">${itemQty(x)?`<b>${itemQty(x)}</b> · `:''}${euro(x.unit)}${(()=>{const sv=itemSave(x);return sv>=8?` · <span class="ci-sv">−${sv} %</span>`:'';})()}${(ligneGrammes(x)&&x.q>1)?` · total <b>${ligneGrammes(x)*x.q} g</b>`:''}</div></div>
         <div class="ci-qty"><button class="${x.q===1?'cd-rm':''}" data-dec="${i}" aria-label="${x.q===1?`Retirer ${x.nom} ${itemQty(x)} du pochon`:`Réduire la quantité de ${x.nom} ${itemQty(x)}`}" title="${x.q===1?'Retirer':'Réduire'}">${x.q===1?'🗑':'−'}</button><span aria-live="polite">${x.q}</span><button data-inc="${i}" aria-label="Ajouter un ${x.nom} ${itemQty(x)}">+</button></div>
         <div class="ci-line">${euro(x.unit*x.q)}</div><button class="ci-del" data-del="${i}" aria-label="Retirer ${x.nom} ${itemQty(x)} du pochon">Retirer</button></div>`).join("")}</div>
@@ -2377,7 +2403,7 @@ function renderStickers(){
 const PROFILE={
   "nimbus-3000":{a:"frais",i:"intense"}, "ivory":{a:"floral",i:"doux"}, "velvet-kush":{a:"terreux",i:"intense"},
   "pastraweed":{a:"sucre",i:"intense"}, "euphoria":{a:"fruite",i:"intense"}, "purple":{a:"fruite",i:"equilibre"},
-  "bloody-mary":{a:"terreux",i:"equilibre"}, "cosmic-cbg":{a:"frais",i:"doux"}, "charlotte":{a:"classique",i:"equilibre"},
+  "bloody-mary":{a:"terreux",i:"equilibre"}, "cosmic-cbg":{a:"frais",i:"doux"}, "charlotte":{a:"sucre",i:"equilibre"},
   "rainbow":{a:"agrumes",i:"equilibre"}, "orange-bud":{a:"agrumes",i:"doux"}, "plutonium":{a:"frais",i:"equilibre"},
   "fanta-hazy":{a:"agrumes",i:"doux"},
 };
@@ -2647,7 +2673,7 @@ function searchDraw(q){
       : (f.img
         ? `<img src="assets/products/${f.img}${IMGV}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">`
         : (Array.isArray(f.p)
-          ? `<img src="assets/products/${f.slug}.webp${IMGV}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">`
+          ? `<img class="${visu(f.slug).trim()}" src="assets/products/${f.slug}.webp${IMGV}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">`
           : `<div class="search-art">${window.__cloche(f.slug)}</div>`));
     return `<a class="search-row" href="produit.html?f=${f.slug}">
       ${media}
@@ -2755,7 +2781,7 @@ function renderFavDrawer(){
       : (f.p && f.p[1] ? euro(f.p[1]) + " · 3 g" : "");
     const nature = estOffre ? "Offre" : (f.type === "resine" ? "Résine CBD" : "Fleur CBD");
     return `<div class="fav-row">
-      <a class="fav-media" href="produit.html?f=${s}">${NOIMG.has(s)?`<div class="fav-art">${window.__cloche(s)}</div>`:`<img src="assets/products/${s}.webp${IMGV}" alt="${f.nom}" onerror="this.style.visibility='hidden'">`}</a>
+      <a class="fav-media" href="produit.html?f=${s}">${NOIMG.has(s)?`<div class="fav-art">${window.__cloche(s)}</div>`:`<img class="${visu(s).trim()}" src="assets/products/${s}.webp${IMGV}" alt="${f.nom}" onerror="this.style.visibility='hidden'">`}</a>
       <div class="fav-info"><a class="fav-name" href="produit.html?f=${s}">${f.nom}</a><span class="muted">${nature}${f.desc?' · '+f.desc:''}</span><span class="fav-price">${prix}</span></div>
       <div class="fav-acts">${estOffre
         ? `<a class="btn btn-primary btn-sm" href="produit.html?f=${s}">Voir l'offre</a>`
@@ -2809,7 +2835,7 @@ function openQuickView(slug){
     <div class="qv-media"><div class="halo" style="background:radial-gradient(circle,${f.c[0]}66,transparent 70%)"></div>
       ${NOIMG.has(slug)
         ? `<div class="cloche big">${window.__cloche(slug)}</div>`
-        : `<img src="assets/products/${slug}.webp${IMGV}" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom}" onerror="this.outerHTML='<div class=&quot;cloche big&quot;>'+window.__cloche('${slug}')+'</div>'">`}</div>
+        : `<img class="${visu(slug).trim()}" src="assets/products/${slug}.webp${IMGV}" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom}" onerror="this.outerHTML='<div class=&quot;cloche big&quot;>'+window.__cloche('${slug}')+'</div>'">`}</div>
     <div class="qv-body">
       <div class="qv-top"><span class="badge ${t.cls}">${t.label}</span><button class="card-fav${isFav(slug)?' on':''}" data-fav="${slug}" aria-pressed="${isFav(slug)}" aria-label="${isFav(slug)?`Retirer ${f.nom} de tes coups de cœur`:`Ajouter ${f.nom} à tes coups de cœur`}">${isFav(slug)?'♥':'♡'}</button></div>
       <h3 class="qv-name">${f.nom}</h3>
