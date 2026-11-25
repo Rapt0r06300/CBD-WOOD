@@ -25,6 +25,9 @@ const FLEURS = [
   /* --- FLEURS CBD (carte : 1G 3G 5G 10G 25G) --- */
   { slug:"nimbus-3000", nom:"Nimbus 3000", tier:"boostes", desc:"Le goût du vrai, plus vrai que nature · ultra forte 🧙", c:["#cfd8e3","#2e3a4a"], p:[15,42,70,130], g25:260 , emo:"🧙", int:"STRONG"},
   { slug:"ivory", nom:"Ivory", tier:"boostes", desc:"Le goût du vrai, plus vrai que nature · ultra forte 🌱", c:["#e8e3d4","#6b6453"], p:[15,42,70,130], g25:260 , emo:"🌱", int:"STRONG"},
+  /* 26/11/2026 — VENOM, nouvelle variété (Florent : « au même prix que l'ivory », Boostée · HYPER STRONG).
+     Prix = Ivory : son message, pas la carte imprimée (comparer_menu.py le sait). */
+  { slug:"venom", nom:"Venom", tier:"boostes", desc:"Boisée · terreuse · hyper forte 🐍", c:["#ddd3e6","#3d2f4c"], p:[15,42,70,130], g25:260 , emo:"🐍", int:"HYPER STRONG"},
   { slug:"velvet-kush", nom:"Velvet Kush", tier:"boostes", desc:"Forte 💋", c:["#e3b4c4","#6b2e42"], p:[12,34,55,100], g25:200 , emo:"💋", int:"STRONG"},
   { slug:"pastraweed", nom:"Pastraweed", tier:"boostes", desc:"Terreuse · forte 🍁", c:["#cfe39a","#8a7a2e"], p:[12,34,55,100], g25:200 , emo:"🍁", int:"STRONG"},
   { slug:"euphoria", nom:"Euphoria", tier:"boostes", desc:"Fruitée · forte 🎈", c:["#f3c7d4","#a53a5a"], p:[12,34,55,100], g25:200 , emo:"🎈", int:"STRONG"},
@@ -572,7 +575,7 @@ const NOIMG=new Set(["nimbus-3000","ivory","velvet-kush","pastraweed","euphoria"
    ⚠️ Sortir de NOIMG est la condition écrite de retour du mot « sous
    cloche » (13 endroits, plus bas). Un pochon N'EST PAS une cloche : la
    condition n'est PAS remplie, rien n'a été remis. C'est à Florent. */
-const VISUELS=new Set(["charlotte"]);
+const VISUELS=new Set(["charlotte","venom"]);
 const visu=s=>VISUELS.has(s)?" visuel":"";
 function soonHTML(){return '<div class="img-soon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h3l2-2h8l2 2h3v12H3z"/><circle cx="12" cy="13" r="3.4"/></svg><span>Image bientôt disponible</span></div>';}
 function carteArt(f){
@@ -830,6 +833,7 @@ const MOLEC={
   "euphoria":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort · fruité",ar:"Exotic"},
   "pastraweed":{mol:"CBD +",cls:"mol-boost",lvl:4,ia:"Ultra fort · terreux",ar:"Kush"},
   "ivory":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Goût du vrai"},
+  "venom":{cls:"mol-boost",lvl:4,ia:"Hyper fort",ar:"Boisé · terreux · agrumes"},  /* 26/11 : sa fiche ; AUCUNE molécule */
   "nimbus-3000":{mol:"CBD +",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Goût du vrai"},
   /* arôme conservé (c'est un goût, pas une puissance), intensité retirée */
   "fanta-hazy":{mol:"CBD",cls:"",ar:"Agrumes"},
@@ -942,6 +946,10 @@ const DESC={
      interdits, « Ne pas fumer » sur le pochon). « CBD » seul = la catégorie,
      autorisé (wood_aucune_molecule_affichee). Le prix « 10 €/g » est écrit
      en dur : il doit suivre p[0] de FLEURS si Ana le change. */
+  /* 26/11/2026 — VENOM : sa fiche MOT POUR MOT (work/visuels-produits/venom/venom-description.txt),
+     + 3 emojis (🐍 💜 🌲 ; « c'est toi qui décide »). Relue au crible : ni drogue, ni effet,
+     ni « naturel ». « Prix : 15 €/g » doit suivre p[0] si le prix change. */
+  "venom":"VENOM 🐍\nCollection Boostée | Culture hybride\nIssue de la génétique Samurai et cultivée en hybride, la Venom est une fleur à l’identité singulière. Ses magnifiques reflets pourpres, mêlés à des nuances de vert, lui confèrent une allure mystérieuse et atypique 💜\nUne inspiration, une découverte, un caractère bien trempé : la Venom ne laisse pas indifférent.\nSon profil aromatique révèle une dominante boisée et terreuse, subtilement relevée par de légères notes d’agrumes. Un équilibre entre profondeur et fraîcheur qui souligne toute la personnalité de cette génétique 🌲\nCaractéristiques :\nGénétique : Samurai\nCulture : hybride\nGamme : Boostée\nType : fleur boostée\nArômes : boisés, terreux et légèrement acidulés\nAspect : reflets Purple\nPrix : 15 €/g\nWOOD — See differently. Le CBD autrement.",
   "charlotte":"CHARLOTTE 🍓\nCollection Premium | Indoor Élite\nIssue de la génétique Strawberry Payton, la Charlotte incarne toute la finesse d’une fleur de CBD cultivée en Indoor gamme Élite. Ses têtes particulièrement compactes et généreuses dévoilent de belles nuances de vert, sublimées par des pistils cuivrés et un épais manteau de trichomes à l’aspect givré ❄️\nSon parfum enivrant révèle un profil aromatique gourmand, où les notes sucrées se mêlent harmonieusement aux nuances fruitées. Une véritable signature olfactive, à la fois douce, raffinée et expressive ✨\nCaractéristiques :\nGénétique : Strawberry Payton\nCulture : Indoor Élite\nGamme : Premium\nType : fleur de CBD\nArômes : sucrés et fruités\nAspect : dense, compact et cristallisé\nPrix : 10 €/g\nWOOD — See differently. Le CBD autrement.",
   "fleur-mystere":"Goût : un goût surprenant, une odeur particulière — « la fleur magique ».\nLa variété n'est pas annoncée : c'est tout le principe.",
 };
@@ -2520,6 +2528,7 @@ const PROFILE={
   "bloody-mary":{a:"terreux",i:"equilibre"}, "cosmic-cbg":{a:"frais",i:"doux"}, "charlotte":{a:"sucre",i:"equilibre"},
   "rainbow":{a:"agrumes",i:"equilibre"}, "orange-bud":{a:"agrumes",i:"doux"}, "plutonium":{a:"frais",i:"equilibre"},
   "fanta-hazy":{a:"agrumes",i:"doux"},
+  "venom":{a:"terreux",i:"intense"},
 };
 const LBL={aroma:{fruite:"fruité",agrumes:"agrumes",terreux:"terreux / boisé",frais:"frais & végétal",sucre:"sucré / gourmand",floral:"floral",classique:"classique"},
   intensity:{doux:"douce",equilibre:"équilibrée",intense:"intense"}};
