@@ -1164,7 +1164,6 @@ img.visuel{filter:none!important}
 .card:hover .card-media img.cloche.visuel{transform:scale(1.03)}
 .product-media img.visuel{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .ci-media img.visuel{width:100%;height:100%;object-fit:cover}
-#promos .ph-art img.visuel{width:min(100%,340px);height:auto;aspect-ratio:1/1;object-fit:cover;border-radius:var(--r-lg)}
 /* L'aperçu rapide a un cadre plus haut que large (379 × 508 sur ordinateur) :
    en « cover », il rognait les côtés et coupait la bulle d'Ana. Le visuel
    y est montré EN ENTIER. */

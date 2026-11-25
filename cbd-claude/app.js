@@ -739,8 +739,19 @@ function updatePick(pick){
   const tot=pick.querySelector("[data-cp-total]"),add=pick.querySelector("[data-add-pick]");
   if(tot)tot.innerHTML=`${s.q>1?`${s.q} × ${s.g} g = <b>${s.tg} g</b>`:`<b>${s.g} g</b>`} · <b>${euro(s.tp)}</b> <span class="cp-pg">(${euro(pg)}/g)</span>${sv>=8?` <em class="cp-eco">−${sv}%</em>`:''}`;
   if(add)add.innerHTML=`Ajouter · <b>${euro(s.tp)}</b>`;
-  const sp=document.getElementById("pStickyPrice"); if(sp)sp.textContent=`${s.q} × ${s.g} g · ${s.tg} g · ${euro(s.tp)}`;
-  const sa=document.getElementById("pStickyAdd"); if(sa)sa.disabled=false;
+  /* ⚠️ 25/11/2026 — LA BARRE COLLANTE MENTAIT SUR LE PRIX. updatePick() sert
+     à TOUTES les cartes, y compris celles de « Dans le même esprit » posées
+     SOUS la fiche : chacune réécrivait la barre, la dernière gagnait. Mesuré
+     sur la version en ligne : 17 fiches sur 23 affichaient le prix d'une
+     AUTRE fleur (Charlotte 3 g : « 20 € » au lieu de 28 ; Snow : 34 au lieu
+     de 58). Le pochon recevait le bon prix (le bouton de la barre lit le
+     sélecteur de la fiche) : c'est l'AFFICHAGE qui mentait — prix affiché
+     différent du prix payé. Seul le sélecteur de la fiche écrit la barre.
+     Garde : wood-api/tools/test-site-barre-prix.py (vrai navigateur). */
+  if(!pick.closest("#relRail")){
+    const sp=document.getElementById("pStickyPrice"); if(sp)sp.textContent=`${s.q} × ${s.g} g · ${s.tg} g · ${euro(s.tp)}`;
+    const sa=document.getElementById("pStickyAdd"); if(sa)sa.disabled=false;
+  }
   return s;
 }
 /* ---- Carte produit ---- */
