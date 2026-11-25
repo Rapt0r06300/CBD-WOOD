@@ -539,7 +539,13 @@ function resineSVG(c,id){const g=`r${id}`,v=`w${id}`;return `<svg class="cloche-
 /* 13/11 : AUCUNE photo produit affichee. Ana : « les photos ca va pas » ;
    Florent : « on sait meme pas si c'est les bonnes ». Les fichiers sont
    conserves — pour en reafficher une, il suffit de retirer son slug d'ici. */
-const NOIMG=new Set(["nimbus-3000","ivory","velvet-kush","pastraweed","euphoria","purple","bloody-mary","cosmic-cbg","rainbow","orange-bud","plutonium","fanta-hazy","katmandou","cbn-cream","super-dry","golden-high","jelly-high","frost","stoned","uranus","la-mousse","snow","fleur-mystere"]);
+const NOIMG=new Set(["nimbus-3000","ivory","velvet-kush","pastraweed","euphoria","purple","bloody-mary","cosmic-cbg","rainbow","orange-bud","plutonium","fanta-hazy","katmandou","cbn-cream","super-dry","golden-high","jelly-high","frost","stoned","uranus","la-mousse","snow","fleur-mystere","promo-gta-15g","promo-10g","promo-20g"]);
+/* 25/11/2026 — LES 3 OFFRES N'ONT PAS DE PHOTO (leurs sérigraphies ont été
+   retirées le 13/11, commit 8a19fd1), mais elles n'étaient pas dans NOIMG :
+   le tiroir, le pochon, la recherche et les coups de cœur demandaient
+   `promo-*.webp` → 404 et une CASE VIDE dès qu'une offre était au pochon.
+   Mesuré en vrai navigateur. Elles reçoivent le visuel maison (carteArt),
+   le même que leur carte et que la Fleur Mystère. */
 /* ⭐ 25/11/2026 — LES VISUELS PRODUIT (méthode « vrai pochon WOOD »).
    Florent : « on va s'occuper des fleurs une par une. On commence par la
    fleur charlotte ». Chaque fleur reçoit un visuel COMPOSÉ et OPAQUE :
@@ -902,7 +908,16 @@ const DESC={
   "nimbus-3000":"Variété : Nimbus 3000 (STRONG)\nNotre Nimbus 3000, c'est une valeur sûre, niveau expert ! Outre son goût savoureux aux notes tropicales, cette fleur a la particularité d'être BOOSTÉE.\nCette variété exceptionnelle vous transporte dans un voyage aromatique. Une fleur de qualité supérieure.\n⚠️ Fleur boostée, à consommer avec modération.",
   "ivory":"Variété : Ivory (STRONG)\nNotre Ivory, c'est une fleur pour les vrais puristes et connaisseurs, niveau expert ! Outre son goût savoureux, cette fleur a la particularité d'être BOOSTÉE.\nCette variété exceptionnelle vous transporte dans un voyage aromatique. Une fleur de qualité supérieure.\n⚠️ Fleur boostée, à consommer avec modération. Son nom en dit long sur son potentiel !",
   "pastraweed":"Variété : Pastraweed (BOOSTÉ/STRONG)\nUne valeur sûre ! Goût savoureux et BOOSTÉE : un voyage aromatique.\n⚠️ Fleur boostée, à consommer avec modération.",
-  "euphoria":"Variété : Euphoria (BOOSTÉ/STRONG)\nNotre Euphoria, c'est LA pépite chez WOOD ! Une saveur exceptionnellement fruitée et BOOSTÉE. Exclusivité WOOD CBD !\n⚠️ Fleur boostée, à consommer avec modération. Le conseil d'Ana : parsemer légèrement, 2-3 taffs et on pose le J… Bon voyage ♥",
+  /* 25/11/2026 — RETIRÉ de la fin de ce texte : « Le conseil d'Ana : parsemer
+     légèrement, 2-3 taffs et on pose le J… Bon voyage ♥ ». Un conseil pour
+     FUMER (le pochon WOOD porte « Ne pas fumer ») et un EFFET (« Bon voyage »)
+     — la règle en tête de ce fichier (« jamais d'effet ») et ce que le site
+     dit lui-même sur la FAQ et les pages boutiques (« jamais sur des effets
+     — c'est la loi »). Même traitement que « effet puissant » le 14/11 : la
+     phrase entière part, git la garde. Seule de tout le site (balayage des
+     16 pages et du moteur). CONDITION DE RETOUR : une décision écrite de
+     Florent ou d'Ana. Garde : wood-api/tools/audit-complet.js. */
+  "euphoria":"Variété : Euphoria (BOOSTÉ/STRONG)\nNotre Euphoria, c'est LA pépite chez WOOD ! Une saveur exceptionnellement fruitée et BOOSTÉE. Exclusivité WOOD CBD !\n⚠️ Fleur boostée, à consommer avec modération.",
   "fanta-hazy":"🍋 Acidulée · 🍭 Sucrée\nGoût : offrant une explosion fruitée en bouche, la Fanta Hazy et son odeur sont le fruit d'une longue recherche de notre part, capturant l'essence même de la fleur sucrée et unique.",
   "stoned":"Variété : STONED (BOOSTÉ/STRONG)\nLe 3× FILTRÉ de référence ! Goût délicieux, texture idéale, BOOSTÉE.\n⚠️ Résine boostée, à consommer avec modération.",
   "golden-high":"Variété : Golden HIGH (BOOSTÉ/STRONG)\nLe POLLEN STRONG référence ! BOOSTÉE, un vrai voyage aromatique.\nGoût : épices exotiques, trésors des contrées lointaines. Pollen mousseux. Pas besoin de le chauffer avant de l'effriter : BEST TEXTURE EVER !\n⚠️ Résine boostée, à consommer avec modération.",
