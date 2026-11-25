@@ -262,3 +262,7 @@ body{background:var(--bg);color:var(--ink)}
       offre). Le vert TEXTE du site existe déjà : #1a7a44 (5.37). */
 .cd-count,.sb-one{color:#1a7a44!important}
 .cd-panel .muted{color:#5d6759!important}
+/* 4. Vues à paramètre (absentes du premier parcours, qui prenait les 16
+      FICHIERS) : le prix des offres (fleurs.html?cat=promos) et le lien
+      « Tout afficher → » des filtres d'arôme, même vert #2f9e6b à 3.37. */
+.simple-price,.simple-price b,.linklike{color:#1a7a44!important}

@@ -2331,6 +2331,16 @@ function lireDerniereCommande(){
    ni téléphone, ni adresse : `localStorage` reste dans le navigateur du
    client, mais c'est une raison de ne pas y mettre plus que nécessaire.
 
+   ⛔ CORRECTION DU 25/11/2026 (audit) — la phrase ci-dessous est FAUSSE
+   telle qu'écrite : `WoodAPI.commander()` EST appelé, par le formulaire
+   de `renderTunnel()` (submit de #tnNom…), suivi de `garderCommande(rep)`.
+   Ce qui est vrai : ce formulaire n'est rendu QUE si `apiActif()` —
+   aujourd'hui WOOD_API_URL est vide, donc checkout.html montre la
+   réservation par téléphone (vérifié en vrai navigateur : « Copier ma
+   sélection » rend lignes, sous-totaux, boutique et total justes).
+   ⚠️ Le jour où l'API est branchée : `commander()` rend `null` si l'API
+   est éteinte, et le code viderait alors le pochon puis afficherait la
+   confirmation. Garder la condition `apiActif()` devant le formulaire.
    ⚠️ ÉTAT RÉEL AUJOURD'HUI : personne ne l'appelle encore, parce que
    `WoodAPI.commander()` n'est appelé nulle part — le tunnel de commande en
    ligne n'est pas branché, et le site fonctionne en réservation par
