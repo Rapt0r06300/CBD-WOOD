@@ -23,8 +23,8 @@ const FLEURS = [
      ------------------------------------------------------------------ */
 
   /* --- FLEURS CBD (carte : 1G 3G 5G 10G 25G) --- */
-  { slug:"nimbus-3000", nom:"Nimbus 3000", tier:"boostes", desc:"Goût weed plus vrai que nature · ultra forte 🧙", c:["#cfd8e3","#2e3a4a"], p:[15,42,70,130], g25:260 , emo:"🧙", int:"STRONG"},
-  { slug:"ivory", nom:"Ivory", tier:"boostes", desc:"Goût weed plus vrai que nature · ultra forte 🌱", c:["#e8e3d4","#6b6453"], p:[15,42,70,130], g25:260 , emo:"🌱", int:"STRONG"},
+  { slug:"nimbus-3000", nom:"Nimbus 3000", tier:"boostes", desc:"Le goût du vrai, plus vrai que nature · ultra forte 🧙", c:["#cfd8e3","#2e3a4a"], p:[15,42,70,130], g25:260 , emo:"🧙", int:"STRONG"},
+  { slug:"ivory", nom:"Ivory", tier:"boostes", desc:"Le goût du vrai, plus vrai que nature · ultra forte 🌱", c:["#e8e3d4","#6b6453"], p:[15,42,70,130], g25:260 , emo:"🌱", int:"STRONG"},
   { slug:"velvet-kush", nom:"Velvet Kush", tier:"boostes", desc:"Forte 💋", c:["#e3b4c4","#6b2e42"], p:[12,34,55,100], g25:200 , emo:"💋", int:"STRONG"},
   { slug:"pastraweed", nom:"Pastraweed", tier:"boostes", desc:"Terreuse · forte 🍁", c:["#cfe39a","#8a7a2e"], p:[12,34,55,100], g25:200 , emo:"🍁", int:"STRONG"},
   { slug:"euphoria", nom:"Euphoria", tier:"boostes", desc:"Fruitée · forte 🎈", c:["#f3c7d4","#a53a5a"], p:[12,34,55,100], g25:200 , emo:"🎈", int:"STRONG"},
@@ -114,7 +114,7 @@ const BOUTIQUE = [
      13/11/2026 : tout le reste est retire sur demande de Florent —
      accessoires, merch, carte-cadeau, Pink Panther, et les bonbons
      qui sont de toute facon interdits a la vente depuis le 15/05/2026. */
-  { slug:"trim", nom:"Trim CBD · fait maison", kind:"simple", cat:"promos", opts:[["10 g",15],["25 g",30],["100 g",100]], img:"trim.webp", c:["#cfe0a0","#5a6a2e"], desc:"Mélange maison 🌿", /* ⚠️ 14/11/2026, AUDIT — « Parfait pour vos INFUSIONS ou à consommer
+  { slug:"trim", nom:"Trim CBD · fait maison", kind:"simple", cat:"promos", opts:[["10 g",15],["25 g",30],["100 g",100]], /* img:"trim.webp" RETIRÉE le 25/11/2026 — Florent : « La trim on a pas la photo » · « Enlève la » (image générique, pas la leur). Le fichier reste dans assets/products/ ; la fiche montre la cloche, comme les autres produits sans photo. */ c:["#cfe0a0","#5a6a2e"], desc:"Mélange maison 🌿", /* ⚠️ 14/11/2026, AUDIT — « Parfait pour vos INFUSIONS ou à consommer
        seul ! » a ete retire de cette phrase.
        C'etait le texte Shopify d'origine, donc les mots de la boutique, et
        on ne touche pas aux mots d'Ana sans raison. Il y en avait une :
@@ -275,6 +275,15 @@ function cartAddSimple(f,unit,opt,qty){
    Shopify suspendu et rien ne les confirme. Comparer a ces prix-la revenait a
    fonder un argument de vente sur des donnees non verifiees. Le prix au gramme
    seul suffit, et il est vrai.                                              */
+/* 25/11/2026 — petite mention des fiches, la même partout (idée de Florent :
+   « en petit, en astérisque » ; « Ne pas fumer · N'abuse pas » : ses mots,
+   « ne pas fumer n'abuse pas en petit en asterisque »).
+   Historique : une note « * Weed : juste une façon de l'appeler, car ça y
+   ressemble » a précédé ; « weed* » a été remplacé le soir même par « Goût du
+   vrai » (décision de Florent), la note n'a plus d'objet. */
+function pMentions(f){
+  return '<p class="p-mentions">* '+"Vente réservée aux +18 ans · Le CBD n'est pas un médicament · Ne pas fumer · N'abuse pas · THC &lt; 0,3 %</p>";
+}
 function renderPromoProduct(f){
   const root=document.getElementById("product");
   const cle=f.slug.replace("promo-","");
@@ -329,7 +338,7 @@ function renderPromoProduct(f){
         ${auG?`<p class="offre-aug">soit <b>${euro(Math.round(auG*100)/100)}</b> le gramme</p>`:""}
         <p class="offre-dedans">${dedans}</p>
         ${simpleBuyBlock(f)}
-        <div class="p-reassure"><span>🏪 Retrait dans nos 2 boutiques à Nice</span><span>📞 Conseil par téléphone</span><span>🔞 Réservé aux +18 ans</span></div>
+        <div class="p-reassure"><span>🏪 Retrait dans nos 2 boutiques à Nice</span><span>📞 Conseil par téléphone</span><span>🔞 Réservé aux +18 ans</span></div>${pMentions(f)}
       </div>
 
       <aside class="offre-infos">
@@ -375,7 +384,7 @@ function renderSimpleProduct(f){
         <h1>${f.nom}</h1>
         <p class="p-desc">${f.desc||''}</p>
         ${simpleBuyBlock(f)}
-        <div class="p-reassure"><span>🏪 Retrait dans nos 2 boutiques à Nice</span><span>📞 Conseil par téléphone</span><span>🔞 Réservé aux +18 ans</span></div>
+        <div class="p-reassure"><span>🏪 Retrait dans nos 2 boutiques à Nice</span><span>📞 Conseil par téléphone</span><span>🔞 Réservé aux +18 ans</span></div>${pMentions(f)}
         <div class="accordions"><details open><summary>Description</summary>${body}</details></div>
         ${checker}
       </div>
@@ -820,8 +829,8 @@ function cardHTML(f,i){
 const MOLEC={
   "euphoria":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort · fruité",ar:"Exotic"},
   "pastraweed":{mol:"CBD +",cls:"mol-boost",lvl:4,ia:"Ultra fort · terreux",ar:"Kush"},
-  "ivory":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Weed"},
-  "nimbus-3000":{mol:"CBD +",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Weed"},
+  "ivory":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Goût du vrai"},
+  "nimbus-3000":{mol:"CBD +",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Goût du vrai"},
   /* arôme conservé (c'est un goût, pas une puissance), intensité retirée */
   "fanta-hazy":{mol:"CBD",cls:"",ar:"Agrumes"},
   "fleur-mystere":{mol:"CBD",cls:"",ar:"Surprise"},
@@ -933,7 +942,7 @@ const DESC={
      interdits, « Ne pas fumer » sur le pochon). « CBD » seul = la catégorie,
      autorisé (wood_aucune_molecule_affichee). Le prix « 10 €/g » est écrit
      en dur : il doit suivre p[0] de FLEURS si Ana le change. */
-  "charlotte":"CHARLOTTE 🍓\nCollection Premium | Indoor Élite\nIssue de la génétique Strawberry Payton, la Charlotte incarne toute la finesse d’une fleur de CBD naturel cultivée en Indoor gamme Élite. Ses têtes particulièrement compactes et généreuses dévoilent de belles nuances de vert, sublimées par des pistils cuivrés et un épais manteau de trichomes à l’aspect givré ❄️\nSon parfum enivrant révèle un profil aromatique gourmand, où les notes sucrées se mêlent harmonieusement aux nuances fruitées. Une véritable signature olfactive, à la fois douce, raffinée et expressive ✨\nCaractéristiques :\nGénétique : Strawberry Payton\nCulture : Indoor Élite\nGamme : Premium\nType : fleur de CBD naturel\nArômes : sucrés et fruités\nAspect : dense, compact et cristallisé\nPrix : 10 €/g\nWOOD — See differently. Le CBD autrement.",
+  "charlotte":"CHARLOTTE 🍓\nCollection Premium | Indoor Élite\nIssue de la génétique Strawberry Payton, la Charlotte incarne toute la finesse d’une fleur de CBD cultivée en Indoor gamme Élite. Ses têtes particulièrement compactes et généreuses dévoilent de belles nuances de vert, sublimées par des pistils cuivrés et un épais manteau de trichomes à l’aspect givré ❄️\nSon parfum enivrant révèle un profil aromatique gourmand, où les notes sucrées se mêlent harmonieusement aux nuances fruitées. Une véritable signature olfactive, à la fois douce, raffinée et expressive ✨\nCaractéristiques :\nGénétique : Strawberry Payton\nCulture : Indoor Élite\nGamme : Premium\nType : fleur de CBD\nArômes : sucrés et fruités\nAspect : dense, compact et cristallisé\nPrix : 10 €/g\nWOOD — See differently. Le CBD autrement.",
   "fleur-mystere":"Goût : un goût surprenant, une odeur particulière — « la fleur magique ».\nLa variété n'est pas annoncée : c'est tout le principe.",
 };
 function descHTML(f){
@@ -1032,7 +1041,7 @@ function promoMiniHTML(p){
 /* ===================== CHROME (header / footer / botnav / advisor) ===================== */
 function markSVG(){return `<svg class="mark" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="round" aria-hidden="true"><path d="M50 42 V12 M14 42 H86 M24 20 L76 64 M76 20 L24 64"/><circle cx="50" cy="80" r="6.5" fill="currentColor" stroke="none"/></svg>`;}
 function headerHTML(){return `<div class="container header-in">
-  <a class="logo" href="index.html" aria-label="WOOD · CBD à Nice"><img class="logo-img" src="assets/icons/wood-logo.png?v=2" alt="WOOD" width="150" height="30"></a>
+  <a class="logo" href="index.html" aria-label="WOOD · CBD à Nice"><img class="logo-img" src="assets/icons/wood-logo.png?v=3" alt="WOOD" width="150" height="30"></a>
   <nav class="nav" aria-label="Navigation principale">
     <a href="fleurs.html">Fleurs</a><a href="fleurs.html?type=resine">Résines</a>
     <a href="fleurs.html?tier=boostes">Boostés</a><a href="index.html#boutiques">Boutiques</a><a href="index.html#histoire">L'histoire</a>
@@ -1054,7 +1063,7 @@ function footerHTML(){return `<div class="container">
       : `<div class="socials"><a href="https://instagram.com/wood.cbdshop" target="_blank" rel="noopener">◎ Instagram</a><a href="https://facebook.com/Woodcbdshopnice" target="_blank" rel="noopener">ƒ Facebook</a></div>`}
   </div>
   <div class="footer-top">
-    <div><div class="big-logo"><img class="logo-img logo-img-lg" src="assets/icons/wood-logo.png?v=2" alt="WOOD" height="40"></div>
+    <div><div class="big-logo"><img class="logo-img logo-img-lg" src="assets/icons/wood-logo.png?v=3" alt="WOOD" height="40"></div>
       <p class="muted" style="margin:.6rem 0 1rem;max-width:30ch">La Maison du chanvre, à Nice. Si c'est WOOD, c'est GOOD.</p>
       <div class="socials"><a href="https://instagram.com/wood.cbdshop" target="_blank" rel="noopener">◎ Instagram</a><a href="https://facebook.com/Woodcbdshopnice" target="_blank" rel="noopener">ƒ Facebook</a></div></div>
     <div><h4>Boutique</h4><ul><li><a href="fleurs.html">Fleurs</a></li><li><a href="fleurs.html?type=resine">Résines</a></li><li><a href="fleurs.html?tier=boostes">Boostés</a></li></ul></div>
@@ -1062,7 +1071,7 @@ function footerHTML(){return `<div class="container">
     <div><h4>Légal</h4><ul><li><a href="mentions-legales.html">Mentions légales</a></li><li><a href="cgv.html">CGV</a></li><li><a href="confidentialite.html">Confidentialité</a></li><li><a href="confidentialite.html#cookies">Cookies</a></li></ul></div>
   </div>
   <div class="footer-pay"><span class="muted">Paiement en boutique</span></div>
-  <div class="legal"><span>© 2026 WOOD CBD — JM BULLY · SIRET 888 112 836 00018 · THC &lt; 0,3 % · Vente interdite aux mineurs (18+).</span><span class="tag tag-maquette">Commande en ligne bientôt · réservation par téléphone</span></div></div>`;}
+  <div class="legal"><span>© 2026 WOOD CBD — JM BULLY · SIRET 888 112 836 00018 · THC &lt; 0,3 % · Vente interdite aux mineurs (18+) · Le CBD n'est pas un médicament · Ne pas fumer · N'abuse pas.</span><span class="tag tag-maquette">Commande en ligne bientôt · réservation par téléphone</span></div></div>`;}
 function botnavHTML(active){const I={home:'<path d="M3 10 12 3l9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1Z"/>',fleurs:'<path d="M12 2s5 4 5 10a5 5 0 0 1-10 0c0-6 5-10 5-10Z"/>',search:'<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>',cart:'<path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/>',shop:'<path d="M12 21s7-6 7-12a7 7 0 1 0-14 0c0 6 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/>'};
   const a=(k,href,lbl,cls="")=>`<a href="${href}" class="${cls}${active===k?' active':''}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${I[k]}</svg>${lbl}</a>`;
   return a('home','index.html','Accueil')+a('fleurs','fleurs.html','Fleurs')+a('search','fleurs.html','Explorer')+`<a href="panier.html" data-cart-open class="bn-cart${active==='cart'?' active':''}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${I.cart}</svg><span class="cart-count" id="cartCountM">0</span>Pochon</a>`+a('shop','index.html#boutiques','Boutiques');}
@@ -1376,7 +1385,7 @@ function renderFleurs(){
     return;
   }
   const tiers=[["all","Tout"],["boostes","Boostés"],["classique","Classique"]];
-  const aromas=[["all","Tous les goûts"],["agrumes","🍊 Agrumes"],["weed","🌿 Weed"],["exotic","🥭 Exotic"],["sucre","🍯 Sucré"],["kush","🌰 Kush"],["epice","🌶️ Épicé"]];
+  const aromas=[["all","Tous les goûts"],["agrumes","🍊 Agrumes"],["gout du vrai","🌿 Goût du vrai"],["exotic","🥭 Exotic"],["sucre","🍯 Sucré"],["kush","🌰 Kush"],["epice","🌶️ Épicé"]];
   bar.innerHTML=`<div class="filters">${tiers.map(([k,l])=>`<button class="chip filt${tier===k?' on':''}" data-tier="${k}">${l}</button>`).join("")}
     <select id="sortSel" class="sortsel"><option value="pop">Populaire</option><option value="asc">Prix ↑</option><option value="desc">Prix ↓</option></select></div>
     <div class="filters filters-aroma">${aromas.map(([k,l])=>`<button class="chip filt-a${aroma===k?' on':''}" data-aroma="${k}">${l}</button>`).join("")}</div>`;
@@ -1515,7 +1524,7 @@ function renderProduct(){
         <div class="halo" style="background:radial-gradient(circle,${f.c[0]}55,transparent 70%)"></div>
         ${NOIMG.has(f.slug)
           ? `<div class="cloche big">${window.__cloche(f.slug)}</div>`
-          : `<img class="${visu(f.slug).trim()}" src="assets/products/${f.slug}.webp${IMGV}" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom}" onerror="this.outerHTML='<div class=&quot;cloche big&quot;>'+window.__cloche('${f.slug}')+'</div>'">`}
+          : `<img class="${visu(f.slug).trim()}" src="assets/products/${f.slug}.webp${IMGV}" fetchpriority="high" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom}" onerror="this.outerHTML='<div class=&quot;cloche big&quot;>'+window.__cloche('${f.slug}')+'</div>'">`}
       </div>
       <div class="product-info">
         <span class="badge ${t.cls}">${t.label}</span>
@@ -1523,7 +1532,7 @@ function renderProduct(){
         <p class="p-desc">${f.desc} · ${f.type==='resine'?'Résine CBD':'Fleur CBD'} · <span class="muted">profil de goût</span></p>
         ${pMolHTML(f.slug)}
         ${buyBlock(f)}
-        <div class="p-reassure"><span>🏪 Retrait dans nos 2 boutiques à Nice</span><span>📞 Conseil par téléphone</span><span>🔞 Réservé aux +18 ans</span></div>
+        <div class="p-reassure"><span>🏪 Retrait dans nos 2 boutiques à Nice</span><span>📞 Conseil par téléphone</span><span>🔞 Réservé aux +18 ans</span></div>${pMentions(f)}
         <div class="accordions">
           <details open><summary>Description</summary>${descHTML(f)}</details>
           <details><summary>Infos produit</summary><p>THC &lt; 0,3 %, conforme à la réglementation française. Pour le taux de CBD exact et l'origine du lot, demande-nous au téléphone : l'équipe a la fiche du lot en boutique.</p></details>
@@ -2456,7 +2465,7 @@ function openAdvisor(){
        produit hyper fort de la carte -- Snow -- est une resine. Et les resines
        sont mieux qualifiees que les fleurs (7 sur 10, contre 6 sur 13). */
     {key:"famille",q:"Fleurs ou résines ?",sub:"Les deux familles de la carte.",opts:[["fleur","Les fleurs 🌿"],["resine","Les résines 🟤"]]},
-    {key:"aroma",q:"Qu'est-ce qui te ferait plaisir ?",sub:"On parle goût & arôme — rien de médical 😉",opts:[["agrumes","Agrumes 🍊"],["weed","Weed 🌿"],["exotic","Exotic 🥭"],["sucre","Sucré 🍯"],["kush","Kush 🌰"],["epice","Épicé 🌶️"]]},
+    {key:"aroma",q:"Qu'est-ce qui te ferait plaisir ?",sub:"On parle goût & arôme — rien de médical 😉",opts:[["agrumes","Agrumes 🍊"],["gout du vrai","Goût du vrai 🌿"],["exotic","Exotic 🥭"],["sucre","Sucré 🍯"],["kush","Kush 🌰"],["epice","Épicé 🌶️"]]},
     /* Les trois etiquettes de la carte d'Ana, telles qu'elle les ecrit.
        Avant, on proposait quatre niveaux inventes qu'il fallait ensuite
        faire correspondre aux siens : c'est la cette correspondance qui
@@ -2465,7 +2474,7 @@ function openAdvisor(){
        mot d'Ana pour ce niveau, « molécule douce » était un ajout. */
     {key:"intensity",q:"Tu cherches quelle puissance ?",sub:"Les trois gammes de la boutique, dans les mots d'Ana.",opts:[["MÉDIUM","Light ✩"],["STRONG","Forte 🔥"],["HYPER STRONG","Hyper forte ⚡"]]},
   ];
-  const AL={agrumes:"agrumes",weed:"weed",exotic:"exotic",sucre:"sucré",kush:"kush",epice:"épicé"};
+  const AL={agrumes:"agrumes","gout du vrai":"goût du vrai",exotic:"exotic",sucre:"sucré",kush:"kush",epice:"épicé"};
   const IL={"MÉDIUM":"Light","STRONG":"forte","HYPER STRONG":"hyper forte"};
   /* Les niveaux de MOLEC vont de 2 a 4 : avec doux:0, « tout en douceur »
    ne pouvait structurellement RIEN trouver. L'echelle colle aux donnees. */
@@ -2902,7 +2911,7 @@ function openMobileMenu(){
   let ov=document.getElementById("mnuOv");
   if(!ov){ov=document.createElement("div"); ov.id="mnuOv"; ov.className="mnu-ov";
     ov.innerHTML=`<aside class="mnu-panel" role="dialog" aria-label="Menu">
-      <div class="mnu-head"><a class="logo" href="index.html"><img class="logo-img" src="assets/icons/wood-logo.png?v=2" alt="WOOD" height="28"></a><button class="mnu-close" aria-label="Fermer">✕</button></div>
+      <div class="mnu-head"><a class="logo" href="index.html"><img class="logo-img" src="assets/icons/wood-logo.png?v=3" alt="WOOD" height="28"></a><button class="mnu-close" aria-label="Fermer">✕</button></div>
       <nav class="mnu-nav">
         <a href="fleurs.html"><span>🌿 Fleurs CBD</span><span class="arr">→</span></a>
         <a href="fleurs.html?tier=boostes"><span>⚡ Boostés</span><span class="arr">→</span></a>
@@ -2941,4 +2950,19 @@ function closeMobileMenu(){const ov=document.getElementById("mnuOv");if(ov){ov.c
     if(!document.querySelector('link[rel="icon"]')){var ic=document.createElement('link');ic.rel='icon';ic.type='image/png';ic.href='assets/icons/favicon.png';head.appendChild(ic);}
   }catch(e){}
   if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
+})();
+
+/* 25/11/2026 — le mur de stickers de l'accueil se charge à l'approche
+   (styles2.css : .sticker-wall-img.vu). Sans IntersectionObserver : tout de suite. */
+(function(){
+  function armer(){
+    var w = document.querySelector(".sticker-wall-img"); if(!w) return;
+    var voir = function(){ w.classList.add("vu"); };
+    if(!("IntersectionObserver" in window)) return voir();
+    var io = new IntersectionObserver(function(es){
+      if(es.some(function(e){ return e.isIntersecting; })){ voir(); io.disconnect(); }
+    }, { rootMargin: "800px 0px" });
+    io.observe(w);
+  }
+  if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", armer); else armer();
 })();
