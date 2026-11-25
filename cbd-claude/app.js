@@ -834,6 +834,10 @@ const MOLEC={
   "pastraweed":{mol:"CBD +",cls:"mol-boost",lvl:4,ia:"Ultra fort · terreux",ar:"Kush"},
   "ivory":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Goût du vrai"},
   "venom":{cls:"mol-boost",lvl:4,ia:"Hyper fort",ar:"Boisé · terreux · agrumes"},  /* 26/11 : sa fiche ; AUCUNE molécule */
+  /* 26/11 : la carte Charlotte était presque vide (capture de Florent). SA fiche :
+     « Arômes : sucrés et fruités », « Gamme : Premium », « Culture : Indoor Élite ».
+     PAS d'intensité : ni sa fiche ni la carte d'Ana n'en donnent. AUCUNE molécule. */
+  "charlotte":{ar:"Sucré · fruité",premium:"Premium · Indoor Élite"},
   "nimbus-3000":{mol:"CBD +",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Goût du vrai"},
   /* arôme conservé (c'est un goût, pas une puissance), intensité retirée */
   "fanta-hazy":{mol:"CBD",cls:"",ar:"Agrumes"},
@@ -877,7 +881,9 @@ function idotsHTML(lvl){let s='<span class="idots" aria-label="Intensité">';for
 function molLine(slug){const m=MOLEC[slug];if(!m)return"";
   const ar=m.ar?`<div class="mol-line"><span class="mol-arome">${m.ar}</span></div>`:'';
   const inten=m.lvl?`<div class="mol-inten"><span class="mi-k">Intensité</span>${idotsHTML(m.lvl)}<span class="mi-l">${m.ia}</span></div>`:'';
-  return `${ar}${inten}`;}
+  /* 26/11 : sans intensité connue, la carte dit sa GAMME (fiche de la fleur) au lieu d'un vide */
+  const gamme=(!m.lvl&&m.premium)?`<div class="mol-inten"><span class="mi-k">Gamme</span><span class="mi-l">${m.premium}</span></div>`:'';
+  return `${ar}${inten}${gamme}`;}
 function pMolHTML(slug){const m=MOLEC[slug];if(!m)return"";
   const inten=m.lvl?`<div class="pm-b"><span class="pm-k">Intensité</span><span class="pm-v">${idotsHTML(m.lvl)} <span style="font-size:.85rem;color:var(--muted)">${m.ia}</span></span></div>`:'';
   const ar=m.ar?`<div class="pm-b"><span class="pm-k">Arôme</span><span class="pm-v">${m.ar}</span></div>`:'';
@@ -2656,7 +2662,14 @@ document.addEventListener("DOMContentLoaded",()=>{
     /* 25/11/2026 (§50, V3) : la Charlotte en 1re place — seul vrai visuel pochon ;
        la 1re position capte une part disproportionnée de l'attention. */
     const tete=FLEURS.filter(f=>f.slug==="charlotte");
-    const sel=tete.concat(FLEURS.filter(f=>f.slug!=="fleur-mystere"&&f.slug!=="charlotte")).slice(0,8);rail.innerHTML=sel.map((f,i)=>cardHTML(f,i)).join("");}
+    const sel=tete.concat(FLEURS.filter(f=>f.slug!=="fleur-mystere"&&f.slug!=="charlotte")).slice(0,8);
+    /* §50 T4 bis (26/11) : ces photos sont sous le 1er écran ; mesurées EN LIGNE, elles prenaient la
+       bande passante de la grande image (LCP). Elles partent après « load » (DOM simulé des tests : tout de suite). */
+    let html=sel.map((f,i)=>cardHTML(f,i)).join("");
+    const differer=document.readyState!=="complete"&&typeof window.addEventListener==="function";
+    if(differer) html=html.replace(/ src="assets\/products\//g,' data-src-differe="assets/products/');
+    rail.innerHTML=html;
+    if(differer) window.addEventListener("load",()=>rail.querySelectorAll("img[data-src-differe]").forEach(im=>{im.src=im.getAttribute("data-src-differe");im.removeAttribute("data-src-differe");}));}
   /* Les compteurs de l'accueil, calcules depuis le catalogue. Un chiffre
      ecrit en dur finit toujours par mentir : celui-ci annoncait 21 varietes
      pour 13 reelles, avec un commentaire qui disait deja "a recompter". */

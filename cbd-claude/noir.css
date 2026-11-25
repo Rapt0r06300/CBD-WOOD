@@ -33,3 +33,6 @@
    même coin haut-droit). Il passe juste sous le badge. (Bug déjà présent en
    ligne : le cœur s'échappait de la carte, invisible.) */
 .card .card-fav{top:44px}
+/* 26/11 (capture de Florent) : en défilant, le texte de la page transparaissait
+   derrière l'en-tête (fond à 97 % + transition). En noir : fond PLEIN. */
+.header.scrolled{background:#0a0d0a}

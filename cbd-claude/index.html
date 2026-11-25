@@ -13,14 +13,16 @@
 <meta property="og:description" content="WOOD CBD Shop — la Maison du chanvre à Nice. Fleurs & résines CBD sélectionnées, celles de nos deux boutiques. Si c'est WOOD, c'est GOOD.">
 <meta property="og:image" content="https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/assets/scenes/hero.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="preload" as="image" href="assets/scenes/hero-scene.webp?v=2" fetchpriority="high">
+<!-- §50 T4 bis (26/11) : image d'accueil recadrée pour les téléphones (même image, zone visible). -->
+<link rel="preload" as="image" href="assets/scenes/hero-scene-mobile.webp?v=1" fetchpriority="high" media="(max-width: 640px)">
+<link rel="preload" as="image" href="assets/scenes/hero-scene.webp?v=2" fetchpriority="high" media="(min-width: 641px)">
 <link rel="canonical" href="https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/index.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=13">
 <link rel="stylesheet" href="styles2.css?v=87">
-<link rel="stylesheet" href="noir.css?v=1">
+<link rel="stylesheet" href="noir.css?v=2">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png?v=1"><link rel="icon" type="image/png" sizes="512x512" href="assets/icons/favicon-wood.png?v=1"><link rel="apple-touch-icon" href="assets/icons/apple-touch-wood.png?v=1">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
@@ -55,7 +57,7 @@
 <!-- ============ HERO ============ -->
 <section id="contenu" tabindex="-1" class="hero has-stickers">
   <div class="hero-bg hero-bg--mural" aria-hidden="true">
-    <img class="hero-img" src="assets/scenes/hero-scene.webp?v=2" alt="" fetchpriority="high" width="1672" height="941">
+    <picture><source media="(max-width: 640px)" srcset="assets/scenes/hero-scene-mobile.webp?v=1"><img class="hero-img" src="assets/scenes/hero-scene.webp?v=2" alt="" fetchpriority="high" width="1672" height="941"></picture>
     <div class="hero-overlay"></div>
   </div>
   <div class="container hero-in">
@@ -268,6 +270,6 @@
 <nav data-chrome="botnav"></nav>
 
 <script src="api.js?v=6"></script>
-<script src="app.js?v=111"></script>
+<script src="app.js?v=112"></script>
 </body>
 </html>
