@@ -239,3 +239,26 @@ body{background:var(--bg);color:var(--ink)}
    Regle generale, a appliquer a toute surface future : une surface qui
    fixe son fond DOIT fixer sa couleur de texte. */
 .resa-recap{background:#f4f1e9!important;color:#18211b!important;border-color:var(--line)!important}
+
+/* ==========================================================================
+   25/11/2026 — AUDIT EN VRAI NAVIGATEUR, PANNEAUX OUVERTS (sonde de contraste
+   lancée DANS chaque panneau, pas seulement sur les pages : c'est pour ça que
+   ces défauts avaient échappé aux audits précédents). Tous déjà en ligne.
+   ========================================================================== */
+/* 1. L'APERÇU RAPIDE est un panneau SOMBRE (#10160f, styles2.css) mais il
+      héritait des couleurs du thème CLAIR (--ink, --muted, --lime = verts
+      foncés) : sombre sur sombre. Mesuré : formats 1.01/4.5, « Fiche
+      complète » 1.1/4.5, étiquettes 4.07, prix 3.53. Les lignes 133-134
+      ci-dessus en rattrapaient trois à la main ; ici le panneau reprend les
+      couleurs du thème sombre et TOUT ce qu'il contient suit. --line est
+      gardé clair : les bords des formats restent visibles sur le sombre. */
+.qv-panel{--ink:#f1f0e6;--soft:#e8e7d7;--muted:#9fb0a0;--lime:#cbf096;--lime-bright:#d7ff8f}
+/* 2. LA RECHERCHE : le panneau passe en blanc (ligne 46), mais la saisie et
+      les résultats gardaient `color:#fff` (styles2.css:129 et 134) : on ne
+      voyait ni ce qu'on tapait, ni le nom des produits trouvés. */
+#searchInput,.search-row{color:var(--ink)!important}
+#searchInput::placeholder{color:var(--muted)}
+/* 3. Le vert #2f9e6b fait 3.37 sur blanc (compteur du tiroir, prix d'une
+      offre). Le vert TEXTE du site existe déjà : #1a7a44 (5.37). */
+.cd-count,.sb-one{color:#1a7a44!important}
+.cd-panel .muted{color:#5d6759!important}

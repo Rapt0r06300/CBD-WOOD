@@ -1173,3 +1173,22 @@ img.visuel{filter:none!important}
 /* !important : light.css (chargée APRÈS) impose `.badge-classic` en !important ;
    la spécificité plus forte de ce sélecteur départage, sur les seules cartes à visuel. */
 .card:has(img.visuel) .card-badges .badge{background:#FBF6EC!important;color:#1D4631!important;box-shadow:0 2px 10px rgba(0,0,0,.28)}
+
+/* 25/11/2026 — Sur mobile, le bouton rond du conseiller (fixe, z 70)
+   recouvrait la fin de « + Ajouter au pochon » de la barre collante (fixe,
+   z 66, à 58 px du bas) : 26 fiches sur 28, mesuré en vrai navigateur. Il
+   n'est pas caché — le conseiller d'Ana est le cœur du site — il monte
+   au-dessus de la barre. */
+@media(max-width:899px){
+  body:has(.p-sticky) .advisor{bottom:calc(58px + 86px + env(safe-area-inset-bottom))}
+}
+/* 25/11/2026 — APERÇU RAPIDE, deux défauts de mise en page (déjà en ligne) :
+   · « + Ajouter · 15 € » se coupait en DEUX COLONNES (« + Ajouter · » /
+     « 15 € ») : .btn est un inline-flex, le texte et le <b> du prix devenaient
+     deux blocs qui se repliaient chacun. Une ligne, et si la place manque
+     c'est le bouton suivant qui passe dessous (flex-wrap déjà là) ;
+   · sur ordinateur, la croix de fermeture (absolue, coin du panneau)
+     recouvrait le cœur des favoris, posé au bout de la ligne du badge :
+     cette ligne réserve la place de la croix. */
+.qv-actions .btn{white-space:nowrap}
+@media(min-width:641px){.qv-top{padding-right:40px}}
