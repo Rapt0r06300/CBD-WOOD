@@ -6,3 +6,8 @@ Disallow: /panier.html
 Disallow: /checkout.html
 Disallow: /confirmation.html
 Disallow: /compte.html
+
+# 25/11/2026 (§50 T2). NB : un robots.txt n est lu par les moteurs qu a la RACINE
+# du domaine ; ici (sous-dossier GitHub) il est indicatif : declarer le sitemap
+# dans Google Search Console (Florent). A changer avec le domaine.
+Sitemap: https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/sitemap.xml

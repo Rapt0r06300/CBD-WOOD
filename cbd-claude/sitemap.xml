@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Généré par wood-api/tools/test-site-seo.py, option ecrire-sitemap (catalogue rendu).
+     À régénérer quand un produit entre ou sort, et quand le domaine change (SITE_URL). -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/index.html</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/fleurs.html</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/barla.html</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/borriglione.html</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/faq.html</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/contact.html</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/mentions-legales.html</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/cgv.html</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/confidentialite.html</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=nimbus-3000</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=ivory</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=velvet-kush</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=pastraweed</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=euphoria</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=purple</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=bloody-mary</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=cosmic-cbg</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=charlotte</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=rainbow</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=orange-bud</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=plutonium</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=fanta-hazy</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=katmandou</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=cbn-cream</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=super-dry</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=golden-high</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=jelly-high</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=frost</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=stoned</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=uranus</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=la-mousse</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=snow</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=trim</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=fleur-mystere</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=promo-gta-15g</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=promo-10g</loc></url>
+  <url><loc>https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/produit.html?f=promo-20g</loc></url>
+</urlset>

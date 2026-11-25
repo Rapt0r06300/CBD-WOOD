@@ -782,7 +782,7 @@ function cardHTML(f,i){
             ou » est exactement ce qui a laisse mysterySVG() dormir un mois. */
         NOIMG.has(f.slug)
         ? `<div class="cloche">${window.__cloche(f.slug)}</div>`
-        : `<img class="cloche${visu(f.slug)}" src="assets/products/${f.slug}.webp${IMGV}" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom}" width="1000" height="1000" loading="lazy"
+        : `<img class="cloche${visu(f.slug)}" src="assets/products/${f.slug}.webp${IMGV}" alt="${f.type==='resine'?'Résine':'Fleur'} CBD ${f.nom}" width="1000" height="1000" loading="lazy" fetchpriority="low"
         onerror="this.outerHTML='<div class=&quot;cloche&quot;>'+window.__cloche('${f.slug}')+'</div>'">`}
       <div class="card-badges"><span class="badge ${t.cls}">${f.int||t.label}</span></div>
       <span class="card-view">Voir le produit →</span>
@@ -946,7 +946,23 @@ const DESC={
   "fleur-mystere":"Goût : un goût surprenant, une odeur particulière — « la fleur magique ».\nLa variété n'est pas annoncée : c'est tout le principe.",
 };
 function descHTML(f){
-  if(DESC[f.slug])return DESC[f.slug].split("\n").filter(Boolean).map(p=>`<p>${p}</p>`).join("");
+  /* 25/11/2026 — §50 V5 : après une ligne « Caractéristiques : », les lignes
+     « Libellé : valeur » s'affichent en TABLEAU (fiche technique lisible d'un
+     coup d'œil, recommandation Baymard). MÊMES MOTS, mot pour mot : seule la
+     mise en forme change. Ailleurs, chaque ligne reste un paragraphe. */
+  if(DESC[f.slug]){
+    const L=DESC[f.slug].split("\n").filter(Boolean), KV=/^([^:]{2,24}?) : (.+)$/;
+    let out="", i=0;
+    while(i<L.length){
+      if(/^Caractéristiques :$/.test(L[i])){
+        let k=i+1; const rows=[];
+        while(k<L.length && KV.test(L[k])){ const m=L[k].match(KV); rows.push(`<tr><th scope="row">${m[1]}</th><td>${m[2]}</td></tr>`); k++; }
+        if(rows.length>=2){ out+=`<p class="p-carac-t">${L[i]}</p><table class="p-carac">${rows.join("")}</table>`; i=k; continue; }
+      }
+      out+=`<p>${L[i]}</p>`; i++;
+    }
+    return out;
+  }
   const m=MOLEC[f.slug]||{};const bits=[];
   /* `m.mol` n'entre plus dans cette liste (14/11) : elle fabriquait une
      description du genre « Stoned — CBD + · intensité ultra fort », donc une
@@ -1041,7 +1057,7 @@ function promoMiniHTML(p){
 /* ===================== CHROME (header / footer / botnav / advisor) ===================== */
 function markSVG(){return `<svg class="mark" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="12.5" stroke-linecap="round" aria-hidden="true"><path d="M50 42 V12 M14 42 H86 M24 20 L76 64 M76 20 L24 64"/><circle cx="50" cy="80" r="6.5" fill="currentColor" stroke="none"/></svg>`;}
 function headerHTML(){return `<div class="container header-in">
-  <a class="logo" href="index.html" aria-label="WOOD · CBD à Nice"><img class="logo-img" src="assets/icons/wood-logo.png?v=3" alt="WOOD" width="150" height="30"></a>
+  <a class="logo" href="index.html" aria-label="WOOD · CBD à Nice"><img class="logo-img" src="assets/icons/wood-logo-blanc.png?v=1" alt="WOOD" width="150" height="30"></a>
   <nav class="nav" aria-label="Navigation principale">
     <a href="fleurs.html">Fleurs</a><a href="fleurs.html?type=resine">Résines</a>
     <a href="fleurs.html?tier=boostes">Boostés</a><a href="index.html#boutiques">Boutiques</a><a href="index.html#histoire">L'histoire</a>
@@ -1063,7 +1079,7 @@ function footerHTML(){return `<div class="container">
       : `<div class="socials"><a href="https://instagram.com/wood.cbdshop" target="_blank" rel="noopener">◎ Instagram</a><a href="https://facebook.com/Woodcbdshopnice" target="_blank" rel="noopener">ƒ Facebook</a></div>`}
   </div>
   <div class="footer-top">
-    <div><div class="big-logo"><img class="logo-img logo-img-lg" src="assets/icons/wood-logo.png?v=3" alt="WOOD" height="40"></div>
+    <div><div class="big-logo"><img class="logo-img logo-img-lg" src="assets/icons/wood-logo-blanc.png?v=1" alt="WOOD" height="40"></div>
       <p class="muted" style="margin:.6rem 0 1rem;max-width:30ch">La Maison du chanvre, à Nice. Si c'est WOOD, c'est GOOD.</p>
       <div class="socials"><a href="https://instagram.com/wood.cbdshop" target="_blank" rel="noopener">◎ Instagram</a><a href="https://facebook.com/Woodcbdshopnice" target="_blank" rel="noopener">ƒ Facebook</a></div></div>
     <div><h4>Boutique</h4><ul><li><a href="fleurs.html">Fleurs</a></li><li><a href="fleurs.html?type=resine">Résines</a></li><li><a href="fleurs.html?tier=boostes">Boostés</a></li></ul></div>
@@ -1510,10 +1526,63 @@ function renderFleurs(){
    vantait même une livraison qui n'existe pas. Aucun n'était un vrai client.
    Les vrais avis, eux, sont sur les fiches Google des deux boutiques et
    l'accueil y renvoie. */
+/* ===================== RÉFÉRENCEMENT DES FICHES (25/11/2026, §50 T1) =====
+   Avant : les 28 fiches déclaraient la MÊME adresse canonique (produit.html),
+   le même titre et la même image de partage → pour Google, une seule page
+   produit. Désormais chaque fiche a les siens, et des données structurées
+   Product/Offer : prix RÉELS du catalogue, retrait en boutique (InStoreOnly).
+   JAMAIS de note ni d'avis par produit (wood_avis_google_reels), jamais de
+   % de CBD (wood_aucune_molecule_affichee), image seulement si la fiche
+   montre une VRAIE photo.
+   ⚠️ SITE_URL : à remplacer par le domaine quand woodcbdshop.com sera réparé
+   (§50 0.1) — c'est la seule ligne à changer (le sitemap.xml aussi). */
+const SITE_URL="https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/";
+function prixDe(f){
+  const ok=x=>typeof x==="number"&&x>0;
+  if(Array.isArray(f.p)) return f.p.concat(f.g25?[f.g25]:[]).filter(ok);
+  if(Array.isArray(f.opts)) return f.opts.map(o=>o[1]).filter(ok);
+  if(ok(f.prix)) return [f.prix];
+  return [];
+}
+function photoDe(f){
+  if(f.kind==="simple"||f.promo) return f.img?("assets/products/"+f.img):null;
+  return NOIMG.has(f.slug)?null:("assets/products/"+f.slug+".webp");
+}
+function seoFiche(f){ try{
+  const H=document.head, url=SITE_URL+"produit.html?f="+encodeURIComponent(f.slug);
+  const nature=f.type==="resine"?"Résine CBD":(f.kind==="simple"||f.promo)?"":"Fleur CBD";
+  const titre=f.nom+(nature?" — "+nature:"")+" · WOOD CBD Nice";
+  const desc=(f.nom+" — "+(f.desc||"")+". "+(nature?nature+" ":"")+"à retirer dans nos 2 boutiques WOOD à Nice.").replace(/\s+/g," ").trim();
+  const photo=photoDe(f), image=photo?SITE_URL+photo:SITE_URL+"assets/scenes/hero.jpg";
+  const meta=(attr,cle,val)=>{let m=H.querySelector('meta['+attr+'="'+cle+'"]');if(!m){m=document.createElement("meta");m.setAttribute(attr,cle);H.appendChild(m);}m.setAttribute("content",val);};
+  document.title=titre;
+  meta("name","description",desc);
+  meta("property","og:type","product");
+  meta("property","og:title",titre);
+  meta("property","og:description",desc);
+  meta("property","og:url",url);
+  meta("property","og:image",image);
+  let c=H.querySelector('link[rel="canonical"]');
+  if(!c){c=document.createElement("link");c.rel="canonical";H.appendChild(c);}
+  c.href=url;
+  const prix=prixDe(f);
+  const ld={"@context":"https://schema.org","@type":"Product",name:f.nom,description:desc,url:url,
+    brand:{"@type":"Brand",name:"WOOD"},category:nature||"CBD"};
+  if(photo) ld.image=[image];
+  if(prix.length) ld.offers={"@type":"AggregateOffer",priceCurrency:"EUR",
+    lowPrice:Math.min.apply(null,prix),highPrice:Math.max.apply(null,prix),offerCount:prix.length,
+    availability:"https://schema.org/InStoreOnly",url:url,
+    seller:{"@id":SITE_URL+"#organization"}};
+  let s=document.getElementById("ldFiche");
+  if(!s){s=document.createElement("script");s.type="application/ld+json";s.id="ldFiche";H.appendChild(s);}
+  s.textContent=JSON.stringify(ld);
+}catch(e){} }
+
 function renderProduct(){
   const root=document.getElementById("product"); if(!root)return;
   const slug=new URLSearchParams(location.search).get("f")||"nimbus-3000";
   const f=byId(slug)||FLEURS[0], t=TIER[f.tier];
+  seoFiche(f);
   if(f.kind==='simple'){renderSimpleProduct(f);return;}
   let gi=1; // 3g par défaut
   const priceEl=()=>document.getElementById("pPrice"), pgEl=()=>document.getElementById("pPerG");
@@ -2575,7 +2644,10 @@ document.addEventListener("DOMContentLoaded",()=>{
   const rail=document.getElementById("fleursRail");
   if(rail){/* Construit depuis le catalogue : une liste en dur casse la page des qu'un
      produit sort de la carte (arrive le 13/11 avec Gelato, Moonrock, Ice Cream). */
-    const sel=FLEURS.filter(f=>f.slug!=="fleur-mystere").slice(0,8);rail.innerHTML=sel.map((f,i)=>cardHTML(f,i)).join("");}
+    /* 25/11/2026 (§50, V3) : la Charlotte en 1re place — seul vrai visuel pochon ;
+       la 1re position capte une part disproportionnée de l'attention. */
+    const tete=FLEURS.filter(f=>f.slug==="charlotte");
+    const sel=tete.concat(FLEURS.filter(f=>f.slug!=="fleur-mystere"&&f.slug!=="charlotte")).slice(0,8);rail.innerHTML=sel.map((f,i)=>cardHTML(f,i)).join("");}
   /* Les compteurs de l'accueil, calcules depuis le catalogue. Un chiffre
      ecrit en dur finit toujours par mentir : celui-ci annoncait 21 varietes
      pour 13 reelles, avec un commentaire qui disait deja "a recompter". */
@@ -2911,7 +2983,7 @@ function openMobileMenu(){
   let ov=document.getElementById("mnuOv");
   if(!ov){ov=document.createElement("div"); ov.id="mnuOv"; ov.className="mnu-ov";
     ov.innerHTML=`<aside class="mnu-panel" role="dialog" aria-label="Menu">
-      <div class="mnu-head"><a class="logo" href="index.html"><img class="logo-img" src="assets/icons/wood-logo.png?v=3" alt="WOOD" height="28"></a><button class="mnu-close" aria-label="Fermer">✕</button></div>
+      <div class="mnu-head"><a class="logo" href="index.html"><img class="logo-img" src="assets/icons/wood-logo-blanc.png?v=1" alt="WOOD" height="28"></a><button class="mnu-close" aria-label="Fermer">✕</button></div>
       <nav class="mnu-nav">
         <a href="fleurs.html"><span>🌿 Fleurs CBD</span><span class="arr">→</span></a>
         <a href="fleurs.html?tier=boostes"><span>⚡ Boostés</span><span class="arr">→</span></a>
@@ -2965,4 +3037,69 @@ function closeMobileMenu(){const ov=document.getElementById("mnuOv");if(ov){ov.c
     io.observe(w);
   }
   if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", armer); else armer();
+})();
+
+/* ===================== VÉRIFICATION D'ÂGE (25/11/2026) =====================
+   Décision de Florent : « Oui » à une vérification d'âge à l'entrée. Pas
+   obligatoire aujourd'hui (2 propositions de loi non adoptées) : c'est un
+   choix de sérieux. Une fois, à la première visite ; la réponse est retenue
+   (localStorage « wood_18 »). « Non » : la fenêtre reste, avec un message.
+   Les navigateurs AUTOMATISÉS (navigator.webdriver) ne la voient pas : sinon
+   aucun outil d'audit ne pourrait plus parcourir le site. Elle a son propre
+   test, qui se présente comme un vrai visiteur :
+   wood-api/tools/test-site-age.py. */
+(function(){
+  var CLE = "wood_18";
+  function dejaOk(){ try { return localStorage.getItem(CLE) === "oui"; } catch(e){ return false; } }
+  function retenir(){ try { localStorage.setItem(CLE, "oui"); } catch(e){} }
+  function ouvrir(){
+    if (dejaOk() || (typeof navigator !== "undefined" && navigator.webdriver)) return;
+    if (!document.body || typeof document.createElement !== "function") return;  /* DOM simulé des tests */
+    var d = document.createElement("div");
+    d.className = "age-gate";
+    d.setAttribute("role", "dialog");
+    d.setAttribute("aria-modal", "true");
+    d.setAttribute("aria-labelledby", "ageTitre");
+    d.innerHTML =
+      '<div class="age-box">' +
+        '<img class="age-logo" src="assets/icons/wood-logo-blanc.png?v=1" alt="WOOD" width="150" height="30">' +
+        '<p class="age-eyebrow">Vente réservée aux +18 ans</p>' +
+        '<h2 id="ageTitre">As-tu 18 ans ou plus ?</h2>' +
+        '<p class="age-sub">Le site WOOD présente des produits à base de CBD, réservés aux personnes majeures.</p>' +
+        '<div class="age-actions">' +
+          '<button type="button" class="btn btn-primary" data-age="oui">Oui, j\'ai 18 ans</button>' +
+          '<button type="button" class="btn btn-ghost" data-age="non">Non</button>' +
+        '</div>' +
+        '<p class="age-non" hidden>Le site WOOD est réservé aux personnes majeures. À bientôt !</p>' +
+      '</div>';
+    document.body.appendChild(d);
+    document.documentElement.classList.add("age-ouvert");
+    var oui = d.querySelector('[data-age="oui"]');
+    try { oui.focus(); } catch(e){}
+    d.addEventListener("click", function(e){
+      var b = e.target.closest("[data-age]"); if (!b) return;
+      if (b.dataset.age === "oui") {
+        retenir(); d.remove(); document.documentElement.classList.remove("age-ouvert");
+      } else {
+        d.querySelector(".age-non").hidden = false;
+      }
+    });
+    /* le clavier reste DANS la fenêtre (Tab / Maj+Tab) */
+    d.addEventListener("keydown", function(e){
+      if (e.key !== "Tab") return;
+      var f = [].slice.call(d.querySelectorAll("button"));
+      var i = f.indexOf(document.activeElement);
+      if (e.shiftKey && i <= 0) { f[f.length - 1].focus(); e.preventDefault(); }
+      else if (!e.shiftKey && i === f.length - 1) { f[0].focus(); e.preventDefault(); }
+    });
+  }
+  function lancer(){ try { ouvrir(); } catch(e){} }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", lancer); else lancer();
+})();
+
+/* §50 T4 (25/11/2026) : la fresque se charge APRÈS le premier affichage (voir styles2.css). */
+(function(){
+  function ok(){ document.documentElement.classList.add("mural-ok"); }
+  /* défensif : les tests du site tournent dans un DOM simulé sans window.addEventListener */
+  if (document.readyState === "complete" || typeof window.addEventListener !== "function") ok(); else window.addEventListener("load", ok);
 })();

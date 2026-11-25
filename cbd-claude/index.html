@@ -13,14 +13,14 @@
 <meta property="og:description" content="WOOD CBD Shop — la Maison du chanvre à Nice. Fleurs & résines CBD sélectionnées, celles de nos deux boutiques. Si c'est WOOD, c'est GOOD.">
 <meta property="og:image" content="https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/assets/scenes/hero.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="preload" as="image" href="assets/scenes/hero-scene.webp" fetchpriority="high">
+<link rel="preload" as="image" href="assets/scenes/hero-scene.webp?v=2" fetchpriority="high">
 <link rel="canonical" href="https://rapt0r06300.github.io/CBD-WOOD/cbd-claude/index.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=13">
-<link rel="stylesheet" href="styles2.css?v=86">
-<link rel="stylesheet" href="light.css?v=13">
+<link rel="stylesheet" href="styles2.css?v=87">
+<link rel="stylesheet" href="noir.css?v=1">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png?v=1"><link rel="icon" type="image/png" sizes="512x512" href="assets/icons/favicon-wood.png?v=1"><link rel="apple-touch-icon" href="assets/icons/apple-touch-wood.png?v=1">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
@@ -55,7 +55,7 @@
 <!-- ============ HERO ============ -->
 <section id="contenu" tabindex="-1" class="hero has-stickers">
   <div class="hero-bg hero-bg--mural" aria-hidden="true">
-    <img class="hero-img" src="assets/scenes/hero-scene.webp" alt="" fetchpriority="high" width="1672" height="941">
+    <img class="hero-img" src="assets/scenes/hero-scene.webp?v=2" alt="" fetchpriority="high" width="1672" height="941">
     <div class="hero-overlay"></div>
   </div>
   <div class="container hero-in">
@@ -83,14 +83,9 @@
   </div>
 </div>
 
-<!-- ============ PROMOS (Bons plans — rempli par JS) ============ -->
-<section class="section container" id="promos">
-  <span class="eyebrow reveal">Les offres du moment</span>
-  <h2 class="reveal d1">Bons plans, <span class="script">bon goût.</span></h2>
-  <div class="promo-hero reveal d1" id="promoHero"></div>
-  <div class="promo-strip reveal d1" id="promoStrip"></div>
-</section>
-
+<!-- 25/11/2026 — ORDRE DE L'ACCUEIL revu (feuille de route §50, V2) : la sélection et
+     les gammes d'abord (les 1res positions captent l'attention), les AVIS Google
+     avant les offres (la confiance avant la promo). Aucune section retirée. -->
 <!-- ============ FLEURS (catalogue tôt — rempli par JS) ============ -->
 <section class="section container" id="fleurs">
   <div class="rail-head">
@@ -101,7 +96,7 @@
     <a href="fleurs.html" class="btn btn-ghost reveal d1">Tout voir <span class="arr">→</span></a>
   </div>
   <p class="rail-sub muted reveal d1">Nos variétés préférées du moment — ajoute ton pochon en un clic. 🏪 À retirer dans nos deux boutiques à Nice.</p>
-  <div class="rail-wrap">
+  <div class="rail-wrap rail-wrap--grille">
     <button class="rail-nav prev" data-rail-prev aria-label="Défiler vers la gauche" type="button">‹</button>
     <div class="rail" id="fleursRail" aria-label="Sélection de fleurs CBD"></div>
     <button class="rail-nav next" data-rail-next aria-label="Défiler vers la droite" type="button">›</button>
@@ -117,6 +112,41 @@
     <a href="fleurs.html?type=resine" class="cat reveal d2"><div class="cat-art" data-art="resines"></div><h3>Résines</h3><span class="go">Explorer →</span></a>
     <a href="fleurs.html?tier=boostes" class="cat reveal d3"><div class="cat-art" data-art="boostes"></div><span class="badge badge-boost cat-i">Boostés</span><h3>Boostés</h3><span class="go">Voir →</span></a>
   </div>
+</section>
+
+<!-- ============ AVIS ============
+     Les trois témoignages écrits dans app.js ont été retirés le 13/11/2026 :
+     ils étaient inventés. Les notes ci-dessous, elles, sont les vraies notes
+     Google des deux boutiques — chacune cliquable pour aller les lire. -->
+<section class="section avis" id="avis">
+  <div class="container">
+    <span class="eyebrow reveal">Ils parlent de nous</span>
+    <h2 class="reveal d1">Adorée à <span class="script">Nice.</span></h2>
+    <p class="reveal d1 muted" style="max-width:48ch;margin-top:1rem">Pas de témoignage recopié ici : va les lire directement sur Google, les deux fiches sont publiques.</p>
+    <div class="shops" style="margin-top:1.6rem">
+      <div class="shop reveal d1">
+        <span class="q">Avis Google</span>
+        <h3>WOOD · Barla</h3>
+        <p class="meta"><span class="stars">★★★★★</span> <b>5,0 / 5</b> · plus de 310 avis</p>
+        <div class="acts"><a class="chip" href="https://www.google.com/maps/search/?api=1&amp;query=Wood+Shop+CBD+Nice+Barla+7+rue+Barla+Nice" target="_blank" rel="noopener">Lire les avis sur Google →</a></div>
+      </div>
+      <div class="shop reveal d2">
+        <span class="q">Avis Google</span>
+        <h3>WOOD · Borriglione</h3>
+        <p class="meta"><span class="stars">★★★★★</span> <b>4,9 / 5</b> · plus de 195 avis</p>
+        <div class="acts"><a class="chip" href="https://www.google.com/maps/search/?api=1&amp;query=Wood+Shop+CBD+Nice+Borriglione+16+avenue+Alfred+Borriglione+Nice" target="_blank" rel="noopener">Lire les avis sur Google →</a></div>
+      </div>
+    </div>
+    <p class="avis-note muted">Notes et nombres d'avis relevés sur les fiches Google le 13 novembre 2026 — le compte exact évolue chaque semaine, il est à jour sur Google. Ces avis sont <strong>déposés et modérés par Google</strong>, pas par nous : nous ne les trions pas, ne les supprimons pas et n'accordons aucune contrepartie en échange. L'ensemble, <strong>y compris les avis négatifs</strong>, est consultable à la source.</p>
+  </div>
+</section>
+
+<!-- ============ PROMOS (Bons plans — rempli par JS) ============ -->
+<section class="section container" id="promos">
+  <span class="eyebrow reveal">Les offres du moment</span>
+  <h2 class="reveal d1">Bons plans, <span class="script">bon goût.</span></h2>
+  <div class="promo-hero reveal d1" id="promoHero"></div>
+  <div class="promo-strip reveal d1" id="promoStrip"></div>
 </section>
 
 <!-- ============ POURQUOI WOOD ============ -->
@@ -177,33 +207,6 @@
      Pour la remettre un jour : l'historique git de ce fichier la contient.
      ================================================================== -->
 
-<!-- ============ AVIS ============
-     Les trois témoignages écrits dans app.js ont été retirés le 13/11/2026 :
-     ils étaient inventés. Les notes ci-dessous, elles, sont les vraies notes
-     Google des deux boutiques — chacune cliquable pour aller les lire. -->
-<section class="section avis" id="avis">
-  <div class="container">
-    <span class="eyebrow reveal">Ils parlent de nous</span>
-    <h2 class="reveal d1">Adorée à <span class="script">Nice.</span></h2>
-    <p class="reveal d1 muted" style="max-width:48ch;margin-top:1rem">Pas de témoignage recopié ici : va les lire directement sur Google, les deux fiches sont publiques.</p>
-    <div class="shops" style="margin-top:1.6rem">
-      <div class="shop reveal d1">
-        <span class="q">Avis Google</span>
-        <h3>WOOD · Barla</h3>
-        <p class="meta"><span class="stars">★★★★★</span> <b>5,0 / 5</b> · plus de 310 avis</p>
-        <div class="acts"><a class="chip" href="https://www.google.com/maps/search/?api=1&amp;query=Wood+Shop+CBD+Nice+Barla+7+rue+Barla+Nice" target="_blank" rel="noopener">Lire les avis sur Google →</a></div>
-      </div>
-      <div class="shop reveal d2">
-        <span class="q">Avis Google</span>
-        <h3>WOOD · Borriglione</h3>
-        <p class="meta"><span class="stars">★★★★★</span> <b>4,9 / 5</b> · plus de 195 avis</p>
-        <div class="acts"><a class="chip" href="https://www.google.com/maps/search/?api=1&amp;query=Wood+Shop+CBD+Nice+Borriglione+16+avenue+Alfred+Borriglione+Nice" target="_blank" rel="noopener">Lire les avis sur Google →</a></div>
-      </div>
-    </div>
-    <p class="avis-note muted">Notes et nombres d'avis relevés sur les fiches Google le 13 novembre 2026 — le compte exact évolue chaque semaine, il est à jour sur Google. Ces avis sont <strong>déposés et modérés par Google</strong>, pas par nous : nous ne les trions pas, ne les supprimons pas et n'accordons aucune contrepartie en échange. L'ensemble, <strong>y compris les avis négatifs</strong>, est consultable à la source.</p>
-  </div>
-</section>
-
 <!-- ============ BOUTIQUES ============ -->
 <section class="section container" id="boutiques">
   <span class="eyebrow reveal">03 · On est où ?</span>
@@ -251,9 +254,12 @@
 <!-- ============ INSTAGRAM ============ -->
 <section class="section container insta">
   <div class="rail-head">
-    <div><span class="eyebrow reveal">@wood.cbdshop</span><h2 class="reveal d1">Suis le <span class="script">mouvement.</span></h2></div>
+    <div><span class="eyebrow reveal">L'univers WOOD</span><h2 class="reveal d1">Suis le <span class="script">mouvement.</span></h2></div>
     <a href="https://instagram.com/wood.cbdshop" target="_blank" rel="noopener" class="btn btn-ghost reveal d1">Nous suivre →</a>
   </div>
+  <!-- 25/11/2026 (§50, V6, décision de Florent « Retitrer honnêtement ») : ces images
+       sont l'univers du site, PAS des posts Instagram ; le bloc le dit. -->
+  <p class="rail-sub muted reveal d1">L'univers de nos boutiques. Nos vrais posts sont sur Instagram : <a href="https://instagram.com/wood.cbdshop" target="_blank" rel="noopener">@wood.cbdshop</a>.</p>
   <div class="insta-grid" id="instaGrid"></div>
 </section>
 
@@ -262,6 +268,6 @@
 <nav data-chrome="botnav"></nav>
 
 <script src="api.js?v=6"></script>
-<script src="app.js?v=110"></script>
+<script src="app.js?v=111"></script>
 </body>
 </html>

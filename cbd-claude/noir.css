@@ -1,0 +1,35 @@
+/* ==========================================================================
+   WOOD — THÈME NOIR (par défaut depuis le 25/11/2026, décision de Florent :
+   « Noir par défaut »). Le site a été construit en sombre (styles.css +
+   styles2.css) ; light.css le passait en clair et n'est plus chargé (il reste
+   dans le dépôt). Ce fichier ne contient QUE les corrections propres au noir,
+   trouvées en mesurant chaque écran (sonde de contraste, panneaux ouverts).
+   Recherche (feuille de route §20) : sur fond sombre, un prix élevé se lit
+   comme un signe de qualité ; verts désaturés ; ne pas « expliquer » le noir.
+   ========================================================================== */
+/* Les filtres (.chip) sont des <button> SANS couleur de texte : le navigateur les
+   écrit en NOIR par défaut — invisible sur le noir (mesuré : rgb(0,0,0) sur
+   rgba(255,255,255,.05)). La sonde de contraste ne l'a pas vu : trouvé À L'ŒIL
+   sur la capture, puis par le contrôle indépendant (contraste-noir.py). */
+.chip{color:var(--ink)}
+/* Espace client : sa version sombre n'existait que sous @media(prefers-color-scheme:dark)
+   (téléphone réglé en sombre). Le site est noir pour TOUT LE MONDE : appliquée
+   toujours (mesuré : « Tes commandes » crème sur blanc, 1,14). Mêmes valeurs. */
+.ct-item,.compte-card{background:rgba(255,255,255,.05);border-color:rgba(203,240,150,.18)}
+.compte-onglets{background:rgba(255,255,255,.06)}
+.co-tab.actif{background:rgba(255,255,255,.12);color:#eef6e8}
+.btn-oauth{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);color:#eef6e8}
+.compte-form input{background:rgba(255,255,255,.07);color:#eef6e8;border-color:rgba(203,240,150,.25)}
+.ct-item em,.co-lien{color:var(--muted)}
+/* Pages boutiques : « .doc a{color:var(--cyan)} » (plus précise) colorait aussi le
+   bouton principal → cyan sur vert clair (mesuré 1,43). Le bouton garde son encre. */
+.doc a.btn-primary{color:#14210f}
+/* La carte doit encadrer son cœur (.card-fav, position:absolute) : light.css le
+   faisait ; sans lui, une carte apparue (transform:none) laissait son cœur se
+   placer sur la SECTION — les 4 cœurs de la 1re rangée s'empilaient en haut à
+   droite de la page Fleurs (vu à l'œil sur la capture). */
+.card{position:relative}
+/* … et, rendu à sa carte, le cœur recouvrait le badge de gamme (« STRONG »,
+   même coin haut-droit). Il passe juste sous le badge. (Bug déjà présent en
+   ligne : le cœur s'échappait de la carte, invisible.) */
+.card .card-fav{top:44px}
