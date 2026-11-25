@@ -266,3 +266,13 @@ body{background:var(--bg);color:var(--ink)}
       FICHIERS) : le prix des offres (fleurs.html?cat=promos) et le lien
       « Tout afficher → » des filtres d'arôme, même vert #2f9e6b à 3.37. */
 .simple-price,.simple-price b,.linklike{color:#1a7a44!important}
+/* 5. LE MENU MOBILE (les 3 barres) — Florent, capture du 25/11 au soir : le
+      panneau restait sombre (#10160f, styles2.css:315) mais ses textes
+      prenaient l'encre du thème clair : sombre sur sombre, logo vert foncé
+      sur sombre. Il passe en blanc, comme le pochon et la recherche (lignes
+      46 et 50). Les flèches et la devise prennent le vert texte du site. */
+.mnu-panel{background:#ffffff!important;border-right-color:var(--line)!important;box-shadow:20px 0 60px rgba(20,30,20,.18)!important}
+.mnu-head,.mnu-foot{border-color:var(--line)!important}
+.mnu-q{background:rgba(20,45,20,.045)!important}
+.mnu-nav a:hover,.mnu-q:hover{background:rgba(47,158,107,.08)!important}
+.mnu-nav a .arr,.mnu-tag{color:#1a7a44!important}

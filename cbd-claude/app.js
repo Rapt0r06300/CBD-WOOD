@@ -2889,6 +2889,15 @@ function openQuickView(slug){
 function closeQuickView(){const ov=document.getElementById("qvOv");if(ov){ov.classList.remove("open");document.body.style.overflow="";dialogueFerme(ov);}}
 
 /* ===================== MENU MOBILE (drawer) ===================== */
+/* 25/11/2026 — Florent, capture du menu sur son téléphone : « quand j'ouvre le
+   menu en haut à droite les 3 barres ça me fait ça ». Deux défauts, déjà en
+   ligne depuis longtemps, que l'audit du jour avait RATÉS (il sondait 5
+   panneaux, pas celui-ci) :
+   · illisible : panneau sombre avec les couleurs sombres du thème clair
+     (corrigé dans light.css : le panneau passe en blanc, comme le pochon
+     et la recherche — et le logotype vert foncé redevient lisible) ;
+   · « Résines BIENTÔT » vers bientot.html : FAUX, les 10 résines sont en
+     vente depuis le 13/11. Même lien que l'en-tête et le pied de page. */
 function openMobileMenu(){
   let ov=document.getElementById("mnuOv");
   if(!ov){ov=document.createElement("div"); ov.id="mnuOv"; ov.className="mnu-ov";
@@ -2897,7 +2906,7 @@ function openMobileMenu(){
       <nav class="mnu-nav">
         <a href="fleurs.html"><span>🌿 Fleurs CBD</span><span class="arr">→</span></a>
         <a href="fleurs.html?tier=boostes"><span>⚡ Boostés</span><span class="arr">→</span></a>
-        <a href="bientot.html?cat=resines"><span>🟤 Résines <em>bientôt</em></span><span class="arr">→</span></a>
+        <a href="fleurs.html?type=resine"><span>🟤 Résines</span><span class="arr">→</span></a>
         <a href="index.html#boutiques"><span>📍 Nos boutiques</span><span class="arr">→</span></a>
         <a href="index.html#histoire"><span>✳ L'histoire WOOD</span><span class="arr">→</span></a>
       </nav>
