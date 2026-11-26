@@ -3,7 +3,7 @@
    Données fleurs RÉELLES (prix proprio). Profils = goût, jamais d'effet.
    =========================================================== */
 
-const IMGV = "?v=13"; /* cache-buster images (bump si régénération) — v6 le 25/11 : charlotte.webp remplacé (visuel IA de démo → vrai pochon) ; v7 le 26/11 : charlotte + venom au pochon à paillettes ; v8 le 26/11 : nimbus-3000 (vrai pochon à paillettes) ; v9 le 26/11 : transylvania-kush ; v10 le 26/11 : purple ; v11 le 26/11 : euphoria ; v12 le 26/11 : pastraweed ; v13 le 26/11 : ivory */
+const IMGV = "?v=14"; /* cache-buster images (bump si régénération) — v6 le 25/11 : charlotte.webp remplacé (visuel IA de démo → vrai pochon) ; v7 le 26/11 : charlotte + venom au pochon à paillettes ; v8 le 26/11 : nimbus-3000 (vrai pochon à paillettes) ; v9 le 26/11 : transylvania-kush ; v10 le 26/11 : purple ; v11 le 26/11 : euphoria ; v12 le 26/11 : pastraweed ; v13 le 26/11 : ivory ; v14 le 26/11 : cbn-cream */
 
 /* L'API est-elle branchée ? Si api.js n'a pas chargé, on ne plante pas :
    le site garde son comportement hors-ligne. */
@@ -85,7 +85,7 @@ const FLEURS = [
   { slug:"katmandou", nom:"Katmandou", tier:"classique", type:"resine", desc:"🟤", c:["#c4a98a","#5a4432"], p:[8,22,35,60], g25:120 },
   /* 14/11 — « CBN · » retiré : c'était la molécule répétée juste sous le nom
      du produit, qui la porte déjà. La texture reste : c'est un goût. */
-  { slug:"cbn-cream", nom:"CBN Cream", tier:"classique", type:"resine", desc:"Crémeuse 🟤", c:["#e3d4b4","#6b5a3a"], p:[9,25,40,70], g25:140 },
+  { slug:"cbn-cream", nom:"CBN Cream", tier:"classique", type:"resine", desc:"Épicée & authentique 🌶️ · naturelle 🌿 · old school 📼", c:["#e3d4b4","#6b5a3a"], p:[9,25,40,70], g25:140 },  /* 26/11 : sa fiche (résine n° 01) ; 3 emojis : saveur 🌶️ · gamme naturelle 🌿 · old school 📼 (pas Premium) */
   { slug:"super-dry", nom:"Super Dry", tier:"classique", type:"resine", desc:"🟤", c:["#d4c4a9","#5a4a32"], p:[10,28,45,80], g25:160 },
   { slug:"golden-high", nom:"Golden High", tier:"boostes", type:"resine", desc:"Forte 🟡", c:["#e8c97a","#8a6b1d"], p:[11,30,50,90], g25:180 , int:"STRONG"},
   { slug:"jelly-high", nom:"Jelly High", tier:"boostes", type:"resine", desc:"Forte 🟠", c:["#e8b47a","#8a4a1d"], p:[11,30,50,90], g25:180 , int:"STRONG"},
@@ -555,7 +555,7 @@ function resineSVG(c,id){const g=`r${id}`,v=`w${id}`;return `<svg class="cloche-
 /* 13/11 : AUCUNE photo produit affichee. Ana : « les photos ca va pas » ;
    Florent : « on sait meme pas si c'est les bonnes ». Les fichiers sont
    conserves — pour en reafficher une, il suffit de retirer son slug d'ici. */
-const NOIMG=new Set(["velvet-kush","bloody-mary","cosmic-cbg","rainbow","orange-bud","plutonium","fanta-hazy","katmandou","cbn-cream","super-dry","golden-high","jelly-high","frost","stoned","uranus","la-mousse","snow","fleur-mystere","promo-gta-15g","promo-10g","promo-20g"]);
+const NOIMG=new Set(["velvet-kush","bloody-mary","cosmic-cbg","rainbow","orange-bud","plutonium","fanta-hazy","katmandou","super-dry","golden-high","jelly-high","frost","stoned","uranus","la-mousse","snow","fleur-mystere","promo-gta-15g","promo-10g","promo-20g"]);
 /* 25/11/2026 — LES 3 OFFRES N'ONT PAS DE PHOTO (leurs sérigraphies ont été
    retirées le 13/11, commit 8a19fd1), mais elles n'étaient pas dans NOIMG :
    le tiroir, le pochon, la recherche et les coups de cœur demandaient
@@ -579,7 +579,7 @@ const NOIMG=new Set(["velvet-kush","bloody-mary","cosmic-cbg","rainbow","orange-
    ⚠️ Sortir de NOIMG est la condition écrite de retour du mot « sous
    cloche » (13 endroits, plus bas). Un pochon N'EST PAS une cloche : la
    condition n'est PAS remplie, rien n'a été remis. C'est à Florent. */
-const VISUELS=new Set(["charlotte","venom","nimbus-3000","transylvania-kush","purple","euphoria","pastraweed","ivory"]);  /* 26/11 : + nimbus-3000 (n° 03), transylvania-kush (n° 04) */
+const VISUELS=new Set(["charlotte","venom","nimbus-3000","transylvania-kush","purple","euphoria","pastraweed","ivory","cbn-cream"]);  /* 26/11 : + nimbus-3000 (n° 03), transylvania-kush (n° 04) */
 const visu=s=>VISUELS.has(s)?" visuel":"";
 function soonHTML(){return '<div class="img-soon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h3l2-2h8l2 2h3v12H3z"/><circle cx="12" cy="13" r="3.4"/></svg><span>Image bientôt disponible</span></div>';}
 function carteArt(f){
@@ -851,7 +851,7 @@ const MOLEC={
   "stoned":{mol:"CBD +",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Hash 3× filtré"},
   "golden-high":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Pollen · Exotic"},
   "jelly-high":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Caramel"},
-  "cbn-cream":{mol:"CBN",cls:"mol-cbg",ar:"Crémeux"},
+  "cbn-cream":{mol:"CBN",cls:"mol-cbg",ar:"Épicé · intense · authentique",premium:"Naturelle · inspiration afghane"},  /* 26/11 : sa fiche */
 };
 function idotsHTML(lvl){let s='<span class="idots" aria-label="Intensité">';for(let k=1;k<=4;k++){s+=`<i class="${k<=lvl?'on':''}"></i>`;}return s+'</span>';}
 /* ===== AUCUNE MOLÉCULE N'EST MARQUÉE SUR UNE FLEUR (14/11/2026) ==========
@@ -970,7 +970,12 @@ const DESC={
   "stoned":"Variété : STONED (BOOSTÉ/STRONG)\nLe 3× FILTRÉ de référence ! Goût délicieux, texture idéale, BOOSTÉE.\n⚠️ Résine boostée, à consommer avec modération.",
   "golden-high":"Variété : Golden HIGH (BOOSTÉ/STRONG)\nLe POLLEN STRONG référence ! BOOSTÉE, un vrai voyage aromatique.\nGoût : épices exotiques, trésors des contrées lointaines. Pollen mousseux. Pas besoin de le chauffer avant de l'effriter : BEST TEXTURE EVER !\n⚠️ Résine boostée, à consommer avec modération.",
   "jelly-high":"🍫 Le Caramelo qui manque à ta vie.\nHASH type Caramel de référence ! BOOSTÉE. Goût : épices exotiques.\nPas besoin de le chauffer avant de l'effriter : BEST TEXTURE EVER !\n⚠️ Résine boostée, à consommer avec modération.",
-  "cbn-cream":"La texture idéale 🌔\nRésine CBN Cream : goût exquis, texture crémeuse. Du CBD « bodybuildé », marocain.",
+  /* 26/11/2026 — CBN CREAM : sa fiche MOT POUR MOT (envoyée par Florent) + emojis : titre 🫒 (« belle olive », le
+     même que son champ Variété) · 🌶️ épicé · 📼 old school ; dans le texte 🕰️ (résines d'autrefois) et 🌿
+     (collection naturelle). Ancien texte (« marocain », contraire à sa fiche « afghan ») : `git show` de ce commit.
+     Sa photo est celle que Florent appelle « Beldia » (« La photo de la beldia c'est la cbn cream »).
+     « Prix : 9 €/g » doit suivre p[0] si le prix change. */
+  "cbn-cream":"CBN CREAM — L’AUTHENTIQUE 🫒🌶️📼\nCollection Naturelle | CBD & CBN\nAvis aux nostalgiques… La fameuse résine du tonton, ça vous parle ? La CBN Cream rend hommage aux résines d’autrefois, avec une identité résolument Old School 🕰️\nAssociant le CBD et le CBN, cette résine naturelle de type afghan se présente sous la forme d’une belle olive, à la robe sombre et légèrement satinée. Son apparence rappelle celle des résines traditionnelles.\nSon profil aromatique généreusement épicé dévoile un parfum profond, savoureux et authentique, empreint de nostalgie.\nOld School dans l’âme, moderne dans sa composition : la CBN Cream fait le lien entre tradition et innovation au sein de la collection naturelle WOOD 🌿\nCaractéristiques :\nNom : CBN Cream\nGamme : Naturelle\nComposition : CBD & CBN\nType : résine d’inspiration afghane\nArômes : épicés, intenses et authentiques\nAspect : sombre et légèrement satiné\nParticularité : association de deux cannabinoïdes\nPrix : 9 €/g\nWOOD — See differently. Le CBD autrement.",
   /* 14/11 : « 🪻 Delicioso » retiré de la note de goût — même raison que
      dans FLEURS : ça nommait une variété. Le reste est conservé tel quel,
      ce sont les mots de WOOD (REFERENTIEL-PRODUITS-WOOD.md:30), et ils ne
