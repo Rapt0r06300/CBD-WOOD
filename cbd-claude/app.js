@@ -3,7 +3,7 @@
    Données fleurs RÉELLES (prix proprio). Profils = goût, jamais d'effet.
    =========================================================== */
 
-const IMGV = "?v=16"; /* cache-buster images (bump si régénération) — v6 le 25/11 : charlotte.webp remplacé (visuel IA de démo → vrai pochon) ; v7 le 26/11 : charlotte + venom au pochon à paillettes ; v8 le 26/11 : nimbus-3000 (vrai pochon à paillettes) ; v9 le 26/11 : transylvania-kush ; v10 le 26/11 : purple ; v11 le 26/11 : euphoria ; v12 le 26/11 : pastraweed ; v13 le 26/11 : ivory ; v14 le 26/11 : cbn-cream ; v15 le 26/11 : stoned ; v16 le 26/11 : ketama */
+const IMGV = "?v=17"; /* cache-buster images (bump si régénération) — v6 le 25/11 : charlotte.webp remplacé (visuel IA de démo → vrai pochon) ; v7 le 26/11 : charlotte + venom au pochon à paillettes ; v8 le 26/11 : nimbus-3000 (vrai pochon à paillettes) ; v9 le 26/11 : transylvania-kush ; v10 le 26/11 : purple ; v11 le 26/11 : euphoria ; v12 le 26/11 : pastraweed ; v13 le 26/11 : ivory ; v14 le 26/11 : cbn-cream ; v15 le 26/11 : stoned ; v16 le 26/11 : ketama ; v17 le 26/11 : snow + ketama re-détourée */
 
 /* L'API est-elle branchée ? Si api.js n'a pas chargé, on ne plante pas :
    le site garde son comportement hors-ligne. */
@@ -104,7 +104,9 @@ const FLEURS = [
      paliers que La Mousse à 15 €/g). Intensité HYPER STRONG : dans les notes d'Ana, « Résines FORT++ : Snow, le K
      (Ketama le King) » — le même rang que la Snow. 3 emojis : profil 🟤 · intensité 🔥 · le King 👑 (pas Premium). */
   { slug:"ketama", nom:"Ketama", tier:"boostes", type:"resine", desc:"Intense & authentique 🟤 · boostée 🔥 · le King 👑", c:["#e3cf9a","#5a4a2a"], p:[15,42,70,130], g25:260 , int:"HYPER STRONG"},
-  { slug:"snow", nom:"Snow", tier:"boostes", type:"resine", desc:"Hyper forte ❄️", c:["#eef3f7","#5a6b7a"], p:[20,58,95,180], g25:360 , int:"HYPER STRONG"},
+  /* 26/11 : sa fiche (résine n° 04) — « Prix initial : 20 €/g · Prix actuel : 15 €/g » : p[0] passe à 15 ; les autres
+     paliers sont ceux des boostées à 15 €/g (à confirmer par Florent). 3 emojis : saveur 🍓 (fraise-banane) · intensité ⚡ (« ultra puissant », Florent) · le froid ❄️ (extraction à froid, pas Premium). */
+  { slug:"snow", nom:"Snow", tier:"boostes", type:"resine", desc:"Fraise & banane 🍓 · ultra puissant ⚡ · extraction à froid ❄️", c:["#eef3f7","#5a6b7a"], p:[15,42,70,130], g25:260 , int:"HYPER STRONG"},
 
   /* --- LA FLEUR MYSTERE N'EST PLUS ICI (14/11/2026) ---
      Elle a ete DEPLACEE dans BOUTIQUE, categorie « promos », juste en
@@ -559,7 +561,7 @@ function resineSVG(c,id){const g=`r${id}`,v=`w${id}`;return `<svg class="cloche-
 /* 13/11 : AUCUNE photo produit affichee. Ana : « les photos ca va pas » ;
    Florent : « on sait meme pas si c'est les bonnes ». Les fichiers sont
    conserves — pour en reafficher une, il suffit de retirer son slug d'ici. */
-const NOIMG=new Set(["velvet-kush","bloody-mary","cosmic-cbg","rainbow","orange-bud","plutonium","fanta-hazy","katmandou","super-dry","golden-high","jelly-high","frost","uranus","la-mousse","snow","fleur-mystere","promo-gta-15g","promo-10g","promo-20g"]);
+const NOIMG=new Set(["velvet-kush","bloody-mary","cosmic-cbg","rainbow","orange-bud","plutonium","fanta-hazy","katmandou","super-dry","golden-high","jelly-high","frost","uranus","la-mousse","fleur-mystere","promo-gta-15g","promo-10g","promo-20g"]);
 /* 25/11/2026 — LES 3 OFFRES N'ONT PAS DE PHOTO (leurs sérigraphies ont été
    retirées le 13/11, commit 8a19fd1), mais elles n'étaient pas dans NOIMG :
    le tiroir, le pochon, la recherche et les coups de cœur demandaient
@@ -583,7 +585,7 @@ const NOIMG=new Set(["velvet-kush","bloody-mary","cosmic-cbg","rainbow","orange-
    ⚠️ Sortir de NOIMG est la condition écrite de retour du mot « sous
    cloche » (13 endroits, plus bas). Un pochon N'EST PAS une cloche : la
    condition n'est PAS remplie, rien n'a été remis. C'est à Florent. */
-const VISUELS=new Set(["charlotte","venom","nimbus-3000","transylvania-kush","purple","euphoria","pastraweed","ivory","cbn-cream","stoned","ketama"]);  /* 26/11 : + nimbus-3000 (n° 03), transylvania-kush (n° 04) */
+const VISUELS=new Set(["charlotte","venom","nimbus-3000","transylvania-kush","purple","euphoria","pastraweed","ivory","cbn-cream","stoned","ketama","snow"]);  /* 26/11 : + nimbus-3000 (n° 03), transylvania-kush (n° 04) */
 const visu=s=>VISUELS.has(s)?" visuel":"";
 function soonHTML(){return '<div class="img-soon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h3l2-2h8l2 2h3v12H3z"/><circle cx="12" cy="13" r="3.4"/></svg><span>Image bientôt disponible</span></div>';}
 function carteArt(f){
@@ -854,6 +856,7 @@ const MOLEC={
   "fleur-mystere":{mol:"CBD",cls:"",ar:"Surprise"},
   "stoned":{mol:"CBD +",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Intense · prononcé · authentique",premium:"Boostée · Triple filtration · Best-seller WOOD"},  /* 26/11 : sa fiche */
   "ketama":{ar:"Intense · prononcé · traditionnel",premium:"Boostée · Signature WOOD"},  /* 26/11 : sa fiche ; aucune molécule */
+  "snow":{ar:"Fraise · banane · tropical",premium:"Boostée · Extraction à froid"},  /* 26/11 : sa fiche */
   "golden-high":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Pollen · Exotic"},
   "jelly-high":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Caramel"},
   "cbn-cream":{mol:"CBN",cls:"mol-cbg",ar:"Épicé · intense · authentique",premium:"Naturelle · inspiration afghane"},  /* 26/11 : sa fiche */
@@ -980,6 +983,10 @@ const DESC={
      champ Variété) · 🔥 boostée · 🟤 ; dans le texte 🙌 (retours clients) et ✨ (reflets dorés). « Précaution : ne
      pas chauffer » : la sienne, gardée telle quelle. « Prix : 15 €/g » doit suivre p[0] si le prix change. */
   "ketama":"KETAMA — LE K, LE KING 👑🔥🟤\nCollection Boostée | Signature WOOD\nInitialement proposée en édition limitée, la Ketama a finalement trouvé sa place dans le catalogue permanent de WOOD à la suite des retours de nos clients 🙌\nCette résine se distingue par son aspect extérieur brun aux nuances brillantes, contrastant avec un cœur clair aux magnifiques reflets dorés ✨ Sa texture particulièrement malléable, souple et non collante révèle une structure finement granuleuse.\nDotée d’un parfum intense et prononcé, la Ketama possède une identité aromatique qui rappelle les résines traditionnelles.\nCaractéristiques :\nNom : Ketama\nGamme : Boostée\nType : résine boostée\nTexture : malléable, souple et non collante\nAspect extérieur : brun et brillant\nAspect intérieur : clair et doré\nProfil aromatique : intense et prononcé\nParticularité : ancienne édition limitée devenue permanente\nPrécaution : ne pas chauffer\nPrix : 15 €/g\nWOOD — See differently. Le CBD autrement.",
+  /* 26/11/2026 — SNOW : sa fiche MOT POUR MOT (envoyée par Florent, son 😏 compris) + emojis : titre ❄️ (Snow,
+     extraction à froid, le même que son champ Variété) · ⚡ ultra puissant · 🍓 fraise ; dans le texte 🍓🍌
+     (fraise, banane). « Prix initial : 20 €/g / Prix actuel : 15 €/g » : les siens. */
+  "snow":"SNOW ❄️⚡🍓\nCollection Boostée | Extraction à froid\nLe Snow… Il intrigue, il surprend, il est différent. Et pour cause : il s’agit d’une extraction ! Avec son apparence cristallisée et sa couleur atypique, on pourrait presque croire qu’il s’est échappé du laboratoire de Walter White. Les fans de Breaking Bad auront la référence… 😏\nObtenu par une méthode d’extraction à froid visant à préserver la qualité des terpènes, le Snow dévoile un profil aromatique intensément fruité, dominé par de délicieuses notes de fraise et de banane, rappelant le parfum d’une véritable glace italienne 🍓🍌\nSa couleur crème, ses nuances blondes et sa texture légèrement granuleuse lui confèrent une apparence singulière. Solide, non collant et facilement malléable, il se distingue également par sa consistance.\nCaractéristiques :\nNom : Snow\nGamme : Boostée\nType : extraction\nMéthode : extraction à froid\nArômes : fraise, banane et notes tropicales\nAspect : blond clair, presque crème\nTexture : solide, malléable et non collante\nConservation : à l’abri de la chaleur et du soleil\nPrix initial : 20 €/g\nPrix actuel : 15 €/g\nWOOD — See differently. Le CBD autrement.",
   "golden-high":"Variété : Golden HIGH (BOOSTÉ/STRONG)\nLe POLLEN STRONG référence ! BOOSTÉE, un vrai voyage aromatique.\nGoût : épices exotiques, trésors des contrées lointaines. Pollen mousseux. Pas besoin de le chauffer avant de l'effriter : BEST TEXTURE EVER !\n⚠️ Résine boostée, à consommer avec modération.",
   "jelly-high":"🍫 Le Caramelo qui manque à ta vie.\nHASH type Caramel de référence ! BOOSTÉE. Goût : épices exotiques.\nPas besoin de le chauffer avant de l'effriter : BEST TEXTURE EVER !\n⚠️ Résine boostée, à consommer avec modération.",
   /* 26/11/2026 — CBN CREAM : sa fiche MOT POUR MOT (envoyée par Florent) + emojis : titre 🫒 (« belle olive », le
