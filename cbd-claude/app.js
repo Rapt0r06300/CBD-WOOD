@@ -3,7 +3,7 @@
    Données fleurs RÉELLES (prix proprio). Profils = goût, jamais d'effet.
    =========================================================== */
 
-const IMGV = "?v=12"; /* cache-buster images (bump si régénération) — v6 le 25/11 : charlotte.webp remplacé (visuel IA de démo → vrai pochon) ; v7 le 26/11 : charlotte + venom au pochon à paillettes ; v8 le 26/11 : nimbus-3000 (vrai pochon à paillettes) ; v9 le 26/11 : transylvania-kush ; v10 le 26/11 : purple ; v11 le 26/11 : euphoria ; v12 le 26/11 : pastraweed */
+const IMGV = "?v=13"; /* cache-buster images (bump si régénération) — v6 le 25/11 : charlotte.webp remplacé (visuel IA de démo → vrai pochon) ; v7 le 26/11 : charlotte + venom au pochon à paillettes ; v8 le 26/11 : nimbus-3000 (vrai pochon à paillettes) ; v9 le 26/11 : transylvania-kush ; v10 le 26/11 : purple ; v11 le 26/11 : euphoria ; v12 le 26/11 : pastraweed ; v13 le 26/11 : ivory */
 
 /* L'API est-elle branchée ? Si api.js n'a pas chargé, on ne plante pas :
    le site garde son comportement hors-ligne. */
@@ -24,7 +24,7 @@ const FLEURS = [
 
   /* --- FLEURS CBD (carte : 1G 3G 5G 10G 25G) --- */
   { slug:"nimbus-3000", nom:"Nimbus 3.0", tier:"boostes", desc:"Boisée & terreuse 🪵 · ultra forte 🔥 · premium 💎", c:["#cfd8e3","#2e3a4a"], p:[15,42,70,130], g25:260 , emo:"🧙", int:"STRONG"},
-  { slug:"ivory", nom:"Ivory", tier:"boostes", desc:"Le goût du vrai, plus vrai que nature · ultra forte 🌱", c:["#e8e3d4","#6b6453"], p:[15,42,70,130], g25:260 , emo:"🌱", int:"STRONG"},
+  { slug:"ivory", nom:"Ivory", tier:"boostes", desc:"Kush intense & authentique 🌲 · boostée 🔥 · ultra premium 💎", c:["#e8e3d4","#6b6453"], p:[15,42,70,130], g25:260 , emo:"🌷", int:"STRONG"},  /* 26/11 : sa fiche (n° 08) ; 3 emojis : saveur 🌲 (Kush) · intensité 🔥 · premium 💎 (Florent : « elle est vraiment ultra premium ») */
   /* 26/11/2026 — VENOM, nouvelle variété (Florent : « au même prix que l'ivory », Boostée · HYPER STRONG).
      Prix = Ivory : son message, pas la carte imprimée (comparer_menu.py le sait). */
   { slug:"venom", nom:"Venom", tier:"boostes", desc:"Boisée · terreuse · hyper forte 🐍", c:["#ddd3e6","#3d2f4c"], p:[15,42,70,130], g25:260 , emo:"🐍", int:"HYPER STRONG"},
@@ -555,7 +555,7 @@ function resineSVG(c,id){const g=`r${id}`,v=`w${id}`;return `<svg class="cloche-
 /* 13/11 : AUCUNE photo produit affichee. Ana : « les photos ca va pas » ;
    Florent : « on sait meme pas si c'est les bonnes ». Les fichiers sont
    conserves — pour en reafficher une, il suffit de retirer son slug d'ici. */
-const NOIMG=new Set(["ivory","velvet-kush","bloody-mary","cosmic-cbg","rainbow","orange-bud","plutonium","fanta-hazy","katmandou","cbn-cream","super-dry","golden-high","jelly-high","frost","stoned","uranus","la-mousse","snow","fleur-mystere","promo-gta-15g","promo-10g","promo-20g"]);
+const NOIMG=new Set(["velvet-kush","bloody-mary","cosmic-cbg","rainbow","orange-bud","plutonium","fanta-hazy","katmandou","cbn-cream","super-dry","golden-high","jelly-high","frost","stoned","uranus","la-mousse","snow","fleur-mystere","promo-gta-15g","promo-10g","promo-20g"]);
 /* 25/11/2026 — LES 3 OFFRES N'ONT PAS DE PHOTO (leurs sérigraphies ont été
    retirées le 13/11, commit 8a19fd1), mais elles n'étaient pas dans NOIMG :
    le tiroir, le pochon, la recherche et les coups de cœur demandaient
@@ -579,7 +579,7 @@ const NOIMG=new Set(["ivory","velvet-kush","bloody-mary","cosmic-cbg","rainbow",
    ⚠️ Sortir de NOIMG est la condition écrite de retour du mot « sous
    cloche » (13 endroits, plus bas). Un pochon N'EST PAS une cloche : la
    condition n'est PAS remplie, rien n'a été remis. C'est à Florent. */
-const VISUELS=new Set(["charlotte","venom","nimbus-3000","transylvania-kush","purple","euphoria","pastraweed"]);  /* 26/11 : + nimbus-3000 (n° 03), transylvania-kush (n° 04) */
+const VISUELS=new Set(["charlotte","venom","nimbus-3000","transylvania-kush","purple","euphoria","pastraweed","ivory"]);  /* 26/11 : + nimbus-3000 (n° 03), transylvania-kush (n° 04) */
 const visu=s=>VISUELS.has(s)?" visuel":"";
 function soonHTML(){return '<div class="img-soon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h3l2-2h8l2 2h3v12H3z"/><circle cx="12" cy="13" r="3.4"/></svg><span>Image bientôt disponible</span></div>';}
 function carteArt(f){
@@ -836,7 +836,7 @@ function cardHTML(f,i){
 const MOLEC={
   "euphoria":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort · fruité",ar:"Exotic · fruité · sucré",premium:"Boostée · Indoor · Best-seller WOOD"},  /* 26/11 : sa fiche ; « Exotic » = sa famille de goût chez Ana (filtre) */
   "pastraweed":{mol:"CBD +",cls:"mol-boost",lvl:4,ia:"Ultra fort · terreux",ar:"Kush · terreux · prononcé",premium:"Boostée · Indoor · Signature WOOD"},  /* 26/11 : sa fiche ; « Kush » = sa famille chez Ana (filtre) */
-  "ivory":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Goût du vrai"},
+  "ivory":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Goût du vrai · Kush · authentique",premium:"Boostée · Culture hybride"},  /* 26/11 : sa fiche ; « Goût du vrai » = sa famille chez Ana (filtre) */
   "venom":{cls:"mol-boost",lvl:4,ia:"Hyper fort",ar:"Boisé · terreux · agrumes"},  /* 26/11 : sa fiche ; AUCUNE molécule */
   "transylvania-kush":{ar:"Sucré · gourmand",premium:"Premium Boostée · Indoor · Édition limitée"},  /* 26/11 : sa fiche ; ni molécule ni intensité inventée */
   "purple":{ar:"Épicé · boisé · poivré",premium:"Boostée · Glasshouse"},  /* 26/11 : sa fiche ; « Épicé » = sa famille de goût dans les notes d'Ana (filtre, conseiller) ; ni molécule ni chiffre */
@@ -942,7 +942,11 @@ const DESC={
      variétés classiques » (Florent : « Cannabis par quelque chose de cohérent » ; ni
      « chanvre », refusé, ni « cannabis » ; même logique que « weed » → « Goût du vrai »). */
   "nimbus-3000":"NIMBUS 3.0 🪵🔥💎\nCollection Premium | Indoor\nIssue de la génétique Skywalker et cultivée en Indoor, notre célèbre Nimbus 3.0 présente des têtes généreuses, denses et compactes, aux nuances de vert profond, parsemées de pistils orangés et recouvertes d’un manteau cristallisé ✨\nSon profil aromatique se caractérise par des notes boisées et terreuses, franches et authentiques, rappelant les grandes variétés classiques 🍂\nCaractéristiques :\nGénétique : Skywalker\nCulture : Indoor\nGamme : Premium\nType : fleur boostée 🔥🔥🔥\nArômes : boisés et terreux\nAspect : dense, compact et cristallisé\nPrix : 15 €\nWOOD — See differently. Le CBD autrement.",
-  "ivory":"Variété : Ivory (STRONG)\nNotre Ivory, c'est une fleur pour les vrais puristes et connaisseurs, niveau expert ! Outre son goût savoureux, cette fleur a la particularité d'être BOOSTÉE.\nCette variété exceptionnelle vous transporte dans un voyage aromatique. Une fleur de qualité supérieure.\n⚠️ Fleur boostée, à consommer avec modération. Son nom en dit long sur son potentiel !",
+  /* 26/11/2026 — IVORY : sa fiche MOT POUR MOT (envoyée par Florent, son 😏 compris) + emojis : titre 🌲 Kush ·
+     🔥 boostée · 💎 premium (Florent : « elle est vraiment ultra premium ») ; dans le texte 🇳🇱 et 🌲.
+     Son champ Variété porte 🌷 (Amsterdam). La ligne Gamme reste celle de sa fiche (« Boostée »).
+     Ancien texte (Shopify) : `git show` de ce commit. « Prix : 15 €/g » doit suivre p[0]. */
+  "ivory":"IVORY 🌲🔥💎\nCollection Boostée | Culture hybride\nIssue de la mythique génétique Bubba Kush, l’Ivory est une fleur au caractère particulièrement affirmé. Son nom n’a pas été choisi au hasard… Celles et ceux qui auront la référence comprendront. 😏\nSon parfum intense et prononcé rappelle les senteurs emblématiques des coffee shops d’Amsterdam. Une signature olfactive authentique, brute et généreuse, qui évoque les souvenirs de voyages mémorables dans la capitale néerlandaise 🇳🇱\nCette fleur de culture hybride rejoint la collection boostée de WOOD, avec une identité aromatique caractéristique des grandes génétiques Kush 🌲\nCaractéristiques :\nGénétique : Bubba Kush\nCulture : hybride\nGamme : Boostée\nType : fleur boostée\nProfil aromatique : intense et authentique\nParticularité : parfum caractéristique des Kush traditionnelles\nPrix : 15 €/g\nWOOD — See differently. Le CBD autrement.",
   /* 26/11/2026 — PASTRAWEED : sa fiche MOT POUR MOT (envoyée par Florent, son 😏 compris) + emojis : titre 🌰
      saveur (le même que son champ Variété) · 🔥 boostée · 🎬 signature (pas Premium) ; dans le texte 🧡 (pistils
      orangés) et 🌍 (terreux, brut). Ancien texte (Shopify) : `git show` de ce commit.
@@ -2563,14 +2567,14 @@ function renderStickers(){
 /* ===================== CONSEILLER WOOD ===================== */
 // Profils sensoriels (goût/arôme + intensité) — JAMAIS un effet. a=arôme, i=intensité.
 const PROFILE={
-  "nimbus-3000":{a:"terreux",i:"intense"}, "ivory":{a:"floral",i:"doux"}, "velvet-kush":{a:"terreux",i:"intense"},
+  "nimbus-3000":{a:"terreux",i:"intense"}, "ivory":{a:"kush",i:"intense"}, "velvet-kush":{a:"terreux",i:"intense"},
   "pastraweed":{a:"kush",i:"intense"}, "euphoria":{a:"exotic",i:"intense"}, "purple":{a:"epice",i:"equilibre"},
   "bloody-mary":{a:"terreux",i:"equilibre"}, "cosmic-cbg":{a:"frais",i:"doux"}, "charlotte":{a:"sucre",i:"equilibre"},
   "rainbow":{a:"agrumes",i:"equilibre"}, "orange-bud":{a:"agrumes",i:"doux"}, "plutonium":{a:"frais",i:"equilibre"},
   "fanta-hazy":{a:"agrumes",i:"doux"},
   "venom":{a:"terreux",i:"intense"}, "transylvania-kush":{a:"sucre",i:"intense"},
 };
-const LBL={aroma:{fruite:"fruité",agrumes:"agrumes",terreux:"terreux / boisé",frais:"frais & végétal",sucre:"sucré / gourmand",floral:"floral",classique:"classique"},
+const LBL={aroma:{fruite:"fruité",agrumes:"agrumes",terreux:"terreux / boisé",frais:"frais & végétal",sucre:"sucré / gourmand",floral:"floral",classique:"classique",kush:"kush / terreux",exotic:"exotique / fruité",epice:"épicé / poivré"},  /* 26/11 : + kush, exotic, epice (familles d'Ana) */
   intensity:{doux:"douce",equilibre:"équilibrée",intense:"intense"}};
 function openAdvisor(){
   if(document.getElementById("advOverlay"))return;
