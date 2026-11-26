@@ -3,7 +3,7 @@
    Données fleurs RÉELLES (prix proprio). Profils = goût, jamais d'effet.
    =========================================================== */
 
-const IMGV = "?v=14"; /* cache-buster images (bump si régénération) — v6 le 25/11 : charlotte.webp remplacé (visuel IA de démo → vrai pochon) ; v7 le 26/11 : charlotte + venom au pochon à paillettes ; v8 le 26/11 : nimbus-3000 (vrai pochon à paillettes) ; v9 le 26/11 : transylvania-kush ; v10 le 26/11 : purple ; v11 le 26/11 : euphoria ; v12 le 26/11 : pastraweed ; v13 le 26/11 : ivory ; v14 le 26/11 : cbn-cream */
+const IMGV = "?v=15"; /* cache-buster images (bump si régénération) — v6 le 25/11 : charlotte.webp remplacé (visuel IA de démo → vrai pochon) ; v7 le 26/11 : charlotte + venom au pochon à paillettes ; v8 le 26/11 : nimbus-3000 (vrai pochon à paillettes) ; v9 le 26/11 : transylvania-kush ; v10 le 26/11 : purple ; v11 le 26/11 : euphoria ; v12 le 26/11 : pastraweed ; v13 le 26/11 : ivory ; v14 le 26/11 : cbn-cream ; v15 le 26/11 : stoned */
 
 /* L'API est-elle branchée ? Si api.js n'a pas chargé, on ne plante pas :
    le site garde son comportement hors-ligne. */
@@ -90,7 +90,7 @@ const FLEURS = [
   { slug:"golden-high", nom:"Golden High", tier:"boostes", type:"resine", desc:"Forte 🟡", c:["#e8c97a","#8a6b1d"], p:[11,30,50,90], g25:180 , int:"STRONG"},
   { slug:"jelly-high", nom:"Jelly High", tier:"boostes", type:"resine", desc:"Forte 🟠", c:["#e8b47a","#8a4a1d"], p:[11,30,50,90], g25:180 , int:"STRONG"},
   { slug:"frost", nom:"Frost'", tier:"boostes", type:"resine", desc:"Forte ❄️", c:["#d4e3ef","#3a5a7a"], p:[11,30,50,90], g25:180 , int:"STRONG"},
-  { slug:"stoned", nom:"Stoned", tier:"boostes", type:"resine", desc:"3× filtré · forte 🟤", c:["#c0b0a0","#4a3a2a"], p:[12,34,55,100], g25:200 , int:"STRONG"},
+  { slug:"stoned", nom:"Stoned", tier:"boostes", type:"resine", desc:"Triple filtré · intense 🌰 · boosté 🔥 · best-seller 🏆", c:["#c0b0a0","#4a3a2a"], p:[12,34,55,100], g25:200 , int:"STRONG"},  /* 26/11 : sa fiche (résine n° 02) ; 3 emojis : profil brun noisette 🌰 · intensité 🔥 · best-seller 🏆 (pas Premium) */
   { slug:"uranus", nom:"Uranus", tier:"boostes", type:"resine", desc:"Forte 🪐", c:["#b4c4e3","#3a3a6b"], p:[12,34,55,100], g25:200 , int:"STRONG"},
   /* LA MOUSSE — TRANCHE. Les ardoises des boutiques affichent 12 €/g
      (12 / 34 / 55 / 100 / 200), la carte imprimee affiche 15 €/g. Les deux
@@ -555,7 +555,7 @@ function resineSVG(c,id){const g=`r${id}`,v=`w${id}`;return `<svg class="cloche-
 /* 13/11 : AUCUNE photo produit affichee. Ana : « les photos ca va pas » ;
    Florent : « on sait meme pas si c'est les bonnes ». Les fichiers sont
    conserves — pour en reafficher une, il suffit de retirer son slug d'ici. */
-const NOIMG=new Set(["velvet-kush","bloody-mary","cosmic-cbg","rainbow","orange-bud","plutonium","fanta-hazy","katmandou","super-dry","golden-high","jelly-high","frost","stoned","uranus","la-mousse","snow","fleur-mystere","promo-gta-15g","promo-10g","promo-20g"]);
+const NOIMG=new Set(["velvet-kush","bloody-mary","cosmic-cbg","rainbow","orange-bud","plutonium","fanta-hazy","katmandou","super-dry","golden-high","jelly-high","frost","uranus","la-mousse","snow","fleur-mystere","promo-gta-15g","promo-10g","promo-20g"]);
 /* 25/11/2026 — LES 3 OFFRES N'ONT PAS DE PHOTO (leurs sérigraphies ont été
    retirées le 13/11, commit 8a19fd1), mais elles n'étaient pas dans NOIMG :
    le tiroir, le pochon, la recherche et les coups de cœur demandaient
@@ -579,7 +579,7 @@ const NOIMG=new Set(["velvet-kush","bloody-mary","cosmic-cbg","rainbow","orange-
    ⚠️ Sortir de NOIMG est la condition écrite de retour du mot « sous
    cloche » (13 endroits, plus bas). Un pochon N'EST PAS une cloche : la
    condition n'est PAS remplie, rien n'a été remis. C'est à Florent. */
-const VISUELS=new Set(["charlotte","venom","nimbus-3000","transylvania-kush","purple","euphoria","pastraweed","ivory","cbn-cream"]);  /* 26/11 : + nimbus-3000 (n° 03), transylvania-kush (n° 04) */
+const VISUELS=new Set(["charlotte","venom","nimbus-3000","transylvania-kush","purple","euphoria","pastraweed","ivory","cbn-cream","stoned"]);  /* 26/11 : + nimbus-3000 (n° 03), transylvania-kush (n° 04) */
 const visu=s=>VISUELS.has(s)?" visuel":"";
 function soonHTML(){return '<div class="img-soon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h3l2-2h8l2 2h3v12H3z"/><circle cx="12" cy="13" r="3.4"/></svg><span>Image bientôt disponible</span></div>';}
 function carteArt(f){
@@ -848,7 +848,7 @@ const MOLEC={
   /* arôme conservé (c'est un goût, pas une puissance), intensité retirée */
   "fanta-hazy":{mol:"CBD",cls:"",ar:"Agrumes"},
   "fleur-mystere":{mol:"CBD",cls:"",ar:"Surprise"},
-  "stoned":{mol:"CBD +",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Hash 3× filtré"},
+  "stoned":{mol:"CBD +",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Intense · prononcé · authentique",premium:"Boostée · Triple filtration · Best-seller WOOD"},  /* 26/11 : sa fiche */
   "golden-high":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Pollen · Exotic"},
   "jelly-high":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Caramel"},
   "cbn-cream":{mol:"CBN",cls:"mol-cbg",ar:"Épicé · intense · authentique",premium:"Naturelle · inspiration afghane"},  /* 26/11 : sa fiche */
@@ -967,7 +967,10 @@ const DESC={
      « Prix : 12 €/g » doit suivre p[0] si le prix change. */
   "euphoria":"EUPHORIA 🌺🔥🏆\nCollection Boostée | Indoor | Best-seller WOOD\nQue dire de l’Euphoria ? Une référence incontournable de notre collection, devenue au fil du temps l’une des variétés emblématiques de WOOD sur la French Riviera 🌴\nIssue de la génétique Pink Paradise et cultivée en Indoor, l’Euphoria se distingue par ses buds extrêmement denses et compacts, solides comme le roc 🪨\nSon identité aromatique est aussi affirmée que son apparence : un parfum intense, généreusement fruité, aux nuances sucrées et gourmandes.\nUne véritable signature WOOD, reconnaissable par son caractère et son profil aromatique singulier.\nCaractéristiques :\nGénétique : Pink Paradise\nCulture : Indoor\nGamme : Boostée\nType : fleur boostée\nArômes : fruités, sucrés et gourmands\nAspect : buds très denses et compacts\nParticularité : best-seller et exclusivité WOOD\nPrix : 12 €/g\nWOOD — See differently. Le CBD autrement.",
   "fanta-hazy":"🍋 Acidulée · 🍭 Sucrée\nGoût : offrant une explosion fruitée en bouche, la Fanta Hazy et son odeur sont le fruit d'une longue recherche de notre part, capturant l'essence même de la fleur sucrée et unique.",
-  "stoned":"Variété : STONED (BOOSTÉ/STRONG)\nLe 3× FILTRÉ de référence ! Goût délicieux, texture idéale, BOOSTÉE.\n⚠️ Résine boostée, à consommer avec modération.",
+  /* 26/11/2026 — STONED : sa fiche MOT POUR MOT (envoyée par Florent) + emojis : titre 🗿 (le même que son champ
+     Variété : « Stoned », la pierre) · 🔥 boostée · 🏆 best-seller ; dans le texte 🌰 (brun noisette) et 🍯 (blond
+     ambré). Ancien texte (Shopify) : `git show` de ce commit. « Prix : 12 €/g » doit suivre p[0]. */
+  "stoned":"STONED — LE TRIPLE FILTRÉ 🗿🔥🏆\nCollection Boostée | Triple filtration | Best-seller WOOD\nLe Stoned… Un nom qui ne doit rien au hasard ! Véritable référence emblématique de la collection de résines boostées WOOD, il s’est imposé comme notre best-seller.\nIssue d’une triple filtration, cette résine présente une enveloppe brun noisette 🌰, légèrement satinée, qui dévoile en son cœur une matière granuleuse aux nuances blondes et ambrées 🍯\nSa particularité réside dans son profil aromatique intense et prononcé, fidèle à l’identité des résines traditionnelles. Une signature aromatique franche, authentique et pleine de caractère.\nCaractéristiques :\nNom : Stoned\nGamme : Boostée\nType : résine triple filtrée\nAspect extérieur : brun noisette\nAspect intérieur : nuances blondes et ambrées\nTexture : compacte et granuleuse à cœur\nProfil aromatique : intense et prononcé\nParticularité : best-seller WOOD\nPrix : 12 €/g\nWOOD — See differently. Le CBD autrement.",
   "golden-high":"Variété : Golden HIGH (BOOSTÉ/STRONG)\nLe POLLEN STRONG référence ! BOOSTÉE, un vrai voyage aromatique.\nGoût : épices exotiques, trésors des contrées lointaines. Pollen mousseux. Pas besoin de le chauffer avant de l'effriter : BEST TEXTURE EVER !\n⚠️ Résine boostée, à consommer avec modération.",
   "jelly-high":"🍫 Le Caramelo qui manque à ta vie.\nHASH type Caramel de référence ! BOOSTÉE. Goût : épices exotiques.\nPas besoin de le chauffer avant de l'effriter : BEST TEXTURE EVER !\n⚠️ Résine boostée, à consommer avec modération.",
   /* 26/11/2026 — CBN CREAM : sa fiche MOT POUR MOT (envoyée par Florent) + emojis : titre 🫒 (« belle olive », le
