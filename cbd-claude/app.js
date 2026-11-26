@@ -932,9 +932,10 @@ const DESC={
      prix change. Ancien texte (Shopify, « notes tropicales », contraire à sa fiche) :
      `git show` de ce commit. Nom affiché : « Nimbus 3.0 » (fiche + pochon) ; le slug
      nimbus-3000 ne change pas, les liens existants restent bons.
-     Seul mot changé : « cannabis » → « chanvre » (Florent : « Cannabis par quelque
-     chose de cohérent », comme « weed » → « Goût du vrai »). */
-  "nimbus-3000":"NIMBUS 3.0 🪵🔥💎\nCollection Premium | Indoor\nIssue de la génétique Skywalker et cultivée en Indoor, notre célèbre Nimbus 3.0 présente des têtes généreuses, denses et compactes, aux nuances de vert profond, parsemées de pistils orangés et recouvertes d’un manteau cristallisé ✨\nSon profil aromatique se caractérise par des notes boisées et terreuses, franches et authentiques, rappelant les variétés classiques de chanvre 🍂\nCaractéristiques :\nGénétique : Skywalker\nCulture : Indoor\nGamme : Premium\nType : fleur boostée 🔥🔥🔥\nArômes : boisés et terreux\nAspect : dense, compact et cristallisé\nPrix : 15 €\nWOOD — See differently. Le CBD autrement.",
+     Seule tournure changée : « les variétés classiques de cannabis » → « les grandes
+     variétés classiques » (Florent : « Cannabis par quelque chose de cohérent » ; ni
+     « chanvre », refusé, ni « cannabis » ; même logique que « weed » → « Goût du vrai »). */
+  "nimbus-3000":"NIMBUS 3.0 🪵🔥💎\nCollection Premium | Indoor\nIssue de la génétique Skywalker et cultivée en Indoor, notre célèbre Nimbus 3.0 présente des têtes généreuses, denses et compactes, aux nuances de vert profond, parsemées de pistils orangés et recouvertes d’un manteau cristallisé ✨\nSon profil aromatique se caractérise par des notes boisées et terreuses, franches et authentiques, rappelant les grandes variétés classiques 🍂\nCaractéristiques :\nGénétique : Skywalker\nCulture : Indoor\nGamme : Premium\nType : fleur boostée 🔥🔥🔥\nArômes : boisés et terreux\nAspect : dense, compact et cristallisé\nPrix : 15 €\nWOOD — See differently. Le CBD autrement.",
   "ivory":"Variété : Ivory (STRONG)\nNotre Ivory, c'est une fleur pour les vrais puristes et connaisseurs, niveau expert ! Outre son goût savoureux, cette fleur a la particularité d'être BOOSTÉE.\nCette variété exceptionnelle vous transporte dans un voyage aromatique. Une fleur de qualité supérieure.\n⚠️ Fleur boostée, à consommer avec modération. Son nom en dit long sur son potentiel !",
   "pastraweed":"Variété : Pastraweed (BOOSTÉ/STRONG)\nUne valeur sûre ! Goût savoureux et BOOSTÉE : un voyage aromatique.\n⚠️ Fleur boostée, à consommer avec modération.",
   /* 25/11/2026 — RETIRÉ de la fin de ce texte : « Le conseil d'Ana : parsemer
