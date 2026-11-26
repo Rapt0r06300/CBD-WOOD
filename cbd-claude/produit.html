@@ -21,7 +21,7 @@
    requête inutile). Même adresse exacte que app.js (IMGV), sinon l'image
    serait téléchargée deux fois. Liste et version tenues par
    wood-api/tools/test-site-prechargement.py (comparées au rendu réel). */
-(function(){var AVEC=["charlotte","venom","nimbus-3000","transylvania-kush","purple","euphoria"],V="?v=11";
+(function(){var AVEC=["charlotte","venom","nimbus-3000","transylvania-kush","purple","euphoria","pastraweed"],V="?v=12";
 try{var s=new URLSearchParams(location.search).get("f");
 if(s&&AVEC.indexOf(s)>=0){var l=document.createElement("link");l.rel="preload";l.as="image";
 l.href="assets/products/"+s+".webp"+V;l.setAttribute("fetchpriority","high");document.head.appendChild(l);}}catch(e){}})();</script>
@@ -43,6 +43,6 @@ l.href="assets/products/"+s+".webp"+V;l.setAttribute("fetchpriority","high");doc
 <div data-chrome="advisor"></div>
 <nav data-chrome="botnav"></nav>
 <script src="api.js?v=6"></script>
-<script src="app.js?v=119"></script>
+<script src="app.js?v=120"></script>
 </body>
 </html>
