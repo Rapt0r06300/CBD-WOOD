@@ -3,7 +3,7 @@
    Données fleurs RÉELLES (prix proprio). Profils = goût, jamais d'effet.
    =========================================================== */
 
-const IMGV = "?v=15"; /* cache-buster images (bump si régénération) — v6 le 25/11 : charlotte.webp remplacé (visuel IA de démo → vrai pochon) ; v7 le 26/11 : charlotte + venom au pochon à paillettes ; v8 le 26/11 : nimbus-3000 (vrai pochon à paillettes) ; v9 le 26/11 : transylvania-kush ; v10 le 26/11 : purple ; v11 le 26/11 : euphoria ; v12 le 26/11 : pastraweed ; v13 le 26/11 : ivory ; v14 le 26/11 : cbn-cream ; v15 le 26/11 : stoned */
+const IMGV = "?v=16"; /* cache-buster images (bump si régénération) — v6 le 25/11 : charlotte.webp remplacé (visuel IA de démo → vrai pochon) ; v7 le 26/11 : charlotte + venom au pochon à paillettes ; v8 le 26/11 : nimbus-3000 (vrai pochon à paillettes) ; v9 le 26/11 : transylvania-kush ; v10 le 26/11 : purple ; v11 le 26/11 : euphoria ; v12 le 26/11 : pastraweed ; v13 le 26/11 : ivory ; v14 le 26/11 : cbn-cream ; v15 le 26/11 : stoned ; v16 le 26/11 : ketama */
 
 /* L'API est-elle branchée ? Si api.js n'a pas chargé, on ne plante pas :
    le site garde son comportement hors-ligne. */
@@ -100,6 +100,10 @@ const FLEURS = [
      prix et toutes les varietes fleurs et resines ». -> 15 €/g.
      Ce n'est donc plus une question pour Ana, et on ne la rouvre pas. */
   { slug:"la-mousse", nom:"La Mousse", tier:"boostes", type:"resine", desc:"Forte 🟢", c:["#c4d9b4","#4a6b3a"], p:[15,42,70,130], g25:260 , int:"STRONG"},
+  /* 26/11 : KETAMA, nouvelle résine (résines une par une, n° 03) — sa fiche : Boostée, Signature WOOD, 15 €/g (mêmes
+     paliers que La Mousse à 15 €/g). Intensité HYPER STRONG : dans les notes d'Ana, « Résines FORT++ : Snow, le K
+     (Ketama le King) » — le même rang que la Snow. 3 emojis : profil 🟤 · intensité 🔥 · le King 👑 (pas Premium). */
+  { slug:"ketama", nom:"Ketama", tier:"boostes", type:"resine", desc:"Intense & authentique 🟤 · boostée 🔥 · le King 👑", c:["#e3cf9a","#5a4a2a"], p:[15,42,70,130], g25:260 , int:"HYPER STRONG"},
   { slug:"snow", nom:"Snow", tier:"boostes", type:"resine", desc:"Hyper forte ❄️", c:["#eef3f7","#5a6b7a"], p:[20,58,95,180], g25:360 , int:"HYPER STRONG"},
 
   /* --- LA FLEUR MYSTERE N'EST PLUS ICI (14/11/2026) ---
@@ -579,7 +583,7 @@ const NOIMG=new Set(["velvet-kush","bloody-mary","cosmic-cbg","rainbow","orange-
    ⚠️ Sortir de NOIMG est la condition écrite de retour du mot « sous
    cloche » (13 endroits, plus bas). Un pochon N'EST PAS une cloche : la
    condition n'est PAS remplie, rien n'a été remis. C'est à Florent. */
-const VISUELS=new Set(["charlotte","venom","nimbus-3000","transylvania-kush","purple","euphoria","pastraweed","ivory","cbn-cream","stoned"]);  /* 26/11 : + nimbus-3000 (n° 03), transylvania-kush (n° 04) */
+const VISUELS=new Set(["charlotte","venom","nimbus-3000","transylvania-kush","purple","euphoria","pastraweed","ivory","cbn-cream","stoned","ketama"]);  /* 26/11 : + nimbus-3000 (n° 03), transylvania-kush (n° 04) */
 const visu=s=>VISUELS.has(s)?" visuel":"";
 function soonHTML(){return '<div class="img-soon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h3l2-2h8l2 2h3v12H3z"/><circle cx="12" cy="13" r="3.4"/></svg><span>Image bientôt disponible</span></div>';}
 function carteArt(f){
@@ -849,6 +853,7 @@ const MOLEC={
   "fanta-hazy":{mol:"CBD",cls:"",ar:"Agrumes"},
   "fleur-mystere":{mol:"CBD",cls:"",ar:"Surprise"},
   "stoned":{mol:"CBD +",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Intense · prononcé · authentique",premium:"Boostée · Triple filtration · Best-seller WOOD"},  /* 26/11 : sa fiche */
+  "ketama":{ar:"Intense · prononcé · traditionnel",premium:"Boostée · Signature WOOD"},  /* 26/11 : sa fiche ; aucune molécule */
   "golden-high":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Pollen · Exotic"},
   "jelly-high":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Caramel"},
   "cbn-cream":{mol:"CBN",cls:"mol-cbg",ar:"Épicé · intense · authentique",premium:"Naturelle · inspiration afghane"},  /* 26/11 : sa fiche */
@@ -971,6 +976,10 @@ const DESC={
      Variété : « Stoned », la pierre) · 🔥 boostée · 🏆 best-seller ; dans le texte 🌰 (brun noisette) et 🍯 (blond
      ambré). Ancien texte (Shopify) : `git show` de ce commit. « Prix : 12 €/g » doit suivre p[0]. */
   "stoned":"STONED — LE TRIPLE FILTRÉ 🗿🔥🏆\nCollection Boostée | Triple filtration | Best-seller WOOD\nLe Stoned… Un nom qui ne doit rien au hasard ! Véritable référence emblématique de la collection de résines boostées WOOD, il s’est imposé comme notre best-seller.\nIssue d’une triple filtration, cette résine présente une enveloppe brun noisette 🌰, légèrement satinée, qui dévoile en son cœur une matière granuleuse aux nuances blondes et ambrées 🍯\nSa particularité réside dans son profil aromatique intense et prononcé, fidèle à l’identité des résines traditionnelles. Une signature aromatique franche, authentique et pleine de caractère.\nCaractéristiques :\nNom : Stoned\nGamme : Boostée\nType : résine triple filtrée\nAspect extérieur : brun noisette\nAspect intérieur : nuances blondes et ambrées\nTexture : compacte et granuleuse à cœur\nProfil aromatique : intense et prononcé\nParticularité : best-seller WOOD\nPrix : 12 €/g\nWOOD — See differently. Le CBD autrement.",
+  /* 26/11/2026 — KETAMA : sa fiche MOT POUR MOT (envoyée par Florent) + emojis : titre 👑 (le King, le même que son
+     champ Variété) · 🔥 boostée · 🟤 ; dans le texte 🙌 (retours clients) et ✨ (reflets dorés). « Précaution : ne
+     pas chauffer » : la sienne, gardée telle quelle. « Prix : 15 €/g » doit suivre p[0] si le prix change. */
+  "ketama":"KETAMA — LE K, LE KING 👑🔥🟤\nCollection Boostée | Signature WOOD\nInitialement proposée en édition limitée, la Ketama a finalement trouvé sa place dans le catalogue permanent de WOOD à la suite des retours de nos clients 🙌\nCette résine se distingue par son aspect extérieur brun aux nuances brillantes, contrastant avec un cœur clair aux magnifiques reflets dorés ✨ Sa texture particulièrement malléable, souple et non collante révèle une structure finement granuleuse.\nDotée d’un parfum intense et prononcé, la Ketama possède une identité aromatique qui rappelle les résines traditionnelles.\nCaractéristiques :\nNom : Ketama\nGamme : Boostée\nType : résine boostée\nTexture : malléable, souple et non collante\nAspect extérieur : brun et brillant\nAspect intérieur : clair et doré\nProfil aromatique : intense et prononcé\nParticularité : ancienne édition limitée devenue permanente\nPrécaution : ne pas chauffer\nPrix : 15 €/g\nWOOD — See differently. Le CBD autrement.",
   "golden-high":"Variété : Golden HIGH (BOOSTÉ/STRONG)\nLe POLLEN STRONG référence ! BOOSTÉE, un vrai voyage aromatique.\nGoût : épices exotiques, trésors des contrées lointaines. Pollen mousseux. Pas besoin de le chauffer avant de l'effriter : BEST TEXTURE EVER !\n⚠️ Résine boostée, à consommer avec modération.",
   "jelly-high":"🍫 Le Caramelo qui manque à ta vie.\nHASH type Caramel de référence ! BOOSTÉE. Goût : épices exotiques.\nPas besoin de le chauffer avant de l'effriter : BEST TEXTURE EVER !\n⚠️ Résine boostée, à consommer avec modération.",
   /* 26/11/2026 — CBN CREAM : sa fiche MOT POUR MOT (envoyée par Florent) + emojis : titre 🫒 (« belle olive », le
