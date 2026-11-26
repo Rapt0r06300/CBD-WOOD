@@ -3,7 +3,7 @@
    Données fleurs RÉELLES (prix proprio). Profils = goût, jamais d'effet.
    =========================================================== */
 
-const IMGV = "?v=10"; /* cache-buster images (bump si régénération) — v6 le 25/11 : charlotte.webp remplacé (visuel IA de démo → vrai pochon) ; v7 le 26/11 : charlotte + venom au pochon à paillettes ; v8 le 26/11 : nimbus-3000 (vrai pochon à paillettes) ; v9 le 26/11 : transylvania-kush ; v10 le 26/11 : purple */
+const IMGV = "?v=11"; /* cache-buster images (bump si régénération) — v6 le 25/11 : charlotte.webp remplacé (visuel IA de démo → vrai pochon) ; v7 le 26/11 : charlotte + venom au pochon à paillettes ; v8 le 26/11 : nimbus-3000 (vrai pochon à paillettes) ; v9 le 26/11 : transylvania-kush ; v10 le 26/11 : purple ; v11 le 26/11 : euphoria */
 
 /* L'API est-elle branchée ? Si api.js n'a pas chargé, on ne plante pas :
    le site garde son comportement hors-ligne. */
@@ -34,7 +34,7 @@ const FLEURS = [
   { slug:"transylvania-kush", nom:"Transylvania Kush", tier:"boostes", desc:"Sucrée & gourmande 🍬 · boostée 🔥 · premium 💎", c:["#e3c9c9","#4a1f24"], p:[15,42,70,130], g25:260 , emo:"🍬"},
   { slug:"velvet-kush", nom:"Velvet Kush", tier:"boostes", desc:"Forte 💋", c:["#e3b4c4","#6b2e42"], p:[12,34,55,100], g25:200 , emo:"💋", int:"STRONG"},
   { slug:"pastraweed", nom:"Pastraweed", tier:"boostes", desc:"Terreuse · forte 🍁", c:["#cfe39a","#8a7a2e"], p:[12,34,55,100], g25:200 , emo:"🍁", int:"STRONG"},
-  { slug:"euphoria", nom:"Euphoria", tier:"boostes", desc:"Fruitée · forte 🎈", c:["#f3c7d4","#a53a5a"], p:[12,34,55,100], g25:200 , emo:"🎈", int:"STRONG"},
+  { slug:"euphoria", nom:"Euphoria", tier:"boostes", desc:"Fruitée & gourmande 🌺 · boostée 🔥 · best-seller 🏆", c:["#f3c7d4","#a53a5a"], p:[12,34,55,100], g25:200 , emo:"🌺", int:"STRONG"},  /* 26/11 : sa fiche (n° 06) ; 3 emojis : saveur 🌺 (Pink Paradise) · intensité 🔥 · best-seller 🏆 (pas Premium) */
   /* 14/11 — « Molécule, mais Light » -> « Light ». Florent : « Ne marque
      aucune molécule sur les fleurs ». La phrase entière d'Ana est conservée
      dans [[ana_ses_mots_verbatim]] : « Et tu as la Purple qui est molécule,
@@ -555,7 +555,7 @@ function resineSVG(c,id){const g=`r${id}`,v=`w${id}`;return `<svg class="cloche-
 /* 13/11 : AUCUNE photo produit affichee. Ana : « les photos ca va pas » ;
    Florent : « on sait meme pas si c'est les bonnes ». Les fichiers sont
    conserves — pour en reafficher une, il suffit de retirer son slug d'ici. */
-const NOIMG=new Set(["ivory","velvet-kush","pastraweed","euphoria","bloody-mary","cosmic-cbg","rainbow","orange-bud","plutonium","fanta-hazy","katmandou","cbn-cream","super-dry","golden-high","jelly-high","frost","stoned","uranus","la-mousse","snow","fleur-mystere","promo-gta-15g","promo-10g","promo-20g"]);
+const NOIMG=new Set(["ivory","velvet-kush","pastraweed","bloody-mary","cosmic-cbg","rainbow","orange-bud","plutonium","fanta-hazy","katmandou","cbn-cream","super-dry","golden-high","jelly-high","frost","stoned","uranus","la-mousse","snow","fleur-mystere","promo-gta-15g","promo-10g","promo-20g"]);
 /* 25/11/2026 — LES 3 OFFRES N'ONT PAS DE PHOTO (leurs sérigraphies ont été
    retirées le 13/11, commit 8a19fd1), mais elles n'étaient pas dans NOIMG :
    le tiroir, le pochon, la recherche et les coups de cœur demandaient
@@ -579,7 +579,7 @@ const NOIMG=new Set(["ivory","velvet-kush","pastraweed","euphoria","bloody-mary"
    ⚠️ Sortir de NOIMG est la condition écrite de retour du mot « sous
    cloche » (13 endroits, plus bas). Un pochon N'EST PAS une cloche : la
    condition n'est PAS remplie, rien n'a été remis. C'est à Florent. */
-const VISUELS=new Set(["charlotte","venom","nimbus-3000","transylvania-kush","purple"]);  /* 26/11 : + nimbus-3000 (n° 03), transylvania-kush (n° 04) */
+const VISUELS=new Set(["charlotte","venom","nimbus-3000","transylvania-kush","purple","euphoria"]);  /* 26/11 : + nimbus-3000 (n° 03), transylvania-kush (n° 04) */
 const visu=s=>VISUELS.has(s)?" visuel":"";
 function soonHTML(){return '<div class="img-soon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h3l2-2h8l2 2h3v12H3z"/><circle cx="12" cy="13" r="3.4"/></svg><span>Image bientôt disponible</span></div>';}
 function carteArt(f){
@@ -834,7 +834,7 @@ function cardHTML(f,i){
    qu'Ana n'a pas qualifiees » — et je n'avais corrigé que la seconde.
    Repéré le 14/11 par un contrôle qui croise `f.int` et `MOLEC[].lvl`. ---- */
 const MOLEC={
-  "euphoria":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort · fruité",ar:"Exotic"},
+  "euphoria":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort · fruité",ar:"Exotic · fruité · sucré",premium:"Boostée · Indoor · Best-seller WOOD"},  /* 26/11 : sa fiche ; « Exotic » = sa famille de goût chez Ana (filtre) */
   "pastraweed":{mol:"CBD +",cls:"mol-boost",lvl:4,ia:"Ultra fort · terreux",ar:"Kush"},
   "ivory":{mol:"CBD + CBE",cls:"mol-boost",lvl:4,ia:"Ultra fort",ar:"Goût du vrai"},
   "venom":{cls:"mol-boost",lvl:4,ia:"Hyper fort",ar:"Boisé · terreux · agrumes"},  /* 26/11 : sa fiche ; AUCUNE molécule */
@@ -953,7 +953,11 @@ const DESC={
      phrase entière part, git la garde. Seule de tout le site (balayage des
      16 pages et du moteur). CONDITION DE RETOUR : une décision écrite de
      Florent ou d'Ana. Garde : wood-api/tools/audit-complet.js. */
-  "euphoria":"Variété : Euphoria (BOOSTÉ/STRONG)\nNotre Euphoria, c'est LA pépite chez WOOD ! Une saveur exceptionnellement fruitée et BOOSTÉE. Exclusivité WOOD CBD !\n⚠️ Fleur boostée, à consommer avec modération.",
+  /* 26/11/2026 — EUPHORIA : sa fiche MOT POUR MOT (envoyée par Florent) + emojis : titre 🌺 saveur (Pink Paradise,
+     le même que son champ Variété) · 🔥 boostée · 🏆 best-seller (pas Premium) ; dans le texte 🌴 (French Riviera)
+     et 🪨 (solides comme le roc). Ancien texte (Shopify, « LA pépite ») : `git show` de ce commit.
+     « Prix : 12 €/g » doit suivre p[0] si le prix change. */
+  "euphoria":"EUPHORIA 🌺🔥🏆\nCollection Boostée | Indoor | Best-seller WOOD\nQue dire de l’Euphoria ? Une référence incontournable de notre collection, devenue au fil du temps l’une des variétés emblématiques de WOOD sur la French Riviera 🌴\nIssue de la génétique Pink Paradise et cultivée en Indoor, l’Euphoria se distingue par ses buds extrêmement denses et compacts, solides comme le roc 🪨\nSon identité aromatique est aussi affirmée que son apparence : un parfum intense, généreusement fruité, aux nuances sucrées et gourmandes.\nUne véritable signature WOOD, reconnaissable par son caractère et son profil aromatique singulier.\nCaractéristiques :\nGénétique : Pink Paradise\nCulture : Indoor\nGamme : Boostée\nType : fleur boostée\nArômes : fruités, sucrés et gourmands\nAspect : buds très denses et compacts\nParticularité : best-seller et exclusivité WOOD\nPrix : 12 €/g\nWOOD — See differently. Le CBD autrement.",
   "fanta-hazy":"🍋 Acidulée · 🍭 Sucrée\nGoût : offrant une explosion fruitée en bouche, la Fanta Hazy et son odeur sont le fruit d'une longue recherche de notre part, capturant l'essence même de la fleur sucrée et unique.",
   "stoned":"Variété : STONED (BOOSTÉ/STRONG)\nLe 3× FILTRÉ de référence ! Goût délicieux, texture idéale, BOOSTÉE.\n⚠️ Résine boostée, à consommer avec modération.",
   "golden-high":"Variété : Golden HIGH (BOOSTÉ/STRONG)\nLe POLLEN STRONG référence ! BOOSTÉE, un vrai voyage aromatique.\nGoût : épices exotiques, trésors des contrées lointaines. Pollen mousseux. Pas besoin de le chauffer avant de l'effriter : BEST TEXTURE EVER !\n⚠️ Résine boostée, à consommer avec modération.",
@@ -2556,7 +2560,7 @@ function renderStickers(){
 // Profils sensoriels (goût/arôme + intensité) — JAMAIS un effet. a=arôme, i=intensité.
 const PROFILE={
   "nimbus-3000":{a:"terreux",i:"intense"}, "ivory":{a:"floral",i:"doux"}, "velvet-kush":{a:"terreux",i:"intense"},
-  "pastraweed":{a:"sucre",i:"intense"}, "euphoria":{a:"fruite",i:"intense"}, "purple":{a:"epice",i:"equilibre"},
+  "pastraweed":{a:"sucre",i:"intense"}, "euphoria":{a:"exotic",i:"intense"}, "purple":{a:"epice",i:"equilibre"},
   "bloody-mary":{a:"terreux",i:"equilibre"}, "cosmic-cbg":{a:"frais",i:"doux"}, "charlotte":{a:"sucre",i:"equilibre"},
   "rainbow":{a:"agrumes",i:"equilibre"}, "orange-bud":{a:"agrumes",i:"doux"}, "plutonium":{a:"frais",i:"equilibre"},
   "fanta-hazy":{a:"agrumes",i:"doux"},
